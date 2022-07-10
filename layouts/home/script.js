@@ -36,7 +36,7 @@ async function updateTimeline() {
             }
             timeline.dataToUpdate = tl.slice(0, timeline.toBeUpdated);
             if (timeline.dataToUpdate.length !== data.length) {
-                data = timeline.dataToUpdate.concat(data.slice(timeline.toBeUpdated));
+                timeline.dataToUpdate = timeline.dataToUpdate.concat(data.slice(timeline.toBeUpdated));
             }
             renderNewTweetsButton();
         } else {
@@ -98,7 +98,7 @@ function renderUserData() {
 }
 
 function appendTweet(t, timelineContainer, top, prepend = false) {
-    let tweet = document.createElement('div');
+    const tweet = document.createElement('div');
     tweet.classList.add('tweet');
     tweet.innerHTML = `
         <div class="tweet-top" hidden></div>
@@ -152,33 +152,55 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
     `;
     if(top) {
         tweet.querySelector('.tweet-top').hidden = false;
-        let icon = document.createElement('span');
+        const icon = document.createElement('span');
         icon.innerText = top.icon;
         icon.classList.add('tweet-top-icon');
         icon.style.color = top.color;
 
-        let span = document.createElement("span");
+        const span = document.createElement("span");
         span.classList.add("tweet-top-text");
         span.innerHTML = top.text;
         tweet.querySelector('.tweet-top').append(icon, span);
     }
+    const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
+    const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
+    const tweetReply = tweet.getElementsByClassName('tweet-reply')[0];
+    const tweetReplyButton = tweet.getElementsByClassName('tweet-reply-button')[0];
+    const tweetReplyError = tweet.getElementsByClassName('tweet-reply-error')[0];
+    const tweetReplyText = tweet.getElementsByClassName('tweet-reply-text')[0];
+    const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
+    const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
+    const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
+    const tweetQuote = tweet.getElementsByClassName('tweet-quote')[0];
+    const tweetQuoteCancel = tweet.getElementsByClassName('tweet-quote-cancel')[0];
+    const tweetInteractRetweetMenu = tweet.getElementsByClassName('tweet-interact-retweet-menu')[0];
+    const tweetInteractRetweetMenuRetweet = tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0];
+    const tweetInteractRetweetMenuQuote = tweet.getElementsByClassName('tweet-interact-retweet-menu-quote')[0];
+    const tweetQuoteButton = tweet.getElementsByClassName('tweet-quote-button')[0];
+    const tweetQuoteError = tweet.getElementsByClassName('tweet-quote-error')[0];
+    const tweetQuoteText = tweet.getElementsByClassName('tweet-quote-text')[0];
+
+
+    if(tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
+        tweetBodyText.lastChild.remove();
+    }
     // Reply
-    tweet.getElementsByClassName('tweet-reply-cancel')[0].addEventListener('click', () => {
-        tweet.querySelector('.tweet-reply').hidden = true;
-        tweet.getElementsByClassName('tweet-interact-reply')[0].classList.remove('tweet-interact-reply-clicked');
+    tweetReplyCancel.addEventListener('click', () => {
+        tweetReply.hidden = true;
+        tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
     });
-    tweet.getElementsByClassName('tweet-interact-reply')[0].addEventListener('click', () => {
-        if(!tweet.getElementsByClassName('tweet-quote')[0].hidden) tweet.getElementsByClassName('tweet-quote')[0].hidden = true;
-        if(tweet.getElementsByClassName('tweet-reply')[0].hidden) {
-            tweet.getElementsByClassName('tweet-interact-reply')[0].classList.add('tweet-interact-reply-clicked');
+    tweetInteractReply.addEventListener('click', () => {
+        if(!tweetQuote.hidden) tweetQuote.hidden = true;
+        if(tweetReply.hidden) {
+            tweetInteractReply.classList.add('tweet-interact-reply-clicked');
         } else {
-            tweet.getElementsByClassName('tweet-interact-reply')[0].classList.remove('tweet-interact-reply-clicked');
+            tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
         }
-        tweet.getElementsByClassName('tweet-reply')[0].hidden = !tweet.getElementsByClassName('tweet-reply')[0].hidden;
+        tweetReply.hidden = !tweetReply.hidden;
     });
-    tweet.getElementsByClassName('tweet-reply-button')[0].addEventListener('click', async () => {
-        tweet.getElementsByClassName('tweet-reply-error')[0].innerHTML = '';
-        let text = tweet.getElementsByClassName('tweet-reply-text')[0].value;
+    tweetReplyButton.addEventListener('click', async () => {
+        tweetReplyError.innerHTML = '';
+        let text = tweetReplyText.value;
         if(text.length > 0) {
             let tweetData;
             try {
@@ -198,16 +220,16 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
                     include_reply_count: true
                 })
             } catch(e) {
-                tweet.getElementsByClassName('tweet-reply-error')[0].innerHTML = (e && e.message ? e.message : e) + "<br>";
+                tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 return;
             }
             if(!tweetData) {
-                tweet.getElementsByClassName('tweet-reply-error')[0].innerHTML = "Error sending tweet<br>";
+                tweetReplyError.innerHTML = "Error sending tweet<br>";
                 return;
             }
-            tweet.getElementsByClassName('tweet-reply-text')[0].value = '';
-            tweet.getElementsByClassName('tweet-reply')[0].hidden = true;
-            tweet.getElementsByClassName('tweet-interact-reply')[0].classList.remove('tweet-interact-reply-clicked');
+            tweetReplyText.value = '';
+            tweetReply.hidden = true;
+            tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             tweetData._ARTIFICIAL = true;
             timeline.data.unshift(tweetData);
             appendTweet(tweetData, timelineContainer, undefined, true);
@@ -215,24 +237,24 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
     });
 
     // Retweet / Quote Tweet
-    tweet.getElementsByClassName('tweet-quote-cancel')[0].addEventListener('click', () => {
-        tweet.querySelector('.tweet-quote').hidden = true;
+    tweetQuoteCancel.addEventListener('click', () => {
+        tweetQuote.hidden = true;
     });
-    tweet.getElementsByClassName('tweet-interact-retweet')[0].addEventListener('click', async () => {
-        if(!tweet.querySelector('.tweet-quote').hidden) {
-            tweet.querySelector('.tweet-quote').hidden = true;
+    tweetInteractRetweet.addEventListener('click', async () => {
+        if(!tweetQuote.hidden) {
+            tweetQuote.hidden = true;
             return;
         }
-        if(tweet.getElementsByClassName('tweet-interact-retweet-menu')[0].hidden) {
-            tweet.getElementsByClassName('tweet-interact-retweet-menu')[0].hidden = false;
+        if(tweetInteractRetweetMenu.hidden) {
+            tweetInteractRetweetMenu.hidden = false;
         }
         setTimeout(() => {
             document.body.addEventListener('click', () => {
-                setTimeout(() => tweet.getElementsByClassName('tweet-interact-retweet-menu')[0].hidden = true, 50);
+                setTimeout(() => tweetInteractRetweetMenu.hidden = true, 50);
             }, { once: true });
         }, 50);
     });
-    tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0].addEventListener('click', async () => {
+    tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
         if(!t.retweeted) {
             let tweetData;
             try {
@@ -244,8 +266,8 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             if(!tweetData) {
                 return;
             }
-            tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0].innerText = 'Unretweet';
-            tweet.getElementsByClassName('tweet-interact-retweet')[0].classList.add('tweet-interact-retweeted');
+            tweetInteractRetweetMenuRetweet.innerText = 'Unretweet';
+            tweetInteractRetweet.classList.add('tweet-interact-retweeted');
             t.retweeted = true;
             t.newTweetId = tweetData.id_str;
         } else {
@@ -259,22 +281,22 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             if(!tweetData) {
                 return;
             }
-            tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0].innerText = 'Retweet';
-            tweet.getElementsByClassName('tweet-interact-retweet')[0].classList.remove('tweet-interact-retweeted');
+            tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
+            tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
             t.retweeted = false;
             delete t.newTweetId;
         }
     });
-    tweet.getElementsByClassName('tweet-interact-retweet-menu-quote')[0].addEventListener('click', async () => {
-        if(!tweet.getElementsByClassName('tweet-reply')[0].hidden) {
-            tweet.getElementsByClassName('tweet-interact-reply')[0].classList.remove('tweet-interact-reply-clicked');
-            tweet.getElementsByClassName('tweet-reply')[0].hidden = true;
+    tweetInteractRetweetMenuQuote.addEventListener('click', async () => {
+        if(!tweetReply.hidden) {
+            tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
+            tweetReply.hidden = true;
         }
-        tweet.getElementsByClassName('tweet-quote')[0].hidden = false;
+        tweetQuote.hidden = false;
     });
-    tweet.getElementsByClassName('tweet-quote-button')[0].addEventListener('click', async () => {
-        tweet.getElementsByClassName('tweet-quote-error')[0].innerHTML = '';
-        let text = tweet.getElementsByClassName('tweet-quote-text')[0].value;
+    tweetQuoteButton.addEventListener('click', async () => {
+        tweetQuoteError.innerHTML = '';
+        let text = tweetQuoteText.value;
         if(text.length > 0) {
             let tweetData;
             try {
@@ -294,15 +316,15 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
                     include_reply_count: true
                 })
             } catch(e) {
-                tweet.getElementsByClassName('tweet-quote-error')[0].innerHTML = (e && e.message ? e.message : e) + "<br>";
+                tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 return;
             }
             if(!tweetData) {
-                tweet.getElementsByClassName('tweet-quote-error')[0].innerHTML = "Error sending tweet<br>";
+                tweetQuoteError.innerHTML = "Error sending tweet<br>";
                 return;
             }
-            tweet.getElementsByClassName('tweet-quote-text')[0].value = '';
-            tweet.getElementsByClassName('tweet-quote')[0].hidden = true;
+            tweetQuoteText.value = '';
+            tweetQuote.hidden = true;
             tweetData._ARTIFICIAL = true;
             timeline.data.unshift(tweetData);
             appendTweet(tweetData, timelineContainer, undefined, true);
@@ -310,19 +332,19 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
     });
 
     // Favorite
-    tweet.getElementsByClassName('tweet-interact-favorite')[0].addEventListener('click', () => {
+    tweetInteractFavorite.addEventListener('click', () => {
         if(t.favorited) {
             API.unfavoriteTweet({
                 id: t.id_str
             });
             t.favorited = false;
-            tweet.getElementsByClassName('tweet-interact-favorite')[0].classList.remove('tweet-interact-favorited');
+            tweetInteractFavorite.classList.remove('tweet-interact-favorited');
         } else {
             API.favoriteTweet({
                 id: t.id_str
             });
             t.favorited = true;
-            tweet.getElementsByClassName('tweet-interact-favorite')[0].classList.add('tweet-interact-favorited');
+            tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }
     });
     if(prepend) {
@@ -348,8 +370,22 @@ function renderTimeline() {
     });
 }
 function renderNewTweetsButton() {
-
+    if(data.toBeUpdated > 0) {
+        document.getElementById('new-tweets').hidden = false;
+        document.getElementById('new-tweets').innerText = `${data.toBeUpdated} new tweet${data.toBeUpdated > 1 ? 's' : ''}`;
+    } else {
+        document.getElementById('new-tweets').hidden = true;
+        timeline.data = timeline.dataToUpdate;
+        timeline.dataToUpdate = [];
+        updateTimeline();
+    }
 }
+
+document.getElementById('new-tweets').addEventListener('click', () => {
+    data.toBeUpdated = 0;
+    renderNewTweetsButton();
+    renderTimeline();
+});
 
 // Run
 updateUserData();
