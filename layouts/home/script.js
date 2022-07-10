@@ -28,14 +28,15 @@ async function updateTimeline() {
     }
     // update
     else {
-        if (timeline.data[0].id_str !== firstTweetId) {
-            timeline.toBeUpdated = timeline.data.findIndex(t => t.id_str === firstTweetId);
+        let data = timeline.data.filter(t => !t._ARTIFICIAL);
+        if (data[0].id_str !== firstTweetId) {
+            timeline.toBeUpdated = data.findIndex(t => t.id_str === firstTweetId);
             if (timeline.toBeUpdated === -1) {
-                timeline.toBeUpdated = timeline.data.length;
+                timeline.toBeUpdated = data.length;
             }
             timeline.dataToUpdate = tl.slice(0, timeline.toBeUpdated);
-            if (timeline.dataToUpdate.length !== timeline.data.length) {
-                timeline.data = timeline.dataToUpdate.concat(timeline.data.slice(timeline.toBeUpdated));
+            if (timeline.dataToUpdate.length !== data.length) {
+                data = timeline.dataToUpdate.concat(data.slice(timeline.toBeUpdated));
             }
             renderNewTweetsButton();
         } else {
@@ -111,6 +112,19 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
         <a class="tweet-time" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body">
             <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? t.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1" target="_blank">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`) : ''}</span>
+            ${t.quoted_status ? `
+            <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
+                <img src="${t.quoted_status.user.profile_image_url_https}" alt="${t.quoted_status.user.name}" class="tweet-avatar-quote" width="24" height="24">
+                <div class="tweet-header-quote">
+                    <span class="tweet-header-info-quote">
+                        <strong class="tweet-header-name-quote">${t.quoted_status.user.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
+                        <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
+                    </span>
+                </div>
+                <span class="tweet-time-quote" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
+                <span class="tweet-body-text-quote tweet-body-text-long" style="color:black!important">${t.quoted_status.full_text ? t.quoted_status.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>') : ''}</span>
+            </a>
+            ` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply">${t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}">${t.retweet_count}</span>
@@ -194,6 +208,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             tweet.getElementsByClassName('tweet-reply-text')[0].value = '';
             tweet.getElementsByClassName('tweet-reply')[0].hidden = true;
             tweet.getElementsByClassName('tweet-interact-reply')[0].classList.remove('tweet-interact-reply-clicked');
+            tweetData._ARTIFICIAL = true;
             timeline.data.unshift(tweetData);
             appendTweet(tweetData, timelineContainer, undefined, true);
         }
@@ -288,6 +303,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             }
             tweet.getElementsByClassName('tweet-quote-text')[0].value = '';
             tweet.getElementsByClassName('tweet-quote')[0].hidden = true;
+            tweetData._ARTIFICIAL = true;
             timeline.data.unshift(tweetData);
             appendTweet(tweetData, timelineContainer, undefined, true);
         }
