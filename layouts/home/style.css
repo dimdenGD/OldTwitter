@@ -156,12 +156,12 @@ body {
 .tweet-body, .tweet-interact {
     display: table;
 }
-.tweet-body-text-short {
+.tweet-body-text-long {
     font-size: 16px;
     line-height: 22px;
     font-weight: 400;
 }
-.tweet-body-text-long {
+.tweet-body-text-short {
     font-size: 26px;
     line-height: 32px;
     font-weight: 300;
@@ -197,6 +197,7 @@ body {
     margin-right: 10px;
     color: #ccd6dd;
     cursor: pointer;
+    vertical-align: sub;
 }
 .tweet-interact-reply:before {
     content: "\f151";
@@ -216,20 +217,20 @@ body {
 .tweet-interact-favorited, .tweet-interact-favorited:before, .tweet-interact-favorite:hover:before, .tweet-interact-favorite:hover {
     color: #ffac33 !important;
 }
-.tweet-reply-text {
+.tweet-reply-text, .tweet-quote-text {
     border: 1px solid #e1e8ed;
     resize: none;
     border-radius: 5px;
-    width: 80%;
+    width: 400px;
     padding: 5px;
     font-family: Arial, sans-serif;
     display: inline-block;
     height: 30px;
 }
-.tweet-reply-text:focus {
+.tweet-reply-text:focus, .tweet-quote-text:focus {
     outline: none;
 }
-.tweet-reply-button {
+.tweet-reply-button, .tweet-quote-button {
     position: relative;
     bottom: 16px;
     height: 42px;
@@ -277,4 +278,15 @@ body {
 .tweet-top-text a:hover {
     color: initial !important;
     text-decoration: underline;
+}
+.tweet-interact-retweet-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #8899a6;
+    border-radius: 5px;
+    z-index: 5;
+}
+.tweet-reply-cancel:hover, .tweet-quote-cancel:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }

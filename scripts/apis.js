@@ -68,3 +68,97 @@ API.postTweet = data => {
         });
     });
 }
+
+API.favoriteTweet = data => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/favorites/create.json`, {
+            method: 'POST',
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: new URLSearchParams(data).toString(),
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+
+API.unfavoriteTweet = data => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/favorites/destroy.json`, {
+            method: 'POST',
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: new URLSearchParams(data).toString(),
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+
+API.retweetTweet = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/statuses/retweet/${id}.json`, {
+            method: 'POST',
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+
+API.deleteTweet = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/statuses/destroy/${id}.json`, {
+            method: 'POST',
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
