@@ -100,6 +100,13 @@ function renderUserData() {
 function appendTweet(t, timelineContainer, top, prepend = false) {
     const tweet = document.createElement('div');
     tweet.classList.add('tweet');
+    const mediaClasses = [
+        'tweet-media-element-zero',
+        'tweet-media-element-one',
+        'tweet-media-element-two',
+        'tweet-media-element-three',
+        'tweet-media-element-four',
+    ];
     tweet.innerHTML = `
         <div class="tweet-top" hidden></div>
         <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img src="${t.user.profile_image_url_https.replace("_normal", "_bigger")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
@@ -112,6 +119,11 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
         <a class="tweet-time" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body">
             <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? t.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1" target="_blank">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`) : ''}</span>
+            ${t.extended_entities && t.extended_entities.media ? `
+            <div class="tweet-media">
+                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} controls src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.entities.media.length]}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
+            </div>
+            ` : ``}
             ${t.quoted_status ? `
             <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${t.quoted_status.user.name}" class="tweet-avatar-quote" width="24" height="24">
@@ -179,6 +191,16 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
     const tweetQuoteButton = tweet.getElementsByClassName('tweet-quote-button')[0];
     const tweetQuoteError = tweet.getElementsByClassName('tweet-quote-error')[0];
     const tweetQuoteText = tweet.getElementsByClassName('tweet-quote-text')[0];
+
+    // Media
+    if(t.extended_entities && t.extended_entities.media) {
+        const tweetMedia = tweet.getElementsByClassName('tweet-media')[0];
+        tweetMedia.addEventListener('click', e => {
+            if(e.target.tagName === 'IMG') {
+                new Viewer(tweetMedia);
+            }
+        });
+    }
 
 
     if(tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
@@ -370,19 +392,19 @@ function renderTimeline() {
     });
 }
 function renderNewTweetsButton() {
-    if(data.toBeUpdated > 0) {
+    if(timeline.toBeUpdated > 0) {
         document.getElementById('new-tweets').hidden = false;
-        document.getElementById('new-tweets').innerText = `${data.toBeUpdated} new tweet${data.toBeUpdated > 1 ? 's' : ''}`;
+        document.getElementById('new-tweets').innerText = `${timeline.toBeUpdated} new tweet${timeline.toBeUpdated > 1 ? 's' : ''}`;
     } else {
         document.getElementById('new-tweets').hidden = true;
-        timeline.data = timeline.dataToUpdate;
-        timeline.dataToUpdate = [];
-        updateTimeline();
     }
 }
 
 document.getElementById('new-tweets').addEventListener('click', () => {
-    data.toBeUpdated = 0;
+    timeline.toBeUpdated = 0;
+    timeline.data = timeline.dataToUpdate;
+    timeline.dataToUpdate = [];
+    updateTimeline();
     renderNewTweetsButton();
     renderTimeline();
 });
@@ -390,5 +412,5 @@ document.getElementById('new-tweets').addEventListener('click', () => {
 // Run
 updateUserData();
 updateTimeline();
-setInterval(updateUserData, 60000);
-setInterval(updateTimeline, 60000);
+setInterval(updateUserData, 60000*3);
+setInterval(updateTimeline, 60000*1.5);

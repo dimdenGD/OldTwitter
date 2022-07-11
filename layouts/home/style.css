@@ -308,4 +308,43 @@ body {
     padding: 5px;
     margin: 10px;
     text-decoration: none;
+    position: relative;
+    right: 10px;
+}
+.tweet-media {
+    max-width: 500px;
+    display: flex;
+    position: relative;
+    right: 5px;
+}
+.tweet-media img {
+    cursor: pointer;
+}
+.tweet-media-element-four {
+    max-width: 100px;
+    margin: 5px;
+    border-radius: 5px;
+    max-height: 200px;
+    object-fit: cover;
+}
+.tweet-media-element-three {
+    max-width: 150px;
+    margin: 5px;
+    border-radius: 5px;
+    max-height: 300px;
+    object-fit: cover;
+}
+.tweet-media-element-two {
+    max-width: 200px;
+    margin: 5px;
+    border-radius: 5px;
+    max-height: 700px;
+    object-fit: cover;
+}
+.tweet-media-element-one {
+    max-width: 450px;
+    margin: 5px;
+    border-radius: 5px;
+    max-height: 1000px;
+    object-fit: cover;
 }
