@@ -101,12 +101,19 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
     const tweet = document.createElement('div');
     tweet.classList.add('tweet');
     const mediaClasses = [
-        'tweet-media-element-zero',
+        undefined,
         'tweet-media-element-one',
         'tweet-media-element-two',
         'tweet-media-element-three',
         'tweet-media-element-four',
     ];
+    const sizeFunctions = [
+        undefined,
+        (w, h) => [w > 450 ? 450 : w, h > 500 ? 500 : h],
+        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
+        (w, h) => [w > 150 ? 150 : w, h > 300 ? 300 : h],
+        (w, h) => [w > 100 ? 100 : w, h > 200 ? 200 : h],
+    ]
     tweet.innerHTML = `
         <div class="tweet-top" hidden></div>
         <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img src="${t.user.profile_image_url_https.replace("_normal", "_bigger")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
@@ -121,7 +128,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? t.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1" target="_blank">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`) : ''}</span>
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
-                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} controls src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.entities.media.length]}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
+                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" controls src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.entities.media.length]}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
             </div>
             ` : ``}
             ${t.quoted_status ? `
@@ -252,6 +259,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             tweetReplyText.value = '';
             tweetReply.hidden = true;
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
+            tweetInteractReply.innerText = parseInt(tweetInteractReply.innerText) + 1;
             tweetData._ARTIFICIAL = true;
             timeline.data.unshift(tweetData);
             appendTweet(tweetData, timelineContainer, undefined, true);
@@ -404,9 +412,19 @@ document.getElementById('new-tweets').addEventListener('click', () => {
     timeline.toBeUpdated = 0;
     timeline.data = timeline.dataToUpdate;
     timeline.dataToUpdate = [];
-    updateTimeline();
     renderNewTweetsButton();
     renderTimeline();
+});
+document.getElementById('more-tweets').addEventListener('click', async () => {
+    let tl = await API.getTimeline(timeline.data[timeline.data.length-1].id_str);
+    timeline.data = timeline.data.concat(tl);
+    let lastTweet = document.getElementById('timeline').lastChild;
+    renderTimeline();
+    setTimeout(() => {
+        lastTweet.scrollIntoView({
+            behavior: 'smooth'
+       });
+    }, 100);
 });
 
 // Run

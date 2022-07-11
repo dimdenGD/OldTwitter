@@ -24,9 +24,9 @@ API.verifyCredentials = () => {
     })
 }
 
-API.getTimeline = () => {
+API.getTimeline = (since_id) => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/statuses/home_timeline.json?count=100&include_my_retweet=1&cards_platform=Web13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+        fetch(`https://api.twitter.com/1.1/statuses/home_timeline.json?count=100&include_my_retweet=1&cards_platform=Web13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true${since_id ? `&since_id=${since_id}` : ''}`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
