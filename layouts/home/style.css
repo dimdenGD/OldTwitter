@@ -28,16 +28,12 @@ body {
 }
 
 #content {
-    margin-top: 65px;
     display: flex;
 }
 .box {
     background-color: white;
     border-radius: 5px;
     border: 1px solid #e1e8ed;
-}
-#user-div {
-    margin-left: 10px;
 }
 #user-banner {
     border-top-left-radius: 5px;
@@ -90,11 +86,23 @@ body {
     display: block;
     text-decoration: none;
 }
+#center-cell {
+    margin-top: 65px;
+}
 #left-cell {
-    top: 0;
+    top: 65px;
     position: sticky;
     display: flex;
     height: fit-content;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+#right-cell {
+    top: 65px;
+    position: sticky;
+    display: flex;
+    height: fit-content;
+    margin-left: 10px;
     margin-right: 10px;
 }
 #timeline {
@@ -422,9 +430,7 @@ body {
 }
 #wtf {
     padding: 10px;
-    margin-left: 10px;
     width: 250px;
-    margin-right: 10px;
 }
 #wtf h1 {
     margin: 0;
@@ -511,4 +517,16 @@ body {
     display: unset;
     margin-left: -41px;
     margin-top: 2px;
+}
+.user-verified::after {
+    content: "\f099";
+    color: #55acee;
+    font-family: RosettaIcons;
+    margin-left: 5px;
+}
+.user-protected::after {
+    content: "\f096";
+    color: #ddd22b;
+    font-family: RosettaIcons;
+    margin-left: 5px;
 }

@@ -118,6 +118,9 @@ function openInNewTab(href) {
 // Render
 function renderUserData() {
     document.getElementById('user-name').innerText = user.name;
+    document.getElementById('user-name').classList.toggle('user-verified', user.verified);
+    document.getElementById('user-name').classList.toggle('user-protected', user.protected);
+
     document.getElementById('user-handle').innerText = `@${user.screen_name}`;
     document.getElementById('user-tweets').innerText = user.statuses_count;
     document.getElementById('user-following').innerText = user.friends_count;
@@ -154,7 +157,7 @@ function appendTweet(t, timelineContainer, options = {}) {
         <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img src="${t.user.profile_image_url_https.replace("_normal", "_bigger")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
         <div class="tweet-header">
             <a class="tweet-header-info" href="https://twitter.com/${t.user.screen_name}">
-                <strong class="tweet-header-name">${t.user.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
+                <strong class="tweet-header-name ${t.user.verified ? 'user-verified' : ''} ${t.user.protected ? 'user-protected' : ''}">${t.user.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
                 <span class="tweet-header-handle">@${t.user.screen_name}</span>
             </a>
         </div>
@@ -623,7 +626,7 @@ async function renderDiscovery(cache = true) {
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${userData.name}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
-                        <strong class="tweet-header-name wtf-user-name">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
+                        <strong class="tweet-header-name wtf-user-name ${userData.verified ? 'user-verified' : ''}">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
                     </a>
                     <br>
@@ -695,9 +698,10 @@ API.getSettings().then(s => {
     settings = s;
     updateUserData();
     updateTimeline();
+    renderDiscovery();
     setInterval(updateUserData, 60000*3);
     setInterval(updateTimeline, 60000);
-    renderDiscovery();
+    setInterval(() => renderDiscovery(false), 60000*15);
 }).catch(e => {
     if (e === "Not logged in") {
         window.location.href = "https://twitter.com/login";
