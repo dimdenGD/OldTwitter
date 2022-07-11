@@ -10,6 +10,10 @@
 
 a {
     color: var(--link-color);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
 }
 
 body {
@@ -92,7 +96,6 @@ body {
 #left-cell {
     top: 65px;
     position: sticky;
-    display: flex;
     height: fit-content;
     margin-right: 10px;
     margin-left: 10px;
@@ -100,7 +103,6 @@ body {
 #right-cell {
     top: 65px;
     position: sticky;
-    display: flex;
     height: fit-content;
     margin-left: 10px;
     margin-right: 10px;
@@ -326,7 +328,7 @@ body {
     display: block;
     border-radius: 5px;
     border: 1px solid #e1e8ed;
-    padding: 5px;
+    padding: 10px;
     margin: 10px;
     text-decoration: none;
     position: relative;
@@ -372,7 +374,7 @@ body {
     margin-bottom: 10px;
     color: #8899a6;
     border: 1px solid #e1e8ed;
-    font-size: 12px;
+    font-size: 14px;
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
@@ -432,11 +434,12 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1 {
+#wtf h1, #trends h1 {
     margin: 0;
     display: inline-block;
-    font-size: 19px;
-    color: #292f33;
+    font-size: 22px;
+    color: #66757f;
+    font-weight: 300;
 }
 #wtf-refresh, #wtf-viewall {
     color: #8899a6;
@@ -529,4 +532,26 @@ body {
     color: #ddd22b;
     font-family: RosettaIcons;
     margin-left: 5px;
+}
+#about {
+    margin-top: 5px;
+    padding: 10px;
+    font-size: 12px;
+    color: #8899a6;
+}
+.about-links a, .about-links span {
+    color: #8899a6;
+    margin-right: 8px;
+}
+
+#trends {
+    margin-top: 10px;
+    padding: 10px;
+}
+.trend {
+    margin-top: 10px;
+}
+.trend-description {
+    font-size: 14px;
+    color: #8899a6;
 }

@@ -1,7 +1,7 @@
 {
   "name": "Old Twitter Layout (2022)",
   "description": "A new extension that returns old Twitter's look.",
-  "version": "1.0",
+  "version": "1.0.0",
   "manifest_version": 3,
   "background": {
     "service_worker": "scripts/background.js"

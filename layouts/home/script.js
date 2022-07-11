@@ -114,6 +114,10 @@ function openInNewTab(href) {
       href: href,
     }).click();
 }
+function escape(text) {
+    if(typeof text !== "string") return "";
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+}
 
 // Render
 function renderUserData() {
@@ -157,13 +161,13 @@ function appendTweet(t, timelineContainer, options = {}) {
         <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img src="${t.user.profile_image_url_https.replace("_normal", "_bigger")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
         <div class="tweet-header">
             <a class="tweet-header-info" href="https://twitter.com/${t.user.screen_name}">
-                <strong class="tweet-header-name ${t.user.verified ? 'user-verified' : ''} ${t.user.protected ? 'user-protected' : ''}">${t.user.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
+                <strong class="tweet-header-name ${t.user.verified || t.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.user.protected ? 'user-protected' : ''}">${escape(t.user.name)}</strong>
                 <span class="tweet-header-handle">@${t.user.screen_name}</span>
             </a>
         </div>
         <a class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body">
-            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? t.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`).replace(/(?<!\w)#([\w+]{1,15}\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
+            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escape(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`).replace(/(?<!\w)#([\w+]{1,15}\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
                 ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" controls src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
@@ -171,15 +175,15 @@ function appendTweet(t, timelineContainer, options = {}) {
             ` : ``}
             ${t.quoted_status ? `
             <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
-                <img src="${t.quoted_status.user.profile_image_url_https}" alt="${t.quoted_status.user.name}" class="tweet-avatar-quote" width="24" height="24">
+                <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escape(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                 <div class="tweet-header-quote">
                     <span class="tweet-header-info-quote">
-                        <strong class="tweet-header-name-quote">${t.quoted_status.user.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
+                        <strong class="tweet-header-name-quote">${escape(t.quoted_status.user.name)}</strong>
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                     </span>
                 </div>
                 <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
-                <span class="tweet-body-text-quote tweet-body-text-long" style="color:black!important">${t.quoted_status.full_text ? t.quoted_status.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>') : ''}</span>
+                <span class="tweet-body-text-quote tweet-body-text-long" style="color:black!important">${t.quoted_status.full_text ? escape(t.quoted_status.full_text).replace(/\n/g, '<br>') : ''}</span>
             </a>
             ` : ``}
             ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
@@ -575,7 +579,7 @@ function renderTimeline() {
         if(t.retweeted_status) {
             appendTweet(t.retweeted_status, timelineContainer, {
                     top: {
-                    text: `<a href="https://twitter.com/${t.user.screen_name}">${t.user.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</a> retweeted`,
+                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escape(t.user.name)}</a> retweeted`,
                     icon: "\uf006",
                     color: "#77b255"
                 }
@@ -626,7 +630,7 @@ async function renderDiscovery(cache = true) {
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${userData.name}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
-                        <strong class="tweet-header-name wtf-user-name ${userData.verified ? 'user-verified' : ''}">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
+                        <strong class="tweet-header-name wtf-user-name">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
                     </a>
                     <br>
@@ -658,6 +662,21 @@ async function renderDiscovery(cache = true) {
     } catch(e) {
         console.warn(e);
     }
+}
+async function renderTrends() {
+    let trends = (await API.getTrends()).modules;
+    console.log(trends);
+    let trendsContainer = document.getElementById('trends-list');
+    trendsContainer.innerHTML = '';
+    trends.forEach(({trend}) => {
+        let trendDiv = document.createElement('div');
+        trendDiv.className = 'trend';
+        trendDiv.innerHTML = `
+            <b><a href="https://twitter.com/search?q=${trend.name.replace(/</g, '')}" class="trend-name">${trend.name}</a></b><br>
+            <span class="trend-description">${trend.meta_description}</span>
+        `;
+        trendsContainer.append(trendDiv);
+    });
 }
 
 // Buttons
@@ -699,9 +718,11 @@ API.getSettings().then(s => {
     updateUserData();
     updateTimeline();
     renderDiscovery();
+    renderTrends();
     setInterval(updateUserData, 60000*3);
     setInterval(updateTimeline, 60000);
     setInterval(() => renderDiscovery(false), 60000*15);
+    setInterval(renderTrends, 60000*5);
 }).catch(e => {
     if (e === "Not logged in") {
         window.location.href = "https://twitter.com/login";
