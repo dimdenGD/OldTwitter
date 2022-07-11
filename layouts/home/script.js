@@ -24,6 +24,24 @@ async function updateTimeline() {
     seenThreads = [];
     let tl = await API.getTimeline();
     console.log(tl);
+    tl.forEach(t => {
+        let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
+        let tweetElement = document.getElementById(`tweet-${t.id_str}`);
+        if(oldTweet) {
+            oldTweet.favorite_count = t.favorite_count;
+            oldTweet.retweet_count = t.retweet_count;
+            oldTweet.reply_count = t.reply_count;
+            oldTweet.favorited = t.favorited;
+            oldTweet.retweeted = t.retweeted;
+        }
+        if(tweetElement) {
+            tweetElement.querySelector('.tweet-interact-favorite ').innerText = t.favorite_count;
+            tweetElement.querySelector('.tweet-interact-retweet').innerText = t.retweet_count;
+            tweetElement.querySelector('.tweet-interact-reply').innerText = t.reply_count;
+            tweetElement.querySelector('.tweet-interact-favorite').classList.toggle('tweet-interact-favorited', t.favorited);
+            tweetElement.querySelector('.tweet-interact-retweet').classList.toggle('tweet-interact-retweeted', t.retweeted);
+        }
+    });
     let firstTweetId = tl[0].id_str;
     // first update
     if (timeline.data.length === 0) {
@@ -114,6 +132,7 @@ function renderUserData() {
 function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
     tweet.classList.add('tweet');
+    tweet.id = `tweet-${t.id_str}`;
     if(options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if(options.noTop) tweet.classList.add('tweet-no-top');
     const mediaClasses = [
@@ -436,12 +455,16 @@ function appendTweet(t, timelineContainer, options = {}) {
                 id: t.id_str
             });
             t.favorited = false;
+            t.favorite_count--;
+            tweetInteractFavorite.innerText = parseInt(tweetInteractFavorite.innerText) - 1;
             tweetInteractFavorite.classList.remove('tweet-interact-favorited');
         } else {
             API.favoriteTweet({
                 id: t.id_str
             });
             t.favorited = true;
+            t.favorite_count++;
+            tweetInteractFavorite.innerText = parseInt(tweetInteractFavorite.innerText) + 1;
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }
     });
@@ -673,7 +696,7 @@ API.getSettings().then(s => {
     updateUserData();
     updateTimeline();
     setInterval(updateUserData, 60000*3);
-    setInterval(updateTimeline, 60000*1.5);
+    setInterval(updateTimeline, 60000);
     renderDiscovery();
 }).catch(e => {
     if (e === "Not logged in") {
