@@ -3,19 +3,23 @@
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
 
+:root {
+    --link-color: #3300FF;
+    --font: Arial, sans-serif;
+}
+
+a {
+    color: var(--link-color);
+}
+
 body {
-    background-color: #f5f8fa;
-    font-family: Arial, sans-serif;
+    background-color: #f5f8fa !important;
+    font-family: var(--font);
     margin: 0;
 }
 #container {
     margin: 0 auto;
-    max-width: 890px;
-}
-@media screen and (min-width: 1236px) {
-    #container {
-        max-width: 1190px !important;
-    }
+    max-width: 1190px;
 }
 
 .cell {
@@ -31,6 +35,9 @@ body {
     background-color: white;
     border-radius: 5px;
     border: 1px solid #e1e8ed;
+}
+#user-div {
+    margin-left: 10px;
 }
 #user-banner {
     border-top-left-radius: 5px;
@@ -50,6 +57,7 @@ body {
     position: relative;
     bottom: 47px;
     width: fit-content;
+    color: #292f33;
 }
 #user-handle {
     margin: 0;
@@ -75,10 +83,12 @@ body {
 .user-stat-div > h1 {
     margin: 0 10px;
     font-size: 20px;
-    color: #00a0f5;
+    color: var(--link-color);
 }
 #user-info {
     height: 5px;
+    display: block;
+    text-decoration: none;
 }
 #left-cell {
     top: 0;
@@ -88,7 +98,8 @@ body {
     margin-right: 10px;
 }
 #timeline {
-    width: 600px;
+    width: 560px;
+    margin-bottom: 10px;
 }
 #timeline div:first-child {
     border-top-left-radius: 5px;
@@ -107,13 +118,9 @@ body {
     margin-right: 10px;
 }
 .tweet-avatar {
-    width: 48px;
-    height: 48px;
     border-radius: 5px;
 }
 .tweet-avatar-quote {
-    width: 24px;
-    height: 24px;
     border-radius: 5px;
 }
 .tweet-header, .tweet-header-quote {
@@ -130,7 +137,7 @@ body {
     text-decoration: underline;
 }
 .tweet-header-name:hover {
-    color: #00a0f5;
+    color: var(--link-color);
 }
 .tweet-header-name, .tweet-header-name-quote {
     display: inline;
@@ -161,7 +168,7 @@ body {
     color: #8899a6 !important;
 }
 .tweet-time:hover {
-    color: #00a0f5;
+    color: var(--link-color);
     text-decoration: underline;
 }
 .tweet-body, .tweet-interact, .tweet-body-text-quote {
@@ -290,7 +297,7 @@ body {
     text-decoration: none;
 }
 .tweet-top-text a:hover {
-    color: initial !important;
+    color: var(--link-color) !important;
     text-decoration: underline;
 }
 .tweet-interact-retweet-menu, .tweet-interact-more-menu {
@@ -355,7 +362,6 @@ body {
     background-color: white;
     text-align: center;
     margin-bottom: 10px;
-    margin-top: 10px;
     color: #8899a6;
     border: 1px solid #e1e8ed;
     font-size: 12px;
@@ -413,4 +419,68 @@ body {
     -moz-filter: blur(20px);
     cursor: pointer;
     transform: scale(1.03);
+}
+#wtf {
+    padding: 10px;
+    margin-left: 10px;
+    width: 250px;
+    margin-right: 10px;
+}
+#wtf h1 {
+    margin: 0;
+    display: inline-block;
+    font-size: 19px;
+    color: #292f33;
+}
+#wtf-refresh, #wtf-viewall {
+    color: #8899a6;
+    font-size: 12px;
+    text-decoration: none;
+    cursor: pointer;
+}
+#wtf-refresh:hover, #wtf-viewall:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 1195px) {
+    #wtf {
+        display: none;
+    }
+}
+.wtf-user {
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.wtf-user-link {
+    text-decoration: none !important;
+}
+.wtf-user-name {
+    max-width: 93px;
+    display: inline-block;
+    overflow: hidden;
+    height: 17px;
+}
+.wtf-user-handle {
+    overflow: hidden;
+    width: 88px;
+    height: 17px;
+    display: inline-block;
+}
+.follow, .following {
+    color: #292f33;
+    padding: 4px 12px 4px 12px;
+}
+.follow:before {
+    color: #55acee;
+    font-family: RosettaIcons;
+    content: "\f175";
+    margin-right: 7px;
+    vertical-align: text-bottom;
+}
+.following:before {
+    color: #55acee;
+    font-family: RosettaIcons;
+    content: "\f176";
+    margin-right: 7px;
+    vertical-align: text-bottom;
 }

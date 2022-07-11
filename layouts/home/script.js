@@ -33,7 +33,6 @@ async function updateTimeline() {
         let data = timeline.data.filter(t => !t._ARTIFICIAL);
         if (data[0].id_str !== firstTweetId) {
             timeline.toBeUpdated = data.findIndex(t => t.id_str === firstTweetId);
-            console.log(timeline.toBeUpdated);
             if (timeline.toBeUpdated === -1) {
                 timeline.toBeUpdated = data.length;
             }
@@ -105,6 +104,9 @@ function renderUserData() {
     document.getElementById('user-followers').innerText = user.followers_count;
     document.getElementById('user-banner').src = user.profile_banner_url;
     document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
+    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?user_id=${user.id_str}`;
+    document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 }
 
 function appendTweet(t, timelineContainer, top, prepend = false) {
@@ -551,7 +553,57 @@ function renderNewTweetsButton() {
         document.getElementById('new-tweets').hidden = true;
     }
 }
+async function renderDiscovery(cache = true) {
+    let discover = await API.discoverPeople(cache);
+    let discoverContainer = document.getElementById('wtf-list');
+    discoverContainer.innerHTML = '';
+    try {
+        let usersData = discover.globalObjects.users;
+        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 5); // why is it so deep
+        usersSuggestions.forEach(userId => {
+            let userData = usersData[userId];
+            if(!userData) return;
+            let udiv = document.createElement('div');
+            udiv.className = 'wtf-user';
+            udiv.innerHTML = `
+                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${userData.name}" class="tweet-avatar" width="48" height="48"></a>
+                <div class="tweet-header">
+                    <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
+                        <strong class="tweet-header-name wtf-user-name">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</strong>
+                        <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
+                    </a>
+                    <br>
+                    <button class="nice-button discover-follow-btn ${userData.following ? 'following' : 'follow'}" style="position:relative;bottom: 1px;">${userData.following ? 'Following' : 'Follow'}</button>
+                </div>
+            `;
+            const followBtn = udiv.querySelector('.discover-follow-btn');
+            followBtn.addEventListener('click', async () => {
+                if(followBtn.className.includes('following')) {
+                    await API.unfollowUser(userData.screen_name);
+                    followBtn.classList.remove('following');
+                    followBtn.classList.add('follow');
+                    followBtn.innerText = 'Follow';
+                    userData.following = false;
+                } else {
+                    await API.followUser(userData.screen_name);
+                    followBtn.classList.add('following');
+                    followBtn.classList.remove('follow');
+                    followBtn.innerText = 'Following';
+                    userData.following = true;
+                }
+                chrome.storage.local.set({discoverData: {
+                    date: Date.now(),
+                    data: discover
+                }}, () => {})
+            });
+            discoverContainer.append(udiv);
+        });
+    } catch(e) {
+        console.warn(e);
+    }
+}
 
+// Buttons
 document.getElementById('new-tweets').addEventListener('click', () => {
     timeline.toBeUpdated = 0;
     timeline.data = timeline.dataToUpdate;
@@ -569,6 +621,9 @@ document.getElementById('more-tweets').addEventListener('click', async () => {
             behavior: 'smooth'
        });
     }, 100);
+});
+document.getElementById('wtf-refresh').addEventListener('click', async () => {
+    renderDiscovery(false);
 });
 
 // Update dates every minute
@@ -588,6 +643,7 @@ API.getSettings().then(s => {
     updateTimeline();
     setInterval(updateUserData, 60000*3);
     setInterval(updateTimeline, 60000*1.5);
+    renderDiscovery();
 }).catch(e => {
     if (e === "Not logged in") {
         window.location.href = "https://twitter.com/login";

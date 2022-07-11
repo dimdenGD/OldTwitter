@@ -14,11 +14,11 @@
                 <div id="user-div" class="box">
                     <img id="user-banner" height="100" width="310">
                     <div id="user-data">
-                        <img id="user-avatar" width="70" height="70">
-                        <div id="user-info">
+                        <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
+                        <a id="user-info">
                             <h1 id="user-name">Loading</h1>
                             <h2 id="user-handle">@loading</h2>
-                        </div>
+                        </a>
                         <div id="user-stats">
                             <div class="user-stat-div">
                                 <h2>Tweets</h2>
@@ -41,7 +41,14 @@
                 <div id="timeline"></div>
                 <div class="center-text" id="more-tweets">Load more tweets</div>
             </div>
-            <div class="cell" id="right-cell"></div>
+            <div class="cell" id="right-cell">
+                <div id="wtf" class="box">
+                    <h1>Who to follow</h1><br>
+                    <span id="wtf-refresh">Refresh</span> · <a id="wtf-viewall" href="https://twitter.com/i/connect_people?user_id=">View all</a>
+                    <br><br>
+                    <div id="wtf-list"></div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
