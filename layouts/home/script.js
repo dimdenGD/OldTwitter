@@ -4,6 +4,7 @@ let timeline = {
     dataToUpdate: [],
     toBeUpdated: 0
 }
+let settings = {};
 
 // Util
 function updateUserData() {
@@ -15,6 +16,7 @@ function updateUserData() {
         if (e === "Not logged in") {
             window.location.href = "https://twitter.com/login";
         }
+        console.error(e);
     });
 }
 async function updateTimeline() {
@@ -31,6 +33,7 @@ async function updateTimeline() {
         let data = timeline.data.filter(t => !t._ARTIFICIAL);
         if (data[0].id_str !== firstTweetId) {
             timeline.toBeUpdated = data.findIndex(t => t.id_str === firstTweetId);
+            console.log(timeline.toBeUpdated);
             if (timeline.toBeUpdated === -1) {
                 timeline.toBeUpdated = data.length;
             }
@@ -85,6 +88,13 @@ function timeElapsed(targetTimestamp) {
     }
     return `${targetDate.getDate()} ${MonthNames[targetDate.getMonth()]} ${targetDate.getFullYear()}`; //more than a monh
 }
+function openInNewTab(href) {
+    Object.assign(document.createElement('a'), {
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      href: href,
+    }).click();
+}
 
 // Render
 function renderUserData() {
@@ -111,8 +121,8 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
         undefined,
         (w, h) => [w > 450 ? 450 : w, h > 500 ? 500 : h],
         (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 150 ? 150 : w, h > 300 ? 300 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 200 ? 200 : h],
+        (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
+        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
     ]
     tweet.innerHTML = `
         <div class="tweet-top" hidden></div>
@@ -123,12 +133,12 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
                 <span class="tweet-header-handle">@${t.user.screen_name}</span>
             </a>
         </div>
-        <a class="tweet-time" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
+        <a class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body">
-            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? t.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1" target="_blank">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`) : ''}</span>
+            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? t.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`).replace(/(?<!\w)#([\w+]{1,15}\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
-                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" controls src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.entities.media.length]}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
+                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" controls src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
             </div>
             ` : ``}
             ${t.quoted_status ? `
@@ -140,7 +150,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                     </span>
                 </div>
-                <span class="tweet-time-quote" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
+                <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
                 <span class="tweet-body-text-quote tweet-body-text-long" style="color:black!important">${t.quoted_status.full_text ? t.quoted_status.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>') : ''}</span>
             </a>
             ` : ``}
@@ -152,6 +162,16 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
                     <span class="tweet-interact-retweet-menu-quote">Quote tweet</span>
                 </div>
                 <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}">${t.favorite_count}</span>
+                <span class="tweet-interact-more"></span>
+                <div class="tweet-interact-more-menu" hidden>
+                    <span class="tweet-interact-more-menu-copy">Copy link</span><br>
+                    <span class="tweet-interact-more-menu-embed">Embed tweet</span><br>
+                    <span class="tweet-interact-more-menu-share">Share tweet</span><br>
+                    ${t.user.id_str === user.id_str ? `<span class="tweet-interact-more-menu-analytics">Tweet analytics</span><br>` : ``}
+                    ${t.user.id_str === user.id_str ? `<span class="tweet-interact-more-menu-delete">Delete tweet</span><br>` : ``}
+                    <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
+                    ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
+                </div>
             </div>
             <div class="tweet-reply" hidden>
                 <br>
@@ -182,37 +202,67 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
         tweet.querySelector('.tweet-top').append(icon, span);
     }
     const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
+
     const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
     const tweetReply = tweet.getElementsByClassName('tweet-reply')[0];
     const tweetReplyButton = tweet.getElementsByClassName('tweet-reply-button')[0];
     const tweetReplyError = tweet.getElementsByClassName('tweet-reply-error')[0];
     const tweetReplyText = tweet.getElementsByClassName('tweet-reply-text')[0];
+
     const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
     const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
     const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
+    const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
+
     const tweetQuote = tweet.getElementsByClassName('tweet-quote')[0];
     const tweetQuoteCancel = tweet.getElementsByClassName('tweet-quote-cancel')[0];
-    const tweetInteractRetweetMenu = tweet.getElementsByClassName('tweet-interact-retweet-menu')[0];
-    const tweetInteractRetweetMenuRetweet = tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0];
-    const tweetInteractRetweetMenuQuote = tweet.getElementsByClassName('tweet-interact-retweet-menu-quote')[0];
     const tweetQuoteButton = tweet.getElementsByClassName('tweet-quote-button')[0];
     const tweetQuoteError = tweet.getElementsByClassName('tweet-quote-error')[0];
     const tweetQuoteText = tweet.getElementsByClassName('tweet-quote-text')[0];
+
+    const tweetInteractRetweetMenu = tweet.getElementsByClassName('tweet-interact-retweet-menu')[0];
+    const tweetInteractRetweetMenuRetweet = tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0];
+    const tweetInteractRetweetMenuQuote = tweet.getElementsByClassName('tweet-interact-retweet-menu-quote')[0];
+
+    const tweetInteractMoreMenu = tweet.getElementsByClassName('tweet-interact-more-menu')[0];    
+    const tweetInteractMoreMenuCopy = tweet.getElementsByClassName('tweet-interact-more-menu-copy')[0];
+    const tweetInteractMoreMenuEmbed = tweet.getElementsByClassName('tweet-interact-more-menu-embed')[0];
+    const tweetInteractMoreMenuShare = tweet.getElementsByClassName('tweet-interact-more-menu-share')[0];
+    const tweetInteractMoreMenuAnalytics = tweet.getElementsByClassName('tweet-interact-more-menu-analytics')[0];
+    const tweetInteractMoreMenuRefresh = tweet.getElementsByClassName('tweet-interact-more-menu-refresh')[0];
+    const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
+    const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
 
     // Media
     if(t.extended_entities && t.extended_entities.media) {
         const tweetMedia = tweet.getElementsByClassName('tweet-media')[0];
         tweetMedia.addEventListener('click', e => {
+            if(e.target.className.includes('tweet-media-element-censor')) {
+                return e.target.classList.remove('tweet-media-element-censor');
+            }
             if(e.target.tagName === 'IMG') {
                 new Viewer(tweetMedia);
             }
         });
     }
 
-
+    // Links
     if(tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
-        tweetBodyText.lastChild.remove();
+        if(t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length-1].url !== tweetBodyText.lastChild.href) {
+            tweetBodyText.lastChild.remove();
+        }
     }
+    let links = Array.from(tweetBodyText.getElementsByTagName('a')).filter(a => a.href.startsWith('https://t.co/'));
+    links.forEach(a => {
+        let link = t.entities.urls.find(u => u.url === a.href);
+        if(link) {
+            a.innerText = link.display_url;
+            a.href = link.expanded_url;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+        }
+    });
+
     // Reply
     tweetReplyCancel.addEventListener('click', () => {
         tweetReply.hidden = true;
@@ -226,6 +276,9 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
         }
         tweetReply.hidden = !tweetReply.hidden;
+        setTimeout(() => {
+            tweetReplyText.focus();
+        })
     });
     tweetReplyButton.addEventListener('click', async () => {
         tweetReplyError.innerHTML = '';
@@ -323,6 +376,9 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             tweetReply.hidden = true;
         }
         tweetQuote.hidden = false;
+        setTimeout(() => {
+            tweetQuoteText.focus();
+        })
     });
     tweetQuoteButton.addEventListener('click', async () => {
         tweetQuoteError.innerHTML = '';
@@ -377,6 +433,94 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }
     });
+
+    // More
+    tweetInteractMore.addEventListener('click', () => {
+        if(tweetInteractMoreMenu.hidden) {
+            tweetInteractMoreMenu.hidden = false;
+        }
+        setTimeout(() => {
+            document.body.addEventListener('click', () => {
+                setTimeout(() => tweetInteractMoreMenu.hidden = true, 50);
+            }, { once: true });
+        }, 50);
+    });
+    tweetInteractMoreMenuCopy.addEventListener('click', () => {
+        navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+    });
+    tweetInteractMoreMenuShare.addEventListener('click', () => {
+        navigator.share({url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`});
+    });
+    tweetInteractMoreMenuEmbed.addEventListener('click', () => {
+        openInNewTab(`https://publish.twitter.com/?query=https://twitter.com/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
+    });
+    if(t.user.id_str === user.id_str) {
+        tweetInteractMoreMenuAnalytics.addEventListener('click', () => {
+            openInNewTab(`https://twitter.com/dimdenEFF/status/${t.id_str}/analytics`);
+        });
+        tweetInteractMoreMenuDelete.addEventListener('click', async () => {
+            try {
+                await API.deleteTweet(t.id_str);
+            } catch(e) {
+                console.error(e);
+                return;
+            }
+            tweet.remove();
+        });
+    }
+    tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
+        let tweetData;
+        try {
+            tweetData = await API.getTweet(t.id_str);
+        } catch(e) {
+            console.error(e);
+            return;
+        }
+        if(!tweetData) {
+            return;
+        }
+        let tweetIndex = timeline.data.findIndex(tweet => tweet.id_str === t.id_str);
+        if(tweetIndex !== -1) {
+            timeline.data[tweetIndex] = tweetData;
+        }
+        if(tweetInteractFavorite.className.includes('tweet-interact-favorited') && !tweetData.favorited) {
+            tweetInteractFavorite.classList.remove('tweet-interact-favorited');
+        }
+        if(tweetInteractRetweet.className.includes('tweet-interact-retweeted') && !tweetData.retweeted) {
+            tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
+        }
+        if(!tweetInteractFavorite.className.includes('tweet-interact-favorited') && tweetData.favorited) {
+            tweetInteractFavorite.classList.add('tweet-interact-favorited');
+        }
+        if(!tweetInteractRetweet.className.includes('tweet-interact-retweeted') && tweetData.retweeted) {
+            tweetInteractRetweet.classList.add('tweet-interact-retweeted');
+        }
+        tweetInteractFavorite.innerText = tweetData.favorite_count;
+        tweetInteractRetweet.innerText = tweetData.retweet_count;
+        tweetInteractReply.innerText = tweetData.reply_count;
+    });
+    let downloading = false;
+    if(t.extended_entities && t.extended_entities.media.length === 1) {
+        tweetInteractMoreMenuDownload.addEventListener('click', () => {
+            if(downloading) return;
+            downloading = true;
+            let media = t.extended_entities.media[0];
+            let url = media.type === 'photo' ? media.media_url_https : media.video_info.variants[0].url;
+            fetch(url).then(res => res.blob()).then(blob => {
+                downloading = false;
+                let a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = media.type === 'photo' ? media.media_url_https.split('/').pop() : media.video_info.variants[0].url.split('/').pop();
+                a.download = a.download.split('?')[0];
+                a.click();
+                a.remove();
+            }).catch(e => {
+                downloading = false;
+                console.error(e);
+            });
+        });
+    }
+
     if(prepend) {
         timelineContainer.prepend(tweet);
     } else {
@@ -402,7 +546,7 @@ function renderTimeline() {
 function renderNewTweetsButton() {
     if(timeline.toBeUpdated > 0) {
         document.getElementById('new-tweets').hidden = false;
-        document.getElementById('new-tweets').innerText = `${timeline.toBeUpdated} new tweet${timeline.toBeUpdated > 1 ? 's' : ''}`;
+        document.getElementById('new-tweets').innerText = `See new tweets`;
     } else {
         document.getElementById('new-tweets').hidden = true;
     }
@@ -427,8 +571,26 @@ document.getElementById('more-tweets').addEventListener('click', async () => {
     }, 100);
 });
 
+// Update dates every minute
+setInterval(() => {
+    let tweetDates = Array.from(document.getElementsByClassName('tweet-time'));
+    let tweetQuoteDates = Array.from(document.getElementsByClassName('tweet-time-quote'));
+    let all = [...tweetDates, ...tweetQuoteDates];
+    all.forEach(date => {
+        date.innerText = timeElapsed(+date.dataset.timestamp);
+    });
+}, 60000);
+
 // Run
-updateUserData();
-updateTimeline();
-setInterval(updateUserData, 60000*3);
-setInterval(updateTimeline, 60000*1.5);
+API.getSettings().then(s => {
+    settings = s;
+    updateUserData();
+    updateTimeline();
+    setInterval(updateUserData, 60000*3);
+    setInterval(updateTimeline, 60000*1.5);
+}).catch(e => {
+    if (e === "Not logged in") {
+        window.location.href = "https://twitter.com/login";
+    }
+    console.error(e);
+})

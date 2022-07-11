@@ -219,7 +219,10 @@ body {
 .tweet-interact-favorite:before {
     content: "\f147";
 }
-.tweet-interact-reply-clicked, .tweet-interact-reply-clicked:before, .tweet-interact-reply:hover:before, .tweet-interact-reply:hover {
+.tweet-interact-more:before {
+    content: "\f150";
+}
+.tweet-interact-reply-clicked, .tweet-interact-reply-clicked:before, .tweet-interact-reply:hover:before, .tweet-interact-reply:hover, .tweet-interact-more:hover:before {
     color: #3300FF !important;
 }
 .tweet-interact-retweeted, .tweet-interact-retweeted:before, .tweet-interact-retweet:hover:before, .tweet-interact-retweet:hover {
@@ -290,12 +293,15 @@ body {
     color: initial !important;
     text-decoration: underline;
 }
-.tweet-interact-retweet-menu {
+.tweet-interact-retweet-menu, .tweet-interact-more-menu {
     position: absolute;
     background-color: white;
     border: 1px solid #8899a6;
     border-radius: 5px;
     z-index: 5;
+}
+.tweet-interact-more-menu {
+    margin-left: 100px;
 }
 .tweet-reply-cancel:hover, .tweet-quote-cancel:hover {
     text-decoration: underline;
@@ -331,11 +337,11 @@ body {
 }
 .tweet-media-element-four {
     max-width: 100px;
-    max-height: 200px;
+    max-height: 150px;
 }
 .tweet-media-element-three {
     max-width: 150px;
-    max-height: 300px;
+    max-height: 250px;
 }
 .tweet-media-element-two {
     max-width: 200px;
@@ -359,4 +365,52 @@ body {
 }
 .center-text:hover {
     text-decoration: underline;
+}
+.tweet-interact-retweet-menu span, .tweet-interact-more-menu span {
+    margin-right: 5px !important;
+    cursor: pointer;
+}
+.tweet-interact-retweet-menu span:hover {
+    color: #5c913b !important;
+}
+.tweet-interact-more-menu span:hover {
+    color: #3300FF !important;
+}
+.tweet-interact-retweet-menu span:before, .tweet-interact-more-menu span:before {
+    color: #8899a6;
+    margin-right: 5px !important;
+}
+.tweet-interact-retweet-menu-retweet:before {
+    content: "\f152";
+}
+.tweet-interact-retweet-menu-quote:before {
+    content: "\f204";
+}
+.tweet-interact-more-menu-copy:before {
+    content: "\f203";
+}
+.tweet-interact-more-menu-embed:before {
+    content: "\f204";
+}
+.tweet-interact-more-menu-share:before {
+    content: "\f185";
+}
+.tweet-interact-more-menu-analytics:before {
+    content: "\f200";
+}
+.tweet-interact-more-menu-refresh:before {
+    content: "\f303";
+}
+.tweet-interact-more-menu-download:before {
+    content: "\f186";
+}
+.tweet-interact-more-menu-delete:before {
+    content: "\f154";
+}
+.tweet-media-element-censor {
+    filter: blur(20px);
+    -webkit-filter: blur(20px);
+    -moz-filter: blur(20px);
+    cursor: pointer;
+    transform: scale(1.03);
 }
