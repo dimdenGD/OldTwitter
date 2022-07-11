@@ -242,7 +242,7 @@ body {
     border: 1px solid #e1e8ed;
     resize: none;
     border-radius: 5px;
-    width: 400px;
+    width: 370px;
     padding: 5px;
     font-family: Arial, sans-serif;
     display: inline-block;
@@ -483,4 +483,32 @@ body {
     content: "\f176";
     margin-right: 7px;
     vertical-align: text-bottom;
+}
+.tweet-self-thread-button {
+    text-decoration: none;
+    font-size: 13px;
+}
+.tweet-self-thread-button:hover {
+    text-decoration: underline;
+}
+.tweet-no-top{
+    border-top: none !important;
+}
+.tweet-self-thread-line {
+    position: absolute;
+    width: 2px;
+    height: 52px;
+    background-color: #e1e8ed;
+    margin-left: -34px;
+    z-index: 1;
+}
+.tweet-self-thread-line-dots {
+    z-index: 2;
+    position: absolute;
+    width: 12px;
+    height: 2px;
+    border: 2px white solid;
+    display: unset;
+    margin-left: -41px;
+    margin-top: 2px;
 }

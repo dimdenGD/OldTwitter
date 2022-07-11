@@ -5,6 +5,7 @@ let timeline = {
     toBeUpdated: 0
 }
 let settings = {};
+let seenThreads = [];
 
 // Util
 function updateUserData() {
@@ -20,6 +21,7 @@ function updateUserData() {
     });
 }
 async function updateTimeline() {
+    seenThreads = [];
     let tl = await API.getTimeline();
     console.log(tl);
     let firstTweetId = tl[0].id_str;
@@ -109,9 +111,11 @@ function renderUserData() {
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 }
 
-function appendTweet(t, timelineContainer, top, prepend = false) {
+function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
     tweet.classList.add('tweet');
+    if(options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
+    if(options.noTop) tweet.classList.add('tweet-no-top');
     const mediaClasses = [
         undefined,
         'tweet-media-element-one',
@@ -156,6 +160,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
                 <span class="tweet-body-text-quote tweet-body-text-long" style="color:black!important">${t.quoted_status.full_text ? t.quoted_status.full_text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/\n/g, '<br>') : ''}</span>
             </a>
             ` : ``}
+            ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply">${t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}">${t.retweet_count}</span>
@@ -189,18 +194,23 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
                 <textarea maxlength="280" class="tweet-quote-text" placeholder="Cool quote tweet"></textarea>
                 <button class="tweet-quote-button nice-button">Quote</button>
             </div>
+            ${options.selfThreadContinuation && t.self_thread.id_str ? `
+            <span class="tweet-self-thread-line"></span>
+            <div class="tweet-self-thread-line-dots"></div>
+            <br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>
+            ` : ``}
         </div>
     `;
-    if(top) {
+    if(options.top) {
         tweet.querySelector('.tweet-top').hidden = false;
         const icon = document.createElement('span');
-        icon.innerText = top.icon;
+        icon.innerText = options.top.icon;
         icon.classList.add('tweet-top-icon');
-        icon.style.color = top.color;
+        icon.style.color = options.top.color;
 
         const span = document.createElement("span");
         span.classList.add("tweet-top-text");
-        span.innerHTML = top.text;
+        span.innerHTML = options.top.text;
         tweet.querySelector('.tweet-top').append(icon, span);
     }
     const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
@@ -317,7 +327,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             tweetInteractReply.innerText = parseInt(tweetInteractReply.innerText) + 1;
             tweetData._ARTIFICIAL = true;
             timeline.data.unshift(tweetData);
-            appendTweet(tweetData, timelineContainer, undefined, true);
+            appendTweet(tweetData, timelineContainer, { prepend: true });
         }
     });
 
@@ -415,7 +425,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             tweetQuote.hidden = true;
             tweetData._ARTIFICIAL = true;
             timeline.data.unshift(tweetData);
-            appendTweet(tweetData, timelineContainer, undefined, true);
+            appendTweet(tweetData, timelineContainer, { prepend: true });
         }
     });
 
@@ -461,6 +471,8 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
             openInNewTab(`https://twitter.com/dimdenEFF/status/${t.id_str}/analytics`);
         });
         tweetInteractMoreMenuDelete.addEventListener('click', async () => {
+            let sure = confirm("Are you sure you want to delete this tweet?");
+            if(!sure) return;
             try {
                 await API.deleteTweet(t.id_str);
             } catch(e) {
@@ -523,7 +535,7 @@ function appendTweet(t, timelineContainer, top, prepend = false) {
         });
     }
 
-    if(prepend) {
+    if(options.prepend) {
         timelineContainer.prepend(tweet);
     } else {
         timelineContainer.append(tweet);
@@ -536,12 +548,31 @@ function renderTimeline() {
     timeline.data.forEach(t => {
         if(t.retweeted_status) {
             appendTweet(t.retweeted_status, timelineContainer, {
-                text: `<a href="https://twitter.com/${t.user.screen_name}">${t.user.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</a> retweeted`,
-                icon: "\uf006",
-                color: "#77b255"
+                    top: {
+                    text: `<a href="https://twitter.com/${t.user.screen_name}">${t.user.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</a> retweeted`,
+                    icon: "\uf006",
+                    color: "#77b255"
+                }
             });
         } else {
-            appendTweet(t, timelineContainer);
+            if(t.self_thread) {
+                let selfThreadTweet = timeline.data.find(tweet => tweet.id_str === t.self_thread.id_str);
+                if(selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
+                    appendTweet(selfThreadTweet, timelineContainer, {
+                        selfThreadContinuation: true
+                    });
+                    appendTweet(t, timelineContainer, {
+                        noTop: true
+                    });
+                    seenThreads.push(selfThreadTweet.id_str);
+                } else {
+                    appendTweet(t, timelineContainer, {
+                        selfThreadButton: true
+                    });
+                }
+            } else {
+                appendTweet(t, timelineContainer);
+            }
         }
     });
 }
