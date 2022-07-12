@@ -118,6 +118,10 @@ body {
     background-color: white;
     padding: 10px;
     min-height: 75px;
+    cursor: pointer;
+}
+.tweet:hover {
+    background-color: #f5f8fa;
 }
 .tweet-avatar-link {
     float: left;

@@ -17,11 +17,12 @@ let isCSPDisabled = async () => {
 }
 
 let disableCSP = async (id) => {
+    let { url } = await getCurrentTab();
+    if(!url || !id) return;
     isRunning = true;
 
-    let addRules = [],
-        removeRuleIds = [],
-        { url } = await getCurrentTab();
+    let addRules = [];
+    let removeRuleIds = [];
 
     if (!await isCSPDisabled()) {
         addRules.push({
