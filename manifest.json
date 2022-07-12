@@ -55,7 +55,7 @@
     },
     {
       "matches": ["https://twitter.com/home"],
-      "js": ["libraries/viewer.min.js", "layouts/home/script.js"],
+      "js": ["libraries/viewer.min.js", "libraries/twemoji.min.js", "layouts/home/script.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     }

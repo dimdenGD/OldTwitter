@@ -116,7 +116,7 @@ function openInNewTab(href) {
 }
 function escape(text) {
     if(typeof text !== "string") return "";
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
 // Render
@@ -134,6 +134,9 @@ function renderUserData() {
     document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('new-tweet-avatar').src = user.profile_image_url_https.replace("_normal", "_bigger");
+
+    twemoji.parse(document.getElementById('user-name'));
 }
 
 function appendTweet(t, timelineContainer, options = {}) {
@@ -280,6 +283,7 @@ function appendTweet(t, timelineContainer, options = {}) {
             }
             if(e.target.tagName === 'IMG') {
                 new Viewer(tweetMedia);
+                e.target.click();
             }
         });
     }
@@ -570,6 +574,7 @@ function appendTweet(t, timelineContainer, options = {}) {
     } else {
         timelineContainer.append(tweet);
     }
+    twemoji.parse(tweet);
 }
 
 function renderTimeline() {
@@ -658,6 +663,7 @@ async function renderDiscovery(cache = true) {
                 }}, () => {})
             });
             discoverContainer.append(udiv);
+            twemoji.parse(udiv);
         });
     } catch(e) {
         console.warn(e);
@@ -676,8 +682,37 @@ async function renderTrends() {
             <span class="trend-description">${trend.meta_description}</span>
         `;
         trendsContainer.append(trendDiv);
+        twemoji.parse(trendDiv);
     });
 }
+
+// On scroll to end of timeline, load more tweets
+let loadingNewTweets = false;
+document.addEventListener('scroll', async () => {
+    if((window.innerHeight + window.scrollY) >= document.body.offsetHeight-1000) {
+        if(loadingNewTweets || timeline.data.length === 0) return;
+        loadingNewTweets = true;
+        let tl;
+        try {
+            tl = await API.getTimeline(timeline.data[timeline.data.length-1].id_str);
+        } catch(e) {
+            console.error(e);
+            loadingNewTweets = false;
+            return;
+        }
+        timeline.data = timeline.data.concat(tl);
+        let lastTweet = document.getElementById('timeline').lastChild;
+        renderTimeline();
+        setTimeout(() => {
+            lastTweet.scrollIntoView({
+                behavior: 'smooth'
+            });
+            setTimeout(() => {
+                loadingNewTweets = false;
+            });
+        }, 200);
+    }
+});
 
 // Buttons
 document.getElementById('new-tweets').addEventListener('click', () => {
@@ -687,20 +722,14 @@ document.getElementById('new-tweets').addEventListener('click', () => {
     renderNewTweetsButton();
     renderTimeline();
 });
-document.getElementById('more-tweets').addEventListener('click', async () => {
-    let tl = await API.getTimeline(timeline.data[timeline.data.length-1].id_str);
-    timeline.data = timeline.data.concat(tl);
-    let lastTweet = document.getElementById('timeline').lastChild;
-    renderTimeline();
-    setTimeout(() => {
-        lastTweet.scrollIntoView({
-            behavior: 'smooth'
-       });
-    }, 100);
-});
 document.getElementById('wtf-refresh').addEventListener('click', async () => {
     renderDiscovery(false);
 });
+document.getElementById('new-tweet').addEventListener('click', async () => {
+    document.getElementById('new-tweet-focused').hidden = false;
+    document.getElementById('new-tweet-text').classList.add('new-tweet-text-focused');
+    document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
+}, { once: true });
 
 // Update dates every minute
 setInterval(() => {

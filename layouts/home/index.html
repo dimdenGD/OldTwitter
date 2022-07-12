@@ -42,9 +42,21 @@
                 </div>
             </div>
             <div class="cell" id="center-cell">
+                <div id="new-tweet-container">
+                    <div id="new-tweet" class="box">
+                        <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
+                        <textarea id="new-tweet-text" placeholder="What's happening?"></textarea>
+                        <div id="new-tweet-media-div">
+                            <span id="new-tweet-media"></span>
+                        </div>
+                        <div id="new-tweet-focused" hidden>
+                            <button id="new-tweet-button" class="nice-button">Tweet</button>
+                            <br><br>
+                        </div>
+                    </div>
+                </div>
                 <div id="new-tweets" class="center-text" hidden></div>
                 <div id="timeline"></div>
-                <div class="center-text" id="more-tweets">Load more tweets</div>
             </div>
             <div class="cell" id="right-cell">
                 <div id="wtf" class="box">
