@@ -1,5 +1,18 @@
 const API = {};
 
+function arrayBufferToBase64(buffer) {
+    let binary = '';
+    let bytes = new Uint8Array(buffer);
+    let len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+}
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 API.verifyCredentials = () => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/account/verify_credentials.json`, {
@@ -310,3 +323,183 @@ API.getTrends = () => {
         });
     });
 }
+API.getUser = (val, byId = true) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/users/show.json?${byId ? `user_id=${val}` : `screen_name=${val}`}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.updateProfile = (data) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/account/update_profile.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+            },
+            credentials: "include",
+            method: "post",
+            body: new URLSearchParams(data).toString()
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+/*
+    media_type: "video/mp4",
+    media_category: "tweet_video" | "tweet_image" | "tweet_gif",
+    media: ArrayBuffer,
+    loadCallback: function,
+    alt: "alt text"
+*/
+API.uploadMedia = (data) => {
+    return new Promise(async (resolve, reject) => {
+        let initUpload = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
+            headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            credentials: "include",
+            method: "post",
+            body: new URLSearchParams({
+                command: "INIT",
+                total_bytes: data.media.byteLength,
+                media_type: data.media_type,
+                media_category: data.media_category
+            }).toString()
+        }).then(i => i.json());
+        if (initUpload.errors && initUpload.errors[0]) {
+            return reject(initUpload.errors[0].message);
+        }
+        let mediaId = initUpload.media_id_string;
+        let segments = [];
+        let segmentSize = 1084576;
+        let segmentCount = Math.ceil(data.media.byteLength / segmentSize);
+        for (let i = 0; i < segmentCount; i++) {
+            let segmentData = data.media.slice(i * segmentSize, (i + 1) * segmentSize);
+            segments.push(segmentData);
+        }
+        for(let i in segments) {
+            let segment = segments[i];
+            try {
+                await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
+                    headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                    credentials: "include",
+                    method: "post",
+                    body: new URLSearchParams({
+                        command: "APPEND",
+                        media_id: mediaId,
+                        media_data: arrayBufferToBase64(segment),
+                        segment_index: +i
+                    }).toString()
+                }).then(i => i.text());
+            } catch (e) {
+                await new Promise((resolve, reject) => {
+                    console.error(e);
+                    setTimeout(async () => {
+                        await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
+                            headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                            credentials: "include",
+                            method: "post",
+                            body: new URLSearchParams({
+                                command: "APPEND",
+                                media_id: mediaId,
+                                media_data: arrayBufferToBase64(segment),
+                                segment_index: +i
+                            }).toString()
+                        }).then(i => i.text()).catch(reject);
+                        if(data.loadCallback) {
+                            data.loadCallback({
+                                text: `Uploading`,
+                                progress: Math.round(((+i + 1) / segments.length)*100)
+                            });
+                        }
+                        resolve(true);
+                    }, 1000);
+                });
+            }
+            if(data.loadCallback) {
+                data.loadCallback({
+                    text: `Uploading`,
+                    progress: Math.round(((+i + 1) / segments.length)*100)
+                });
+            }
+        }
+        let finalData = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
+            headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+            credentials: "include",
+            method: "post",
+            body: new URLSearchParams({
+                command: "FINALIZE",
+                media_id: mediaId
+            }).toString()
+        }).then(i => i.json());
+        if (finalData.errors && finalData.errors[0]) {
+            return reject(finalData.errors[0].message);
+        }
+        if(data.alt) {
+            try {
+                await fetch(`https://upload.twitter.com/1.1/media/metadata/create.json`, {
+                    headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/" },
+                    credentials: "include",
+                    method: "post",
+                    body: JSON.stringify({
+                        media_id: mediaId,
+                        alt_text: {
+                            text: data.alt
+                        }
+                    })
+                }).then(i => i.json());
+            } catch(e) {
+                console.warn(e);
+            }
+        }
+        if(!finalData.processing_info) {
+            return resolve(mediaId);
+        }
+        let statusTries = 0;
+        async function checkStatus() {
+            if(statusTries++ > 60*20) return clearInterval(statusInterval);
+            await fetch(`https://upload.twitter.com/1.1/media/upload.json?${new URLSearchParams({ command: "STATUS", media_id: mediaId }).toString()}`, {
+                headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                credentials: "include",
+            }).then(i => i.json()).then(i => {
+                if (i.processing_info.state === "succeeded") {
+                    resolve(i.media_id_string);
+                }
+                if (i.processing_info.state === "failed") {
+                    reject(i.processing_info.error.message);
+                }
+                if(i.processing_info.state === "in_progress") {
+                    setTimeout(checkStatus, i.processing_info.check_after_secs*1000);
+                    if(data.loadCallback) {
+                        data.loadCallback({
+                            text: `Processing`,
+                            progress: i.processing_info.progress_percent
+                        });
+                    }
+                }
+            });
+        };
+        setTimeout(checkStatus, 500);
+    });
+}
+
+console.log(API);
