@@ -25,4 +25,12 @@ let page = pages.find(p => p.paths.includes(window.location.pathname) || p.paths
     icon.href = chrome.runtime.getURL(`images/logo32.png`);
     icon.rel = "icon";
     document.head.appendChild(icon);
+
+    setInterval(() => {
+        let donateButton = document.getElementById('donate-button');
+        donateButton.style.color = "var(--link-color)";
+        setTimeout(() => {
+            donateButton.style.color = "";
+        }, 2000);
+    }, 60000);
 })();

@@ -248,7 +248,7 @@ body {
     border: 1px solid #e1e8ed;
     resize: none;
     border-radius: 5px;
-    width: 350px;
+    width: 346px;
     padding: 5px;
     font-family: var(--font);
     display: inline-block;
@@ -323,7 +323,7 @@ body {
 .tweet-interact-more-menu {
     margin-left: 100px;
 }
-.tweet-reply-cancel:hover, .tweet-quote-cancel:hover {
+.tweet-reply-cancel:hover, .tweet-quote-cancel:hover, .tweet-reply-upload:hover, .tweet-quote-upload:hover {
     text-decoration: underline;
     cursor: pointer;
 }
@@ -584,7 +584,7 @@ body {
     border-bottom: none !important;
     border-radius: 0 !important;
     margin-bottom: 0 !important;
-    padding: 10px 10px 10px 80px;
+    padding: 10px;
     color: #66757f;
 }
 #new-tweet-avatar {
@@ -600,6 +600,7 @@ body {
     display: inline-block;
     height: 23px;
     font-size: 18px;
+    padding-right: 40px;
 }
 #new-tweet-text:focus {
     outline: none;
@@ -624,19 +625,12 @@ body {
 #new-tweet-media-div {
     float: right;
     position: relative;
-    background-color: white;
-    padding: 3px 10px;
-    border-radius: 3px;
-    border-right: 1px solid #e1e8ed;
-    border-bottom: 1px solid #e1e8ed;
-    border-top: 1px solid #e1e8ed;
-    bottom: 39px;
-    right: 2px;
     cursor: pointer;
+    bottom: 36px;
+    right: 15px;
 }
 .new-tweet-media-div-focused {
-    bottom: 116px !important;
-    height: 104px !important;
+   bottom: 112px !important;
 }
 #new-tweet-media:before {
     content: "\f159";
@@ -647,10 +641,10 @@ body {
 #new-tweet-button {
     float: right;
     margin-top: 5px;
-    left: 35px;
+    left: 14px;
     position: relative;
 }
-#new-tweet-button:before {
+#new-tweet-button:before, .tweet-reply-button:before, .tweet-quote-button:before {
     content: "\f029";
     font-family: RosettaIcons;
     color: var(--link-color);
@@ -713,4 +707,7 @@ body {
 .new-tweet-media-img-div {
     width: fit-content;
     display: inline-block;
+}
+#donate-button {
+    transition: 1s;
 }

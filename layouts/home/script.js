@@ -174,7 +174,7 @@ function appendTweet(t, timelineContainer, options = {}) {
             <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escape(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`).replace(/(?<!\w)#([\w+]{1,15}\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
-                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
+                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escape(m.ext_alt_text)}" title="${escape(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
             </div>
             ` : ``}
             ${t.quoted_status ? `
@@ -188,6 +188,9 @@ function appendTweet(t, timelineContainer, options = {}) {
                 </div>
                 <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
                 <span class="tweet-body-text-quote tweet-body-text-long" style="color:black!important">${t.quoted_status.full_text ? escape(t.quoted_status.full_text).replace(/\n/g, '<br>') : ''}</span>
+                <div class="tweet-media-quote">
+                    ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escape(m.ext_alt_text)}" title="${escape(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!settings.display_sensitive_media && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
+                </div>
             </a>
             ` : ``}
             ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
@@ -213,17 +216,19 @@ function appendTweet(t, timelineContainer, options = {}) {
             </div>
             <div class="tweet-reply" hidden>
                 <br>
-                <b style="font-size: 12px;display: block;margin-bottom: 5px;">Replying to tweet <span class="tweet-reply-cancel">[cancel]</span></b>
+                <b style="font-size: 12px;display: block;margin-bottom: 5px;">Replying to tweet <span class="tweet-reply-upload">[upload media]</span> <span class="tweet-reply-cancel">[cancel]</span></b>
                 <span class="tweet-reply-error" style="color:red"></span>
                 <textarea maxlength="280" class="tweet-reply-text" placeholder="Cool reply tweet"></textarea>
-                <button class="tweet-reply-button nice-button">Reply</button>
+                <button class="tweet-reply-button nice-button">Reply</button><br>
+                <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
             </div>
             <div class="tweet-quote" hidden>
                 <br>
-                <b style="font-size: 12px;display: block;margin-bottom: 5px;">Quote tweet <span class="tweet-quote-cancel">[cancel]</span></b>
+                <b style="font-size: 12px;display: block;margin-bottom: 5px;">Quote tweet <span class="tweet-quote-upload">[upload media]</span> <span class="tweet-quote-cancel">[cancel]</span></b>
                 <span class="tweet-quote-error" style="color:red"></span>
                 <textarea maxlength="280" class="tweet-quote-text" placeholder="Cool quote tweet"></textarea>
-                <button class="tweet-quote-button nice-button">Quote</button>
+                <button class="tweet-quote-button nice-button">Quote</button><br>
+                <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
             </div>
             <div class="tweet-self-thread-div" ${options.selfThreadContinuation && t.self_thread.id_str ? '' : 'hidden'}>
                 <span class="tweet-self-thread-line"></span>
@@ -247,10 +252,12 @@ function appendTweet(t, timelineContainer, options = {}) {
     const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
 
     const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
+    const tweetReplyUpload = tweet.getElementsByClassName('tweet-reply-upload')[0];
     const tweetReply = tweet.getElementsByClassName('tweet-reply')[0];
     const tweetReplyButton = tweet.getElementsByClassName('tweet-reply-button')[0];
     const tweetReplyError = tweet.getElementsByClassName('tweet-reply-error')[0];
     const tweetReplyText = tweet.getElementsByClassName('tweet-reply-text')[0];
+    const tweetReplyMedia = tweet.getElementsByClassName('tweet-reply-media')[0];
 
     const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
     const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
@@ -259,9 +266,11 @@ function appendTweet(t, timelineContainer, options = {}) {
 
     const tweetQuote = tweet.getElementsByClassName('tweet-quote')[0];
     const tweetQuoteCancel = tweet.getElementsByClassName('tweet-quote-cancel')[0];
+    const tweetQuoteUpload = tweet.getElementsByClassName('tweet-quote-upload')[0];
     const tweetQuoteButton = tweet.getElementsByClassName('tweet-quote-button')[0];
     const tweetQuoteError = tweet.getElementsByClassName('tweet-quote-error')[0];
     const tweetQuoteText = tweet.getElementsByClassName('tweet-quote-text')[0];
+    const tweetQuoteMedia = tweet.getElementsByClassName('tweet-quote-media')[0];
 
     const tweetInteractRetweetMenu = tweet.getElementsByClassName('tweet-interact-retweet-menu')[0];
     const tweetInteractRetweetMenuRetweet = tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0];
@@ -313,6 +322,10 @@ function appendTweet(t, timelineContainer, options = {}) {
         tweetReply.hidden = true;
         tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
     });
+    let replyMedia = [];
+    tweetReplyUpload.addEventListener('click', () => {
+        getMedia(replyMedia, tweetReplyMedia);
+    });
     tweetInteractReply.addEventListener('click', () => {
         if (!tweetQuote.hidden) tweetQuote.hidden = true;
         if (tweetReply.hidden) {
@@ -325,47 +338,82 @@ function appendTweet(t, timelineContainer, options = {}) {
             tweetReplyText.focus();
         })
     });
+    tweetReplyText.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && e.ctrlKey) {
+            tweetReplyButton.click();
+        }
+    });
     tweetReplyButton.addEventListener('click', async () => {
         tweetReplyError.innerHTML = '';
         let text = tweetReplyText.value;
-        if (text.length > 0) {
-            let tweetData;
+        if (text.length === 0 && replyMedia.length === 0) return;
+        tweetReplyButton.disabled = true;
+        let uploadedMedia = [];
+        for (let i in replyMedia) {
+            let media = replyMedia[i];
             try {
-                tweetData = await API.postTweet({
-                    status: text,
-                    in_reply_to_status_id: t.id_str,
-                    auto_populate_reply_metadata: true,
-                    batch_mode: 'off',
-                    exclude_reply_user_ids: '',
-                    cards_platform: 'Web-13',
-                    include_entities: 1,
-                    include_user_entities: 1,
-                    include_cards: 1,
-                    send_error_codes: 1,
-                    tweet_mode: 'extended',
-                    include_ext_alt_text: true,
-                    include_reply_count: true
-                })
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                let mediaId = await API.uploadMedia({
+                    media_type: media.type,
+                    media_category: media.category,
+                    media: media.data,
+                    alt: media.alt,
+                    loadCallback: data => {
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                    }
+                });
+                uploadedMedia.push(mediaId);
             } catch (e) {
-                tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
-                return;
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                console.error(e);
+                alert(e);
             }
-            if (!tweetData) {
-                tweetReplyError.innerHTML = "Error sending tweet<br>";
-                return;
-            }
-            tweetReplyText.value = '';
-            tweetReply.hidden = true;
-            tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
-            tweetInteractReply.innerText = parseInt(tweetInteractReply.innerText) + 1;
-            tweetData._ARTIFICIAL = true;
-            timeline.data.unshift(tweetData);
-            tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
-            appendTweet(tweetData, document.getElementById('timeline'), {
-                noTop: true,
-                after: tweet
-            });
         }
+        let tweetObject = {
+            status: text,
+            in_reply_to_status_id: t.id_str,
+            auto_populate_reply_metadata: true,
+            batch_mode: 'off',
+            exclude_reply_user_ids: '',
+            cards_platform: 'Web-13',
+            include_entities: 1,
+            include_user_entities: 1,
+            include_cards: 1,
+            send_error_codes: 1,
+            tweet_mode: 'extended',
+            include_ext_alt_text: true,
+            include_reply_count: true
+        };
+        if (uploadedMedia.length > 0) {
+            tweetObject.media_ids = uploadedMedia.join(',');
+        }
+        let tweetData;
+        try {
+            tweetData = await API.postTweet(tweetObject)
+        } catch (e) {
+            tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
+            tweetReplyButton.disabled = false;
+            return;
+        }
+        if (!tweetData) {
+            tweetReplyButton.disabled = false;
+            tweetReplyError.innerHTML = "Error sending tweet<br>";
+            return;
+        }
+        tweetReplyText.value = '';
+        tweetReply.hidden = true;
+        tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
+        tweetInteractReply.innerText = parseInt(tweetInteractReply.innerText) + 1;
+        tweetData._ARTIFICIAL = true;
+        timeline.data.unshift(tweetData);
+        tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
+        tweetReplyButton.disabled = false;
+        tweetReplyMedia.innerHTML = [];
+        replyMedia = [];
+        appendTweet(tweetData, document.getElementById('timeline'), {
+            noTop: true,
+            after: tweet
+        });
     });
 
     // Retweet / Quote Tweet
@@ -429,41 +477,80 @@ function appendTweet(t, timelineContainer, options = {}) {
             tweetQuoteText.focus();
         })
     });
-    tweetQuoteButton.addEventListener('click', async () => {
-        tweetQuoteError.innerHTML = '';
-        let text = tweetQuoteText.value;
-        if (text.length > 0) {
-            let tweetData;
-            try {
-                tweetData = await API.postTweet({
-                    status: text,
-                    attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`,
-                    auto_populate_reply_metadata: true,
-                    batch_mode: 'off',
-                    exclude_reply_user_ids: '',
-                    cards_platform: 'Web-13',
-                    include_entities: 1,
-                    include_user_entities: 1,
-                    include_cards: 1,
-                    send_error_codes: 1,
-                    tweet_mode: 'extended',
-                    include_ext_alt_text: true,
-                    include_reply_count: true
-                })
-            } catch (e) {
-                tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
-                return;
-            }
-            if (!tweetData) {
-                tweetQuoteError.innerHTML = "Error sending tweet<br>";
-                return;
-            }
-            tweetQuoteText.value = '';
-            tweetQuote.hidden = true;
-            tweetData._ARTIFICIAL = true;
-            timeline.data.unshift(tweetData);
-            appendTweet(tweetData, timelineContainer, { prepend: true });
+    let quoteMedia = [];
+    tweetQuoteUpload.addEventListener('click', () => {
+        getMedia(quoteMedia, tweetQuoteMedia);
+    });
+    tweetQuoteText.addEventListener('keydown', e => {
+        if (e.key === 'Enter' && e.ctrlKey) {
+            tweetQuoteButton.click();
         }
+    });
+    tweetQuoteButton.addEventListener('click', async () => {
+        let text = tweetQuoteText.value;
+        tweetQuoteError.innerHTML = '';
+        if (text.length === 0 && quoteMedia.length === 0) return;
+        tweetQuoteButton.disabled = true;
+        let uploadedMedia = [];
+        for (let i in quoteMedia) {
+            let media = quoteMedia[i];
+            try {
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                let mediaId = await API.uploadMedia({
+                    media_type: media.type,
+                    media_category: media.category,
+                    media: media.data,
+                    alt: media.alt,
+                    loadCallback: data => {
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                    }
+                });
+                uploadedMedia.push(mediaId);
+            } catch (e) {
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                console.error(e);
+                alert(e);
+            }
+        }
+        let tweetObject = {
+            status: text,
+            attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`,
+            auto_populate_reply_metadata: true,
+            batch_mode: 'off',
+            exclude_reply_user_ids: '',
+            cards_platform: 'Web-13',
+            include_entities: 1,
+            include_user_entities: 1,
+            include_cards: 1,
+            send_error_codes: 1,
+            tweet_mode: 'extended',
+            include_ext_alt_text: true,
+            include_reply_count: true
+        };
+        if (uploadedMedia.length > 0) {
+            tweetObject.media_ids = uploadedMedia.join(',');
+        }
+        let tweetData;
+        try {
+            tweetData = await API.postTweet(tweetObject)
+        } catch (e) {
+            tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
+            tweetQuoteButton.disabled = false;
+            return;
+        }
+        if (!tweetData) {
+            tweetQuoteError.innerHTML = "Error sending tweet<br>";
+            tweetQuoteButton.disabled = false;
+            return;
+        }
+        tweetQuoteText.value = '';
+        tweetQuote.hidden = true;
+        tweetData._ARTIFICIAL = true;
+        quoteMedia = [];
+        tweetQuoteButton.disabled = false;
+        tweetQuoteMedia.innerHTML = '';
+        timeline.data.unshift(tweetData);
+        appendTweet(tweetData, timelineContainer, { prepend: true });
     });
 
     // Favorite
@@ -517,8 +604,13 @@ function appendTweet(t, timelineContainer, options = {}) {
             try {
                 await API.deleteTweet(t.id_str);
             } catch (e) {
+                alert(e);
                 console.error(e);
                 return;
+            }
+            if(options.after) {
+                options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
+                options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
             }
             Array.from(document.getElementById('timeline').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                 tweet.remove();
@@ -577,16 +669,16 @@ function appendTweet(t, timelineContainer, options = {}) {
             });
         });
         if (t.extended_entities.media[0].type === 'animated_gif') {
-            if (downloading) return;
-            downloading = true;
             tweetInteractMoreMenuDownloadGif.addEventListener('click', () => {
+                if (downloading) return;
+                downloading = true;
                 let video = tweet.getElementsByClassName('tweet-media-element')[0];
                 let canvas = document.createElement('canvas');
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 let ctx = canvas.getContext('2d');
                 if (video.duration > 10 && !confirm('This video is longer than 10 seconds. Are you sure you want to convert it, might lag')) {
-                    return;
+                    return downloading = false;
                 }
                 let gif = new GIF({
                     workers: 2,
@@ -790,8 +882,8 @@ document.getElementById('new-tweet').addEventListener('click', async () => {
     document.getElementById('new-tweet-text').classList.add('new-tweet-text-focused');
     document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
 });
-document.getElementById('new-tweet-media-div').addEventListener('click', async () => {
-    let mediaContainer = document.getElementById('new-tweet-media-c');
+
+function getMedia(mediaArray, mediaContainer) {
     let input = document.createElement('input');
     input.type = 'file';
     input.multiple = true;
@@ -853,7 +945,9 @@ document.getElementById('new-tweet-media-div').addEventListener('click', async (
                 base64Data.push(reader.result);
                 if (base64Data.length === media.length) {
                     mediaContainer.innerHTML = '';
-                    mediaToUpload = [];
+                    while (mediaArray.length > 0) {
+                        mediaArray.pop();
+                    }
                     base64Data.forEach(data => {
                         let div = document.createElement('div');
                         let img = document.createElement('img');
@@ -884,11 +978,14 @@ document.getElementById('new-tweet-media-div').addEventListener('click', async (
                             type: file.type,
                             category: file.type.includes('gif') ? 'tweet_gif' : file.type.includes('video') ? 'tweet_video' : 'tweet_image'
                         };
-                        mediaToUpload.push(mediaObject);
+                        mediaArray.push(mediaObject);
                         img.src = file.type.includes('video') ? 'data:image/png;base64,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' : `data:${file.type};base64,${dataBase64}`;
                         remove.addEventListener('click', () => {
                             div.remove();
-                            mediaToUpload = mediaToUpload.filter(m => m.id !== img.id);
+                            for (let i = mediaToUpload.length - 1; i >= 0; i--) {
+                                let m = mediaToUpload[i];
+                                if (m.id !== img.id) mediaToUpload.splice(i, 1);
+                            }
                         });
                         div.append(img, progress, remove);
                         if (!file.type.includes('video')) {
@@ -904,6 +1001,15 @@ document.getElementById('new-tweet-media-div').addEventListener('click', async (
         }
     });
     input.click();
+};
+
+document.getElementById('new-tweet-media-div').addEventListener('click', async () => {
+    getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
+});
+document.getElementById('new-tweet-text').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && e.ctrlKey) {
+        document.getElementById('new-tweet-button').click();
+    }
 });
 document.getElementById('new-tweet-button').addEventListener('click', async () => {
     let tweet = document.getElementById('new-tweet-text').value;
