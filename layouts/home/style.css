@@ -91,17 +91,17 @@ body {
     text-decoration: none;
 }
 #center-cell {
-    margin-top: 65px;
+    margin-top: 55px;
 }
 #left-cell {
-    top: 65px;
+    top: 55px;
     position: sticky;
     height: fit-content;
     margin-right: 10px;
     margin-left: 10px;
 }
 #right-cell {
-    top: 65px;
+    top: 55px;
     position: sticky;
     height: fit-content;
     margin-left: 10px;
@@ -590,6 +590,7 @@ body {
     margin-bottom: 0 !important;
     padding: 10px;
     color: #66757f;
+    background-color: #f5f8fa;
 }
 #new-tweet-avatar {
     vertical-align: top;

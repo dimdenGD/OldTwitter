@@ -1,3 +1,71 @@
-header {
+#navbar {
     position: fixed;
+    background-color: white;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    height: 46px;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    font-size: 13px;
+    color: #66757f;
+}
+#navbar-line {
+    top: 46px;
+    position: fixed;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    height: 1px;
+    width: 100%;
+    z-index: 99;
+    left: 0;
+}
+#navbar-container {
+    margin: 0 auto;
+    max-width: 1170px;
+}
+#home:before {
+    content: "\f179";
+}
+#notifications:before {
+    content: "\f055";
+}
+#messages:before {
+    content: "\f054";
+}
+#navbar a:before {
+    vertical-align: sub;
+    margin-right: 7px;
+    font-family: RosettaIcons;
+    font-size: 20px;
+}
+#navbar a {
+    color: #66757f;
+    text-decoration: none;
+}
+#navbar a:hover {
+    color: #55acee;
+}
+#navbar-links a {
+    padding: 13px 15px;
+    top: 8px;
+    position: relative;
+    border-bottom: 3px solid white;
+    transition: 0.1s;
+}
+#navbar-links a:hover {
+    border-bottom: 3px solid #55acee;
+    transition: 0.1s;
+}
+.menu-active {
+    border-bottom: 3px solid #55acee !important;
+}
+.menu-active:before {
+    color: #55acee !important;
+}
+.nav-count {
+    background: #55acee;
+    color: white;
+    border-radius: 25px;
+    padding: 3px 7px;
+    margin-left: 3px;
 }

@@ -13,10 +13,8 @@ function updateUserData() {
     API.verifyCredentials().then(u => {
         console.log(u);
         user = u;
-        chrome.runtime.sendMessage({
-            type: 'updateUserData',
-            data: u
-        });
+        const event = new CustomEvent('updateUserData', { detail: u });
+        document.dispatchEvent(event);
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
@@ -786,7 +784,7 @@ async function renderDiscovery(cache = true) {
     discoverContainer.innerHTML = '';
     try {
         let usersData = discover.globalObjects.users;
-        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 5); // why is it so deep
+        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
         usersSuggestions.forEach(userId => {
             let userData = usersData[userId];
             if (!userData) return;
