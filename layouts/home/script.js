@@ -13,6 +13,10 @@ function updateUserData() {
     API.verifyCredentials().then(u => {
         console.log(u);
         user = u;
+        chrome.runtime.sendMessage({
+            type: 'updateUserData',
+            data: u
+        });
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {

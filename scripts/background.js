@@ -43,8 +43,11 @@ let disableCSP = async (id) => {
             };
         });
     }
-
-    await chrome.declarativeNetRequest.updateSessionRules({ addRules, removeRuleIds });
+    try {
+        await chrome.declarativeNetRequest.updateSessionRules({ addRules, removeRuleIds });
+    } catch (error) {
+        console.log(error);
+    }
 
     isRunning = false;
 }

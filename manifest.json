@@ -22,6 +22,8 @@
       "resources": [
         "layouts/home/index.html",
         "layouts/home/style.css",
+        "layouts/header/index.html",
+        "layouts/header/style.css",
         "/images/logo32.png",
         "/fonts/rosetta.woff",
         "/libraries/gif.worker.js"
@@ -50,6 +52,11 @@
       "matches": ["https://twitter.com/*"],
       "js": ["scripts/config.js", "scripts/apis.js", "scripts/content.js"],
       "run_at": "document_start"
+    },
+    {
+      "matches": ["https://twitter.com/*"],
+      "js": ["layouts/header/script.js"],
+      "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/home"],
