@@ -29,14 +29,14 @@ async function updateTimeline() {
     tl.forEach(t => {
         let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
         let tweetElement = document.getElementById(`tweet-${t.id_str}`);
-        if(oldTweet) {
+        if (oldTweet) {
             oldTweet.favorite_count = t.favorite_count;
             oldTweet.retweet_count = t.retweet_count;
             oldTweet.reply_count = t.reply_count;
             oldTweet.favorited = t.favorited;
             oldTweet.retweeted = t.retweeted;
         }
-        if(tweetElement) {
+        if (tweetElement) {
             tweetElement.querySelector('.tweet-interact-favorite ').innerText = t.favorite_count;
             tweetElement.querySelector('.tweet-interact-retweet').innerText = t.retweet_count;
             tweetElement.querySelector('.tweet-interact-reply').innerText = t.reply_count;
@@ -111,13 +111,13 @@ function timeElapsed(targetTimestamp) {
 }
 function openInNewTab(href) {
     Object.assign(document.createElement('a'), {
-      target: '_blank',
-      rel: 'noopener noreferrer',
-      href: href,
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        href: href,
     }).click();
 }
 function escape(text) {
-    if(typeof text !== "string") return "";
+    if (typeof text !== "string") return "";
     return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
@@ -145,8 +145,8 @@ function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
     tweet.classList.add('tweet');
     tweet.id = `tweet-${t.id_str}`;
-    if(options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
-    if(options.noTop) tweet.classList.add('tweet-no-top');
+    if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
+    if (options.noTop) tweet.classList.add('tweet-no-top');
     const mediaClasses = [
         undefined,
         'tweet-media-element-one',
@@ -175,7 +175,7 @@ function appendTweet(t, timelineContainer, options = {}) {
             <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escape(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`).replace(/(?<!\w)#([\w+]{1,15}\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
-                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
+                ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
             </div>
             ` : ``}
             ${t.quoted_status ? `
@@ -209,6 +209,7 @@ function appendTweet(t, timelineContainer, options = {}) {
                     ${t.user.id_str === user.id_str ? `<span class="tweet-interact-more-menu-delete">Delete tweet</span><br>` : ``}
                     <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
+                    ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">Download as GIF</span><br>` : ``}
                 </div>
             </div>
             <div class="tweet-reply" hidden>
@@ -232,7 +233,7 @@ function appendTweet(t, timelineContainer, options = {}) {
             ` : ``}
         </div>
     `;
-    if(options.top) {
+    if (options.top) {
         tweet.querySelector('.tweet-top').hidden = false;
         const icon = document.createElement('span');
         icon.innerText = options.top.icon;
@@ -267,23 +268,24 @@ function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractRetweetMenuRetweet = tweet.getElementsByClassName('tweet-interact-retweet-menu-retweet')[0];
     const tweetInteractRetweetMenuQuote = tweet.getElementsByClassName('tweet-interact-retweet-menu-quote')[0];
 
-    const tweetInteractMoreMenu = tweet.getElementsByClassName('tweet-interact-more-menu')[0];    
+    const tweetInteractMoreMenu = tweet.getElementsByClassName('tweet-interact-more-menu')[0];
     const tweetInteractMoreMenuCopy = tweet.getElementsByClassName('tweet-interact-more-menu-copy')[0];
     const tweetInteractMoreMenuEmbed = tweet.getElementsByClassName('tweet-interact-more-menu-embed')[0];
     const tweetInteractMoreMenuShare = tweet.getElementsByClassName('tweet-interact-more-menu-share')[0];
     const tweetInteractMoreMenuAnalytics = tweet.getElementsByClassName('tweet-interact-more-menu-analytics')[0];
     const tweetInteractMoreMenuRefresh = tweet.getElementsByClassName('tweet-interact-more-menu-refresh')[0];
     const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
+    const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
 
     // Media
-    if(t.extended_entities && t.extended_entities.media) {
+    if (t.extended_entities && t.extended_entities.media) {
         const tweetMedia = tweet.getElementsByClassName('tweet-media')[0];
         tweetMedia.addEventListener('click', e => {
-            if(e.target.className.includes('tweet-media-element-censor')) {
+            if (e.target.className.includes('tweet-media-element-censor')) {
                 return e.target.classList.remove('tweet-media-element-censor');
             }
-            if(e.target.tagName === 'IMG') {
+            if (e.target.tagName === 'IMG') {
                 new Viewer(tweetMedia);
                 e.target.click();
             }
@@ -291,15 +293,15 @@ function appendTweet(t, timelineContainer, options = {}) {
     }
 
     // Links
-    if(tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
-        if(t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length-1].url !== tweetBodyText.lastChild.href) {
+    if (tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
+        if (t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length - 1].url !== tweetBodyText.lastChild.href) {
             tweetBodyText.lastChild.remove();
         }
     }
     let links = Array.from(tweetBodyText.getElementsByTagName('a')).filter(a => a.href.startsWith('https://t.co/'));
     links.forEach(a => {
         let link = t.entities.urls.find(u => u.url === a.href);
-        if(link) {
+        if (link) {
             a.innerText = link.display_url;
             a.href = link.expanded_url;
             a.target = '_blank';
@@ -313,8 +315,8 @@ function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
     });
     tweetInteractReply.addEventListener('click', () => {
-        if(!tweetQuote.hidden) tweetQuote.hidden = true;
-        if(tweetReply.hidden) {
+        if (!tweetQuote.hidden) tweetQuote.hidden = true;
+        if (tweetReply.hidden) {
             tweetInteractReply.classList.add('tweet-interact-reply-clicked');
         } else {
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
@@ -327,7 +329,7 @@ function appendTweet(t, timelineContainer, options = {}) {
     tweetReplyButton.addEventListener('click', async () => {
         tweetReplyError.innerHTML = '';
         let text = tweetReplyText.value;
-        if(text.length > 0) {
+        if (text.length > 0) {
             let tweetData;
             try {
                 tweetData = await API.postTweet({
@@ -345,11 +347,11 @@ function appendTweet(t, timelineContainer, options = {}) {
                     include_ext_alt_text: true,
                     include_reply_count: true
                 })
-            } catch(e) {
+            } catch (e) {
                 tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 return;
             }
-            if(!tweetData) {
+            if (!tweetData) {
                 tweetReplyError.innerHTML = "Error sending tweet<br>";
                 return;
             }
@@ -368,11 +370,11 @@ function appendTweet(t, timelineContainer, options = {}) {
         tweetQuote.hidden = true;
     });
     tweetInteractRetweet.addEventListener('click', async () => {
-        if(!tweetQuote.hidden) {
+        if (!tweetQuote.hidden) {
             tweetQuote.hidden = true;
             return;
         }
-        if(tweetInteractRetweetMenu.hidden) {
+        if (tweetInteractRetweetMenu.hidden) {
             tweetInteractRetweetMenu.hidden = false;
         }
         setTimeout(() => {
@@ -382,15 +384,15 @@ function appendTweet(t, timelineContainer, options = {}) {
         }, 50);
     });
     tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
-        if(!t.retweeted) {
+        if (!t.retweeted) {
             let tweetData;
             try {
                 tweetData = await API.retweetTweet(t.id_str);
-            } catch(e) {
+            } catch (e) {
                 console.error(e);
                 return;
             }
-            if(!tweetData) {
+            if (!tweetData) {
                 return;
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Unretweet';
@@ -401,11 +403,11 @@ function appendTweet(t, timelineContainer, options = {}) {
             let tweetData;
             try {
                 tweetData = await API.deleteTweet(t.current_user_retweet ? t.current_user_retweet.id_str : t.newTweetId);
-            } catch(e) {
+            } catch (e) {
                 console.error(e);
                 return;
             }
-            if(!tweetData) {
+            if (!tweetData) {
                 return;
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
@@ -415,7 +417,7 @@ function appendTweet(t, timelineContainer, options = {}) {
         }
     });
     tweetInteractRetweetMenuQuote.addEventListener('click', async () => {
-        if(!tweetReply.hidden) {
+        if (!tweetReply.hidden) {
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             tweetReply.hidden = true;
         }
@@ -427,7 +429,7 @@ function appendTweet(t, timelineContainer, options = {}) {
     tweetQuoteButton.addEventListener('click', async () => {
         tweetQuoteError.innerHTML = '';
         let text = tweetQuoteText.value;
-        if(text.length > 0) {
+        if (text.length > 0) {
             let tweetData;
             try {
                 tweetData = await API.postTweet({
@@ -445,11 +447,11 @@ function appendTweet(t, timelineContainer, options = {}) {
                     include_ext_alt_text: true,
                     include_reply_count: true
                 })
-            } catch(e) {
+            } catch (e) {
                 tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 return;
             }
-            if(!tweetData) {
+            if (!tweetData) {
                 tweetQuoteError.innerHTML = "Error sending tweet<br>";
                 return;
             }
@@ -463,7 +465,7 @@ function appendTweet(t, timelineContainer, options = {}) {
 
     // Favorite
     tweetInteractFavorite.addEventListener('click', () => {
-        if(t.favorited) {
+        if (t.favorited) {
             API.unfavoriteTweet({
                 id: t.id_str
             });
@@ -484,7 +486,7 @@ function appendTweet(t, timelineContainer, options = {}) {
 
     // More
     tweetInteractMore.addEventListener('click', () => {
-        if(tweetInteractMoreMenu.hidden) {
+        if (tweetInteractMoreMenu.hidden) {
             tweetInteractMoreMenu.hidden = false;
         }
         setTimeout(() => {
@@ -497,21 +499,21 @@ function appendTweet(t, timelineContainer, options = {}) {
         navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
     });
     tweetInteractMoreMenuShare.addEventListener('click', () => {
-        navigator.share({url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`});
+        navigator.share({ url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}` });
     });
     tweetInteractMoreMenuEmbed.addEventListener('click', () => {
         openInNewTab(`https://publish.twitter.com/?query=https://twitter.com/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
     });
-    if(t.user.id_str === user.id_str) {
+    if (t.user.id_str === user.id_str) {
         tweetInteractMoreMenuAnalytics.addEventListener('click', () => {
             openInNewTab(`https://twitter.com/dimdenEFF/status/${t.id_str}/analytics`);
         });
         tweetInteractMoreMenuDelete.addEventListener('click', async () => {
             let sure = confirm("Are you sure you want to delete this tweet?");
-            if(!sure) return;
+            if (!sure) return;
             try {
                 await API.deleteTweet(t.id_str);
-            } catch(e) {
+            } catch (e) {
                 console.error(e);
                 return;
             }
@@ -522,27 +524,27 @@ function appendTweet(t, timelineContainer, options = {}) {
         let tweetData;
         try {
             tweetData = await API.getTweet(t.id_str);
-        } catch(e) {
+        } catch (e) {
             console.error(e);
             return;
         }
-        if(!tweetData) {
+        if (!tweetData) {
             return;
         }
         let tweetIndex = timeline.data.findIndex(tweet => tweet.id_str === t.id_str);
-        if(tweetIndex !== -1) {
+        if (tweetIndex !== -1) {
             timeline.data[tweetIndex] = tweetData;
         }
-        if(tweetInteractFavorite.className.includes('tweet-interact-favorited') && !tweetData.favorited) {
+        if (tweetInteractFavorite.className.includes('tweet-interact-favorited') && !tweetData.favorited) {
             tweetInteractFavorite.classList.remove('tweet-interact-favorited');
         }
-        if(tweetInteractRetweet.className.includes('tweet-interact-retweeted') && !tweetData.retweeted) {
+        if (tweetInteractRetweet.className.includes('tweet-interact-retweeted') && !tweetData.retweeted) {
             tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
         }
-        if(!tweetInteractFavorite.className.includes('tweet-interact-favorited') && tweetData.favorited) {
+        if (!tweetInteractFavorite.className.includes('tweet-interact-favorited') && tweetData.favorited) {
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }
-        if(!tweetInteractRetweet.className.includes('tweet-interact-retweeted') && tweetData.retweeted) {
+        if (!tweetInteractRetweet.className.includes('tweet-interact-retweeted') && tweetData.retweeted) {
             tweetInteractRetweet.classList.add('tweet-interact-retweeted');
         }
         tweetInteractFavorite.innerText = tweetData.favorite_count;
@@ -550,9 +552,9 @@ function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractReply.innerText = tweetData.reply_count;
     });
     let downloading = false;
-    if(t.extended_entities && t.extended_entities.media.length === 1) {
+    if (t.extended_entities && t.extended_entities.media.length === 1) {
         tweetInteractMoreMenuDownload.addEventListener('click', () => {
-            if(downloading) return;
+            if (downloading) return;
             downloading = true;
             let media = t.extended_entities.media[0];
             let url = media.type === 'photo' ? media.media_url_https : media.video_info.variants[0].url;
@@ -569,9 +571,56 @@ function appendTweet(t, timelineContainer, options = {}) {
                 console.error(e);
             });
         });
+        if (t.extended_entities.media[0].type === 'animated_gif') {
+            if (downloading) return;
+            downloading = true;
+            tweetInteractMoreMenuDownloadGif.addEventListener('click', () => {
+                let video = tweet.getElementsByClassName('tweet-media-element')[0];
+                let canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                let ctx = canvas.getContext('2d');
+                if (video.duration > 10 && !confirm('This video is longer than 10 seconds. Are you sure you want to convert it, might lag')) {
+                    return;
+                }
+                let gif = new GIF({
+                    workers: 2,
+                    quality: 10
+                });
+                video.currentTime = 0;
+                video.loop = false;
+                let isFirst = true;
+                let interval = setInterval(async () => {
+                    if(isFirst) {
+                        video.currentTime = 0;
+                        isFirst = false;
+                        await sleep(5);
+                    }
+                    if (video.currentTime+0.1 >= video.duration) {
+                        clearInterval(interval);
+                        gif.on('finished', blob => {
+                            let a = document.createElement('a');
+                            a.href = URL.createObjectURL(blob);
+                            a.download = `${t.id_str}.gif`;
+                            document.body.append(a);
+                            a.click();
+                            a.remove();
+                            downloading = false;
+                            video.loop = true;
+                            video.play();
+                        });
+                        gif.render();
+                        return;
+                    }
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    gif.addFrame(imgData, { delay: 100 });
+                }, 100);
+            });
+        }
     }
 
-    if(options.prepend) {
+    if (options.prepend) {
         timelineContainer.prepend(tweet);
     } else {
         timelineContainer.append(tweet);
@@ -583,18 +632,18 @@ function renderTimeline() {
     let timelineContainer = document.getElementById('timeline');
     timelineContainer.innerHTML = '';
     timeline.data.forEach(t => {
-        if(t.retweeted_status) {
+        if (t.retweeted_status) {
             appendTweet(t.retweeted_status, timelineContainer, {
-                    top: {
+                top: {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escape(t.user.name)}</a> retweeted`,
                     icon: "\uf006",
                     color: "#77b255"
                 }
             });
         } else {
-            if(t.self_thread) {
+            if (t.self_thread) {
                 let selfThreadTweet = timeline.data.find(tweet => tweet.id_str === t.self_thread.id_str);
-                if(selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
+                if (selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
                     appendTweet(selfThreadTweet, timelineContainer, {
                         selfThreadContinuation: true
                     });
@@ -614,7 +663,7 @@ function renderTimeline() {
     });
 }
 function renderNewTweetsButton() {
-    if(timeline.toBeUpdated > 0) {
+    if (timeline.toBeUpdated > 0) {
         document.getElementById('new-tweets').hidden = false;
         document.getElementById('new-tweets').innerText = `See new tweets`;
     } else {
@@ -630,7 +679,7 @@ async function renderDiscovery(cache = true) {
         let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 5); // why is it so deep
         usersSuggestions.forEach(userId => {
             let userData = usersData[userId];
-            if(!userData) return;
+            if (!userData) return;
             let udiv = document.createElement('div');
             udiv.className = 'wtf-user';
             udiv.innerHTML = `
@@ -646,7 +695,7 @@ async function renderDiscovery(cache = true) {
             `;
             const followBtn = udiv.querySelector('.discover-follow-btn');
             followBtn.addEventListener('click', async () => {
-                if(followBtn.className.includes('following')) {
+                if (followBtn.className.includes('following')) {
                     await API.unfollowUser(userData.screen_name);
                     followBtn.classList.remove('following');
                     followBtn.classList.add('follow');
@@ -659,15 +708,17 @@ async function renderDiscovery(cache = true) {
                     followBtn.innerText = 'Following';
                     userData.following = true;
                 }
-                chrome.storage.local.set({discoverData: {
-                    date: Date.now(),
-                    data: discover
-                }}, () => {})
+                chrome.storage.local.set({
+                    discoverData: {
+                        date: Date.now(),
+                        data: discover
+                    }
+                }, () => { })
             });
             discoverContainer.append(udiv);
             twemoji.parse(udiv);
         });
-    } catch(e) {
+    } catch (e) {
         console.warn(e);
     }
 }
@@ -676,7 +727,7 @@ async function renderTrends() {
     console.log(trends);
     let trendsContainer = document.getElementById('trends-list');
     trendsContainer.innerHTML = '';
-    trends.forEach(({trend}) => {
+    trends.forEach(({ trend }) => {
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend';
         trendDiv.innerHTML = `
@@ -691,13 +742,13 @@ async function renderTrends() {
 // On scroll to end of timeline, load more tweets
 let loadingNewTweets = false;
 document.addEventListener('scroll', async () => {
-    if((window.innerHeight + window.scrollY) >= document.body.offsetHeight-1000) {
-        if(loadingNewTweets || timeline.data.length === 0) return;
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+        if (loadingNewTweets || timeline.data.length === 0) return;
         loadingNewTweets = true;
         let tl;
         try {
-            tl = await API.getTimeline(timeline.data[timeline.data.length-1].id_str);
-        } catch(e) {
+            tl = await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+        } catch (e) {
             console.error(e);
             loadingNewTweets = false;
             return;
@@ -743,57 +794,57 @@ document.getElementById('new-tweet-media-div').addEventListener('click', async (
         let images = [];
         let videos = [];
         let gifs = [];
-        for(let i = 0; i < files.length; i++) {
+        for (let i = 0; i < files.length; i++) {
             let file = files[i];
-            if(file.type.includes('gif')) {
+            if (file.type.includes('gif')) {
                 // max 15 mb
-                if(file.size > 15000000) {
+                if (file.size > 15000000) {
                     return alert('GIFs must be less than 15 MB');
                 }
                 gifs.push(file);
-            } else if(file.type.includes('video')) {
+            } else if (file.type.includes('video')) {
                 // max 500 mb
-                if(file.size > 500000000) {
+                if (file.size > 500000000) {
                     return alert('Videos must be less than 500 MB');
                 }
                 videos.push(file);
-            } else if(file.type.includes('image')) {
+            } else if (file.type.includes('image')) {
                 // max 5 mb
-                if(file.size > 5000000) {
+                if (file.size > 5000000) {
                     return alert('Images must be less than 5 MB');
                 }
                 images.push(file);
             }
         }
         // either up to 4 images or 1 video or 1 gif
-        if(images.length > 0) {
-            if(images.length > 4) {
+        if (images.length > 0) {
+            if (images.length > 4) {
                 images = images.slice(0, 4);
             }
-            if(videos.length > 0 || gifs.length > 0) {
+            if (videos.length > 0 || gifs.length > 0) {
                 return alert('You can only upload up to 4 images or 1 video or 1 gif');
             }
         }
-        if(videos.length > 0) {
-            if(images.length > 0 || gifs.length > 0 || videos.length > 1) {
+        if (videos.length > 0) {
+            if (images.length > 0 || gifs.length > 0 || videos.length > 1) {
                 return alert('You can only upload up to 4 images or 1 video or 1 gif');
             }
         }
-        if(gifs.length > 0) {
-            if(images.length > 0 || videos.length > 0 || gifs.length > 1) {
+        if (gifs.length > 0) {
+            if (images.length > 0 || videos.length > 0 || gifs.length > 1) {
                 return alert('You can only upload up to 4 images or 1 video or 1 gif');
             }
         }
         // get base64 data
         let media = [...images, ...videos, ...gifs];
         let base64Data = [];
-        for(let i = 0; i < media.length; i++) {
+        for (let i = 0; i < media.length; i++) {
             let file = media[i];
             let reader = new FileReader();
             reader.readAsArrayBuffer(file);
             reader.onload = () => {
                 base64Data.push(reader.result);
-                if(base64Data.length === media.length) {
+                if (base64Data.length === media.length) {
                     mediaContainer.innerHTML = '';
                     mediaToUpload = [];
                     base64Data.forEach(data => {
@@ -809,7 +860,7 @@ document.getElementById('new-tweet-media-div').addEventListener('click', async (
                         let remove = document.createElement('span');
                         remove.className = "new-tweet-media-img-remove";
                         let alt;
-                        if(!file.type.includes('video')) {
+                        if (!file.type.includes('video')) {
                             alt = document.createElement('span');
                             alt.className = "new-tweet-media-img-alt";
                             alt.innerText = "ALT";
@@ -833,7 +884,7 @@ document.getElementById('new-tweet-media-div').addEventListener('click', async (
                             mediaToUpload = mediaToUpload.filter(m => m.id !== img.id);
                         });
                         div.append(img, progress, remove);
-                        if(!file.type.includes('video')) {
+                        if (!file.type.includes('video')) {
                             img.addEventListener('click', () => {
                                 new Viewer(mediaContainer);
                             });
@@ -843,16 +894,16 @@ document.getElementById('new-tweet-media-div').addEventListener('click', async (
                     });
                 }
             }
-        }    
+        }
     });
     input.click();
 });
 document.getElementById('new-tweet-button').addEventListener('click', async () => {
     let tweet = document.getElementById('new-tweet-text').value;
-    if(tweet.length === 0 && mediaToUpload.length === 0) return;
+    if (tweet.length === 0 && mediaToUpload.length === 0) return;
     document.getElementById('new-tweet-button').disabled = true;
     let uploadedMedia = [];
-    for(let i in mediaToUpload) {
+    for (let i in mediaToUpload) {
         let media = mediaToUpload[i];
         try {
             media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
@@ -866,7 +917,7 @@ document.getElementById('new-tweet-button').addEventListener('click', async () =
                 }
             });
             uploadedMedia.push(mediaId);
-        } catch(e) {
+        } catch (e) {
             media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
             console.error(e);
             alert(e);
@@ -886,7 +937,7 @@ document.getElementById('new-tweet-button').addEventListener('click', async () =
         include_ext_alt_text: true,
         include_reply_count: true
     };
-    if(uploadedMedia.length > 0) {
+    if (uploadedMedia.length > 0) {
         tweetObject.media_ids = uploadedMedia.join(',');
     }
     try {
@@ -895,7 +946,7 @@ document.getElementById('new-tweet-button').addEventListener('click', async () =
         appendTweet(tweet, document.getElementById('timeline'), {
             prepend: true
         });
-    } catch(e) {
+    } catch (e) {
         document.getElementById('new-tweet-button').disabled = false;
         console.error(e);
         alert(e);
@@ -926,13 +977,13 @@ API.getSettings().then(s => {
     updateTimeline();
     renderDiscovery();
     renderTrends();
-    setInterval(updateUserData, 60000*3);
+    setInterval(updateUserData, 60000 * 3);
     setInterval(updateTimeline, 60000);
-    setInterval(() => renderDiscovery(false), 60000*15);
-    setInterval(renderTrends, 60000*5);
+    setInterval(() => renderDiscovery(false), 60000 * 15);
+    setInterval(renderTrends, 60000 * 5);
 }).catch(e => {
     if (e === "Not logged in") {
         window.location.href = "https://twitter.com/login";
     }
     console.error(e);
-})
+});

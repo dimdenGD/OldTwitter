@@ -423,6 +423,9 @@ body {
 .tweet-interact-more-menu-download:before {
     content: "\f186";
 }
+.tweet-interact-more-menu-download-gif:before {
+    content: "\f309";
+}
 .tweet-interact-more-menu-delete:before {
     content: "\f154";
 }

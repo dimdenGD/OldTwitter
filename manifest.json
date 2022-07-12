@@ -3,15 +3,19 @@
   "description": "A new extension that returns old Twitter's look.",
   "version": "1.0.0",
   "manifest_version": 3,
+  "homepage_url": "https://github.com/dimdenGD/OldTwitter",
   "background": {
     "service_worker": "scripts/background.js"
   },
   "permissions": [
     "storage",
-    "declarativeNetRequest"
+    "declarativeNetRequest",
+    "browsingData",
+    "tabs"
   ],
   "host_permissions": [
-    "*://*.twitter.com/*"
+    "*://*.twitter.com/*",
+    "*://twitter.com/*"
   ],
   "web_accessible_resources": [
     {
@@ -19,20 +23,14 @@
         "layouts/home/index.html",
         "layouts/home/style.css",
         "/images/logo32.png",
-        "/fonts/rosetta.woff"
+        "/fonts/rosetta.woff",
+        "/libraries/gif.worker.js"
       ],
       "matches": [
         "*://*.twitter.com/*"
       ]
     }
   ],
-  "declarative_net_request" : {
-    "rule_resources" : [{
-      "id": "ruleset",
-      "enabled": true,
-      "path": "ruleset.json"
-    }]
-  },
   "icons": {
     "16": "/images/logo16.png",
     "32": "/images/logo32.png",
@@ -55,7 +53,7 @@
     },
     {
       "matches": ["https://twitter.com/home"],
-      "js": ["libraries/viewer.min.js", "libraries/twemoji.min.js", "layouts/home/script.js"],
+      "js": ["libraries/viewer.min.js", "libraries/twemoji.min.js", "layouts/home/script.js", "libraries/gif.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     }

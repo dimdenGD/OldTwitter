@@ -12,8 +12,8 @@
             ]
         },
         "condition": {
-            "urlFilter": "*://*.twitter.com/*",
-            "resourceTypes": ["main_frame", "sub_frame"]
+            "urlFilter": "*://twitter.com/*",
+            "resourceTypes": ["main_frame"]
         }
     }
 ]
