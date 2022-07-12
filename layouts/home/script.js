@@ -143,8 +143,7 @@ function renderUserData() {
 
 function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
-    tweet.classList.add('tweet');
-    tweet.id = `tweet-${t.id_str}`;
+    tweet.className = `tweet tweet-id-${t.id_str}`;
     if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if (options.noTop) tweet.classList.add('tweet-no-top');
     const mediaClasses = [
@@ -226,11 +225,11 @@ function appendTweet(t, timelineContainer, options = {}) {
                 <textarea maxlength="280" class="tweet-quote-text" placeholder="Cool quote tweet"></textarea>
                 <button class="tweet-quote-button nice-button">Quote</button>
             </div>
-            ${options.selfThreadContinuation && t.self_thread.id_str ? `
-            <span class="tweet-self-thread-line"></span>
-            <div class="tweet-self-thread-line-dots"></div>
-            <br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>
-            ` : ``}
+            <div class="tweet-self-thread-div" ${options.selfThreadContinuation && t.self_thread.id_str ? '' : 'hidden'}>
+                <span class="tweet-self-thread-line"></span>
+                <div class="tweet-self-thread-line-dots"></div>
+                <br>${options.selfThreadContinuation && t.self_thread.id_str ? `<a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : `<br>`}
+            </div>
         </div>
     `;
     if (options.top) {
@@ -361,7 +360,11 @@ function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractReply.innerText = parseInt(tweetInteractReply.innerText) + 1;
             tweetData._ARTIFICIAL = true;
             timeline.data.unshift(tweetData);
-            appendTweet(tweetData, timelineContainer, { prepend: true });
+            tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
+            appendTweet(tweetData, document.getElementById('timeline'), {
+                noTop: true,
+                after: tweet
+            });
         }
     });
 
@@ -517,7 +520,9 @@ function appendTweet(t, timelineContainer, options = {}) {
                 console.error(e);
                 return;
             }
-            tweet.remove();
+            Array.from(document.getElementById('timeline').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
+                tweet.remove();
+            });
         });
     }
     tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
@@ -620,7 +625,9 @@ function appendTweet(t, timelineContainer, options = {}) {
         }
     }
 
-    if (options.prepend) {
+    if(options.after) {
+        options.after.after(tweet);
+    } else if (options.prepend) {
         timelineContainer.prepend(tweet);
     } else {
         timelineContainer.append(tweet);
