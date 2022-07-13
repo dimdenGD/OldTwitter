@@ -143,7 +143,7 @@ function renderUserData() {
     twemoji.parse(document.getElementById('user-name'));
 }
 
-function appendTweet(t, timelineContainer, options = {}) {
+async function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
     tweet.addEventListener('click', e => {
         if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
@@ -166,7 +166,11 @@ function appendTweet(t, timelineContainer, options = {}) {
         (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
         (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
         (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ]
+    ];
+    let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
+    console.log(textWithoutLinks, isEnglish.languages[0]);
+    isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
     tweet.innerHTML = `
         <div class="tweet-top" hidden></div>
         <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img src="${t.user.profile_image_url_https.replace("_normal", "_bigger")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
@@ -179,6 +183,10 @@ function appendTweet(t, timelineContainer, options = {}) {
         <a class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body">
             <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escape(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`).replace(/(?<!\w)#([\w+]{1,15}\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
+            ${!isEnglish ? `
+            <br>
+            <span class="tweet-translate">Translate tweet</span>
+            ` : ``}
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
                 ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escape(m.ext_alt_text)}" title="${escape(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
@@ -259,6 +267,7 @@ function appendTweet(t, timelineContainer, options = {}) {
         tweet.querySelector('.tweet-top').append(icon, span);
     }
     const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
+    const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
 
     const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
     const tweetReplyUpload = tweet.getElementsByClassName('tweet-reply-upload')[0];
@@ -294,6 +303,17 @@ function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
     const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
+
+    // Translate
+    if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
+        let translated = await API.translateTweet(t.id_str);
+        tweetTranslate.hidden = true;
+        tweetBodyText.innerHTML += `<br>
+        <span style="font-size: 12px;color: #8899a6;">Translated from [${translated.translated_lang}]:</span>
+        <br>
+        <span>${translated.text}</span>`;
+        twemoji.parse(tweetBodyText);
+    });
 
     // Media
     if (t.extended_entities && t.extended_entities.media) {
@@ -734,14 +754,16 @@ function appendTweet(t, timelineContainer, options = {}) {
         timelineContainer.append(tweet);
     }
     twemoji.parse(tweet);
+    return tweet;
 }
 
-function renderTimeline() {
+async function renderTimeline() {
     let timelineContainer = document.getElementById('timeline');
     timelineContainer.innerHTML = '';
-    timeline.data.forEach(t => {
+    for(let i in timeline.data) {
+        let t = timeline.data[i];
         if (t.retweeted_status) {
-            appendTweet(t.retweeted_status, timelineContainer, {
+            await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escape(t.user.name)}</a> retweeted`,
                     icon: "\uf006",
@@ -752,23 +774,23 @@ function renderTimeline() {
             if (t.self_thread) {
                 let selfThreadTweet = timeline.data.find(tweet => tweet.id_str === t.self_thread.id_str);
                 if (selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
-                    appendTweet(selfThreadTweet, timelineContainer, {
+                    await appendTweet(selfThreadTweet, timelineContainer, {
                         selfThreadContinuation: true
                     });
-                    appendTweet(t, timelineContainer, {
+                    await appendTweet(t, timelineContainer, {
                         noTop: true
                     });
                     seenThreads.push(selfThreadTweet.id_str);
                 } else {
-                    appendTweet(t, timelineContainer, {
+                    await appendTweet(t, timelineContainer, {
                         selfThreadButton: true
                     });
                 }
             } else {
-                appendTweet(t, timelineContainer);
+                await appendTweet(t, timelineContainer);
             }
         }
-    });
+    };
 }
 function renderNewTweetsButton() {
     if (timeline.toBeUpdated > 0) {

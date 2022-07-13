@@ -506,6 +506,7 @@ body {
 .tweet-self-thread-button {
     text-decoration: none;
     font-size: 13px;
+    margin-top: 2px;
 }
 .tweet-self-thread-button:hover {
     text-decoration: underline;
@@ -530,6 +531,9 @@ body {
     display: unset;
     margin-left: -41px;
     margin-top: 2px;
+}
+.tweet:hover .tweet-self-thread-line-dots {
+    border: 2px #f5f8fa solid !important;
 }
 .user-verified::after {
     content: "\f099";
@@ -715,4 +719,13 @@ body {
 }
 #donate-button {
     transition: 1s;
+}
+.tweet-translate {
+    color: var(--link-color);
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: 2px;
+}
+.tweet-translate:hover {
+    text-decoration: underline;
 }
