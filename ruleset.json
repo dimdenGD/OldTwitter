@@ -15,5 +15,23 @@
             "urlFilter": "*://twitter.com/*",
             "resourceTypes": ["main_frame"]
         }
+    },
+    {
+        "id": 2,
+        "priority": 1,
+        "action": { "type": "block" },
+        "condition": {
+            "urlFilter": "*://twitter.com/manifest.json",
+            "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
+        }
+    },
+    {
+        "id": 3,
+        "priority": 1,
+        "action": { "type": "block" },
+        "condition": {
+            "urlFilter": "*://*.twitter.com/manifest.json",
+            "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
+        }
     }
 ]

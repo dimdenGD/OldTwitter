@@ -10,6 +10,8 @@ let page = pages.find(p => p.paths.includes(window.location.pathname) || p.paths
 
 (async () => {
     if(!page) return;
+    // invalidate manifest cache by blocking it
+    await fetch('/manifest.json').then(response => response.text()).catch(e => {});
     
     let html = await fetch(chrome.runtime.getURL(`layouts/${page.name}/index.html`)).then(response => response.text());
     let css = await fetch(chrome.runtime.getURL(`layouts/${page.name}/style.css`)).then(response => response.text());

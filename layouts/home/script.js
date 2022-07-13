@@ -376,9 +376,19 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetReplyButton.click();
         }
         tweetReplyChar.innerText = `${tweetReplyText.value.length}/280`;
+        if(tweetReplyText.value.length > 265) {
+            tweetReplyChar.style.color = "#c26363";
+        } else {
+            tweetReplyChar.style.color = "";
+        }
     });
     tweetReplyText.addEventListener('keyup', e => {
         tweetReplyChar.innerText = `${tweetReplyText.value.length}/280`;
+        if(tweetReplyText.value.length > 265) {
+            tweetReplyChar.style.color = "#c26363";
+        } else {
+            tweetReplyChar.style.color = "";
+        }
     });
     tweetReplyButton.addEventListener('click', async () => {
         tweetReplyError.innerHTML = '';
@@ -523,9 +533,19 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetQuoteButton.click();
         }
         tweetQuoteChar.innerText = `${tweetQuoteText.value.length}/280`;
+        if(tweetQuoteText.value.length > 265) {
+            tweetQuoteChar.style.color = "#c26363";
+        } else {
+            tweetQuoteChar.style.color = "";
+        }
     });
     tweetQuoteText.addEventListener('keyup', e => {
         tweetQuoteChar.innerText = `${tweetQuoteText.value.length}/280`;
+        if(tweetQuoteText.value.length > 265) {
+            tweetQuoteChar.style.color = "#c26363";
+        } else {
+            tweetQuoteChar.style.color = "";
+        }
     });
     tweetQuoteButton.addEventListener('click', async () => {
         let text = tweetQuoteText.value;
@@ -927,126 +947,6 @@ document.getElementById('new-tweet').addEventListener('click', async () => {
     document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
 });
 
-function getMedia(mediaArray, mediaContainer) {
-    let input = document.createElement('input');
-    input.type = 'file';
-    input.multiple = true;
-    input.accept = 'image/*,video/*,image/gif';
-    input.addEventListener('change', async () => {
-        let files = input.files;
-        let images = [];
-        let videos = [];
-        let gifs = [];
-        for (let i = 0; i < files.length; i++) {
-            let file = files[i];
-            if (file.type.includes('gif')) {
-                // max 15 mb
-                if (file.size > 15000000) {
-                    return alert('GIFs must be less than 15 MB');
-                }
-                gifs.push(file);
-            } else if (file.type.includes('video')) {
-                // max 500 mb
-                if (file.size > 500000000) {
-                    return alert('Videos must be less than 500 MB');
-                }
-                videos.push(file);
-            } else if (file.type.includes('image')) {
-                // max 5 mb
-                if (file.size > 5000000) {
-                    return alert('Images must be less than 5 MB');
-                }
-                images.push(file);
-            }
-        }
-        // either up to 4 images or 1 video or 1 gif
-        if (images.length > 0) {
-            if (images.length > 4) {
-                images = images.slice(0, 4);
-            }
-            if (videos.length > 0 || gifs.length > 0) {
-                return alert('You can only upload up to 4 images or 1 video or 1 gif');
-            }
-        }
-        if (videos.length > 0) {
-            if (images.length > 0 || gifs.length > 0 || videos.length > 1) {
-                return alert('You can only upload up to 4 images or 1 video or 1 gif');
-            }
-        }
-        if (gifs.length > 0) {
-            if (images.length > 0 || videos.length > 0 || gifs.length > 1) {
-                return alert('You can only upload up to 4 images or 1 video or 1 gif');
-            }
-        }
-        // get base64 data
-        let media = [...images, ...videos, ...gifs];
-        let base64Data = [];
-        for (let i = 0; i < media.length; i++) {
-            let file = media[i];
-            let reader = new FileReader();
-            reader.readAsArrayBuffer(file);
-            reader.onload = () => {
-                base64Data.push(reader.result);
-                if (base64Data.length === media.length) {
-                    mediaContainer.innerHTML = '';
-                    while (mediaArray.length > 0) {
-                        mediaArray.pop();
-                    }
-                    base64Data.forEach(data => {
-                        let div = document.createElement('div');
-                        let img = document.createElement('img');
-                        div.title = file.name;
-                        div.id = `new-tweet-media-img-${Date.now()}${Math.random()}`.replace('.', '-');
-                        div.className = "new-tweet-media-img-div";
-                        img.className = "new-tweet-media-img";
-                        let progress = document.createElement('span');
-                        progress.hidden = true;
-                        progress.className = "new-tweet-media-img-progress";
-                        let remove = document.createElement('span');
-                        remove.className = "new-tweet-media-img-remove";
-                        let alt;
-                        if (!file.type.includes('video')) {
-                            alt = document.createElement('span');
-                            alt.className = "new-tweet-media-img-alt";
-                            alt.innerText = "ALT";
-                            alt.addEventListener('click', () => {
-                                mediaObject.alt = prompt('Enter alt text for image');
-                            });
-                        }
-                        let dataBase64 = arrayBufferToBase64(data);
-                        let mediaObject = {
-                            div, img,
-                            id: img.id,
-                            data: data,
-                            dataBase64: dataBase64,
-                            type: file.type,
-                            category: file.type.includes('gif') ? 'tweet_gif' : file.type.includes('video') ? 'tweet_video' : 'tweet_image'
-                        };
-                        mediaArray.push(mediaObject);
-                        img.src = file.type.includes('video') ? 'data:image/png;base64,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' : `data:${file.type};base64,${dataBase64}`;
-                        remove.addEventListener('click', () => {
-                            div.remove();
-                            for (let i = mediaToUpload.length - 1; i >= 0; i--) {
-                                let m = mediaToUpload[i];
-                                if (m.id !== img.id) mediaToUpload.splice(i, 1);
-                            }
-                        });
-                        div.append(img, progress, remove);
-                        if (!file.type.includes('video')) {
-                            img.addEventListener('click', () => {
-                                new Viewer(mediaContainer);
-                            });
-                            div.append(alt);
-                        }
-                        mediaContainer.append(div);
-                    });
-                }
-            }
-        }
-    });
-    input.click();
-};
-
 document.getElementById('new-tweet-media-div').addEventListener('click', async () => {
     getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
 });
@@ -1054,10 +954,23 @@ document.getElementById('new-tweet-text').addEventListener('keydown', e => {
     if (e.key === 'Enter' && e.ctrlKey) {
         document.getElementById('new-tweet-button').click();
     }
-    document.getElementById('new-tweet-char').innerText = `${document.getElementById('new-tweet-text').value.length}/280`;
+    let charElement = document.getElementById('new-tweet-char');
+    charElement.innerText = `${e.target.value.length}/280`;
+    if (e.target.value.length > 265) {
+        charElement.style.color = "#c26363";
+    } else {
+        charElement.style.color = "";
+    }
 });
-document.getElementById('new-tweet-text').addEventListener('keyup', () => {
-    document.getElementById('new-tweet-char').innerText = `${document.getElementById('new-tweet-text').value.length}/280`;
+document.getElementById('new-tweet-text').addEventListener('keyup', e => {
+    let charElement = document.getElementById('new-tweet-char');
+    charElement.innerText = `${e.target.value.length}/280`;
+    charElement.innerText = `${e.target.value.length}/280`;
+    if (e.target.value.length > 265) {
+        charElement.style.color = "#c26363";
+    } else {
+        charElement.style.color = "";
+    }
 });
 document.getElementById('new-tweet-button').addEventListener('click', async () => {
     let tweet = document.getElementById('new-tweet-text').value;
@@ -1107,11 +1020,9 @@ document.getElementById('new-tweet-button').addEventListener('click', async () =
         appendTweet(tweet, document.getElementById('timeline'), {
             prepend: true
         });
-        toastr.success("Tweet sent!");
     } catch (e) {
         document.getElementById('new-tweet-button').disabled = false;
         console.error(e);
-        toastr.error(e);
     }
     document.getElementById('new-tweet-text').value = "";
     document.getElementById('new-tweet-media-c').innerHTML = "";
@@ -1133,6 +1044,10 @@ setInterval(() => {
     });
 }, 60000);
 
+document.addEventListener('newTweet', e => {
+    let tweet = e.detail;
+    appendTweet(tweet, document.getElementById('timeline'), { prepend: true });
+});
 // Run
 API.getSettings().then(s => {
     settings = s;

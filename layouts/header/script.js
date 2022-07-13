@@ -27,22 +27,98 @@ document.addEventListener('updateUserData', e => {
     }
     document.getElementById('navbar-tweet-button').addEventListener('click', () => {
         let modal = createModal(/*html*/`
-            <div id="navbar-new-tweet-container">
-                <div id="navbar-new-tweet">
-                    <img width="35" height="35" class="tweet-avatar" id="navbar-new-tweet-avatar">
-                    <span id="new-tweet-char">0/280</span>
-                    <textarea id="navbar-new-tweet-text" placeholder="What's happening?"></textarea>
-                    <div id="navbar-new-tweet-media-div">
-                        <span id="navbar-new-tweet-media"></span>
+            <div class="navbar-new-tweet-container">
+                <div class="navbar-new-tweet">
+                    <img width="35" height="35" class="navbar-new-tweet-avatar">
+                    <span class="navbar-new-tweet-char">0/280</span>
+                    <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="What's happening?"></textarea>
+                    <div class="navbar-new-tweet-media-div">
+                        <span class="navbar-new-tweet-media"></span>
                     </div>
-                    <div id="navbar-new-tweet-focused">
-                        <div id="navbar-new-tweet-media-cc"><div id="navbar-new-tweet-media-c"></div></div>
-                        <button id="navbar-new-tweet-button" class="nice-button">Tweet</button>
+                    <div class="navbar-new-tweet-focused">
+                        <div class="navbar-new-tweet-media-cc"><div class="navbar-new-tweet-media-c"></div></div>
+                        <button class="navbar-new-tweet-button nice-button">Tweet</button>
                         <br><br>
                     </div>
                 </div>
             </div>
-        `); 
+        `);
+        const newTweetText = modal.getElementsByClassName('navbar-new-tweet-text')[0];
+        const newTweetChar = modal.getElementsByClassName('navbar-new-tweet-char')[0];
+        const newTweetMedia = modal.getElementsByClassName('navbar-new-tweet-media')[0];
+        const newTweetMediaDiv = modal.getElementsByClassName('navbar-new-tweet-media-c')[0];
+        const newTweetButton = modal.getElementsByClassName('navbar-new-tweet-button')[0];
+
+        modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = user.profile_image_url_https.replace("_normal", "_bigger");
+        function updateCharCount(e) {
+            let char = e.target.value.length;
+            let charElement = newTweetChar;
+            charElement.innerText = `${char}/280`;
+            if(char > 265) {
+                charElement.style.color = "#c26363";
+            } else {
+                charElement.style.color = "";
+            }
+        }
+        newTweetText.addEventListener('keyup', updateCharCount);
+        newTweetText.addEventListener('keydown', updateCharCount);
+        let mediaToUpload = []; 
+        newTweetMedia.addEventListener('click', () => {
+            getMedia(mediaToUpload, newTweetMediaDiv); 
+        });
+        newTweetButton.addEventListener('click', async () => {
+            let tweet = newTweetText.value;
+            if (tweet.length === 0 && mediaToUpload.length === 0) return;
+            newTweetButton.disabled = true;
+            let uploadedMedia = [];
+            for (let i in mediaToUpload) {
+                let media = mediaToUpload[i];
+                try {
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                    let mediaId = await API.uploadMedia({
+                        media_type: media.type,
+                        media_category: media.category,
+                        media: media.data,
+                        alt: media.alt,
+                        loadCallback: data => {
+                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                        }
+                    });
+                    uploadedMedia.push(mediaId);
+                } catch (e) {
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                    console.error(e);
+                    alert(e);
+                }
+            }
+            let tweetObject = {
+                status: tweet,
+                auto_populate_reply_metadata: true,
+                batch_mode: 'off',
+                exclude_reply_user_ids: '',
+                cards_platform: 'Web-13',
+                include_entities: 1,
+                include_user_entities: 1,
+                include_cards: 1,
+                send_error_codes: 1,
+                tweet_mode: 'extended',
+                include_ext_alt_text: true,
+                include_reply_count: true
+            };
+            if (uploadedMedia.length > 0) {
+                tweetObject.media_ids = uploadedMedia.join(',');
+            }
+            try {
+                let tweet = await API.postTweet(tweetObject);
+                tweet._ARTIFICIAL = true;
+                const event = new CustomEvent('newTweet', { detail: tweet });
+                document.dispatchEvent(event);
+            } catch (e) {
+                document.getElementById('new-tweet-button').disabled = false;
+                console.error(e);
+            }
+            modal.remove();
+        });
     });
     updateUnread();
     setInterval(updateUnread, 20000);
