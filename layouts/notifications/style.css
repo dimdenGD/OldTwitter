@@ -3,6 +3,28 @@
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
 
+#loading-box {
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: fixed;
+}
+#loading-box-text:before {
+    content: "\f179";
+    vertical-align: sub;
+    font-family: RosettaIcons;
+    font-size: 64px;
+    color: #1da1f2;
+    margin-left: 20px;
+}
+#loading-box-container {
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 270px;
+    text-align: center;
+}
+
 a {
     color: var(--link-color);
     text-decoration: none;

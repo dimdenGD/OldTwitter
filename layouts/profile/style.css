@@ -3,6 +3,28 @@
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
 
+#loading-box {
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    position: fixed;
+}
+#loading-box-text:before {
+    content: "\f179";
+    vertical-align: sub;
+    font-family: RosettaIcons;
+    font-size: 64px;
+    color: #1da1f2;
+    margin-left: 20px;
+}
+#loading-box-container {
+    margin: 0 auto;
+    width: 100%;
+    margin-top: 270px;
+    text-align: center;
+}
+
 a {
     color: var(--link-color);
     text-decoration: none;
@@ -26,7 +48,7 @@ body {
     display: inline-block;
 }
 
-#content {
+.content {
     display: flex;
 }
 .box {
@@ -34,40 +56,7 @@ body {
     border-radius: 5px;
     border: 1px solid #e1e8ed;
 }
-#user-banner {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    object-fit: cover;
-}
-#user-avatar {
-    margin-left: 7px;
-    border: 4px solid white;
-    margin-top: -32px;
-    border-radius: 7px;
-}
-#user-name {
-    margin: 0;
-    left: 95px;
-    font-size: 22px;
-    position: relative;
-    bottom: 47px;
-    width: fit-content;
-    color: #292f33;
-}
-#user-handle {
-    margin: 0;
-    position: relative;
-    color: #6a7d8c;
-    font-size: 14px;
-    font-weight: 100;
-    left: 95px;
-    bottom: 48px;
-    width: fit-content;
-}
-#user-stats {
-    display: inline-flex;
-    padding-bottom: 7px;
-}
+
 .user-stat-div > h2 {
     color: #6a7d8c;
     font-size: 14px;
@@ -80,13 +69,17 @@ body {
     font-size: 20px;
     color: var(--link-color);
 }
-#user-info {
-    height: 5px;
-    display: block;
-    text-decoration: none;
+#profile-nav-left-cell {
+    height: fit-content;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 302px;
 }
-#center-cell {
-    margin-top: 55px;
+#profile-nav-right-cell {
+    height: fit-content;
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 250px;
 }
 #left-cell {
     top: 55px;
@@ -94,6 +87,7 @@ body {
     height: fit-content;
     margin-right: 10px;
     margin-left: 10px;
+    width: 302px;
 }
 #right-cell {
     top: 55px;
@@ -447,7 +441,7 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1, #trends h1 {
+#wtf h1 {
     margin: 0;
     display: inline-block;
     font-size: 22px;
@@ -559,18 +553,6 @@ body {
 .about-links a, .about-links span {
     color: #8899a6;
     margin-right: 8px;
-}
-
-#trends {
-    margin-top: 10px;
-    padding: 10px;
-}
-.trend {
-    margin-top: 10px;
-}
-.trend-description {
-    font-size: 14px;
-    color: #8899a6;
 }
 .emoji {
     width: 16px;
@@ -755,4 +737,53 @@ body {
 .tweet-interact-more-menu hr {
     border-top: #ccd6dd;
     margin: 2px;
+}
+
+#profile-banner {
+    width: 100%;
+    object-fit: cover;
+}
+
+@media(min-width: 1510px) {
+    #profile-banner {
+        height:420px
+    }
+}
+
+@media(min-width: 1670px) {
+    #profile-banner {
+        height:460px
+    }
+}
+
+@media(min-width: 1820px) {
+    #profile-banner {
+        height:500px
+    }
+}
+
+@media(min-width: 1990px) {
+    #profile-banner {
+        height:540px
+    }
+}
+
+@media(min-width: 2150px) {
+    #profile-banner {
+        height:580px
+    }
+}
+
+@media(min-width: 2300px) {
+    #profile-banner {
+        height:600px
+    }
+}
+
+#profile-nav {
+    background-color: white;
+    border-bottom: 1px solid #e1e8ed;
+    box-sizing: border-box;
+    height: 60px;
+    margin-bottom: 10px;
 }

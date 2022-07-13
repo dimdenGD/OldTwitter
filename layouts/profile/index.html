@@ -7,56 +7,32 @@
     <title>Old Twitter - Timeline</title>
 </head>
 <body>
+    <div id="loading-box">
+        <div id="loading-box-container">
+            <span id="loading-box-text"></span>
+        </div>
+    </div>
     <header></header>
+    <img id="profile-banner">
+    <div id="profile-nav">
+        <div class="content">
+            <div class="cell" id="profile-nav-left-cell">
+                
+            </div>
+            <div class="cell" id="profile-nav-center-cell">
+                
+            </div>
+            <div class="cell" id="profile-nav-right-cell">
+
+            </div>
+        </div>
+    </div>
     <main id="container">
-		<div id="content">
+		<div class="content">
             <div class="cell" id="left-cell">
-                <div id="user-div" class="box">
-                    <img id="user-banner" height="100" width="300">
-                    <div id="user-data">
-                        <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
-                        <a id="user-info">
-                            <h1 id="user-name">Loading</h1>
-                            <h2 id="user-handle">@loading</h2>
-                        </a>
-                        <div id="user-stats">
-                            <div class="user-stat-div">
-                                <h2>Tweets</h2>
-                                <h1 id="user-tweets">0</h1>
-                            </div>
-                            <div class="user-stat-div">
-                                <h2>Following</h2>
-                                <h1 id="user-following">0</h1>
-                            </div>
-                            <div class="user-stat-div">
-                                <h2>Followers</h2>
-                                <h1 id="user-followers">0</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div id="trends" class="box">
-                    <h1>Trends</h1>
-                    <div id="trends-list">
-                    </div>
-                </div>
+
             </div>
             <div class="cell" id="center-cell">
-                <div id="new-tweet-container">
-                    <div id="new-tweet" class="box">
-                        <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
-                        <span id="new-tweet-char" hidden>0/280</span>
-                        <textarea id="new-tweet-text" placeholder="What's happening?" maxlength="280"></textarea>
-                        <div id="new-tweet-media-div">
-                            <span id="new-tweet-media"></span>
-                        </div>
-                        <div id="new-tweet-focused" hidden>
-                            <div id="new-tweet-media-cc"><div id="new-tweet-media-c"></div></div>
-                            <button id="new-tweet-button" class="nice-button">Tweet</button>
-                            <br><br>
-                        </div>
-                    </div>
-                </div>
                 <div id="new-tweets" class="center-text" hidden></div>
                 <div id="timeline"></div>
             </div>

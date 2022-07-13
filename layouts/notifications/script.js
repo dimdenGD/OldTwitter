@@ -840,6 +840,7 @@ async function updateNotifications(append = false) {
         lastCursor = entries[entries.length-1].content.operation.cursor.value;
     }
     await renderNotifications(data, append);
+    document.getElementById('loading-box').hidden = true;
 }
 
 setTimeout(() => {
