@@ -12,7 +12,7 @@
 		<div id="content">
             <div class="cell" id="left-cell">
                 <div id="user-div" class="box">
-                    <img id="user-banner" height="100" width="310">
+                    <img id="user-banner" height="100" width="300">
                     <div id="user-data">
                         <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
                         <a id="user-info">
@@ -45,7 +45,8 @@
                 <div id="new-tweet-container">
                     <div id="new-tweet" class="box">
                         <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
-                        <textarea id="new-tweet-text" placeholder="What's happening?"></textarea>
+                        <span id="new-tweet-char" hidden>0/280</span>
+                        <textarea id="new-tweet-text" placeholder="What's happening?" maxlength="280"></textarea>
                         <div id="new-tweet-media-div">
                             <span id="new-tweet-media"></span>
                         </div>

@@ -184,6 +184,13 @@ body {
 .tweet-body, .tweet-interact, .tweet-body-text-quote {
     display: flow-root;
 }
+.tweet-body-quote {
+    background-color: white;
+}
+.tweet-body-quote:hover {
+    background-color: #f5f8fa;
+    text-decoration: none;
+}
 .tweet-body-text-long {
     font-size: 16px;
     line-height: 22px;
@@ -610,6 +617,10 @@ body {
     height: 23px;
     font-size: 18px;
     padding-right: 40px;
+    scrollbar-width: thin;
+}
+#new-tweet-text::-webkit-scrollbar {
+    width: 2px;
 }
 #new-tweet-text:focus {
     outline: none;
@@ -651,6 +662,22 @@ body {
     float: right;
     margin-top: 5px;
     left: 14px;
+    position: relative;
+}
+#new-tweet-char {
+    color: #8899a6;
+    font-size: 12px;
+    position: absolute;
+    margin-left: -46px;
+    margin-top: 38px;
+    width: 43px;
+    text-align: center;
+}
+.tweet-reply-char, .tweet-quote-char {
+    color: #8899a6;
+    font-size: 12px;
+    padding: 3px;
+    top: -10px;
     position: relative;
 }
 #new-tweet-button:before, .tweet-reply-button:before, .tweet-quote-button:before {

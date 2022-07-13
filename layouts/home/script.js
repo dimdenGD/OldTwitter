@@ -144,6 +144,7 @@ function renderUserData() {
 }
 
 async function appendTweet(t, timelineContainer, options = {}) {
+    if(seenThreads.includes(t.id_str)) return false;
     const tweet = document.createElement('div');
     tweet.addEventListener('click', e => {
         if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
@@ -169,9 +170,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
     ];
     let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
-    console.log(textWithoutLinks, isEnglish.languages[0]);
     isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
-    tweet.innerHTML = `
+    tweet.innerHTML = /*html*/`
         <div class="tweet-top" hidden></div>
         <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img src="${t.user.profile_image_url_https.replace("_normal", "_bigger")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
         <div class="tweet-header">
@@ -237,6 +237,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <span class="tweet-reply-error" style="color:red"></span>
                 <textarea maxlength="280" class="tweet-reply-text" placeholder="Cool reply tweet"></textarea>
                 <button class="tweet-reply-button nice-button">Reply</button><br>
+                <span class="tweet-reply-char">0/280</span><br>
                 <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
             </div>
             <div class="tweet-quote" hidden>
@@ -245,6 +246,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <span class="tweet-quote-error" style="color:red"></span>
                 <textarea maxlength="280" class="tweet-quote-text" placeholder="Cool quote tweet"></textarea>
                 <button class="tweet-quote-button nice-button">Quote</button><br>
+                <span class="tweet-quote-char">0/280</span><br>
                 <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
             </div>
             <div class="tweet-self-thread-div" ${options.selfThreadContinuation && t.self_thread.id_str ? '' : 'hidden'}>
@@ -275,6 +277,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetReplyButton = tweet.getElementsByClassName('tweet-reply-button')[0];
     const tweetReplyError = tweet.getElementsByClassName('tweet-reply-error')[0];
     const tweetReplyText = tweet.getElementsByClassName('tweet-reply-text')[0];
+    const tweetReplyChar = tweet.getElementsByClassName('tweet-reply-char')[0];
     const tweetReplyMedia = tweet.getElementsByClassName('tweet-reply-media')[0];
 
     const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
@@ -288,6 +291,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetQuoteButton = tweet.getElementsByClassName('tweet-quote-button')[0];
     const tweetQuoteError = tweet.getElementsByClassName('tweet-quote-error')[0];
     const tweetQuoteText = tweet.getElementsByClassName('tweet-quote-text')[0];
+    const tweetQuoteChar = tweet.getElementsByClassName('tweet-quote-char')[0];
     const tweetQuoteMedia = tweet.getElementsByClassName('tweet-quote-media')[0];
 
     const tweetInteractRetweetMenu = tweet.getElementsByClassName('tweet-interact-retweet-menu')[0];
@@ -371,6 +375,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if (e.key === 'Enter' && e.ctrlKey) {
             tweetReplyButton.click();
         }
+        tweetReplyChar.innerText = `${tweetReplyText.value.length}/280`;
+    });
+    tweetReplyText.addEventListener('keyup', e => {
+        tweetReplyChar.innerText = `${tweetReplyText.value.length}/280`;
     });
     tweetReplyButton.addEventListener('click', async () => {
         tweetReplyError.innerHTML = '';
@@ -514,6 +522,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if (e.key === 'Enter' && e.ctrlKey) {
             tweetQuoteButton.click();
         }
+        tweetQuoteChar.innerText = `${tweetQuoteText.value.length}/280`;
+    });
+    tweetQuoteText.addEventListener('keyup', e => {
+        tweetQuoteChar.innerText = `${tweetQuoteText.value.length}/280`;
     });
     tweetQuoteButton.addEventListener('click', async () => {
         let text = tweetQuoteText.value;
@@ -910,6 +922,7 @@ document.getElementById('wtf-refresh').addEventListener('click', async () => {
 });
 document.getElementById('new-tweet').addEventListener('click', async () => {
     document.getElementById('new-tweet-focused').hidden = false;
+    document.getElementById('new-tweet-char').hidden = false;
     document.getElementById('new-tweet-text').classList.add('new-tweet-text-focused');
     document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
 });
@@ -1041,6 +1054,10 @@ document.getElementById('new-tweet-text').addEventListener('keydown', e => {
     if (e.key === 'Enter' && e.ctrlKey) {
         document.getElementById('new-tweet-button').click();
     }
+    document.getElementById('new-tweet-char').innerText = `${document.getElementById('new-tweet-text').value.length}/280`;
+});
+document.getElementById('new-tweet-text').addEventListener('keyup', () => {
+    document.getElementById('new-tweet-char').innerText = `${document.getElementById('new-tweet-text').value.length}/280`;
 });
 document.getElementById('new-tweet-button').addEventListener('click', async () => {
     let tweet = document.getElementById('new-tweet-text').value;
@@ -1090,15 +1107,17 @@ document.getElementById('new-tweet-button').addEventListener('click', async () =
         appendTweet(tweet, document.getElementById('timeline'), {
             prepend: true
         });
+        toastr.success("Tweet sent!");
     } catch (e) {
         document.getElementById('new-tweet-button').disabled = false;
         console.error(e);
-        alert(e);
+        toastr.error(e);
     }
     document.getElementById('new-tweet-text').value = "";
     document.getElementById('new-tweet-media-c').innerHTML = "";
     mediaToUpload = [];
     document.getElementById('new-tweet-focused').hidden = true;
+    document.getElementById('new-tweet-char').hidden = true;
     document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
     document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
     document.getElementById('new-tweet-button').disabled = false;

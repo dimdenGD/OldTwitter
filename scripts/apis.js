@@ -12,6 +12,26 @@ function arrayBufferToBase64(buffer) {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
+function createModal(html) {
+    let modal = document.createElement('div');
+    modal.classList.add('modal');
+    let modal_content = document.createElement('div');
+    modal_content.classList.add('modal-content');
+    modal_content.innerHTML = html;
+    modal.appendChild(modal_content);
+    let close = document.createElement('span');
+    close.classList.add('modal-close');
+    close.innerHTML = '&times;';
+    close.addEventListener('click', () => {
+        modal.remove();
+    });
+    modal.addEventListener('click', e => {
+        if(e.target === modal) modal.remove();
+    });
+    modal_content.appendChild(close);
+    document.body.appendChild(modal);
+    return modal;
+}
 
 API.verifyCredentials = () => {
     return new Promise((resolve, reject) => {

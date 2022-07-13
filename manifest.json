@@ -61,7 +61,7 @@
     },
     {
       "matches": ["https://twitter.com/home"],
-      "js": ["libraries/viewer.min.js", "libraries/twemoji.min.js", "layouts/home/script.js", "libraries/gif.js"],
+      "js": ["libraries/twemoji.min.js", "layouts/home/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     }

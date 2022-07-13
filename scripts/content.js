@@ -36,7 +36,7 @@ let page = pages.find(p => p.paths.includes(window.location.pathname) || p.paths
     header_style.innerHTML = header_css;
     document.head.appendChild(header_style);
 
-    let icon = document.createElement("link")
+    let icon = document.createElement("link");
     icon.href = chrome.runtime.getURL(`images/logo32.png`);
     icon.rel = "icon";
     icon.id = "site-icon";
