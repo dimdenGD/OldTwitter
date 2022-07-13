@@ -151,6 +151,57 @@ function getMedia(mediaArray, mediaContainer) {
     });
     input.click();
 };
+function timeElapsed(targetTimestamp) {
+    let currentDate = new Date();
+    let currentTimeInms = currentDate.getTime();
+    let targetDate = new Date(targetTimestamp);
+    let targetTimeInms = targetDate.getTime();
+    let elapsed = Math.floor((currentTimeInms - targetTimeInms) / 1000);
+    const MonthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ];
+    if (elapsed < 1) {
+        return '0s';
+    }
+    if (elapsed < 60) { //< 60 sec
+        return `${elapsed}s`;
+    }
+    if (elapsed < 3600) { //< 60 minutes
+        return `${Math.floor(elapsed / (60))}m`;
+    }
+    if (elapsed < 86400) { //< 24 hours
+        return `${Math.floor(elapsed / (3600))}h`;
+    }
+    if (elapsed < 604800) { //<7 days
+        return `${Math.floor(elapsed / (86400))}d`;
+    }
+    if (elapsed < 2628000) { //<1 month
+        return `${targetDate.getDate()} ${MonthNames[targetDate.getMonth()]}`;
+    }
+    return `${targetDate.getDate()} ${MonthNames[targetDate.getMonth()]} ${targetDate.getFullYear()}`; //more than a monh
+}
+function openInNewTab(href) {
+    Object.assign(document.createElement('a'), {
+        target: '_blank',
+        rel: 'noopener noreferrer',
+        href: href,
+    }).click();
+}
+function escape(text) {
+    if (typeof text !== "string") return "";
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
 
 API.verifyCredentials = () => {
     return new Promise((resolve, reject) => {
@@ -668,6 +719,144 @@ API.getUnreadCount = () => {
 API.translateTweet = id => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/translations/show.json?id=${id}&dest=en&use_display_text=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+
+API.getAccounts = (cache = true) => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(['accountsList'], d => {
+            if(cache && d.accountsList && Date.now() - d.accountsList.date < 60000*5) {
+                return resolve(d.accountsList.data);
+            }
+            fetch(`https://twitter.com/i/api/1.1/account/multi/list.json`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.public_token,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                    "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+                    "x-twitter-active-user": "yes",
+                    "x-twitter-client-language": "en"
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0].code === 32) {
+                    return reject("Not logged in");
+                }
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data);
+                chrome.storage.local.set({accountsList: {
+                    date: Date.now(),
+                    data
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
+        });
+    });
+}
+
+API.switchAccount = id => {
+    return new Promise((resolve, reject) => {
+        let status;
+        fetch(`https://twitter.com/i/api/1.1/account/multi/switch.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-active-user": "yes",
+                "x-twitter-client-language": "en",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `user_id=${id}`
+        }).then(i => {
+            status = i.status;
+            return i.text();
+        }).then(data => {
+            if(String(status).startsWith("2")) {
+                resolve(data);
+            } else {
+                reject(data);
+            }
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+
+API.getNotifications = () => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/2/notifications/all.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=40&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+            },
+            credentials: "include",
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.markAsReadNotifications = cursor => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/2/notifications/all/last_seen_cursor.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
+            },
+            credentials: "include",
+            method: 'post',
+            body: `cursor=${cursor}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+
+API.search = query => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/search/typeahead.json?q=${encodeURIComponent(query)}&count=5&prefetch=false&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,

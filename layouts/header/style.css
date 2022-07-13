@@ -1,3 +1,8 @@
+:root {
+    --link-color: #3300FF;
+    --font: Arial, sans-serif;
+}
+
 #navbar {
     position: fixed;
     background-color: white;
@@ -127,6 +132,7 @@
     border: 1px solid #e1e8ed;
     border-radius: 21px;
     transition: all .2s ease-in-out;
+    font-family: var(--font);
 }
 
 #search-input:focus {
@@ -215,6 +221,7 @@
     border: 1px solid rgba(0, 0, 0, 0.4);
     padding: 1px 15px 10px 15px;
     margin-left: 15px;
+    font-family: var(--font);
 }
 #navbar-tweet-button:hover {
     filter: brightness(0.9);
@@ -394,4 +401,70 @@
 }
 .nice-button:disabled:before {
     color: lightgray !important;
+}
+#navbar-user-menu {
+    position: absolute;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #8899a6;
+    border: 1px solid #8899a6;
+    min-width: 130px;
+}
+#navbar-user-menu hr {
+    border-top: #ccd6dd;
+    margin: 3px;
+}
+#navbar-user-menu-links a:before {
+    font-family: RosettaIcons;
+    margin-right: 5px;
+    color: #8899a6;
+    font-size: 14px;
+    vertical-align: text-bottom;
+    width: 12px;
+    display: inline-block;
+    margin-left: 3px;
+}
+#navbar-user-menu-profile:before {
+    content: "\f056";
+}
+#navbar-user-menu-settings:before {
+    content: "\f059";
+}
+#navbar-user-menu-display:before {
+    content: "\f112";
+}
+#navbar-user-menu-accounts:before {
+    content: "\f205";
+}
+.navbar-user-account {
+    cursor: pointer;
+}
+.navbar-user-account-avatar, .search-result-item-avatar {
+    border-radius: 5px;
+    vertical-align: middle;
+    margin-bottom: 3px;
+}
+#navbar-user-accounts {
+    margin-top: 3px;
+    padding: 2px;
+}
+#search-results {
+    margin-top: 2px;
+    position: absolute;
+    background: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #8899a6;
+    border: 1px solid #8899a6;
+    min-width: 130px;
+}
+.search-result-item {
+    display: block;
+}
+.search-result-item-screen-name {
+    font-weight: normal;
+    margin-left: 3px;
 }

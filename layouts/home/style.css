@@ -3,11 +3,6 @@
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
 
-:root {
-    --link-color: #3300FF;
-    --font: Arial, sans-serif;
-}
-
 a {
     color: var(--link-color);
     text-decoration: none;
@@ -361,10 +356,11 @@ body {
     margin: 5px;
     border-radius: 7px;
     object-fit: cover;
+    block-size: auto;
     border: 1px solid #e1e8ed;
 }
 .tweet-media video {
-    object-fit: contain !important;
+    block-size: auto;
 }
 .tweet-media-element-four {
     max-width: 100px;
@@ -755,4 +751,8 @@ body {
 }
 .tweet-translate:hover {
     text-decoration: underline;
+}
+.tweet-interact-more-menu hr {
+    border-top: #ccd6dd;
+    margin: 2px;
 }

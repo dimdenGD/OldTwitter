@@ -12,9 +12,22 @@
             <div id="search">
                 <input id="search-input" type="text" placeholder="Search Twitter" autocomplete="off" spellcheck="false">
                 <button id="search-icon"></button>
+                <div id="search-results" hidden></div>
             </div>
             <div id="navbar-user">
                 <img id="navbar-user-avatar" width="32" height="32">
+                <div id="navbar-user-menu" hidden>
+                    <div id="navbar-user-menu-links">
+                        <a href="/" id="navbar-user-menu-profile">Profile</a><br>
+                        <a href="/old/settings" id="navbar-user-menu-settings">Settings</a><br>
+                        <a href="/old/display" id="navbar-user-menu-display">Display</a><br>
+                        <hr>
+                        <a href="/account/switch" id="navbar-user-menu-accounts">Manage accounts</a>
+                    </div>
+                    <div id="navbar-user-accounts">
+
+                    </div>
+                </div>
             </div>
             <button id="navbar-tweet-button">
                 <span id="navbar-tweet-highlight"></span>

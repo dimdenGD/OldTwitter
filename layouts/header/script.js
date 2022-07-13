@@ -1,6 +1,7 @@
 document.addEventListener('updateUserData', e => {
     let user = e.detail;
-    document.getElementById('navbar-user-avatar').src = user.profile_image_url_https.replace("_normal", "_bigger");
+    let userAvatar = document.getElementById('navbar-user-avatar');
+    userAvatar.src = user.profile_image_url_https.replace("_normal", "_bigger");
 
     async function updateUnread() {
         let unread = await API.getUnreadCount();
@@ -25,6 +26,28 @@ document.addEventListener('updateUserData', e => {
         }
         icon.href = total > 0 ? chrome.runtime.getURL(`images/logo32_notification.png`) : chrome.runtime.getURL(`images/logo32.png`);
     }
+    async function updateAccounts() {
+        let accounts = (await API.getAccounts()).users;
+        let accountsElement = document.getElementById('navbar-user-accounts');
+        accountsElement.innerHTML = '';
+        accounts.forEach(account => {
+            let accountElement = document.createElement('div');
+            accountElement.classList.add('navbar-user-account');
+            accountElement.innerHTML = `<img src="${account.avatar_image_url.replace("_normal", "_bigger")}" class="navbar-user-account-avatar" width="16" height="16"> ${account.screen_name}`;
+            accountElement.addEventListener('click', async () => {
+                if(account.screen_name === user.screen_name) return alert("You're already on this account!");
+                try {
+                    await API.switchAccount(account.user_id);
+                    window.location.reload();
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                }
+            });
+            accountsElement.appendChild(accountElement, document.createElement('br'));
+        });
+    }
+    
     document.getElementById('navbar-tweet-button').addEventListener('click', () => {
         let modal = createModal(/*html*/`
             <div class="navbar-new-tweet-container">
@@ -120,6 +143,59 @@ document.addEventListener('updateUserData', e => {
             modal.remove();
         });
     });
+
+    let searchInput = document.getElementById('search-input');
+    let searchResults = document.getElementById('search-results');
+    searchInput.addEventListener('focus', () => {
+        if(searchInput.value.length > 0) searchResults.hidden = false;
+    });
+    searchInput.addEventListener('blur', () => {
+        setTimeout(() => {
+            searchResults.hidden = true;
+        }, 50);
+    });
+    searchInput.addEventListener('keyup', async (e) => {
+        let query = searchInput.value;
+        if(query.length > 0) {
+            searchResults.hidden = false;
+        } else {
+            searchResults.hidden = true;
+        }
+        let search = await API.search(query);
+        searchResults.innerHTML = '';
+        search.topics.forEach(({topic}) => {
+            let topicElement = document.createElement('a');
+            topicElement.href = `/search?q=${topic}`;
+            topicElement.className = 'search-result-item';
+            topicElement.innerText = topic;
+            searchResults.appendChild(topicElement);
+        });
+        search.users.forEach(user => {
+            let userElement = document.createElement('a');
+            userElement.href = `/${user.screen_name}`;
+            userElement.className = 'search-result-item';
+            userElement.innerHTML = `
+                <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
+                <span class="search-result-item-name">${user.name}</span>
+                <span class="search-result-item-screen-name">@${user.screen_name}</span>
+            `;
+            searchResults.appendChild(userElement);
+        });
+    });
+
+    let userMenu = document.getElementById('navbar-user-menu');
+    userAvatar.addEventListener('click', () => {
+        userMenu.hidden = false;
+        setTimeout(() => {
+            document.body.addEventListener('click', e => {
+                setTimeout(() => {
+                    userMenu.hidden = true;
+                }, 50);
+            }, { once: true });
+        }, 50);
+    });
     updateUnread();
+    updateAccounts();
+    setInterval(updateAccounts, 60000*5);
     setInterval(updateUnread, 20000);
 });
