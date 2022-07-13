@@ -745,16 +745,16 @@ async function renderTrends() {
         twemoji.parse(trendDiv);
     });
 }
+let lastFirstCursor = undefined;
 let lastCursor = undefined;
 let aRegex = /<a[^>]*>([\s\S]*?)<\/a>/g;
-async function renderNotifications() {
-    let data = await API.getNotifications();
+async function renderNotifications(data, append = false) {
     let notificationsContainer = document.getElementById('notifications-div');
     let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
     let cursor = entries[0].content.operation.cursor.value;
-    if(lastCursor === cursor) return;
-    lastCursor = cursor;
-    notificationsContainer.innerHTML = '';
+    if(lastFirstCursor === cursor) return;
+    lastFirstCursor = cursor;
+    if(!append) notificationsContainer.innerHTML = '';
     let unreadBefore = +data.timeline.instructions.find(i => i.markEntriesUnreadGreaterThanSortIndex).markEntriesUnreadGreaterThanSortIndex.sortIndex;
     let unreadNotifications = 0;
     for(let i in entries) {
@@ -833,10 +833,22 @@ async function renderNotifications() {
         }, 1000);
     }
 }
+async function updateNotifications(append = false) {
+    let data = await API.getNotifications(append ? lastCursor : undefined);
+    if(append || !lastCursor) {
+        let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
+        lastCursor = entries[entries.length-1].content.operation.cursor.value;
+    }
+    await renderNotifications(data, append);
+}
 
 setTimeout(() => {
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
+    });
+    document.getElementById('notifications-more').addEventListener('click', async () => {
+        if(!lastCursor) return;
+        updateNotifications(true);
     });
     // Update dates every minute
     setInterval(() => {
@@ -861,11 +873,11 @@ setTimeout(() => {
         updateUserData();
         renderDiscovery();
         renderTrends();
-        renderNotifications();
+        updateNotifications();
         setInterval(updateUserData, 60000 * 3);
         setInterval(() => renderDiscovery(false), 60000 * 15);
         setInterval(renderTrends, 60000 * 5);
-        setInterval(renderNotifications, 20000);
+        setInterval(updateNotifications, 20000);
     }).catch(e => {
         if (e === "Not logged in") {
             window.location.href = "https://twitter.com/login";

@@ -645,3 +645,17 @@ body {
 .notification-avatar img {
     border-radius: 5px;
 }
+.center-text {
+    background-color: white;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #8899a6;
+    border: 1px solid #e1e8ed;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.center-text:hover {
+    text-decoration: underline;
+}

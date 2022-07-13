@@ -8,10 +8,15 @@ let pages = [
         name: "notifications",
         paths: ["/old/notifications"],
         activeMenu: "notifications"
+    },
+    {
+        name: "profile",
+        paths: [/^\/[A-z-0-9-_]{1,15}$/g],
+        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore"],
     }
 ];
 
-let page = pages.find(p => p.paths.includes(window.location.pathname) || p.paths.find(r => r instanceof RegExp && r.test(window.location.pathname)));
+let page = pages.find(p => (!p.exclude || !p.exclude.includes(window.location.pathname)) && (p.paths.includes(window.location.pathname) || p.paths.find(r => r instanceof RegExp && r.test(window.location.pathname))));
 
 (async () => {
     if(!page) return;
