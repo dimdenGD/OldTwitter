@@ -27,6 +27,8 @@
       "resources": [
         "layouts/home/index.html",
         "layouts/home/style.css",
+        "layouts/notifications/index.html",
+        "layouts/notifications/style.css",
         "layouts/header/index.html",
         "layouts/header/style.css",
         "/images/logo32.png",
@@ -67,6 +69,12 @@
     {
       "matches": ["https://twitter.com/home"],
       "js": ["libraries/twemoji.min.js", "layouts/home/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
+      "css": ["libraries/viewer.min.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://twitter.com/old/notifications"],
+      "js": ["libraries/twemoji.min.js", "layouts/notifications/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     }

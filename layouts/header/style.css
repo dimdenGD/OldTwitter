@@ -468,3 +468,9 @@
     font-weight: normal;
     margin-left: 3px;
 }
+.search-result-item-verified::after {
+    content: "\f099";
+    color: #55acee;
+    font-family: RosettaIcons;
+    margin-left: 5px;
+}

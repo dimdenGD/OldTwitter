@@ -1,4 +1,15 @@
+let headerGotUser = false;
+let headerUserInterval = setInterval(() => {
+    if(!headerGotUser) {
+        const event = new CustomEvent('userRequest');
+        document.dispatchEvent(event);
+    } else {
+        clearInterval(headerUserInterval);
+    }
+}, 2000);
 document.addEventListener('updateUserData', e => {
+    if(headerGotUser) return;
+    headerGotUser = true;
     let user = e.detail;
     let userAvatar = document.getElementById('navbar-user-avatar');
     userAvatar.src = user.profile_image_url_https.replace("_normal", "_bigger");
@@ -11,6 +22,9 @@ document.addEventListener('updateUserData', e => {
         let dmsElement = document.getElementById('messages-count');
         let notifElement = document.getElementById('notifications-count');
         let icon = document.getElementById('site-icon');
+        if(location.pathname.startsWith('/old/notifications')) {
+            notifs = 0;
+        }
 
         if(dms > 0) {
             dmsElement.hidden = false;
@@ -176,7 +190,7 @@ document.addEventListener('updateUserData', e => {
             userElement.className = 'search-result-item';
             userElement.innerHTML = `
                 <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
-                <span class="search-result-item-name">${user.name}</span>
+                <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${user.name}</span>
                 <span class="search-result-item-screen-name">@${user.screen_name}</span>
             `;
             searchResults.appendChild(userElement);

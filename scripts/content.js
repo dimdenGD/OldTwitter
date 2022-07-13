@@ -3,6 +3,11 @@ let pages = [
         name: "home",
         paths: ["/", "/home"],
         activeMenu: "home"
+    },
+    {
+        name: "notifications",
+        paths: ["/old/notifications"],
+        activeMenu: "notifications"
     }
 ];
 
