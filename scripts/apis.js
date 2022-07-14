@@ -200,7 +200,7 @@ function openInNewTab(href) {
 }
 function escape(text) {
     if (typeof text !== "string") return "";
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 function stringInsert(string, index, value) {
     return string.substr(0, index) + value + string.substr(index);
@@ -1282,14 +1282,14 @@ API.getFollowing = (id, cursor) => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
-            let list = data.data.user.result.timeline.timeline.instructions.find(i => i.TimelineAddEntries).TimelineAddEntries.entries;
+            let list = data.data.user.result.timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
             resolve({
                 list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
                     let user = e.content.itemContent.user_results.result;
                     user.legacy.id_str = user.rest_id;
                     return user.legacy;
                 }),
-                cursor: list.filter(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
             });
         }).catch(e => {
             reject(e);
@@ -1336,14 +1336,14 @@ API.getFollowers = (id, cursor) => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
-            let list = data.data.user.result.timeline.timeline.instructions.find(i => i.TimelineAddEntries).TimelineAddEntries.entries;
+            let list = data.data.user.result.timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
             resolve({
                 list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
                     let user = e.content.itemContent.user_results.result;
                     user.legacy.id_str = user.rest_id;
                     return user.legacy;
                 }),
-                cursor: list.filter(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
             });
         }).catch(e => {
             reject(e);

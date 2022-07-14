@@ -8,7 +8,7 @@ let timeline = {
 let settings = {};
 let seenThreads = [];
 let pinnedTweet, followersYouFollow;
-let favoritesCursor;
+let favoritesCursor, followingCursor, followersCursor;
 
 // Util
 
@@ -50,19 +50,55 @@ function updateSelection() {
     }
 
     if(subpage === "profile") {
+        document.getElementById('tweet-nav').hidden = false;
+        document.getElementById('timeline').hidden = false;
+        document.getElementById('following-list').hidden = true;
+        document.getElementById('followers-list').hidden = true;
+        document.getElementById('following-more').hidden = true;
+        document.getElementById('followers-more').hidden = true;
         document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
         document.getElementById('tweet-nav-tweets').classList.add('tweet-nav-active');
     } else if(subpage === "likes") {
+        document.getElementById('tweet-nav').hidden = false;
+        document.getElementById('timeline').hidden = false;
+        document.getElementById('following-list').hidden = true;
+        document.getElementById('followers-list').hidden = true;
+        document.getElementById('following-more').hidden = true;
+        document.getElementById('followers-more').hidden = true;
         document.getElementById('profile-stat-favorites-link').classList.add('profile-stat-active');
     } else if(subpage === "replies") {
+        document.getElementById('tweet-nav').hidden = false;
+        document.getElementById('timeline').hidden = false;
+        document.getElementById('following-list').hidden = true;
+        document.getElementById('followers-list').hidden = true;
+        document.getElementById('following-more').hidden = true;
+        document.getElementById('followers-more').hidden = true;
         document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
         document.getElementById('tweet-nav-replies').classList.add('tweet-nav-active');
     } else if(subpage === "media") {
+        document.getElementById('tweet-nav').hidden = false;
+        document.getElementById('timeline').hidden = false;
+        document.getElementById('following-list').hidden = true;
+        document.getElementById('followers-list').hidden = true;
+        document.getElementById('following-more').hidden = true;
+        document.getElementById('followers-more').hidden = true;
         document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
         document.getElementById('tweet-nav-media').classList.add('tweet-nav-active');
     } else if(subpage === "following") {
+        document.getElementById('tweet-nav').hidden = true;
+        document.getElementById('timeline').hidden = true;
+        document.getElementById('following-list').hidden = false;
+        document.getElementById('followers-list').hidden = true;
+        document.getElementById('following-more').hidden = false;
+        document.getElementById('followers-more').hidden = true;
         document.getElementById('profile-stat-following-link').classList.add('profile-stat-active');
     } else if(subpage === "followers") {
+        document.getElementById('tweet-nav').hidden = true;
+        document.getElementById('timeline').hidden = true;
+        document.getElementById('following-list').hidden = true;
+        document.getElementById('followers-list').hidden = false;
+        document.getElementById('following-more').hidden = true;
+        document.getElementById('followers-more').hidden = false;
         document.getElementById('profile-stat-followers-link').classList.add('profile-stat-active');
     }
     if(subpage !== 'profile') document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
@@ -85,13 +121,14 @@ function updateUserData() {
                 pageUser = await API.getUserV2(user_handle);
             } catch(e) {
                 if(String(e).includes('User has been suspended.')) {
-                    return document.getElementById('loading-box-error').innerHTML = 'User has been suspended.<br><a href="https://twitter.com/home">Go to homepage</a>';
+                    return 
                 }
+                return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
             }
-            console.log(pageUser);
             try {
                 if(pageUser.id_str !== user.id_str) followersYouFollow = await API.friendsFollowing(pageUser.id_str);
             } catch(e) {
+                followersYouFollow = undefined;
                 console.error(e);
             }
             renderProfile();
@@ -146,35 +183,104 @@ async function updateTimeline() {
             tweetElement.querySelector('.tweet-interact-retweet').classList.toggle('tweet-interact-retweeted', t.retweeted);
         }
     });
-    let firstTweetId = tl[0].id_str;
     // first update
-    if (timeline.data.length === 0) {
-        timeline.data = tl;
-        renderTimeline();
-    }
-    // update
-    else {
-        let data = timeline.data.filter(t => !t._ARTIFICIAL);
-        if (data[0].id_str !== firstTweetId) {
-            timeline.toBeUpdated = data.findIndex(t => t.id_str === firstTweetId);
-            if (timeline.toBeUpdated === -1) {
-                timeline.toBeUpdated = data.length;
+    timeline.data = tl;
+    renderTimeline();
+}
+
+async function renderFollowing(clear = true, cursor) {
+    let followingList = document.getElementById('following-list');
+    if(clear) followingList.innerHTML = '';
+    let following = await API.getFollowing(pageUser.id_str, cursor);
+    followingCursor = following.cursor;
+    following = following.list;
+    following.forEach(u => {
+        let followingElement = document.createElement('div');
+        followingElement.classList.add('following-item');
+        followingElement.innerHTML = `
+        <div>
+            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
+                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                <div class="following-item-text">
+                    <span class="tweet-header-name following-item-name">${u.name}</span><br>
+                    <span class="tweet-header-handle">@${u.screen_name}</span>
+                </div>
+            </a>
+        </div>
+        <div>
+            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+        </div>`;
+
+        let followButton = followingElement.querySelector('.following-item-btn');
+        followButton.addEventListener('click', async () => {
+            if (followButton.classList.contains('following')) {
+                await API.unfollowUser(u.screen_name);
+                followButton.classList.remove('following');
+                followButton.classList.add('follow');
+                followButton.innerText = 'Follow';
+            } else {
+                await API.followUser(u.screen_name);
+                followButton.classList.remove('follow');
+                followButton.classList.add('following');
+                followButton.innerText = 'Following';
             }
-            timeline.dataToUpdate = tl.slice(0, timeline.toBeUpdated);
-            if (timeline.dataToUpdate.length !== data.length) {
-                timeline.dataToUpdate = timeline.dataToUpdate.concat(data.slice(timeline.toBeUpdated));
+        });
+
+        followingList.appendChild(followingElement);
+    });
+    document.getElementById('loading-box').hidden = true;
+}
+async function renderFollowers(clear = true, cursor) {
+    let followingList = document.getElementById('followers-list');
+    if(clear) followingList.innerHTML = '';
+    let following = await API.getFollowers(pageUser.id_str, cursor);
+    followersCursor = following.cursor;
+    following = following.list;
+    following.forEach(u => {
+        let followingElement = document.createElement('div');
+        followingElement.classList.add('following-item');
+        followingElement.innerHTML = `
+        <div>
+            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
+                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                <div class="following-item-text">
+                    <span class="tweet-header-name following-item-name">${u.name}</span><br>
+                    <span class="tweet-header-handle">@${u.screen_name}</span>
+                </div>
+            </a>
+        </div>
+        <div>
+            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+        </div>`;
+
+        let followButton = followingElement.querySelector('.following-item-btn');
+        followButton.addEventListener('click', async () => {
+            if (followButton.classList.contains('following')) {
+                await API.unfollowUser(u.screen_name);
+                followButton.classList.remove('following');
+                followButton.classList.add('follow');
+                followButton.innerText = 'Follow';
+            } else {
+                await API.followUser(u.screen_name);
+                followButton.classList.remove('follow');
+                followButton.classList.add('following');
+                followButton.innerText = 'Following';
             }
-            renderNewTweetsButton();
-        } else {
-            timeline.toBeUpdated = 0;
-            timeline.dataToUpdate = [];
-        }
-    }
+        });
+
+        followingList.appendChild(followingElement);
+    });
+    document.getElementById('loading-box').hidden = true;
 }
 
 let everAddedAdditional = false;
 function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
+    document.getElementById('profile-avatar').addEventListener('error', () => {
+        setTimeout(() => {
+            document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_400x400');
+        }, 500);
+    });
     document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_400x400');
     document.getElementById('nav-profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_bigger');
     document.getElementById('profile-name').innerText = pageUser.name;
@@ -331,6 +437,20 @@ function renderProfile() {
             <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>Unblock</button>
             <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user" href="https://twitter.com/messages/${user.id_str}-${pageUser.id_str}"></a>
         `;
+        buttonsElement.innerHTML += /*html*/`
+            <span class="profile-additional-thing" id="profile-settings"></span>
+            <div id="profile-settings-div" hidden>
+                <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications? `Stop getting notifications` : `Receive notifications`}<br></span>
+                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `Unblock @${pageUser.screen_name}` : `Block @${pageUser.screen_name}`}<br></span>
+                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? `Stop ignoring` : `Ignore`}<br></span>
+                ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">Remove from followers</span><br>` : ''}
+                <hr>
+                <span id="profile-settings-lists" style="width: 100%;">See lists<br></span>
+                <span id="profile-settings-share" style="width: 100%;">Share user<br></span>
+                <span id="profile-settings-copy" style="width: 100%;">Copy profile link<br></span>
+            </div>
+        `;
+        let clicked = false;
         let controlFollow = document.getElementById('control-follow');
         controlFollow.addEventListener('click', async () => {
             if (controlFollow.className.includes('following')) {
@@ -351,20 +471,6 @@ function renderProfile() {
                 document.getElementById('profile-settings-notifications').hidden = false;
             }
         });
-        buttonsElement.innerHTML += /*html*/`
-            <span class="profile-additional-thing" id="profile-settings"></span>
-            <div id="profile-settings-div" hidden>
-                <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications? `Stop getting notifications` : `Receive notifications`}<br></span>
-                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `Unblock @${pageUser.screen_name}` : `Block @${pageUser.screen_name}`}<br></span>
-                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? `Stop ignoring` : `Ignore`}<br></span>
-                ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">Remove from followers</span><br>` : ''}
-                <hr>
-                <span id="profile-settings-lists" style="width: 100%;">See lists<br></span>
-                <span id="profile-settings-share" style="width: 100%;">Share user<br></span>
-                <span id="profile-settings-copy" style="width: 100%;">Copy profile link<br></span>
-            </div>
-        `;
-        let clicked = false;
         document.getElementById('profile-settings').addEventListener('click', () => {
             document.getElementById('profile-settings-div').hidden = false;
             setTimeout(() => {
@@ -1350,6 +1456,14 @@ setTimeout(() => {
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
+    document.getElementById('following-more').addEventListener('click', async () => {
+        if(!followingCursor) return;
+        renderFollowing(false, followingCursor);
+    });
+    document.getElementById('followers-more').addEventListener('click', async () => {
+        if(!followersCursor) return;
+        renderFollowers(false, followersCursor);
+    });
     function updatePath(e) {
         if(e.target.classList.contains('tweet-nav-active') || e.target.classList.contains('profile-stat-active')) {
             return;
@@ -1368,7 +1482,13 @@ setTimeout(() => {
         seenThreads = [];
         pinnedTweet = undefined;
         favoritesCursor = undefined;
-        updateTimeline();
+        if(subpage !== 'following' && subpage !== 'followers') updateTimeline();
+        if(subpage === 'following') {
+            renderFollowing();
+        }
+        if(subpage === 'followers') {
+            renderFollowers();
+        }
     }
     document.getElementById('tweet-nav-tweets').addEventListener('click', updatePath);
     document.getElementById('tweet-nav-replies').addEventListener('click', updatePath);
@@ -1377,6 +1497,44 @@ setTimeout(() => {
     document.getElementById('profile-stat-following-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-followers-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-favorites-link').addEventListener('click', updatePath);
+    document.addEventListener('click', async e => {
+        let el = e.target;
+        if(el.tagName !== 'A') el = el.parentElement;
+        if(el.tagName === "A") {
+            let path = new URL(el.href).pathname;
+            if(/^\/[A-z-0-9-_]{1,15}$/.test(path)) {
+                e.preventDefault();
+                document.getElementById('loading-box').hidden = false;
+                everAddedAdditional = false;
+                document.getElementById('profile-media-div').innerHTML = '';
+                document.getElementById('tweet-to-bg').hidden = true;
+                document.getElementById('profile-additional').innerHTML = '';
+                document.getElementById('profile-friends-div').innerHTML = '';
+                history.pushState({}, null, `https://twitter.com/${path.substring(1)}`);
+                updateSubpage();
+                updateSelection();
+                await updateUserData();
+                updateTimeline();
+                renderDiscovery();
+            }
+        }
+    });
+    window.addEventListener("popstate", async () => {
+        let path = location.pathname;
+        if(/^\/[A-z-0-9-_]{1,15}$/.test(path)) {
+            document.getElementById('loading-box').hidden = false;
+            everAddedAdditional = false;
+            document.getElementById('profile-media-div').innerHTML = '';
+            document.getElementById('tweet-to-bg').hidden = true;
+            document.getElementById('profile-additional').innerHTML = '';
+            document.getElementById('profile-friends-div').innerHTML = '';
+            updateSubpage();
+            updateSelection();
+            await updateUserData();
+            updateTimeline();
+            renderDiscovery();
+        }
+    });
     
     // Update dates every minute
     setInterval(() => {
@@ -1404,9 +1562,14 @@ setTimeout(() => {
         settings = s;
         updateSubpage();
         await updateUserData();
-        updateTimeline();
+        if(subpage !== 'following' && subpage !== 'followers') updateTimeline();
+        if(subpage === 'following') {
+            renderFollowing()
+        }
+        if(subpage === 'followers') {
+            renderFollowers()
+        }
         renderDiscovery();
-        setInterval(updateTimeline, 60000);
         setInterval(() => renderDiscovery(false), 60000 * 15);
     }).catch(e => {
         if (e === "Not logged in") {

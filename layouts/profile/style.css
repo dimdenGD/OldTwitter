@@ -101,7 +101,7 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
-#timeline {
+#timeline, #following-list, #followers-list {
     width: 560px;
     margin-bottom: 10px;
 }
@@ -876,6 +876,9 @@ body {
     margin-bottom: 10px;
     word-wrap: break-word;
 }
+#tweet-nav[hidden] {
+    display: none !important;
+}
 #tweet-nav {
     background-color: white;
     border-top-left-radius: 5px;
@@ -1155,4 +1158,32 @@ body {
     margin-top: 10px;
     background: var(--link-color);
     border-radius: 5px;
+}
+.following-item-btn {
+    float: right;
+}
+.following-item-text {
+    width: fit-content;
+    display: inline-block;
+    position: relative;
+    bottom: 14px;
+    margin-left: 8px;
+}
+.following-item-link:hover {
+    text-decoration: none;
+}
+.following-item {
+    margin-bottom: 5px;
+}
+.following-item-btn {
+    position: relative;
+    bottom: 52px;
+    height: 40px;
+}
+#following-list, #followers-list {
+    padding: 10px;
+}
+.following-item-name {
+    position: absolute;
+    width: 300px;
 }
