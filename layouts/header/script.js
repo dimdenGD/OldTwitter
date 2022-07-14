@@ -10,6 +10,7 @@ setTimeout(() => {
         if(headerGotUser) return;
         headerGotUser = true;
         let user = e.detail;
+        console.log(user);
         let userAvatar = document.getElementById('navbar-user-avatar');
         userAvatar.src = user.profile_image_url_https.replace("_normal", "_bigger");
         document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
@@ -43,6 +44,7 @@ setTimeout(() => {
         async function updateAccounts() {
             let accounts = (await API.getAccounts()).users;
             let accountsElement = document.getElementById('navbar-user-accounts');
+            console.log(accounts);
             accountsElement.innerHTML = '';
             accounts.forEach(account => {
                 let accountElement = document.createElement('div');
@@ -54,11 +56,28 @@ setTimeout(() => {
                         await API.switchAccount(account.user_id);
                         window.location.reload();
                     } catch(e) {
+                        if((typeof(e) === 'string' && e.includes('User not found.')) || e.errors[0].code === 50) {
+                            window.location = 'https://twitter.com/account/switch';
+                        } else {
+                            alert(e);
+                        }
                         console.error(e);
-                        alert(e);
                     }
                 });
                 accountsElement.appendChild(accountElement, document.createElement('br'));
+            });
+            document.getElementById('navbar-user-menu-logout').addEventListener('click', async () => {
+                let modal = createModal(/*html*/`
+                    <span style="font-size:14px">OldTwitter only works when you're logged in.<br>
+                    If you don't have any other accounts in list you'll be redirected to login page. Are you sure?</span>
+                    <br><br>
+                    <button class="nice-button">Log me out</button>
+                `);
+                let button = modal.querySelector('button');
+                button.addEventListener('click', async () => {
+                    await API.logout();
+                    window.location.reload();
+                });
             });
         }
         
@@ -213,4 +232,13 @@ setTimeout(() => {
         setInterval(updateAccounts, 60000*5);
         setInterval(updateUnread, 20000);
     });
-}, 10);
+    setTimeout(() => {
+        document.getElementById('navbar').addEventListener('click', () => {
+            if(headerGotUser) return;
+            API.verifyCredentials().then(async u => {
+                const event = new CustomEvent('updateUserData', { detail: u });
+                document.dispatchEvent(event);
+            });
+        });
+    }, 1000);
+}, 50);

@@ -438,8 +438,23 @@
 #navbar-user-menu-accounts:before {
     content: "\f205";
 }
+#navbar-user-menu-logout {
+    color: #d34444 !important;
+}
+#navbar-user-menu-logout:before {
+    vertical-align: text-bottom !important;
+    width: 12px;
+    display: inline-block;
+    margin-left: 3px;
+    content: "\f065";
+    color: #d34444;
+    font-size: 16px !important;
+}
 .navbar-user-account {
     cursor: pointer;
+}
+.navbar-user-account:hover {
+    color: #55acee;
 }
 .navbar-user-account-avatar, .search-result-item-avatar {
     border-radius: 5px;

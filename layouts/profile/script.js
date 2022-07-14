@@ -7,7 +7,7 @@ let timeline = {
 }
 let settings = {};
 let seenThreads = [];
-let pinnedTweet;
+let pinnedTweet, followersYouFollow, relationship;
 
 // Util
 
@@ -25,13 +25,34 @@ function updateUserData() {
             user = u;
             const event = new CustomEvent('updateUserData', { detail: u });
             document.dispatchEvent(event);
-            pageUser = await API.getUser(location.pathname.slice(1).split("?")[0], false);
+            try {
+                pageUser = await API.getUser(location.pathname.slice(1).split("?")[0], false);
+            } catch(e) {
+                if(String(e).includes('User has been suspended.')) {
+                    return document.getElementById('loading-box-error').innerHTML = 'User has been suspended.<br><a href="https://twitter.com/home">Go to homepage</a>';
+                }
+            }
             console.log(pageUser);
+            try {
+                if(pageUser.id_str !== user.id_str) followersYouFollow = await API.friendsFollowing(pageUser.id_str);
+            } catch(e) {
+                console.error(e);
+            }
+            try {
+                if(pageUser.id_str !== user.id_str) relationship = (await API.getRelationship(pageUser.id_str)).relationship;
+            } catch(e) {
+                console.error(e);
+            }
             renderProfile();
-            let pageTweetsV2 = await API.getUserTweetsV2(pageUser.id_str);
-            pinnedTweet = findByKey(pageTweetsV2, 'pinned_tweet_ids_str');
-            if(pinnedTweet && pinnedTweet.length > 0) pinnedTweet = await API.getTweet(pinnedTweet[0]);
-            else pinnedTweet = undefined;
+            try {
+                let pageTweetsV2 = await API.getUserTweetsV2(pageUser.id_str);
+                pinnedTweet = findByKey(pageTweetsV2, 'pinned_tweet_ids_str');
+                if(pinnedTweet && pinnedTweet.length > 0) pinnedTweet = await API.getTweet(pinnedTweet[0]);
+                else pinnedTweet = undefined;
+            } catch(e) {
+                pinnedTweet = undefined;
+                console.error(e);
+            }
             resolve(u);
         }).catch(e => {
             if (e === "Not logged in") {
@@ -95,7 +116,9 @@ let everAddedAdditional = false;
 function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_400x400');
+    document.getElementById('nav-profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_bigger');
     document.getElementById('profile-name').innerText = pageUser.name;
+    document.getElementById('nav-profile-name').innerText = pageUser.name;
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
     }
@@ -103,14 +126,71 @@ function renderProfile() {
         document.getElementById('profile-name').classList.add('user-protected');
     }
     document.getElementById('profile-username').innerText = `@${pageUser.screen_name}`;
+    document.getElementById('nav-profile-username').innerText = `@${pageUser.screen_name}`;
     document.getElementById('profile-media-text').href = `https://twitter.com/${pageUser.screen_name}/media`;
-    document.getElementById('profile-bio').innerHTML = escape(pageUser.description).replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
+    document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
+    document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
+    document.getElementById('profile-stat-followers-link').href = `https://twitter.com/${pageUser.screen_name}/followers`;
+    document.getElementById('profile-stat-favorites-link').href = `https://twitter.com/${pageUser.screen_name}/likes`;
+    document.getElementById('profile-bio').innerHTML = escape(pageUser.description).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
     twemoji.parse(document.getElementById('profile-info'));
 
     document.getElementById('profile-stat-tweets-value').innerText = pageUser.statuses_count;
     document.getElementById('profile-stat-following-value').innerText = pageUser.friends_count;
     document.getElementById('profile-stat-followers-value').innerText = pageUser.followers_count;
     document.getElementById('profile-stat-favorites-value').innerText = pageUser.favourites_count;
+
+    if(followersYouFollow && followersYouFollow.total_count > 0) {
+        let friendsFollowing = document.getElementById('profile-friends-following');
+        let friendsFollowingList = document.getElementById('profile-friends-div');
+        let friendsFollowingText = document.getElementById('profile-friends-text');
+        friendsFollowingText.innerText = `${followersYouFollow.total_count} followers you know`;
+        friendsFollowingText.href = `https://twitter.com/${pageUser.screen_name}/followers_you_follow`;
+        followersYouFollow.users.forEach(u => {
+            let a = document.createElement('a');
+            a.href = `/${u.screen_name}`;
+            let avatar = document.createElement('img');
+            avatar.src = u.profile_image_url_https.replace('_normal', '_bigger');
+            avatar.width = 48;
+            avatar.height = 48;
+            avatar.classList.add('profile-friends-avatar');
+            a.append(avatar);
+            friendsFollowingList.append(a);
+        });
+        friendsFollowing.hidden = false;
+    }
+
+    let buttonsElement = document.getElementById('profile-nav-buttons');
+    if(pageUser.id_str === user.id_str) {
+        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" href="https://twitter.com/old/settings">Edit Profile</a>`;
+    } else {
+        if(pageUser.following) {
+            buttonsElement.innerHTML = `<button class="nice-button following control-btn" id="control-follow">Following</button>`;
+        } else {
+            buttonsElement.innerHTML = `<button class="nice-button follow control-btn" id="control-follow">Follow</button>`;
+        }
+        buttonsElement.innerHTML += `<a class="nice-button" id="mesage-user" href="https://twitter.com/messages/${user.id_str}-${pageUser.id_str}"></a>`;
+        let controlFollow = document.getElementById('control-follow');
+        controlFollow.addEventListener('click', async () => {
+            if (controlFollow.className.includes('following')) {
+                await API.unfollowUser(pageUser.screen_name);
+                controlFollow.classList.remove('following');
+                controlFollow.classList.add('follow');
+                controlFollow.innerText = 'Follow';
+                pageUser.following = false;
+                document.getElementById('profile-stat-followers-value').innerText = parseInt(document.getElementById('profile-stat-followers-value').innerText) - 1;
+            } else {
+                await API.followUser(pageUser.screen_name);
+                controlFollow.classList.add('following');
+                controlFollow.classList.remove('follow');
+                controlFollow.innerText = 'Following';
+                pageUser.following = true;
+                document.getElementById('profile-stat-followers-value').innerText = parseInt(document.getElementById('profile-stat-followers-value').innerText) + 1;
+            }
+        });
+
+        buttonsElement.innerHTML += `<span class="profile-additional-thing" id="profile-settings"></span>`;
+    }
 
     let links = Array.from(document.getElementById('profile-bio').getElementsByTagName('a'));
     links.forEach(link => {
@@ -915,10 +995,10 @@ async function renderDiscovery(cache = true) {
 }
 
 let loadingNewTweets = false;
-document.addEventListener('scroll', async () => {
+window.addEventListener('scroll', async () => {
     // banner scroll
     let banner = document.getElementById('profile-banner');
-    banner.style.top = `${Math.min(window.scrollY/3, 470/3)}px`;
+    banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
     // load more tweets
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
         if (loadingNewTweets || timeline.data.length === 0) return;

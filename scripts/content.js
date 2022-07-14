@@ -12,7 +12,7 @@ let pages = [
     {
         name: "profile",
         paths: [/^\/[A-z-0-9-_]{1,15}$/g],
-        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore"],
+        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"],
     }
 ];
 

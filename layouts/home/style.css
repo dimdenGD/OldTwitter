@@ -486,7 +486,7 @@ body {
 }
 
 @media screen and (max-width: 1195px) {
-    #wtf {
+    #wtf, #about {
         display: none;
     }
 }
@@ -500,8 +500,10 @@ body {
 .wtf-user-name {
     max-width: 93px;
     display: inline-block;
-    overflow: hidden;
     height: 17px;
+    display: table-caption;
+    overflow: hidden;
+    margin-right: 5px;
 }
 .wtf-user-handle {
     overflow: hidden;
@@ -514,14 +516,14 @@ body {
     padding: 4px 12px 4px 12px !important;
 }
 .follow:before {
-    color: #55acee;
+    color: #8899a6;
     font-family: RosettaIcons;
     content: "\f175";
     margin-right: 7px;
     vertical-align: text-bottom;
 }
 .following:before {
-    color: #55acee;
+    color: var(--link-color);
     font-family: RosettaIcons;
     content: "\f176";
     margin-right: 7px;

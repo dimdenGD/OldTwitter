@@ -9,7 +9,8 @@
 <body>
     <div id="loading-box">
         <div id="loading-box-container">
-            <span id="loading-box-text"></span>
+            <span id="loading-box-text"></span><br>
+            <span id="loading-box-error"></span>
         </div>
     </div>
     <header></header>
@@ -21,29 +22,37 @@
     <div id="profile-nav">
         <div class="container">
             <div class="content">
-                <div class="cell" id="profile-nav-left-cell"></div>
-                <div class="cell" id="profile-nav-center-cell">
-                    <div id="profile-stats">
-                        <div class="profile-stat">
-                            <span class="profile-stat-text">Tweets</span>
-                            <span id="profile-stat-tweets-value" class="profile-stat-value">0</span>
-                        </div>
-                        <div class="profile-stat">
-                            <span class="profile-stat-text">Following</span>
-                            <span id="profile-stat-following-value" class="profile-stat-value">0</span>
-                        </div>
-                        <div class="profile-stat">
-                            <span class="profile-stat-text">Followers</span>
-                            <span id="profile-stat-followers-value" class="profile-stat-value">0</span>
-                        </div>
-                        <div class="profile-stat">
-                            <span class="profile-stat-text">Favorites</span>
-                            <span id="profile-stat-favorites-value" class="profile-stat-value">0</span>
+                <div class="cell" id="profile-nav-left-cell">
+                    <div id="nav-profile-info">
+                        <a href="#"><img id="nav-profile-avatar" width="36" height="36"></a>
+                        <div id="nav-profile-info-text"> 
+                            <a href="#" class="pin-a"><span id="nav-profile-name"></span></a><br>
+                            <a href="#" class="piu-a" id="npu-a"><span id="nav-profile-username"></div></a>
                         </div>
                     </div>
                 </div>
+                <div class="cell" id="profile-nav-center-cell">
+                    <div id="profile-stats">
+                        <div class="profile-stat profile-stat-active" id="profile-stat-tweets-link">
+                            <span class="profile-stat-text">Tweets</span>
+                            <span id="profile-stat-tweets-value" class="profile-stat-value">0</span>
+                        </div>
+                        <a class="profile-stat" id="profile-stat-following-link">
+                            <span class="profile-stat-text">Following</span>
+                            <span id="profile-stat-following-value" class="profile-stat-value">0</span>
+                        </a>
+                        <a class="profile-stat" id="profile-stat-followers-link">
+                            <span class="profile-stat-text">Followers</span>
+                            <span id="profile-stat-followers-value" class="profile-stat-value">0</span>
+                        </a>
+                        <a class="profile-stat" id="profile-stat-favorites-link">
+                            <span class="profile-stat-text">Favorites</span>
+                            <span id="profile-stat-favorites-value" class="profile-stat-value">0</span>
+                        </a>
+                    </div>
+                </div>
                 <div class="cell" id="profile-nav-right-cell">
-    
+                    <div id="profile-nav-buttons"></div>
                 </div>
             </div>
         </div>
@@ -53,16 +62,21 @@
             <div class="cell" id="left-cell">
                 <div id="profile-info">
                     <img id="profile-avatar" width="200" height="200"><br>
-                    <div id="profile-info-text">
-                        <a href="#" id="pin-a"><h1 id="profile-name"></h1></a>
-                        <a href="#" id="piu-a"><div id="profile-username"></div></a>
-                        <div id="profile-bio"></div>
-                        <div id="profile-additional"></div>
+                </div>
+                <div id="profile-info-text">
+                    <a href="#" class="pin-a"><h1 id="profile-name"></h1></a>
+                    <a href="#" class="piu-a"><div id="profile-username"></div></a>
+                    <div id="profile-bio"></div>
+                    <div id="profile-additional"></div>
+                    <div id="profile-friends-following" hidden>
                         <br>
-                        <div id="profile-media">
-                            <a id="profile-media-text" class="profile-additional-thing" href="media">Photos and videos</a>
-                            <div id="profile-media-div"></div>
-                        </div>
+                        <a id="profile-friends-text" class="profile-additional-thing" href="followers_you_follow">0 followers you know</a>
+                        <div id="profile-friends-div"></div>
+                    </div>
+                    <br>
+                    <div id="profile-media">
+                        <a id="profile-media-text" class="profile-additional-thing" href="media">Photos and videos</a>
+                        <div id="profile-media-div"></div>
                     </div>
                 </div>
             </div>

@@ -89,7 +89,11 @@
         "https://twitter.com/messages",
         "https://twitter.com/settings",
         "https://twitter.com/explore",
-        "https://twitter.com/old/*"
+        "https://twitter.com/old/*",
+        "https://twitter.com/login",
+        "https://twitter.com/register",
+        "https://twitter.com/logout",
+        "https://twitter.com/i/*"
       ],
       "js": ["libraries/twemoji.min.js", "layouts/profile/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],

@@ -49,7 +49,7 @@ body {
 }
 
 .content {
-    display: flex;
+    display: inline-flex;
 }
 .box {
     background-color: white;
@@ -462,8 +462,14 @@ body {
 }
 
 @media screen and (max-width: 1195px) {
-    #wtf {
+    #wtf, #about {
         display: none;
+    }
+    #profile-nav-right-cell {
+        width: fit-content;
+    }
+    #profile-nav-center-cell {
+        width: fit-content;
     }
 }
 .wtf-user {
@@ -476,8 +482,10 @@ body {
 .wtf-user-name {
     max-width: 93px;
     display: inline-block;
-    overflow: hidden;
     height: 17px;
+    display: table-caption;
+    overflow: hidden;
+    margin-right: 5px;
 }
 .wtf-user-handle {
     overflow: hidden;
@@ -490,17 +498,19 @@ body {
     padding: 4px 12px 4px 12px !important;
 }
 .follow:before {
-    color: #55acee;
+    color: #8899a6;
     font-family: RosettaIcons;
     content: "\f175";
     margin-right: 7px;
+    font-size: 17px;
     vertical-align: text-bottom;
 }
 .following:before {
-    color: #55acee;
+    color: var(--link-color);
     font-family: RosettaIcons;
     content: "\f176";
     margin-right: 7px;
+    font-size: 17px;
     vertical-align: text-bottom;
 }
 .tweet-self-thread-button {
@@ -756,6 +766,8 @@ body {
     width: 100%;
     object-fit: cover;
     position: relative;
+    transition: 0.05s;
+    top: 5px;
 }
 
 @media(min-width: 1510px) {
@@ -799,7 +811,7 @@ body {
     border-bottom: 1px solid #e1e8ed;
     box-sizing: border-box;
     height: 60px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     position: sticky;
     bottom: 5px;
     top: 70px;
@@ -825,20 +837,22 @@ body {
     margin: 0;
     text-rendering: optimizeLegibility;
 }
-#pin-a {
+.pin-a {
     color: #292f33;
 }
-#piu-a {
+.piu-a {
     color: #8899a6;
     text-decoration: none;
 }
-#piu-a:hover, #pin-a:hover {
+.piu-a:hover, .pin-a:hover {
     text-decoration: underline;
 }
 #profile-info-text {
     margin-top: 10px;
     margin-left: 5px;
     padding-right: 20px;
+    position: relative;
+    bottom: 255px;
 }
 #profile-username {
     font-size: 14px;
@@ -865,7 +879,7 @@ body {
     line-height: 20px;
     display: block;
 }
-.profile-additional-thing:before {
+.profile-additional-thing:before, #edit-profile:before {
     font-family: RosettaIcons;
     font-size: 18px;
     margin-right: 5px;
@@ -887,6 +901,21 @@ body {
 #profile-media-text:before {
     content: "\f110";
 }
+#profile-friends-text:before {
+    content: "\f056"
+}
+#profile-settings:before {
+    font-size: 14px;
+    content: "\f059";
+}
+#profile-settings {
+    cursor: pointer;
+}
+#edit-profile:before {
+    content: "\f059";
+    font-size: 14px;
+    vertical-align: text-bottom;
+}
 .profile-media-preview {
     cursor: pointer;
     vertical-align: text-top;
@@ -896,4 +925,101 @@ body {
 }
 #profile-stats {
     display: inline-flex;
+    position: relative;
+    bottom: 27px;
+}
+.profile-stat-text {
+    font-size: 11px;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    transition: color .15s ease-in-out;
+    color: #66757f;
+}
+.profile-stat-value {
+    font-size: 18px;
+    padding-top: 3px;
+    font-weight: 500;
+    transition: color .15s ease-in-out;
+}
+.profile-stat {
+    display: grid;
+    text-align: center;
+    padding: 12px;
+    padding-bottom: 10px;
+    transition: color .15s ease-in-out;
+}
+.profile-stat {
+    border-bottom: 4px solid transparent;
+}
+.profile-stat:hover, .profile-stat-active {
+    text-decoration: none;
+    border-bottom: 4px solid var(--link-color);
+}
+.profile-stat:hover:not(.profile-stat-active) .profile-stat-text {
+    color: var(--link-color);
+}
+#nav-profile-avatar {
+    border-radius: 5px;
+    margin-right: 5px;
+}
+#nav-profile-info {
+    margin-top: 11px;
+    margin-left: 10px;
+    height: 39px;
+    overflow: hidden;
+    width: 200px;
+    display: flex;
+}
+#nav-profile-info-text {
+    display: inline-block;
+    position: relative;
+    bottom: 2px;
+}
+#nav-profile-name {
+    font-weight: 700;
+    font-size: 18px;
+    color: #292f33;
+}
+#nav-profile-username {
+    color: #66757f;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1;
+}
+#npu-a {
+    bottom: 3px;
+    position: relative;
+}
+#profile-nav-buttons {
+    position: relative;
+    margin-right: 8px;
+    margin-bottom: 2px;
+}
+#profile-nav-buttons * {
+    float: right;
+}
+.control-btn {
+    padding: 4px 12px 9px 12px !important;
+}
+.profile-friends-avatar {
+    border-radius: 5px;
+    margin: 2px;
+}
+#mesage-user {
+    margin-right: 6px;
+    padding: 6px 1px 6px 6px;
+}
+#mesage-user:before {
+    content: "\f157";
+    font-family: RosettaIcons;
+    font-size: 18px;
+    margin-right: 5px;
+    vertical-align: sub;
+    color: #8899a6;
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+#mesage-user:hover:before {
+    color: var(--link-color);
 }
