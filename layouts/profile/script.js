@@ -8,17 +8,81 @@ let timeline = {
 let settings = {};
 let seenThreads = [];
 let pinnedTweet, followersYouFollow;
+let favoritesCursor;
 
 // Util
+
+let subpage;
+let user_handle = location.pathname.slice(1).split("?")[0];
+user_handle = user_handle.split('/')[0];
+function updateSubpage() {
+    user_handle = location.pathname.slice(1).split("?")[0];
+    if(user_handle.split('/').length === 1) {
+        subpage = 'profile';
+    } else {
+        if(user_handle.endsWith('/with_replies')) {
+            subpage = 'replies';
+        } else if(user_handle.endsWith('/media')) {
+            subpage = 'media';
+        } else if(user_handle.endsWith('/likes')) {
+            subpage = 'likes';
+        } else if(user_handle.endsWith('/following')) {
+            subpage = 'following';
+        } else if(user_handle.endsWith('/followers')) {
+            subpage = 'followers';
+        }
+    }
+    user_handle = user_handle.split('/')[0];
+}
+
+function updateSelection() {
+    let activeStats = Array.from(document.getElementsByClassName('profile-stat-active'));
+    for(let i in activeStats) {
+        if(activeStats[i].classList.contains('profile-stat-active')) {
+            activeStats[i].classList.remove('profile-stat-active');
+        }
+    }
+    let activeNavs = Array.from(document.getElementsByClassName('tweet-nav-active'));
+    for(let i in activeNavs) {
+        if(activeNavs[i].classList.contains('tweet-nav-active')) {
+            activeNavs[i].classList.remove('tweet-nav-active');
+        }
+    }
+
+    if(subpage === "profile") {
+        document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
+        document.getElementById('tweet-nav-tweets').classList.add('tweet-nav-active');
+    } else if(subpage === "likes") {
+        document.getElementById('profile-stat-favorites-link').classList.add('profile-stat-active');
+    } else if(subpage === "replies") {
+        document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
+        document.getElementById('tweet-nav-replies').classList.add('tweet-nav-active');
+    } else if(subpage === "media") {
+        document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
+        document.getElementById('tweet-nav-media').classList.add('tweet-nav-active');
+    } else if(subpage === "following") {
+        document.getElementById('profile-stat-following-link').classList.add('profile-stat-active');
+    } else if(subpage === "followers") {
+        document.getElementById('profile-stat-followers-link').classList.add('profile-stat-active');
+    }
+    if(subpage !== 'profile') document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
+    document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
+    document.getElementById('profile-stat-followers-link').href = `https://twitter.com/${pageUser.screen_name}/followers`;
+    if(subpage !== 'likes') document.getElementById('profile-stat-favorites-link').href = `https://twitter.com/${pageUser.screen_name}/likes`;
+    if(subpage !== 'profile') document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
+    if(subpage !== 'replies') document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
+    if(subpage !== 'media') document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
+}
+
 function updateUserData() {
     return new Promise((resolve, reject) => {
         API.verifyCredentials().then(async u => {
             user = u;
             const event = new CustomEvent('updateUserData', { detail: u });
             document.dispatchEvent(event);
-            document.getElementsByTagName('title')[0].innerText = `${location.pathname.slice(1).split("?")[0]} - OldTwitter`;
+            document.getElementsByTagName('title')[0].innerText = `${user_handle} - OldTwitter`;
             try {
-                pageUser = await API.getUserV2(location.pathname.slice(1).split("?")[0]);
+                pageUser = await API.getUserV2(user_handle);
             } catch(e) {
                 if(String(e).includes('User has been suspended.')) {
                     return document.getElementById('loading-box-error').innerHTML = 'User has been suspended.<br><a href="https://twitter.com/home">Go to homepage</a>';
@@ -53,7 +117,17 @@ function updateUserData() {
 async function updateTimeline() {
     seenThreads = [];
     if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
-    let tl = await API.getUserTweets(pageUser.id_str);
+    let tl;
+    if(subpage === "likes") {
+        let data = await API.getFavorites(pageUser.id_str);
+        tl = data.tl;
+        favoritesCursor = data.cursor;
+    } else {
+        tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
+        if(subpage === 'media') {
+            tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0);
+        }
+    }
     tl.forEach(t => {
         let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
         let tweetElement = document.getElementById(`tweet-${t.id_str}`);
@@ -106,6 +180,7 @@ function renderProfile() {
     document.getElementById('profile-name').innerText = pageUser.name;
     document.getElementById('nav-profile-name').innerText = pageUser.name;
     document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal', '_400x400');;
+    document.getElementById('tweet-to').innerText = `Tweet to ${pageUser.name}`;
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
     }
@@ -118,10 +193,10 @@ function renderProfile() {
     document.getElementById('profile-username').innerText = `@${pageUser.screen_name}`;
     document.getElementById('nav-profile-username').innerText = `@${pageUser.screen_name}`;
     document.getElementById('profile-media-text').href = `https://twitter.com/${pageUser.screen_name}/media`;
-    document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
-    document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
-    document.getElementById('profile-stat-followers-link').href = `https://twitter.com/${pageUser.screen_name}/followers`;
-    document.getElementById('profile-stat-favorites-link').href = `https://twitter.com/${pageUser.screen_name}/likes`;
+
+    updateSelection();
+
+
     document.getElementById('profile-bio').innerHTML = escape(pageUser.description).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
     twemoji.parse(document.getElementById('profile-info'));
 
@@ -133,6 +208,98 @@ function renderProfile() {
     if(pageUser.followed_by) {
         document.getElementById('follows-you').hidden = false;
     }
+    document.getElementById('tweet-to').addEventListener('click', () => {
+        let modal = createModal(/*html*/`
+            <div class="navbar-new-tweet-container">
+                <div class="navbar-new-tweet">
+                    <img width="35" height="35" class="navbar-new-tweet-avatar">
+                    <span class="navbar-new-tweet-char">0/280</span>
+                    <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="Tweet to @${pageUser.screen_name}">@${pageUser.screen_name} </textarea>
+                    <div class="navbar-new-tweet-media-div">
+                        <span class="navbar-new-tweet-media"></span>
+                    </div>
+                    <div class="navbar-new-tweet-focused">
+                        <div class="navbar-new-tweet-media-cc"><div class="navbar-new-tweet-media-c"></div></div>
+                        <button class="navbar-new-tweet-button nice-button">Tweet</button>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+        `);
+        const newTweetText = modal.getElementsByClassName('navbar-new-tweet-text')[0];
+        const newTweetChar = modal.getElementsByClassName('navbar-new-tweet-char')[0];
+        const newTweetMedia = modal.getElementsByClassName('navbar-new-tweet-media')[0];
+        const newTweetMediaDiv = modal.getElementsByClassName('navbar-new-tweet-media-c')[0];
+        const newTweetButton = modal.getElementsByClassName('navbar-new-tweet-button')[0];
+
+        modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = user.profile_image_url_https.replace("_normal", "_bigger");
+        function updateCharCount(e) {
+            let char = e.target.value.length;
+            let charElement = newTweetChar;
+            charElement.innerText = `${char}/280`;
+            if(char > 265) {
+                charElement.style.color = "#c26363";
+            } else {
+                charElement.style.color = "";
+            }
+        }
+        newTweetText.addEventListener('keyup', updateCharCount);
+        newTweetText.addEventListener('keydown', updateCharCount);
+        let mediaToUpload = []; 
+        newTweetMedia.addEventListener('click', () => {
+            getMedia(mediaToUpload, newTweetMediaDiv); 
+        });
+        newTweetButton.addEventListener('click', async () => {
+            let tweet = newTweetText.value;
+            if (tweet.length === 0 && mediaToUpload.length === 0) return;
+            newTweetButton.disabled = true;
+            let uploadedMedia = [];
+            for (let i in mediaToUpload) {
+                let media = mediaToUpload[i];
+                try {
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                    let mediaId = await API.uploadMedia({
+                        media_type: media.type,
+                        media_category: media.category,
+                        media: media.data,
+                        alt: media.alt,
+                        loadCallback: data => {
+                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                        }
+                    });
+                    uploadedMedia.push(mediaId);
+                } catch (e) {
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                    console.error(e);
+                    alert(e);
+                }
+            }
+            let tweetObject = {
+                status: tweet,
+                auto_populate_reply_metadata: true,
+                batch_mode: 'off',
+                exclude_reply_user_ids: '',
+                cards_platform: 'Web-13',
+                include_entities: 1,
+                include_user_entities: 1,
+                include_cards: 1,
+                send_error_codes: 1,
+                tweet_mode: 'extended',
+                include_ext_alt_text: true,
+                include_reply_count: true
+            };
+            if (uploadedMedia.length > 0) {
+                tweetObject.media_ids = uploadedMedia.join(',');
+            }
+            try {
+                let tweet = await API.postTweet(tweetObject);
+            } catch (e) {
+                document.getElementById('new-tweet-button').disabled = false;
+                console.error(e);
+            }
+            modal.remove();
+        });
+    });
 
     if(followersYouFollow && followersYouFollow.total_count > 0) {
         let friendsFollowing = document.getElementById('profile-friends-following');
@@ -158,6 +325,7 @@ function renderProfile() {
     if(pageUser.id_str === user.id_str) {
         buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" href="https://twitter.com/old/settings">Edit Profile</a>`;
     } else {
+        document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`
             <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following ? 'Following' : 'Follow'}</button>
             <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>Unblock</button>
@@ -1028,7 +1196,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
 async function renderTimeline() {
     let timelineContainer = document.getElementById('timeline');
     timelineContainer.innerHTML = '';
-    if(pinnedTweet) await appendTweet(pinnedTweet, timelineContainer, {
+    if(pinnedTweet && subpage === "profile") await appendTweet(pinnedTweet, timelineContainer, {
         top: {
             text: "Pinned Tweet",
             icon: "\uf003",
@@ -1141,7 +1309,16 @@ window.addEventListener('scroll', async () => {
         loadingNewTweets = true;
         let tl;
         try {
-            tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str);
+            if(subpage === "likes") {
+                let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
+                tl = data.tl;
+                favoritesCursor = data.cursor;
+            } else {
+                tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
+                if(subpage === 'media') {
+                    tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0);
+                }
+            }
         } catch (e) {
             console.error(e);
             loadingNewTweets = false;
@@ -1173,6 +1350,33 @@ setTimeout(() => {
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
+    function updatePath(e) {
+        if(e.target.classList.contains('tweet-nav-active') || e.target.classList.contains('profile-stat-active')) {
+            return;
+        }
+        e.preventDefault();
+        let el = e.target;
+        if(!el.href) el = el.parentElement; 
+        history.pushState({}, null, el.href);
+        updateSubpage();
+        updateSelection();
+        timeline = {
+            data: [],
+            dataToUpdate: [],
+            toBeUpdated: 0
+        }
+        seenThreads = [];
+        pinnedTweet = undefined;
+        favoritesCursor = undefined;
+        updateTimeline();
+    }
+    document.getElementById('tweet-nav-tweets').addEventListener('click', updatePath);
+    document.getElementById('tweet-nav-replies').addEventListener('click', updatePath);
+    document.getElementById('tweet-nav-media').addEventListener('click', updatePath);
+    document.getElementById('profile-stat-tweets-link').addEventListener('click', updatePath);
+    document.getElementById('profile-stat-following-link').addEventListener('click', updatePath);
+    document.getElementById('profile-stat-followers-link').addEventListener('click', updatePath);
+    document.getElementById('profile-stat-favorites-link').addEventListener('click', updatePath);
     
     // Update dates every minute
     setInterval(() => {
@@ -1198,6 +1402,7 @@ setTimeout(() => {
     // Run
     API.getSettings().then(async s => {
         settings = s;
+        updateSubpage();
         await updateUserData();
         updateTimeline();
         renderDiscovery();

@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Old Twitter - Profile</title>
+    <link rel="preconnect" href="https://twitter.com">
 </head>
 <body>
     <div id="loading-box">
@@ -20,7 +21,7 @@
         </div>
     </div>
     <div id="profile-nav">
-        <div class="container">
+        <div class="container" style="height:60px">
             <div class="content">
                 <div class="cell" id="profile-nav-left-cell">
                     <div id="nav-profile-info">
@@ -33,10 +34,10 @@
                 </div>
                 <div class="cell" id="profile-nav-center-cell">
                     <div id="profile-stats">
-                        <div class="profile-stat profile-stat-active" id="profile-stat-tweets-link">
+                        <a class="profile-stat" id="profile-stat-tweets-link">
                             <span class="profile-stat-text">Tweets</span>
                             <span id="profile-stat-tweets-value" class="profile-stat-value">0</span>
-                        </div>
+                        </a>
                         <a class="profile-stat" id="profile-stat-following-link">
                             <span class="profile-stat-text">Following</span>
                             <span id="profile-stat-following-value" class="profile-stat-value">0</span>
@@ -69,6 +70,11 @@
                     <div id="follows-you" hidden>Follows You</div>
                     <div id="profile-bio"></div>
                     <div id="profile-additional"></div>
+                    <div id="tweet-to-bg" hidden>
+                        <div id="tweet-to-div">
+                            <div id="tweet-to">Tweet to User</div>
+                        </div>
+                    </div>
                     <div id="profile-friends-following" hidden>
                         <br>
                         <a id="profile-friends-text" class="profile-additional-thing" href="followers_you_follow">0 followers you know</a>
@@ -82,6 +88,14 @@
                 </div>
             </div>
             <div class="cell" id="center-cell">
+                <div>
+                    
+                </div>
+                <div id="tweet-nav">
+                    <a id="tweet-nav-tweets">Tweets</a>
+                    <a id="tweet-nav-replies">Tweets & replies</a>
+                    <a id="tweet-nav-media">Photos & videos</a>
+                </div>
                 <div id="new-tweets" class="center-text" hidden></div>
                 <div id="timeline"></div>
             </div>

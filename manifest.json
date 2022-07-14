@@ -81,7 +81,7 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/*"],
+      "matches": ["https://twitter.com/*", "https://twitter.com/*/with_replies", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers"],
       "exclude_matches": [
         "https://twitter.com/",
         "https://twitter.com/home",

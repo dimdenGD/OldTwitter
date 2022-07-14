@@ -77,6 +77,8 @@ body {
 }
 #profile-nav-center-cell {
     width: 560px;
+    bottom: 27px;
+    position: relative;
 }
 #profile-nav-right-cell {
     height: fit-content;
@@ -874,10 +876,30 @@ body {
     margin-bottom: 10px;
     word-wrap: break-word;
 }
-
-#timeline .tweet:first-child {
+#tweet-nav {
+    background-color: white;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    border-left: 1px solid #e1e8ed;
+    border-right: 1px solid #e1e8ed;
+    border-top: 1px solid #e1e8ed;
+    display: flex;
+}
+#tweet-nav * {
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 1;
+    padding: 15px 15px 12px;
+}
+.tweet-nav-active {
+    color: #292f33;
+}
+.tweet-nav-active:hover {
+    text-decoration: none !important;
+}
+#tweet-nav a:hover {
+    text-decoration: underline;
 }
 .profile-additional-thing {
     font-size: 14px;
@@ -937,7 +959,6 @@ body {
 #profile-stats {
     display: inline-flex;
     position: relative;
-    bottom: 27px;
 }
 .profile-stat-text {
     font-size: 11px;
@@ -1107,4 +1128,31 @@ body {
     padding: 3px 7px;
     border-radius: 5px;
     margin-bottom: 5px;
+}
+
+#tweet-to {
+    color: var(--link-color) !important;
+    padding: 10px;
+    color: white;
+    cursor: pointer;
+    border: 1px solid rgb(0 0 0 / 26%);
+    border-radius: 5px;
+    background: white;
+    font-size: 14px;
+}
+#tweet-to:hover {
+    background-color: #e1e8ed;
+    background-image: linear-gradient(#fff,#eff4f8);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
+}
+#tweet-to-div {
+    padding: 10px;
+    border: 1px solid rgb(0 0 0 / 26%);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.92);
+}
+#tweet-to-bg {
+    margin-top: 10px;
+    background: var(--link-color);
+    border-radius: 5px;
 }

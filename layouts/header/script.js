@@ -7,7 +7,7 @@ let headerUserInterval = setInterval(() => {
 }, 2000);
 setTimeout(() => {
     document.addEventListener('updateUserData', e => {
-        if(headerGotUser) return;
+        if(headerGotUser || Object.keys(e.detail).length === 0) return;
         headerGotUser = true;
         let user = e.detail;
         console.log(user);
