@@ -166,7 +166,7 @@ setTimeout(() => {
         searchInput.addEventListener('blur', () => {
             setTimeout(() => {
                 searchResults.hidden = true;
-            }, 50);
+            }, 100);
         });
         searchInput.addEventListener('keyup', async (e) => {
             let query = searchInput.value;

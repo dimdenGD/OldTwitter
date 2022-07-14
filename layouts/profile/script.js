@@ -91,9 +91,59 @@ async function updateTimeline() {
     }
 }
 
+let everAddedAdditional = false;
 function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
-}
+    document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_400x400');
+    document.getElementById('profile-name').innerText = pageUser.name;
+    if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
+        document.getElementById('profile-name').classList.add('user-verified');
+    }
+    if(pageUser.protected) {
+        document.getElementById('profile-name').classList.add('user-protected');
+    }
+    document.getElementById('profile-username').innerText = `@${pageUser.screen_name}`;
+    document.getElementById('profile-media-text').href = `https://twitter.com/${pageUser.screen_name}/media`;
+    document.getElementById('profile-bio').innerHTML = escape(pageUser.description).replace(/\n/g, '<br>').replace(/\s/g, '&nbsp;').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
+    twemoji.parse(document.getElementById('profile-info'));
+
+    document.getElementById('profile-stat-tweets-value').innerText = pageUser.statuses_count;
+    document.getElementById('profile-stat-following-value').innerText = pageUser.friends_count;
+    document.getElementById('profile-stat-followers-value').innerText = pageUser.followers_count;
+    document.getElementById('profile-stat-favorites-value').innerText = pageUser.favourites_count;
+
+    let links = Array.from(document.getElementById('profile-bio').getElementsByTagName('a'));
+    links.forEach(link => {
+        let realLink = pageUser.entities.description.urls.find(u => u.url === link.href);
+        if (realLink) {
+            link.href = realLink.expanded_url;
+            link.target = '_blank';
+            link.innerText = realLink.display_url;
+        }
+    });
+
+    if(everAddedAdditional) return;
+    everAddedAdditional = true;
+    let additionalInfo = document.getElementById('profile-additional');
+    if(pageUser.location) {
+        let location = document.createElement('span');
+        location.classList.add('profile-additional-thing', 'profile-additional-location');
+        location.innerText = pageUser.location;
+        additionalInfo.appendChild(location);
+    }
+    if(pageUser.url) {
+        let url = document.createElement('a');
+        url.classList.add('profile-additional-thing', 'profile-additional-url');
+        let realUrl = pageUser.entities.url.urls.find(u => u.url === pageUser.url);
+        url.innerText = realUrl.display_url;
+        url.href = pageUser.expanded_url;
+        additionalInfo.appendChild(url);
+    }
+    let joined = document.createElement('span');
+    joined.classList.add('profile-additional-thing', 'profile-additional-joined');
+    joined.innerText = `Joined ${new Date(pageUser.created_at).toLocaleDateString('en', {month: 'long', year: 'numeric', day: 'numeric'})}`;
+    additionalInfo.appendChild(joined);
+};
 
 async function appendTweet(t, timelineContainer, options = {}) {
     if(seenThreads.includes(t.id_str)) return false;
@@ -134,7 +184,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         </div>
         <a class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body">
-            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escape(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]{1,15}\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
+            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escape(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${!isEnglish ? `
             <br>
             <span class="tweet-translate">Translate tweet</span>
@@ -286,6 +336,20 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 new Viewer(tweetMedia);
                 e.target.click();
             }
+        });
+        let profileMediaDiv = document.getElementById('profile-media-div');
+        t.extended_entities.media.forEach(m => {
+            if(profileMediaDiv.children.length >= 6) return;
+            let ch = Array.from(profileMediaDiv.children);
+            if(ch.find(c => c.src === m.media_url_https)) return;
+            const media = document.createElement('img');
+            media.classList.add('tweet-media-element', 'tweet-media-element-four', 'profile-media-preview');
+            media.src = m.media_url_https;
+            if(m.ext_alt_text) media.alt = m.ext_alt_text;
+            media.addEventListener('click', () => {
+                tweet.scrollIntoView({behavior: 'smooth', block: 'center'});
+            });
+            profileMediaDiv.appendChild(media);
         });
     }
 
@@ -850,9 +914,12 @@ async function renderDiscovery(cache = true) {
     }
 }
 
-// On scroll to end of timeline, load more tweets
 let loadingNewTweets = false;
 document.addEventListener('scroll', async () => {
+    // banner scroll
+    let banner = document.getElementById('profile-banner');
+    banner.style.top = `${Math.min(window.scrollY/3, 470/3)}px`;
+    // load more tweets
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
         if (loadingNewTweets || timeline.data.length === 0) return;
         loadingNewTweets = true;
@@ -869,7 +936,7 @@ document.addEventListener('scroll', async () => {
         await renderTimeline();
         setTimeout(() => {
             lastTweet.scrollIntoView({
-                behavior: 'smooth'
+                behavior: 'smooth', block: 'center'
             });
             setTimeout(() => {
                 loadingNewTweets = false;

@@ -13,24 +13,58 @@
         </div>
     </div>
     <header></header>
-    <img id="profile-banner">
+    <div id="profile-banner-sticky">
+        <div id="profile-banner-div">
+            <img id="profile-banner">
+        </div>
+    </div>
     <div id="profile-nav">
-        <div class="content">
-            <div class="cell" id="profile-nav-left-cell">
-                
-            </div>
-            <div class="cell" id="profile-nav-center-cell">
-                
-            </div>
-            <div class="cell" id="profile-nav-right-cell">
-
+        <div class="container">
+            <div class="content">
+                <div class="cell" id="profile-nav-left-cell"></div>
+                <div class="cell" id="profile-nav-center-cell">
+                    <div id="profile-stats">
+                        <div class="profile-stat">
+                            <span class="profile-stat-text">Tweets</span>
+                            <span id="profile-stat-tweets-value" class="profile-stat-value">0</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="profile-stat-text">Following</span>
+                            <span id="profile-stat-following-value" class="profile-stat-value">0</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="profile-stat-text">Followers</span>
+                            <span id="profile-stat-followers-value" class="profile-stat-value">0</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="profile-stat-text">Favorites</span>
+                            <span id="profile-stat-favorites-value" class="profile-stat-value">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="cell" id="profile-nav-right-cell">
+    
+                </div>
             </div>
         </div>
     </div>
-    <main id="container">
+    <main class="container">
 		<div class="content">
             <div class="cell" id="left-cell">
-
+                <div id="profile-info">
+                    <img id="profile-avatar" width="200" height="200"><br>
+                    <div id="profile-info-text">
+                        <a href="#" id="pin-a"><h1 id="profile-name"></h1></a>
+                        <a href="#" id="piu-a"><div id="profile-username"></div></a>
+                        <div id="profile-bio"></div>
+                        <div id="profile-additional"></div>
+                        <br>
+                        <div id="profile-media">
+                            <a id="profile-media-text" class="profile-additional-thing" href="media">Photos and videos</a>
+                            <div id="profile-media-div"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="cell" id="center-cell">
                 <div id="new-tweets" class="center-text" hidden></div>
