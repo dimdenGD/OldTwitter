@@ -96,7 +96,6 @@ body {
 }
 #right-cell {
     top: 140px;
-    position: sticky;
     height: fit-content;
     margin-left: 10px;
     margin-right: 10px;
@@ -446,12 +445,23 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1 {
+#wtf h1, #trends h1 {
     margin: 0;
     display: inline-block;
     font-size: 22px;
     color: #66757f;
     font-weight: 300;
+}
+#trends {
+    margin-top: 10px;
+    padding: 10px;
+}
+.trend {
+    margin-top: 10px;
+}
+.trend-description {
+    font-size: 14px;
+    color: #8899a6;
 }
 #wtf-refresh, #wtf-viewall {
     color: #8899a6;

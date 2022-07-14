@@ -10,7 +10,6 @@ setTimeout(() => {
         if(headerGotUser || Object.keys(e.detail).length === 0) return;
         headerGotUser = true;
         let user = e.detail;
-        console.log(user);
         let userAvatar = document.getElementById('navbar-user-avatar');
         userAvatar.src = user.profile_image_url_https.replace("_normal", "_bigger");
         document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
@@ -44,7 +43,6 @@ setTimeout(() => {
         async function updateAccounts() {
             let accounts = (await API.getAccounts()).users;
             let accountsElement = document.getElementById('navbar-user-accounts');
-            console.log(accounts);
             accountsElement.innerHTML = '';
             accounts.forEach(account => {
                 let accountElement = document.createElement('div');

@@ -126,10 +126,17 @@ function updateUserData() {
                 return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
             }
             try {
+                let oldUser = await API.getUser(user_handle, false);
+                let r = document.querySelector(':root');
+                if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
+            } catch(e) {
+                console.warn(e);
+            }
+            try {
                 if(pageUser.id_str !== user.id_str) followersYouFollow = await API.friendsFollowing(pageUser.id_str);
             } catch(e) {
                 followersYouFollow = undefined;
-                console.error(e);
+                console.warn(e);
             }
             renderProfile();
             try {
@@ -138,7 +145,7 @@ function updateUserData() {
                 else pinnedTweet = undefined;
             } catch(e) {
                 pinnedTweet = undefined;
-                console.error(e);
+                console.warn(e);
             }
             resolve(u);
         }).catch(e => {
@@ -287,6 +294,7 @@ function renderProfile() {
     document.getElementById('nav-profile-name').innerText = pageUser.name;
     document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal', '_400x400');;
     document.getElementById('tweet-to').innerText = `Tweet to ${pageUser.name}`;
+
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
     }
@@ -313,6 +321,8 @@ function renderProfile() {
     
     if(pageUser.followed_by) {
         document.getElementById('follows-you').hidden = false;
+    } else {
+        document.getElementById('follows-you').hidden = true;
     }
     document.getElementById('tweet-to').addEventListener('click', () => {
         let modal = createModal(/*html*/`
@@ -1403,6 +1413,21 @@ async function renderDiscovery(cache = true) {
         console.warn(e);
     }
 }
+async function renderTrends() {
+    let trends = (await API.getTrends()).modules;
+    let trendsContainer = document.getElementById('trends-list');
+    trendsContainer.innerHTML = '';
+    trends.forEach(({ trend }) => {
+        let trendDiv = document.createElement('div');
+        trendDiv.className = 'trend';
+        trendDiv.innerHTML = `
+            <b><a href="https://twitter.com/search?q=${trend.name.replace(/</g, '')}" class="trend-name">${trend.name}</a></b><br>
+            <span class="trend-description">${trend.meta_description ? trend.meta_description : ''}</span>
+        `;
+        trendsContainer.append(trendDiv);
+        twemoji.parse(trendDiv);
+    });
+}
 
 let loadingNewTweets = false;
 window.addEventListener('scroll', async () => {
@@ -1564,13 +1589,15 @@ setTimeout(() => {
         await updateUserData();
         if(subpage !== 'following' && subpage !== 'followers') updateTimeline();
         if(subpage === 'following') {
-            renderFollowing()
+            renderFollowing();
         }
         if(subpage === 'followers') {
-            renderFollowers()
+            renderFollowers();
         }
         renderDiscovery();
-        setInterval(() => renderDiscovery(false), 60000 * 15);
+        renderTrends();
+        setInterval(() => renderDiscovery(false), 60000 * 5);
+        setInterval(renderTrends, 60000 * 5);
     }).catch(e => {
         if (e === "Not logged in") {
             window.location.href = "https://twitter.com/login";
