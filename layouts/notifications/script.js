@@ -354,6 +354,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
 
     // Retweet / Quote Tweet
+    let retweetClicked = false;
     tweetQuoteCancel.addEventListener('click', () => {
         tweetQuote.hidden = true;
     });
@@ -365,8 +366,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if (tweetInteractRetweetMenu.hidden) {
             tweetInteractRetweetMenu.hidden = false;
         }
+        if(retweetClicked) return;
+        retweetClicked = true;
         setTimeout(() => {
             document.body.addEventListener('click', () => {
+                retweetClicked = false;
                 setTimeout(() => tweetInteractRetweetMenu.hidden = true, 50);
             }, { once: true });
         }, 50);
@@ -525,12 +529,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
 
     // More
+    let moreClicked = false;
     tweetInteractMore.addEventListener('click', () => {
         if (tweetInteractMoreMenu.hidden) {
             tweetInteractMoreMenu.hidden = false;
         }
+        if(moreClicked) return;
+        moreClicked = true;
         setTimeout(() => {
             document.body.addEventListener('click', () => {
+                moreClicked = false;
                 setTimeout(() => tweetInteractMoreMenu.hidden = true, 50);
             }, { once: true });
         }, 50);

@@ -228,6 +228,7 @@ body {
 }
 .tweet-interact {
     margin-top: 10px;
+    user-select: none;
 }
 .tweet-interact span {
     color: #8899a6;

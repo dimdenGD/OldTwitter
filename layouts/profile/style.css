@@ -202,10 +202,10 @@ body {
 }
 .tweet-interact {
     margin-top: 10px;
+    user-select: none;
 }
-.tweet-interact span {
+.tweet-interact span, #profile-settings-div span {
     color: #8899a6;
-    display: inline-block;
     font-size: 12px;
     font-weight: bold;
     margin-left: 6px;
@@ -215,7 +215,7 @@ body {
     cursor: pointer;
     margin-right: 20px;
 }
-.tweet-interact span:before {
+.tweet-interact span:before, #profile-settings-div span:before {
     font-family: RosettaIcons;
     font-weight: normal;
     font-style: normal;
@@ -316,7 +316,7 @@ body {
     color: var(--link-color) !important;
     text-decoration: underline;
 }
-.tweet-interact-retweet-menu, .tweet-interact-more-menu {
+.tweet-interact-retweet-menu, .tweet-interact-more-menu, #profile-settings-div {
     position: absolute;
     background-color: white;
     border: 1px solid #8899a6;
@@ -399,7 +399,7 @@ body {
 .tweet-interact-more-menu span:hover {
     color: #3300FF !important;
 }
-.tweet-interact-retweet-menu span:before, .tweet-interact-more-menu span:before {
+.tweet-interact-retweet-menu span:before, .tweet-interact-more-menu span:before, #profile-settings-div:before {
     color: #8899a6;
     margin-right: 5px !important;
 }
@@ -554,6 +554,12 @@ body {
 .user-protected::after {
     content: "\f096";
     color: #ddd22b;
+    font-family: RosettaIcons;
+    margin-left: 5px;
+}
+.user-muted::after {
+    content: "\f101";
+    color: rgb(243, 57, 57);
     font-family: RosettaIcons;
     margin-left: 5px;
 }
@@ -766,7 +772,7 @@ body {
     width: 100%;
     object-fit: cover;
     position: relative;
-    transition: 0.05s;
+    transition: 0.1s;
     top: 5px;
 }
 
@@ -905,11 +911,16 @@ body {
     content: "\f056"
 }
 #profile-settings:before {
-    font-size: 14px;
+    font-size: 16px;
     content: "\f059";
 }
 #profile-settings {
     cursor: pointer;
+    margin-right: 7px;
+    margin-top: 6px;
+}
+#profile-settings:hover:before {
+    color: var(--link-color);
 }
 #edit-profile:before {
     content: "\f059";
@@ -1005,11 +1016,11 @@ body {
     border-radius: 5px;
     margin: 2px;
 }
-#mesage-user {
+#message-user {
     margin-right: 6px;
     padding: 6px 1px 6px 6px;
 }
-#mesage-user:before {
+#message-user:before {
     content: "\f157";
     font-family: RosettaIcons;
     font-size: 18px;
@@ -1020,6 +1031,80 @@ body {
     width: 20px;
     text-align: center;
 }
-#mesage-user:hover:before {
+#message-user:hover:before {
     color: var(--link-color);
+}
+#profile-settings-div {
+    margin-top: 30px;
+    margin-left: -50px;
+    padding: 3px;
+    user-select: none;
+    width: 200px;
+}
+.profile-settings-notifications:before {
+    content: "\f055";
+}
+.profile-settings-offnotifications:before {
+    content: "\f037";
+}
+.profile-settings-block:before {
+    content: "\f097";
+}
+.profile-settings-unblock:before {
+    content: "\f056";
+}
+.profile-settings-mute:before {
+    content: "\f101";
+}
+.profile-settings-unmute:before {
+    content: "\f101";
+}
+#profile-settings-removefollowing:before {
+    content: "\f065";
+}
+#profile-settings-lists:before {
+    content: "\f094";
+}
+#profile-settings-share:before {
+    content: "\f185";
+}
+#profile-settings-copy:before {
+    content: "\f098";
+}
+#profile-settings-div span {
+    float: left;
+}
+#profile-settings-div span:before {
+    width: 11px;
+    text-align: center;
+    display: inline-block;
+}
+#profile-settings-div span:hover {
+    color: #3300FF;
+}
+#profile-settings-div hr {
+    float: left;
+    border-top: gray;
+    width: 100%;
+    margin: 3px;
+}
+#control-unblock {
+    padding-top: 7px !important;
+}
+#control-unblock:before {
+    content: "\f056";
+    font-family: RosettaIcons;
+    margin-right: 5px;
+    vertical-align: bottom;
+}
+#follows-you {
+    font-size: 11px;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: #66757f;
+    background: rgb(213 213 213 / 80%);
+    width: fit-content;
+    padding: 3px 7px;
+    border-radius: 5px;
+    margin-bottom: 5px;
 }

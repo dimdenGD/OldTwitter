@@ -212,8 +212,7 @@ API.verifyCredentials = () => {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+                "x-twitter-auth-type": "OAuth2Session"
             },
             credentials: "include"
         }).then(response => response.json()).then(data => {
@@ -236,8 +235,7 @@ API.getTimeline = (max_id) => {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+                "x-twitter-auth-type": "OAuth2Session"
             },
             credentials: "include"
         }).then(response => response.json()).then(data => {
@@ -259,7 +257,6 @@ API.postTweet = data => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             body: new URLSearchParams(data).toString(),
@@ -283,7 +280,6 @@ API.favoriteTweet = data => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             body: new URLSearchParams(data).toString(),
@@ -307,7 +303,6 @@ API.unfavoriteTweet = data => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             body: new URLSearchParams(data).toString(),
@@ -331,7 +326,6 @@ API.retweetTweet = id => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             credentials: "include"
@@ -354,7 +348,6 @@ API.deleteTweet = id => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             credentials: "include"
@@ -376,7 +369,6 @@ API.getTweet = id => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -397,7 +389,6 @@ API.getSettings = () => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -493,7 +484,6 @@ API.followUser = screen_name => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             credentials: "include",
@@ -516,7 +506,6 @@ API.unfollowUser = screen_name => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             credentials: "include",
@@ -538,7 +527,6 @@ API.getTrends = () => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
             },
             credentials: "include",
@@ -559,7 +547,6 @@ API.getUser = (val, byId = true) => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -572,14 +559,34 @@ API.getUser = (val, byId = true) => {
         });
     });
 }
+API.getUserV2 = name => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/mCbpQvZAw6zu_4PvuAUVVQ/UserByScreenName?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            data.data.user.result.legacy.id_str = data.data.user.result.rest_id;
+            resolve(data.data.user.result.legacy);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 API.updateProfile = (data) => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/account/update_profile.json`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+                "x-twitter-auth-type": "OAuth2Session"
             },
             credentials: "include",
             method: "post",
@@ -738,7 +745,6 @@ API.getUnreadCount = () => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -762,7 +768,6 @@ API.translateTweet = id => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -851,7 +856,6 @@ API.getNotifications = cursor => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "x-twitter-client-language": "en"
             },
             credentials: "include",
@@ -875,7 +879,6 @@ API.markAsReadNotifications = cursor => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/x-www-form-urlencoded",
             },
             credentials: "include",
@@ -902,7 +905,6 @@ API.search = query => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -926,7 +928,6 @@ API.getUserTweetsV2 = id => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                 "content-type": "application/json"
             },
             credentials: "include"
@@ -949,8 +950,7 @@ API.getUserTweets = (id, max_id, replies = false) => {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+                "x-twitter-auth-type": "OAuth2Session"
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -973,8 +973,7 @@ API.friendsFollowing = id => {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+                "x-twitter-auth-type": "OAuth2Session"
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -997,8 +996,7 @@ API.logout = () => {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+                "x-twitter-auth-type": "OAuth2Session"
             },
             credentials: "include",
             method: 'post',
@@ -1022,10 +1020,159 @@ API.getRelationship = id => {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+                "x-twitter-auth-type": "OAuth2Session"
             },
             credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.receiveNotifications = (id, receive = false) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/friendships/update.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cursor=-1&id=${id}&device=${receive}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.blockUser = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/blocks/create.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `user_id=${id}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.unblockUser = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/blocks/destroy.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `user_id=${id}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.muteUser = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/mutes/users/create.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `user_id=${id}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.unmuteUser = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/mutes/users/destroy.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `user_id=${id}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.removeFollower = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/QpNfg0kpPRfjROQ_9eOLXA/RemoveFollower`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json"
+            },
+            credentials: "include",
+            method: 'post',
+            body: JSON.stringify({"variables":{"target_user_id":id},"queryId":"QpNfg0kpPRfjROQ_9eOLXA"})
         }).then(i => i.json()).then(data => {
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");

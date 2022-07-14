@@ -7,26 +7,18 @@ let timeline = {
 }
 let settings = {};
 let seenThreads = [];
-let pinnedTweet, followersYouFollow, relationship;
+let pinnedTweet, followersYouFollow;
 
 // Util
-
-const findByKey = (obj, kee) => {
-    if (kee in obj) return obj[kee];
-    for(n of Object.values(obj).filter(Boolean).filter(v => typeof v === 'object')) {
-        let found = findByKey(n, kee)
-        if (found) return found
-    }
-}
-
 function updateUserData() {
     return new Promise((resolve, reject) => {
         API.verifyCredentials().then(async u => {
             user = u;
             const event = new CustomEvent('updateUserData', { detail: u });
             document.dispatchEvent(event);
+            document.getElementsByTagName('title')[0].innerText = `${location.pathname.slice(1).split("?")[0]} - OldTwitter`;
             try {
-                pageUser = await API.getUser(location.pathname.slice(1).split("?")[0], false);
+                pageUser = await API.getUserV2(location.pathname.slice(1).split("?")[0]);
             } catch(e) {
                 if(String(e).includes('User has been suspended.')) {
                     return document.getElementById('loading-box-error').innerHTML = 'User has been suspended.<br><a href="https://twitter.com/home">Go to homepage</a>';
@@ -38,15 +30,9 @@ function updateUserData() {
             } catch(e) {
                 console.error(e);
             }
-            try {
-                if(pageUser.id_str !== user.id_str) relationship = (await API.getRelationship(pageUser.id_str)).relationship;
-            } catch(e) {
-                console.error(e);
-            }
             renderProfile();
             try {
-                let pageTweetsV2 = await API.getUserTweetsV2(pageUser.id_str);
-                pinnedTweet = findByKey(pageTweetsV2, 'pinned_tweet_ids_str');
+                pinnedTweet = pageUser.pinned_tweet_ids_str;
                 if(pinnedTweet && pinnedTweet.length > 0) pinnedTweet = await API.getTweet(pinnedTweet[0]);
                 else pinnedTweet = undefined;
             } catch(e) {
@@ -119,11 +105,15 @@ function renderProfile() {
     document.getElementById('nav-profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_bigger');
     document.getElementById('profile-name').innerText = pageUser.name;
     document.getElementById('nav-profile-name').innerText = pageUser.name;
+    document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal', '_400x400');;
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
     }
     if(pageUser.protected) {
         document.getElementById('profile-name').classList.add('user-protected');
+    }
+    if(pageUser.muting) {
+        document.getElementById('profile-name').classList.add('user-muted');
     }
     document.getElementById('profile-username').innerText = `@${pageUser.screen_name}`;
     document.getElementById('nav-profile-username').innerText = `@${pageUser.screen_name}`;
@@ -139,6 +129,10 @@ function renderProfile() {
     document.getElementById('profile-stat-following-value').innerText = pageUser.friends_count;
     document.getElementById('profile-stat-followers-value').innerText = pageUser.followers_count;
     document.getElementById('profile-stat-favorites-value').innerText = pageUser.favourites_count;
+    
+    if(pageUser.followed_by) {
+        document.getElementById('follows-you').hidden = false;
+    }
 
     if(followersYouFollow && followersYouFollow.total_count > 0) {
         let friendsFollowing = document.getElementById('profile-friends-following');
@@ -164,12 +158,11 @@ function renderProfile() {
     if(pageUser.id_str === user.id_str) {
         buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" href="https://twitter.com/old/settings">Edit Profile</a>`;
     } else {
-        if(pageUser.following) {
-            buttonsElement.innerHTML = `<button class="nice-button following control-btn" id="control-follow">Following</button>`;
-        } else {
-            buttonsElement.innerHTML = `<button class="nice-button follow control-btn" id="control-follow">Follow</button>`;
-        }
-        buttonsElement.innerHTML += `<a class="nice-button" id="mesage-user" href="https://twitter.com/messages/${user.id_str}-${pageUser.id_str}"></a>`;
+        buttonsElement.innerHTML = /*html*/`
+            <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following ? 'Following' : 'Follow'}</button>
+            <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>Unblock</button>
+            <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user" href="https://twitter.com/messages/${user.id_str}-${pageUser.id_str}"></a>
+        `;
         let controlFollow = document.getElementById('control-follow');
         controlFollow.addEventListener('click', async () => {
             if (controlFollow.className.includes('following')) {
@@ -179,6 +172,7 @@ function renderProfile() {
                 controlFollow.innerText = 'Follow';
                 pageUser.following = false;
                 document.getElementById('profile-stat-followers-value').innerText = parseInt(document.getElementById('profile-stat-followers-value').innerText) - 1;
+                document.getElementById('profile-settings-notifications').hidden = true;
             } else {
                 await API.followUser(pageUser.screen_name);
                 controlFollow.classList.add('following');
@@ -186,10 +180,143 @@ function renderProfile() {
                 controlFollow.innerText = 'Following';
                 pageUser.following = true;
                 document.getElementById('profile-stat-followers-value').innerText = parseInt(document.getElementById('profile-stat-followers-value').innerText) + 1;
+                document.getElementById('profile-settings-notifications').hidden = false;
             }
         });
-
-        buttonsElement.innerHTML += `<span class="profile-additional-thing" id="profile-settings"></span>`;
+        buttonsElement.innerHTML += /*html*/`
+            <span class="profile-additional-thing" id="profile-settings"></span>
+            <div id="profile-settings-div" hidden>
+                <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications? `Stop getting notifications` : `Receive notifications`}<br></span>
+                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `Unblock @${pageUser.screen_name}` : `Block @${pageUser.screen_name}`}<br></span>
+                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? `Stop ignoring` : `Ignore`}<br></span>
+                ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">Remove from followers</span><br>` : ''}
+                <hr>
+                <span id="profile-settings-lists" style="width: 100%;">See lists<br></span>
+                <span id="profile-settings-share" style="width: 100%;">Share user<br></span>
+                <span id="profile-settings-copy" style="width: 100%;">Copy profile link<br></span>
+            </div>
+        `;
+        let clicked = false;
+        document.getElementById('profile-settings').addEventListener('click', () => {
+            document.getElementById('profile-settings-div').hidden = false;
+            setTimeout(() => {
+                if(clicked) return;
+                clicked = true;
+                document.addEventListener('click', () => {
+                    setTimeout(() => {
+                        clicked = false;
+                        document.getElementById('profile-settings-div').hidden = true;
+                    }, 100);
+                }, { once: true });
+            }, 100);
+        });
+        document.getElementById('profile-settings-notifications').addEventListener('click', async () => {
+            if(!pageUser.notifications) {
+                await API.receiveNotifications(pageUser.id_str, true);
+                pageUser.notifications = true;
+                document.getElementById('profile-settings-notifications').classList.remove('profile-settings-notifications');
+                document.getElementById('profile-settings-notifications').classList.add('profile-settings-offnotifications');
+                document.getElementById('profile-settings-notifications').innerText = `Stop getting notifications`;
+            } else {
+                await API.receiveNotifications(pageUser.id_str, false);
+                pageUser.notifications = false;
+                document.getElementById('profile-settings-notifications').classList.remove('profile-settings-offnotifications');
+                document.getElementById('profile-settings-notifications').classList.add('profile-settings-notifications');
+                document.getElementById('profile-settings-notifications').innerText = `Receive notifications`;
+            }
+        });
+        document.getElementById('profile-settings-block').addEventListener('click', async () => {
+            if(pageUser.blocking) {
+                await API.unblockUser(pageUser.id_str);
+                pageUser.blocking = false;
+                document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
+                document.getElementById('profile-settings-block').classList.add('profile-settings-block');
+                document.getElementById('profile-settings-block').innerText = `Block @${pageUser.screen_name}`;
+                document.getElementById('control-unblock').hidden = true;
+                document.getElementById('control-follow').hidden = false;
+                document.getElementById('message-user').hidden = !pageUser.can_dm;
+                document.getElementById("profile-settings-notifications").hidden = false;
+                document.getElementById("profile-settings-mute").hidden = false;
+            } else {
+                let modal = createModal(`
+                <span style='font-size:14px'>Are you sure you want to block @${pageUser.screen_name}?</span>
+                    <br><br>
+                    <button class="nice-button">Block</button>
+                `)
+                modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
+                    await API.blockUser(pageUser.id_str);
+                    pageUser.blocking = true;
+                    document.getElementById('profile-settings-block').classList.add('profile-settings-unblock');
+                    document.getElementById('profile-settings-block').classList.remove('profile-settings-block');
+                    document.getElementById('profile-settings-block').innerText = `Unblock @${pageUser.screen_name}`;
+                    document.getElementById('control-unblock').hidden = false;
+                    document.getElementById('control-follow').hidden = true;
+                    document.getElementById('message-user').hidden = true;
+                    document.getElementById("profile-settings-notifications").hidden = true;
+                    document.getElementById("profile-settings-mute").hidden = true;
+                    modal.remove();
+                });
+            }
+        });
+        document.getElementById('control-unblock').addEventListener('click', async () => {
+            if(pageUser.blocking) {
+                await API.unblockUser(pageUser.id_str);
+                pageUser.blocking = false;
+                document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
+                document.getElementById('profile-settings-block').classList.add('profile-settings-block');
+                document.getElementById('profile-settings-block').innerText = `Block @${pageUser.screen_name}`;
+                document.getElementById('control-unblock').hidden = true;
+                document.getElementById('control-follow').hidden = false;
+                document.getElementById("profile-settings-notifications").hidden = false;
+                document.getElementById("profile-settings-mute").hidden = false;
+                document.getElementById('message-user').hidden = !pageUser.can_dm;
+            }
+        });
+        document.getElementById('profile-settings-mute').addEventListener('click', async () => {
+            if(pageUser.muting) {
+                await API.unmuteUser(pageUser.id_str);
+                pageUser.muting = false;
+                document.getElementById('profile-settings-mute').classList.remove('profile-settings-unmute');
+                document.getElementById('profile-settings-mute').classList.add('profile-settings-mute');
+                document.getElementById('profile-settings-mute').innerText = `Ignore`;
+                document.getElementById('profile-name').classList.remove('user-muted');
+            } else {
+                await API.muteUser(pageUser.id_str);
+                pageUser.muting = true;
+                document.getElementById('profile-settings-mute').classList.add('profile-settings-unmute');
+                document.getElementById('profile-settings-mute').classList.remove('profile-settings-mute');
+                document.getElementById('profile-settings-mute').innerText = `Stop ignoring`;
+                document.getElementById('profile-name').classList.add('user-muted');
+            }
+        });
+        if(document.getElementById('profile-settings-removefollowing')) document.getElementById('profile-settings-removefollowing').addEventListener('click', async () => {
+            let modal = createModal(`
+            <span style='font-size:14px'>
+            Are you sure you want to remove @${pageUser.screen_name} from your followers?
+            <br>They'll be able to follow you again in future.
+            <br><br>
+            THIS WILL REMOVE THEM FROM YOUR FOLLOWERS LIST, NOT FROM YOUR FOLLOWING LIST.
+            </span>
+                <br><br>
+                <button class="nice-button">Unfollow them from me</button>
+            `)
+            modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
+                await API.removeFollower(pageUser.id_str);
+                pageUser.followed_by = false;
+                document.getElementById('profile-settings-removefollowing').hidden = true;
+                document.getElementById('follows-you').hidden = true;
+                modal.remove();
+            });
+        });
+        document.getElementById('profile-settings-lists').addEventListener('click', async () => {
+            openInNewTab(`https://twitter.com/${pageUser.screen_name}/lists`);
+        });
+        document.getElementById('profile-settings-share').addEventListener('click', async () => {
+            navigator.share({ url: `https://twitter.com/${pageUser.screen_name}` });
+        });
+        document.getElementById('profile-settings-copy').addEventListener('click', async () => {
+            navigator.clipboard.writeText(`https://twitter.com/${pageUser.screen_name}`);
+        });
     }
 
     let links = Array.from(document.getElementById('profile-bio').getElementsByTagName('a'));
@@ -197,7 +324,7 @@ function renderProfile() {
         let realLink = pageUser.entities.description.urls.find(u => u.url === link.href);
         if (realLink) {
             link.href = realLink.expanded_url;
-            link.target = '_blank';
+            if(!link.href.startsWith('https://twitter.com/')) link.target = '_blank';
             link.innerText = realLink.display_url;
         }
     });
@@ -214,9 +341,10 @@ function renderProfile() {
     if(pageUser.url) {
         let url = document.createElement('a');
         url.classList.add('profile-additional-thing', 'profile-additional-url');
-        let realUrl = pageUser.entities.url.urls.find(u => u.url === pageUser.url);
+        let realUrl = pageUser.entities.url.urls[0];
         url.innerText = realUrl.display_url;
-        url.href = pageUser.expanded_url;
+        url.href = realUrl.expanded_url;
+        if(!url.href.startsWith('https://twitter.com/')) url.target = "_blank";
         additionalInfo.appendChild(url);
     }
     let joined = document.createElement('span');
@@ -567,6 +695,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     tweetQuoteCancel.addEventListener('click', () => {
         tweetQuote.hidden = true;
     });
+    let retweetClicked = false;
     tweetInteractRetweet.addEventListener('click', async () => {
         if (!tweetQuote.hidden) {
             tweetQuote.hidden = true;
@@ -575,11 +704,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if (tweetInteractRetweetMenu.hidden) {
             tweetInteractRetweetMenu.hidden = false;
         }
+        if(retweetClicked) return;
+        retweetClicked = true;
         setTimeout(() => {
             document.body.addEventListener('click', () => {
-                setTimeout(() => tweetInteractRetweetMenu.hidden = true, 50);
+                retweetClicked = false;
+                setTimeout(() => tweetInteractRetweetMenu.hidden = true, 100);
             }, { once: true });
-        }, 50);
+        }, 100);
     });
     tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
         if (!t.retweeted) {
@@ -736,12 +868,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
 
     // More
+    let moreClicked = false;
     tweetInteractMore.addEventListener('click', () => {
         if (tweetInteractMoreMenu.hidden) {
             tweetInteractMoreMenu.hidden = false;
         }
+        if(moreClicked) return;
+        moreClicked = true;
         setTimeout(() => {
             document.body.addEventListener('click', () => {
+                moreClicked = false;
                 setTimeout(() => tweetInteractMoreMenu.hidden = true, 50);
             }, { once: true });
         }, 50);
@@ -1065,7 +1201,6 @@ setTimeout(() => {
         await updateUserData();
         updateTimeline();
         renderDiscovery();
-        setInterval(updateUserData, 60000 * 3);
         setInterval(updateTimeline, 60000);
         setInterval(() => renderDiscovery(false), 60000 * 15);
     }).catch(e => {
