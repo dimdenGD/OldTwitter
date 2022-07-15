@@ -13,7 +13,11 @@ let pages = [
         name: "profile",
         paths: [/^\/[A-z-0-9-_]{1,15}$/g, /^\/[A-z-0-9-_]{1,15}\/with_replies$/g, /^\/[A-z-0-9-_]{1,15}\/media$/g, /^\/[A-z-0-9-_]{1,15}\/likes$/g, /^\/[A-z-0-9-_]{1,15}\/following$/g, /^\/[A-z-0-9-_]{1,15}\/followers$/g],
         exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"],
-    }
+    },
+    {
+        name: "settings",
+        paths: ["/old/settings"]
+    },
 ];
 
 let page = pages.find(p => (!p.exclude || !p.exclude.includes(window.location.pathname)) && (p.paths.includes(window.location.pathname) || p.paths.find(r => r instanceof RegExp && r.test(window.location.pathname))));

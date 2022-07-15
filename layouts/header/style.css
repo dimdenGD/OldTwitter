@@ -1,6 +1,9 @@
 :root {
     --link-color: #3300FF;
     --font: Arial, sans-serif;
+    --favorite-icon-content: "\f147";
+    --favorite-icon-content-notif: "\f001";
+    --favorite-icon-color: #ffac33;
 }
 
 #navbar {

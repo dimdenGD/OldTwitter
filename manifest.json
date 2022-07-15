@@ -31,6 +31,8 @@
         "layouts/notifications/style.css",
         "layouts/profile/index.html",
         "layouts/profile/style.css",
+        "layouts/settings/index.html",
+        "layouts/settings/style.css",
         "layouts/header/index.html",
         "layouts/header/style.css",
         "/images/logo32.png",
@@ -77,6 +79,12 @@
     {
       "matches": ["https://twitter.com/old/notifications"],
       "js": ["libraries/twemoji.min.js", "layouts/notifications/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
+      "css": ["libraries/viewer.min.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://twitter.com/old/settings"],
+      "js": ["libraries/twemoji.min.js", "layouts/settings/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     },

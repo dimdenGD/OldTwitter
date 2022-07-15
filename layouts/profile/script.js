@@ -121,7 +121,10 @@ function updateUserData() {
                 pageUser = await API.getUserV2(user_handle);
             } catch(e) {
                 if(String(e).includes('User has been suspended.')) {
-                    return 
+                    return document.getElementById('loading-box-error').innerHTML = `User was suspended.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+                }
+                if(String(e).includes("reading 'result'")) {
+                    return document.getElementById('loading-box-error').innerHTML = `User was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
                 }
                 return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
             }
@@ -439,7 +442,7 @@ function renderProfile() {
 
     let buttonsElement = document.getElementById('profile-nav-buttons');
     if(pageUser.id_str === user.id_str) {
-        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" href="https://twitter.com/old/settings">Edit Profile</a>`;
+        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" href="https://twitter.com/settings/profile">Edit Profile</a>`;
     } else {
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`
@@ -1527,7 +1530,7 @@ setTimeout(() => {
         if(el.tagName !== 'A') el = el.parentElement;
         if(el.tagName === "A") {
             let path = new URL(el.href).pathname;
-            if(/^\/[A-z-0-9-_]{1,15}$/.test(path)) {
+            if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
                 e.preventDefault();
                 document.getElementById('loading-box').hidden = false;
                 everAddedAdditional = false;
@@ -1546,7 +1549,7 @@ setTimeout(() => {
     });
     window.addEventListener("popstate", async () => {
         let path = location.pathname;
-        if(/^\/[A-z-0-9-_]{1,15}$/.test(path)) {
+        if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
             document.getElementById('loading-box').hidden = false;
             everAddedAdditional = false;
             document.getElementById('profile-media-div').innerHTML = '';

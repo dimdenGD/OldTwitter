@@ -6,13 +6,31 @@ let headerUserInterval = setInterval(() => {
     }
 }, 2000);
 setTimeout(() => {
-    document.addEventListener('updateUserData', e => {
+    document.addEventListener('updateUserData', async e => {
         if(headerGotUser || Object.keys(e.detail).length === 0) return;
         headerGotUser = true;
         let user = e.detail;
         let userAvatar = document.getElementById('navbar-user-avatar');
         userAvatar.src = user.profile_image_url_https.replace("_normal", "_bigger");
         document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
+
+        let root = document.querySelector(":root");
+        let vars = await new Promise((resolve) => {
+            chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars'], data => {
+                resolve(data);
+            });
+        });
+        if(vars.linkColor) {
+            root.style.setProperty('--link-color', vars.linkColor);
+        }
+        if(vars.font) {
+            root.style.setProperty('--font', vars.font);
+        }
+        if(vars.heartsNotStars) {
+            root.style.setProperty('--favorite-icon-content', '"\\f148"');
+            root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');
+            root.style.setProperty('--favorite-icon-color', 'rgb(249, 24, 128)');
+        }
     
         async function updateUnread() {
             let unread = await API.getUnreadCount();

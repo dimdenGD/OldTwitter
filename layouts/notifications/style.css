@@ -260,7 +260,7 @@ body {
     content: "\f152";
 }
 .tweet-interact-favorite:before {
-    content: "\f147";
+    content: var(--favorite-icon-content);
 }
 .tweet-interact-more:before {
     content: "\f150";
@@ -272,7 +272,7 @@ body {
     color: #5c913b !important;
 }
 .tweet-interact-favorited, .tweet-interact-favorited:before, .tweet-interact-favorite:hover:before, .tweet-interact-favorite:hover {
-    color: #ffac33 !important;
+    color: var(--favorite-icon-color) !important;
 }
 .tweet-reply-text, .tweet-quote-text {
     border: 1px solid #e1e8ed;
@@ -651,8 +651,8 @@ body {
     font-weight: bold;
 }
 .ni-favorite:before {
-    content: "\f001";
-    color: #ffac33;
+    content: var(--favorite-icon-content-notif);
+    color: var(--favorite-icon-color);
 }
 .ni-follow:before {
     content: "\f002";
