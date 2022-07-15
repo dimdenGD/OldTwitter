@@ -9,7 +9,7 @@ let seenThreads = [];
 let mediaToUpload = [];
 let linkColors = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
     vars = data;
 });
 
@@ -101,7 +101,7 @@ function renderUserData() {
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('new-tweet-avatar').src = user.profile_image_url_https.replace("_normal", "_bigger");
 
-    twemoji.parse(document.getElementById('user-name'));
+    if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
 
 async function appendTweet(t, timelineContainer, options = {}) {
@@ -290,7 +290,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         <span style="font-size: 12px;color: #8899a6;">Translated from [${translated.translated_lang}]:</span>
         <br>
         <span>${translated.text}</span>`;
-        twemoji.parse(tweetBodyText);
+        if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
     });
 
     // Media
@@ -767,7 +767,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     } else {
         timelineContainer.append(tweet);
     }
-    twemoji.parse(tweet);
+    if(vars.enableTwemoji) twemoji.parse(tweet);
     return tweet;
 }
 
@@ -862,7 +862,7 @@ async function renderDiscovery(cache = true) {
                 }, () => { })
             });
             discoverContainer.append(udiv);
-            twemoji.parse(udiv);
+            if(vars.enableTwemoji) twemoji.parse(udiv);
         });
     } catch (e) {
         console.warn(e);
@@ -880,7 +880,7 @@ async function renderTrends() {
             <span class="trend-description">${trend.meta_description ? trend.meta_description : ''}</span>
         `;
         trendsContainer.append(trendDiv);
-        twemoji.parse(trendDiv);
+        if(vars.enableTwemoji) twemoji.parse(trendDiv);
     });
 }
 

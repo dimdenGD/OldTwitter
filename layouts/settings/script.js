@@ -1,6 +1,9 @@
 let user = {};
 let settings = {};
-
+let vars;
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
+    vars = data;
+});
 // Util
 function updateUserData() {
     API.verifyCredentials().then(async u => {
@@ -39,7 +42,7 @@ function renderUserData() {
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
-    twemoji.parse(document.getElementById('user-name'));
+    if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
 
 async function renderDiscovery(cache = true) {
@@ -88,7 +91,7 @@ async function renderDiscovery(cache = true) {
                 }, () => { })
             });
             discoverContainer.append(udiv);
-            twemoji.parse(udiv);
+            if(vars.enableTwemoji) twemoji.parse(udiv);
         });
     } catch (e) {
         console.warn(e);
@@ -106,7 +109,7 @@ async function renderTrends() {
             <span class="trend-description">${trend.meta_description ? trend.meta_description : ''}</span>
         `;
         trendsContainer.append(trendDiv);
-        twemoji.parse(trendDiv);
+        if(vars.enableTwemoji) twemoji.parse(trendDiv);
     });
 }
 
@@ -148,6 +151,7 @@ setTimeout(async () => {
     let sync = document.getElementById('sync');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
+    let enableTwemoji = document.getElementById('enable-twemoji');
     let root = document.querySelector(":root");
 
     for(let i in fonts) {
@@ -182,6 +186,11 @@ setTimeout(async () => {
             linkColorsInTL: linkColorsInTL.checked
         }, () => { });
     });
+    enableTwemoji.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            enableTwemoji: enableTwemoji.checked
+        }, () => { });
+    });
     sync.addEventListener('click', async () => {
         let color = profileLinkColor.value;
         await fetch(`https://dimden.dev/services/twitter_link_colors/set`, {
@@ -202,11 +211,6 @@ setTimeout(async () => {
         alert('Synced!');
     });
 
-    let vars = await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'], data => {
-            resolve(data);
-        });
-    });
     if(vars.linkColor) {
         linkColor.value = vars.linkColor;
         root.style.setProperty('--link-color', vars.linkColor);
@@ -220,6 +224,9 @@ setTimeout(async () => {
     }
     if(vars.linkColorsInTL) {
         linkColorsInTL.checked = vars.linkColorsInTL;
+    }
+    if(vars.enableTwemoji) {
+        enableTwemoji.checked = vars.enableTwemoji;
     }
 
     // Run

@@ -1,5 +1,9 @@
 let user = {};
 let settings = {};
+let vars;
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
+    vars = data;
+});
 
 // Util
 function updateUserData() {
@@ -31,7 +35,7 @@ function renderUserData() {
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
-    twemoji.parse(document.getElementById('user-name'));
+    if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
 
 async function appendTweet(t, timelineContainer, options = {}) {
@@ -210,7 +214,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         <span style="font-size: 12px;color: #8899a6;">Translated from [${translated.translated_lang}]:</span>
         <br>
         <span>${translated.text}</span>`;
-        twemoji.parse(tweetBodyText);
+        if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
     });
 
     // Media
@@ -682,7 +686,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     } else {
         timelineContainer.append(tweet);
     }
-    twemoji.parse(tweet);
+    if(vars.enableTwemoji) twemoji.parse(tweet);
     return tweet;
 }
 
@@ -750,7 +754,7 @@ async function renderTrends() {
             <span class="trend-description">${trend.meta_description ? trend.meta_description : ''}</span>
         `;
         trendsContainer.append(trendDiv);
-        twemoji.parse(trendDiv);
+        if(vars.enableTwemoji) twemoji.parse(trendDiv);
     });
 }
 let lastFirstCursor = undefined;
@@ -823,7 +827,7 @@ async function renderNotifications(data, append = false) {
                 </div>
             `;
             notificationsContainer.append(notificationDiv);
-            twemoji.parse(notificationDiv);
+            if(vars.enableTwemoji) twemoji.parse(notificationDiv);
         } else if(e.content.tweet) {
             let t = data.globalObjects.tweets[e.content.tweet.id];
             t.user = data.globalObjects.users[t.user_id_str];

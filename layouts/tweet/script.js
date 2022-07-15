@@ -1,5 +1,4 @@
 let user = {};
-let pageUser = {};
 let timeline = {
     data: [],
     dataToUpdate: [],
@@ -7,187 +6,40 @@ let timeline = {
 }
 let settings = {};
 let seenThreads = [];
-let pinnedTweet, followersYouFollow;
-let favoritesCursor, followingCursor, followersCursor;
+let mediaToUpload = [];
+let linkColors = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'], data => {
     vars = data;
 });
 
 // Util
-
-let subpage;
-let user_handle = location.pathname.slice(1).split("?")[0];
-user_handle = user_handle.split('/')[0];
-function updateSubpage() {
-    user_handle = location.pathname.slice(1).split("?")[0];
-    if(user_handle.split('/').length === 1) {
-        subpage = 'profile';
-    } else {
-        if(user_handle.endsWith('/with_replies')) {
-            subpage = 'replies';
-        } else if(user_handle.endsWith('/media')) {
-            subpage = 'media';
-        } else if(user_handle.endsWith('/likes')) {
-            subpage = 'likes';
-        } else if(user_handle.endsWith('/following')) {
-            subpage = 'following';
-        } else if(user_handle.endsWith('/followers')) {
-            subpage = 'followers';
-        }
-    }
-    user_handle = user_handle.split('/')[0];
-}
-
-function updateSelection() {
-    let activeStats = Array.from(document.getElementsByClassName('profile-stat-active'));
-    for(let i in activeStats) {
-        if(activeStats[i].classList.contains('profile-stat-active')) {
-            activeStats[i].classList.remove('profile-stat-active');
-        }
-    }
-    let activeNavs = Array.from(document.getElementsByClassName('tweet-nav-active'));
-    for(let i in activeNavs) {
-        if(activeNavs[i].classList.contains('tweet-nav-active')) {
-            activeNavs[i].classList.remove('tweet-nav-active');
-        }
-    }
-
-    if(subpage === "profile") {
-        document.getElementById('tweet-nav').hidden = false;
-        document.getElementById('timeline').hidden = false;
-        document.getElementById('following-list').hidden = true;
-        document.getElementById('followers-list').hidden = true;
-        document.getElementById('following-more').hidden = true;
-        document.getElementById('followers-more').hidden = true;
-        document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
-        document.getElementById('tweet-nav-tweets').classList.add('tweet-nav-active');
-    } else if(subpage === "likes") {
-        document.getElementById('tweet-nav').hidden = false;
-        document.getElementById('timeline').hidden = false;
-        document.getElementById('following-list').hidden = true;
-        document.getElementById('followers-list').hidden = true;
-        document.getElementById('following-more').hidden = true;
-        document.getElementById('followers-more').hidden = true;
-        document.getElementById('profile-stat-favorites-link').classList.add('profile-stat-active');
-    } else if(subpage === "replies") {
-        document.getElementById('tweet-nav').hidden = false;
-        document.getElementById('timeline').hidden = false;
-        document.getElementById('following-list').hidden = true;
-        document.getElementById('followers-list').hidden = true;
-        document.getElementById('following-more').hidden = true;
-        document.getElementById('followers-more').hidden = true;
-        document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
-        document.getElementById('tweet-nav-replies').classList.add('tweet-nav-active');
-    } else if(subpage === "media") {
-        document.getElementById('tweet-nav').hidden = false;
-        document.getElementById('timeline').hidden = false;
-        document.getElementById('following-list').hidden = true;
-        document.getElementById('followers-list').hidden = true;
-        document.getElementById('following-more').hidden = true;
-        document.getElementById('followers-more').hidden = true;
-        document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
-        document.getElementById('tweet-nav-media').classList.add('tweet-nav-active');
-    } else if(subpage === "following") {
-        document.getElementById('tweet-nav').hidden = true;
-        document.getElementById('timeline').hidden = true;
-        document.getElementById('following-list').hidden = false;
-        document.getElementById('followers-list').hidden = true;
-        document.getElementById('following-more').hidden = false;
-        document.getElementById('followers-more').hidden = true;
-        document.getElementById('profile-stat-following-link').classList.add('profile-stat-active');
-    } else if(subpage === "followers") {
-        document.getElementById('tweet-nav').hidden = true;
-        document.getElementById('timeline').hidden = true;
-        document.getElementById('following-list').hidden = true;
-        document.getElementById('followers-list').hidden = false;
-        document.getElementById('following-more').hidden = true;
-        document.getElementById('followers-more').hidden = false;
-        document.getElementById('profile-stat-followers-link').classList.add('profile-stat-active');
-    }
-    if(subpage !== 'profile') document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
-    document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
-    document.getElementById('profile-stat-followers-link').href = `https://twitter.com/${pageUser.screen_name}/followers`;
-    if(subpage !== 'likes') document.getElementById('profile-stat-favorites-link').href = `https://twitter.com/${pageUser.screen_name}/likes`;
-    if(subpage !== 'profile') document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
-    if(subpage !== 'replies') document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
-    if(subpage !== 'media') document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
-}
-
 function updateUserData() {
-    return new Promise((resolve, reject) => {
-        API.verifyCredentials().then(async u => {
-            user = u;
-            const event = new CustomEvent('updateUserData', { detail: u });
-            document.dispatchEvent(event);
-            document.getElementsByTagName('title')[0].innerText = `${user_handle} - OldTwitter`;
-            try {
-                pageUser = await API.getUserV2(user_handle);
-            } catch(e) {
-                if(String(e).includes('User has been suspended.')) {
-                    return document.getElementById('loading-box-error').innerHTML = `User was suspended.<br><a href="https://twitter.com/home">Go to homepage</a>`;
-                }
-                if(String(e).includes("reading 'result'")) {
-                    return document.getElementById('loading-box-error').innerHTML = `User was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
-                }
-                return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
-            }
-            try {
-                let customColor;
-                try {
-                    customColor = await fetch(`https://dimden.dev/services/twitter_link_colors/get/${pageUser.screen_name}`).then(res => res.text());
-                } catch(e) {};
-                if(customColor && customColor !== 'none') {
-                    let r = document.querySelector(':root');
-                    r.style.setProperty('--link-color', `#`+customColor);
-                } else {
-                    let oldUser = await API.getUser(user_handle, false);
-                    let r = document.querySelector(':root');
-                    if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
-                }
-            } catch(e) {
-                console.warn(e);
-            }
-            try {
-                if(pageUser.id_str !== user.id_str) followersYouFollow = await API.friendsFollowing(pageUser.id_str);
-            } catch(e) {
-                followersYouFollow = undefined;
-                console.warn(e);
-            }
-            renderProfile();
-            try {
-                pinnedTweet = pageUser.pinned_tweet_ids_str;
-                if(pinnedTweet && pinnedTweet.length > 0) pinnedTweet = await API.getTweet(pinnedTweet[0]);
-                else pinnedTweet = undefined;
-            } catch(e) {
-                pinnedTweet = undefined;
-                console.warn(e);
-            }
-            resolve(u);
-        }).catch(e => {
-            if (e === "Not logged in") {
-                window.location.href = "https://twitter.com/login";
-            }
-            console.error(e);
-            reject(e);
-        });
+    API.verifyCredentials().then(u => {
+        user = u;
+        const event = new CustomEvent('updateUserData', { detail: u });
+        document.dispatchEvent(event);
+        renderUserData();
+    }).catch(e => {
+        if (e === "Not logged in") {
+            window.location.href = "https://twitter.com/login";
+        }
+        console.error(e);
     });
 }
-
 async function updateTimeline() {
     seenThreads = [];
     if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
-    let tl;
-    if(subpage === "likes") {
-        let data = await API.getFavorites(pageUser.id_str);
-        tl = data.tl;
-        favoritesCursor = data.cursor;
-    } else {
-        tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
-        if(subpage === 'media') {
-            tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0);
+    let tl = await API.getTimeline();
+
+    if(vars.linkColorsInTL) {
+        let tlUsers = tl.map(t => t.user.screen_name).filter(u => !linkColors[u]);
+        let linkData = await fetch(`https://dimden.dev/services/twitter_link_colors/get_multiple/${tlUsers.join(',')}`).then(res => res.json());
+        for(let i in linkData) {
+            linkColors[linkData[i].username] = linkData[i].color;
         }
     }
+
     tl.forEach(t => {
         let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
         let tweetElement = document.getElementById(`tweet-${t.id_str}`);
@@ -206,452 +58,51 @@ async function updateTimeline() {
             tweetElement.querySelector('.tweet-interact-retweet').classList.toggle('tweet-interact-retweeted', t.retweeted);
         }
     });
+    let firstTweetId = tl[0].id_str;
     // first update
-    timeline.data = tl;
-    renderTimeline();
-}
-
-async function renderFollowing(clear = true, cursor) {
-    let followingList = document.getElementById('following-list');
-    if(clear) followingList.innerHTML = '';
-    let following = await API.getFollowing(pageUser.id_str, cursor);
-    followingCursor = following.cursor;
-    following = following.list;
-    following.forEach(u => {
-        let followingElement = document.createElement('div');
-        followingElement.classList.add('following-item');
-        followingElement.innerHTML = `
-        <div>
-            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${u.name}</span><br>
-                    <span class="tweet-header-handle">@${u.screen_name}</span>
-                </div>
-            </a>
-        </div>
-        <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
-        </div>`;
-
-        let followButton = followingElement.querySelector('.following-item-btn');
-        followButton.addEventListener('click', async () => {
-            if (followButton.classList.contains('following')) {
-                await API.unfollowUser(u.screen_name);
-                followButton.classList.remove('following');
-                followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
-            } else {
-                await API.followUser(u.screen_name);
-                followButton.classList.remove('follow');
-                followButton.classList.add('following');
-                followButton.innerText = 'Following';
+    if (timeline.data.length === 0) {
+        timeline.data = tl;
+        renderTimeline();
+    }
+    // update
+    else {
+        let data = timeline.data.filter(t => !t._ARTIFICIAL);
+        if (data[0].id_str !== firstTweetId) {
+            timeline.toBeUpdated = data.findIndex(t => t.id_str === firstTweetId);
+            if (timeline.toBeUpdated === -1) {
+                timeline.toBeUpdated = data.length;
             }
-        });
-
-        followingList.appendChild(followingElement);
-    });
-    document.getElementById('loading-box').hidden = true;
-}
-async function renderFollowers(clear = true, cursor) {
-    let followingList = document.getElementById('followers-list');
-    if(clear) followingList.innerHTML = '';
-    let following = await API.getFollowers(pageUser.id_str, cursor);
-    followersCursor = following.cursor;
-    following = following.list;
-    following.forEach(u => {
-        let followingElement = document.createElement('div');
-        followingElement.classList.add('following-item');
-        followingElement.innerHTML = `
-        <div>
-            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${u.name}</span><br>
-                    <span class="tweet-header-handle">@${u.screen_name}</span>
-                </div>
-            </a>
-        </div>
-        <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
-        </div>`;
-
-        let followButton = followingElement.querySelector('.following-item-btn');
-        followButton.addEventListener('click', async () => {
-            if (followButton.classList.contains('following')) {
-                await API.unfollowUser(u.screen_name);
-                followButton.classList.remove('following');
-                followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
-            } else {
-                await API.followUser(u.screen_name);
-                followButton.classList.remove('follow');
-                followButton.classList.add('following');
-                followButton.innerText = 'Following';
+            timeline.dataToUpdate = tl.slice(0, timeline.toBeUpdated);
+            if (timeline.dataToUpdate.length !== data.length) {
+                timeline.dataToUpdate = timeline.dataToUpdate.concat(data.slice(timeline.toBeUpdated));
             }
-        });
-
-        followingList.appendChild(followingElement);
-    });
-    document.getElementById('loading-box').hidden = true;
-}
-
-let everAddedAdditional = false;
-function renderProfile() {
-    document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
-    document.getElementById('profile-avatar').addEventListener('error', () => {
-        setTimeout(() => {
-            document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_400x400');
-        }, 500);
-    });
-    document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_400x400');
-    document.getElementById('nav-profile-avatar').src = pageUser.profile_image_url_https.replace('_normal', '_bigger');
-    document.getElementById('profile-name').innerText = pageUser.name;
-    document.getElementById('nav-profile-name').innerText = pageUser.name;
-    document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal', '_400x400');;
-    document.getElementById('tweet-to').innerText = `Tweet to ${pageUser.name}`;
-
-    if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
-        document.getElementById('profile-name').classList.add('user-verified');
-    }
-    if(pageUser.protected) {
-        document.getElementById('profile-name').classList.add('user-protected');
-    }
-    if(pageUser.muting) {
-        document.getElementById('profile-name').classList.add('user-muted');
-    }
-    document.getElementById('profile-username').innerText = `@${pageUser.screen_name}`;
-    document.getElementById('nav-profile-username').innerText = `@${pageUser.screen_name}`;
-    document.getElementById('profile-media-text').href = `https://twitter.com/${pageUser.screen_name}/media`;
-
-    updateSelection();
-
-
-    document.getElementById('profile-bio').innerHTML = escape(pageUser.description).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
-    if(vars.enableTwemoji) twemoji.parse(document.getElementById('profile-info'));
-
-    document.getElementById('profile-stat-tweets-value').innerText = pageUser.statuses_count;
-    document.getElementById('profile-stat-following-value').innerText = pageUser.friends_count;
-    document.getElementById('profile-stat-followers-value').innerText = pageUser.followers_count;
-    document.getElementById('profile-stat-favorites-value').innerText = pageUser.favourites_count;
-    
-    if(pageUser.followed_by) {
-        document.getElementById('follows-you').hidden = false;
-    } else {
-        document.getElementById('follows-you').hidden = true;
-    }
-    document.getElementById('tweet-to').addEventListener('click', () => {
-        let modal = createModal(/*html*/`
-            <div class="navbar-new-tweet-container">
-                <div class="navbar-new-tweet">
-                    <img width="35" height="35" class="navbar-new-tweet-avatar">
-                    <span class="navbar-new-tweet-char">0/280</span>
-                    <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="Tweet to @${pageUser.screen_name}">@${pageUser.screen_name} </textarea>
-                    <div class="navbar-new-tweet-media-div">
-                        <span class="navbar-new-tweet-media"></span>
-                    </div>
-                    <div class="navbar-new-tweet-focused">
-                        <div class="navbar-new-tweet-media-cc"><div class="navbar-new-tweet-media-c"></div></div>
-                        <button class="navbar-new-tweet-button nice-button">Tweet</button>
-                        <br><br>
-                    </div>
-                </div>
-            </div>
-        `);
-        const newTweetText = modal.getElementsByClassName('navbar-new-tweet-text')[0];
-        const newTweetChar = modal.getElementsByClassName('navbar-new-tweet-char')[0];
-        const newTweetMedia = modal.getElementsByClassName('navbar-new-tweet-media')[0];
-        const newTweetMediaDiv = modal.getElementsByClassName('navbar-new-tweet-media-c')[0];
-        const newTweetButton = modal.getElementsByClassName('navbar-new-tweet-button')[0];
-
-        modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = user.profile_image_url_https.replace("_normal", "_bigger");
-        function updateCharCount(e) {
-            let char = e.target.value.length;
-            let charElement = newTweetChar;
-            charElement.innerText = `${char}/280`;
-            if(char > 265) {
-                charElement.style.color = "#c26363";
-            } else {
-                charElement.style.color = "";
-            }
+            renderNewTweetsButton();
+        } else {
+            timeline.toBeUpdated = 0;
+            timeline.dataToUpdate = [];
         }
-        newTweetText.addEventListener('keyup', updateCharCount);
-        newTweetText.addEventListener('keydown', updateCharCount);
-        let mediaToUpload = []; 
-        newTweetMedia.addEventListener('click', () => {
-            getMedia(mediaToUpload, newTweetMediaDiv); 
-        });
-        newTweetButton.addEventListener('click', async () => {
-            let tweet = newTweetText.value;
-            if (tweet.length === 0 && mediaToUpload.length === 0) return;
-            newTweetButton.disabled = true;
-            let uploadedMedia = [];
-            for (let i in mediaToUpload) {
-                let media = mediaToUpload[i];
-                try {
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                    let mediaId = await API.uploadMedia({
-                        media_type: media.type,
-                        media_category: media.category,
-                        media: media.data,
-                        alt: media.alt,
-                        loadCallback: data => {
-                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                        }
-                    });
-                    uploadedMedia.push(mediaId);
-                } catch (e) {
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
-                    console.error(e);
-                    alert(e);
-                }
-            }
-            let tweetObject = {
-                status: tweet,
-                auto_populate_reply_metadata: true,
-                batch_mode: 'off',
-                exclude_reply_user_ids: '',
-                cards_platform: 'Web-13',
-                include_entities: 1,
-                include_user_entities: 1,
-                include_cards: 1,
-                send_error_codes: 1,
-                tweet_mode: 'extended',
-                include_ext_alt_text: true,
-                include_reply_count: true
-            };
-            if (uploadedMedia.length > 0) {
-                tweetObject.media_ids = uploadedMedia.join(',');
-            }
-            try {
-                let tweet = await API.postTweet(tweetObject);
-            } catch (e) {
-                document.getElementById('new-tweet-button').disabled = false;
-                console.error(e);
-            }
-            modal.remove();
-        });
-    });
-
-    if(followersYouFollow && followersYouFollow.total_count > 0) {
-        let friendsFollowing = document.getElementById('profile-friends-following');
-        let friendsFollowingList = document.getElementById('profile-friends-div');
-        let friendsFollowingText = document.getElementById('profile-friends-text');
-        friendsFollowingText.innerText = `${followersYouFollow.total_count} followers you know`;
-        friendsFollowingText.href = `https://twitter.com/${pageUser.screen_name}/followers_you_follow`;
-        followersYouFollow.users.forEach(u => {
-            let a = document.createElement('a');
-            a.href = `/${u.screen_name}`;
-            let avatar = document.createElement('img');
-            avatar.src = u.profile_image_url_https.replace('_normal', '_bigger');
-            avatar.width = 48;
-            avatar.height = 48;
-            avatar.classList.add('profile-friends-avatar');
-            a.append(avatar);
-            friendsFollowingList.append(a);
-        });
-        friendsFollowing.hidden = false;
     }
+}
 
-    let buttonsElement = document.getElementById('profile-nav-buttons');
-    if(pageUser.id_str === user.id_str) {
-        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" href="https://twitter.com/settings/profile">Edit Profile</a>`;
-    } else {
-        document.getElementById('tweet-to-bg').hidden = false;
-        buttonsElement.innerHTML = /*html*/`
-            <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following ? 'Following' : 'Follow'}</button>
-            <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>Unblock</button>
-            <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user" href="https://twitter.com/messages/${user.id_str}-${pageUser.id_str}"></a>
-        `;
-        buttonsElement.innerHTML += /*html*/`
-            <span class="profile-additional-thing" id="profile-settings"></span>
-            <div id="profile-settings-div" hidden>
-                <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications? `Stop getting notifications` : `Receive notifications`}<br></span>
-                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `Unblock @${pageUser.screen_name}` : `Block @${pageUser.screen_name}`}<br></span>
-                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? `Stop ignoring` : `Ignore`}<br></span>
-                ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">Remove from followers</span><br>` : ''}
-                <hr>
-                <span id="profile-settings-lists" style="width: 100%;">See lists<br></span>
-                <span id="profile-settings-share" style="width: 100%;">Share user<br></span>
-                <span id="profile-settings-copy" style="width: 100%;">Copy profile link<br></span>
-            </div>
-        `;
-        let clicked = false;
-        let controlFollow = document.getElementById('control-follow');
-        controlFollow.addEventListener('click', async () => {
-            if (controlFollow.className.includes('following')) {
-                await API.unfollowUser(pageUser.screen_name);
-                controlFollow.classList.remove('following');
-                controlFollow.classList.add('follow');
-                controlFollow.innerText = 'Follow';
-                pageUser.following = false;
-                document.getElementById('profile-stat-followers-value').innerText = parseInt(document.getElementById('profile-stat-followers-value').innerText) - 1;
-                document.getElementById('profile-settings-notifications').hidden = true;
-            } else {
-                await API.followUser(pageUser.screen_name);
-                controlFollow.classList.add('following');
-                controlFollow.classList.remove('follow');
-                controlFollow.innerText = 'Following';
-                pageUser.following = true;
-                document.getElementById('profile-stat-followers-value').innerText = parseInt(document.getElementById('profile-stat-followers-value').innerText) + 1;
-                document.getElementById('profile-settings-notifications').hidden = false;
-            }
-        });
-        document.getElementById('profile-settings').addEventListener('click', () => {
-            document.getElementById('profile-settings-div').hidden = false;
-            setTimeout(() => {
-                if(clicked) return;
-                clicked = true;
-                document.addEventListener('click', () => {
-                    setTimeout(() => {
-                        clicked = false;
-                        document.getElementById('profile-settings-div').hidden = true;
-                    }, 100);
-                }, { once: true });
-            }, 100);
-        });
-        document.getElementById('profile-settings-notifications').addEventListener('click', async () => {
-            if(!pageUser.notifications) {
-                await API.receiveNotifications(pageUser.id_str, true);
-                pageUser.notifications = true;
-                document.getElementById('profile-settings-notifications').classList.remove('profile-settings-notifications');
-                document.getElementById('profile-settings-notifications').classList.add('profile-settings-offnotifications');
-                document.getElementById('profile-settings-notifications').innerText = `Stop getting notifications`;
-            } else {
-                await API.receiveNotifications(pageUser.id_str, false);
-                pageUser.notifications = false;
-                document.getElementById('profile-settings-notifications').classList.remove('profile-settings-offnotifications');
-                document.getElementById('profile-settings-notifications').classList.add('profile-settings-notifications');
-                document.getElementById('profile-settings-notifications').innerText = `Receive notifications`;
-            }
-        });
-        document.getElementById('profile-settings-block').addEventListener('click', async () => {
-            if(pageUser.blocking) {
-                await API.unblockUser(pageUser.id_str);
-                pageUser.blocking = false;
-                document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
-                document.getElementById('profile-settings-block').classList.add('profile-settings-block');
-                document.getElementById('profile-settings-block').innerText = `Block @${pageUser.screen_name}`;
-                document.getElementById('control-unblock').hidden = true;
-                document.getElementById('control-follow').hidden = false;
-                document.getElementById('message-user').hidden = !pageUser.can_dm;
-                document.getElementById("profile-settings-notifications").hidden = false;
-                document.getElementById("profile-settings-mute").hidden = false;
-            } else {
-                let modal = createModal(`
-                <span style='font-size:14px'>Are you sure you want to block @${pageUser.screen_name}?</span>
-                    <br><br>
-                    <button class="nice-button">Block</button>
-                `)
-                modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
-                    await API.blockUser(pageUser.id_str);
-                    pageUser.blocking = true;
-                    document.getElementById('profile-settings-block').classList.add('profile-settings-unblock');
-                    document.getElementById('profile-settings-block').classList.remove('profile-settings-block');
-                    document.getElementById('profile-settings-block').innerText = `Unblock @${pageUser.screen_name}`;
-                    document.getElementById('control-unblock').hidden = false;
-                    document.getElementById('control-follow').hidden = true;
-                    document.getElementById('message-user').hidden = true;
-                    document.getElementById("profile-settings-notifications").hidden = true;
-                    document.getElementById("profile-settings-mute").hidden = true;
-                    modal.remove();
-                });
-            }
-        });
-        document.getElementById('control-unblock').addEventListener('click', async () => {
-            if(pageUser.blocking) {
-                await API.unblockUser(pageUser.id_str);
-                pageUser.blocking = false;
-                document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
-                document.getElementById('profile-settings-block').classList.add('profile-settings-block');
-                document.getElementById('profile-settings-block').innerText = `Block @${pageUser.screen_name}`;
-                document.getElementById('control-unblock').hidden = true;
-                document.getElementById('control-follow').hidden = false;
-                document.getElementById("profile-settings-notifications").hidden = false;
-                document.getElementById("profile-settings-mute").hidden = false;
-                document.getElementById('message-user').hidden = !pageUser.can_dm;
-            }
-        });
-        document.getElementById('profile-settings-mute').addEventListener('click', async () => {
-            if(pageUser.muting) {
-                await API.unmuteUser(pageUser.id_str);
-                pageUser.muting = false;
-                document.getElementById('profile-settings-mute').classList.remove('profile-settings-unmute');
-                document.getElementById('profile-settings-mute').classList.add('profile-settings-mute');
-                document.getElementById('profile-settings-mute').innerText = `Ignore`;
-                document.getElementById('profile-name').classList.remove('user-muted');
-            } else {
-                await API.muteUser(pageUser.id_str);
-                pageUser.muting = true;
-                document.getElementById('profile-settings-mute').classList.add('profile-settings-unmute');
-                document.getElementById('profile-settings-mute').classList.remove('profile-settings-mute');
-                document.getElementById('profile-settings-mute').innerText = `Stop ignoring`;
-                document.getElementById('profile-name').classList.add('user-muted');
-            }
-        });
-        if(document.getElementById('profile-settings-removefollowing')) document.getElementById('profile-settings-removefollowing').addEventListener('click', async () => {
-            let modal = createModal(`
-            <span style='font-size:14px'>
-            Are you sure you want to remove @${pageUser.screen_name} from your followers?
-            <br>They'll be able to follow you again in future.
-            <br><br>
-            THIS WILL REMOVE THEM FROM YOUR FOLLOWERS LIST, NOT FROM YOUR FOLLOWING LIST.
-            </span>
-                <br><br>
-                <button class="nice-button">Unfollow them from me</button>
-            `)
-            modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
-                await API.removeFollower(pageUser.id_str);
-                pageUser.followed_by = false;
-                document.getElementById('profile-settings-removefollowing').hidden = true;
-                document.getElementById('follows-you').hidden = true;
-                modal.remove();
-            });
-        });
-        document.getElementById('profile-settings-lists').addEventListener('click', async () => {
-            openInNewTab(`https://twitter.com/${pageUser.screen_name}/lists`);
-        });
-        document.getElementById('profile-settings-share').addEventListener('click', async () => {
-            navigator.share({ url: `https://twitter.com/${pageUser.screen_name}` });
-        });
-        document.getElementById('profile-settings-copy').addEventListener('click', async () => {
-            navigator.clipboard.writeText(`https://twitter.com/${pageUser.screen_name}`);
-        });
-    }
+// Render
+function renderUserData() {
+    document.getElementById('user-name').innerText = user.name;
+    document.getElementById('user-name').classList.toggle('user-verified', user.verified);
+    document.getElementById('user-name').classList.toggle('user-protected', user.protected);
 
-    let links = Array.from(document.getElementById('profile-bio').getElementsByTagName('a'));
-    links.forEach(link => {
-        let realLink = pageUser.entities.description.urls.find(u => u.url === link.href);
-        if (realLink) {
-            link.href = realLink.expanded_url;
-            if(!link.href.startsWith('https://twitter.com/')) link.target = '_blank';
-            link.innerText = realLink.display_url;
-        }
-    });
+    document.getElementById('user-handle').innerText = `@${user.screen_name}`;
+    document.getElementById('user-tweets').innerText = user.statuses_count;
+    document.getElementById('user-following').innerText = user.friends_count;
+    document.getElementById('user-followers').innerText = user.followers_count;
+    document.getElementById('user-banner').src = user.profile_banner_url;
+    document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
+    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?user_id=${user.id_str}`;
+    document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('new-tweet-avatar').src = user.profile_image_url_https.replace("_normal", "_bigger");
 
-    if(everAddedAdditional) return;
-    everAddedAdditional = true;
-    let additionalInfo = document.getElementById('profile-additional');
-    if(pageUser.location) {
-        let location = document.createElement('span');
-        location.classList.add('profile-additional-thing', 'profile-additional-location');
-        location.innerText = pageUser.location;
-        additionalInfo.appendChild(location);
-    }
-    if(pageUser.url) {
-        let url = document.createElement('a');
-        url.classList.add('profile-additional-thing', 'profile-additional-url');
-        let realUrl = pageUser.entities.url.urls[0];
-        url.innerText = realUrl.display_url;
-        url.href = realUrl.expanded_url;
-        if(!url.href.startsWith('https://twitter.com/')) url.target = "_blank";
-        additionalInfo.appendChild(url);
-    }
-    let joined = document.createElement('span');
-    joined.classList.add('profile-additional-thing', 'profile-additional-joined');
-    joined.innerText = `Joined ${new Date(pageUser.created_at).toLocaleDateString('en', {month: 'long', year: 'numeric', day: 'numeric'})}`;
-    additionalInfo.appendChild(joined);
-};
+    twemoji.parse(document.getElementById('user-name'));
+}
 
 async function appendTweet(t, timelineContainer, options = {}) {
     if(seenThreads.includes(t.id_str)) return false;
@@ -664,6 +115,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
     tweet.className = `tweet tweet-id-${t.id_str}`;
     if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if (options.noTop) tweet.classList.add('tweet-no-top');
+    if(vars.linkColorsInTL) {
+        if(linkColors[t.user.screen_name]) {
+            tweet.style.setProperty('--link-color', '#'+linkColors[t.user.screen_name]);
+        } else {
+            if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
+                tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);
+            }
+        }
+    }
     const mediaClasses = [
         undefined,
         'tweet-media-element-one',
@@ -830,7 +290,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         <span style="font-size: 12px;color: #8899a6;">Translated from [${translated.translated_lang}]:</span>
         <br>
         <span>${translated.text}</span>`;
-        if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
+        twemoji.parse(tweetBodyText);
     });
 
     // Media
@@ -844,20 +304,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 new Viewer(tweetMedia);
                 e.target.click();
             }
-        });
-        let profileMediaDiv = document.getElementById('profile-media-div');
-        t.extended_entities.media.forEach(m => {
-            if(profileMediaDiv.children.length >= 6) return;
-            let ch = Array.from(profileMediaDiv.children);
-            if(ch.find(c => c.src === m.media_url_https)) return;
-            const media = document.createElement('img');
-            media.classList.add('tweet-media-element', 'tweet-media-element-four', 'profile-media-preview');
-            media.src = m.media_url_https;
-            if(m.ext_alt_text) media.alt = m.ext_alt_text;
-            media.addEventListener('click', () => {
-                tweet.scrollIntoView({behavior: 'smooth', block: 'center'});
-            });
-            profileMediaDiv.appendChild(media);
         });
     }
 
@@ -992,10 +438,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
 
     // Retweet / Quote Tweet
+    let retweetClicked = false;
     tweetQuoteCancel.addEventListener('click', () => {
         tweetQuote.hidden = true;
     });
-    let retweetClicked = false;
     tweetInteractRetweet.addEventListener('click', async () => {
         if (!tweetQuote.hidden) {
             tweetQuote.hidden = true;
@@ -1009,9 +455,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         setTimeout(() => {
             document.body.addEventListener('click', () => {
                 retweetClicked = false;
-                setTimeout(() => tweetInteractRetweetMenu.hidden = true, 100);
+                setTimeout(() => tweetInteractRetweetMenu.hidden = true, 50);
             }, { once: true });
-        }, 100);
+        }, 50);
     });
     tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
         if (!t.retweeted) {
@@ -1321,23 +767,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
     } else {
         timelineContainer.append(tweet);
     }
-    if(vars.enableTwemoji) twemoji.parse(tweet);
+    twemoji.parse(tweet);
     return tweet;
 }
 
 async function renderTimeline() {
     let timelineContainer = document.getElementById('timeline');
     timelineContainer.innerHTML = '';
-    if(pinnedTweet && subpage === "profile") await appendTweet(pinnedTweet, timelineContainer, {
-        top: {
-            text: "Pinned Tweet",
-            icon: "\uf003",
-            color: "var(--link-color)"
-        }
-    })
     for(let i in timeline.data) {
         let t = timeline.data[i];
-        if(pinnedTweet && t.id_str === pinnedTweet.id_str) continue;
         if (t.retweeted_status) {
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
@@ -1370,22 +808,15 @@ async function renderTimeline() {
     document.getElementById('loading-box').hidden = true;
     return true;
 }
-function renderNewTweetsButton() {
-    if (timeline.toBeUpdated > 0) {
-        document.getElementById('new-tweets').hidden = false;
-        document.getElementById('new-tweets').innerText = `See new tweets`;
-    } else {
-        document.getElementById('new-tweets').hidden = true;
-    }
-}
 async function renderDiscovery(cache = true) {
-    let discover = await API.peopleRecommendations(pageUser.id_str, cache);
+    let discover = await API.discoverPeople(cache);
     let discoverContainer = document.getElementById('wtf-list');
     discoverContainer.innerHTML = '';
     try {
-        document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?user_id=${pageUser.id_str}`;
-        discover.forEach(userData => {
-            userData = userData.user;
+        let usersData = discover.globalObjects.users;
+        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
+        usersSuggestions.forEach(userId => {
+            let userData = usersData[userId];
             if (!userData) return;
             let udiv = document.createElement('div');
             udiv.className = 'wtf-user';
@@ -1423,7 +854,7 @@ async function renderDiscovery(cache = true) {
                 }, () => { })
             });
             discoverContainer.append(udiv);
-            if(vars.enableTwemoji) twemoji.parse(udiv);
+            twemoji.parse(udiv);
         });
     } catch (e) {
         console.warn(e);
@@ -1441,31 +872,19 @@ async function renderTrends() {
             <span class="trend-description">${trend.meta_description ? trend.meta_description : ''}</span>
         `;
         trendsContainer.append(trendDiv);
-        if(vars.enableTwemoji) twemoji.parse(trendDiv);
+        twemoji.parse(trendDiv);
     });
 }
 
+// On scroll to end of timeline, load more tweets
 let loadingNewTweets = false;
-window.addEventListener('scroll', async () => {
-    // banner scroll
-    let banner = document.getElementById('profile-banner');
-    banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
-    // load more tweets
+document.addEventListener('scroll', async () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
         if (loadingNewTweets || timeline.data.length === 0) return;
         loadingNewTweets = true;
         let tl;
         try {
-            if(subpage === "likes") {
-                let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
-                tl = data.tl;
-                favoritesCursor = data.cursor;
-            } else {
-                tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
-                if(subpage === 'media') {
-                    tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0);
-                }
-            }
+            tl = await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
         } catch (e) {
             console.error(e);
             loadingNewTweets = false;
@@ -1476,7 +895,7 @@ window.addEventListener('scroll', async () => {
         await renderTimeline();
         setTimeout(() => {
             lastTweet.scrollIntoView({
-                behavior: 'smooth', block: 'center'
+                behavior: 'smooth'
             });
             setTimeout(() => {
                 loadingNewTweets = false;
@@ -1487,94 +906,101 @@ window.addEventListener('scroll', async () => {
 
 setTimeout(() => {
     // Buttons
-    document.getElementById('new-tweets').addEventListener('click', () => {
-        timeline.toBeUpdated = 0;
-        timeline.data = timeline.dataToUpdate;
-        timeline.dataToUpdate = [];
-        renderNewTweetsButton();
-        renderTimeline();
-    });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
-    document.getElementById('following-more').addEventListener('click', async () => {
-        if(!followingCursor) return;
-        renderFollowing(false, followingCursor);
+    document.getElementById('new-tweet').addEventListener('click', async () => {
+        document.getElementById('new-tweet-focused').hidden = false;
+        document.getElementById('new-tweet-char').hidden = false;
+        document.getElementById('new-tweet-text').classList.add('new-tweet-text-focused');
+        document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
     });
-    document.getElementById('followers-more').addEventListener('click', async () => {
-        if(!followersCursor) return;
-        renderFollowers(false, followersCursor);
+    
+    document.getElementById('new-tweet-media-div').addEventListener('click', async () => {
+        getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
     });
-    function updatePath(e) {
-        if(e.target.classList.contains('tweet-nav-active') || e.target.classList.contains('profile-stat-active')) {
-            return;
+    document.getElementById('new-tweet-text').addEventListener('keydown', e => {
+        if (e.key === 'Enter' && e.ctrlKey) {
+            document.getElementById('new-tweet-button').click();
         }
-        e.preventDefault();
-        let el = e.target;
-        if(!el.href) el = el.parentElement; 
-        history.pushState({}, null, el.href);
-        updateSubpage();
-        updateSelection();
-        timeline = {
-            data: [],
-            dataToUpdate: [],
-            toBeUpdated: 0
+        let charElement = document.getElementById('new-tweet-char');
+        charElement.innerText = `${e.target.value.length}/280`;
+        if (e.target.value.length > 265) {
+            charElement.style.color = "#c26363";
+        } else {
+            charElement.style.color = "";
         }
-        seenThreads = [];
-        pinnedTweet = undefined;
-        favoritesCursor = undefined;
-        if(subpage !== 'following' && subpage !== 'followers') updateTimeline();
-        if(subpage === 'following') {
-            renderFollowing();
+    });
+    document.getElementById('new-tweet-text').addEventListener('keyup', e => {
+        let charElement = document.getElementById('new-tweet-char');
+        charElement.innerText = `${e.target.value.length}/280`;
+        charElement.innerText = `${e.target.value.length}/280`;
+        if (e.target.value.length > 265) {
+            charElement.style.color = "#c26363";
+        } else {
+            charElement.style.color = "";
         }
-        if(subpage === 'followers') {
-            renderFollowers();
-        }
-    }
-    document.getElementById('tweet-nav-tweets').addEventListener('click', updatePath);
-    document.getElementById('tweet-nav-replies').addEventListener('click', updatePath);
-    document.getElementById('tweet-nav-media').addEventListener('click', updatePath);
-    document.getElementById('profile-stat-tweets-link').addEventListener('click', updatePath);
-    document.getElementById('profile-stat-following-link').addEventListener('click', updatePath);
-    document.getElementById('profile-stat-followers-link').addEventListener('click', updatePath);
-    document.getElementById('profile-stat-favorites-link').addEventListener('click', updatePath);
-    document.addEventListener('click', async e => {
-        let el = e.target;
-        if(el.tagName !== 'A') el = el.parentElement;
-        if(el.tagName === "A") {
-            let path = new URL(el.href).pathname;
-            if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
-                e.preventDefault();
-                document.getElementById('loading-box').hidden = false;
-                everAddedAdditional = false;
-                document.getElementById('profile-media-div').innerHTML = '';
-                document.getElementById('tweet-to-bg').hidden = true;
-                document.getElementById('profile-additional').innerHTML = '';
-                document.getElementById('profile-friends-div').innerHTML = '';
-                history.pushState({}, null, `https://twitter.com/${path.substring(1)}`);
-                updateSubpage();
-                updateSelection();
-                await updateUserData();
-                updateTimeline();
-                renderDiscovery();
+    });
+    document.getElementById('new-tweet-button').addEventListener('click', async () => {
+        let tweet = document.getElementById('new-tweet-text').value;
+        if (tweet.length === 0 && mediaToUpload.length === 0) return;
+        document.getElementById('new-tweet-button').disabled = true;
+        let uploadedMedia = [];
+        for (let i in mediaToUpload) {
+            let media = mediaToUpload[i];
+            try {
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                let mediaId = await API.uploadMedia({
+                    media_type: media.type,
+                    media_category: media.category,
+                    media: media.data,
+                    alt: media.alt,
+                    loadCallback: data => {
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                    }
+                });
+                uploadedMedia.push(mediaId);
+            } catch (e) {
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                console.error(e);
+                alert(e);
             }
         }
-    });
-    window.addEventListener("popstate", async () => {
-        let path = location.pathname;
-        if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
-            document.getElementById('loading-box').hidden = false;
-            everAddedAdditional = false;
-            document.getElementById('profile-media-div').innerHTML = '';
-            document.getElementById('tweet-to-bg').hidden = true;
-            document.getElementById('profile-additional').innerHTML = '';
-            document.getElementById('profile-friends-div').innerHTML = '';
-            updateSubpage();
-            updateSelection();
-            await updateUserData();
-            updateTimeline();
-            renderDiscovery();
+        let tweetObject = {
+            status: tweet,
+            auto_populate_reply_metadata: true,
+            batch_mode: 'off',
+            exclude_reply_user_ids: '',
+            cards_platform: 'Web-13',
+            include_entities: 1,
+            include_user_entities: 1,
+            include_cards: 1,
+            send_error_codes: 1,
+            tweet_mode: 'extended',
+            include_ext_alt_text: true,
+            include_reply_count: true
+        };
+        if (uploadedMedia.length > 0) {
+            tweetObject.media_ids = uploadedMedia.join(',');
         }
+        try {
+            let tweet = await API.postTweet(tweetObject);
+            tweet._ARTIFICIAL = true;
+            appendTweet(tweet, document.getElementById('timeline'), {
+                prepend: true
+            });
+        } catch (e) {
+            document.getElementById('new-tweet-button').disabled = false;
+            console.error(e);
+        }
+        document.getElementById('new-tweet-text').value = "";
+        document.getElementById('new-tweet-media-c').innerHTML = "";
+        mediaToUpload = [];
+        document.getElementById('new-tweet-focused').hidden = true;
+        document.getElementById('new-tweet-char').hidden = true;
+        document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
+        document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
+        document.getElementById('new-tweet-button').disabled = false;
     });
     
     // Update dates every minute
@@ -1599,20 +1025,13 @@ setTimeout(() => {
     });
 
     // Run
-    API.getSettings().then(async s => {
+    API.getSettings().then(s => {
         settings = s;
-        updateSubpage();
-        await updateUserData();
-        if(subpage !== 'following' && subpage !== 'followers') updateTimeline();
-        if(subpage === 'following') {
-            renderFollowing();
-        }
-        if(subpage === 'followers') {
-            renderFollowers();
-        }
+        updateUserData();
         renderDiscovery();
         renderTrends();
-        setInterval(() => renderDiscovery(false), 60000 * 5);
+        setInterval(updateUserData, 60000 * 3);
+        setInterval(() => renderDiscovery(false), 60000 * 15);
         setInterval(renderTrends, 60000 * 5);
     }).catch(e => {
         if (e === "Not logged in") {

@@ -18,6 +18,10 @@ let pages = [
         name: "settings",
         paths: ["/old/settings"]
     },
+    {
+        name: "tweet",
+        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}$/g]
+    },
 ];
 
 let page = pages.find(p => (!p.exclude || !p.exclude.includes(window.location.pathname)) && (p.paths.includes(window.location.pathname) || p.paths.find(r => r instanceof RegExp && r.test(window.location.pathname))));

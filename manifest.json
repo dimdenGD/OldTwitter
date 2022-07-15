@@ -35,6 +35,8 @@
         "layouts/settings/style.css",
         "layouts/header/index.html",
         "layouts/header/style.css",
+        "layouts/tweet/index.html",
+        "layouts/tweet/style.css",
         "/images/logo32.png",
         "/images/logo32_notification.png",
         "/fonts/rosetta.woff",
@@ -85,6 +87,12 @@
     {
       "matches": ["https://twitter.com/old/settings"],
       "js": ["libraries/twemoji.min.js", "layouts/settings/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
+      "css": ["libraries/viewer.min.css"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://twitter.com/old/*/status/*"],
+      "js": ["libraries/twemoji.min.js", "layouts/tweet/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     },

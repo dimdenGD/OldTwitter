@@ -1350,3 +1350,61 @@ API.getFollowers = (id, cursor) => {
         });
     });
 }
+API.getReplies = (id, cursor) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=30&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let tweetData = data.globalObjects.tweets;
+            let userData = data.globalObjects.users;
+            let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
+            let list = [];
+            for (let i = 0; i < entries.length; i++) {
+                let e = entries[i];
+                if (e.entryId.startsWith('tweet-')) {
+                    let tweet = tweetData[e.content.itemContent.tweet_results.result.id_str];
+                    let user = userData[tweet.user_id_str];
+                    tweet.legacy.id_str = tweet.id_str;
+                    tweet.legacy.user = user.legacy;
+                    list.push({
+                        type: 'tweet',
+                        data: tweet.legacy
+                    });
+                } else if(e.entryId.startsWith('conversationThread-')) {
+                    let thread = e.content.item.content.conversationThread.conversationComponents;
+                    let threadList = [];
+                    for (let j = 0; j < thread.length; j++) {
+                        let t = thread[j];
+                        let tweet = tweetData[t.conversationTweetComponent.tweet.id];
+                        let user = userData[tweet.user_id_str];
+                        tweet.legacy.id_str = tweet.id_str;
+                        tweet.legacy.user = user.legacy;
+                        threadList.push(tweet.legacy);
+                    }
+                    list.push({
+                        type: 'conversation',
+                        data: threadList
+                    });
+                }
+            }
+            resolve({
+                list: list,
+                cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value
+            });
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
