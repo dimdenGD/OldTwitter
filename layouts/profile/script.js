@@ -129,9 +129,18 @@ function updateUserData() {
                 return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
             }
             try {
-                let oldUser = await API.getUser(user_handle, false);
-                let r = document.querySelector(':root');
-                if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
+                let customColor;
+                try {
+                    customColor = await fetch(`https://dimden.dev/services/twitter_link_colors/get/${pageUser.screen_name}`).then(res => res.text());
+                } catch(e) {};
+                if(customColor && customColor !== 'none') {
+                    let r = document.querySelector(':root');
+                    r.style.setProperty('--link-color', `#`+customColor);
+                } else {
+                    let oldUser = await API.getUser(user_handle, false);
+                    let r = document.querySelector(':root');
+                    if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
+                }
             } catch(e) {
                 console.warn(e);
             }

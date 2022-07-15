@@ -55,10 +55,13 @@
                     <hr>
                     <h1>OldTwitter settings</h1><br>
                     <div class="setting">
+                        <input type="checkbox" id="link-colors-in-tl"> <label for="link-colors-in-tl">Show custom link colors of users in home timeline</label>
+                    </div>
+                    <div class="setting">
                         <input type="checkbox" id="hearts-instead-stars"> <label for="hearts-instead-stars">Show hearts (likes) instead of stars (favorites)</label>
                     </div>
                     <div class="setting">
-                        <input type="color" id="link-color"> <label for="link-color">Link color</label>
+                        <input type="color" id="link-color"> <label for="link-color">Default link color</label>
                     </div>
                     <div class="setting">
                         <select id="font"></select> <label for="font">Font</label>
@@ -66,7 +69,7 @@
                     <hr>
                     <h1>Link color synchronization</h1><br>
                     <span>
-                        By pressing this button your link color will be sent to colors database and shown to other extension users.<br>
+                        By pressing this button your profile link color will be sent to colors database and shown to other extension users.<br>
                         If you have set Twitter link color before years ago, it'll override your old color.
                     </span><br><br>
                     <span style="color:red">
@@ -76,7 +79,11 @@
                         If you don't trust me (that's good!), after pressing the Sync button press "Logout" in navbar immediately to invalidate the key.<br>
                     </span>
                     <br>
-                    <button class="nice-button">Sync my link color</button>
+                    <div class="setting">
+                        <input type="color" id="profile-link-color"> <label for="profile-link-color">Profile link color</label>
+                    </div>
+                    <br>
+                    <button class="nice-button" id="sync">Sync</button>
                 </div>
             </div>
             <div class="cell" id="right-cell">

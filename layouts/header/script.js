@@ -249,7 +249,7 @@ setTimeout(() => {
         setInterval(updateUnread, 20000);
     });
     setTimeout(() => {
-        document.getElementById('navbar').addEventListener('click', () => {
+        document.getElementById('navbar-user-avatar').addEventListener('click', () => {
             if(headerGotUser) return;
             API.verifyCredentials().then(async u => {
                 const event = new CustomEvent('updateUserData', { detail: u });

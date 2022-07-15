@@ -7,6 +7,11 @@ let timeline = {
 let settings = {};
 let seenThreads = [];
 let mediaToUpload = [];
+let linkColors = {};
+let vars;
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'], data => {
+    vars = data;
+});
 
 // Util
 function updateUserData() {
@@ -26,6 +31,15 @@ async function updateTimeline() {
     seenThreads = [];
     if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
     let tl = await API.getTimeline();
+
+    if(vars.linkColorsInTL) {
+        let tlUsers = tl.map(t => t.user.screen_name).filter(u => !linkColors[u]);
+        let linkData = await fetch(`https://dimden.dev/services/twitter_link_colors/get_multiple/${tlUsers.join(',')}`).then(res => res.json());
+        for(let i in linkData) {
+            linkColors[linkData[i].username] = linkData[i].color;
+        }
+    }
+
     tl.forEach(t => {
         let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
         let tweetElement = document.getElementById(`tweet-${t.id_str}`);
@@ -101,6 +115,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
     tweet.className = `tweet tweet-id-${t.id_str}`;
     if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if (options.noTop) tweet.classList.add('tweet-no-top');
+    if(vars.linkColorsInTL) {
+        if(linkColors[t.user.screen_name]) {
+            tweet.style.setProperty('--link-color', '#'+linkColors[t.user.screen_name]);
+        } else {
+            if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
+                tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);
+            }
+        }
+    }
     const mediaClasses = [
         undefined,
         'tweet-media-element-one',

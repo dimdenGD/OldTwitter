@@ -3,11 +3,19 @@ let settings = {};
 
 // Util
 function updateUserData() {
-    API.verifyCredentials().then(u => {
+    API.verifyCredentials().then(async u => {
         user = u;
         const event = new CustomEvent('updateUserData', { detail: u });
         document.dispatchEvent(event);
         renderUserData();
+        let profileLinkColor = document.getElementById('profile-link-color');
+        let profileColor;
+        try {
+            profileColor = await fetch(`https://dimden.dev/services/twitter_link_colors/get/${user.screen_name}`).then(res => res.text());
+        } catch(e) {};
+        if(profileColor && profileColor !== 'none') {
+            profileLinkColor.value = `#`+profileColor;
+        }
     }).catch(e => {
         if (e === "Not logged in") {
             window.location.href = "https://twitter.com/login";
@@ -136,7 +144,10 @@ setTimeout(async () => {
     })();
     let fontElement = document.getElementById('font');
     let linkColor = document.getElementById('link-color');
+    let profileLinkColor = document.getElementById('profile-link-color');
+    let sync = document.getElementById('sync');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
+    let linkColorsInTL = document.getElementById('link-colors-in-tl');
     let root = document.querySelector(":root");
 
     for(let i in fonts) {
@@ -166,9 +177,33 @@ setTimeout(async () => {
             heartsNotStars: heartsNotStars.checked
         }, () => { });
     });
+    linkColorsInTL.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            linkColorsInTL: linkColorsInTL.checked
+        }, () => { });
+    });
+    sync.addEventListener('click', async () => {
+        let color = profileLinkColor.value;
+        await fetch(`https://dimden.dev/services/twitter_link_colors/set`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                oauth_key: OLDTWITTER_CONFIG.oauth_key,
+                oauth_secret: OLDTWITTER_CONFIG.oauth_secret,
+                color: color,
+                cookie: document.cookie,
+                csrf: OLDTWITTER_CONFIG.csrf,
+                userAgent: navigator.userAgent,
+                screen_name: user.screen_name
+            })
+        });
+        alert('Synced!');
+    });
 
     let vars = await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars'], data => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'], data => {
             resolve(data);
         });
     });
@@ -183,9 +218,12 @@ setTimeout(async () => {
     if(vars.heartsNotStars) {
         heartsNotStars.checked = vars.heartsNotStars;
     }
+    if(vars.linkColorsInTL) {
+        linkColorsInTL.checked = vars.linkColorsInTL;
+    }
 
     // Run
-    API.getSettings().then(s => {
+    API.getSettings().then(async s => {
         settings = s;
         updateUserData();
         renderDiscovery();
