@@ -509,10 +509,7 @@ body {
     text-decoration: none !important;
 }
 .wtf-user-name {
-    max-width: 93px;
     display: inline-block;
-    height: 17px;
-    display: table-caption;
     overflow: hidden;
     margin-right: 5px;
 }

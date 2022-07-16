@@ -14,6 +14,8 @@ chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'
     vars = data;
 });
 
+let startLoad = performance.now();
+
 // Util
 
 let subpage;
@@ -115,62 +117,59 @@ function updateSelection() {
 }
 
 function updateUserData() {
-    return new Promise((resolve, reject) => {
-        API.verifyCredentials().then(async u => {
-            user = u;
-            const event = new CustomEvent('updateUserData', { detail: u });
-            document.dispatchEvent(event);
-            document.getElementsByTagName('title')[0].innerText = `${user_handle} - OldTwitter`;
-            try {
-                pageUser = await API.getUserV2(user_handle);
-            } catch(e) {
-                if(String(e).includes('User has been suspended.')) {
-                    return document.getElementById('loading-box-error').innerHTML = `User was suspended.<br><a href="https://twitter.com/home">Go to homepage</a>`;
-                }
-                if(String(e).includes("reading 'result'")) {
-                    return document.getElementById('loading-box-error').innerHTML = `User was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
-                }
-                return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+    return new Promise(async (resolve, reject) => {
+        document.getElementsByTagName('title')[0].innerText = `${user_handle} - OldTwitter`;
+        let [pageUserData, customColor, followersYouFollowData, oldUser, u] = await Promise.allSettled([
+            API.getUserV2(user_handle),
+            fetch(`https://dimden.dev/services/twitter_link_colors/get/${user_handle}`).then(res => res.text()),
+            API.friendsFollowing(user_handle, false),
+            API.getUser(user_handle, false),
+            API.verifyCredentials()
+        ]).catch(e => {
+            if(String(e).includes('User has been suspended.')) {
+                return document.getElementById('loading-box-error').innerHTML = `User was suspended.<br><a href="https://twitter.com/home">Go to homepage</a>`;
             }
-            try {
-                let customColor;
-                try {
-                    customColor = await fetch(`https://dimden.dev/services/twitter_link_colors/get/${pageUser.screen_name}`).then(res => res.text());
-                } catch(e) {};
-                if(customColor && customColor !== 'none') {
-                    let r = document.querySelector(':root');
-                    r.style.setProperty('--link-color', `#`+customColor);
-                } else {
-                    let oldUser = await API.getUser(user_handle, false);
-                    let r = document.querySelector(':root');
-                    if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
-                }
-            } catch(e) {
-                console.warn(e);
+            if(String(e).includes("reading 'result'")) {
+                return document.getElementById('loading-box-error').innerHTML = `User was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
             }
-            try {
-                if(pageUser.id_str !== user.id_str) followersYouFollow = await API.friendsFollowing(pageUser.id_str);
-            } catch(e) {
-                followersYouFollow = undefined;
-                console.warn(e);
-            }
-            renderProfile();
-            try {
-                pinnedTweet = pageUser.pinned_tweet_ids_str;
-                if(pinnedTweet && pinnedTweet.length > 0) pinnedTweet = await API.getTweet(pinnedTweet[0]);
-                else pinnedTweet = undefined;
-            } catch(e) {
-                pinnedTweet = undefined;
-                console.warn(e);
-            }
-            resolve(u);
-        }).catch(e => {
-            if (e === "Not logged in") {
-                window.location.href = "https://twitter.com/login";
-            }
-            console.error(e);
-            reject(e);
+            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
         });
+        pageUserData = pageUserData.value;
+        customColor = customColor.value;
+        followersYouFollowData = followersYouFollowData.value;
+        oldUser = oldUser.value;
+        u = u.value;
+        user = u;
+
+        const event = new CustomEvent('updateUserData', { detail: u });
+        document.dispatchEvent(event);
+
+        pageUser = pageUserData;
+        if(customColor && customColor !== 'none') {
+            let r = document.querySelector(':root');
+            r.style.setProperty('--link-color', `#`+customColor);
+        } else {
+            let r = document.querySelector(':root');
+            if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
+        }
+        if(pageUser.id_str !== user.id_str) followersYouFollow = followersYouFollowData;
+        else followersYouFollow = undefined;
+        renderProfile();
+        try {
+            pinnedTweet = pageUser.pinned_tweet_ids_str;
+            if(pinnedTweet && pinnedTweet.length > 0) pinnedTweet = await API.getTweet(pinnedTweet[0]);
+            else pinnedTweet = undefined;
+        } catch(e) {
+            pinnedTweet = undefined;
+            console.warn(e);
+        }
+        resolve(u);
+    }).catch(e => {
+        if (e === "Not logged in") {
+            window.location.href = "https://twitter.com/login";
+        }
+        console.error(e);
+        reject(e);
     });
 }
 
@@ -1377,6 +1376,8 @@ async function renderTimeline() {
         }
     };
     document.getElementById('loading-box').hidden = true;
+    console.log(performance.now()-startLoad);
+    startLoad = performance.now();
     return true;
 }
 function renderNewTweetsButton() {
