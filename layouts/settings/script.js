@@ -193,22 +193,27 @@ setTimeout(async () => {
     });
     sync.addEventListener('click', async () => {
         let color = profileLinkColor.value;
-        await fetch(`https://dimden.dev/services/twitter_link_colors/set`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                oauth_key: OLDTWITTER_CONFIG.oauth_key,
-                oauth_secret: OLDTWITTER_CONFIG.oauth_secret,
-                color: color,
-                cookie: document.cookie,
-                csrf: OLDTWITTER_CONFIG.csrf,
-                userAgent: navigator.userAgent,
-                screen_name: user.screen_name
-            })
-        });
-        alert('Synced!');
+        if(color.startsWith('#')) color = color.slice(1);
+        let tweet = await API.postTweet({
+            status: `link_color=${color}`
+        })
+        try {
+            let res = await fetch(`https://dimden.dev/services/twitter_link_colors/set/${tweet.id_str}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(i => i.text());
+            if(res === 'error') {
+                alert('Error setting link color');
+            } else {
+                alert('Link color set!');
+            }
+        } catch(e) {
+            alert('Error setting link color');
+        } finally {
+            API.deleteTweet(tweet.id_str);
+        }
     });
 
     if(vars.linkColor) {
