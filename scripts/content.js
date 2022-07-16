@@ -24,6 +24,17 @@ let pages = [
     },
 ];
 
+if(window.location.pathname.startsWith("/i/user/")) {
+    let id = window.location.pathname.split("/i/user/")[1];
+    if(id.endsWith("/")) id = id.slice(0, -1);
+    API.getUser(id, true).then(user => {
+        if(user.error) {
+            return;
+        }
+        location.href = "/" + user.screen_name;
+    });
+}
+
 let page = pages.find(p => (!p.exclude || !p.exclude.includes(window.location.pathname)) && (p.paths.includes(window.location.pathname) || p.paths.find(r => r instanceof RegExp && r.test(window.location.pathname))));
 
 (async () => {

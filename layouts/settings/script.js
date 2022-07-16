@@ -1,7 +1,7 @@
 let user = {};
 let settings = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL'], data => {
     vars = data;
 });
 // Util
@@ -152,6 +152,7 @@ setTimeout(async () => {
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
     let enableTwemoji = document.getElementById('enable-twemoji');
+    let chrono = document.getElementById('chronological-tl');
     let root = document.querySelector(":root");
 
     for(let i in fonts) {
@@ -189,6 +190,11 @@ setTimeout(async () => {
     enableTwemoji.addEventListener('change', () => {
         chrome.storage.sync.set({
             enableTwemoji: enableTwemoji.checked
+        }, () => { });
+    });
+    chrono.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            chronologicalTL: chrono.checked
         }, () => { });
     });
     sync.addEventListener('click', async () => {
@@ -232,6 +238,9 @@ setTimeout(async () => {
     }
     if(vars.enableTwemoji) {
         enableTwemoji.checked = vars.enableTwemoji;
+    }
+    if(vars.chronologicalTL) {
+        chrono.checked = vars.chronologicalTL;
     }
 
     // Run

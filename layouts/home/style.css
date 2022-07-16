@@ -462,6 +462,9 @@ body {
 .tweet-interact-more-menu-follow:before {
     content: "\f056";
 }
+.tweet-interact-more-menu-feedback:before {
+    content: "\f044";
+}
 .tweet-media-element-censor {
     filter: blur(20px);
     -webkit-filter: blur(20px);

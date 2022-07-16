@@ -9,7 +9,8 @@ let seenThreads = [];
 let mediaToUpload = [];
 let linkColors = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
+let algoCursor;
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL'], data => {
     vars = data;
 });
 chrome.storage.local.get(['installed'], async data => {
@@ -64,7 +65,12 @@ function updateUserData() {
 async function updateTimeline() {
     seenThreads = [];
     if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
-    let tl = await API.getTimeline();
+    let tl = !vars.chronologicalTL ? await API.getAlgoTimeline() : await API.getTimeline();
+    if(!vars.chronologicalTL) {
+        algoCursor = tl.cursor;
+        tl = tl.list
+        console.log(tl);
+    }
 
     if(vars.linkColorsInTL) {
         let tlUsers = tl.map(t => t.user.screen_name).filter(u => !linkColors[u]);
@@ -244,6 +250,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-interact-more-menu-follow">${t.user.following ? 'Unfollow' : 'Follow'} @${t.user.screen_name}</span><br>
                     `}
                     <hr>
+                    ${t.feedback && t.feedback.confirmation ? `
+                    <span class="tweet-interact-more-menu-feedback">${t.feedback.prompt}</span><br>
+                    ` : ``}
                     <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
                     ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">Download as GIF</span><br>` : ``}
@@ -326,6 +335,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
     const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
+    const tweetInteractMoreMenuFeedback = tweet.getElementsByClassName('tweet-interact-more-menu-feedback')[0];
 
     // Translate
     if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
@@ -354,12 +364,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
     // Links
     if (tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
-        if (t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length - 1].url !== tweetBodyText.lastChild.href) {
+        if (t.entities.urls && (t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length - 1].url !== tweetBodyText.lastChild.href)) {
             tweetBodyText.lastChild.remove();
         }
     }
     let links = Array.from(tweetBodyText.getElementsByTagName('a')).filter(a => a.href.startsWith('https://t.co/'));
     links.forEach(a => {
+        if(!t.entities.urls) return;
         let link = t.entities.urls.find(u => u.url === a.href);
         if (link) {
             a.innerText = link.display_url;
@@ -817,6 +828,25 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
         }
     }
+    if(tweetInteractMoreMenuFeedback) {
+        tweetInteractMoreMenuFeedback.addEventListener('click', () => {
+            fetch(`https://twitter.com/i/api/graphql/vfVbgvTPTQ-dF_PQ5lD1WQ/timelinesFeedback`, {
+                method: 'post',
+                headers: {
+                    'content-type': 'application/json',
+                    'authorization': OLDTWITTER_CONFIG.public_token,
+                    "x-twitter-active-user": 'yes',
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": 'OAuth2Session',
+                },
+                body: JSON.stringify({"variables":{"encoded_feedback_request": t.feedback.encodedFeedbackRequest,"undo":false},"queryId":"vfVbgvTPTQ-dF_PQ5lD1WQ"}),
+                credentials: 'include'
+            }).then(i => i.json()).then(i => {
+                alert(t.feedback.confirmation);
+                tweet.remove();
+            });
+        });
+    }
 
     if(options.after) {
         options.after.after(tweet);
@@ -859,7 +889,23 @@ async function renderTimeline() {
                     });
                 }
             } else {
-                await appendTweet(t, timelineContainer);
+                let obj = {};
+                if(t.socialContext) {
+                    obj.top = {};
+                    if(t.socialContext.contextType === "Like") {
+                        obj.top.text = `<a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}">${t.socialContext.text}</a>`;
+                        if(vars.heartsNotStars) {
+                            obj.top.icon = "\uf015";
+                            obj.top.color = "rgb(249, 24, 128)";
+                        } else {
+                            obj.top.icon = "\uf001";
+                            obj.top.color = "#ffac33";
+                        }
+                    } else {
+                        console.log(t.socialContext);
+                    }
+                }
+                await appendTweet(t, timelineContainer, obj);
             }
         }
     };
@@ -950,7 +996,11 @@ document.addEventListener('scroll', async () => {
         loadingNewTweets = true;
         let tl;
         try {
-            tl = await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+            tl = !vars.chronologicalTL ? await API.getAlgoTimeline(algoCursor) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+            if(!vars.chronologicalTL) {
+                algoCursor = tl.cursor;
+                tl = tl.list
+            }
         } catch (e) {
             console.error(e);
             loadingNewTweets = false;
