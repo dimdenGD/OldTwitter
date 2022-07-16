@@ -12,7 +12,7 @@ let pages = [
     {
         name: "profile",
         paths: [/^\/[A-z-0-9-_]{1,15}$/g, /^\/[A-z-0-9-_]{1,15}\/with_replies$/g, /^\/[A-z-0-9-_]{1,15}\/media$/g, /^\/[A-z-0-9-_]{1,15}\/likes$/g, /^\/[A-z-0-9-_]{1,15}\/following$/g, /^\/[A-z-0-9-_]{1,15}\/followers$/g],
-        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"],
+        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"],
     },
     {
         name: "settings",
@@ -20,7 +20,7 @@ let pages = [
     },
     {
         name: "tweet",
-        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}$/g]
+        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}$/g, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/likes$/g, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets$/g]
     },
 ];
 

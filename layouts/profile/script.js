@@ -678,7 +678,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
         (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
     ];
-    let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
     isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
     tweet.innerHTML = /*html*/`
@@ -1027,6 +1027,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Unretweet';
             tweetInteractRetweet.classList.add('tweet-interact-retweeted');
+            tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) + 1;
             t.retweeted = true;
             t.newTweetId = tweetData.id_str;
         } else {
@@ -1042,6 +1043,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
             tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
+            tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) - 1;
             t.retweeted = false;
             delete t.newTweetId;
         }
@@ -1545,6 +1547,7 @@ setTimeout(() => {
             let path = new URL(el.href).pathname;
             if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
                 e.preventDefault();
+                mediaToUpload = [];
                 document.getElementById('loading-box').hidden = false;
                 everAddedAdditional = false;
                 document.getElementById('profile-media-div').innerHTML = '';
@@ -1565,6 +1568,7 @@ setTimeout(() => {
         if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
             document.getElementById('loading-box').hidden = false;
             everAddedAdditional = false;
+            mediaToUpload = [];
             document.getElementById('profile-media-div').innerHTML = '';
             document.getElementById('tweet-to-bg').hidden = true;
             document.getElementById('profile-additional').innerHTML = '';

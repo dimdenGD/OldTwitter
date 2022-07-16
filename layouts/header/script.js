@@ -6,7 +6,7 @@ let headerUserInterval = setInterval(() => {
     }
 }, 2000);
 setTimeout(() => {
-    document.addEventListener('updateUserData', async e => {
+    let userDataFunction = async e => {
         if(headerGotUser || Object.keys(e.detail).length === 0) return;
         headerGotUser = true;
         let user = e.detail;
@@ -247,13 +247,13 @@ setTimeout(() => {
         updateAccounts();
         setInterval(updateAccounts, 60000*5);
         setInterval(updateUnread, 20000);
-    });
+    }
+    document.addEventListener('updateUserData', userDataFunction);
     setTimeout(() => {
         document.getElementById('navbar-user-avatar').addEventListener('click', () => {
             if(headerGotUser) return;
             API.verifyCredentials().then(async u => {
-                const event = new CustomEvent('updateUserData', { detail: u });
-                document.dispatchEvent(event);
+                userDataFunction({ detail: u });
             });
         });
     }, 1000);

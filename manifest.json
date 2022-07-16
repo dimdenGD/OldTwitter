@@ -91,7 +91,7 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/old/*/status/*"],
+      "matches": ["https://twitter.com/*/status/*", "https://twitter.com/*/status/*/likes", "https://twitter.com/*/status/*/retweets"],
       "js": ["libraries/twemoji.min.js", "layouts/tweet/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
@@ -109,7 +109,9 @@
         "https://twitter.com/login",
         "https://twitter.com/register",
         "https://twitter.com/logout",
-        "https://twitter.com/i/*"
+        "https://twitter.com/i/*",
+        "https://twitter.com/*/status/*",
+        "https://twitter.com/search"
       ],
       "js": ["libraries/twemoji.min.js", "layouts/profile/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],

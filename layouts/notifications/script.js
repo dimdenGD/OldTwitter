@@ -62,7 +62,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
         (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
     ];
-    let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '');
+    let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
     isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
     tweet.innerHTML = /*html*/`
@@ -393,6 +393,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Unretweet';
             tweetInteractRetweet.classList.add('tweet-interact-retweeted');
+            tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) + 1;
             t.retweeted = true;
             t.newTweetId = tweetData.id_str;
         } else {
@@ -408,6 +409,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
             tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
+            tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) - 1;
             t.retweeted = false;
             delete t.newTweetId;
         }
@@ -888,7 +890,7 @@ setTimeout(() => {
         renderTrends();
         updateNotifications();
         setInterval(updateUserData, 60000 * 3);
-        setInterval(() => renderDiscovery(false), 60000 * 15);
+        setInterval(() => renderDiscovery(false), 60000 * 5);
         setInterval(renderTrends, 60000 * 5);
         setInterval(updateNotifications, 20000);
     }).catch(e => {

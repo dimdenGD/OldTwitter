@@ -1352,7 +1352,10 @@ API.getFollowers = (id, cursor) => {
 }
 API.getReplies = (id, cursor) => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=30&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true`, {
+        if(cursor) {
+            cursor = cursor.replace(/\+/g, '%2B');
+        }
+        fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=50&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1374,34 +1377,101 @@ API.getReplies = (id, cursor) => {
             for (let i = 0; i < entries.length; i++) {
                 let e = entries[i];
                 if (e.entryId.startsWith('tweet-')) {
-                    let tweet = tweetData[e.content.itemContent.tweet_results.result.id_str];
+                    let tweet = tweetData[e.content.item.content.tweet.id];
                     let user = userData[tweet.user_id_str];
-                    tweet.legacy.id_str = tweet.id_str;
-                    tweet.legacy.user = user.legacy;
+                    tweet.id_str = e.content.item.content.tweet.id;
+                    tweet.user = user;
                     list.push({
-                        type: 'tweet',
-                        data: tweet.legacy
+                        type: tweet.id_str === id ? 'mainTweet' : 'tweet',
+                        data: tweet
                     });
                 } else if(e.entryId.startsWith('conversationThread-')) {
-                    let thread = e.content.item.content.conversationThread.conversationComponents;
+                    let thread = e.content.item.content.conversationThread.conversationComponents.filter(c => c.conversationTweetComponent);
                     let threadList = [];
                     for (let j = 0; j < thread.length; j++) {
                         let t = thread[j];
                         let tweet = tweetData[t.conversationTweetComponent.tweet.id];
                         let user = userData[tweet.user_id_str];
-                        tweet.legacy.id_str = tweet.id_str;
-                        tweet.legacy.user = user.legacy;
-                        threadList.push(tweet.legacy);
+                        tweet.id_str = t.conversationTweetComponent.tweet.id;
+                        tweet.user = user;
+                        threadList.push(tweet);
                     }
-                    list.push({
-                        type: 'conversation',
-                        data: threadList
-                    });
+                    if(threadList.length === 1) {
+                        list.push({
+                            type: threadList[0].id_str === id ? 'mainTweet' : 'tweet',
+                            data: threadList[0]
+                        });
+                    } else {
+                        list.push({
+                            type: 'conversation',
+                            data: threadList
+                        });
+                    }
                 }
             }
+            let cursor;
+            try {
+                cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value;
+            } catch(e) {}
             resolve({
-                list: list,
-                cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value
+                list,
+                cursor
+            });
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getTweetLikers = (id, cursor) => {
+    return new Promise((resolve, reject) => {
+        let obj = {
+            "tweetId": id,
+            "count": 50,
+            "includePromotedContent": false,
+            "withSuperFollowsUserFields": true,
+            "withDownvotePerspective": false,
+            "withReactionsMetadata": false,
+            "withReactionsPerspective": false,
+            "withSuperFollowsTweetFields": true,
+            "withClientEventToken": false,
+            "withBirdwatchNotes": false,
+            "withVoice": true,
+            "withV2Timeline": true
+        };
+        if(cursor) obj.cursor = cursor;
+        fetch(`https://twitter.com/i/api/graphql/RMoTahkos95Jcdw-UWlZog/Favoriters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+            "dont_mention_me_view_api_enabled": true,
+            "interactive_text_enabled": true,
+            "responsive_web_uc_gql_enabled": false,
+            "vibe_tweet_context_enabled": false,
+            "responsive_web_edit_tweet_api_enabled": false,
+            "standardized_nudges_misinfo": false,
+            "responsive_web_enhance_cards_enabled": false
+        }))}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let list = data.data.favoriters_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
+            if(!list) return resolve({ list: [], cursor: undefined });
+            list = list.entries;
+            resolve({
+                list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
+                    let user = e.content.itemContent.user_results.result;
+                    user.legacy.id_str = user.rest_id;
+                    return user.legacy;
+                }),
+                cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
             });
         }).catch(e => {
             reject(e);
