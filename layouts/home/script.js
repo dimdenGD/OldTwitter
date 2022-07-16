@@ -370,13 +370,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     let links = Array.from(tweetBodyText.getElementsByTagName('a')).filter(a => a.href.startsWith('https://t.co/'));
     links.forEach(a => {
-        if(!t.entities.urls) return;
-        let link = t.entities.urls.find(u => u.url === a.href);
+        let link = t.entities.urls && t.entities.urls.find(u => u.url === a.href);
         if (link) {
             a.innerText = link.display_url;
             a.href = link.expanded_url;
             a.target = '_blank';
             a.rel = 'noopener noreferrer';
+        } else {
+            if(!vars.chronologicalTL) a.remove();
         }
     });
 

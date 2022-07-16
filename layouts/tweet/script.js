@@ -74,7 +74,7 @@ async function updateReplies(id, c) {
         let tlUsers = [];
         for(let i in tl.list) {
             let t = tl.list[i];
-            if(t.type === 'tweet' || t.type === 'mainTweet' && !tlUsers.includes(t.data.user.screen_name)) tlUsers.push(t.data.user.screen_name);
+            if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.screen_name)) tlUsers.push(t.data.user.screen_name); }
             else {
                 for(let j in t.data) {
                     tlUsers.push(t.data[j].user.screen_name);
@@ -545,7 +545,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <div class="tweet-footer-favorites"></div>
             </div>
             ` : ''}
-            <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleString()}</a>
+            <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleString()} ・ ${t.source.split('>')[1].split('<')[0]}</a>
             ${options.threadButton && options.threadId ? `<br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${options.threadId}">Show this thread</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply">${options.mainTweet ? '' : t.reply_count}</span>

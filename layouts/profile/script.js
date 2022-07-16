@@ -14,8 +14,6 @@ chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'
     vars = data;
 });
 
-let startLoad = performance.now();
-
 // Util
 
 let subpage;
@@ -445,6 +443,7 @@ function renderProfile() {
             avatar.src = u.profile_image_url_https.replace('_normal', '_bigger');
             avatar.width = 48;
             avatar.height = 48;
+            avatar.title = u.name + ' (@' + u.screen_name + ')';
             avatar.classList.add('profile-friends-avatar');
             a.append(avatar);
             friendsFollowingList.append(a);
@@ -1376,8 +1375,6 @@ async function renderTimeline() {
         }
     };
     document.getElementById('loading-box').hidden = true;
-    console.log(performance.now()-startLoad);
-    startLoad = performance.now();
     return true;
 }
 function renderNewTweetsButton() {
@@ -1455,11 +1452,11 @@ async function renderTrends() {
     });
 }
 
+let banner = document.getElementById('profile-banner');
 let loadingNewTweets = false;
 window.addEventListener('scroll', async () => {
     // banner scroll
-    // let banner = document.getElementById('profile-banner');
-    // banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
+    banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
     // load more tweets
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
         if (loadingNewTweets || timeline.data.length === 0) return;

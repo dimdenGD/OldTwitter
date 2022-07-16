@@ -279,6 +279,18 @@ API.getAlgoTimeline = cursor => {
                 let user = users[tweet.user_id_str];
                 tweet.user = user;
                 tweet.feedback = feedback;
+                if(tweet.retweeted_status_id_str) {
+                    tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
+                    tweet.retweeted_status.user = users[tweet.retweeted_status.user_id_str];
+                    tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                    tweet.retweeted_status.id_str = tweet.retweeted_status_id_str;
+                }
+                if(tweet.quoted_status_id_str) {
+                    tweet.quoted_status = tweets[tweet.quoted_status_id_str];
+                    tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
+                    tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                    tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                }
                 if(e.content.tweet.socialContext) {
                     tweet.socialContext = e.content.tweet.socialContext.generalContext;
                 }
@@ -1601,6 +1613,7 @@ API.getTweetQuotes = (id, cursor) => {
                 list: list.map(e => {
                     let tweet = tweets[e.content.item.content.tweet.id];
                     let user = users[tweet.user_id_str];
+                    user.id_str = tweet.user_id_str;
                     tweet.quoted_status = tweets[tweet.quoted_status_id_str];
                     tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
                     tweet.user = user;
