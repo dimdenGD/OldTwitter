@@ -786,7 +786,7 @@ body {
     object-fit: cover;
     position: relative;
     transition: 0.1s;
-    top: 5px;
+    height: 5px;
 }
 
 @media(min-width: 1510px) {

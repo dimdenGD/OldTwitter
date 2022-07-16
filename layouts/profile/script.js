@@ -1457,8 +1457,8 @@ async function renderTrends() {
 let loadingNewTweets = false;
 window.addEventListener('scroll', async () => {
     // banner scroll
-    let banner = document.getElementById('profile-banner');
-    banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
+    // let banner = document.getElementById('profile-banner');
+    // banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
     // load more tweets
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
         if (loadingNewTweets || timeline.data.length === 0) return;
