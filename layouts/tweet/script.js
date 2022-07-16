@@ -569,6 +569,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-interact-more-menu-analytics">Tweet analytics</span><br>
                     <span class="tweet-interact-more-menu-delete">Delete tweet</span><br>
                     ` : ``}
+                    ${t.user.id_str !== user.id_str && !options.mainTweet ? `
+                    <hr>
+                    <span class="tweet-interact-more-menu-follow">${t.user.following ? 'Unfollow' : 'Follow'} @${t.user.screen_name}</span><br>
+                    ` : ''}
                     <hr>
                     <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
@@ -724,6 +728,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
     const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
+    const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
 
     if(tweetBodyQuote) {
         tweetBodyQuote.addEventListener('click', e => {
@@ -1152,6 +1157,17 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 setTimeout(() => tweetInteractMoreMenu.hidden = true, 50);
             }, { once: true });
         }, 50);
+    });
+    if(tweetInteractMoreMenuFollow) tweetInteractMoreMenuFollow.addEventListener('click', async () => {
+        if (t.user.following) {
+            await API.unfollowUser(t.user.screen_name);
+            t.user.following = false;
+            tweetInteractMoreMenuFollow.innerText = `Follow @${t.user.screen_name}`;
+        } else {
+            await API.followUser(t.user.screen_name);
+            t.user.following = true;
+            tweetInteractMoreMenuFollow.innerText = `Unfollow @${t.user.screen_name}`;
+        }
     });
     tweetInteractMoreMenuCopy.addEventListener('click', () => {
         navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);

@@ -462,6 +462,9 @@ body {
 .tweet-interact-more-menu-delete:before {
     content: "\f154";
 }
+.tweet-interact-more-menu-follow:before {
+    content: "\f056";
+}
 .tweet-media-element-censor {
     filter: blur(20px);
     -webkit-filter: blur(20px);
@@ -871,7 +874,7 @@ body {
 .tweet-header-follow {
     float: right;
     padding: 9px 12px 9px 12px !important;
-    margin-top: 5px;
+    margin-top: 2px;
 }
 .following-item-btn {
     float: right;
