@@ -287,6 +287,10 @@ setTimeout(() => {
     
         let searchInput = document.getElementById('search-input');
         let searchResults = document.getElementById('search-results');
+        let searchIcon = document.getElementById('search-icon');
+
+        let selectedIndex = -1;
+
         searchInput.addEventListener('focus', () => {
             if(searchInput.value.length > 0) searchResults.hidden = false;
         });
@@ -297,6 +301,40 @@ setTimeout(() => {
         });
         searchInput.addEventListener('keyup', async (e) => {
             let query = searchInput.value;
+            let activeSearch = searchResults.children[selectedIndex];
+            if(e.key === "Enter") {
+                if(activeSearch) {
+                    activeSearch.click();
+                } else {
+                    searchIcon.click();
+                }
+                return;
+            }
+            if(activeSearch) activeSearch.classList.remove('search-result-item-active');
+            if(e.key === 'ArrowDown') {
+                if(selectedIndex < searchResults.children.length - 1) {
+                    selectedIndex++;
+                    searchResults.children[selectedIndex].classList.add('search-result-item-active');
+                    searchResults.children[selectedIndex - 1].classList.remove('search-result-item-active');
+                } else {
+                    selectedIndex = 0;
+                    searchResults.children[selectedIndex].classList.add('search-result-item-active');
+                    searchResults.children[searchResults.children.length - 1].classList.remove('search-result-item-active');
+                }
+                return;
+            }
+            if(e.key === 'ArrowUp') {
+                if(selectedIndex > 0) {
+                    selectedIndex--;
+                    searchResults.children[selectedIndex].classList.add('search-result-item-active');
+                    searchResults.children[selectedIndex + 1].classList.remove('search-result-item-active');
+                } else {
+                    selectedIndex = searchResults.children.length - 1;
+                    searchResults.children[selectedIndex].classList.add('search-result-item-active');
+                    searchResults.children[0].classList.remove('search-result-item-active');
+                }
+                return;
+            }
             if(query.length > 0) {
                 searchResults.hidden = false;
             } else {
@@ -311,7 +349,7 @@ setTimeout(() => {
                 topicElement.innerText = topic;
                 searchResults.appendChild(topicElement);
             });
-            search.users.forEach(user => {
+            search.users.forEach((user) => {
                 let userElement = document.createElement('a');
                 userElement.href = `/${user.screen_name}`;
                 userElement.className = 'search-result-item';
@@ -322,6 +360,9 @@ setTimeout(() => {
                 `;
                 searchResults.appendChild(userElement);
             });
+        });
+        searchIcon.addEventListener('click', () => {
+            location.href = `/search?q=${searchInput.value}`;
         });
     
         let userMenu = document.getElementById('navbar-user-menu');
