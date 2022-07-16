@@ -492,3 +492,24 @@
     font-family: RosettaIcons;
     margin-left: 5px;
 }
+.navbar-new-tweet-user-search {
+    position: absolute;
+    background-color: white;
+    padding: 5px;
+    z-index: 5;
+    color: #292f33;
+}
+.navbar-new-tweet-user-search span {
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 2px;
+}
+.navbar-new-tweet-user-search span:hover, .search-result-item-active {
+    background-color: var(--link-color) !important;
+    color: white !important;
+}
+.box {
+    background-color: white;
+    border-radius: 5px;
+    border: 1px solid #e1e8ed;
+}

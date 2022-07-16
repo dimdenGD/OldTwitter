@@ -309,11 +309,12 @@ function renderUserData() {
 async function appendComposeComponent(container, replyTweet) {
     let el = document.createElement('div');
     el.id = 'new-tweet-container';
-    el.innerHTML = `
+    el.innerHTML = /*html*/`
         <div id="new-tweet" class="box">
             <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
             <span id="new-tweet-char" hidden>0/280</span>
             <textarea id="new-tweet-text" placeholder="Reply to @${replyTweet.user.screen_name}" maxlength="280"></textarea>
+            <div id="new-tweet-user-search" class="box" hidden></div>
             <div id="new-tweet-media-div">
                 <span id="new-tweet-media"></span>
             </div>
@@ -334,6 +335,102 @@ async function appendComposeComponent(container, replyTweet) {
     
     document.getElementById('new-tweet-media-div').addEventListener('click', async () => {
         getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
+    });
+    let newTweetUserSearch = document.getElementById("new-tweet-user-search");
+    let newTweetText = document.getElementById('new-tweet-text');
+    let selectedIndex = 0;
+    newTweetText.addEventListener('focus', async e => {
+        setTimeout(() => {
+            if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
+                newTweetUserSearch.hidden = false;
+            } else {
+                newTweetUserSearch.hidden = true;
+                newTweetUserSearch.innerHTML = '';
+            }
+        }, 10);
+    });
+    newTweetText.addEventListener('blur', async e => {
+        setTimeout(() => {
+            newTweetUserSearch.hidden = true;
+        }, 100);
+    });
+    newTweetText.addEventListener('keypress', async e => {
+        if ((e.key === 'Enter' || e.key === 'Tab') && !newTweetUserSearch.hidden) {
+            let activeSearch = newTweetUserSearch.querySelector('.search-result-item-active');
+            if(!e.ctrlKey) {
+                e.preventDefault();
+                e.stopPropagation();
+                newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${activeSearch.querySelector('.search-result-item-screen-name').innerText.slice(1)} `;
+                if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
+                if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
+                newTweetUserSearch.innerHTML = '';
+                newTweetUserSearch.hidden = true;
+            }
+        }
+    });
+    newTweetText.addEventListener('keydown', async e => {
+        if(e.key === 'ArrowDown') {
+            if(selectedIndex < newTweetUserSearch.children.length - 1) {
+                selectedIndex++;
+                newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                newTweetUserSearch.children[selectedIndex - 1].classList.remove('search-result-item-active');
+            } else {
+                selectedIndex = 0;
+                newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                newTweetUserSearch.children[newTweetUserSearch.children.length - 1].classList.remove('search-result-item-active');
+            }
+            return;
+        }
+        if(e.key === 'ArrowUp') {
+            if(selectedIndex > 0) {
+                selectedIndex--;
+                newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                newTweetUserSearch.children[selectedIndex + 1].classList.remove('search-result-item-active');
+            } else {
+                selectedIndex = newTweetUserSearch.children.length - 1;
+                newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                newTweetUserSearch.children[0].classList.remove('search-result-item-active');
+            }
+            return;
+        }
+        if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
+            newTweetUserSearch.hidden = false;
+            selectedIndex = 0;
+            let users = (await API.search(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
+            newTweetUserSearch.innerHTML = '';
+            users.forEach((user, index) => {
+                let userElement = document.createElement('span');
+                userElement.className = 'search-result-item';
+                if(index === 0) userElement.classList.add('search-result-item-active');
+                userElement.innerHTML = `
+                    <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
+                    <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${user.name}</span>
+                    <span class="search-result-item-screen-name">@${user.screen_name}</span>
+                `;
+                userElement.addEventListener('click', () => {
+                    newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${user.screen_name} `;
+                    if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
+                    if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
+                    newTweetText.focus();
+                    newTweetUserSearch.innerHTML = '';
+                    newTweetUserSearch.hidden = true;
+                });
+                newTweetUserSearch.appendChild(userElement);
+            });
+        } else {
+            newTweetUserSearch.innerHTML = '';
+            newTweetUserSearch.hidden = true;
+        }
+        if (e.key === 'Enter') {
+            if(e.ctrlKey) document.getElementById('new-tweet-button').click();
+        }
+        let charElement = document.getElementById('new-tweet-char');
+        charElement.innerText = `${e.target.value.length}/280`;
+        if (e.target.value.length > 265) {
+            charElement.style.color = "#c26363";
+        } else {
+            charElement.style.color = "";
+        }
     });
     document.getElementById('new-tweet-text').addEventListener('keydown', e => {
         if (e.key === 'Enter' && e.ctrlKey) {

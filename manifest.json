@@ -86,8 +86,8 @@
     },
     {
       "matches": ["https://twitter.com/old/settings"],
-      "js": ["libraries/twemoji.min.js", "layouts/settings/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
-      "css": ["libraries/viewer.min.css"],
+      "js": ["libraries/twemoji.min.js", "layouts/settings/script.js"],
+      "css": [],
       "run_at": "document_idle"
     },
     {

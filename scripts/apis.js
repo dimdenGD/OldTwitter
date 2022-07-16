@@ -274,11 +274,10 @@ API.getAlgoTimeline = cursor => {
             for (let i = 0; i < entries.length; i++) {
                 let e = entries[i].content.item;
                 if(!e) continue;
-                let feedback = data.timeline.responseObjects.feedbackActions[e.feedbackInfo.feedbackKeys[0]];
                 let tweet = tweets[e.content.tweet.id];
                 let user = users[tweet.user_id_str];
                 tweet.user = user;
-                tweet.feedback = feedback;
+                if(e.feedbackInfo) tweet.feedback = data.timeline.responseObjects.feedbackActions[e.feedbackInfo.feedbackKeys[0]];
                 if(tweet.retweeted_status_id_str) {
                     tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
                     tweet.retweeted_status.user = users[tweet.retweeted_status.user_id_str];

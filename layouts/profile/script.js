@@ -344,6 +344,7 @@ function renderProfile() {
                     <img width="35" height="35" class="navbar-new-tweet-avatar">
                     <span class="navbar-new-tweet-char">0/280</span>
                     <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="Tweet to @${pageUser.screen_name}">@${pageUser.screen_name} </textarea>
+                    <div class="navbar-new-tweet-user-search" class="box" hidden></div>
                     <div class="navbar-new-tweet-media-div">
                         <span class="navbar-new-tweet-media"></span>
                     </div>
@@ -360,6 +361,9 @@ function renderProfile() {
         const newTweetMedia = modal.getElementsByClassName('navbar-new-tweet-media')[0];
         const newTweetMediaDiv = modal.getElementsByClassName('navbar-new-tweet-media-c')[0];
         const newTweetButton = modal.getElementsByClassName('navbar-new-tweet-button')[0];
+        const newTweetUserSearch = modal.getElementsByClassName('navbar-new-tweet-user-search')[0];
+
+        let selectedIndex = 0;
 
         modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = user.profile_image_url_https.replace("_normal", "_bigger");
         function updateCharCount(e) {
@@ -372,8 +376,89 @@ function renderProfile() {
                 charElement.style.color = "";
             }
         }
-        newTweetText.addEventListener('keyup', updateCharCount);
-        newTweetText.addEventListener('keydown', updateCharCount);
+        newTweetText.addEventListener('keyup', e => {
+            if(!newTweetText.value.startsWith(`@${pageUser.screen_name} `)) {
+                newTweetText.value = `@${pageUser.screen_name} ${newTweetText.value.split(' ').slice(1).join(' ')}`;
+            }
+            updateCharCount(e);
+            if(e.key === "Enter" && e.ctrlKey) {
+                newTweetButton.click();
+            }
+        });
+        newTweetText.addEventListener('blur', async e => {
+            setTimeout(() => {
+                newTweetUserSearch.hidden = true;
+            }, 100);
+        });
+        newTweetText.addEventListener('keypress', async e => {
+            if ((e.key === 'Enter' || e.key === 'Tab') && !newTweetUserSearch.hidden) {
+                let activeSearch = newTweetUserSearch.querySelector('.search-result-item-active');
+                if(!e.ctrlKey) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${activeSearch.querySelector('.search-result-item-screen-name').innerText.slice(1)} `;
+                    if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
+                    if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
+                    newTweetUserSearch.innerHTML = '';
+                    newTweetUserSearch.hidden = true;
+                }
+            }
+        });
+        newTweetText.addEventListener('keydown', async e => {
+            if(e.key === 'ArrowDown') {
+                if(selectedIndex < newTweetUserSearch.children.length - 1) {
+                    selectedIndex++;
+                    newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                    newTweetUserSearch.children[selectedIndex - 1].classList.remove('search-result-item-active');
+                } else {
+                    selectedIndex = 0;
+                    newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                    newTweetUserSearch.children[newTweetUserSearch.children.length - 1].classList.remove('search-result-item-active');
+                }
+                return;
+            }
+            if(e.key === 'ArrowUp') {
+                if(selectedIndex > 0) {
+                    selectedIndex--;
+                    newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                    newTweetUserSearch.children[selectedIndex + 1].classList.remove('search-result-item-active');
+                } else {
+                    selectedIndex = newTweetUserSearch.children.length - 1;
+                    newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                    newTweetUserSearch.children[0].classList.remove('search-result-item-active');
+                }
+                return;
+            }
+            if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
+                newTweetUserSearch.hidden = false;
+                selectedIndex = 0;
+                let users = (await API.search(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
+                newTweetUserSearch.innerHTML = '';
+                users.forEach((user, index) => {
+                    let userElement = document.createElement('span');
+                    userElement.className = 'search-result-item';
+                    if(index === 0) userElement.classList.add('search-result-item-active');
+                    userElement.innerHTML = `
+                        <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
+                        <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${user.name}</span>
+                        <span class="search-result-item-screen-name">@${user.screen_name}</span>
+                    `;
+                    userElement.addEventListener('click', () => {
+                        newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${user.screen_name} `;
+                        if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
+                        if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
+                        newTweetText.focus();
+                        newTweetUserSearch.innerHTML = '';
+                        newTweetUserSearch.hidden = true;
+                    });
+                    newTweetUserSearch.appendChild(userElement);
+                });
+            } else {
+                newTweetUserSearch.innerHTML = '';
+                newTweetUserSearch.hidden = true;
+            }
+            updateCharCount(e);
+        });
         let mediaToUpload = []; 
         newTweetMedia.addEventListener('click', () => {
             getMedia(mediaToUpload, newTweetMediaDiv); 
