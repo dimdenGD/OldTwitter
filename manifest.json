@@ -91,13 +91,13 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/*/status/*", "https://twitter.com/*/status/*/likes", "https://twitter.com/*/status/*/retweets"],
+      "matches": ["https://twitter.com/*/status/*", "https://twitter.com/*/status/*/", "https://twitter.com/*/status/*/likes", "https://twitter.com/*/status/*/likes/", "https://twitter.com/*/status/*/retweets", "https://twitter.com/*/status/*/retweets/with_comments"],
       "js": ["libraries/twemoji.min.js", "layouts/tweet/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/*", "https://twitter.com/*/with_replies", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers"],
+      "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers"],
       "exclude_matches": [
         "https://twitter.com/",
         "https://twitter.com/home",

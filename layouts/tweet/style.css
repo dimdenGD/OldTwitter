@@ -123,9 +123,12 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
-#timeline {
+#timeline, #retweets, #retweets_with_comments, #likes {
     width: 560px;
     margin-bottom: 10px;
+}
+#retweets, #retweets_with_comments, #likes {
+    padding: 10px;
 }
 .tweet {
     border-left: 1px solid #e1e8ed;
@@ -470,12 +473,15 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1, #trends h1 {
+#wtf h1, #trends h1, .cool-header {
     margin: 0;
     display: inline-block;
     font-size: 22px;
     color: #66757f;
     font-weight: 300;
+}
+.cool-header {
+    margin-bottom: 10px;
 }
 #wtf-refresh, #wtf-viewall {
     color: #8899a6;
@@ -866,4 +872,32 @@ body {
     float: right;
     padding: 9px 12px 9px 12px !important;
     margin-top: 5px;
+}
+.following-item-btn {
+    float: right;
+}
+.following-item-text {
+    width: fit-content;
+    display: inline-block;
+    position: relative;
+    bottom: 14px;
+    margin-left: 8px;
+}
+.following-item-link:hover {
+    text-decoration: none;
+}
+.following-item {
+    margin-bottom: 5px;
+}
+.following-item-btn {
+    position: relative;
+    bottom: 52px;
+    height: 40px;
+}
+#following-list, #followers-list {
+    padding: 10px;
+}
+.following-item-name {
+    position: absolute;
+    width: 300px;
 }
