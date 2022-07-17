@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old Twitter - Notifications</title>
+    <link rel="preconnect" href="https://twitter.com">
+</head>
+<body>
+    <div id="loading-box">
+        <div id="loading-box-container">
+            <span id="loading-box-text"></span>
+        </div>
+    </div>
+    <header></header>
+    <main id="container">
+		<div id="content">
+            <div class="cell" id="left-cell">
+                <div class="box" id="notification-switches">
+                    <span class="notification-switch" id="ns-n">Notifications</span>
+                    <hr>
+                    <span class="notification-switch" id="ns-m">Mentions</span>
+                </div>
+                <div id="trends" class="box">
+                    <h1>Trends</h1>
+                    <div id="trends-list">
+                    </div>
+                </div>
+            </div>
+            <div class="cell" id="center-cell">
+                <div id="notifications-div"></div>
+                <div id="notifications-more" class="center-text">Load more</div>
+            </div>
+            <div class="cell" id="right-cell">
+                <div id="wtf" class="box">
+                    <h1>Who to follow</h1><br>
+                    <span id="wtf-refresh">Refresh</span> · <a id="wtf-viewall" href="https://twitter.com/i/connect_people?user_id=">View all</a>
+                    <br><br>
+                    <div id="wtf-list"></div>
+                </div>
+                <div id="about">
+                    <span>
+                        Running <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
+                        Created by <a href="https://dimden.dev/" target="_blank">dimden</a>.<br>
+                    </span>
+                    <br>
+                    <div class="about-links">
+                        <span>© 2022 dimden</span> 
+                        <a href="https://dimden.dev/" target="_blank">Website</a>
+                        <a href="/dimdenEFF">Twitter</a>
+                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">Donate</a>
+                    </div>
+                    <div class="about-links">
+                        <span>© 2015 Twitter</span> 
+                        <a href="/about">About</a>
+                        <a href="https://support.twitter.com">Help</a>
+                        <a href="/tos">Terms</a>
+                        <a href="/privacy">Privacy</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

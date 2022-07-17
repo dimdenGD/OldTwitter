@@ -100,8 +100,12 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
-#timeline, #following-list, #followers-list, #followers_you_follow-list {
+#timeline {
     width: 590px;
+    margin-bottom: 10px;
+}
+#following-list, #followers-list, #followers_you_follow-list {
+    width: 570px;
     margin-bottom: 10px;
 }
 .tweet {

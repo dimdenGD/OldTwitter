@@ -1476,6 +1476,7 @@ API.getReplies = (id, cursor) => {
                     if(tweet.quoted_status_id_str) {
                         tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
                         tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
                         tweet.quoted_status.id_str = tweet.quoted_status_id_str;
                     }
                     list.push({
@@ -1493,6 +1494,7 @@ API.getReplies = (id, cursor) => {
                         if(tweet.quoted_status_id_str) {
                             tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
                             tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
                             tweet.quoted_status.id_str = tweet.quoted_status_id_str;
                         }
                         tweet.user = user;
@@ -1669,11 +1671,117 @@ API.getTweetQuotes = (id, cursor) => {
                     user.id_str = tweet.user_id_str;
                     tweet.quoted_status = tweets[tweet.quoted_status_id_str];
                     tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
+                    tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
                     tweet.user = user;
                     return tweet;
                 }),
                 cursor: entries.find(e => e.entryId.startsWith('sq-cursor-bottom')).content.operation.cursor.value
             });
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.searchV2 = (obj, cursor) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/2/search/adaptive.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=${obj.q}${obj.social_filter ? `&social_filter=${obj.social_filter}`:''}${obj.result_filter ? `&result_filter=${obj.result_filter}`:''}&count=50&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let tweets = data.globalObjects.tweets;
+            let users = data.globalObjects.users;
+            let entries = data.timeline.instructions.find(i => i.addEntries);
+            if(!entries) return resolve({
+                list: [],
+                cursor: undefined
+            });
+            entries = entries.addEntries.entries;
+            let list = entries.filter(e => e.entryId.startsWith('sq-I-t-'));
+            return resolve({
+                list: list.map(e => {
+                    if(e.entryId.startsWith('tweet-')) {
+                        let tweet = tweets[e.content.item.content.tweet.id];
+                        let user = users[tweet.user_id_str];
+                        user.id_str = tweet.user_id_str;
+                        if(tweet.quoted_status_id_str) {
+                            tweet.quoted_status = tweets[tweet.quoted_status_id_str];
+                            tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
+                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                        }
+                        if(tweet.retweeted_status_id_str) {
+                            tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
+                            tweet.retweeted_status.user = users[tweet.retweeted_status.user_id_str];
+                            tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                            tweet.retweeted_status.id_str = tweet.retweeted_status_id_str;
+                        }
+                        tweet.user = user;
+                        return tweet;
+                    } else if(e.entryId.startsWith('user-')) {
+                        let user = users[e.content.item.content.user.id];
+                        user.id_str = e.content.item.content.user.id;
+                        return user;
+                    }
+                }).filter(e => e),
+                cursor: entries.find(e => e.entryId.startsWith('sq-cursor-bottom')).content.operation.cursor.value
+            });
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getSavedSearches = () => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/saved_searches/list.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.deleteSavedSearch = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/saved_searches/destroy/${id}.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: "post",
+            body: "id=" + id
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
         }).catch(e => {
             reject(e);
         });

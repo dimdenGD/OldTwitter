@@ -169,6 +169,9 @@ function updateUserData() {
         oldUser = oldUser.value;
         u = u.value;
         user = u;
+        if(customColor && customColor !== 'none') {
+            user.profile_link_color = customColor;
+        }
 
         const event = new CustomEvent('updateUserData', { detail: u });
         document.dispatchEvent(event);
@@ -400,10 +403,10 @@ function renderProfile() {
     document.getElementById('profile-bio').innerHTML = escape(pageUser.description).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('profile-info'));
 
-    document.getElementById('profile-stat-tweets-value').innerText = pageUser.statuses_count;
-    document.getElementById('profile-stat-following-value').innerText = pageUser.friends_count;
-    document.getElementById('profile-stat-followers-value').innerText = pageUser.followers_count;
-    document.getElementById('profile-stat-favorites-value').innerText = pageUser.favourites_count;
+    document.getElementById('profile-stat-tweets-value').innerText = Number(pageUser.statuses_count).toLocaleString().replace(/\s/g, ',');
+    document.getElementById('profile-stat-following-value').innerText = Number(pageUser.friends_count).toLocaleString().replace(/\s/g, ',');
+    document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
+    document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
     
     if(pageUser.followed_by) {
         document.getElementById('follows-you').hidden = false;
@@ -641,7 +644,7 @@ function renderProfile() {
                 controlFollow.classList.add('follow');
                 controlFollow.innerText = 'Follow';
                 pageUser.following = false;
-                document.getElementById('profile-stat-followers-value').innerText = parseInt(document.getElementById('profile-stat-followers-value').innerText) - 1;
+                document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) - 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = true;
             } else {
                 await API.followUser(pageUser.screen_name);
@@ -649,7 +652,7 @@ function renderProfile() {
                 controlFollow.classList.remove('follow');
                 controlFollow.innerText = 'Following';
                 pageUser.following = true;
-                document.getElementById('profile-stat-followers-value').innerText = parseInt(document.getElementById('profile-stat-followers-value').innerText) + 1;
+                document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = false;
             }
         });

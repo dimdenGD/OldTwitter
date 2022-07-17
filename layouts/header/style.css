@@ -517,3 +517,11 @@
     width: fit-content;
     margin-left: 27px;
 }
+.search-result-item-remove {
+    float: right;
+    color: #292f33;
+    cursor: pointer;
+    position: relative;
+    bottom: 18px;
+    right: 4px;
+}

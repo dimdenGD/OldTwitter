@@ -1,4 +1,5 @@
 let headerGotUser = false;
+let savedSearches = [], lastSearches = [];
 let headerUserInterval = setInterval(() => {
     if(!headerGotUser) {
         const event = new CustomEvent('userRequest', { detail: '1' });
@@ -20,7 +21,7 @@ setTimeout(() => {
                 resolve(data);
             });
         });
-        if(vars.linkColor) {
+        if(vars.linkColor && (!user.profile_link_color || user.profile_link_color === '1DA1F2')) {
             root.style.setProperty('--link-color', vars.linkColor);
         }
         if(vars.font) {
@@ -291,17 +292,81 @@ setTimeout(() => {
 
         let selectedIndex = -1;
 
+        async function loadDefaultSearches() {
+            searchResults.innerHTML = '';
+
+            await new Promise(resolve => chrome.storage.local.get(['lastSearches'], data => {
+                lastSearches = data.lastSearches;
+                if(!lastSearches) lastSearches = [];
+                resolve(1);
+            }));
+            if(savedSearches.length === 0) {
+                try {
+                    savedSearches = await API.getSavedSearches();
+                } catch(e) {}
+            }
+            if(lastSearches.length > 0) {
+                let span = document.createElement('span');
+                span.innerText = "Last Searches";
+                searchResults.append(span);
+                for(let i in lastSearches) {
+                    let topic = lastSearches[i];
+                    let topicElement = document.createElement('a');
+                    topicElement.href = `/search?q=${topic}`;
+                    topicElement.className = 'search-result-item';
+                    topicElement.innerText = topic;
+                    let removeTopic = document.createElement('span');
+                    removeTopic.innerText = '×';
+                    removeTopic.className = 'search-result-item-remove';
+                    removeTopic.addEventListener('click', () => {
+                        lastSearches.splice(i, 1);
+                        chrome.storage.local.set({lastSearches: lastSearches});
+                        topicElement.remove();
+                        removeTopic.remove();
+                    });
+                    searchResults.append(topicElement, removeTopic);
+                }
+            }
+            if(savedSearches.length > 0) {
+                let span = document.createElement('span');
+                span.innerText = "Saved Searches";
+                searchResults.append(span);
+                for(let i in savedSearches) {
+                    let topic = savedSearches[i].query;
+                    let topicId = savedSearches[i].id_str;
+                    let topicElement = document.createElement('a');
+                    topicElement.href = `/search?q=${topic}`;
+                    topicElement.className = 'search-result-item';
+                    topicElement.innerText = topic;
+                    let removeTopic = document.createElement('span');
+                    removeTopic.innerText = '×';
+                    removeTopic.className = 'search-result-item-remove';
+                    removeTopic.addEventListener('click',async () => {
+                        await API.deleteSavedSearch(topicId);
+                        savedSearches.splice(i, 1);
+                        topicElement.remove();
+                        removeTopic.remove();
+                    });
+                    searchResults.append(topicElement, removeTopic);
+                }
+            }
+        }
+
         searchInput.addEventListener('focus', () => {
-            if(searchInput.value.length > 0) searchResults.hidden = false;
+            searchResults.hidden = false;
+            if(searchInput.value.length === 0) {
+                loadDefaultSearches();
+            } 
         });
-        searchInput.addEventListener('blur', () => {
-            setTimeout(() => {
-                searchResults.hidden = true;
-            }, 100);
-        });
+        // searchInput.addEventListener('blur', () => {
+        //     setTimeout(() => {
+        //         searchResults.hidden = true;
+        //     }, 100);
+        // });
         searchInput.addEventListener('keyup', async (e) => {
             let query = searchInput.value;
-            let activeSearch = searchResults.children[selectedIndex];
+            let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
+            let activeSearch = searchElements[selectedIndex];
             if(e.key === "Enter") {
                 if(activeSearch) {
                     activeSearch.click();
@@ -312,33 +377,26 @@ setTimeout(() => {
             }
             if(activeSearch) activeSearch.classList.remove('search-result-item-active');
             if(e.key === 'ArrowDown') {
-                if(selectedIndex < searchResults.children.length - 1) {
+                if(selectedIndex < searchElements.length - 1) {
                     selectedIndex++;
-                    searchResults.children[selectedIndex].classList.add('search-result-item-active');
-                    searchResults.children[selectedIndex - 1].classList.remove('search-result-item-active');
+                    searchElements[selectedIndex].classList.add('search-result-item-active');
                 } else {
-                    selectedIndex = 0;
-                    searchResults.children[selectedIndex].classList.add('search-result-item-active');
-                    searchResults.children[searchResults.children.length - 1].classList.remove('search-result-item-active');
+                    selectedIndex = -1;
                 }
                 return;
             }
             if(e.key === 'ArrowUp') {
-                if(selectedIndex > 0) {
+                if(selectedIndex > -1) {
                     selectedIndex--;
-                    searchResults.children[selectedIndex].classList.add('search-result-item-active');
-                    searchResults.children[selectedIndex + 1].classList.remove('search-result-item-active');
+                    if(searchElements[selectedIndex]) searchElements[selectedIndex].classList.add('search-result-item-active');
                 } else {
-                    selectedIndex = searchResults.children.length - 1;
-                    searchResults.children[selectedIndex].classList.add('search-result-item-active');
-                    searchResults.children[0].classList.remove('search-result-item-active');
+                    selectedIndex = searchElements.length - 1;
+                    searchElements[selectedIndex].classList.add('search-result-item-active');
                 }
                 return;
             }
-            if(query.length > 0) {
-                searchResults.hidden = false;
-            } else {
-                searchResults.hidden = true;
+            if(query.length === 0) {
+                return loadDefaultSearches();
             }
             let search = await API.search(query);
             searchResults.innerHTML = '';
@@ -362,7 +420,16 @@ setTimeout(() => {
             });
         });
         searchIcon.addEventListener('click', () => {
-            location.href = `/search?q=${searchInput.value}`;
+            lastSearches.push(searchInput.value);
+            if(lastSearches.length > 5) {
+                lastSearches.shift();
+            }
+            lastSearches = [...new Set(lastSearches)];
+            chrome.storage.local.set({
+                lastSearches
+            }, () => {
+                location.href = `/search?q=${searchInput.value}`;
+            });
         });
     
         let userMenu = document.getElementById('navbar-user-menu');
