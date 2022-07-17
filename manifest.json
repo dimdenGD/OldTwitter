@@ -97,7 +97,7 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/with_replies/", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers", "https://twitter.com/*/media/", "https://twitter.com/*/likes/", "https://twitter.com/*/following/", "https://twitter.com/*/followers/"],
+      "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/with_replies/", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers", "https://twitter.com/*/followers_you_follow", "https://twitter.com/*/followers_you_follow/", "https://twitter.com/*/media/", "https://twitter.com/*/likes/", "https://twitter.com/*/following/", "https://twitter.com/*/followers/"],
       "exclude_matches": [
         "https://twitter.com/",
         "https://twitter.com/home",

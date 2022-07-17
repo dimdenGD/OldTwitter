@@ -1388,6 +1388,60 @@ API.getFollowers = (id, cursor) => {
         });
     });
 }
+API.getFollowersYouFollow = (id, cursor) => {
+    return new Promise((resolve, reject) => {
+        let obj = {
+            "userId": id,
+            "count": 50,
+            "includePromotedContent": false,
+            "withSuperFollowsUserFields": true,
+            "withDownvotePerspective": false,
+            "withReactionsMetadata": false,
+            "withReactionsPerspective": false,
+            "withSuperFollowsTweetFields": true,
+            "withClientEventToken": false,
+            "withBirdwatchNotes": false,
+            "withVoice": true,
+            "withV2Timeline": true
+        };
+        if(cursor) obj.cursor = cursor;
+        fetch(`https://twitter.com/i/api/graphql/Ta_Zd7mReCZVnThOABfNhA/FollowersYouKnow?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+            "dont_mention_me_view_api_enabled": true,
+            "interactive_text_enabled": true,
+            "responsive_web_uc_gql_enabled": false,
+            "vibe_tweet_context_enabled": false,
+            "responsive_web_edit_tweet_api_enabled": false,
+            "standardized_nudges_misinfo": false,
+            "responsive_web_enhance_cards_enabled": false
+        }))}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let list = data.data.user.result.timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
+            resolve({
+                list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
+                    let user = e.content.itemContent.user_results.result;
+                    user.legacy.id_str = user.rest_id;
+                    return user.legacy;
+                }),
+                cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+            });
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 API.getReplies = (id, cursor) => {
     return new Promise((resolve, reject) => {
         if(cursor) {

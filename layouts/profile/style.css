@@ -76,7 +76,7 @@ body {
     width: 302px;
 }
 #profile-nav-center-cell {
-    width: 560px;
+    width: 566px;
     bottom: 27px;
     position: relative;
 }
@@ -100,8 +100,8 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
-#timeline, #following-list, #followers-list {
-    width: 560px;
+#timeline, #following-list, #followers-list, #followers_you_follow-list {
+    width: 590px;
     margin-bottom: 10px;
 }
 .tweet {
@@ -449,23 +449,22 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1, #trends h1 {
+#wtf h1, #trends h1, .nice-header {
     margin: 0;
     display: inline-block;
-    font-size: 22px;
+    font-size: 18px;
     color: #66757f;
     font-weight: 300;
+}
+.nice-header {
+    margin-bottom: 10px;
 }
 #trends {
     margin-top: 10px;
     padding: 10px;
 }
 .trend {
-    margin-top: 10px;
-}
-.trend-description {
-    font-size: 14px;
-    color: #8899a6;
+    font-size: 13px;
 }
 #wtf-refresh, #wtf-viewall {
     color: #8899a6;
@@ -788,7 +787,11 @@ body {
     transition: 0.1s;
     height: 5px;
 }
-
+@media(min-width: 1000px) {
+    #profile-banner {
+        height:380px
+    }
+}
 @media(min-width: 1510px) {
     #profile-banner {
         height:420px
@@ -1038,7 +1041,7 @@ body {
 }
 #profile-nav-buttons {
     position: relative;
-    margin-right: 8px;
+    margin-right: -12px;
     margin-bottom: 2px;
 }
 #profile-nav-buttons * {
@@ -1191,7 +1194,7 @@ body {
     bottom: 52px;
     height: 40px;
 }
-#following-list, #followers-list {
+#following-list, #followers-list, #followers_you_follow-list {
     padding: 10px;
 }
 .following-item-name {

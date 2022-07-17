@@ -31,7 +31,7 @@
 
 #navbar-container {
     margin: 0 auto;
-    max-width: 1170px;
+    max-width: 1222px;
 }
 
 #twitter-logo-div {
@@ -512,4 +512,8 @@
     background-color: white;
     border-radius: 5px;
     border: 1px solid #e1e8ed;
+}
+#navbar-links {
+    width: fit-content;
+    margin-left: 27px;
 }

@@ -124,7 +124,7 @@ body {
     margin-right: 10px;
 }
 #timeline {
-    width: 560px;
+    width: 590px;
     margin-bottom: 10px;
 }
 .tweet {
@@ -634,7 +634,7 @@ body {
     border: 1px solid #e1e8ed;
     resize: none;
     border-radius: 3px;
-    width: 450px;
+    width: 480px;
     padding: 5px;
     font-family: var(--font);
     display: inline-block;
@@ -658,7 +658,7 @@ body {
     border-bottom-right-radius: 0 !important;
     background-color: rgba(255, 255, 255, 0.92);
     padding: 10px;
-    width: 538px;
+    width: 568px;
 }
 #new-tweet-container {
     border-radius: 5px;

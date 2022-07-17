@@ -11,7 +11,7 @@ let pages = [
     },
     {
         name: "profile",
-        paths: [/^\/[A-z-0-9-_]{1,15}$/g, /^\/[A-z-0-9-_]{1,15}\/$/g, /^\/[A-z-0-9-_]{1,15}\/with_replies$/g, /^\/[A-z-0-9-_]{1,15}\/media$/g, /^\/[A-z-0-9-_]{1,15}\/likes$/g, /^\/[A-z-0-9-_]{1,15}\/following$/g, /^\/[A-z-0-9-_]{1,15}\/followers$/g],
+        paths: [/^\/[A-z-0-9-_]{1,15}$/g, /^\/[A-z-0-9-_]{1,15}\/$/g, /^\/[A-z-0-9-_]{1,15}\/with_replies$/g, /^\/[A-z-0-9-_]{1,15}\/media$/g, /^\/[A-z-0-9-_]{1,15}\/likes$/g, /^\/[A-z-0-9-_]{1,15}\/following$/g, /^\/[A-z-0-9-_]{1,15}\/followers$/g, /^\/[A-z-0-9-_]{1,15}\/followers_you_follow$/g],
         exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"],
     },
     {
@@ -24,7 +24,7 @@ let pages = [
     },
 ];
 
-let realPath = window.location.pathname;
+let realPath = window.location.pathname.split('?')[0].split('#')[0];
 if(realPath.endsWith("/")) {
     realPath = realPath.slice(0, -1);
 }
