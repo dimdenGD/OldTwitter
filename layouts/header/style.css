@@ -499,12 +499,12 @@
     z-index: 5;
     color: #292f33;
 }
-#search-results span {
+#search-results a {
     cursor: pointer;
     border-radius: 5px;
     padding: 2px;
 }
-#search-results span:hover, .search-result-item-active {
+#search-results a:hover, .search-result-item-active {
     background-color: var(--link-color) !important;
     color: white !important;
 }

@@ -681,3 +681,26 @@ body {
 .center-text:hover {
     text-decoration: underline;
 }
+#notification-switches {
+    width: 300px;
+    padding: 10px;
+}
+#notification-switches > hr {
+    border-top: #8899a6;
+}
+.notification-switch {
+    color: #66757f;
+    cursor: pointer;
+    padding-right: 200px;
+}
+.notification-switch:hover, .notification-switch-active {
+    color: black;
+}
+.notification-switch::after {
+    content: "\f173";
+    font-family: RosettaIcons;
+    float: right;
+}
+.wtf-header {
+    display: flow-root;
+}

@@ -1219,3 +1219,6 @@ body {
     border-radius: 5px;
     border: 1px solid #e1e8ed;
 }
+.wtf-header {
+    display: flow-root;
+}

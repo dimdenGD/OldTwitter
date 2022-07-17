@@ -1483,7 +1483,7 @@ async function renderDiscovery(cache = true) {
             udiv.className = 'wtf-user';
             udiv.innerHTML = `
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${userData.name}" class="tweet-avatar" width="48" height="48"></a>
-                <div class="tweet-header">
+                <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
                         <b class="tweet-header-name wtf-user-name">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>

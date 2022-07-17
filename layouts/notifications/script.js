@@ -4,8 +4,22 @@ let vars;
 chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
     vars = data;
 });
+let subpage;
 
 // Util
+
+function updateSubpage() {
+    if(location.pathname.includes('notifications/mentions')) {
+        subpage = 'mentions';
+        document.getElementById('ns-m').classList.add('notification-switch-active');
+        document.getElementById('ns-n').classList.remove('notification-switch-active');
+    } else {
+        subpage = 'notifications';
+        document.getElementById('ns-n').classList.add('notification-switch-active');
+        document.getElementById('ns-m').classList.remove('notification-switch-active');
+    };
+}
+
 function updateUserData() {
     API.verifyCredentials().then(u => {
         user = u;
@@ -21,21 +35,7 @@ function updateUserData() {
 }
 // Render
 function renderUserData() {
-    document.getElementById('user-name').innerText = user.name;
-    document.getElementById('user-name').classList.toggle('user-verified', user.verified);
-    document.getElementById('user-name').classList.toggle('user-protected', user.protected);
-
-    document.getElementById('user-handle').innerText = `@${user.screen_name}`;
-    document.getElementById('user-tweets').innerText = user.statuses_count;
-    document.getElementById('user-following').innerText = user.friends_count;
-    document.getElementById('user-followers').innerText = user.followers_count;
-    document.getElementById('user-banner').src = user.profile_banner_url;
-    document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
     document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?user_id=${user.id_str}`;
-    document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
-    document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
-
-    if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
 
 async function appendTweet(t, timelineContainer, options = {}) {
@@ -713,7 +713,7 @@ async function renderDiscovery(cache = true) {
             udiv.className = 'wtf-user';
             udiv.innerHTML = `
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${userData.name}" class="tweet-avatar" width="48" height="48"></a>
-                <div class="tweet-header">
+                <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
                         <b class="tweet-header-name wtf-user-name">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
@@ -855,7 +855,7 @@ async function renderNotifications(data, append = false) {
     }
 }
 async function updateNotifications(append = false) {
-    let data = await API.getNotifications(append ? lastCursor : undefined);
+    let data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
     if(append || !lastCursor) {
         let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
         lastCursor = entries[entries.length-1].content.operation.cursor.value;
@@ -872,6 +872,24 @@ setTimeout(() => {
         if(!lastCursor) return;
         updateNotifications(true);
     });
+    document.getElementById('ns-m').addEventListener('click', async () => {
+        lastCursor = undefined;
+        history.pushState({}, null, '/notifications/mentions');
+        updateSubpage();
+        updateNotifications();
+    });
+    document.getElementById('ns-n').addEventListener('click', async () => {
+        lastCursor = undefined;
+        history.pushState({}, null, '/notifications');
+        updateSubpage();
+        updateNotifications();
+    });
+    window.addEventListener("popstate", async () => {
+        lastCursor = undefined;
+        updateSubpage();
+        updateNotifications();
+    });
+
     // Update dates every minute
     setInterval(() => {
         let tweetDates = Array.from(document.getElementsByClassName('tweet-time'));
@@ -892,6 +910,7 @@ setTimeout(() => {
     // Run
     API.getSettings().then(s => {
         settings = s;
+        updateSubpage();
         updateUserData();
         renderDiscovery();
         renderTrends();

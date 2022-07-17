@@ -73,19 +73,19 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/home"],
+      "matches": ["https://twitter.com/home", "https://twitter.com/", "https://twitter.com/home/"],
       "js": ["libraries/twemoji.min.js", "layouts/home/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/old/notifications"],
+      "matches": ["https://twitter.com/notifications", "https://twitter.com/notifications/mentions", "https://twitter.com/notifications/", "https://twitter.com/notifications/mentions/"],
       "js": ["libraries/twemoji.min.js", "layouts/notifications/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/old/settings"],
+      "matches": ["https://twitter.com/old/settings", "https://twitter.com/old/settings/"],
       "js": ["libraries/twemoji.min.js", "layouts/settings/script.js"],
       "css": [],
       "run_at": "document_idle"
@@ -97,21 +97,30 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers"],
+      "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/with_replies/", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers", "https://twitter.com/*/media/", "https://twitter.com/*/likes/", "https://twitter.com/*/following/", "https://twitter.com/*/followers/"],
       "exclude_matches": [
         "https://twitter.com/",
         "https://twitter.com/home",
         "https://twitter.com/notifications",
+        "https://twitter.com/notifications/",
         "https://twitter.com/messages",
+        "https://twitter.com/messages/",
         "https://twitter.com/settings",
+        "https://twitter.com/settings/",
         "https://twitter.com/explore",
+        "https://twitter.com/explore/",
         "https://twitter.com/old/*",
         "https://twitter.com/login",
+        "https://twitter.com/login/",
         "https://twitter.com/register",
+        "https://twitter.com/register/",
         "https://twitter.com/logout",
+        "https://twitter.com/logout/",
         "https://twitter.com/i/*",
         "https://twitter.com/*/status/*",
-        "https://twitter.com/search"
+        "https://twitter.com/*/status/*/",
+        "https://twitter.com/search",
+        "https://twitter.com/search/"
       ],
       "js": ["libraries/twemoji.min.js", "layouts/profile/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],

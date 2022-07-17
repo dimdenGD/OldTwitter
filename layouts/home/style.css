@@ -800,3 +800,6 @@ body {
     background-color: var(--link-color) !important;
     color: white !important;
 }
+.wtf-header {
+    display: flow-root;
+}
