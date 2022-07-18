@@ -855,7 +855,8 @@ async function renderNotifications(data, append = false) {
     }
 }
 async function updateNotifications(append = false) {
-    let data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
+    let [data, s] = await Promise.allSettled([API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions'), API.getSettings()]);
+    data = data.value; settings = s.value;
     if(append || !lastCursor) {
         let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
         lastCursor = entries[entries.length-1].content.operation.cursor.value;
@@ -908,21 +909,13 @@ setTimeout(() => {
     })
 
     // Run
-    API.getSettings().then(s => {
-        settings = s;
-        updateSubpage();
-        updateUserData();
-        renderDiscovery();
-        renderTrends();
-        updateNotifications();
-        setInterval(updateUserData, 60000 * 3);
-        setInterval(() => renderDiscovery(false), 60000 * 5);
-        setInterval(renderTrends, 60000 * 5);
-        setInterval(updateNotifications, 20000);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateSubpage();
+    updateUserData();
+    renderDiscovery();
+    renderTrends();
+    updateNotifications();
+    setInterval(updateUserData, 60000 * 3);
+    setInterval(() => renderDiscovery(false), 60000 * 5);
+    setInterval(renderTrends, 60000 * 5);
+    setInterval(updateNotifications, 20000);
 }, 250);

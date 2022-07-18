@@ -1,5 +1,5 @@
 let user = {};
-let settings = {};
+let settings;
 let vars;
 chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
     vars = data;
@@ -809,12 +809,25 @@ async function renderSearch(c) {
     searchMore.hidden = false;
     let search;
     try {
-        search = await API.searchV2({
-            q: searchParams.q + (searchSettings.nearYou ? ' near:me' : ''),
-            tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
-            social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
-            result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
-        }, cursor);
+        if(!settings) {
+            let [searchData, s] = await Promise.allSettled([
+                API.searchV2({
+                    q: searchParams.q + (searchSettings.nearYou ? ' near:me' : ''),
+                    tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
+                    social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
+                    result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
+                }, cursor),
+                API.getSettings()
+            ]);
+            search = searchData.value; settings = s.value;
+        } else {
+            search = await API.searchV2({
+                q: searchParams.q + (searchSettings.nearYou ? ' near:me' : ''),
+                tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
+                social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
+                result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
+            }, cursor);
+        }
         cursor = search.cursor;
         search = search.list;
     } catch(e) {
@@ -1036,20 +1049,12 @@ setTimeout(() => {
     });
 
     // Run
-    API.getSettings().then(s => {
-        settings = s;
-        updateSubpage();
-        updateUserData();
-        renderDiscovery();
-        renderTrends();
-        renderSearch();
-        setInterval(updateUserData, 60000 * 3);
-        setInterval(() => renderDiscovery(false), 60000 * 5);
-        setInterval(renderTrends, 60000 * 5);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateSubpage();
+    updateUserData();
+    renderDiscovery();
+    renderTrends();
+    renderSearch();
+    setInterval(updateUserData, 60000 * 3);
+    setInterval(() => renderDiscovery(false), 60000 * 5);
+    setInterval(renderTrends, 60000 * 5);
 }, 250);
