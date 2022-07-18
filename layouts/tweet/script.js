@@ -1409,20 +1409,20 @@ async function appendTweet(t, timelineContainer, options = {}) {
 }
 
 async function renderDiscovery(cache = true) {
-    let discover = await API.discoverPeople(cache);
+    let screen_name = location.pathname.match(/\/([\w+]{1,15}\b)\/status/)[1];
+    let discover = await API.peopleRecommendations(screen_name, cache, true);
     let discoverContainer = document.getElementById('wtf-list');
     discoverContainer.innerHTML = '';
     try {
-        let usersData = discover.globalObjects.users;
-        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
-        usersSuggestions.forEach(userId => {
-            let userData = usersData[userId];
+        document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people`;
+        discover.forEach(userData => {
+            userData = userData.user;
             if (!userData) return;
             let udiv = document.createElement('div');
             udiv.className = 'wtf-user';
             udiv.innerHTML = `
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${userData.name}" class="tweet-avatar" width="48" height="48"></a>
-                <div class="tweet-header">
+                <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
                         <b class="tweet-header-name wtf-user-name">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
@@ -1454,7 +1454,7 @@ async function renderDiscovery(cache = true) {
                 }, () => { })
             });
             discoverContainer.append(udiv);
-            twemoji.parse(udiv);
+            if(vars.enableTwemoji) twemoji.parse(udiv);
         });
     } catch (e) {
         console.warn(e);

@@ -4,20 +4,58 @@ let vars;
 chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
     vars = data;
 });
-let subpage;
+let cursor;
+let searchParams = {}, searchSettings = {};
 
 // Util
 
 function updateSubpage() {
-    if(location.pathname.includes('notifications/mentions')) {
-        subpage = 'mentions';
-        document.getElementById('ns-m').classList.add('notification-switch-active');
-        document.getElementById('ns-n').classList.remove('notification-switch-active');
+    let params = Object.fromEntries(new URLSearchParams(location.search));
+    searchParams = params || {};
+    searchSettings = {};
+    let activeParams = Array.from(document.getElementsByClassName('search-switch-active'));
+    activeParams.forEach(a => a.classList.remove('search-switch-active'));
+    if(params.f === 'live') {
+        document.getElementById('ns-live').classList.add('search-switch-active');
+        searchSettings.type = 'live';
+    } else if(params.f === 'user') {
+        document.getElementById('ns-people').classList.add('search-switch-active');
+        searchSettings.type = 'user';
+    } else if(params.f === 'image') {
+        document.getElementById('ns-photos').classList.add('search-switch-active');
+        searchSettings.type = 'image';
+    } else if(params.f === 'video') {
+        document.getElementById('ns-videos').classList.add('search-switch-active');
+        searchSettings.type = 'video';
     } else {
-        subpage = 'notifications';
-        document.getElementById('ns-n').classList.add('notification-switch-active');
-        document.getElementById('ns-m').classList.remove('notification-switch-active');
-    };
+        document.getElementById('ns-popular').classList.add('search-switch-active');
+        searchSettings.type = 'popular';
+    }
+
+    if(params.pf === 'on') {
+        document.getElementById('ns-followedpeople').classList.add('search-switch-active');
+        searchSettings.followedPeople = true;
+    } else {
+        document.getElementById('ns-allpeople').classList.add('search-switch-active');
+        searchSettings.followedPeople = false;
+    }
+    if(params.lf === 'on') {
+        document.getElementById('ns-near').classList.add('search-switch-active');
+        searchSettings.nearYou = true;
+    } else {
+        document.getElementById('ns-everywhere').classList.add('search-switch-active');
+        searchSettings.nearYou = false;
+    }
+    document.getElementById('search-input').value = params.q;
+}
+function craftParams() {
+    let params = new URLSearchParams();
+    if(searchSettings.type !== 'popular') params.set('f', searchSettings.type);
+    if(searchSettings.followedPeople) params.set('pf', 'on');
+    if(searchSettings.nearYou) params.set('lf', 'on');
+    if(searchParams.q) params.set('q', searchParams.q);
+    else params.set('q', document.getElementById('search-input').value);
+    return params.toString();
 }
 
 function updateUserData() {
@@ -706,7 +744,7 @@ async function renderDiscovery(cache = true) {
     try {
         let usersData = discover.globalObjects.users;
         let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
-        usersSuggestions.forEach(userId => {
+        usersSuggestions.slice(0, 5).forEach(userId => {
             let userData = usersData[userId];
             if (!userData) return;
             let udiv = document.createElement('div');
@@ -759,137 +797,218 @@ async function renderTrends() {
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend';
         trendDiv.innerHTML = `
-            <b><a href="https://twitter.com/search?q=${trend.name.replace(/</g, '')}" class="trend-name">${trend.name}</a></b><br>
-            <span class="trend-description">${trend.meta_description ? trend.meta_description : ''}</span>
+            <a href="https://twitter.com/search?q=${trend.name.replace(/</g, '')}" class="trend-name">${trend.name}</a>
         `;
         trendsContainer.append(trendDiv);
         if(vars.enableTwemoji) twemoji.parse(trendDiv);
     });
 }
-let lastFirstCursor = undefined;
-let lastCursor = undefined;
-let aRegex = /<a[^>]*>([\s\S]*?)<\/a>/g;
-async function renderNotifications(data, append = false) {
-    let notificationsContainer = document.getElementById('notifications-div');
-    let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
-    let cursor = entries[0].content.operation.cursor.value;
-    if(lastFirstCursor === cursor) return;
-    lastFirstCursor = cursor;
-    if(!append) notificationsContainer.innerHTML = '';
-    let unreadBefore = +data.timeline.instructions.find(i => i.markEntriesUnreadGreaterThanSortIndex).markEntriesUnreadGreaterThanSortIndex.sortIndex;
-    let unreadNotifications = 0;
-    for(let i in entries) {
-        if(i === 0) continue;
-        let e = entries[i];
-        e = e.content.item;
-        if(!e) continue;
-        if(e.content.notification) {
-            let n = data.globalObjects.notifications[e.content.notification.id];
-            if(!n) continue;
-            let notificationDiv = document.createElement('div');
-            notificationDiv.className = 'notification';
-            if(+entries[i].sortIndex > unreadBefore) {
-                notificationDiv.classList.add('notification-unread');
-                unreadNotifications++;
-            }
-            let replyTweet = n.template.aggregateUserActionsV1.targetObjects[0] ? data.globalObjects.tweets[n.template.aggregateUserActionsV1.targetObjects[0].tweet.id] : {full_text: ''};
-            let replyUser = replyTweet ? data.globalObjects.users[replyTweet.user_id_str] : undefined;
-            notificationDiv.addEventListener('click', e => {
-                if(e.target == notificationDiv || e.target.className === 'notification-avatars' && replyUser) {
-                    location.assign(`https://twitter.com/${replyUser.screen_name}/status/${replyTweet.id_str}`);
+async function renderSearch(c) {
+    let searchDiv = document.getElementById('search-div');
+    let searchMore = document.getElementById('search-more');
+    searchMore.hidden = false;
+    let search;
+    try {
+        search = await API.searchV2({
+            q: searchParams.q + (searchSettings.nearYou ? ' near:me' : ''),
+            tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
+            social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
+            result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
+        }, cursor);
+        cursor = search.cursor;
+        search = search.list;
+    } catch(e) {
+        console.error(e);
+        cursor = undefined;
+        searchMore.hidden = true;
+        return document.getElementById('loading-box').hidden = true;
+    }
+    if(!c) {
+        searchDiv.innerHTML = '';
+    }
+    if(search.length === 0) {
+        searchDiv.innerHTML = `<div class="no-results">
+            <br><br>
+            No results found. Try changing something on left?<br><br>
+            <button class="nice-button">Try again</button>
+        </div>`;
+        searchMore.hidden = true;
+        cursor = undefined;
+        let button = searchDiv.querySelector('button');
+        button.addEventListener('click', () => {
+            renderSearch();
+        });
+        return document.getElementById('loading-box').hidden = true;
+    }
+    for(let i = 0; i < search.length; i++) {
+        let t = search[i];
+        if(t.type === 'user') {
+            let followingElement = document.createElement('div');
+            followingElement.classList.add('following-item');
+            followingElement.innerHTML = `
+            <div style="height:48px">
+                <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
+                    <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                    <div class="following-item-text">
+                        <span class="tweet-header-name following-item-name">${t.name}</span><br>
+                        <span class="tweet-header-handle">@${t.screen_name}</span>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? 'Following' : 'Follow'}</button>
+            </div>`;
+
+            let followButton = followingElement.querySelector('.following-item-btn');
+            followButton.addEventListener('click', async () => {
+                if (followButton.classList.contains('following')) {
+                    await API.unfollowUser(t.screen_name);
+                    followButton.classList.remove('following');
+                    followButton.classList.add('follow');
+                    followButton.innerText = 'Follow';
+                } else {
+                    await API.followUser(t.screen_name);
+                    followButton.classList.remove('follow');
+                    followButton.classList.add('following');
+                    followButton.innerText = 'Following';
                 }
             });
-            let notificationHeader = n.message.text;
-            if (n.message.entities) {
-                let additionalLength = 0;
-                let matches = 0;
-                n.message.entities.forEach(e => {
-                    let user = data.globalObjects.users[e.ref.user.id];
-                    notificationHeader = stringInsert(notificationHeader, additionalLength+e.toIndex, '</a>');
-                    notificationHeader = stringInsert(notificationHeader, additionalLength+e.fromIndex, `<a href="/dimdenEFF">`);
-                    additionalLength += `<a href="/dimdenEFF"></a>`.length;
-                    let mi = 0;
-                    let newText = notificationHeader.replace(aRegex, (_, m) => {
-                        if(mi++ !== matches) return _;
-                        return `<a href="/${user.screen_name}">${escape(m)}</a>`;
-                    });
-                    additionalLength += newText.length - notificationHeader.length;
-                    notificationHeader = newText;
-                    matches++;
+
+            searchDiv.appendChild(followingElement);
+        } else {
+            if (t.retweeted_status) {
+                await appendTweet(t.retweeted_status, searchDiv, {
+                    top: {
+                        text: `<a href="https://twitter.com/${t.user.screen_name}">${escape(t.user.name)}</a> retweeted`,
+                        icon: "\uf006",
+                        color: "#77b255"
+                    }
                 });
-            };
-            
-            let iconClasses = {
-                'heart_icon': 'ni-favorite',
-                'person_icon': 'ni-follow',
-                'retweet_icon': 'ni-retweet',
-            };
-            let users = n.template.aggregateUserActionsV1.fromUsers.map(u => data.globalObjects.users[u.user.id]);
-            notificationDiv.innerHTML = /*html*/`
-                <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
-                <div class="notification-header">
-                    ${notificationHeader}
-                </div>
-                <div class="notification-text">${escape(replyTweet.full_text)}</div>
-                <div class="notification-avatars">
-                    ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${u.name}" width="32" height="32"></a>`).join('')}
-                </div>
-            `;
-            notificationsContainer.append(notificationDiv);
-            if(vars.enableTwemoji) twemoji.parse(notificationDiv);
-        } else if(e.content.tweet) {
-            let t = data.globalObjects.tweets[e.content.tweet.id];
-            t.user = data.globalObjects.users[t.user_id_str];
-            if(!t) continue;
-            let tweet = await appendTweet(t, notificationsContainer);
-            if(+entries[i].sortIndex > unreadBefore) {
-                tweet.classList.add('notification-unread');
-                unreadNotifications++;
+            } else {
+                await appendTweet(t, searchDiv);
             }
         }
     }
-    if(unreadNotifications > 0) {
-        setTimeout(() => {
-            API.markAsReadNotifications(cursor);
-        }, 1000);
-    }
-}
-async function updateNotifications(append = false) {
-    let data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
-    if(append || !lastCursor) {
-        let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
-        lastCursor = entries[entries.length-1].content.operation.cursor.value;
-    }
-    await renderNotifications(data, append);
     document.getElementById('loading-box').hidden = true;
 }
+
 
 setTimeout(() => {
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
-    document.getElementById('notifications-more').addEventListener('click', async () => {
-        if(!lastCursor) return;
-        updateNotifications(true);
-    });
-    document.getElementById('ns-m').addEventListener('click', async () => {
-        lastCursor = undefined;
-        history.pushState({}, null, '/notifications/mentions');
-        updateSubpage();
-        updateNotifications();
-    });
-    document.getElementById('ns-n').addEventListener('click', async () => {
-        lastCursor = undefined;
-        history.pushState({}, null, '/notifications');
-        updateSubpage();
-        updateNotifications();
+    document.getElementById('search-more').addEventListener('click', async () => {
+        if(!cursor) return;
+        renderSearch(cursor);
     });
     window.addEventListener("popstate", async () => {
-        lastCursor = undefined;
+        cursor = undefined;
         updateSubpage();
-        updateNotifications();
+        renderSearch();
     });
-
+    let searchSwitches = Array.from(document.getElementsByClassName('search-switch'));
+    searchSwitches.forEach(s => {
+        s.addEventListener('click', async () => {
+            let id = s.id.split('-')[1];
+            if(s.id === "advanced") {
+                let modal = createModal(/*html*/`
+                    <h1 class="nice-header">Advanced search</h1>
+                    <div class="search-advanced-div">
+                        <h3 class="nice-subheader">Words</h3><br>
+                        <input type="text" id="sai-allthesewords" class="search-advanced-input" placeholder="All these words"><br>
+                        <span class="example">Example: whats happening - includes "whats", "happening"</span>
+                        <br><br>
+                        <input type="text" id="sai-exactphrase" class="search-advanced-input" placeholder="Exact phrase"><br>
+                        <span class="example">Example: happy time - includes "happy time"</span>
+                        <br><br>
+                        <input type="text" id="sai-anywords" class="search-advanced-input" placeholder="Any of these words"><br>
+                        <span class="example">Example: cats dogs - includes either "cats" or "dogs"</span>
+                        <br><br>
+                        <input type="text" id="sai-notthesewords" class="search-advanced-input" placeholder="Not these words"><br>
+                        <span class="example">Example: cats dogs - doesnt include "cats" and doesnt include "dogs"</span>
+                        <br><br>
+                        <h3 class="nice-subheader">Users</h3>
+                        <input type="text" id="sai-fromuser" class="search-advanced-input" placeholder="From this user"><br>
+                        <span class="example">Example: @dimdenEFF - from user dimdenEFF</span>
+                        <br><br>
+                        <input type="text" id="sai-mentionsuser" class="search-advanced-input" placeholder="Mentions this user"><br>
+                        <span class="example">Example: @dimdenEFF - in reply to dimdenEFF</span>
+                        <br><br>
+                        <h3 class="nice-subheader">Interactions</h3>
+                        <input type="number" id="sai-minreplies" class="search-advanced-input" placeholder="Minimal amount of replies"><br>
+                        <span class="example">Example: 280 - tweets that have at least 280 replies</span>
+                        <br><br>
+                        <input type="number" id="sai-minlikes" class="search-advanced-input" placeholder="Minimal amount of favorites/likes"><br>
+                        <span class="example">Example: 280 - tweets that have at least 280 favorites</span>
+                        <br><br>
+                        <input type="number" id="sai-minretweets" class="search-advanced-input" placeholder="Minimal amount of retweets"><br>
+                        <span class="example">Example: 280 - tweets that have at least 280 retweets</span>
+                        <br><br>
+                        <h3 class="nice-subheader">Dates</h3><br>
+                        Since:
+                        <input type="date" id="sai-after" class="search-advanced-input"><br>
+                        <br>
+                        Until:
+                        <input type="date" id="sai-before" class="search-advanced-input"><br>
+                        <br>
+                        <button class="nice-button">Search</button>
+                    </div>
+                `);
+                modal.querySelector('.nice-button').addEventListener('click', async () => {
+                    const allTheseWords = modal.querySelector('#sai-allthesewords').value;
+                    const exactPhrase = modal.querySelector('#sai-exactphrase').value;
+                    const anyWords = modal.querySelector('#sai-anywords').value;
+                    const notTheseWords = modal.querySelector('#sai-notthesewords').value;
+                    const fromUser = modal.querySelector('#sai-fromuser').value;
+                    const mentionsUser = modal.querySelector('#sai-mentionsuser').value;
+                    const minReplies = modal.querySelector('#sai-minreplies').value;
+                    const minLikes = modal.querySelector('#sai-minlikes').value;
+                    const minRetweets = modal.querySelector('#sai-minretweets').value;
+                    const after = modal.querySelector('#sai-after').value;
+                    const before = modal.querySelector('#sai-before').value;
+                    let newQuery = "";
+                    if(allTheseWords) newQuery = allTheseWords;
+                    if(exactPhrase) newQuery += ` "${exactPhrase}"`;
+                    if(anyWords) newQuery += ` (${anyWords.split(" ").join(' OR ')})`;
+                    if(notTheseWords) newQuery += ` ${anyWords.split(" ").map(w => `-${w}`).join(' ')}`;
+                    if(fromUser) newQuery += ` (from:${fromUser.startsWith('@') ? fromUser.slice(1) : fromUser})`;
+                    if(mentionsUser) newQuery += ` (to:${mentionsUser.startsWith('@') ? mentionsUser.slice(1) : mentionsUser})`;
+                    if(minReplies) newQuery += ` (min_replies:${minReplies})`;
+                    if(minLikes) newQuery += ` (min_faves:${minLikes})`;
+                    if(minRetweets) newQuery += ` (min_retweets:${minRetweets})`;
+                    if(after) newQuery += ` since:${after}`;
+                    if(before) newQuery += ` until:${before}`;
+                    if(newQuery) {
+                        searchParams.q = newQuery;
+                        let params = craftParams();
+                        history.pushState({}, null, `search?${params}`);
+                        updateSubpage();
+                        cursor = undefined;
+                        renderSearch();
+                        modal.remove();
+                    }
+                });
+                return;
+            }
+            switch(id) {
+                case 'popular': searchSettings.type = 'popular'; break;
+                case 'live': searchSettings.type = 'live'; break;
+                case 'people': searchSettings.type = 'user'; break;
+                case 'photos': searchSettings.type = 'image'; break;
+                case 'videos': searchSettings.type = 'video'; break;
+                case 'followedpeople': searchSettings.followedPeople = true; break;
+                case 'allpeople': searchSettings.followedPeople = false; break;
+                case 'everywhere': searchSettings.nearYou = false; break;
+                case 'near': searchSettings.nearYou = true; break;
+            }
+            document.getElementById('loading-box').hidden = false;
+            let params = craftParams();
+            history.pushState({}, null, `search?${params}`);
+            updateSubpage();
+            cursor = undefined;
+            renderSearch();
+        });
+    });
     // Update dates every minute
     setInterval(() => {
         let tweetDates = Array.from(document.getElementsByClassName('tweet-time'));
@@ -905,7 +1024,16 @@ setTimeout(() => {
         if(!user) return;
         let event = new CustomEvent('updateUserData', { detail: user });
         document.dispatchEvent(event);
-    })
+    });
+    document.addEventListener('newSearch', () => {
+        document.getElementById('loading-box').hidden = false;
+        searchParams.q = document.getElementById('search-input').value;
+        let params = craftParams();
+        history.pushState({}, null, `search?${params}`);
+        updateSubpage();
+        cursor = undefined;
+        renderSearch();
+    });
 
     // Run
     API.getSettings().then(s => {
@@ -914,11 +1042,10 @@ setTimeout(() => {
         updateUserData();
         renderDiscovery();
         renderTrends();
-        updateNotifications();
+        renderSearch();
         setInterval(updateUserData, 60000 * 3);
         setInterval(() => renderDiscovery(false), 60000 * 5);
         setInterval(renderTrends, 60000 * 5);
-        setInterval(updateNotifications, 20000);
     }).catch(e => {
         if (e === "Not logged in") {
             window.location.href = "https://twitter.com/login";

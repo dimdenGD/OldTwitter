@@ -315,6 +315,13 @@ setTimeout(() => {
                     topicElement.href = `/search?q=${topic}`;
                     topicElement.className = 'search-result-item';
                     topicElement.innerText = topic;
+                    if(location.pathname.startsWith('/search')) topicElement.addEventListener('click', e => {
+                        e.preventDefault();
+                        searchResults.hidden = true;
+                        searchInput.value = topic;
+                        let event = new Event('newSearch');
+                        document.dispatchEvent(event);
+                    });
                     let removeTopic = document.createElement('span');
                     removeTopic.innerText = '×';
                     removeTopic.className = 'search-result-item-remove';
@@ -338,6 +345,13 @@ setTimeout(() => {
                     topicElement.href = `/search?q=${topic}`;
                     topicElement.className = 'search-result-item';
                     topicElement.innerText = topic;
+                    if(location.pathname.startsWith('/search')) topicElement.addEventListener('click', e => {
+                        e.preventDefault();
+                        searchResults.hidden = true;
+                        searchInput.value = topic;
+                        let event = new Event('newSearch');
+                        document.dispatchEvent(event);
+                    });
                     let removeTopic = document.createElement('span');
                     removeTopic.innerText = '×';
                     removeTopic.className = 'search-result-item-remove';
@@ -358,11 +372,11 @@ setTimeout(() => {
                 loadDefaultSearches();
             } 
         });
-        // searchInput.addEventListener('blur', () => {
-        //     setTimeout(() => {
-        //         searchResults.hidden = true;
-        //     }, 100);
-        // });
+        searchInput.addEventListener('blur', () => {
+            setTimeout(() => {
+                searchResults.hidden = true;
+            }, 100);
+        });
         searchInput.addEventListener('keyup', async (e) => {
             let query = searchInput.value;
             let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
@@ -405,6 +419,13 @@ setTimeout(() => {
                 topicElement.href = `/search?q=${topic}`;
                 topicElement.className = 'search-result-item';
                 topicElement.innerText = topic;
+                if(location.pathname.startsWith('/search')) topicElement.addEventListener('click', e => {
+                    e.preventDefault();
+                    searchResults.hidden = true;
+                    searchInput.value = topic;
+                    let event = new Event('newSearch');
+                    document.dispatchEvent(event);
+                });
                 searchResults.appendChild(topicElement);
             });
             search.users.forEach((user) => {
@@ -428,7 +449,13 @@ setTimeout(() => {
             chrome.storage.local.set({
                 lastSearches
             }, () => {
-                location.href = `/search?q=${searchInput.value}`;
+                if(location.pathname.startsWith('/search')) {
+                    searchResults.hidden = true;
+                    let event = new Event('newSearch');
+                    document.dispatchEvent(event);
+                } else {
+                    location.href = `/search?q=${searchInput.value}`;
+                }
             });
         });
     

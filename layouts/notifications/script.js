@@ -706,7 +706,7 @@ async function renderDiscovery(cache = true) {
     try {
         let usersData = discover.globalObjects.users;
         let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
-        usersSuggestions.forEach(userId => {
+        usersSuggestions.slice(0, 5).forEach(userId => {
             let userData = usersData[userId];
             if (!userData) return;
             let udiv = document.createElement('div');

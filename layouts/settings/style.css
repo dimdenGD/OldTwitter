@@ -355,3 +355,6 @@ body {
 .setting {
     margin-bottom: 5px;
 }
+.wtf-header {
+    display: flow-root;
+}

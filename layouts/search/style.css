@@ -124,12 +124,19 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
-#notifications-div {
-    width: 560px;
+#search-div {
+    width: 590px;
     margin-bottom: 10px;
     min-height: 700px;
 }
-.tweet, .notification {
+#trends {
+    margin-top: 10px;
+    padding: 10px;
+}
+.trend {
+    font-size: 13px;
+}
+.tweet, .following-item {
     border-left: 1px solid #e1e8ed;
     border-right: 1px solid #e1e8ed;
     border-top: 1px solid #e1e8ed;
@@ -138,7 +145,7 @@ body {
     min-height: 50px;
     cursor: pointer;
 }
-.tweet:hover, .notification:hover, .notification-unread {
+.tweet:hover {
     background-color: #f5f8fa;
 }
 .tweet-avatar-link {
@@ -457,10 +464,19 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1, #trends h1 {
+#wtf h1, #trends h1, .nice-header {
     margin: 0;
     display: inline-block;
     font-size: 22px;
+    color: #66757f;
+    font-weight: 300;
+}
+.nice-header {
+    margin-bottom: 5px;
+}
+.nice-subheader {
+    margin: 0;
+    display: inline-block;
     color: #66757f;
     font-weight: 300;
 }
@@ -574,12 +590,8 @@ body {
     margin-top: 10px;
     padding: 10px;
 }
-.trend {
-    margin-top: 10px;
-}
-.trend-description {
-    font-size: 14px;
-    color: #8899a6;
+#trends > h1 {
+    margin-bottom: 5px;
 }
 .emoji {
     width: 16px;
@@ -616,36 +628,7 @@ body {
     border-top: #ccd6dd;
     margin: 2px;
 }
-.notification-icon {
-    vertical-align: text-bottom;
-    margin-right: 5px;
-    font-family: RosettaIcons;
-    font-size: 16px;
-    display: inline-block;
-    position: relative;
-    left: 31px;
-    bottom: -1px;
-}
-.notification-header {
-    display: inline-block;
-    position: relative;
-    left: 31px;
-    font-size: 14px;
-}
-.notification-text {
-    position: relative;
-    left: 57px;
-    color: #8899a6;
-    width: 475px;
-    font-size: 14px;
-}
-.notification-avatars {
-    position: relative;
-    left: 54px;
-}
-.notification-header a {
-    color: black;
-    font-weight: bold;
+: bold;
 }
 .ni-favorite:before {
     content: var(--favorite-icon-content-notif);
@@ -658,14 +641,6 @@ body {
 .ni-retweet:before {
     content: "\f006";
     color: #5c913b;
-}
-.notification-avatar {
-    margin: 2px;
-    margin-top: 10px;
-    display: inline-block;
-}
-.notification-avatar img {
-    border-radius: 5px;
 }
 .center-text {
     background-color: white;
@@ -681,26 +656,79 @@ body {
 .center-text:hover {
     text-decoration: underline;
 }
-#notification-switches {
-    width: 300px;
+.search-switches {
+    width: 250px;
     padding: 10px;
+    margin-bottom: 10px;
 }
-#notification-switches > hr {
+.search-switches > hr {
     border-top: #8899a6;
 }
-.notification-switch {
+.search-switch {
     color: #66757f;
     cursor: pointer;
-    padding-right: 200px;
+    padding-right: 100px;
 }
-.notification-switch:hover, .notification-switch-active {
+.search-switch:hover, .search-switch-active {
     color: black;
 }
-.notification-switch::after {
-    content: "\f173";
+.search-switch:before {
+    content: "\f170";
     font-family: RosettaIcons;
-    float: right;
+    color: white;
+    font-weight: 100;
+    margin-right: 5px;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+}
+#advanced:before {
+    content: "\f059" !important;
+    color: #8899a6;
+}
+.search-switch-active:before {
+    content: "\f170";
+    font-family: RosettaIcons;
+    color: var(--link-color);
+    font-weight: 100;
+    margin-right: 5px;
 }
 .wtf-header {
     display: flow-root;
+}
+.following-item-btn {
+    float: right;
+}
+.following-item-text {
+    width: fit-content;
+    display: inline-block;
+    position: relative;
+    bottom: 11px;
+    margin-left: 8px;
+}
+.following-item-link:hover {
+    text-decoration: none;
+}
+.following-item-btn {
+    position: relative;
+    bottom: 43px;
+    height: 40px;
+}
+.following-item-name {
+    position: absolute;
+    width: 300px;
+}
+.no-results {
+    text-align: center;
+}
+.example {
+    font-size: 14px;
+    color: #8899a6;
+}
+.search-advanced-input {
+    width: 100%;
+    padding: 3px;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: var(--font);
 }
