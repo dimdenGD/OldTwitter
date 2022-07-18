@@ -991,6 +991,28 @@ setTimeout(() => {
             });
         });
 
+        document.addEventListener('messageUser', e => {
+            document.getElementById('messages').click();
+            setTimeout(async () => {
+                let convo_id = e.detail.id;
+                let u = e.detail.user;
+                const messageHeaderName = modal.querySelector('.message-header-name');
+                const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
+                const messageHeaderLink = modal.querySelector('.message-header-link');
+                let messageData = await API.getConversation(convo_id);
+                modal.querySelector('.message-box').hidden = false;
+                modal.querySelector('.home-top').hidden = true;
+                modal.querySelector('.name-top').hidden = false;
+                modal.querySelector('.inbox').hidden = true;
+                modal.querySelector('.new-message-box').hidden = true;
+                messageHeaderName.innerText = u.name;
+                messageHeaderAvatar.src = u.profile_image_url_https;
+                messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
+    
+                renderConversation(messageData, convo_id);
+            }, 50);
+        })
+
         // menu
         let userMenu = document.getElementById('navbar-user-menu');
         userAvatar.addEventListener('click', () => {

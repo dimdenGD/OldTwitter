@@ -626,7 +626,7 @@ function renderProfile() {
         buttonsElement.innerHTML = /*html*/`
             <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? 'Follow request sent' : 'Following') : 'Follow'}</button>
             <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>Unblock</button>
-            <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user" href="https://twitter.com/messages/${user.id_str}-${pageUser.id_str}"></a>
+            <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user"></a>
         `;
         buttonsElement.innerHTML += /*html*/`
             <span class="profile-additional-thing" id="profile-settings"></span>
@@ -641,6 +641,11 @@ function renderProfile() {
                 <span id="profile-settings-copy" style="width: 100%;">Copy profile link<br></span>
             </div>
         `;
+        let messageUser = document.getElementById('message-user');
+        messageUser.addEventListener('click', () => {
+            let event = new CustomEvent('messageUser', { detail: { id: `${user.id_str}-${pageUser.id_str}`, user: pageUser } });
+            document.dispatchEvent(event);
+        });
         let clicked = false;
         let controlFollow = document.getElementById('control-follow');
         controlFollow.addEventListener('click', async () => {
