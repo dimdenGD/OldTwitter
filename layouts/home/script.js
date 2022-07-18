@@ -65,7 +65,10 @@ function updateUserData() {
 async function updateTimeline() {
     seenThreads = [];
     if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
-    let tl = !vars.chronologicalTL ? await API.getAlgoTimeline() : await API.getTimeline();
+    let fn = !vars.chronologicalTL ? API.getAlgoTimeline : API.getTimeline;
+    let [tl, s] = await Promise.allSettled([fn(), API.getSettings()]);
+    s = s.value; tl = tl.value;
+    settings = s;
     if(!vars.chronologicalTL) {
         algoCursor = tl.cursor;
         tl = tl.list
@@ -1236,20 +1239,12 @@ setTimeout(() => {
     });
 
     // Run
-    API.getSettings().then(s => {
-        settings = s;
-        updateUserData();
-        updateTimeline();
-        renderDiscovery();
-        renderTrends();
-        setInterval(updateUserData, 60000 * 3);
-        setInterval(updateTimeline, 60000);
-        setInterval(() => renderDiscovery(false), 60000 * 5);
-        setInterval(renderTrends, 60000 * 5);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateUserData();
+    updateTimeline();
+    renderDiscovery();
+    renderTrends();
+    setInterval(updateUserData, 60000 * 3);
+    setInterval(updateTimeline, 60000);
+    setInterval(() => renderDiscovery(false), 60000 * 5);
+    setInterval(renderTrends, 60000 * 5);
 }, 250);

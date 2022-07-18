@@ -65,7 +65,9 @@ async function updateReplies(id, c) {
     if(!c) document.getElementById('timeline').innerHTML = '';
     let tl;
     try {
-        tl = await API.getReplies(id, c);
+        let [tlData, s] = await Promise.allSettled([API.getReplies(id, c), API.getSettings()]);
+        tl = tlData.value;
+        settings = s.value;
     } catch(e) {
         return cursor = undefined;
     }
@@ -1558,29 +1560,21 @@ setTimeout(() => {
     });
 
     // Run
-    API.getSettings().then(s => {
-        settings = s;
-        updateUserData();
-        updateSubpage();
-        let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-        if(subpage === 'tweet') {
-            updateReplies(id);
-        } else if(subpage === 'likes') {
-            updateLikes(id);
-        } else if(subpage === 'retweets') {
-            updateRetweets(id);
-        } else if(subpage === 'retweets_with_comments') {
-            updateRetweetsWithComments(id);
-        }
-        renderDiscovery();
-        renderTrends();
-        setInterval(updateUserData, 60000 * 3);
-        setInterval(() => renderDiscovery(false), 60000 * 10);
-        setInterval(renderTrends, 60000 * 5);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateUserData();
+    updateSubpage();
+    let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+    if(subpage === 'tweet') {
+        updateReplies(id);
+    } else if(subpage === 'likes') {
+        updateLikes(id);
+    } else if(subpage === 'retweets') {
+        updateRetweets(id);
+    } else if(subpage === 'retweets_with_comments') {
+        updateRetweetsWithComments(id);
+    }
+    renderDiscovery();
+    renderTrends();
+    setInterval(updateUserData, 60000 * 3);
+    setInterval(() => renderDiscovery(false), 60000 * 10);
+    setInterval(renderTrends, 60000 * 5);
 }, 250);
