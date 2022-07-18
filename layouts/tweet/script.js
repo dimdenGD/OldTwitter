@@ -173,7 +173,7 @@ async function updateLikes(id, c) {
             <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
                 <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                 <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${u.name}</span><br>
+                    <span class="tweet-header-name following-item-name">${escape(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
                 </div>
             </a>
@@ -236,7 +236,7 @@ async function updateRetweets(id, c) {
             <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
                 <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                 <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${u.name}</span><br>
+                    <span class="tweet-header-name following-item-name">${escape(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
                 </div>
             </a>

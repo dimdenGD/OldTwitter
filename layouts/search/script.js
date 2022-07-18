@@ -753,7 +753,7 @@ async function renderDiscovery(cache = true) {
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${userData.name}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
-                        <b class="tweet-header-name wtf-user-name">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</b>
+                        <b class="tweet-header-name wtf-user-name">${escape(userData.name)}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
                     </a>
                     <br>
@@ -797,7 +797,7 @@ async function renderTrends() {
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend';
         trendDiv.innerHTML = `
-            <a href="https://twitter.com/search?q=${trend.name.replace(/</g, '')}" class="trend-name">${trend.name}</a>
+            <a href="https://twitter.com/search?q=${trend.name.replace(/</g, '').replace(/>/g, '')}" class="trend-name">${escape(trend.name)}</a>
         `;
         trendsContainer.append(trendDiv);
         if(vars.enableTwemoji) twemoji.parse(trendDiv);
@@ -863,7 +863,7 @@ async function renderSearch(c) {
                 <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
                     <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                     <div class="following-item-text">
-                        <span class="tweet-header-name following-item-name">${t.name}</span><br>
+                        <span class="tweet-header-name following-item-name">${escape(t.name)}</span><br>
                         <span class="tweet-header-handle">@${t.screen_name}</span>
                     </div>
                 </a>

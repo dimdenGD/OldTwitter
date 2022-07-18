@@ -626,6 +626,7 @@ body {
     padding: 10px;
     color: #66757f;
     background-color: #f5f8fa;
+    margin-top: 0 !important;
 }
 #new-tweet-avatar {
     vertical-align: top;

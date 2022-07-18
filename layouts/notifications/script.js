@@ -832,7 +832,7 @@ async function renderNotifications(data, append = false) {
                 </div>
                 <div class="notification-text">${escape(replyTweet.full_text)}</div>
                 <div class="notification-avatars">
-                    ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${u.name}" width="32" height="32"></a>`).join('')}
+                    ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escape(u.name)}" width="32" height="32"></a>`).join('')}
                 </div>
             `;
             notificationsContainer.append(notificationDiv);

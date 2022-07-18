@@ -263,7 +263,7 @@
     opacity: 0.2;
 }
 
-.navbar-new-tweet-avatar {
+.navbar-new-tweet-avatar, .new-message-user-avatar {
     vertical-align: top;
     border-radius: 5px;
 }
@@ -553,6 +553,7 @@
 }
 .inbox-modal {
     max-width: 600px !important;
+    width: 600px;
 }
 .inbox-modal hr {
     border-top: #ccd6dd;
@@ -577,6 +578,12 @@
     color: #292f33;
     font-size: 16px;
 }
+.inbox-refresh-icon:before {
+    content: "\f189";
+    font-family: RosettaIcons;
+    color: #292f33;
+    font-size: 16px;
+}
 .larger {
     font-size: 24px !important;
 }
@@ -587,7 +594,7 @@
     padding: 5px;
     width: 585px;
 }
-.inbox-message:hover, .inbox-message-unread {
+.inbox-message:hover, .inbox-message-unread, .new-message-user:hover {
     background-color: #eaf5fd;
 }
 .inbox-message-avatar {
@@ -602,14 +609,14 @@
     display: inline-block;
     margin-bottom: 5px;
 }
-.inbox-screenname {
+.inbox-screenname, .new-message-user-screenname {
     direction: ltr;
     unicode-bidi: embed;
     font-size: 13px;
     color: #8899a6;
     text-decoration: none;
 }
-.inbox-name {
+.inbox-name, .new-message-user-name {
     font-weight: bold;
     color: #292f33;
     font-size: 14px;
@@ -642,6 +649,7 @@
 }
 .message-element img {
     border-radius: 5px;
+    margin-top: 3px;
     vertical-align: middle;
 }
 .message-header-avatar {
@@ -686,6 +694,7 @@
 .message-header-back {
     cursor: pointer;
     float: left;
+    margin-top: 3px;
 }
 .message-header-back:before {
     content: "\f172";
@@ -751,7 +760,7 @@
     margin-bottom: 20px;
     display: flow-root;
 }
-.message-new-input {
+.message-new-input, .new-message-user-search {
     border: 1px solid #e1e8ed;
     resize: none;
     border-radius: 3px;
@@ -767,7 +776,7 @@
 }
 .message-new-media-btn {
     cursor: pointer;
-    vertical-align: middle;
+    vertical-align: sub;
 }
 .message-new-media-btn:before {
     content: "\f159";
@@ -777,5 +786,23 @@
     margin-right: 5px;
 }
 #messages {
+    cursor: pointer;
+}
+.new-name-top {
+    text-align: center;
+    width: 598px;
+}
+.new-message-group {
+    float: right;
+    margin-left: 11px;
+    margin-top: -3px;
+}
+.new-message-user-text {
+    display: inline-grid;
+    margin-left: 8px;
+    margin-top: 7px;
+}
+.new-message-user {
+    padding: 4px;
     cursor: pointer;
 }

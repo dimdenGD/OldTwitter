@@ -44,9 +44,14 @@ setTimeout(() => {
             let dmsElement = document.getElementById('messages-count');
             let notifElement = document.getElementById('notifications-count');
             let icon = document.getElementById('site-icon');
-            if(location.pathname.startsWith('/old/notifications')) {
+            if(location.pathname.startsWith('/notifications')) {
                 notifs = 0;
             }
+            let inboxModal = document.getElementsByClassName('inbox-modal')[0];
+            if(inboxModal) {
+                dms = 0;
+            }
+            total = dms + notifs;
     
             if(dms > 0) {
                 dmsElement.hidden = false;
@@ -107,6 +112,8 @@ setTimeout(() => {
             } else {
                 cursor = undefined;
             };
+
+            return true;
         }
         
         // messages
@@ -123,6 +130,8 @@ setTimeout(() => {
                 lastConvo = convo;
                 lastConvo.conversation_id = convoId;
             } else {
+                if(!convo.users) convo.users = {};
+                if(!lastConvo.users) lastConvo.users = {};
                 lastConvo.users = Object.assign(lastConvo.users, convo.users);
                 lastConvo.entries.forEach(e => {
                     e.added = true;
@@ -136,7 +145,19 @@ setTimeout(() => {
                     return true; 
                 });
             }
+            if(inboxData) {
+                let conversations = Array.isArray(inboxData.conversations) ? inboxData.conversations : Object.values(inboxData.conversations);
+                let realConvo = conversations.find(c => c.id_str === lastConvo.id_str);
+                if(+lastConvo.max_entry_id >= +realConvo.last_read_event_id) {
+                    API.markRead(lastConvo.max_entry_id);
+                    realConvo.last_read_event_id = lastConvo.max_entry_id;
+                }
+            }
             let messageBox = modal.querySelector('.messages-list');
+            if(!lastConvo.entries) {
+                modal.getElementsByClassName('messages-load-more')[0].hidden = true;
+                return;
+            }
             lastConvo.entries = lastConvo.entries.reverse();
             let messageElements = [];
             for(let i in lastConvo.entries) {
@@ -290,14 +311,6 @@ setTimeout(() => {
             } else {
                 loadMoreMessages.hidden = true;
             }
-            if(inboxData) {
-                let conversations = Array.isArray(inboxData.conversations) ? inboxData.conversations : Object.values(inboxData.conversations);
-                let realConvo = conversations.find(c => c.id_str === lastConvo.id_str);
-                if(+lastConvo.max_entry_id > +realConvo.last_read_event_id) {
-                    API.markRead(lastConvo.max_entry_id);
-                    realConvo.last_read_event_id = lastConvo.max_entry_id;
-                }
-            }
         }
         function renderInboxMessages(inbox, inboxList) {
             inbox.conversations = Object.values(inbox.conversations).sort((a, b) => (+b.sort_timestamp)-(+a.sort_timestamp));
@@ -344,6 +357,7 @@ setTimeout(() => {
                     modal.querySelector('.home-top').hidden = true;
                     modal.querySelector('.name-top').hidden = false;
                     modal.querySelector('.inbox').hidden = true;
+                    modal.querySelector('.new-message-box').hidden = true;
                     messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : messageUsers.map(i => i.name).join(', ').slice(0, 80);
                     messageHeaderAvatar.src = messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : chrome.runtime.getURL(`/images/group.jpg`);
                     if(messageUsers.length === 1) messageHeaderLink.href = `https://twitter.com/${messageUsers[0].screen_name}`;
@@ -370,6 +384,9 @@ setTimeout(() => {
                     <div class="inbox-top home-top">
                         <h1 class="larger nice-header">Direct messages</h1>
                         <div class="inbox-buttons">
+                        <button class="nice-button inbox-refresh" title="Refresh">
+                                <span class="inbox-refresh-icon"></span>
+                            </button>
                             <button class="nice-button inbox-readall" title="Mark all as read">
                                 <span class="inbox-readall-icon"></span>
                             </button>
@@ -402,9 +419,22 @@ setTimeout(() => {
                         <button class="nice-button message-new-send">Send</button>
                     </div>
                 </div>
+                <div class="new-message-box" hidden>
+                    <div class="inbox-top new-name-top">
+                        <span class="message-header-back message-new-message-back"></span>
+                        <h1 class="larger message-header-name nice-header" style="float: left;margin-left: 14px;">New message</h1>
+                        <button class="new-message-group nice-button">Create new group</button>
+                        <br>
+                        <input type="text" class="new-message-user-search" placeholder="Search people" style="width:551px">
+                        <hr>
+                    </div>
+                    <br><br><br><br><br>
+                    <div class="new-message-results"></div>
+                </div>
             `, "inbox-modal");
             const inboxList = modal.querySelector('.inbox-list');
             const readAll = modal.querySelector('.inbox-readall');
+            const refresh = modal.querySelector('.inbox-refresh');
             const newInbox = modal.querySelector('.inbox-new');
             const newMedia = modal.querySelector('.message-new-media');
             const newMediaButton = modal.querySelector('.message-new-media-btn');
@@ -413,13 +443,61 @@ setTimeout(() => {
             const newInput = modal.querySelector('.message-new-input');
             const loadMore = modal.querySelector('.load-more');
             const loadMoreMessages = modal.querySelector('.messages-load-more');
+            const userSearch = modal.querySelector('.new-message-user-search');
+            const newMessageResults = modal.querySelector('.new-message-results');
+
+            newInbox.addEventListener('click', () => {
+                modal.querySelector('.inbox').hidden = true;
+                modal.querySelector('.new-message-box').hidden = false;
+                modal.querySelector('.name-top').hidden = true;
+                modal.querySelector('.home-top').hidden = true;
+                modal.querySelector('.message-box').hidden = true;
+            });
+            modal.getElementsByClassName('message-new-message-back')[0].addEventListener('click', () => {
+                modal.remove();
+                document.getElementById('messages').click();
+            });
+            userSearch.addEventListener('keyup', async () => {
+                let q = userSearch.value;
+                let res = await API.search(q);
+                newMessageResults.innerHTML = '';
+                res.users.slice(0, 5).forEach(u => {
+                    let userElement = document.createElement('div');
+                    userElement.classList.add('new-message-user');
+                    userElement.innerHTML = `
+                        <img class="new-message-user-avatar" src="${u.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48">
+                        <div class="new-message-user-text">
+                            <b class="new-message-user-name">${escape(u.name)}</b>
+                            <span class="new-message-user-screenname">@${u.screen_name}</span>
+                        </div>
+                    `;
+                    userElement.addEventListener('click', async () => {
+                        const messageHeaderName = modal.querySelector('.message-header-name');
+                        const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
+                        const messageHeaderLink = modal.querySelector('.message-header-link');
+                        let messageData = await API.getConversation(`${user.id_str}-${u.id_str}`);
+                        modal.querySelector('.message-box').hidden = false;
+                        modal.querySelector('.home-top').hidden = true;
+                        modal.querySelector('.name-top').hidden = false;
+                        modal.querySelector('.inbox').hidden = true;
+                        modal.querySelector('.new-message-box').hidden = true;
+                        messageHeaderName.innerText = u.name;
+                        messageHeaderAvatar.src = u.profile_image_url_https;
+                        messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
+
+                        renderConversation(messageData, `${user.id_str}-${u.id_str}`);
+                    });
+                    newMessageResults.appendChild(userElement);
+                });
+            });
 
             let mediaToUpload = []; 
             newMediaButton.addEventListener('click', () => {
                 getDMMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
             });
-            newInput.addEventListener('keydown', e => {
-                if(e.key === "Enter" && e.ctrlKey) {
+            newInput.addEventListener('keypress', e => {
+                if(e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
                     newSend.click();
                 }
             });
@@ -462,8 +540,13 @@ setTimeout(() => {
                     sentMessage.conversation_id = lastConvo.conversation_id;
                     renderConversation(sentMessage, lastConvo.conversation_id, true, false);
                 } catch (e) {
-                    newInput.disabled = false;
                     console.error(e);
+                    if(String(e).includes('You cannot send messages to this user.')) {
+                        let messageList = modal.querySelector('.messages-list');
+                        messageList.innerHTML = 'You cannot send messages to this user.';
+                        return;
+                    }
+                    newSend.disabled = false;
                 }
             });
             
@@ -489,7 +572,14 @@ setTimeout(() => {
                 unreadMessages.forEach(message => {
                     message.classList.remove('inbox-message-unread');
                 });
-                updateInboxData();
+                await updateInboxData();
+                modal.remove();
+                document.getElementById('messages').click();
+            });
+            refresh.addEventListener('click', async () => {
+                await updateInboxData();
+                modal.remove();
+                document.getElementById('messages').click();
             });
 
             renderInboxMessages(inbox, inboxList);
