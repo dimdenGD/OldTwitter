@@ -806,3 +806,20 @@
     padding: 4px;
     cursor: pointer;
 }
+.message-leave {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    bottom: 38px;
+    font-size: 21px;
+    right: 25px;
+}
+.message-leave:before {
+    content: "\f154";
+    font-family: RosettaIcons;
+    color: #8899a6;
+    margin-right: 5px;
+}
+.name-top {
+    width: 618px !important;
+}

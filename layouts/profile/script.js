@@ -1725,7 +1725,12 @@ setTimeout(() => {
         let el = e.target;
         if(el.tagName !== 'A') el = el.parentElement;
         if(el.tagName === "A") {
-            let path = new URL(el.href).pathname;
+            let path;
+            try {
+                path = new URL(el.href).pathname;
+            } catch(e) {
+                return;
+            }
             if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
                 e.preventDefault();
                 mediaToUpload = [];

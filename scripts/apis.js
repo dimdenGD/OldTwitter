@@ -2025,3 +2025,21 @@ API.deleteMessage = id => {
         });
     });
 }
+API.deleteConversation = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/dm/conversation/${id}/delete.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include",
+            method: 'post',
+        }).then(i => i.text()).then(data => {
+            resolve(true);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}

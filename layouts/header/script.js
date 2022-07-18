@@ -174,7 +174,7 @@ setTimeout(() => {
                 messageElement.id = `message-${m.id}`;
                 messageElement.innerHTML = `
                     ${sender.id_str !== user.id_str ? `
-                        <img src="${sender.profile_image_url_https.replace("_normal", "_bigger")}" width="32" height="32">
+                        <a href="https://twitter.com/${sender.screen_name}"><img src="${sender.profile_image_url_https.replace("_normal", "_bigger")}" width="32" height="32"></a>
                         <span class="message-body">${escape(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>')}</span>
                         <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
                     ` : `
@@ -407,6 +407,7 @@ setTimeout(() => {
                             <img class="message-header-avatar" width="32" height="32">
                             <h1 class="larger message-header-name nice-header">Name</h1>
                         </a>
+                        <span class="message-leave"></span>
                         <hr>
                     </div>
                     <br><br><br><br>
@@ -423,7 +424,7 @@ setTimeout(() => {
                     <div class="inbox-top new-name-top">
                         <span class="message-header-back message-new-message-back"></span>
                         <h1 class="larger message-header-name nice-header" style="float: left;margin-left: 14px;">New message</h1>
-                        <button class="new-message-group nice-button">Create new group</button>
+                        <button class="new-message-group nice-button" hidden>Create new group</button>
                         <br>
                         <input type="text" class="new-message-user-search" placeholder="Search people" style="width:551px">
                         <hr>
@@ -445,6 +446,7 @@ setTimeout(() => {
             const loadMoreMessages = modal.querySelector('.messages-load-more');
             const userSearch = modal.querySelector('.new-message-user-search');
             const newMessageResults = modal.querySelector('.new-message-results');
+            const leaveConvo = modal.querySelector('.message-leave');
 
             newInbox.addEventListener('click', () => {
                 modal.querySelector('.inbox').hidden = true;
@@ -456,6 +458,15 @@ setTimeout(() => {
             modal.getElementsByClassName('message-new-message-back')[0].addEventListener('click', () => {
                 modal.remove();
                 document.getElementById('messages').click();
+            });
+            leaveConvo.addEventListener('click', async () => {
+                if(!lastConvo || !lastConvo.conversation_id) return;
+                let c = confirm('Are you sure you want to leave/remove this conversation?');
+                if(c) {
+                    await API.deleteConversation(lastConvo.conversation_id);
+                    modal.remove();
+                    await updateInboxData();
+                }
             });
             userSearch.addEventListener('keyup', async () => {
                 let q = userSearch.value;
