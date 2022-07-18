@@ -348,7 +348,7 @@ body {
 }
 .tweet-media {
     max-width: 500px;
-    display: flex;
+    display: inline-block;
     position: relative;
     right: 5px;
 }

@@ -12,11 +12,12 @@ function arrayBufferToBase64(buffer) {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-function createModal(html) {
+function createModal(html, className) {
     let modal = document.createElement('div');
     modal.classList.add('modal');
     let modal_content = document.createElement('div');
     modal_content.classList.add('modal-content');
+    if(className) modal_content.classList.add(className);
     modal_content.innerHTML = html;
     modal.appendChild(modal_content);
     let close = document.createElement('span');
@@ -131,9 +132,9 @@ function getMedia(mediaArray, mediaContainer) {
                         img.src = file.type.includes('video') ? 'data:image/png;base64,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' : `data:${file.type};base64,${dataBase64}`;
                         remove.addEventListener('click', () => {
                             div.remove();
-                            for (let i = mediaToUpload.length - 1; i >= 0; i--) {
-                                let m = mediaToUpload[i];
-                                if (m.id !== img.id) mediaToUpload.splice(i, 1);
+                            for (let i = mediaArray.length - 1; i >= 0; i--) {
+                                let m = mediaArray[i];
+                                if (m.id === img.id) mediaArray.splice(i, 1);
                             }
                         });
                         div.append(img, progress, remove);
@@ -144,6 +145,89 @@ function getMedia(mediaArray, mediaContainer) {
                             div.append(alt);
                         }
                         mediaContainer.append(div);
+                    });
+                }
+            }
+        }
+    });
+    input.click();
+};
+function getDMMedia(mediaArray, mediaContainer, modalElement) {
+    let input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*,image/gif';
+    input.addEventListener('change', async () => {
+        let files = input.files;
+        let images = [];
+        let gifs = [];
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i];
+            if (file.type.includes('gif')) {
+                // max 15 mb
+                if (file.size > 15000000) {
+                    return alert('GIFs must be less than 15 MB');
+                }
+                gifs.push(file);
+            } else if (file.type.includes('image')) {
+                // max 5 mb
+                if (file.size > 5000000) {
+                    return alert('Images must be less than 5 MB');
+                }
+                images.push(file);
+            }
+        }
+        // get base64 data
+        let media = [...images, ...gifs];
+        let base64Data = [];
+        for (let i = 0; i < media.length; i++) {
+            let file = media[i];
+            let reader = new FileReader();
+            reader.readAsArrayBuffer(file);
+            reader.onload = () => {
+                base64Data.push(reader.result);
+                if (base64Data.length === media.length) {
+                    mediaContainer.innerHTML = '';
+                    while (mediaArray.length > 0) {
+                        mediaArray.pop();
+                    }
+                    base64Data.forEach(data => {
+                        let div = document.createElement('div');
+                        let img = document.createElement('img');
+                        div.title = file.name;
+                        div.id = `new-tweet-media-img-${Date.now()}${Math.random()}`.replace('.', '-');
+                        div.className = "new-tweet-media-img-div";
+                        img.className = "new-tweet-media-img";
+                        let progress = document.createElement('span');
+                        progress.hidden = true;
+                        progress.className = "new-tweet-media-img-progress";
+                        let remove = document.createElement('span');
+                        remove.className = "new-tweet-media-img-remove";
+                        let dataBase64 = arrayBufferToBase64(data);
+                        let mediaObject = {
+                            div, img,
+                            id: img.id,
+                            data: data,
+                            dataBase64: dataBase64,
+                            type: file.type,
+                            category: file.type.includes('gif') ? 'tweet_gif' : file.type.includes('video') ? 'tweet_video' : 'tweet_image'
+                        };
+                        mediaArray.push(mediaObject);
+                        img.src = file.type.includes('video') ? 'data:image/png;base64,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' : `data:${file.type};base64,${dataBase64}`;
+                        remove.addEventListener('click', () => {
+                            div.remove();
+                            for (let i = mediaArray.length - 1; i >= 0; i--) {
+                                let m = mediaArray[i];
+                                if (m.id === img.id) mediaArray.splice(i, 1);
+                            }
+                        });
+                        div.append(img, progress, remove);
+                        if (!file.type.includes('video')) {
+                            img.addEventListener('click', () => {
+                                new Viewer(mediaContainer);
+                            });
+                        }
+                        mediaContainer.append(div);
+                        setTimeout(() => modalElement.scrollTop = modalElement.scrollHeight, 50);
                     });
                 }
             }
@@ -567,6 +651,28 @@ API.unfollowUser = screen_name => {
         });
     });
 }
+API.cancelFollow = screen_name => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/friendships/cancel.json`, {
+            method: 'POST',
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include",
+            body: `screen_name=${screen_name}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 API.getTrends = () => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/trends/plus.json?max_trends=10`, {
@@ -657,16 +763,17 @@ API.updateProfile = (data) => {
 */
 API.uploadMedia = (data) => {
     return new Promise(async (resolve, reject) => {
+        let obj = {
+            command: "INIT",
+            total_bytes: data.media.byteLength,
+            media_type: data.media_type
+        };
+        if(data.media_category) obj.media_category = data.media_category;
         let initUpload = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
             headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
             credentials: "include",
             method: "post",
-            body: new URLSearchParams({
-                command: "INIT",
-                total_bytes: data.media.byteLength,
-                media_type: data.media_type,
-                media_category: data.media_category
-            }).toString()
+            body: new URLSearchParams(obj).toString()
         }).then(i => i.json());
         if (initUpload.errors && initUpload.errors[0]) {
             return reject(initUpload.errors[0].message);
@@ -1795,6 +1902,124 @@ API.deleteSavedSearch = id => {
                 return reject(data.errors[0].message);
             }
             resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getInbox = max_id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/dm/user_inbox.json?max_conv_count=20&include_groups=true${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data.user_inbox);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.markRead = eventId => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/dm/conversation/mark_read.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `last_read_event_id=${eventId}`
+        }).then(i => i.text()).then(data => {
+            resolve(1);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getConversation = (id, max_id) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/dm/conversation/${id}.json?ext=altText${max_id ? `&max_id=${max_id}` : ''}&count=100&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data.conversation_timeline);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.sendMessage = obj => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/dm/new.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include",
+            method: 'post',
+            body: new URLSearchParams(obj).toString()
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getUserUpdates = cursor => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/dm/user_updates.json?${cursor ? `cursor=${cursor}&` : ''}cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&dm_users=false&include_groups=true&include_inbox_timelines=true&include_ext_media_color=true&supports_reactions=true&nsfw_filtering_enabled=false&cursor=GRwmiICwidfJnf8qFozAuPGoksj_KiUkAAA&filter_low_quality=false&include_quality=all&include_ext_edit_control=false&ext=mediaColor%2CaltText%2CmediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include",
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.deleteMessage = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/dm/destroy.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `dm_id=${id}`
+        }).then(i => i.text()).then(data => {
+            resolve(true);
         }).catch(e => {
             reject(e);
         });

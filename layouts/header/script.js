@@ -1,5 +1,7 @@
 let headerGotUser = false;
 let savedSearches = [], lastSearches = [];
+let inboxData = [];
+
 let headerUserInterval = setInterval(() => {
     if(!headerGotUser) {
         const event = new CustomEvent('userRequest', { detail: '1' });
@@ -17,7 +19,7 @@ setTimeout(() => {
 
         let root = document.querySelector(":root");
         let vars = await new Promise((resolve) => {
-            chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars'], data => {
+            chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji'], data => {
                 resolve(data);
             });
         });
@@ -33,6 +35,7 @@ setTimeout(() => {
             root.style.setProperty('--favorite-icon-color', 'rgb(249, 24, 128)');
         }
     
+        // util
         async function updateUnread() {
             let unread = await API.getUnreadCount();
             let dms = unread.dm_unread_count;
@@ -97,7 +100,434 @@ setTimeout(() => {
                 });
             });
         }
+        async function updateInboxData() {
+            inboxData = await API.getInbox();
+            if(inboxData.status === "HAS_MORE" && !cursor) {
+                cursor = inboxData.min_entry_id;
+            } else {
+                cursor = undefined;
+            };
+        }
         
+        // messages
+        let cursor;
+        let modal;
+        let lastConvo;
+        function compare(e, t) {
+            var i = e.length - t.length;
+            return i || (e > t ? i = 1 : e < t && (i = -1)),
+            i
+        };
+        function renderConversation(convo, convoId, newMessages = true, updateConvo = true) {
+            if(updateConvo) {
+                lastConvo = convo;
+                lastConvo.conversation_id = convoId;
+            } else {
+                lastConvo.users = Object.assign(lastConvo.users, convo.users);
+                lastConvo.entries.forEach(e => {
+                    e.added = true;
+                });
+                lastConvo.entries = lastConvo.entries.concat(convo.entries);
+                let seen = [];
+                lastConvo.entries = lastConvo.entries.filter(entry => {
+                    let val = Object.values(entry)[0];
+                    if(seen.includes(val.id)) return false;
+                    seen.push(val.id);
+                    return true; 
+                });
+            }
+            let messageBox = modal.querySelector('.messages-list');
+            lastConvo.entries = lastConvo.entries.reverse();
+            let messageElements = [];
+            for(let i in lastConvo.entries) {
+                if(lastConvo.entries[i].added) continue;
+                let m = lastConvo.entries[i].message;
+                if(!m) continue;
+                let sender = lastConvo.users[m.message_data.sender_id];
+
+                let messageElement = document.createElement('div');
+                messageElement.classList.add('message-element');
+                if(sender.id_str !== user.id_str) {
+                    messageElement.classList.add('message-element-other');
+                }
+                messageElement.id = `message-${m.id}`;
+                messageElement.innerHTML = `
+                    ${sender.id_str !== user.id_str ? `
+                        <img src="${sender.profile_image_url_https.replace("_normal", "_bigger")}" width="32" height="32">
+                        <span class="message-body">${escape(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>')}</span>
+                        <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
+                    ` : `
+                        <span class="message-menu-open"></span>
+                        <div class="message-menu" hidden>
+                            <span class="message-menu-delete">Delete for you</span>
+                        </div>
+                        <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
+                        <span class="message-body">${escape(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>')}</span>
+                    `}
+                `;
+                let menuOpen = messageElement.querySelector('.message-menu-open');
+                if(menuOpen) {
+                    let menu = messageElement.querySelector('.message-menu');
+                    let menuDelete = messageElement.querySelector('.message-menu-delete');
+
+                    menuDelete.addEventListener('click', () => {
+                        API.deleteMessage(m.id);
+                        messageElement.remove();
+                    });
+
+                    let clicked;
+                    menuOpen.addEventListener('click', () => {
+                        if(clicked) return;
+                        clicked = true;
+                        menu.hidden = false;
+                        setTimeout(() => {
+                            document.addEventListener('click', () => {
+                                setTimeout(() => {
+                                    clicked = false;
+                                    menu.hidden = true;
+                                }, 100);
+                            }, { once: true })
+                        }, 100);
+                    });
+                }
+                let as = Array.from(messageElement.getElementsByTagName('a'));
+                if(m.message_data.entities && m.message_data.entities.urls) {
+                    m.message_data.entities.urls.forEach(url => {
+                        let a = as.find(a => a.href === url.url);
+                        if(!a) return;
+                        let removed = false;
+                        if(m.message_data.attachment) {
+                            if(m.message_data.attachment.photo) {
+                                if(a.href === m.message_data.attachment.photo.url) {
+                                    removed = true;
+                                    a.remove();
+                                }
+                            }
+                            if(m.message_data.attachment.animated_gif) {
+                                if(a.href === m.message_data.attachment.animated_gif.url) {
+                                    removed = true;
+                                    a.remove();
+                                }
+                            }
+                        }
+                        if(a && !removed) {
+                            a.href = url.expanded_url;
+                            a.innerText = url.display_url;
+                            a.target = "_blank";
+                        }
+                    });
+                }
+                if(m.message_data.attachment) {
+                    let attachment = m.message_data.attachment;
+                    if(attachment.photo) {
+                        let photo = attachment.photo;
+                        let photoElement = document.createElement('img');
+                        photoElement.src = photo.media_url_https;
+                        photoElement.classList.add('message-element-media');
+                        if(photo.original_info.width > 200) {
+                            photoElement.width = 200;
+                        } else {
+                            photoElement.width = photo.original_info.width;
+                        }
+                        if(photo.original_info.height > 100) {
+                            photoElement.height = 100;
+                        } else {
+                            photoElement.height = photo.original_info.height;
+                        }
+                        photoElement.addEventListener('click', () => {
+                            new Viewer(photoElement);
+                        })
+                        messageElement.append(document.createElement('br'), photoElement);
+                    }
+                    if(attachment.animated_gif) {
+                        let gif = attachment.animated_gif;
+                        let gifElement = document.createElement('video');
+                        gifElement.src = gif.video_info.variants[0].url;
+                        gifElement.muted = true;
+                        gifElement.loop = true;
+                        gifElement.autoplay = true;
+                        if(gif.original_info.width > 200) {
+                            gifElement.width = 200;
+                        } else {
+                            gifElement.width = gif.original_info.width;
+                        }
+                        if(gif.original_info.height > 100) {
+                            gifElement.height = 100;
+                        } else {
+                            gifElement.height = gif.original_info.height;
+                        }
+                        gifElement.classList.add('message-element-media');
+                        messageElement.append(document.createElement('br'), gifElement);
+                    }
+                }
+                let span = messageElement.getElementsByClassName('message-body')[0];
+                if(span.innerHTML === '' || span.innerHTML === ' ') {
+                    span.remove();
+                }
+                if(vars.enableTwemoji) {
+                    twemoji.parse(messageElement);
+                }
+                messageElements.push(messageElement);
+            }
+            if(!newMessages) {
+                messageElements = messageElements.reverse();
+                for(let i in messageElements) {
+                    messageBox.prepend(messageElements[i], document.createElement('br'));
+                }
+            } else {
+                for(let i in messageElements) {
+                    messageBox.append(messageElements[i], document.createElement('br'));
+                }
+            }
+            if(newMessages) {
+                let modalElement = document.getElementsByClassName('modal-content')[0];
+                modalElement.scrollTop = modalElement.scrollHeight;
+            }
+
+            const loadMoreMessages = modal.querySelector('.messages-load-more');
+            if(lastConvo.status === "HAS_MORE") {
+                loadMoreMessages.hidden = false;
+            } else {
+                loadMoreMessages.hidden = true;
+            }
+            if(inboxData) {
+                let conversations = Array.isArray(inboxData.conversations) ? inboxData.conversations : Object.values(inboxData.conversations);
+                let realConvo = conversations.find(c => c.id_str === lastConvo.id_str);
+                if(+lastConvo.max_entry_id > +realConvo.last_read_event_id) {
+                    API.markRead(lastConvo.max_entry_id);
+                    realConvo.last_read_event_id = lastConvo.max_entry_id;
+                }
+            }
+        }
+        function renderInboxMessages(inbox, inboxList) {
+            inbox.conversations = Object.values(inbox.conversations).sort((a, b) => (+b.sort_timestamp)-(+a.sort_timestamp));
+            for(let i in inbox.conversations) {
+                let c = inbox.conversations[i];
+                let lastMessage = inbox.entries.find(e => (e.message && e.message.id === c.max_entry_id) || (e.trust_conversation && e.trust_conversation.id === c.max_entry_id));
+                if(!lastMessage) {
+                    continue;
+                };
+                if(lastMessage.message) {
+                    lastMessage = lastMessage.message;
+                } else if(lastMessage.trust_conversation) {
+                    lastMessage = lastMessage.trust_conversation;
+                };
+                let messageUsers = c.participants.filter(p => p.user_id !== user.id_str).map(p => inbox.users[p.user_id]);
+                let messageElement = document.createElement('div');
+                messageElement.classList.add('inbox-message');
+                let isUnread = false;
+                if(compare(lastMessage.id, c.last_read_event_id) < 1) {}
+                else {
+                    messageElement.classList.add('inbox-message-unread');
+                    isUnread = true;
+                }
+                messageElement.innerHTML = /*html*/`
+                    <img src="${messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : chrome.runtime.getURL(`/images/group.jpg`)}" width="48" height="48" class="inbox-message-avatar">
+                    <div class="inbox-text">
+                        <b class="inbox-name">${messageUsers.length === 1 ? messageUsers[0].name : messageUsers.map(i => i.name).join(', ').slice(0, 128)}</b>
+                        <span class="inbox-screenname">${messageUsers.length === 1 ? "@"+messageUsers[0].screen_name : ''}</span>
+                        <span class="inbox-time">${timeElapsed(new Date(+lastMessage.time))}</span>
+                        <br>
+                        <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text === 'dmservice_reaction_one_to_one_text' ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${messageUsers[0].name} reacted to message`}` : escape(lastMessage.message_data.text)}</span>
+                    </div>
+                `;
+                if(vars.enableTwemoji) {
+                    twemoji.parse(messageElement);
+                }
+                const messageHeaderName = modal.querySelector('.message-header-name');
+                const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
+                const messageHeaderLink = modal.querySelector('.message-header-link');
+                const messageHeaderBack = modal.querySelector('.message-header-back');
+                messageElement.addEventListener('click', async () => {
+                    let messageData = await API.getConversation(c.conversation_id);
+                    modal.querySelector('.message-box').hidden = false;
+                    modal.querySelector('.home-top').hidden = true;
+                    modal.querySelector('.name-top').hidden = false;
+                    modal.querySelector('.inbox').hidden = true;
+                    messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : messageUsers.map(i => i.name).join(', ').slice(0, 80);
+                    messageHeaderAvatar.src = messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : chrome.runtime.getURL(`/images/group.jpg`);
+                    if(messageUsers.length === 1) messageHeaderLink.href = `https://twitter.com/${messageUsers[0].screen_name}`;
+
+                    renderConversation(messageData, c.conversation_id);
+                });
+                messageHeaderBack.addEventListener('click', () => {
+                    modal.remove();
+                    document.getElementById('messages').click();
+                });
+                if(isUnread) {
+                    inboxList.prepend(messageElement);
+                } else {
+                    inboxList.append(messageElement);
+                }
+            }
+        }
+        document.getElementById('messages').addEventListener('click', async e => {
+            e.preventDefault();
+            let inbox = inboxData;
+
+            modal = createModal(/*html*/`
+                <div class="inbox">
+                    <div class="inbox-top home-top">
+                        <h1 class="larger nice-header">Direct messages</h1>
+                        <div class="inbox-buttons">
+                            <button class="nice-button inbox-readall" title="Mark all as read">
+                                <span class="inbox-readall-icon"></span>
+                            </button>
+                            <button class="nice-button inbox-new" title="New message">
+                                <span class="inbox-new-icon"></span>
+                            </button>
+                        </div>
+                        <hr>
+                    </div>
+                    <br><br><br>
+                    <div class="inbox-list"></div>
+                    <div class="center-text load-more" ${cursor ? '' : 'hidden'}>Load more</div>
+                </div>
+                <div class="message-box" hidden>
+                    <div class="inbox-top name-top">
+                        <span class="message-header-back"></span>
+                        <a class="message-header-link">
+                            <img class="message-header-avatar" width="32" height="32">
+                            <h1 class="larger message-header-name nice-header">Name</h1>
+                        </a>
+                        <hr>
+                    </div>
+                    <br><br><br><br>
+                    <div class="messages-load-more center-text" style="margin-top:-18px;">Load more messages</div>
+                    <div class="messages-list"></div>
+                    <div class="message-new">
+                        <div class="message-new-media"></div>
+                        <span class="message-new-media-btn"></span>
+                        <textarea type="text" class="message-new-input" placeholder="Type your message"></textarea>
+                        <button class="nice-button message-new-send">Send</button>
+                    </div>
+                </div>
+            `, "inbox-modal");
+            const inboxList = modal.querySelector('.inbox-list');
+            const readAll = modal.querySelector('.inbox-readall');
+            const newInbox = modal.querySelector('.inbox-new');
+            const newMedia = modal.querySelector('.message-new-media');
+            const newMediaButton = modal.querySelector('.message-new-media-btn');
+            const newMediaInput = modal.querySelector('.message-new-input');
+            const newSend = modal.querySelector('.message-new-send');
+            const newInput = modal.querySelector('.message-new-input');
+            const loadMore = modal.querySelector('.load-more');
+            const loadMoreMessages = modal.querySelector('.messages-load-more');
+
+            let mediaToUpload = []; 
+            newMediaButton.addEventListener('click', () => {
+                getDMMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
+            });
+            newInput.addEventListener('keydown', e => {
+                if(e.key === "Enter" && e.ctrlKey) {
+                    newSend.click();
+                }
+            });
+            newSend.addEventListener('click', async () => {
+                let message = newMediaInput.value;
+                if (message.length === 0 && mediaToUpload.length === 0) return;
+                newSend.disabled = true;
+                let uploadedMedia = [];
+                for (let i in mediaToUpload) {
+                    let media = mediaToUpload[i];
+                    try {
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                        let mediaId = await API.uploadMedia({
+                            media_type: media.type,
+                            media: media.data,
+                            loadCallback: data => {
+                                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                            }
+                        });
+                        uploadedMedia.push(mediaId);
+                    } catch (e) {
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                        console.error(e);
+                        alert(e);
+                    }
+                }
+                let obj = {
+                    text: message,
+                    conversation_id: lastConvo.conversation_id
+                };
+                if (uploadedMedia.length > 0) {
+                    obj.media_id = uploadedMedia.join(',');
+                }
+                try {
+                    let sentMessage = await API.sendMessage(obj);
+                    newSend.disabled = false;
+                    newInput.value = "";
+                    mediaToUpload = [];
+                    newMedia.innerHTML = "";
+                    sentMessage.conversation_id = lastConvo.conversation_id;
+                    renderConversation(sentMessage, lastConvo.conversation_id, true, false);
+                } catch (e) {
+                    newInput.disabled = false;
+                    console.error(e);
+                }
+            });
+            
+
+            loadMore.addEventListener('click', async () => {
+                let moreInbox = await API.getInbox(cursor);
+                if(moreInbox.status === "HAS_MORE") {
+                    cursor = moreInbox.min_entry_id;
+                } else {
+                    cursor = undefined;
+                }
+                renderInboxMessages(moreInbox, inboxList);
+            });
+            loadMoreMessages.addEventListener('click', async () => {
+                console.log(lastConvo);
+                let moreMessages = await API.getConversation(lastConvo.conversation_id, lastConvo.min_entry_id);
+                renderConversation(moreMessages, lastConvo.conversation_id, false);
+            });
+
+            readAll.addEventListener('click', async () => {
+                await API.markRead(inbox.last_seen_event_id);
+                let unreadMessages = Array.from(document.getElementsByClassName('inbox-message-unread'));
+                unreadMessages.forEach(message => {
+                    message.classList.remove('inbox-message-unread');
+                });
+                updateInboxData();
+            });
+
+            renderInboxMessages(inbox, inboxList);
+        });
+        setInterval(() => {
+            let times = Array.from(document.getElementsByClassName('message-time'));
+            times.forEach(time => {
+                time.innerText = timeElapsed(+time.dataset.timestamp);
+            });
+        }, 10000);
+        let updateCursor;
+        setInterval(async () => {
+            let updates = await API.getUserUpdates(updateCursor);
+            updateCursor = Object.values(updates)[0].cursor;
+            if(updates.user_events && updates.user_events.conversations && lastConvo) {
+                for(let i in updates.user_events.conversations) {
+                    let c = updates.user_events.conversations[i];
+                    if(c.conversation_id === lastConvo.conversation_id) {
+                        updates.user_events.entries.forEach(e => {
+                            if(e.message_delete && e.message_delete.conversation_id === lastConvo.conversation_id) {
+                                let messages = e.message_delete.messages;
+                                for(let j in messages) {
+                                    let message = messages[j];
+                                    let messageElement = document.getElementById(`message-${message.message_id}`);
+                                    if(messageElement) {
+                                        messageElement.remove();
+                                    }
+                                }
+                            }
+                        });
+                        updates.user_events.entries = updates.user_events.entries.filter(m => m.message && m.message.conversation_id === lastConvo.conversation_id);
+                        renderConversation(updates.user_events, lastConvo.conversation_id, true, false);
+                    }
+                }
+            }
+        }, 5000);
+        
+        // tweet
         document.getElementById('navbar-tweet-button').addEventListener('click', () => {
             let modal = createModal(/*html*/`
                 <div class="navbar-new-tweet-container">
@@ -285,7 +715,8 @@ setTimeout(() => {
                 modal.remove();
             });
         });
-    
+
+        // search
         let searchInput = document.getElementById('search-input');
         let searchResults = document.getElementById('search-results');
         let searchIcon = document.getElementById('search-icon');
@@ -458,7 +889,8 @@ setTimeout(() => {
                 }
             });
         });
-    
+
+        // menu
         let userMenu = document.getElementById('navbar-user-menu');
         userAvatar.addEventListener('click', () => {
             userMenu.hidden = false;
@@ -472,8 +904,10 @@ setTimeout(() => {
         });
         updateUnread();
         updateAccounts();
+        updateInboxData();
         setInterval(updateAccounts, 60000*5);
         setInterval(updateUnread, 20000);
+        setInterval(updateInboxData, 20000);
     }
     document.addEventListener('updateUserData', userDataFunction);
     setTimeout(() => {

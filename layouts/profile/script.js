@@ -214,10 +214,16 @@ async function updateTimeline() {
         tl = data.tl;
         favoritesCursor = data.cursor;
     } else {
-        tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
+        try {
+            tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
+        } catch(e) {}
         if(subpage === 'media') {
             tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0);
         }
+    }
+    if(tl.error === "Not authorized.") {
+        document.getElementById('timeline').innerHTML = `<div class="error">You are not authorized to view this user's timeline.</div>`;
+        return document.getElementById('loading-box').hidden = true;
     }
     tl.forEach(t => {
         let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
@@ -618,7 +624,7 @@ function renderProfile() {
     } else {
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`
-            <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following ? 'Following' : 'Follow'}</button>
+            <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? 'Follow request sent' : 'Following') : 'Follow'}</button>
             <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>Unblock</button>
             <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user" href="https://twitter.com/messages/${user.id_str}-${pageUser.id_str}"></a>
         `;
@@ -639,7 +645,7 @@ function renderProfile() {
         let controlFollow = document.getElementById('control-follow');
         controlFollow.addEventListener('click', async () => {
             if (controlFollow.className.includes('following')) {
-                await API.unfollowUser(pageUser.screen_name);
+                pageUser.protected && pageUser.follow_request_sent ? await API.cancelFollow(pageUser.screen_name) : await API.unfollowUser(pageUser.screen_name);
                 controlFollow.classList.remove('following');
                 controlFollow.classList.add('follow');
                 controlFollow.innerText = 'Follow';
@@ -650,7 +656,7 @@ function renderProfile() {
                 await API.followUser(pageUser.screen_name);
                 controlFollow.classList.add('following');
                 controlFollow.classList.remove('follow');
-                controlFollow.innerText = 'Following';
+                controlFollow.innerText = pageUser.protected && pageUser.follow_request_sent ? 'Follow request sent' : 'Following';
                 pageUser.following = true;
                 document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = false;

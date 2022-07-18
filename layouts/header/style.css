@@ -53,6 +53,20 @@
     font-size: 22px;
     color: #1da1f2;
 }
+.center-text {
+    background-color: white;
+    text-align: center;
+    margin-top: 10px;
+    color: #8899a6;
+    border: 1px solid #e1e8ed;
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.center-text:hover {
+    text-decoration: underline;
+}
 
 #home:before {
     content: "\f053";
@@ -194,8 +208,10 @@
     border: 1px solid #e1e8ed;
     padding: 20px;
     background-color: #fefefe;
-    top: 30%;
+    top: 20%;
     position: relative;
+    max-height: 60%;
+    overflow-y: inherit;
 }
 
 /* The Close Button */
@@ -429,6 +445,16 @@
     display: inline-block;
     margin-left: 3px;
 }
+.nice-header {
+    margin: 0;
+    display: inline-block;
+    font-size: 18px;
+    color: #66757f;
+    font-weight: 300;
+}
+.nice-header {
+    margin-bottom: 10px;
+}
 #navbar-user-menu-profile:before {
     content: "\f056";
 }
@@ -524,4 +550,232 @@
     position: relative;
     bottom: 18px;
     right: 4px;
+}
+.inbox-modal {
+    max-width: 600px !important;
+}
+.inbox-modal hr {
+    border-top: #ccd6dd;
+}
+.inbox-buttons {
+    float: right;
+}
+.inbox-new {
+    background-color: var(--link-color) !important;
+    background-image: none !important;
+}
+.inbox-new-icon:before {
+    content: "\f035";
+    font-family: RosettaIcons;
+    margin-bottom: 2px;
+    color: white !important;
+    font-size: 16px;
+}
+.inbox-readall-icon:before {
+    content: "\f036";
+    font-family: RosettaIcons;
+    color: #292f33;
+    font-size: 16px;
+}
+.larger {
+    font-size: 24px !important;
+}
+.inbox-message {
+    border-bottom: 1px solid #e4edf3;
+    padding-top: 10px;
+    cursor: pointer;
+    padding: 5px;
+    width: 585px;
+}
+.inbox-message:hover, .inbox-message-unread {
+    background-color: #eaf5fd;
+}
+.inbox-message-avatar {
+    border-radius: 5px;
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+.inbox-text {
+    width: 515px;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+.inbox-screenname {
+    direction: ltr;
+    unicode-bidi: embed;
+    font-size: 13px;
+    color: #8899a6;
+    text-decoration: none;
+}
+.inbox-name {
+    font-weight: bold;
+    color: #292f33;
+    font-size: 14px;
+}
+.inbox-time {
+    font-size: 13px;
+    color: #8899a6;
+    float: right;
+}
+.inbox-top {
+    position: fixed;
+    background-color: white;
+    width: 585px;
+    padding-top: 15px;
+    margin-top: -20px;
+    z-index: 50;
+}
+.home-top {
+    width: 598px;
+}
+.inbox-message-preview {
+    color: #8899a6;
+    margin-bottom: 5px;
+}
+.message-element {
+    float: right;
+    width: 564px;
+    text-align: right;
+    margin-bottom: 8px;
+}
+.message-element img {
+    border-radius: 5px;
+    vertical-align: middle;
+}
+.message-header-avatar {
+    border-radius: 5px;
+    vertical-align: top;
+    margin-top: -2px;
+}
+.message-element a {
+    color: white !important;
+}
+.message-element a:hover {
+    text-decoration: underline;
+}
+.message-element .message-body {
+    background-color: var(--link-color);
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    padding: 5px;
+    white-space: break-spaces;
+    line-height: 1.8;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+}
+.message-element-other {
+    text-align: left;
+    float: left;
+}
+.message-element-other .message-body {
+    background-color: #d9e3eb;
+    color: black;
+}
+.message-header-link {
+    text-align: center;
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+}
+.message-header-link:hover {
+    text-decoration: none;
+}
+.message-header-back {
+    cursor: pointer;
+    float: left;
+}
+.message-header-back:before {
+    content: "\f172";
+    color: #8899a6;
+    font-family: RosettaIcons;
+}
+.message-element-media {
+    cursor: pointer;
+    object-fit: cover;
+    max-width: fit-content;
+    border-radius: 5px;
+}
+.message-time {
+    color: #8899a6;
+    font-size: 12px;
+}
+.message-menu-open {
+    cursor: pointer;
+}
+.message-menu-open:before {
+    color: white;
+    font-size: 12px;
+    content: "\f150";
+    font-family: RosettaIcons;
+    margin-right: 5px;
+}
+.message-element:hover .message-menu-open:before {
+    color: #8899a6;
+}
+.message-menu-delete {
+    cursor: pointer;
+}
+.message-menu-delete:before {
+    content: "\f154";
+    font-family: RosettaIcons;
+    color: #8899a6;
+    margin-right: 5px;
+}
+.message-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #8899a6;
+    border-radius: 5px;
+    z-index: 5;
+    right: 63px;
+}
+.message-menu span {
+    color: #8899a6;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 6px;
+    position: relative;
+    top: -2px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-right: 20px;
+}
+.message-new {
+    position: fixed;
+    display: contents;
+}
+.messages-list {
+    margin-bottom: 20px;
+    display: flow-root;
+}
+.message-new-input {
+    border: 1px solid #e1e8ed;
+    resize: none;
+    border-radius: 3px;
+    width: 426px;
+    padding: 5px;
+    font-family: var(--font);
+    display: inline-block;
+    height: 22px;
+    font-size: 14px;
+    padding-right: 40px;
+    scrollbar-width: thin;
+    vertical-align: bottom;
+}
+.message-new-media-btn {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.message-new-media-btn:before {
+    content: "\f159";
+    font-family: RosettaIcons;
+    color: var(--link-color);
+    font-size: 22px;
+    margin-right: 5px;
+}
+#messages {
+    cursor: pointer;
 }
