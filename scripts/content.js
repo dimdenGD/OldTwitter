@@ -29,14 +29,14 @@ let pages = [
 ];
 
 let realPath = window.location.pathname.split('?')[0].split('#')[0];
-if(realPath.endsWith("/")) {
+if (realPath.endsWith("/")) {
     realPath = realPath.slice(0, -1);
 }
-if(realPath.startsWith("/i/user/")) {
+if (realPath.startsWith("/i/user/")) {
     let id = realPath.split("/i/user/")[1];
-    if(id.endsWith("/")) id = id.slice(0, -1);
+    if (id.endsWith("/")) id = id.slice(0, -1);
     API.getUser(id, true).then(user => {
-        if(user.error) {
+        if (user.error) {
             return;
         }
         location.href = "/" + user.screen_name;
@@ -45,12 +45,30 @@ if(realPath.startsWith("/i/user/")) {
 let page = pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
 
 (async () => {
-    if(!page) return;
+    if (!page) return;
+
+    // disable twitters service worker
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.getRegistrations().then(registrations => {
+            for (const registration of registrations) {
+                registration.unregister()
+            }
+        });
+        // clear cache of service worker
+        caches.keys().then(keyList => {
+            return Promise.all(
+                keyList.map(key => {
+                    return caches.delete(key);
+                }),
+            );
+        });
+    }
+
     // invalidate manifest cache by blocking it
     try {
-        await fetch('/manifest.json').then(response => response.text()).catch(e => {});
-    } catch(e) {}
-    
+        await fetch('/manifest.json').then(response => response.text()).catch(e => { });
+    } catch (e) { }
+
     let html = await fetch(chrome.runtime.getURL(`layouts/${page.name}/index.html`)).then(response => response.text());
     let css = await fetch(chrome.runtime.getURL(`layouts/${page.name}/style.css`)).then(response => response.text());
     let header_html = await fetch(chrome.runtime.getURL(`layouts/header/index.html`)).then(response => response.text());
@@ -60,12 +78,12 @@ let page = pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.p
     document.write(html);
     document.close();
     document.getElementsByTagName('header')[0].innerHTML = header_html;
-    if(page.activeMenu) {
+    if (page.activeMenu) {
         let el = document.getElementById(page.activeMenu);
         el.classList.add("menu-active");
     }
     let version = document.getElementById('oldtwitter-version');
-    if(version) {
+    if (version) {
         version.innerText = chrome.runtime.getManifest().version;
     }
 

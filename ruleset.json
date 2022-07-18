@@ -33,5 +33,25 @@
             "urlFilter": "*://*.twitter.com/manifest.json",
             "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
         }
+    },
+    {
+        "id": 4,
+        "priority": 1,
+        "action": { "type": "block" },
+        "condition": {
+            "urlFilter": "https://abs.twimg.com/responsive-web/client-web/*.js",
+            "initiatorDomains": ["twitter.com"],
+            "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
+        }
+    },
+    {
+        "id": 5,
+        "priority": 1,
+        "action": { "type": "block" },
+        "condition": {
+            "urlFilter": "https://abs.twimg.com/sw.js",
+            "initiatorDomains": ["twitter.com"],
+            "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
+        }
     }
 ]

@@ -67,42 +67,47 @@
     {
       "matches": ["https://twitter.com/*"],
       "js": ["scripts/config.js", "scripts/apis.js", "scripts/content.js"],
+      "all_frames": true,
       "run_at": "document_start"
     },
     {
       "matches": ["https://twitter.com/*"],
       "js": ["layouts/header/script.js"],
+      "all_frames": true,
       "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/home", "https://twitter.com/", "https://twitter.com/home/"],
       "js": ["libraries/twemoji.min.js", "layouts/home/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
+      "all_frames": true,
       "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/notifications", "https://twitter.com/notifications/mentions", "https://twitter.com/notifications/", "https://twitter.com/notifications/mentions/"],
       "js": ["libraries/twemoji.min.js", "layouts/notifications/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
+      "all_frames": true,
       "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/old/settings", "https://twitter.com/old/settings/"],
       "js": ["libraries/twemoji.min.js", "layouts/settings/script.js"],
-      "css": [],
+      "all_frames": true,
       "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/search", "https://twitter.com/search?*", "https://twitter.com/search/", "https://twitter.com/search/?*"],
       "js": ["libraries/twemoji.min.js", "layouts/search/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
-      "css": [],
-      "run_at": "document_idle"
+      "run_at": "document_idle",
+      "all_frames": true
     },
     {
       "matches": ["https://twitter.com/*/status/*", "https://twitter.com/*/status/*/", "https://twitter.com/*/status/*/likes", "https://twitter.com/*/status/*/likes/", "https://twitter.com/*/status/*/retweets", "https://twitter.com/*/status/*/retweets/with_comments"],
       "js": ["libraries/twemoji.min.js", "layouts/tweet/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
-      "run_at": "document_idle"
+      "run_at": "document_idle",
+      "all_frames": true
     },
     {
       "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/with_replies/", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers", "https://twitter.com/*/followers_you_follow", "https://twitter.com/*/followers_you_follow/", "https://twitter.com/*/media/", "https://twitter.com/*/likes/", "https://twitter.com/*/following/", "https://twitter.com/*/followers/"],
@@ -134,7 +139,8 @@
       ],
       "js": ["libraries/twemoji.min.js", "layouts/profile/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
-      "run_at": "document_idle"
+      "run_at": "document_idle",
+      "all_frames": true
     }
   ]
 }
