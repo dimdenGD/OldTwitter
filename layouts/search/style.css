@@ -376,7 +376,7 @@ body {
 }
 .tweet-media {
     max-width: 500px;
-    display: inline-block;
+    display: block;
     position: relative;
     right: 5px;
 }
@@ -627,8 +627,6 @@ body {
 .tweet-interact-more-menu hr {
     border-top: #ccd6dd;
     margin: 2px;
-}
-: bold;
 }
 .ni-favorite:before {
     content: var(--favorite-icon-content-notif);

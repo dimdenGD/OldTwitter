@@ -371,7 +371,7 @@ body {
 }
 .tweet-media {
     max-width: 500px;
-    display: inline-block;
+    display: block;
     position: relative;
     right: 5px;
 }
