@@ -93,11 +93,20 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
         fs.unlinkSync('../OldTwitterFirefox.zip');
         console.log("Deleted old zip!");
     }
-    console.log("Zipping...");
+    console.log("Zipping Firefox version...");
     try {
         const zip = new AdmZip();
         const outputDir = "../OldTwitterFirefox.zip";
         zip.addLocalFolder("../OldTwitterFirefox");
+        zip.writeZip(outputDir);
+    } catch (e) {
+        console.log(`Something went wrong ${e}`);
+    }
+    console.log("Zipping Chrome version...");
+    try {
+        const zip = new AdmZip();
+        const outputDir = "../OldTwitterChrome.zip";
+        zip.addLocalFolder("./");
         zip.writeZip(outputDir);
     } catch (e) {
         console.log(`Something went wrong ${e}`);
