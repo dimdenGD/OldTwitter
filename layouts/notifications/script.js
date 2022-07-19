@@ -854,6 +854,7 @@ async function renderNotifications(data, append = false) {
         }, 1000);
     }
 }
+let lastData;
 async function updateNotifications(append = false) {
     let [data, s] = await Promise.allSettled([API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions'), API.getSettings()]);
     data = data.value; settings = s.value;
@@ -861,6 +862,14 @@ async function updateNotifications(append = false) {
         let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
         lastCursor = entries[entries.length-1].content.operation.cursor.value;
     }
+    if(!append && lastData) {
+        let lastCursorTop = lastData.timeline.instructions.find(i => i.addEntries).addEntries.entries[0].entryId;
+        let cursorTop = data.timeline.instructions.find(i => i.addEntries).addEntries.entries[0].entryId;
+        if(lastCursorTop === cursorTop) {
+            return;
+        }
+    }
+    lastData = data;
     await renderNotifications(data, append);
     document.getElementById('loading-box').hidden = true;
 }
