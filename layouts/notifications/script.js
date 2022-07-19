@@ -804,6 +804,7 @@ async function renderNotifications(data, append = false) {
                 let additionalLength = 0;
                 let matches = 0;
                 n.message.entities.forEach(e => {
+                    if(!e.ref || !e.ref.user) return;
                     let user = data.globalObjects.users[e.ref.user.id];
                     notificationHeader = stringInsert(notificationHeader, additionalLength+e.toIndex, '</a>');
                     notificationHeader = stringInsert(notificationHeader, additionalLength+e.fromIndex, `<a href="/dimdenEFF">`);
