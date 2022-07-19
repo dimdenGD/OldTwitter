@@ -6,6 +6,7 @@ chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'
 });
 let cursor;
 let searchParams = {}, searchSettings = {};
+let saved;
 
 // Util
 
@@ -804,6 +805,7 @@ async function renderTrends() {
     });
 }
 async function renderSearch(c) {
+    updateSavedButton();
     let searchDiv = document.getElementById('search-div');
     let searchMore = document.getElementById('search-more');
     searchMore.hidden = false;
@@ -903,6 +905,28 @@ async function renderSearch(c) {
         }
     }
     document.getElementById('loading-box').hidden = true;
+}
+async function updateSavedButton() {
+    API.getSavedSearches().then(savedSearches => {
+        saved = savedSearches.find(s => s.query === searchParams.q);
+        if(saved) {
+            document.getElementById('save-search').innerText = "Remove from saved";
+            document.getElementById('save-search').classList.add('saved');
+        }
+        document.getElementById('save-search').addEventListener('click', async () => {
+            if(saved) {
+                await API.deleteSavedSearch(saved.id_str);
+                document.getElementById('save-search').innerText = "Save search";
+                document.getElementById('save-search').classList.remove('saved');
+                saved = undefined;
+            } else {
+                let saveData = await API.saveSearch(searchParams.q);
+                saved = saveData;
+                document.getElementById('save-search').innerText = "Remove from saved";
+                document.getElementById('save-search').classList.add('saved');
+            }
+        });
+    }).catch(() => {});
 }
 
 

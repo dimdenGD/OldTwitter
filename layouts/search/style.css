@@ -730,3 +730,6 @@ body {
     font-size: 16px;
     font-family: var(--font);
 }
+#save-search {
+    margin-top: 0;
+}

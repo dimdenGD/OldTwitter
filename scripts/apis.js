@@ -1861,25 +1861,34 @@ API.searchV2 = (obj, cursor) => {
         });
     });
 }
-API.getSavedSearches = () => {
+API.getSavedSearches = (cache = true) => {
     return new Promise((resolve, reject) => {
-        fetch(`https://twitter.com/i/api/1.1/saved_searches/list.json`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
+        chrome.storage.local.get(['savedSearches'], d => {
+            if(cache && d.savedSearches && Date.now() - d.savedSearches.date < 60000) {
+                return resolve(d.savedSearches.data);
             }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            resolve(data);
-        }).catch(e => {
-            reject(e);
+            fetch(`https://twitter.com/i/api/1.1/saved_searches/list.json`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0].code === 32) {
+                    return reject("Not logged in");
+                }
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data);
+                chrome.storage.local.set({savedSearches: {
+                    date: Date.now(),
+                    data
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
         });
     });
 }
@@ -1895,6 +1904,31 @@ API.deleteSavedSearch = id => {
             credentials: "include",
             method: "post",
             body: "id=" + id
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.saveSearch = q => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/saved_searches/create.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: "post",
+            body: "q=" + encodeURIComponent(q)
         }).then(i => i.json()).then(data => {
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
