@@ -786,45 +786,8 @@ body {
     transition: 0.1s;
     height: 5px;
 }
-@media(min-width: 1000px) {
-    #profile-banner {
-        height:380px
-    }
-}
-@media(min-width: 1510px) {
-    #profile-banner {
-        height:420px
-    }
-}
-
-@media(min-width: 1670px) {
-    #profile-banner {
-        height:460px
-    }
-}
-
-@media(min-width: 1820px) {
-    #profile-banner {
-        height:500px
-    }
-}
-
-@media(min-width: 1990px) {
-    #profile-banner {
-        height:540px
-    }
-}
-
-@media(min-width: 2150px) {
-    #profile-banner {
-        height:580px
-    }
-}
-
-@media(min-width: 2300px) {
-    #profile-banner {
-        height:600px
-    }
+#profile-banner {
+    height:500px
 }
 
 #profile-nav {
