@@ -259,9 +259,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-interact-more-menu-follow">${t.user.following ? 'Unfollow' : 'Follow'} @${t.user.screen_name}</span><br>
                     `}
                     <hr>
-                    ${t.feedback && t.feedback.confirmation ? `
-                    <span class="tweet-interact-more-menu-feedback">${t.feedback.prompt}</span><br>
-                    ` : ``}
+                    ${t.feedback ? t.feedback.map((f, i) => `<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : "Not interested in topic"}</span><br>`).join("\n") : ''}
                     <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
                     ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">Download as GIF</span><br>` : ``}
@@ -344,7 +342,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
     const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
-    const tweetInteractMoreMenuFeedback = tweet.getElementsByClassName('tweet-interact-more-menu-feedback')[0];
+    const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
 
     // Translate
     if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
@@ -844,8 +842,24 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
         }
     }
-    if(tweetInteractMoreMenuFeedback) {
-        tweetInteractMoreMenuFeedback.addEventListener('click', () => {
+    tweetInteractMoreMenuFeedbacks.forEach(feedbackButton => {
+        let feedback = t.feedback[feedbackButton.dataset.index];
+        if (!feedback) return;
+        feedbackButton.addEventListener('click', () => {
+            if(feedback.richBehavior && feedback.richBehavior.markNotInterestedTopic) {
+                fetch(`https://twitter.com/i/api/graphql/OiKldXdrDrSjh36WO9_3Xw/TopicNotInterested`, {
+                    method: 'post',
+                    headers: {
+                        'content-type': 'application/json',
+                        'authorization': OLDTWITTER_CONFIG.public_token,
+                        "x-twitter-active-user": 'yes',
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": 'OAuth2Session',
+                    },
+                    body: JSON.stringify({"variables":{"topicId": feedback.richBehavior.markNotInterestedTopic.topicId,"undo":false},"queryId":"OiKldXdrDrSjh36WO9_3Xw"}),
+                    credentials: 'include'
+                }).then(i => i.json()).then(() => {});
+            }
             fetch(`https://twitter.com/i/api/graphql/vfVbgvTPTQ-dF_PQ5lD1WQ/timelinesFeedback`, {
                 method: 'post',
                 headers: {
@@ -855,14 +869,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                     "x-twitter-auth-type": 'OAuth2Session',
                 },
-                body: JSON.stringify({"variables":{"encoded_feedback_request": t.feedback.encodedFeedbackRequest,"undo":false},"queryId":"vfVbgvTPTQ-dF_PQ5lD1WQ"}),
+                body: JSON.stringify({"variables":{"encoded_feedback_request": feedback.encodedFeedbackRequest,"undo":false},"queryId":"vfVbgvTPTQ-dF_PQ5lD1WQ"}),
                 credentials: 'include'
             }).then(i => i.json()).then(i => {
-                alert(t.feedback.confirmation);
+                alert(feedback.confirmation ? feedback.confirmation : 'Thanks for your feedback!');
                 tweet.remove();
             });
         });
-    }
+    });
 
     if(options.after) {
         options.after.after(tweet);
