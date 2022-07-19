@@ -10,17 +10,26 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 ![Search](https://lune.dimden.dev/575b9d30f1.png)  
 
 ## Installation
-### Chrome Extensions
+### Chrome Web Store / Firefox Add-ons 
 *To be approved...*  
   
-### Dev
-- Download repo  
-![Download](https://lune.dimden.dev/ffda571bff.png)  
-- Unpack anywhere  
-- Go to chrome://extensions  
+### Manual installation
+- Go to [Releases page](https://github.com/dimdenGD/OldTwitter/releases/)  
+- Download OldTwitterChrome.zip if you're on Chrome and OldTwitterFirefox.zip if you're on Firefox  
+  
+#### Chrome
+- Unpack file anywhere  
+- Go to `chrome://extensions`  
 - Turn on Developer mode  
 - Press "Load unpacked" and select folder with extension  
-![Install](https://lune.dimden.dev/ef1ac2f9ef.png)  
+![Install Chrome](https://lune.dimden.dev/ef1ac2f9ef.png)  
+
+#### Firefox
+- Go to `about:debugging#/runtime/this-firefox`  
+- Press "Load Temporary Add-on" and select zip file you downloaded
+![Install Firefox](https://lune.dimden.dev/f1bbe6dd0c.png)  
+  
+**Please keep in mind that when you're installing add-on manually like this and not from Firefox Add-on website, it'll disappear after you restart browser and you'll have to add it again. Chrome doesn't have this issue. I'll publish extension to Chrome Web Store and Firefox Add-ons soon after testing everything and this will be no longer an issue.**  
   
 ## FAQ
 #### Is this extension safe?
