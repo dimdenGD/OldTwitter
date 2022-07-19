@@ -3,12 +3,6 @@ let savedSearches = [], lastSearches = [];
 let inboxData = [];
 let customSet = false;
 
-let headerUserInterval = setInterval(() => {
-    if(!headerGotUser) {
-        const event = new CustomEvent('userRequest', { detail: '1' });
-        document.dispatchEvent(event);
-    }
-}, 2000);
 setTimeout(() => {
     let userDataFunction = async e => {
         if(headerGotUser || Object.keys(e.detail).length === 0) return;
@@ -1033,6 +1027,13 @@ setTimeout(() => {
         setInterval(updateUnread, 20000);
         setInterval(updateInboxData, 20000);
     }
+    setTimeout(() => {
+        if(!headerGotUser) {
+            API.verifyCredentials().then(async u => {
+                userDataFunction({ detail: u });
+            });
+        }
+    }, 5000);
     document.addEventListener('updateUserData', userDataFunction);
 
     document.addEventListener('updatePageUserData', e => {
