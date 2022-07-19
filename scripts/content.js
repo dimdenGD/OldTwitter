@@ -42,7 +42,7 @@ if (realPath.startsWith("/i/user/")) {
         location.href = "/" + user.screen_name;
     });
 }
-let page = pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
+let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
 
 (async () => {
     if (!page) return;
