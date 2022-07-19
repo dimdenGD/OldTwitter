@@ -8,6 +8,7 @@ let timeline = {
 let settings = {};
 let seenThreads = [];
 let pinnedTweet, followersYouFollow;
+let previousLastTweet, stopLoad = false;
 let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor;
 let vars;
 chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
@@ -20,6 +21,7 @@ let subpage;
 let user_handle = location.pathname.slice(1).split("?")[0].split('#')[0];
 user_handle = user_handle.split('/')[0];
 function updateSubpage() {
+    previousLastTweet = undefined; stopLoad = false;
     user_handle = location.pathname.slice(1).split("?")[0].split('#')[0];
     if(user_handle.split('/').length === 1) {
         subpage = 'profile';
@@ -248,6 +250,7 @@ async function updateTimeline() {
     // first update
     timeline.data = tl;
     renderTimeline();
+    previousLastTweet = timeline.data[timeline.data.length - 1];
 }
 
 async function renderFollowing(clear = true, cursor) {
@@ -1633,7 +1636,7 @@ window.addEventListener('scroll', async () => {
     banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
     // load more tweets
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
-        if (loadingNewTweets || timeline.data.length === 0) return;
+        if (loadingNewTweets || timeline.data.length === 0 || stopLoad) return;
         loadingNewTweets = true;
         let tl;
         try {
@@ -1643,6 +1646,7 @@ window.addEventListener('scroll', async () => {
                 favoritesCursor = data.cursor;
             } else {
                 tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
+                tl = tl.slice(1);
                 if(subpage === 'media') {
                     tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
                 }
@@ -1653,6 +1657,8 @@ window.addEventListener('scroll', async () => {
             return;
         }
         timeline.data = timeline.data.concat(tl);
+        if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
+        previousLastTweet = timeline.data[timeline.data.length - 1];
         let lastTweet = document.getElementById('timeline').lastChild;
         await renderTimeline();
         setTimeout(() => {
