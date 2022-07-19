@@ -1836,7 +1836,7 @@ API.searchV2 = (obj, cursor) => {
                 cursor: undefined
             });
             entries = entries.addEntries.entries;
-            let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('user-'));
+            let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('user-') || e.entryId.startsWith('tweet-'));
             let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
             if(!cursor) {
                 let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace === 'sq-cursor-bottom' || i.replaceEntry.entryIdToReplace === 'cursor-bottom'));
@@ -1848,7 +1848,7 @@ API.searchV2 = (obj, cursor) => {
             }
             return resolve({
                 list: list.map(e => {
-                    if(e.entryId.startsWith('sq-I-t-')) {
+                    if(e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('tweet-')) {
                         let tweet = tweets[e.content.item.content.tweet.id];
                         let user = users[tweet.user_id_str];
                         user.id_str = tweet.user_id_str;
