@@ -530,14 +530,15 @@
     z-index: 5;
     color: #292f33;
 }
-#search-results a {
+#search-results a, .navbar-new-tweet-user-search span {
     cursor: pointer;
     border-radius: 5px;
     padding: 2px;
 }
-#search-results a:hover, .search-result-item-active {
+#search-results a:hover, .search-result-item-active, .navbar-new-tweet-user-search span:hover {
     background-color: var(--link-color) !important;
     color: white !important;
+    cursor: pointer;
 }
 .box {
     background-color: white;
@@ -827,4 +828,10 @@
 }
 .name-top {
     width: 618px !important;
+}
+.navbar-new-tweet-user-search {
+    background-color: #fff;
+    color: #292f33;
+    padding: 5px;
+    z-index: 5
 }

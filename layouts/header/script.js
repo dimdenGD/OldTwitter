@@ -637,7 +637,7 @@ setTimeout(() => {
                         <img width="35" height="35" class="navbar-new-tweet-avatar">
                         <span class="navbar-new-tweet-char">0/280</span>
                         <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="What's happening?"></textarea>
-                        <div class="navbar-new-tweet-user-search" class="box" hidden></div>
+                        <div class="navbar-new-tweet-user-search box" hidden></div>
                         <div class="navbar-new-tweet-media-div">
                             <span class="navbar-new-tweet-media"></span>
                         </div>
