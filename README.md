@@ -15,10 +15,12 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
   
 ### Dev
 - Download repo  
+![Download](https://lune.dimden.dev/ffda571bff.png)  
 - Unpack anywhere  
 - Go to chrome://extensions  
 - Turn on Developer mode  
-- Press "Install unpacked extension" and select folder with code  
+- Press "Load unpacked" and select folder with extension  
+![Install](https://lune.dimden.dev/ef1ac2f9ef.png)  
   
 ## FAQ
 #### Is this extension safe?
@@ -28,8 +30,8 @@ The code is open source (duh) so you can check everything yourself. It never sen
 Extension won't be pixel perfect copy of old Twitter. I just took general and feel look of it.
 
 #### I installed extension and my timeline is feels kinda unusual
-You had algorithmical timeline enabled. By default OldTwitter turns on chronological timeline. If you really want your stinky algo timeline back go to [extension settings](https://twitter.com/old/settings).
-*Fun fact: algo timeline is around 5 times slower than chronological one*
+You had algorithmical timeline enabled. By default OldTwitter turns on chronological timeline. If you really want your stinky algo timeline back go to [extension settings](https://twitter.com/old/settings).  
+*Fun fact: algo timeline is around 5 times slower than chronological one*  
 
 #### How do I visit original Twitter client after installing extension?
 Go to [mobile.twitter.com](https://mobile.twitter.com).
