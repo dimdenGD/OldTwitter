@@ -261,6 +261,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
     });
     let replyMedia = [];
+    tweetReply.addEventListener('drop', e => {
+        handleDrop(e, replyMedia, tweetReplyMedia);
+    });
     tweetReplyUpload.addEventListener('click', () => {
         getMedia(replyMedia, tweetReplyMedia);
     });
@@ -432,6 +435,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         })
     });
     let quoteMedia = [];
+    tweetQuote.addEventListener('drop', e => {
+        handleDrop(e, quoteMedia, tweetQuoteMedia);
+    });
     tweetQuoteUpload.addEventListener('click', () => {
         getMedia(quoteMedia, tweetQuoteMedia);
     });

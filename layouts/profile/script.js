@@ -443,6 +443,7 @@ function renderProfile() {
                 </div>
             </div>
         `);
+        const newTweet = modal.getElementsByClassName('navbar-new-tweet-container')[0];
         const newTweetText = modal.getElementsByClassName('navbar-new-tweet-text')[0];
         const newTweetChar = modal.getElementsByClassName('navbar-new-tweet-char')[0];
         const newTweetMedia = modal.getElementsByClassName('navbar-new-tweet-media')[0];
@@ -547,6 +548,9 @@ function renderProfile() {
             updateCharCount(e);
         });
         let mediaToUpload = []; 
+        newTweet.addEventListener('drop', e => {
+            handleDrop(e, mediaToUpload, newTweetMediaDiv);
+        });
         newTweetMedia.addEventListener('click', () => {
             getMedia(mediaToUpload, newTweetMediaDiv); 
         });
@@ -1069,6 +1073,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
     });
     let replyMedia = [];
+    tweetReply.addEventListener('drop', e => {
+        handleDrop(e, replyMedia, tweetReplyMedia);
+    });
     tweetReplyUpload.addEventListener('click', () => {
         getMedia(replyMedia, tweetReplyMedia);
     });
@@ -1244,6 +1251,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         })
     });
     let quoteMedia = [];
+    tweetQuote.addEventListener('drop', e => {
+        handleDrop(e, quoteMedia, tweetQuoteMedia);
+    });
     tweetQuoteUpload.addEventListener('click', () => {
         getMedia(quoteMedia, tweetQuoteMedia);
     });

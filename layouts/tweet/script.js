@@ -339,6 +339,9 @@ async function appendComposeComponent(container, replyTweet) {
         document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
     });
     
+    document.getElementById('new-tweet').addEventListener('drop', e => {
+        handleDrop(e, mediaToUpload, document.getElementById('new-tweet-media-c'));
+    });
     document.getElementById('new-tweet-media-div').addEventListener('click', async () => {
         getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
     });
@@ -907,6 +910,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
     });
     let replyMedia = [];
+    tweetReply.addEventListener('drop', e => {
+        handleDrop(e, replyMedia, tweetReplyMedia);
+    });
     tweetReplyUpload.addEventListener('click', () => {
         getMedia(replyMedia, tweetReplyMedia);
     });
@@ -1135,6 +1141,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         })
     });
     let quoteMedia = [];
+    tweetQuote.addEventListener('drop', e => {
+        handleDrop(e, quoteMedia, tweetQuoteMedia);
+    });
     tweetQuoteUpload.addEventListener('click', () => {
         getMedia(quoteMedia, tweetQuoteMedia);
     });

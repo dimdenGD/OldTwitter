@@ -649,6 +649,7 @@ setTimeout(() => {
                     </div>
                 </div>
             `);
+            const newTweet = modal.getElementsByClassName('navbar-new-tweet-container')[0];
             const newTweetText = modal.getElementsByClassName('navbar-new-tweet-text')[0];
             const newTweetChar = modal.getElementsByClassName('navbar-new-tweet-char')[0];
             const newTweetMedia = modal.getElementsByClassName('navbar-new-tweet-media')[0];
@@ -760,6 +761,9 @@ setTimeout(() => {
                 updateCharCount(e);
             });
             let mediaToUpload = []; 
+            newTweet.addEventListener('drop', e => {
+                handleDrop(e, mediaToUpload, newTweetMediaDiv);
+            });
             newTweetMedia.addEventListener('click', () => {
                 getMedia(mediaToUpload, newTweetMediaDiv); 
             });
