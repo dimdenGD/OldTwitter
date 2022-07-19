@@ -43,32 +43,54 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
 
     let content = fs.readFileSync('../OldTwitterFirefox/scripts/content.js', 'utf8');
     content = content.replace("document.open();", "");
-    content = content.replace("document.write(html);", "if(document.body) {document.body.remove()}; document.documentElement.innerHTML = html;");
+    content = content.replace("document.write(html);", `
+    if(document.body) {
+        document.body.remove();
+    };
+    setInterval(() => {
+        let body = document.querySelector('body[style="background-color: #FFFFFF;"]');
+        if(body) {
+            body.remove();
+        };
+    }, 1000);
+    document.documentElement.innerHTML = html;`);
     content = content.replace("document.close();", "");
 
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background.js', 'utf8');
     background = background.replace(/chrome\.storage\.sync\./, "chrome.storage.local.");
     background += `
-chrome.webRequest.onBeforeRequest.addListener(
-    function(details) {
-        return {cancel: !details.url.includes("mobile.twitter.com") && (details.url.includes("://twitter.com/manifest.json") || details.url.includes("https://abs.twimg.com/responsive-web/client-web/"))};
-    },
-    {urls: ["*://twitter.com/*"]},
-    ["blocking"]
-);
-chrome.webRequest.onBeforeSendHeaders.addListener(
-    function(details) {
-      for (var i = 0; i < details.requestHeaders.length; ++i) {
-        if (details.requestHeaders[i].name.toLowerCase() === 'content-security-policy') {
-          details.requestHeaders.splice(i, 1);
-          break;
-        }
-      }
-      return {requestHeaders: details.requestHeaders};
-    },
-    {urls: ["*://twitter.com/*"]},
-    ["blocking", "requestHeaders"]
-);
+    chrome.webRequest.onBeforeRequest.addListener(
+        function(details) {
+            return {
+                cancel: !details.url.includes("mobile.twitter.com") && (details.url.includes("://twitter.com/manifest.json") || details.url.includes("https://abs.twimg.com/responsive-web/client-web/"))
+            };
+        }, {
+            urls: ["*://twitter.com/*"]
+        },
+        ["blocking"]
+    );
+    chrome.webRequest.onBeforeSendHeaders.addListener(
+        function(details) {
+            if (details.url.includes("twimg.com")) {
+                if(!details.requestHeaders.find(h => h.name.toLowerCase() === 'origin')) details.requestHeaders.push({
+                    name: "Origin",
+                    value: "https://twitter.com"
+                });
+            }
+            for (var i = 0; i < details.requestHeaders.length; ++i) {
+                if (details.requestHeaders[i].name.toLowerCase() === 'content-security-policy') {
+                    details.requestHeaders.splice(i, 1);
+                    break;
+                }
+            }
+            return {
+                requestHeaders: details.requestHeaders
+            };
+        }, {
+            urls: ["*://twitter.com/*", "*://*.twitter.com/*", "*://*.twimg.com/*", "*://twimg.com/*"]
+        },
+        ["blocking", "requestHeaders"]
+    );
     `;
 
     let headerStyle = fs.readFileSync('../OldTwitterFirefox/layouts/header/style.css', 'utf8');
