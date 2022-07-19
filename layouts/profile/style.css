@@ -1244,7 +1244,7 @@ a:hover,
     letter-spacing: .02em;
     text-transform: uppercase;
     color: #66757f;
-    background: red;
+    background: rgba(0, 0, 0, 0.08);
     width: fit-content;
     padding: 3px 7px;
     border-radius: 5px;
