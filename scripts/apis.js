@@ -1596,6 +1596,7 @@ API.getReplies = (id, cursor) => {
                     for (let j = 0; j < thread.length; j++) {
                         let t = thread[j];
                         let tweet = tweetData[t.conversationTweetComponent.tweet.id];
+                        if(!tweet) continue;
                         let user = userData[tweet.user_id_str];
                         tweet.id_str = t.conversationTweetComponent.tweet.id;
                         if(tweet.quoted_status_id_str) {

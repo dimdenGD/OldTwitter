@@ -28,11 +28,11 @@ The code is open source (duh) so you can check everything yourself. It never sen
 Extension won't be pixel perfect copy of old Twitter. I just took general and feel look of it.
 
 #### I installed extension and my timeline is feels kinda unusual
-You had algorithmical timeline enabled. By default OldTwitter turns on chronological timeline. If you really want your stinky algo timeline back go to [extension settings](https://twitter.com/settings).
+You had algorithmical timeline enabled. By default OldTwitter turns on chronological timeline. If you really want your stinky algo timeline back go to [extension settings](https://twitter.com/old/settings).
 *Fun fact: algo timeline is around 5 times slower than chronological one*
 
 #### How do I visit original Twitter client after installing extension?
-Go to mobile.twitter.com.
+Go to [mobile.twitter.com](https://mobile.twitter.com).
 
 ## Features
 - Chronological and algorithmical timelines

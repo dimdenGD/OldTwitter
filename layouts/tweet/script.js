@@ -66,6 +66,10 @@ async function updateReplies(id, c) {
     let tl;
     try {
         let [tlData, s] = await Promise.allSettled([API.getReplies(id, c), API.getSettings()]);
+        if(!tlData.value) {
+            cursor = undefined;
+            return console.error(tlData.reason);
+        }
         tl = tlData.value;
         settings = s.value;
     } catch(e) {
