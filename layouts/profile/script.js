@@ -220,7 +220,7 @@ async function updateTimeline() {
             tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
         } catch(e) {}
         if(subpage === 'media') {
-            tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0);
+            tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
         }
     }
     if(tl.error === "Not authorized.") {
@@ -1644,7 +1644,7 @@ window.addEventListener('scroll', async () => {
             } else {
                 tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
                 if(subpage === 'media') {
-                    tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0);
+                    tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
                 }
             }
         } catch (e) {
