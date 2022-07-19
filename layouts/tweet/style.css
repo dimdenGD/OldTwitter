@@ -1002,7 +1002,7 @@ a:hover,
 }
 
 .tweet-body-main {
-    display: inline-block !important;
+    display: block !important;
     margin-top: 10px
 }
 

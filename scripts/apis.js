@@ -377,6 +377,7 @@ API.getAlgoTimeline = cursor => {
             for (let i = 0; i < entries.length; i++) {
                 let e = entries[i].content.item;
                 if(!e || !e.content || !e.content.tweet) continue;
+                if(e.content.tweet.promotedMetadata) continue;
                 let tweet = tweets[e.content.tweet.id];
                 let user = users[tweet.user_id_str];
                 tweet.user = user;
@@ -412,7 +413,7 @@ API.postTweet = data => {
         fetch(`https://api.twitter.com/1.1/statuses/update.json`, {
             method: 'POST',
             headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
                 "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
