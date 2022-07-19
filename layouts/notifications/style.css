@@ -1,8 +1,3 @@
-@font-face {
-    font-family: 'RosettaIcons';
-    src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
-}
-
 #loading-box {
     z-index: 1000;
     width: 100%;

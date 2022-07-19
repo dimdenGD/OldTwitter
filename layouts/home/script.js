@@ -8,7 +8,7 @@ let settings = {};
 let seenThreads = [];
 let mediaToUpload = [];
 let linkColors = {};
-let vars;
+let vars = {};
 let algoCursor;
 chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL'], data => {
     vars = data;

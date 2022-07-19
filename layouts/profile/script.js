@@ -1696,6 +1696,7 @@ setTimeout(() => {
         }
         e.preventDefault();
         let el = e.target;
+        if(!el) return;
         if(!el.href) el = el.parentElement; 
         history.pushState({}, null, el.href);
         updateSubpage();
@@ -1730,6 +1731,7 @@ setTimeout(() => {
     document.getElementById('profile-friends-text').addEventListener('click', updatePath);
     document.addEventListener('click', async e => {
         let el = e.target;
+        if(!el) return;
         if(el.tagName !== 'A') el = el.parentElement;
         if(el.tagName === "A") {
             let path;

@@ -19,4 +19,4 @@ chrome.runtime.onInstalled.addListener(async () => {
             chronologicalTL: true
         }, () => {});
     }
-});  
+});
