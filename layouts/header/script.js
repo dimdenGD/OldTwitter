@@ -356,6 +356,9 @@ setTimeout(() => {
                     messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : messageUsers.map(i => i.name).join(', ').slice(0, 80);
                     messageHeaderAvatar.src = messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : chrome.runtime.getURL(`/images/group.jpg`);
                     if(messageUsers.length === 1) messageHeaderLink.href = `https://twitter.com/${messageUsers[0].screen_name}`;
+                    setTimeout(() => {
+                        modal.querySelector(".message-new-input").focus();
+                    });
 
                     renderConversation(messageData, c.conversation_id);
                 });
@@ -490,6 +493,9 @@ setTimeout(() => {
                         messageHeaderName.innerText = u.name;
                         messageHeaderAvatar.src = u.profile_image_url_https;
                         messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
+                        setTimeout(() => {
+                            modal.querySelector(".message-new-input").focus();
+                        });
 
                         renderConversation(messageData, `${user.id_str}-${u.id_str}`);
                     });
@@ -1003,6 +1009,9 @@ setTimeout(() => {
                 messageHeaderName.innerText = u.name;
                 messageHeaderAvatar.src = u.profile_image_url_https;
                 messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
+                setTimeout(() => {
+                    modal.querySelector(".message-new-input").focus();
+                });
     
                 renderConversation(messageData, convo_id);
             }, 50);

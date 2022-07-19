@@ -15,7 +15,7 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
   
 ### Manual installation
 - Go to [Releases page](https://github.com/dimdenGD/OldTwitter/releases/)  
-- Download OldTwitterChrome.zip if you're on Chrome and OldTwitterFirefox.zip if you're on Firefox  
+- Download `OldTwitterChrome.zip` if you're on Chrome and `OldTwitterFirefox.zip` if you're on Firefox  
   
 #### Chrome
 - Unpack file anywhere  
