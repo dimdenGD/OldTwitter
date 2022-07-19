@@ -1033,6 +1033,12 @@ setTimeout(() => {
                 userDataFunction({ detail: u });
             });
         }
+        let version = document.getElementById('oldtwitter-version');
+        if(version) {
+            fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json`).then(res => res.json()).then(res => {
+                version.innerText += ` (last version: ${res.version})`;
+            });
+        }
     }, 5000);
     document.addEventListener('updateUserData', userDataFunction);
 
