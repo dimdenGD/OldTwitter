@@ -21,10 +21,10 @@ chrome.storage.local.get(['installed'], async data => {
                 <h2 style="margin:0;margin-bottom:10px;color:#66757f;font-weight:300">Shameless plug</h2>
                 <span style="font-size:14px">
                     Thank you for installing OldTwitter!! I hope you'll like it.<br><br>
-                    <a href="https://twitter.com/dimdenEFF" target="_blank">Follow me maybe? 👉👈</a><br><br>
+                    <a href="https://twitter.com/dimdenEFF">Follow me maybe? 👉👈</a><br><br>
                     <div class="dimden">
                         <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                        <a class="dimden-text" href="https://twitter.com/dimdenEFF" target="_blank" style="vertical-align:top;margin-left:10px;">
+                        <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
                             <b class="tweet-header-name">${dimden.name}</b>
                             <span class="tweet-header-handle">${dimden.screen_name}</span>
                         </a><br>
