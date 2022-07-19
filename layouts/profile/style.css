@@ -487,6 +487,9 @@ body {
 .tweet-interact-more-menu-follow:before {
     content: "\f056"
 }
+.tweet-interact-more-menu-pin:before {
+    content: "\f003"
+}
 
 .tweet-media-element-censor {
     filter: blur(20px);

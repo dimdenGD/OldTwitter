@@ -2080,3 +2080,41 @@ API.deleteConversation = id => {
         });
     });
 }
+API.unpinTweet = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/account/unpin_tweet.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `id=${id}`
+        }).then(i => i.text()).then(data => {
+            resolve(true);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.pinTweet = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/account/pin_tweet.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `id=${id}`
+        }).then(i => i.text()).then(data => {
+            resolve(true);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}

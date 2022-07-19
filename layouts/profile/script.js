@@ -920,6 +920,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <hr>
                     <span class="tweet-interact-more-menu-analytics">Tweet analytics</span><br>
                     <span class="tweet-interact-more-menu-delete">Delete tweet</span><br>
+                    <span class="tweet-interact-more-menu-pin">${pinnedTweet && pinnedTweet.id_str === t.id_str ? 'Unpin tweet' :  'Pin tweet'}</span>
                     ` : ``}
                     <hr>
                     <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
@@ -1003,6 +1004,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
     const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
+    const tweetInteractMoreMenuPin = tweet.getElementsByClassName('tweet-interact-more-menu-pin')[0];
 
     // Translate
     if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
@@ -1397,6 +1399,42 @@ async function appendTweet(t, timelineContainer, options = {}) {
             Array.from(document.getElementById('timeline').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                 tweet.remove();
             });
+        });
+        tweetInteractMoreMenuPin.addEventListener('click', async () => {
+            if(pinnedTweet && pinnedTweet.id_str === t.id_str) {
+                await API.unpinTweet(t.id_str);
+                pinnedTweet = null;
+                tweet.remove();
+                let tweetTime = new Date(t.created_at).getTime();
+                let beforeTweet = Array.from(document.getElementsByClassName('tweet')).find(i => {
+                    let timestamp = +i.getElementsByClassName('tweet-time')[0].dataset.timestamp;
+                    return timestamp < tweetTime;
+                });
+                if(beforeTweet) {
+                    appendTweet(t, timelineContainer, { after: beforeTweet });
+                }
+                return;
+            } else {
+                await API.pinTweet(t.id_str);
+                pinnedTweet = t;
+                let pinnedTweetElement = Array.from(document.getElementsByClassName('tweet')).find(i => {
+                    let topText = i.getElementsByClassName('tweet-top-text')[0];
+                    return (topText && topText.innerText === 'Pinned Tweet');
+                });
+                if(pinnedTweetElement) {
+                    pinnedTweetElement.remove();
+                }
+                tweet.remove();
+                appendTweet(t, timelineContainer, {
+                    prepend: true,
+                    top: {
+                        text: 'Pinned Tweet',
+                        icon: "\uf003",
+                        color: "var(--link-color)"
+                    }
+                });
+                return;
+            }
         });
     }
     tweetInteractMoreMenuRefresh.addEventListener('click', async () => {

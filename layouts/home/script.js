@@ -998,7 +998,7 @@ async function renderTrends() {
 // On scroll to end of timeline, load more tweets
 let loadingNewTweets = false;
 document.addEventListener('scroll', async () => {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
         if (loadingNewTweets || timeline.data.length === 0) return;
         loadingNewTweets = true;
         let tl;
@@ -1029,7 +1029,7 @@ document.addEventListener('scroll', async () => {
             setTimeout(() => {
                 loadingNewTweets = false;
             });
-        }, 200);
+        }, 250);
     }
 });
 
