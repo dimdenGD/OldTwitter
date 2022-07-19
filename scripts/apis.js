@@ -1792,7 +1792,7 @@ API.getTweetQuotes = (id, cursor) => {
                 cursor: undefined
             });
             entries = entries.addEntries.entries;
-            let list = entries.filter(e => e.entryId.startsWith('sq-I-t-'));
+            let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('tweet-'));
             return resolve({
                 list: list.map(e => {
                     let tweet = tweets[e.content.item.content.tweet.id];

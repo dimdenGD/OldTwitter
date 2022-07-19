@@ -102,6 +102,7 @@
     {
       "matches": ["https://twitter.com/search", "https://twitter.com/search?*", "https://twitter.com/search/", "https://twitter.com/search/?*"],
       "js": ["libraries/twemoji.min.js", "layouts/search/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
+      "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle",
       "all_frames": true
     },

@@ -259,7 +259,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetBodyText.innerHTML += `<br>
         <span style="font-size: 12px;color: #8899a6;">Translated from [${translated.translated_lang}]:</span>
         <br>
-        <span>${translated.text}</span>`;
+        <span>${escape(translated.text)}</span>`;
         if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
     });
 
