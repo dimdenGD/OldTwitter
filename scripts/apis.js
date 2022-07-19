@@ -381,7 +381,8 @@ API.getAlgoTimeline = cursor => {
                 let tweet = tweets[e.content.tweet.id];
                 let user = users[tweet.user_id_str];
                 tweet.user = user;
-                if(e.feedbackInfo) tweet.feedback = data.timeline.responseObjects.feedbackActions[e.feedbackInfo.feedbackKeys[0]];
+                tweet.id_str = e.content.tweet.id;
+                if(e.feedbackInfo) tweet.feedback = e.feedbackInfo.feedbackKeys.map(f => data.timeline.responseObjects.feedbackActions[f]);
                 if(tweet.retweeted_status_id_str) {
                     tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
                     tweet.retweeted_status.user = users[tweet.retweeted_status.user_id_str];
@@ -395,7 +396,11 @@ API.getAlgoTimeline = cursor => {
                     tweet.quoted_status.id_str = tweet.quoted_status_id_str;
                 }
                 if(e.content.tweet.socialContext) {
-                    tweet.socialContext = e.content.tweet.socialContext.generalContext;
+                    if(e.content.tweet.socialContext.topicContext) {
+                        tweet.socialContext = data.globalObjects.topics[e.content.tweet.socialContext.topicContext.topicId];
+                    } else {
+                        tweet.socialContext = e.content.tweet.socialContext.generalContext;
+                    }
                 }
                 list.push(tweet);
             }

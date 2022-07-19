@@ -67,6 +67,10 @@ async function updateTimeline() {
     if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
     let fn = !vars.chronologicalTL ? API.getAlgoTimeline : API.getTimeline;
     let [tl, s] = await Promise.allSettled([fn(), API.getSettings()]);
+    if(!tl.value) {
+        console.error(tl.reason);
+        return;
+    }
     s = s.value; tl = tl.value;
     settings = s;
     if(!vars.chronologicalTL) {
@@ -901,7 +905,11 @@ async function renderTimeline() {
                 let obj = {};
                 if(t.socialContext) {
                     obj.top = {};
-                    if(t.socialContext.contextType === "Like") {
+                    if(t.socialContext.description) {
+                        obj.top.text = `<a href="https://mobile.twitter.com/i/topics/${t.socialContext.id}">${t.socialContext.name}</a>`;
+                        obj.top.icon = "\uf008";
+                        obj.top.color = "#3300FF";
+                    } else if(t.socialContext.contextType === "Like") {
                         obj.top.text = `<a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}">${t.socialContext.text}</a>`;
                         if(vars.heartsNotStars) {
                             obj.top.icon = "\uf015";
