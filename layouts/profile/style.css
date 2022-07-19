@@ -408,7 +408,7 @@ body {
 }
 
 .tweet-media video {
-    block-size: auto
+    object-fit: var(--video-cover)
 }
 
 .tweet-media-element-four {

@@ -1055,12 +1055,28 @@ setTimeout(() => {
     }, 5000);
     document.addEventListener('updateUserData', userDataFunction);
 
+    let root = document.querySelector(":root");
     document.addEventListener('updatePageUserData', e => {
         let pageUser = e.detail;
         if(pageUser.profile_link_color && pageUser.profile_link_color !== '1DA1F2') {
-            let root = document.querySelector(":root");
             customSet = true;
             root.style.setProperty('--link-color', pageUser.profile_link_color);
+        }
+    });
+    function fullscreenEvent(fullscreen) {
+        if(fullscreen) {
+            root.style.setProperty('--video-cover', 'contain');
+        } else {
+            root.style.setProperty('--video-cover', 'cover');
+        }
+    }
+    
+    window.addEventListener('resize', () => {
+        if (window.matchMedia('(display-mode: fullscreen)').matches ||
+        window.document.fullscreenElement) {
+           fullscreenEvent(true);
+        } else {
+           fullscreenEvent(false);
         }
     });
     setTimeout(() => {

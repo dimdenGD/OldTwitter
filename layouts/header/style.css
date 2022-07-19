@@ -4,6 +4,7 @@
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
     --favorite-icon-color: #ffac33;
+    --video-cover: cover;
 }
 @font-face {
     font-family: 'RosettaIcons';
