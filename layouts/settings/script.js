@@ -1,7 +1,7 @@
 let user = {};
 let settings = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets'], data => {
     vars = data;
 });
 // Util
@@ -153,6 +153,7 @@ setTimeout(async () => {
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
     let enableTwemoji = document.getElementById('enable-twemoji');
     let chrono = document.getElementById('chronological-tl');
+    let showTopicTweets = document.getElementById('show-topic-tweets');
     let root = document.querySelector(":root");
 
     for(let i in fonts) {
@@ -195,6 +196,11 @@ setTimeout(async () => {
     chrono.addEventListener('change', () => {
         chrome.storage.sync.set({
             chronologicalTL: chrono.checked
+        }, () => { });
+    });
+    showTopicTweets.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showTopicTweets: showTopicTweets.checked
         }, () => { });
     });
     sync.addEventListener('click', async () => {
@@ -241,6 +247,9 @@ setTimeout(async () => {
     }
     if(vars.chronologicalTL) {
         chrono.checked = vars.chronologicalTL;
+    }
+    if(vars.showTopicTweets) {
+        showTopicTweets.checked = vars.showTopicTweets;
     }
 
     // Run

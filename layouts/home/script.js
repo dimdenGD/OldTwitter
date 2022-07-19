@@ -10,7 +10,7 @@ let mediaToUpload = [];
 let linkColors = {};
 let vars = {};
 let algoCursor;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets'], data => {
     vars = data;
 });
 chrome.storage.local.get(['installed'], async data => {
@@ -76,6 +76,9 @@ async function updateTimeline() {
     if(!vars.chronologicalTL) {
         algoCursor = tl.cursor;
         tl = tl.list
+    }
+    if(!vars.showTopicTweets) {
+        tl = tl.filter(t => !t.socialContext || !t.socialContext.description);
     }
 
     if(vars.linkColorsInTL) {
