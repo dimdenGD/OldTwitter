@@ -918,15 +918,28 @@ async function updateSavedButton() {
         if(saved) {
             document.getElementById('save-search').innerText = "Remove from saved";
             document.getElementById('save-search').classList.add('saved');
+        } else {
+            document.getElementById('save-search').innerText = "Save search";
+            document.getElementById('save-search').classList.remove('saved');
         }
         document.getElementById('save-search').addEventListener('click', async () => {
             if(saved) {
                 await API.deleteSavedSearch(saved.id_str);
                 document.getElementById('save-search').innerText = "Save search";
                 document.getElementById('save-search').classList.remove('saved');
+                savedSearches = savedSearches.filter(s => s.id_str !== saved.id_str);
+                chrome.storage.local.set({savedSearches: {
+                    date: Date.now(),
+                    data: savedSearches
+                }}, () => {});
                 saved = undefined;
             } else {
                 let saveData = await API.saveSearch(searchParams.q);
+                savedSearches.push(saveData);
+                chrome.storage.local.set({savedSearches: {
+                    date: Date.now(),
+                    data: savedSearches
+                }}, () => {});
                 saved = saveData;
                 document.getElementById('save-search').innerText = "Remove from saved";
                 document.getElementById('save-search').classList.add('saved');
