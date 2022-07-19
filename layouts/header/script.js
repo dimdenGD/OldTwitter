@@ -1044,7 +1044,7 @@ setTimeout(() => {
         }
         let version = document.getElementById('oldtwitter-version');
         if(version) {
-            fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json`).then(res => res.json()).then(res => {
+            fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`).then(res => res.json()).then(res => {
                 version.innerText += ` (last version: ${res.version})`;
             });
         }
