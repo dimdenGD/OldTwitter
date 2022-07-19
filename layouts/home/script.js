@@ -1283,7 +1283,7 @@ setTimeout(() => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    setInterval(updateTimeline, 60000);
+    if(vars.chronologicalTL) setInterval(updateTimeline, 60000);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 250);
