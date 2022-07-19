@@ -1,802 +1,950 @@
 #loading-box {
-    z-index: 1000;
-    width: 100%;
+    background-color: #fff;
     height: 100%;
-    background-color: white;
     position: fixed;
+    width: 100%;
+    z-index: 1000
 }
+
 #loading-box-text:before {
-    content: "\f179";
-    vertical-align: sub;
-    font-family: RosettaIcons;
-    font-size: 64px;
     color: #1da1f2;
+    content: "\f179";
+    font: 64px RosettaIcons;
     margin-left: 20px;
+    vertical-align: sub
 }
+
 #loading-box-container {
     margin: 0 auto;
-    width: 100%;
     margin-top: 270px;
     text-align: center;
+    width: 100%
 }
 
 a {
     color: var(--link-color);
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
+    text-decoration: none
 }
 
 body {
     background-color: #f5f8fa !important;
     font-family: var(--font);
-    margin: 0;
+    margin: 0
 }
+
 #container {
     margin: 0 auto;
-    max-width: 1190px;
+    max-width: 1190px
 }
 
 .cell {
     box-sizing: border-box;
-    display: inline-block;
+    display: inline-block
 }
 
 #content {
-    display: flex;
+    display: flex
 }
+
 .box {
-    background-color: white;
-    border-radius: 5px;
+    background-color: #fff;
     border: 1px solid #e1e8ed;
+    border-radius: 5px
 }
+
 #user-banner {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    object-fit: cover;
+    object-fit: cover
 }
+
 #user-avatar {
-    margin-left: 7px;
-    border: 4px solid white;
-    margin-top: -32px;
+    border: 4px solid #fff;
     border-radius: 7px;
+    margin-left: 7px;
+    margin-top: -32px
 }
+
 #user-name {
-    margin: 0;
-    left: 95px;
-    font-size: 22px;
-    position: relative;
     bottom: 47px;
-    width: fit-content;
     color: #292f33;
-}
-#user-handle {
+    font-size: 22px;
+    left: 95px;
     margin: 0;
     position: relative;
+    width: fit-content
+}
+
+#user-handle {
+    bottom: 48px;
     color: #6a7d8c;
     font-size: 14px;
     font-weight: 100;
     left: 95px;
-    bottom: 48px;
-    width: fit-content;
+    margin: 0;
+    position: relative;
+    width: fit-content
 }
+
 #user-stats {
     display: inline-flex;
-    padding-bottom: 7px;
+    padding-bottom: 7px
 }
-.user-stat-div > h2 {
+
+.user-stat-div>h2 {
     color: #6a7d8c;
     font-size: 14px;
     font-weight: 100;
-    text-transform: uppercase;
     margin: 0 10px;
+    text-transform: uppercase
 }
-.user-stat-div > h1 {
-    margin: 0 10px;
-    font-size: 20px;
+
+.user-stat-div>h1 {
     color: var(--link-color);
+    font-size: 20px;
+    margin: 0 10px
 }
+
 #user-info {
-    height: 5px;
     display: block;
-    text-decoration: none;
+    height: 5px;
+    text-decoration: none
 }
+
 #center-cell {
-    margin-top: 55px;
+    margin-top: 55px
 }
+
 #left-cell {
-    top: 55px;
-    position: sticky;
     height: fit-content;
-    margin-right: 10px;
     margin-left: 10px;
+    margin-right: 10px;
+    position: sticky;
+    top: 55px
 }
+
 #right-cell {
-    top: 55px;
-    position: sticky;
     height: fit-content;
     margin-left: 10px;
     margin-right: 10px;
+    position: sticky;
+    top: 55px
 }
+
 #timeline {
-    width: 590px;
     margin-bottom: 10px;
+    width: 590px
 }
+
 .tweet {
+    background-color: #fff;
     border-left: 1px solid #e1e8ed;
     border-right: 1px solid #e1e8ed;
     border-top: 1px solid #e1e8ed;
-    background-color: white;
-    padding: 10px;
-    min-height: 75px;
     cursor: pointer;
+    min-height: 75px;
+    padding: 10px
 }
+
 .tweet:hover {
-    background-color: #f5f8fa;
+    background-color: #f5f8fa
 }
+
 .tweet-avatar-link {
     float: left;
-    margin-right: 10px;
+    margin-right: 10px
 }
-.tweet-avatar {
-    border-radius: 5px;
+
+.tweet-header,
+.tweet-header-quote {
+    display: contents
 }
-.tweet-avatar-quote {
-    border-radius: 5px;
-}
-.tweet-header, .tweet-header-quote {
-    display: contents;
-}
-.tweet-header-info, .tweet-header-info-quote {
-    display: inline;
-    text-decoration: none;
-    position: relative;
+
+.tweet-header-info,
+.tweet-header-info-quote {
     bottom: 3px;
+    display: inline;
+    position: relative;
+    text-decoration: none
 }
-.tweet-header-info-quote { bottom: 8px !important }
-.tweet-header-info:hover {
-    text-decoration: underline;
+
+.tweet-header-info-quote {
+    bottom: 8px !important
 }
+
 .tweet-header-name:hover {
-    color: var(--link-color);
+    color: var(--link-color)
 }
-.tweet-header-name, .tweet-header-name-quote {
-    display: inline;
-    font-weight: bold;
+
+.tweet-header-name,
+.tweet-header-name-quote {
     color: #292f33;
-    font-size: 14px;
-}
-.tweet-header-handle, .tweet-time, .tweet-header-handle-quote, .tweet-time-quote {
     display: inline;
-    direction: ltr;
-    unicode-bidi: embed;
-    font-size: 13px;
-    color: #8899a6;
-    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700
 }
+
+.tweet-header-handle,
+.tweet-time,
+.tweet-header-handle-quote,
+.tweet-time-quote {
+    color: #8899a6;
+    direction: ltr;
+    display: inline;
+    font-size: 13px;
+    text-decoration: none;
+    unicode-bidi: embed
+}
+
 .tweet-time {
     bottom: 3px;
-    position: relative;
+    position: relative
 }
+
 .tweet-time-quote {
     bottom: 8px;
-    position: relative;
+    position: relative
 }
 
 .tweet-time::before {
-    content: "\00b7";
-    margin-right: 3px;
     color: #8899a6 !important;
+    content: "\00b7";
+    margin-right: 3px
 }
+
 .tweet-time:hover {
     color: var(--link-color);
-    text-decoration: underline;
+    text-decoration: underline
 }
-.tweet-body, .tweet-interact, .tweet-body-text-quote {
-    display: flow-root;
+
+.tweet-body,
+.tweet-interact,
+.tweet-body-text-quote {
+    display: flow-root
 }
+
 .tweet-body-quote {
-    background-color: white;
+    background-color: #fff;
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    display: block;
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    right: 10px;
+    text-decoration: none
 }
+
 .tweet-body-quote:hover {
     background-color: #f5f8fa;
-    text-decoration: none;
+    text-decoration: none
 }
+
 .tweet-body-text-long {
     font-size: 16px;
-    line-height: 22px;
     font-weight: 400;
+    line-height: 22px
 }
+
 .tweet-body-text-short {
     font-size: 26px;
-    line-height: 32px;
     font-weight: 300;
     letter-spacing: .01em;
+    line-height: 32px
 }
+
 .tweet-body-text a {
-    text-decoration: none;
+    text-decoration: none
 }
-.tweet-body-text a:hover {
-    text-decoration: underline;
-}
+
 .tweet-interact {
     margin-top: 10px;
-    user-select: none;
+    user-select: none
 }
+
 .tweet-interact span {
     color: #8899a6;
+    cursor: pointer;
     display: inline-block;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 700;
     margin-left: 6px;
-    position: relative;
-    top: -2px;
-    text-decoration: none;
-    cursor: pointer;
     margin-right: 20px;
+    position: relative;
+    text-decoration: none;
+    top: -2px
 }
+
 .tweet-interact span:before {
-    font-family: RosettaIcons;
-    font-weight: normal;
-    font-style: normal;
-    font-size: 16px;
     -webkit-font-smoothing: antialiased;
-    margin-right: 10px;
     color: #ccd6dd;
     cursor: pointer;
-    vertical-align: sub;
+    font: 400 16px RosettaIcons;
+    margin-right: 10px;
+    vertical-align: sub
 }
+
 .tweet-interact-reply:before {
-    content: "\f151";
+    content: "\f151"
 }
-.tweet-interact-retweet:before {
-    content: "\f152";
-}
+
 .tweet-interact-favorite:before {
-    content: var(--favorite-icon-content);
+    content: var(--favorite-icon-content)
 }
+
 .tweet-interact-more:before {
-    content: "\f150";
+    content: "\f150"
 }
-.tweet-interact-reply-clicked, .tweet-interact-reply-clicked:before, .tweet-interact-reply:hover:before, .tweet-interact-reply:hover, .tweet-interact-more:hover:before {
-    color: #3300FF !important;
+
+.tweet-interact-favorited,
+.tweet-interact-favorited:before,
+.tweet-interact-favorite:hover:before,
+.tweet-interact-favorite:hover {
+    color: var(--favorite-icon-color) !important
 }
-.tweet-interact-retweeted, .tweet-interact-retweeted:before, .tweet-interact-retweet:hover:before, .tweet-interact-retweet:hover {
-    color: #5c913b !important;
-}
-.tweet-interact-favorited, .tweet-interact-favorited:before, .tweet-interact-favorite:hover:before, .tweet-interact-favorite:hover {
-    color: var(--favorite-icon-color) !important;
-}
-.tweet-reply-text, .tweet-quote-text {
+
+.tweet-reply-text,
+.tweet-quote-text {
     border: 1px solid #e1e8ed;
-    resize: none;
     border-radius: 5px;
-    width: 346px;
-    padding: 5px;
-    font-family: var(--font);
     display: inline-block;
+    font-family: var(--font);
     height: 30px;
+    padding: 5px;
+    resize: none;
+    width: 346px
 }
-.tweet-reply-text:focus, .tweet-quote-text:focus {
-    outline: none;
+
+.tweet-reply-text:focus,
+.tweet-quote-text:focus {
+    outline: none
 }
-.tweet-reply-button, .tweet-quote-button {
-    position: relative;
+
+.tweet-reply-button,
+.tweet-quote-button {
     bottom: 16px;
     height: 42px;
+    position: relative
 }
+
 .nice-button {
-    color: #292f33;
     background-color: #f5f8fa;
-    background-image: linear-gradient(#fff,#f5f8fa);
+    background-image: linear-gradient(#fff, #f5f8fa);
     background-repeat: no-repeat;
     border: 1px solid #e1e8ed;
     border-radius: 4px;
+    color: #292f33;
     color: #66757f;
     cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    line-height: normal;
-    padding: 8px 16px;
-    font-family: var(--font);
+    font: 700 14px/normal var(--font);
+    padding: 8px 16px
 }
+
 .nice-button:hover:not([disabled]) {
-    color: #292f33;
-    text-decoration: none;
+    -ms-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     background-color: #e1e8ed;
-    background-image: linear-gradient(#fff,#e1e8ed);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
+    background-image: linear-gradient(#fff, #e1e8ed);
     border-color: #e1e8ed;
+    color: #292f33;
+    text-decoration: none
 }
+
 .nice-button:disabled {
     color: lightgray !important;
-    cursor: not-allowed;
+    cursor: not-allowed
 }
+
 .nice-button:disabled:before {
-    color: lightgray !important;
+    color: lightgray !important
 }
+
 .tweet-top {
-    margin-left: 35px;
-    margin-bottom: 7px;
     font-size: 13px;
+    margin-bottom: 7px;
+    margin-left: 35px
 }
+
 .tweet-top-icon {
     font-family: RosettaIcons;
     margin-right: 10px;
-    vertical-align: text-bottom;
+    vertical-align: text-bottom
 }
-.tweet-top-icon, .tweet-top-text {
-    display: inline-block;
+
+.tweet-top-icon,
+.tweet-top-text {
     color: #8899a6;
+    display: inline-block
 }
+
 .tweet-top-text a {
     color: #8899a6;
-    text-decoration: none;
+    text-decoration: none
 }
+
 .tweet-top-text a:hover {
     color: var(--link-color) !important;
-    text-decoration: underline;
+    text-decoration: underline
 }
-.tweet-interact-retweet-menu, .tweet-interact-more-menu {
-    position: absolute;
-    background-color: white;
+
+.tweet-interact-retweet-menu,
+.tweet-interact-more-menu {
+    background-color: #fff;
     border: 1px solid #8899a6;
     border-radius: 5px;
-    z-index: 5;
+    position: absolute;
+    z-index: 5
 }
+
 .tweet-interact-more-menu {
-    margin-left: 100px;
+    margin-left: 100px
 }
-.tweet-reply-cancel:hover, .tweet-quote-cancel:hover, .tweet-reply-upload:hover, .tweet-quote-upload:hover {
-    text-decoration: underline;
+
+.tweet-reply-cancel:hover,
+.tweet-quote-cancel:hover,
+.tweet-reply-upload:hover,
+.tweet-quote-upload:hover {
     cursor: pointer;
+    text-decoration: underline
 }
-.tweet-body-quote {
-    display: block;
-    border-radius: 5px;
-    border: 1px solid #e1e8ed;
-    padding: 10px;
-    margin: 10px;
-    text-decoration: none;
-    position: relative;
-    right: 10px;
-}
+
 .tweet-media {
-    max-width: 500px;
     display: block;
+    max-width: 500px;
     position: relative;
-    right: 5px;
+    right: 5px
 }
+
 .tweet-media img {
-    cursor: zoom-in;
+    cursor: zoom-in
 }
-.tweet-media-element, .new-tweet-media-img {
-    margin: 5px;
+
+.tweet-media-element,
+.new-tweet-media-img {
+    block-size: auto;
+    border: 1px solid #e1e8ed;
     border-radius: 7px;
-    object-fit: cover;
-    block-size: auto;
-    border: 1px solid #e1e8ed;
+    margin: 5px;
+    object-fit: cover
 }
+
 .tweet-media video {
-    block-size: auto;
+    block-size: auto
 }
+
 .tweet-media-element-four {
-    max-width: 100px;
     max-height: 150px;
+    max-width: 100px
 }
+
 .tweet-media-element-three {
-    max-width: 150px;
     max-height: 250px;
+    max-width: 150px
 }
+
 .tweet-media-element-two {
-    max-width: 200px;
     max-height: 400px;
+    max-width: 200px
 }
+
 .tweet-media-element-one {
-    max-width: 450px;
     max-height: 500px;
+    max-width: 450px
 }
+
 .center-text {
-    background-color: white;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #8899a6;
+    background-color: #fff;
     border: 1px solid #e1e8ed;
-    font-size: 14px;
-    padding: 10px;
     border-radius: 5px;
-    cursor: pointer;
-}
-.center-text:hover {
-    text-decoration: underline;
-}
-.tweet-interact-retweet-menu span, .tweet-interact-more-menu span {
-    margin-right: 5px !important;
-    cursor: pointer;
-}
-.tweet-interact-retweet-menu span:hover {
-    color: #5c913b !important;
-}
-.tweet-interact-more-menu span:hover {
-    color: #3300FF !important;
-}
-.tweet-interact-retweet-menu span:before, .tweet-interact-more-menu span:before {
     color: #8899a6;
-    margin-right: 5px !important;
-}
-.tweet-interact-retweet-menu-retweet:before {
-    content: "\f152";
-}
-.tweet-interact-retweet-menu-quote:before {
-    content: "\f204";
-}
-.tweet-interact-more-menu-copy:before {
-    content: "\f203";
-}
-.tweet-interact-more-menu-embed:before {
-    content: "\f204";
-}
-.tweet-interact-more-menu-share:before {
-    content: "\f185";
-}
-.tweet-interact-more-menu-analytics:before {
-    content: "\f200";
-}
-.tweet-interact-more-menu-refresh:before {
-    content: "\f303";
-}
-.tweet-interact-more-menu-download:before {
-    content: "\f186";
-}
-.tweet-interact-more-menu-download-gif:before {
-    content: "\f309";
-}
-.tweet-interact-more-menu-delete:before {
-    content: "\f154";
-}
-.tweet-interact-more-menu-follow:before {
-    content: "\f056";
-}
-.tweet-interact-more-menu-feedback:before {
-    content: "\f044";
-}
-.tweet-media-element-censor {
-    filter: blur(20px);
-    -webkit-filter: blur(20px);
-    -moz-filter: blur(20px);
     cursor: pointer;
-    transform: scale(1.03);
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center
 }
+
+.tweet-interact-retweet-menu span,
+.tweet-interact-more-menu span {
+    cursor: pointer;
+    margin-right: 5px !important
+}
+
+.tweet-interact-retweet-menu span:before,
+.tweet-interact-more-menu span:before {
+    color: #8899a6;
+    margin-right: 5px !important
+}
+
+.tweet-interact-more-menu-copy:before {
+    content: "\f203"
+}
+
+.tweet-interact-more-menu-share:before {
+    content: "\f185"
+}
+
+.tweet-interact-more-menu-analytics:before {
+    content: "\f200"
+}
+
+.tweet-interact-more-menu-refresh:before {
+    content: "\f303"
+}
+
+.tweet-interact-more-menu-download:before {
+    content: "\f186"
+}
+
+.tweet-interact-more-menu-download-gif:before {
+    content: "\f309"
+}
+
+.tweet-interact-more-menu-delete:before {
+    content: "\f154"
+}
+
+.tweet-interact-more-menu-follow:before {
+    content: "\f056"
+}
+
+.tweet-interact-more-menu-feedback:before {
+    content: "\f044"
+}
+
+.tweet-media-element-censor {
+    -moz-filter: blur(20px);
+    -webkit-filter: blur(20px);
+    cursor: pointer;
+    filter: blur(20px);
+    transform: scale(1.03)
+}
+
 #wtf {
     padding: 10px;
-    width: 250px;
+    width: 250px
 }
-#wtf h1, #trends h1 {
-    margin: 0;
+
+#wtf h1,
+#trends h1 {
+    color: #66757f;
     display: inline-block;
     font-size: 22px;
-    color: #66757f;
     font-weight: 300;
+    margin: 0
 }
-#wtf-refresh, #wtf-viewall {
+
+#wtf-refresh,
+#wtf-viewall {
     color: #8899a6;
-    font-size: 12px;
-    text-decoration: none;
     cursor: pointer;
+    font-size: 12px;
+    text-decoration: none
 }
-#wtf-refresh:hover, #wtf-viewall:hover {
-    text-decoration: underline;
+
+a:hover,
+.tweet-header-info:hover,
+.tweet-body-text a:hover,
+.center-text:hover,
+#wtf-refresh:hover,
+#wtf-viewall:hover {
+    text-decoration: underline
+}
+
+.tweet-avatar,
+.tweet-avatar-quote {
+    border-radius: 5px
+}
+
+.tweet-interact-retweet:before,
+.tweet-interact-retweet-menu-retweet:before {
+    content: "\f152"
+}
+
+.tweet-interact-reply-clicked,
+.tweet-interact-reply-clicked:before,
+.tweet-interact-reply:hover:before,
+.tweet-interact-reply:hover,
+.tweet-interact-more:hover:before,
+.tweet-interact-more-menu span:hover {
+    color: #30F !important
+}
+
+.tweet-interact-retweeted,
+.tweet-interact-retweeted:before,
+.tweet-interact-retweet:hover:before,
+.tweet-interact-retweet:hover,
+.tweet-interact-retweet-menu span:hover {
+    color: #5c913b !important
+}
+
+.tweet-interact-retweet-menu-quote:before,
+.tweet-interact-more-menu-embed:before {
+    content: "\f204"
 }
 
 @media screen and (max-width: 1195px) {
-    #wtf, #about {
-        display: none;
+
+    #wtf,
+    #about {
+        display: none
     }
 }
+
 .wtf-user {
     display: inline-block;
-    margin-bottom: 5px;
+    margin-bottom: 5px
 }
+
 .wtf-user-link {
-    text-decoration: none !important;
+    text-decoration: none !important
 }
+
 .wtf-user-name {
     display: inline-block;
-    overflow: hidden;
     margin-right: 5px;
+    overflow: hidden
 }
+
 .wtf-user-handle {
-    overflow: hidden;
-    width: 88px;
-    height: 17px;
     display: inline-block;
+    height: 17px;
+    overflow: hidden;
+    width: 88px
 }
-.follow, .following {
+
+.follow,
+.following {
     color: #292f33;
-    padding: 4px 12px 4px 12px !important;
+    padding: 4px 12px !important
 }
+
 .follow:before {
     color: #8899a6;
-    font-family: RosettaIcons;
     content: "\f175";
+    font-family: RosettaIcons;
     margin-right: 7px;
-    vertical-align: text-bottom;
+    vertical-align: text-bottom
 }
+
 .following:before {
     color: var(--link-color);
-    font-family: RosettaIcons;
     content: "\f176";
+    font-family: RosettaIcons;
     margin-right: 7px;
-    vertical-align: text-bottom;
+    vertical-align: text-bottom
 }
+
 .tweet-self-thread-button {
-    text-decoration: none;
     font-size: 13px;
     margin-top: 2px;
+    text-decoration: none
 }
-.tweet-self-thread-button:hover {
-    text-decoration: underline;
+
+.tweet-no-top {
+    border-top: none !important
 }
-.tweet-no-top{
-    border-top: none !important;
-}
+
 .tweet-self-thread-line {
+    background-color: #e1e8ed;
+    height: 52px;
+    margin-left: -34px;
     position: absolute;
     width: 2px;
-    height: 52px;
-    background-color: #e1e8ed;
-    margin-left: -34px;
-    z-index: 1;
+    z-index: 1
 }
+
 .tweet-self-thread-line-dots {
-    z-index: 2;
-    position: absolute;
-    width: 12px;
-    height: 2px;
-    border: 2px white solid;
+    border: 2px #fff solid;
     display: unset;
+    height: 2px;
     margin-left: -41px;
     margin-top: 2px;
+    position: absolute;
+    width: 12px;
+    z-index: 2
 }
+
 .tweet:hover .tweet-self-thread-line-dots {
-    border: 2px #f5f8fa solid !important;
+    border: 2px #f5f8fa solid !important
 }
+
 .user-verified::after {
-    content: "\f099";
     color: #55acee;
+    content: "\f099";
     font-family: RosettaIcons;
-    margin-left: 5px;
+    margin-left: 5px
 }
+
 .user-protected::after {
-    content: "\f096";
     color: #ddd22b;
+    content: "\f096";
     font-family: RosettaIcons;
-    margin-left: 5px;
+    margin-left: 5px
 }
+
 #about {
-    margin-top: 5px;
-    padding: 10px;
+    color: #8899a6;
     font-size: 12px;
-    color: #8899a6;
+    margin-top: 5px;
+    padding: 10px
 }
-.about-links a, .about-links span {
+
+.about-links a,
+.about-links span {
     color: #8899a6;
-    margin-right: 8px;
+    margin-right: 8px
 }
 
 #trends {
     margin-top: 10px;
-    padding: 10px;
+    padding: 10px
 }
+
 .trend {
-    margin-top: 10px;
+    margin-top: 10px
 }
+
 .trend-description {
-    font-size: 14px;
     color: #8899a6;
+    font-size: 14px
 }
+
 .emoji {
-    width: 16px;
     height: 16px;
-    vertical-align: bottom;
     margin-left: 2px;
     margin-right: 2px;
+    vertical-align: bottom;
+    width: 16px
 }
+
 .tweet-body-text-short .emoji {
-    width: 26px !important;
     height: 26px !important;
     vertical-align: text-top !important;
+    width: 26px !important
 }
+
 .tweet-body-text-long .emoji {
-    vertical-align: text-bottom !important;
+    vertical-align: text-bottom !important
 }
+
 #user-name .emoji {
-    width: 26px !important;
     height: 26px !important;
+    width: 26px !important
 }
+
 #new-tweets {
+    background-color: #f5f8fa;
     border-bottom: none !important;
     border-radius: 0 !important;
-    margin-bottom: 0 !important;
-    padding: 10px;
     color: #66757f;
-    background-color: #f5f8fa;
+    margin-bottom: 0 !important;
     margin-top: 0 !important;
+    padding: 10px
 }
+
 #new-tweet-avatar {
-    vertical-align: top;
+    vertical-align: top
 }
+
 #new-tweet-text {
     border: 1px solid #e1e8ed;
-    resize: none;
     border-radius: 3px;
-    width: 480px;
-    padding: 5px;
-    font-family: var(--font);
     display: inline-block;
+    font: 18px var(--font);
     height: 23px;
-    font-size: 18px;
+    padding: 5px;
     padding-right: 40px;
+    resize: none;
     scrollbar-width: thin;
+    width: 480px
 }
+
 #new-tweet-text::-webkit-scrollbar {
-    width: 2px;
+    width: 2px
 }
+
 #new-tweet-text:focus {
-    outline: none;
+    outline: none
 }
+
 .new-tweet-text-focused {
-    height: 100px !important;
+    height: 100px !important
 }
+
 #new-tweet {
+    background-color: rgba(255, 255, 255, 0.92);
     border-bottom: none !important;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    background-color: rgba(255, 255, 255, 0.92);
     padding: 10px;
-    width: 568px;
+    width: 568px
 }
+
 #new-tweet-container {
-    border-radius: 5px;
+    background-color: var(--link-color);
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    background-color: var(--link-color);
+    border-radius: 5px
 }
+
 #new-tweet-media-div {
+    bottom: 36px;
+    cursor: pointer;
     float: right;
     position: relative;
-    cursor: pointer;
-    bottom: 36px;
-    right: 15px;
+    right: 15px
 }
+
 .new-tweet-media-div-focused {
-   bottom: 112px !important;
+    bottom: 112px !important
 }
+
 #new-tweet-media:before {
-    content: "\f159";
-    font-family: RosettaIcons;
     color: var(--link-color);
-    font-size: 20px;
+    content: "\f159";
+    font: 20px RosettaIcons
 }
+
 #new-tweet-button {
     float: right;
-    margin-top: 5px;
     left: 14px;
-    position: relative;
+    margin-top: 5px;
+    position: relative
 }
+
 #new-tweet-char {
     color: #8899a6;
     font-size: 12px;
-    position: absolute;
     margin-left: -46px;
     margin-top: 38px;
-    width: 43px;
+    position: absolute;
     text-align: center;
+    width: 43px
 }
-.tweet-reply-char, .tweet-quote-char {
+
+.tweet-reply-char,
+.tweet-quote-char {
     color: #8899a6;
     font-size: 12px;
     padding: 3px;
-    top: -10px;
     position: relative;
+    top: -10px
 }
-#new-tweet-button:before, .tweet-reply-button:before, .tweet-quote-button:before {
-    content: "\f029";
-    font-family: RosettaIcons;
+
+#new-tweet-button:before,
+.tweet-reply-button:before,
+.tweet-quote-button:before {
     color: var(--link-color);
-    font-size: 14px;
+    content: "\f029";
+    font: 14px RosettaIcons;
     margin-right: 5px;
-    vertical-align: bottom;
+    vertical-align: bottom
 }
+
 #new-tweet-media-c {
-    width: auto;
-    margin: 0;
     display: contents;
+    margin: 0;
+    width: auto
 }
+
 #new-tweet-media-cc {
-    left: 34px;
-    position: relative;
     display: inline;
+    left: 34px;
+    position: relative
 }
+
 .new-tweet-media-img {
-    max-width: 75px;
-    max-height: 100px;
     cursor: zoom-in;
+    max-height: 100px;
+    max-width: 75px
 }
+
 .new-tweet-media-img-progress {
-    position: absolute;
-    display: block;
     color: gray;
+    display: block;
     font-size: 10px;
     margin-left: 6px;
+    position: absolute
 }
+
 .new-tweet-media-img-remove {
-    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    cursor: pointer;
+    height: 14px;
     margin-left: -24px;
     margin-top: 8px;
-    height: 14px;
-    padding: 0px 3px 3px 3px;
-    background-color: rgba(0,0,0, 0.5);
-    border-radius: 5px;
-    cursor: pointer;
+    padding: 0 3px 3px;
+    position: absolute
 }
+
 .new-tweet-media-img-remove:before {
+    color: #fff;
     content: "\f045";
-    font-family: RosettaIcons;
-    margin-bottom: 2px;
-    color: white;
-    font-size: 13px;
+    font: 13px RosettaIcons;
+    margin-bottom: 2px
 }
+
 .new-tweet-media-img-alt {
-    position: absolute;
-    background: rgba(0,0,0, 0.5);
-    color: white;
-    padding: 1px 4px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
     font-size: 12px;
     font-weight: 600;
-    border-radius: 5px;
-    margin-top: 8px;
     margin-left: -57px;
+    margin-top: 8px;
+    padding: 1px 4px;
     padding-bottom: 2px;
-    cursor: pointer;
+    position: absolute
 }
+
 .new-tweet-media-img-div {
-    width: fit-content;
     display: inline-block;
+    width: fit-content
 }
+
 #donate-button {
-    transition: 1s;
+    transition: 1s
 }
+
 .tweet-translate {
     color: var(--link-color);
-    font-size: 13px;
     cursor: pointer;
-    margin-top: 2px;
+    font-size: 13px;
+    margin-top: 2px
 }
-.tweet-translate:hover {
-    text-decoration: underline;
-}
+
 .tweet-interact-more-menu hr {
     border-top: #ccd6dd;
-    margin: 2px;
+    margin: 2px
 }
+
 #new-tweet-user-search {
-    position: absolute;
-    background-color: white;
-    padding: 5px;
-    z-index: 5;
+    background-color: #fff;
     color: #292f33;
+    padding: 5px;
+    position: absolute;
+    z-index: 5
 }
+
 #new-tweet-user-search span {
-    cursor: pointer;
     border-radius: 5px;
-    padding: 2px;
+    cursor: pointer;
+    padding: 2px
 }
-#new-tweet-user-search span:hover, .search-result-item-active {
+
+#new-tweet-user-search span:hover,
+.search-result-item-active {
     background-color: var(--link-color) !important;
-    color: white !important;
+    color: #fff !important
 }
+
 .wtf-header {
-    display: flow-root;
+    display: flow-root
+}
+
+.tweet-self-thread-button:hover,
+.tweet-translate:hover {
+    text-decoration: underline
 }

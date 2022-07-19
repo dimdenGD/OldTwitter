@@ -1007,6 +1007,8 @@ document.addEventListener('scroll', async () => {
             if(!vars.chronologicalTL) {
                 algoCursor = tl.cursor;
                 tl = tl.list
+            } else {
+                tl = tl.slice(1);
             }
         } catch (e) {
             console.error(e);
@@ -1022,7 +1024,7 @@ document.addEventListener('scroll', async () => {
         }
         setTimeout(() => {
             lastTweet.scrollIntoView({
-                behavior: 'smooth'
+                block: 'center'
             });
             setTimeout(() => {
                 loadingNewTweets = false;
