@@ -175,6 +175,8 @@ function updateUserData() {
 
         const event = new CustomEvent('updateUserData', { detail: u });
         document.dispatchEvent(event);
+        const event2 = new CustomEvent('updatePageUserData', { detail: oldUser });
+        document.dispatchEvent(event2);
 
         pageUser = pageUserData;
         if(customColor && customColor !== 'none') {

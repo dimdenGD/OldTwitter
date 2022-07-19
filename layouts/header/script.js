@@ -1,6 +1,7 @@
 let headerGotUser = false;
 let savedSearches = [], lastSearches = [];
 let inboxData = [];
+let customSet = false;
 
 let headerUserInterval = setInterval(() => {
     if(!headerGotUser) {
@@ -23,7 +24,7 @@ setTimeout(() => {
                 resolve(data);
             });
         });
-        if(vars.linkColor && (!user.profile_link_color || user.profile_link_color === '1DA1F2')) {
+        if(!customSet && vars.linkColor && (!user.profile_link_color || user.profile_link_color === '1DA1F2')) {
             root.style.setProperty('--link-color', vars.linkColor);
         }
         if(vars.font) {
@@ -1033,6 +1034,15 @@ setTimeout(() => {
         setInterval(updateInboxData, 20000);
     }
     document.addEventListener('updateUserData', userDataFunction);
+
+    document.addEventListener('updatePageUserData', e => {
+        let pageUser = e.detail;
+        if(pageUser.profile_link_color && pageUser.profile_link_color !== '1DA1F2') {
+            let root = document.querySelector(":root");
+            customSet = true;
+            root.style.setProperty('--link-color', pageUser.profile_link_color);
+        }
+    });
     setTimeout(() => {
         document.getElementById('navbar-user-avatar').addEventListener('click', () => {
             if(headerGotUser) return;
