@@ -987,7 +987,7 @@ async function renderTrends() {
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend';
         trendDiv.innerHTML = `
-            <b><a href="https://twitter.com/search?q=${trend.name.replace(/</g, '')}" class="trend-name">${trend.name}</a></b><br>
+            <b><a href="https://twitter.com/search?q=${trend.name.replace(/</g, '').replace(/\#/g, '%23')}" class="trend-name">${trend.name}</a></b><br>
             <span class="trend-description">${trend.meta_description ? trend.meta_description : ''}</span>
         `;
         trendsContainer.append(trendDiv);
@@ -1015,7 +1015,11 @@ document.addEventListener('scroll', async () => {
         }
         timeline.data = timeline.data.concat(tl);
         let lastTweet = document.getElementById('timeline').lastChild;
-        await renderTimeline();
+        try {
+            await renderTimeline();
+        } catch(e) {
+            loadingNewTweets = false;
+        }
         setTimeout(() => {
             lastTweet.scrollIntoView({
                 behavior: 'smooth'

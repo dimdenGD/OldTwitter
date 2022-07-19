@@ -812,7 +812,7 @@ async function renderSearch(c) {
         if(!settings) {
             let [searchData, s] = await Promise.allSettled([
                 API.searchV2({
-                    q: searchParams.q + (searchSettings.nearYou ? ' near:me' : ''),
+                    q: encodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : ''),
                     tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
                     social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
                     result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
@@ -822,7 +822,7 @@ async function renderSearch(c) {
             search = searchData.value; settings = s.value;
         } else {
             search = await API.searchV2({
-                q: searchParams.q + (searchSettings.nearYou ? ' near:me' : ''),
+                q: encodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : ''),
                 tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
                 social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
                 result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',

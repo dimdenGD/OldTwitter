@@ -83,7 +83,7 @@ setTimeout(() => {
                         window.location.reload();
                     } catch(e) {
                         if((typeof(e) === 'string' && e.includes('User not found.')) || e.errors[0].code === 50) {
-                            window.location = 'https://twitter.com/account/switch';
+                            window.location = 'https://mobile.twitter.com/account/switch';
                         } else {
                             alert(e);
                         }

@@ -41,6 +41,7 @@
         "condition": {
             "urlFilter": "https://abs.twimg.com/responsive-web/client-web/*.js",
             "initiatorDomains": ["twitter.com"],
+            "excludedInitiatorDomains": ["mobile.twitter.com"],
             "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
         }
     },
