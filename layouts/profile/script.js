@@ -397,12 +397,18 @@ function renderProfile() {
 
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
+    } else {
+        document.getElementById('profile-name').classList.remove('user-verified');
     }
     if(pageUser.protected) {
         document.getElementById('profile-name').classList.add('user-protected');
+    } else {
+        document.getElementById('profile-name').classList.remove('user-protected');
     }
     if(pageUser.muting) {
         document.getElementById('profile-name').classList.add('user-muted');
+    } else {
+        document.getElementById('profile-name').classList.remove('user-muted');
     }
     document.getElementById('profile-username').innerText = `@${pageUser.screen_name}`;
     document.getElementById('nav-profile-username').innerText = `@${pageUser.screen_name}`;
