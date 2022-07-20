@@ -20,6 +20,10 @@
     text-align: center;
 }
 
+#content {
+    color: var(--default-text-color);
+}
+
 a {
     color: var(--link-color);
     text-decoration: none;
@@ -29,7 +33,7 @@ a:hover {
 }
 
 body {
-    background-color: #f5f8fa !important;
+    background-color: var(--darker-background-color) !important;
     font-family: var(--font);
     margin: 0;
 }
@@ -49,7 +53,7 @@ body {
 .box {
     background-color: white;
     border-radius: 5px;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
 }
 #user-banner {
     border-top-left-radius: 5px;
@@ -69,12 +73,12 @@ body {
     position: relative;
     bottom: 47px;
     width: fit-content;
-    color: #292f33;
+    color: var(--almost-black);
 }
 #user-handle {
     margin: 0;
     position: relative;
-    color: #6a7d8c;
+    color: var(--lil-darker-gray);
     font-size: 14px;
     font-weight: 100;
     left: 95px;
@@ -86,7 +90,7 @@ body {
     padding-bottom: 7px;
 }
 .user-stat-div > h2 {
-    color: #6a7d8c;
+    color: var(--lil-darker-gray);
     font-size: 14px;
     font-weight: 100;
     text-transform: uppercase;
@@ -126,7 +130,7 @@ body {
     padding: 10px;
 }
 #settings hr {
-    border-top: #e1e8ed;
+    border-top: var(--border);
 }
 #settings h1 {
     margin-bottom: 5px !important;
@@ -138,9 +142,9 @@ body {
     vertical-align: middle;
 }
 .tweet, .notification {
-    border-left: 1px solid #e1e8ed;
-    border-right: 1px solid #e1e8ed;
-    border-top: 1px solid #e1e8ed;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
     background-color: white;
     padding: 10px;
     min-height: 50px;
@@ -148,13 +152,13 @@ body {
 }
 
 .nice-button {
-    color: #292f33;
-    background-color: #f5f8fa;
-    background-image: linear-gradient(#fff,#f5f8fa);
+    color: var(--almost-black);
+    background-color: var(--darker-background-color);
+    background-image: linear-gradient(var(--background-color),var(--darker-background-color));
     background-repeat: no-repeat;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     border-radius: 4px;
-    color: #66757f;
+    color: var(--darker-gray);
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
@@ -163,12 +167,12 @@ body {
     font-family: var(--font);
 }
 .nice-button:hover:not([disabled]) {
-    color: #292f33;
+    color: var(--almost-black);
     text-decoration: none;
-    background-color: #e1e8ed;
-    background-image: linear-gradient(#fff,#e1e8ed);
+    background-color: var(--border);
+    background-image: linear-gradient(var(--background-color),var(--border));
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
-    border-color: #e1e8ed;
+    border-color: var(--border);
 }
 .nice-button:disabled {
     color: lightgray !important;
@@ -186,11 +190,11 @@ body {
     margin: 0;
     display: inline-block;
     font-size: 22px;
-    color: #66757f;
+    color: var(--darker-gray);
     font-weight: 300;
 }
 #wtf-refresh, #wtf-viewall {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
     text-decoration: none;
     cursor: pointer;
@@ -223,11 +227,11 @@ body {
     display: inline-block;
 }
 .follow, .following {
-    color: #292f33;
+    color: var(--almost-black);
     padding: 4px 12px 4px 12px !important;
 }
 .follow:before {
-    color: #8899a6;
+    color: var(--light-gray);
     font-family: RosettaIcons;
     content: "\f175";
     margin-right: 7px;
@@ -257,10 +261,10 @@ body {
     margin-top: 5px;
     padding: 10px;
     font-size: 12px;
-    color: #8899a6;
+    color: var(--light-gray);
 }
 .about-links a, .about-links span {
-    color: #8899a6;
+    color: var(--light-gray);
     margin-right: 8px;
 }
 
@@ -273,7 +277,7 @@ body {
 }
 .trend-description {
     font-size: 14px;
-    color: #8899a6;
+    color: var(--light-gray);
 }
 .emoji {
     width: 16px;
@@ -329,7 +333,7 @@ body {
 .tweet-header-name, .tweet-header-name-quote {
     display: inline;
     font-weight: bold;
-    color: #292f33;
+    color: var(--almost-black);
     font-size: 14px;
 }
 .tweet-header-handle, .tweet-time, .tweet-header-handle-quote, .tweet-time-quote {
@@ -337,7 +341,7 @@ body {
     direction: ltr;
     unicode-bidi: embed;
     font-size: 13px;
-    color: #8899a6;
+    color: var(--light-gray);
     text-decoration: none;
 }
 .tweet-avatar-link {
@@ -352,4 +356,19 @@ body {
 }
 .wtf-header {
     display: flow-root;
+}
+#color-preview {
+    margin-top: 15px;
+}
+#color-preview div {
+    padding: 10px;
+    display: inline;
+    width: fit-content;
+    border: 1px solid black;
+}
+#color-preview-light {
+    background-color: white;
+}
+#color-preview-dark {
+    background-color: #1b2836;
 }

@@ -159,7 +159,7 @@ async function updateLikes(id, c) {
         let tweet = await appendTweet(await API.getTweet(id), likeDiv, {
             mainTweet: true
         });
-        tweet.style.borderBottom = '1px solid #e1e8ed';
+        tweet.style.borderBottom = '1px solid var(--border)';
         tweet.style.marginBottom = '10px';
         tweet.style.borderRadius = '5px';
         let h1 = document.createElement('h1');
@@ -222,7 +222,7 @@ async function updateRetweets(id, c) {
         let tweet = await appendTweet(await API.getTweet(id), retweetDiv, {
             mainTweet: true
         });
-        tweet.style.borderBottom = '1px solid #e1e8ed';
+        tweet.style.borderBottom = '1px solid var(--border)';
         tweet.style.marginBottom = '10px';
         tweet.style.borderRadius = '5px';
         let h1 = document.createElement('h1');
@@ -871,7 +871,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         let translated = await API.translateTweet(t.id_str);
         tweetTranslate.hidden = true;
         tweetBodyText.innerHTML += `<br>
-        <span style="font-size: 12px;color: #8899a6;">Translated from [${translated.translated_lang}]:</span>
+        <span style="font-size: 12px;color: var(--light-gray);">Translated from [${translated.translated_lang}]:</span>
         <br>
         <span>${escape(translated.text)}</span>`;
         twemoji.parse(tweetBodyText);

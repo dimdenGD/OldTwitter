@@ -1,5 +1,5 @@
 #loading-box {
-    background-color: #fff;
+    background-color: var(--background-color);
     height: 100%;
     position: fixed;
     width: 100%;
@@ -27,7 +27,7 @@ a {
 }
 
 body {
-    background-color: #f5f8fa !important;
+    background-color: var(--darker-background-color) !important;
     font-family: var(--font);
     margin: 0
 }
@@ -47,8 +47,8 @@ body {
 }
 
 .box {
-    background-color: #fff;
-    border: 1px solid #e1e8ed;
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
     border-radius: 5px
 }
 
@@ -59,7 +59,7 @@ body {
 }
 
 #user-avatar {
-    border: 4px solid #fff;
+    border: 4px solid var(--background-color);
     border-radius: 7px;
     margin-left: 7px;
     margin-top: -32px
@@ -67,7 +67,7 @@ body {
 
 #user-name {
     bottom: 47px;
-    color: #292f33;
+    color: var(--almost-black);
     font-size: 22px;
     left: 95px;
     margin: 0;
@@ -77,7 +77,7 @@ body {
 
 #user-handle {
     bottom: 48px;
-    color: #6a7d8c;
+    color: var(--lil-darker-gray);
     font-size: 14px;
     font-weight: 100;
     left: 95px;
@@ -92,7 +92,7 @@ body {
 }
 
 .user-stat-div>h2 {
-    color: #6a7d8c;
+    color: var(--lil-darker-gray);
     font-size: 14px;
     font-weight: 100;
     margin: 0 10px;
@@ -148,17 +148,17 @@ body {
 
 .tweet,
 .following-item {
-    background-color: #fff;
-    border-left: 1px solid #e1e8ed;
-    border-right: 1px solid #e1e8ed;
-    border-top: 1px solid #e1e8ed;
+    background-color: var(--background-color);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
     cursor: pointer;
     min-height: 50px;
     padding: 10px
 }
 
 .tweet:hover {
-    background-color: #f5f8fa
+    background-color: var(--darker-background-color)
 }
 
 .tweet-avatar-link {
@@ -189,7 +189,7 @@ body {
 
 .tweet-header-name,
 .tweet-header-name-quote {
-    color: #292f33;
+    color: var(--almost-black);
     display: inline;
     font-size: 14px;
     font-weight: 700
@@ -199,7 +199,7 @@ body {
 .tweet-time,
 .tweet-header-handle-quote,
 .tweet-time-quote {
-    color: #8899a6;
+    color: var(--light-gray);
     direction: ltr;
     display: inline;
     font-size: 13px;
@@ -218,7 +218,7 @@ body {
 }
 
 .tweet-time::before {
-    color: #8899a6 !important;
+    color: var(--light-gray) !important;
     content: "\00b7";
     margin-right: 3px
 }
@@ -233,11 +233,12 @@ body {
 .tweet-body-text-quote {
     display: flow-root;
     overflow-x: hidden;
+    color: var(--default-text-color)
 }
 
 .tweet-body-quote {
-    background-color: #fff;
-    border: 1px solid #e1e8ed;
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
     border-radius: 5px;
     display: block;
     margin: 10px;
@@ -248,7 +249,7 @@ body {
 }
 
 .tweet-body-quote:hover {
-    background-color: #f5f8fa;
+    background-color: var(--darker-background-color);
     text-decoration: none
 }
 
@@ -275,7 +276,7 @@ body {
 }
 
 .tweet-interact span {
-    color: #8899a6;
+    color: var(--light-gray);
     cursor: pointer;
     display: inline-block;
     font-size: 12px;
@@ -317,7 +318,7 @@ body {
 
 .tweet-reply-text,
 .tweet-quote-text {
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     border-radius: 5px;
     display: inline-block;
     font-family: var(--font);
@@ -340,13 +341,13 @@ body {
 }
 
 .nice-button {
-    background-color: #f5f8fa;
-    background-image: linear-gradient(#fff, #f5f8fa);
+    background-color: var(--darker-background-color);
+    background-image: linear-gradient(var(--background-color), var(--darker-background-color));
     background-repeat: no-repeat;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     border-radius: 4px;
-    color: #292f33;
-    color: #66757f;
+    color: var(--almost-black);
+    color: var(--darker-gray);
     cursor: pointer;
     font-size: 14px;
     font-weight: 700;
@@ -356,10 +357,10 @@ body {
 
 .nice-button:hover:not([disabled]) {
     -ms-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-    background-color: #e1e8ed;
-    background-image: linear-gradient(#fff, #e1e8ed);
-    border-color: #e1e8ed;
-    color: #292f33;
+    background-color: var(--border);
+    background-image: linear-gradient(var(--background-color), var(--border));
+    border-color: var(--border);
+    color: var(--almost-black);
     text-decoration: none
 }
 
@@ -386,12 +387,12 @@ body {
 
 .tweet-top-icon,
 .tweet-top-text {
-    color: #8899a6;
+    color: var(--light-gray);
     display: inline-block
 }
 
 .tweet-top-text a {
-    color: #8899a6;
+    color: var(--light-gray);
     text-decoration: none
 }
 
@@ -402,8 +403,8 @@ body {
 
 .tweet-interact-retweet-menu,
 .tweet-interact-more-menu {
-    background-color: #fff;
-    border: 1px solid #8899a6;
+    background-color: var(--background-color);
+    border: 1px solid var(--light-gray);
     border-radius: 5px;
     position: absolute;
     z-index: 5
@@ -435,7 +436,7 @@ body {
 .tweet-media-element,
 .new-tweet-media-img {
     block-size: auto;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     border-radius: 7px;
     margin: 5px;
     object-fit: cover
@@ -473,7 +474,7 @@ body {
 
 .tweet-interact-retweet-menu span:before,
 .tweet-interact-more-menu span:before {
-    color: #8899a6;
+    color: var(--light-gray);
     margin-right: 5px !important
 }
 
@@ -521,7 +522,7 @@ body {
 #wtf h1,
 #trends h1,
 .nice-header {
-    color: #66757f;
+    color: var(--darker-gray);
     display: inline-block;
     font-size: 22px;
     font-weight: 300;
@@ -533,7 +534,7 @@ body {
 }
 
 .nice-subheader {
-    color: #66757f;
+    color: var(--darker-gray);
     display: inline-block;
     font-weight: 300;
     margin: 0
@@ -541,7 +542,7 @@ body {
 
 #wtf-refresh,
 #wtf-viewall {
-    color: #8899a6;
+    color: var(--light-gray);
     cursor: pointer;
     font-size: 12px;
     text-decoration: none
@@ -619,12 +620,12 @@ a:hover,
 
 .follow,
 .following {
-    color: #292f33;
+    color: var(--almost-black);
     padding: 4px 12px !important
 }
 
 .follow:before {
-    color: #8899a6;
+    color: var(--light-gray);
     content: "\f175";
     font-family: RosettaIcons;
     margin-right: 7px;
@@ -650,7 +651,7 @@ a:hover,
 }
 
 .tweet-self-thread-line {
-    background-color: #e1e8ed;
+    background-color: var(--border);
     height: 52px;
     margin-left: -34px;
     position: absolute;
@@ -659,7 +660,7 @@ a:hover,
 }
 
 .tweet-self-thread-line-dots {
-    border: 2px #fff solid;
+    border: 2px var(--background-color) solid;
     display: unset;
     height: 2px;
     margin-left: -41px;
@@ -670,7 +671,7 @@ a:hover,
 }
 
 .tweet:hover .tweet-self-thread-line-dots {
-    border: 2px #f5f8fa solid !important
+    border: 2px var(--darker-background-color) solid !important
 }
 
 .user-verified::after {
@@ -688,7 +689,7 @@ a:hover,
 }
 
 #about {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
     padding: 10px
@@ -696,7 +697,7 @@ a:hover,
 
 .about-links a,
 .about-links span {
-    color: #8899a6;
+    color: var(--light-gray);
     margin-right: 8px
 }
 
@@ -764,10 +765,10 @@ a:hover,
 }
 
 .center-text {
-    background-color: #fff;
-    border: 1px solid #e1e8ed;
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
     border-radius: 5px;
-    color: #8899a6;
+    color: var(--light-gray);
     cursor: pointer;
     font-size: 14px;
     margin-bottom: 10px;
@@ -782,22 +783,23 @@ a:hover,
 }
 
 .search-switches>hr {
-    border-top: #8899a6
+    border-color: var(--border);
+    border-bottom: none;
 }
 
 .search-switch {
-    color: #66757f;
+    color: var(--darker-gray);
     cursor: pointer;
     padding-right: 100px
 }
 
 .search-switch:hover,
 .search-switch-active {
-    color: #000
+    color: var(--default-text-color)
 }
 
 .search-switch:before {
-    color: #fff;
+    color: var(--background-color);
     content: "\f170";
     font-family: RosettaIcons;
     font-weight: 100;
@@ -807,7 +809,7 @@ a:hover,
 }
 
 #advanced:before {
-    color: #8899a6;
+    color: var(--light-gray);
     content: "\f059" !important
 }
 
@@ -852,12 +854,12 @@ a:hover,
 }
 
 .example {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 14px
 }
 
 .search-advanced-input {
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     border-radius: 5px;
     font: 16px var(--font);
     padding: 3px;

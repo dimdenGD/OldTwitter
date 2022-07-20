@@ -19,7 +19,7 @@ chrome.storage.local.get(['installed'], async data => {
         let dimden = await API.getUserV2('dimdenEFF');
         if(!dimden.following) {
             let modal = createModal(`
-                <h2 style="margin:0;margin-bottom:10px;color:#66757f;font-weight:300">Shameless plug</h2>
+                <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
                 <span style="font-size:14px">
                     Thank you for installing OldTwitter!! I hope you'll like it.<br><br>
                     <a href="https://twitter.com/dimdenEFF">Follow me maybe? 👉👈</a><br><br>
@@ -354,7 +354,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         let translated = await API.translateTweet(t.id_str);
         tweetTranslate.hidden = true;
         tweetBodyText.innerHTML += `<br>
-        <span style="font-size: 12px;color: #8899a6;">Translated from [${translated.translated_lang}]:</span>
+        <span style="font-size: 12px;color: var(--light-gray);">Translated from [${translated.translated_lang}]:</span>
         <br>
         <span>${escape(translated.text)}</span>`;
         if(vars.enableTwemoji) twemoji.parse(tweetBodyText);

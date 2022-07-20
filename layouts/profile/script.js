@@ -1025,7 +1025,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         let translated = await API.translateTweet(t.id_str);
         tweetTranslate.hidden = true;
         tweetBodyText.innerHTML += `<br>
-        <span style="font-size: 12px;color: #8899a6;">Translated from [${translated.translated_lang}]:</span>
+        <span style="font-size: 12px;color: var(--light-gray);">Translated from [${translated.translated_lang}]:</span>
         <br>
         <span>${escape(translated.text)}</span>`;
         if(vars.enableTwemoji) twemoji.parse(tweetBodyText);

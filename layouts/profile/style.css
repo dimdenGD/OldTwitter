@@ -2,7 +2,7 @@
     z-index: 1000;
     width: 100%;
     height: 100%;
-    background-color: #fff;
+    background-color: var(--background-color);
     position: fixed
 }
 
@@ -27,7 +27,7 @@ a {
 }
 
 body {
-    background-color: #f5f8fa !important;
+    background-color: var(--darker-background-color) !important;
     font-family: var(--font);
     margin: 0
 }
@@ -47,13 +47,13 @@ body {
 }
 
 .box {
-    background-color: #fff;
+    background-color: var(--background-color);
     border-radius: 5px;
-    border: 1px solid #e1e8ed
+    border: 1px solid var(--border)
 }
 
 .user-stat-div>h2 {
-    color: #6a7d8c;
+    color: var(--lil-darker-gray);
     font-size: 14px;
     font-weight: 100;
     text-transform: uppercase;
@@ -115,17 +115,17 @@ body {
 }
 
 .tweet {
-    border-left: 1px solid #e1e8ed;
-    border-right: 1px solid #e1e8ed;
-    border-top: 1px solid #e1e8ed;
-    background-color: #fff;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    background-color: var(--background-color);
     padding: 10px;
     min-height: 75px;
     cursor: pointer
 }
 
 .tweet:hover {
-    background-color: #f5f8fa
+    background-color: var(--darker-background-color)
 }
 
 .tweet-avatar-link {
@@ -158,7 +158,7 @@ body {
 .tweet-header-name-quote {
     display: inline;
     font-weight: 700;
-    color: #292f33;
+    color: var(--almost-black);
     font-size: 14px
 }
 
@@ -170,7 +170,7 @@ body {
     direction: ltr;
     unicode-bidi: embed;
     font-size: 13px;
-    color: #8899a6;
+    color: var(--light-gray);
     text-decoration: none
 }
 
@@ -187,7 +187,7 @@ body {
 .tweet-time::before {
     content: "\00b7";
     margin-right: 3px;
-    color: #8899a6 !important
+    color: var(--light-gray) !important
 }
 
 .tweet-time:hover {
@@ -199,14 +199,15 @@ body {
 .tweet-interact,
 .tweet-body-text-quote {
     display: flow-root;
-    overflow-x: hidden
+    overflow-x: hidden;
+    color: var(--default-text-color)
 }
 
 .tweet-body-quote {
-    background-color: #fff;
+    background-color: var(--background-color);
     display: block;
     border-radius: 5px;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     padding: 10px;
     margin: 10px;
     text-decoration: none;
@@ -215,7 +216,7 @@ body {
 }
 
 .tweet-body-quote:hover {
-    background-color: #f5f8fa;
+    background-color: var(--darker-background-color);
     text-decoration: none
 }
 
@@ -243,7 +244,7 @@ body {
 
 .tweet-interact span,
 #profile-settings-div span {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
     font-weight: 700;
     margin-left: 6px;
@@ -285,7 +286,7 @@ body {
 
 .tweet-reply-text,
 .tweet-quote-text {
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     resize: none;
     border-radius: 5px;
     width: 346px;
@@ -308,25 +309,25 @@ body {
 }
 
 .nice-button {
-    color: #292f33;
-    background-color: #f5f8fa;
-    background-image: linear-gradient(#fff, #f5f8fa);
+    color: var(--almost-black);
+    background-color: var(--darker-background-color);
+    background-image: linear-gradient(var(--background-color), var(--darker-background-color));
     background-repeat: no-repeat;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     border-radius: 4px;
-    color: #66757f;
+    color: var(--darker-gray);
     cursor: pointer;
     padding: 8px 16px;
     font: 700 14px/normal var(--font)
 }
 
 .nice-button:hover:not([disabled]) {
-    color: #292f33;
+    color: var(--almost-black);
     text-decoration: none;
-    background-color: #e1e8ed;
-    background-image: linear-gradient(#fff, #e1e8ed);
+    background-color: var(--border);
+    background-image: linear-gradient(var(--background-color), var(--border));
     -ms-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
-    border-color: #e1e8ed
+    border-color: var(--border)
 }
 
 .nice-button:disabled {
@@ -353,11 +354,11 @@ body {
 .tweet-top-icon,
 .tweet-top-text {
     display: inline-block;
-    color: #8899a6
+    color: var(--light-gray)
 }
 
 .tweet-top-text a {
-    color: #8899a6;
+    color: var(--light-gray);
     text-decoration: none
 }
 
@@ -370,8 +371,8 @@ body {
 .tweet-interact-more-menu,
 #profile-settings-div {
     position: absolute;
-    background-color: #fff;
-    border: 1px solid #8899a6;
+    background-color: var(--background-color);
+    border: 1px solid var(--light-gray);
     border-radius: 5px;
     z-index: 5
 }
@@ -405,7 +406,7 @@ body {
     border-radius: 7px;
     object-fit: cover;
     block-size: auto;
-    border: 1px solid #e1e8ed
+    border: 1px solid var(--border)
 }
 
 .tweet-media video {
@@ -433,11 +434,11 @@ body {
 }
 
 .center-text {
-    background-color: #fff;
+    background-color: var(--background-color);
     text-align: center;
     margin-bottom: 10px;
-    color: #8899a6;
-    border: 1px solid #e1e8ed;
+    color: var(--light-gray);
+    border: 1px solid var(--border);
     font-size: 14px;
     padding: 10px;
     border-radius: 5px;
@@ -453,7 +454,7 @@ body {
 .tweet-interact-retweet-menu span:before,
 .tweet-interact-more-menu span:before,
 #profile-settings-div:before {
-    color: #8899a6;
+    color: var(--light-gray);
     margin-right: 5px !important
 }
 
@@ -511,7 +512,7 @@ body {
     margin: 0;
     display: inline-block;
     font-size: 18px;
-    color: #66757f;
+    color: var(--darker-gray);
     font-weight: 300
 }
 
@@ -530,7 +531,7 @@ body {
 
 #wtf-refresh,
 #wtf-viewall {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
     text-decoration: none;
     cursor: pointer
@@ -610,12 +611,12 @@ a:hover,
 
 .follow,
 .following {
-    color: #292f33;
+    color: var(--almost-black);
     padding: 4px 12px !important
 }
 
 .follow:before {
-    color: #8899a6;
+    color: var(--light-gray);
     content: "\f175";
     margin-right: 7px;
     vertical-align: text-bottom;
@@ -644,7 +645,7 @@ a:hover,
     position: absolute;
     width: 2px;
     height: 52px;
-    background-color: #e1e8ed;
+    background-color: var(--border);
     margin-left: -34px;
     z-index: 1
 }
@@ -654,14 +655,14 @@ a:hover,
     position: absolute;
     width: 12px;
     height: 2px;
-    border: 2px #fff solid;
+    border: 2px var(--background-color) solid;
     display: unset;
     margin-left: -41px;
     margin-top: 2px
 }
 
 .tweet:hover .tweet-self-thread-line-dots {
-    border: 2px #f5f8fa solid !important
+    border: 2px var(--darker-background-color) solid !important
 }
 
 .user-verified::after {
@@ -689,12 +690,12 @@ a:hover,
     margin-top: 5px;
     padding: 10px;
     font-size: 12px;
-    color: #8899a6
+    color: var(--light-gray)
 }
 
 .about-links a,
 .about-links span {
-    color: #8899a6;
+    color: var(--light-gray);
     margin-right: 8px
 }
 
@@ -726,8 +727,8 @@ a:hover,
     border-radius: 0 !important;
     margin-bottom: 0 !important;
     padding: 10px;
-    color: #66757f;
-    background-color: #f5f8fa
+    color: var(--darker-gray);
+    background-color: var(--darker-background-color)
 }
 
 #new-tweet-avatar {
@@ -735,7 +736,7 @@ a:hover,
 }
 
 #new-tweet-text {
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     resize: none;
     border-radius: 3px;
     width: 450px;
@@ -763,7 +764,7 @@ a:hover,
     border-bottom: none !important;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: var(--new-tweet-over);
     padding: 10px;
     width: 538px
 }
@@ -801,7 +802,7 @@ a:hover,
 }
 
 #new-tweet-char {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
     position: absolute;
     margin-left: -46px;
@@ -812,7 +813,7 @@ a:hover,
 
 .tweet-reply-char,
 .tweet-quote-char {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
     padding: 3px;
     top: -10px;
@@ -869,14 +870,14 @@ a:hover,
 .new-tweet-media-img-remove:before {
     content: "\f045";
     margin-bottom: 2px;
-    color: #fff;
+    color: var(--background-color);
     font: 13px RosettaIcons
 }
 
 .new-tweet-media-img-alt {
     position: absolute;
     background: rgba(0, 0, 0, 0.5);
-    color: #fff;
+    color: var(--background-color);
     padding: 1px 4px;
     font-size: 12px;
     font-weight: 600;
@@ -929,8 +930,8 @@ a:hover,
 }
 
 #profile-nav {
-    background-color: #fff;
-    border-bottom: 1px solid #e1e8ed;
+    background-color: var(--background-color);
+    border-bottom: 1px solid var(--border);
     box-sizing: border-box;
     height: 60px;
     margin-bottom: 8px;
@@ -941,7 +942,7 @@ a:hover,
 }
 
 #profile-avatar {
-    border: 5px solid #fff;
+    border: 5px solid var(--background-color);
     border-radius: 12px;
     box-shadow: 0 1px 1px rgb(136 153 166 / 15%);
 }
@@ -950,7 +951,7 @@ a:hover,
     position: relative;
     bottom: 250px;
     z-index: 21;
-    color: #292f33
+    color: var(--almost-black)
 }
 
 #profile-name {
@@ -963,7 +964,7 @@ a:hover,
 }
 
 .piu-a {
-    color: #8899a6;
+    color: var(--light-gray);
     text-decoration: none
 }
 
@@ -972,7 +973,8 @@ a:hover,
     margin-left: 5px;
     padding-right: 20px;
     position: relative;
-    bottom: 255px
+    bottom: 255px;
+    color: var(--default-text-color);
 }
 
 #profile-username {
@@ -996,12 +998,12 @@ a:hover,
 }
 
 #tweet-nav {
-    background-color: #fff;
+    background-color: var(--background-color);
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    border-left: 1px solid #e1e8ed;
-    border-right: 1px solid #e1e8ed;
-    border-top: 1px solid #e1e8ed;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
     display: flex
 }
 
@@ -1024,7 +1026,7 @@ a:hover,
 #edit-profile:before {
     margin-right: 5px;
     vertical-align: sub;
-    color: #8899a6;
+    color: var(--light-gray);
     display: inline-block;
     width: 20px;
     text-align: center;
@@ -1078,7 +1080,7 @@ a:hover,
     letter-spacing: .02em;
     text-transform: uppercase;
     transition: color .15s ease-in-out;
-    color: #66757f
+    color: var(--darker-gray)
 }
 
 .profile-stat-value {
@@ -1126,11 +1128,11 @@ a:hover,
 #nav-profile-name {
     font-weight: 700;
     font-size: 18px;
-    color: #292f33
+    color: var(--almost-black)
 }
 
 #nav-profile-username {
-    color: #66757f;
+    color: var(--darker-gray);
     font-size: 13px;
     font-weight: 400;
     line-height: 1
@@ -1169,7 +1171,7 @@ a:hover,
     content: "\f157";
     margin-right: 5px;
     vertical-align: sub;
-    color: #8899a6;
+    color: var(--light-gray);
     display: inline-block;
     width: 20px;
     text-align: center;
@@ -1244,7 +1246,7 @@ a:hover,
     font-size: 11px;
     letter-spacing: .02em;
     text-transform: uppercase;
-    color: #66757f;
+    color: var(--darker-gray);
     background: rgba(0, 0, 0, 0.08);
     width: fit-content;
     padding: 3px 7px;
@@ -1255,25 +1257,25 @@ a:hover,
 #tweet-to {
     color: var(--link-color) !important;
     padding: 10px;
-    color: #fff;
+    color: var(--background-color);
     cursor: pointer;
-    border: 1px solid #000;
+    border: 1px solid var(--default-text-color);
     border-radius: 5px;
-    background: #fff;
+    background: var(--background-color);
     font-size: 14px
 }
 
 #tweet-to:hover {
-    background-color: #e1e8ed;
-    background-image: linear-gradient(#fff, #eff4f8);
+    background-color: var(--border);
+    background-image: linear-gradient(var(--background-color), #eff4f8);
     -ms-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false)
 }
 
 #tweet-to-div {
     padding: 10px;
-    border: 1px solid #000;
+    border: 1px solid var(--default-text-color);
     border-radius: 5px;
-    background: rgba(255, 255, 255, 0.92)
+    background: var(--new-tweet-over)
 }
 
 #tweet-to-bg {
@@ -1318,10 +1320,10 @@ a:hover,
 
 .navbar-new-tweet-user-search {
     position: absolute;
-    background-color: #fff;
+    background-color: var(--background-color);
     padding: 5px;
     z-index: 5;
-    color: #292f33
+    color: var(--almost-black)
 }
 
 .navbar-new-tweet-user-search span {
@@ -1333,13 +1335,13 @@ a:hover,
 .navbar-new-tweet-user-search span:hover,
 .search-result-item-active {
     background-color: var(--link-color) !important;
-    color: #fff !important
+    color: var(--background-color) !important
 }
 
 .box {
-    background-color: #fff;
+    background-color: var(--background-color);
     border-radius: 5px;
-    border: 1px solid #e1e8ed
+    border: 1px solid var(--border)
 }
 
 .wtf-header {
@@ -1361,7 +1363,7 @@ a:hover,
 
 .pin-a,
 .tweet-nav-active {
-    color: #292f33
+    color: var(--almost-black)
 }
 
 .profile-additional-url:before,

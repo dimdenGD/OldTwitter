@@ -3,7 +3,12 @@ let savedSearches = [], lastSearches = [];
 let inboxData = [];
 let customSet = false;
 
-setTimeout(() => {
+setTimeout(async () => {
+    let vars = await new Promise((resolve) => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode'], data => {
+            resolve(data);
+        });
+    });
     let userDataFunction = async e => {
         if(headerGotUser || Object.keys(e.detail).length === 0) return;
         headerGotUser = true;
@@ -13,11 +18,7 @@ setTimeout(() => {
         document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
 
         let root = document.querySelector(":root");
-        let vars = await new Promise((resolve) => {
-            chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji'], data => {
-                resolve(data);
-            });
-        });
+
         if(!customSet && vars.linkColor && (!user.profile_link_color || user.profile_link_color === '1DA1F2')) {
             root.style.setProperty('--link-color', vars.linkColor);
         }
@@ -1189,6 +1190,10 @@ setTimeout(() => {
             root.style.setProperty('--link-color', pageUser.profile_link_color);
         }
     });
+    document.addEventListener('darkMode', e => {
+        let enabled = e.detail;
+        switchDarkMode(enabled);
+    });
     function fullscreenEvent(fullscreen) {
         if(fullscreen) {
             root.style.setProperty('--video-cover', 'contain');
@@ -1196,6 +1201,34 @@ setTimeout(() => {
             root.style.setProperty('--video-cover', 'cover');
         }
     }
+    function switchDarkMode(enabled) {
+        if(enabled) {
+            root.style.setProperty('--background-color', '#1b2836');
+            root.style.setProperty('--darker-background-color', '#141d26');
+            root.style.setProperty('--almost-black', '#d4e3ed');
+            root.style.setProperty('--border', 'black');
+            root.style.setProperty('--darker-gray', 'white');
+            root.style.setProperty('--lil-darker-gray', '#8394a1');
+            root.style.setProperty('--light-gray', '#8394a1');
+            root.style.setProperty('--default-text-color', 'white');
+            root.style.setProperty('--new-tweet-over', 'rgba(27, 40, 54, 0.92)');
+            root.style.setProperty('--input-background', '#131c24');
+            root.style.setProperty('--active-message', '#141d26');
+        } else {
+            root.style.setProperty('--background-color', 'white');
+            root.style.setProperty('--darker-background-color', '#f5f8fa');
+            root.style.setProperty('--almost-black', '#292f33');
+            root.style.setProperty('--border', '#e1e8ed');
+            root.style.setProperty('--darker-gray', '#66757f');
+            root.style.setProperty('--lil-darker-gray', '#6a7d8c');
+            root.style.setProperty('--light-gray', '#8899a6');
+            root.style.setProperty('--default-text-color', 'black');
+            root.style.setProperty('--new-tweet-over', 'rgba(255, 255, 255, 0.92)');
+            root.style.setProperty('--input-background', 'white');
+            root.style.setProperty('--active-message', '#eaf5fd');
+        }
+    }
+    switchDarkMode(vars.darkMode);
     
     window.addEventListener('resize', () => {
         if (window.matchMedia('(display-mode: fullscreen)').matches ||

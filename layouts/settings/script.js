@@ -1,7 +1,7 @@
 let user = {};
 let settings = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode'], data => {
     vars = data;
 });
 // Util
@@ -12,12 +12,15 @@ function updateUserData() {
         document.dispatchEvent(event);
         renderUserData();
         let profileLinkColor = document.getElementById('profile-link-color');
+        let colorPreview = document.getElementById('color-preview');
+
         let profileColor;
         try {
             profileColor = await fetch(`https://dimden.dev/services/twitter_link_colors/get/${user.screen_name}`).then(res => res.text());
         } catch(e) {};
         if(profileColor && profileColor !== 'none') {
             profileLinkColor.value = `#`+profileColor;
+            colorPreview.style.color = `#${profileColor}`;
         }
     }).catch(e => {
         if (e === "Not logged in") {
@@ -153,7 +156,9 @@ setTimeout(async () => {
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
     let enableTwemoji = document.getElementById('enable-twemoji');
     let chrono = document.getElementById('chronological-tl');
+    let darkMode = document.getElementById('dark-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
+    let colorPreview = document.getElementById('color-preview');
     let root = document.querySelector(":root");
 
     for(let i in fonts) {
@@ -203,6 +208,16 @@ setTimeout(async () => {
             showTopicTweets: showTopicTweets.checked
         }, () => { });
     });
+    darkMode.addEventListener('change', () => {
+        let event = new CustomEvent('darkMode', { detail: darkMode.checked });
+        document.dispatchEvent(event);
+        chrome.storage.sync.set({
+            darkMode: darkMode.checked
+        }, () => { });
+    });
+    profileLinkColor.addEventListener('change', () => {
+        colorPreview.style.color = profileLinkColor.value;
+    });
     sync.addEventListener('click', async () => {
         let color = profileLinkColor.value;
         if(color.startsWith('#')) color = color.slice(1);
@@ -250,6 +265,9 @@ setTimeout(async () => {
     }
     if(vars.showTopicTweets) {
         showTopicTweets.checked = vars.showTopicTweets;
+    }
+    if(vars.darkMode) {
+        darkMode.checked = vars.darkMode;
     }
 
     // Run

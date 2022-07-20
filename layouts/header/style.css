@@ -5,15 +5,31 @@
     --favorite-icon-content-notif: "\f001";
     --favorite-icon-color: #ffac33;
     --video-cover: cover;
+    --background-color: white;
+    --darker-background-color: #f5f8fa;
+    --almost-black: #292f33;
+    --border: #e1e8ed;
+    --light-gray: #8899a6;
+    --darker-gray: #66757f;
+    --lil-darker-gray: #6a7d8c;
+    --default-text-color: black;
+    --new-tweet-over: rgba(255, 255, 255, 0.92);
+    --input-background: white;
+    --active-message: #eaf5fd;
 }
 @font-face {
     font-family: 'RosettaIcons';
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
 
+input, textarea {
+    background-color: var(--input-background);
+    color: var(--default-text-color)
+}
+
 #navbar {
     position: fixed;
-    background-color: white;
+    background-color: var(--background-color);
     border-bottom: 1px solid rgba(0, 0, 0, 0.15);
     height: 46px;
     top: 0;
@@ -21,7 +37,7 @@
     width: 100%;
     z-index: 100;
     font-size: 13px;
-    color: #66757f;
+    color: var(--darker-gray);
 }
 
 #navbar-line {
@@ -59,11 +75,11 @@
     color: #1da1f2;
 }
 .center-text {
-    background-color: white;
+    background-color: var(--background-color);
     text-align: center;
     margin-top: 10px;
-    color: #8899a6;
-    border: 1px solid #e1e8ed;
+    color: var(--light-gray);
+    border: 1px solid var(--border);
     font-size: 14px;
     padding: 10px;
     border-radius: 5px;
@@ -93,7 +109,7 @@
 }
 
 #navbar a {
-    color: #66757f;
+    color: var(--darker-gray);
     text-decoration: none;
     z-index: 98;
 }
@@ -106,7 +122,7 @@
     padding: 13px 15px;
     top: 8px;
     position: relative;
-    border-bottom: 3px solid white;
+    border-bottom: 3px solid var(--background-color);
     transition: 0.1s;
 }
 
@@ -125,7 +141,7 @@
 
 .nav-count {
     background: #55acee;
-    color: white;
+    color: var(--background-color);
     border-radius: 25px;
     padding: 3px 7px;
     margin-left: 3px;
@@ -149,9 +165,9 @@
     padding: 5px 27px 6px 12px;
     font-size: 12px;
     line-height: 1;
-    color: #292f33;
-    background-color: #f5f8fa;
-    border: 1px solid #e1e8ed;
+    color: var(--almost-black);
+    background-color: var(--darker-background-color);
+    border: 1px solid var(--border);
     border-radius: 21px;
     transition: all .2s ease-in-out;
     font-family: var(--font);
@@ -159,9 +175,9 @@
 
 #search-input:focus {
     outline: none;
-    color: #292f33;
+    color: var(--almost-black);
     text-shadow: none;
-    background-color: #fff;
+    background-color: var(--background-color);
     box-shadow: none;
 }
 
@@ -180,7 +196,7 @@
     vertical-align: sub;
     font-family: RosettaIcons;
     font-size: 13px;
-    color: #66757f;
+    color: var(--darker-gray);
 }
 
 #navbar-user {
@@ -210,9 +226,9 @@
     min-width: 500px;
     margin: auto;
     border-radius: 5px;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     padding: 20px;
-    background-color: #fefefe;
+    background-color: var(--background-color);
     top: 20%;
     position: relative;
     max-height: 60%;
@@ -232,13 +248,13 @@
 
 .modal-close:hover,
 .modal-close:focus {
-    color: #000;
+    color: var(--default-text-color);
     text-decoration: none;
     cursor: pointer;
 }
 #navbar-tweet-button {
     background-color: var(--link-color);
-    color: white;
+    color: var(--background-color);
     cursor: pointer;
     border-radius: 5px;
     height: 32px;
@@ -253,7 +269,7 @@
 #navbar-tweet-button:before {
     content: "\f029";
     font-family: RosettaIcons;
-    color: white;
+    color: var(--background-color);
     font-size: 20px;
     vertical-align: sub;
     margin-right: 7px;
@@ -264,7 +280,7 @@
     margin-left: -45px;
     height: 1px;
     position: absolute;
-    background: white;
+    background: var(--background-color);
     opacity: 0.2;
 }
 
@@ -273,7 +289,7 @@
     border-radius: 5px;
 }
 .navbar-new-tweet-text {
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     resize: none;
     border-radius: 3px;
     width: 450px;
@@ -289,7 +305,7 @@
     width: 2px;
 }
 .navbar-new-tweet-char {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
     position: absolute;
     margin-left: -46px;
@@ -304,7 +320,7 @@
     border-bottom: none !important;
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: var(--new-tweet-over);
     padding: 10px;
     width: 538px;
 }
@@ -377,13 +393,13 @@
     content: "\f045";
     font-family: RosettaIcons;
     margin-bottom: 2px;
-    color: white;
+    color: var(--background-color);
     font-size: 13px;
 }
 .new-tweet-media-img-alt {
     position: absolute;
     background: rgba(0,0,0, 0.5);
-    color: white;
+    color: var(--background-color);
     padding: 1px 4px;
     font-size: 12px;
     font-weight: 600;
@@ -398,13 +414,13 @@
     display: inline-block;
 }
 .nice-button {
-    color: #292f33;
-    background-color: #f5f8fa;
-    background-image: linear-gradient(#fff,#f5f8fa);
+    color: var(--almost-black);
+    background-color: var(--darker-background-color);
+    background-image: linear-gradient(var(--background-color),var(--darker-background-color));
     background-repeat: no-repeat;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     border-radius: 4px;
-    color: #66757f;
+    color: var(--darker-gray);
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
@@ -412,12 +428,12 @@
     padding: 8px 16px;
 }
 .nice-button:hover:not([disabled]) {
-    color: #292f33;
+    color: var(--almost-black);
     text-decoration: none;
-    background-color: #e1e8ed;
-    background-image: linear-gradient(#fff,#e1e8ed);
+    background-color: var(--border);
+    background-image: linear-gradient(var(--background-color),var(--border));
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
-    border-color: #e1e8ed;
+    border-color: var(--border);
 }
 .nice-button:disabled {
     color: lightgray !important;
@@ -428,22 +444,23 @@
 }
 #navbar-user-menu {
     position: absolute;
-    background: white;
+    background: var(--background-color);
     padding: 5px;
     border-radius: 5px;
     font-weight: bold;
-    color: #8899a6;
-    border: 1px solid #8899a6;
+    color: var(--light-gray);
+    border: 1px solid var(--light-gray);
     min-width: 130px;
 }
 #navbar-user-menu hr {
-    border-top: #ccd6dd;
+    border-color: var(--border);
+    border-bottom: none;
     margin: 3px;
 }
 #navbar-user-menu-links a:before {
     font-family: RosettaIcons;
     margin-right: 5px;
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 14px;
     vertical-align: text-bottom;
     width: 12px;
@@ -454,7 +471,7 @@
     margin: 0;
     display: inline-block;
     font-size: 18px;
-    color: #66757f;
+    color: var(--darker-gray);
     font-weight: 300;
 }
 .nice-header {
@@ -502,12 +519,12 @@
 #search-results {
     margin-top: 2px;
     position: absolute;
-    background: white;
+    background: var(--background-color);
     padding: 5px;
     border-radius: 5px;
     font-weight: bold;
-    color: #8899a6;
-    border: 1px solid #8899a6;
+    color: var(--light-gray);
+    border: 1px solid var(--light-gray);
     min-width: 130px;
 }
 .search-result-item {
@@ -525,10 +542,10 @@
 }
 #search-results {
     position: absolute;
-    background-color: white;
+    background-color: var(--background-color);
     padding: 5px;
     z-index: 5;
-    color: #292f33;
+    color: var(--almost-black);
 }
 #search-results a, .navbar-new-tweet-user-search span {
     cursor: pointer;
@@ -537,13 +554,13 @@
 }
 #search-results a:hover, .search-result-item-active, .navbar-new-tweet-user-search span:hover {
     background-color: var(--link-color) !important;
-    color: white !important;
+    color: var(--background-color) !important;
     cursor: pointer;
 }
 .box {
-    background-color: white;
+    background-color: var(--background-color);
     border-radius: 5px;
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
 }
 #navbar-links {
     width: fit-content;
@@ -551,7 +568,7 @@
 }
 .search-result-item-remove {
     float: right;
-    color: #292f33;
+    color: var(--almost-black);
     cursor: pointer;
     position: relative;
     bottom: 18px;
@@ -562,7 +579,8 @@
     width: 600px;
 }
 .inbox-modal hr {
-    border-top: #ccd6dd;
+    border-color: var(--border);
+    border-bottom: none;
 }
 .inbox-buttons {
     float: right;
@@ -575,33 +593,33 @@
     content: "\f035";
     font-family: RosettaIcons;
     margin-bottom: 2px;
-    color: white !important;
+    color: var(--background-color) !important;
     font-size: 16px;
 }
 .inbox-readall-icon:before {
     content: "\f036";
     font-family: RosettaIcons;
-    color: #292f33;
+    color: var(--almost-black);
     font-size: 16px;
 }
 .inbox-refresh-icon:before {
     content: "\f189";
     font-family: RosettaIcons;
-    color: #292f33;
+    color: var(--almost-black);
     font-size: 16px;
 }
 .larger {
     font-size: 24px !important;
 }
 .inbox-message {
-    border-bottom: 1px solid #e4edf3;
+    border-bottom: 1px solid var(--border);
     padding-top: 10px;
     cursor: pointer;
     padding: 5px;
     width: 585px;
 }
 .inbox-message:hover, .inbox-message-unread, .new-message-user:hover {
-    background-color: #eaf5fd;
+    background-color: var(--active-message);
 }
 .inbox-message-avatar {
     border-radius: 5px;
@@ -619,22 +637,22 @@
     direction: ltr;
     unicode-bidi: embed;
     font-size: 13px;
-    color: #8899a6;
+    color: var(--light-gray);
     text-decoration: none;
 }
 .inbox-name, .new-message-user-name {
     font-weight: bold;
-    color: #292f33;
+    color: var(--almost-black);
     font-size: 14px;
 }
 .inbox-time {
     font-size: 13px;
-    color: #8899a6;
+    color: var(--light-gray);
     float: right;
 }
 .inbox-top {
     position: fixed;
-    background-color: white;
+    background-color: var(--background-color);
     width: 585px;
     padding-top: 15px;
     margin-top: -20px;
@@ -644,7 +662,7 @@
     width: 598px;
 }
 .inbox-message-preview {
-    color: #8899a6;
+    color: var(--light-gray);
     margin-bottom: 5px;
 }
 .message-element {
@@ -664,14 +682,14 @@
     margin-top: -2px;
 }
 .message-element a {
-    color: white !important;
+    color: var(--background-color) !important;
 }
 .message-element a:hover {
     text-decoration: underline;
 }
 .message-element .message-body {
     background-color: var(--link-color);
-    color: white;
+    color: var(--background-color);
     border-radius: 5px;
     font-size: 14px;
     padding: 5px;
@@ -704,7 +722,7 @@
 }
 .message-header-back:before {
     content: "\f172";
-    color: #8899a6;
+    color: var(--light-gray);
     font-family: RosettaIcons;
 }
 .message-element-media {
@@ -714,21 +732,21 @@
     border-radius: 5px;
 }
 .message-time {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
 }
 .message-menu-open {
     cursor: pointer;
 }
 .message-menu-open:before {
-    color: white;
+    color: var(--background-color);
     font-size: 12px;
     content: "\f150";
     font-family: RosettaIcons;
     margin-right: 5px;
 }
 .message-element:hover .message-menu-open:before {
-    color: #8899a6;
+    color: var(--light-gray);
 }
 .message-menu-delete {
     cursor: pointer;
@@ -736,19 +754,19 @@
 .message-menu-delete:before {
     content: "\f154";
     font-family: RosettaIcons;
-    color: #8899a6;
+    color: var(--light-gray);
     margin-right: 5px;
 }
 .message-menu {
     position: absolute;
-    background-color: white;
-    border: 1px solid #8899a6;
+    background-color: var(--background-color);
+    border: 1px solid var(--light-gray);
     border-radius: 5px;
     z-index: 5;
     right: 63px;
 }
 .message-menu span {
-    color: #8899a6;
+    color: var(--light-gray);
     font-size: 12px;
     font-weight: bold;
     margin-left: 6px;
@@ -767,7 +785,7 @@
     display: flow-root;
 }
 .message-new-input, .new-message-user-search {
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     resize: none;
     border-radius: 3px;
     width: 426px;
@@ -823,15 +841,15 @@
 .message-leave:before {
     content: "\f154";
     font-family: RosettaIcons;
-    color: #8899a6;
+    color: var(--light-gray);
     margin-right: 5px;
 }
 .name-top {
     width: 618px !important;
 }
 .navbar-new-tweet-user-search {
-    background-color: #fff;
-    color: #292f33;
+    background-color: var(--background-color);
+    color: var(--almost-black);
     padding: 5px;
     z-index: 5
 }
@@ -867,7 +885,7 @@
 }
 .poll-footer {
     font-size: 14px;
-    color: #8899a6;
+    color: var(--light-gray);
 }
 .choice-unselected {
     cursor: pointer;
@@ -888,7 +906,7 @@
     font: 20px RosettaIcons;
 }
 .navbar-poll-question, .navbar-poll-date {
-    border: 1px solid #e1e8ed;
+    border: 1px solid var(--border);
     border-radius: 5px;
     font: 16px var(--font);
     padding: 3px;
@@ -901,5 +919,5 @@
     display: inline-block;
 }
 #navbar-new-tweet-poll hr {
-    border-top: #e1e8ed;
+    border-top: var(--border);
 }
