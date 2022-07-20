@@ -872,6 +872,9 @@
 .choice-unselected {
     cursor: pointer;
 }
+.choice-unselected:hover .choice-bg {
+    background-color: rgb(180, 190, 196);
+}
 #navbar-new-tweet-poll-btn {
     float: right;
     position: relative;
