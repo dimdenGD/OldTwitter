@@ -17,11 +17,6 @@ async function copyDir(src, dest) {
         }
     }
 }
-if (fs.existsSync('../OldTwitterFirefox')) {
-    console.log("Deleting folder...");
-    fs.rmdirSync('../OldTwitterFirefox', { recursive: true });
-    console.log("Deleted folder!");
-}
 console.log("Copying...");
 copyDir('./', '../OldTwitterFirefox').then(async () => {
     await copyDir('./', '../OldTwitterTempChrome');
@@ -136,7 +131,8 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         console.log(`Something went wrong ${e}`);
     }
     console.log("Zipped!");
-    console.log("Deleting temporary folder...");
+    console.log("Deleting temporary folders...");
     fs.rmdirSync('../OldTwitterTempChrome', { recursive: true });
+    fs.rmdirSync('../OldTwitterFirefox', { recursive: true });
     console.log("Deleted!");
 });

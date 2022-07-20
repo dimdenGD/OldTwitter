@@ -928,7 +928,7 @@ async function renderTimeline() {
                 if(t.socialContext) {
                     obj.top = {};
                     if(t.socialContext.description) {
-                        obj.top.text = `<a href="https://mobile.twitter.com/i/topics/${t.socialContext.id}">${t.socialContext.name}</a>`;
+                        obj.top.text = `<a target="_blank" href="https://mobile.twitter.com/i/topics/${t.socialContext.id}">${t.socialContext.name}</a>`;
                         obj.top.icon = "\uf008";
                         obj.top.color = "#3300FF";
                     } else if(t.socialContext.contextType === "Like") {
