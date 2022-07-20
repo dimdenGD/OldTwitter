@@ -64,3 +64,4 @@ Go to [mobile.twitter.com](https://mobile.twitter.com).
 - Ability to enable/disable Twemoji
 - Ability to disable stars (favorites) back to likes (hearts)
 - Ability to show custom user colors in timeline
+- Dark mode support

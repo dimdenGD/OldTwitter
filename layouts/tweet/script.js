@@ -7,7 +7,7 @@ let seenReplies = [];
 let mainTweetLikers = [];
 
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'darkMode'], data => {
     vars = data;
 });
 
@@ -526,6 +526,49 @@ async function appendComposeComponent(container, replyTweet) {
         document.getElementById('new-tweet-button').disabled = false;
     });
 }
+function luminance(r, g, b) {
+    var a = [r, g, b].map(function(v) {
+      v /= 255;
+      return v <= 0.03928 ?
+        v / 12.92 :
+        Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+  }
+function contrast(rgb1, rgb2) {
+    var lum1 = luminance(rgb1[0], rgb1[1], rgb1[2]);
+    var lum2 = luminance(rgb2[0], rgb2[1], rgb2[2]);
+    var brightest = Math.max(lum1, lum2);
+    var darkest = Math.min(lum1, lum2);
+    return (brightest + 0.05) /
+      (darkest + 0.05);
+  }
+const hex2rgb = (hex) => {
+      if(!hex.startsWith('#')) hex = `#${hex}`;
+      const r = parseInt(hex.slice(1, 3), 16)
+      const g = parseInt(hex.slice(3, 5), 16)
+      const b = parseInt(hex.slice(5, 7), 16)
+      // return {r, g, b} // return an object
+      return [ r, g, b ]
+}
+  
+const colorShade = (col, amt) => {
+    col = col.replace(/^#/, '')
+    if (col.length === 3) col = col[0] + col[0] + col[1] + col[1] + col[2] + col[2]
+  
+    let [r, g, b] = col.match(/.{2}/g);
+    ([r, g, b] = [parseInt(r, 16) + amt, parseInt(g, 16) + amt, parseInt(b, 16) + amt])
+  
+    r = Math.max(Math.min(255, r), 0).toString(16)
+    g = Math.max(Math.min(255, g), 0).toString(16)
+    b = Math.max(Math.min(255, b), 0).toString(16)
+  
+    const rr = (r.length < 2 ? '0' : '') + r
+    const gg = (g.length < 2 ? '0' : '') + g
+    const bb = (b.length < 2 ? '0' : '') + b
+  
+    return `#${rr}${gg}${bb}`
+}
 
 async function appendTweet(t, timelineContainer, options = {}) {
     if(seenReplies.includes(t.id_str)) return;
@@ -560,9 +603,19 @@ async function appendTweet(t, timelineContainer, options = {}) {
     if (options.noTop) tweet.classList.add('tweet-no-top');
     if(vars.linkColorsInTL) {
         if(linkColors[t.user.screen_name]) {
+            let rgb = hex2rgb(linkColors[t.user.screen_name]);
+            let ratio = contrast(rgb, [27, 40, 54]);
+            if(ratio < 4 && vars.darkMode) {
+                linkColors[t.user.screen_name] = colorShade(linkColors[t.user.screen_name], 80).slice(1);
+            }
             tweet.style.setProperty('--link-color', '#'+linkColors[t.user.screen_name]);
         } else {
             if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
+                let rgb = hex2rgb(t.user.profile_link_color);
+                let ratio = contrast(rgb, [27, 40, 54]);
+                if(ratio < 4 && vars.darkMode) {
+                    t.user.profile_link_color = colorShade(t.user.profile_link_color, 80).slice(1);
+                }
                 tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);
             }
         }
@@ -625,7 +678,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </span>
                 </div>
                 <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
-                <span class="tweet-body-text-quote tweet-body-text-long" style="color:black!important">${t.quoted_status.full_text ? escape(t.quoted_status.full_text).replace(/\n/g, '<br>') : ''}</span>
+                <span class="tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? escape(t.quoted_status.full_text).replace(/\n/g, '<br>') : ''}</span>
                 ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `
                 <div class="tweet-media-quote">
                     ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escape(m.ext_alt_text)}" title="${escape(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!settings.display_sensitive_media && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
