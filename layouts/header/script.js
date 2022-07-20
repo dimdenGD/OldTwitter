@@ -1214,6 +1214,7 @@ setTimeout(async () => {
             root.style.setProperty('--new-tweet-over', 'rgba(27, 40, 54, 0.92)');
             root.style.setProperty('--input-background', '#131c24');
             root.style.setProperty('--active-message', '#141d26');
+            root.style.setProperty('--more-color', '#a088ff');
         } else {
             root.style.setProperty('--background-color', 'white');
             root.style.setProperty('--darker-background-color', '#f5f8fa');
@@ -1226,6 +1227,7 @@ setTimeout(async () => {
             root.style.setProperty('--new-tweet-over', 'rgba(255, 255, 255, 0.92)');
             root.style.setProperty('--input-background', 'white');
             root.style.setProperty('--active-message', '#eaf5fd');
+            root.style.setProperty('--more-color', '#30F');
         }
     }
     switchDarkMode(vars.darkMode);

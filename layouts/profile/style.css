@@ -562,7 +562,7 @@ a:hover,
 .tweet-interact-reply:hover,
 .tweet-interact-more:hover:before,
 .tweet-interact-more-menu span:hover {
-    color: #30F !important
+    color: var(--more-color) !important
 }
 
 .tweet-interact-retweeted,
@@ -1221,7 +1221,7 @@ a:hover,
 }
 
 #profile-settings-div span:hover {
-    color: #30F
+    color: var(--link-color)
 }
 
 #profile-settings-div hr {
@@ -1259,7 +1259,7 @@ a:hover,
     padding: 10px;
     color: var(--background-color);
     cursor: pointer;
-    border: 1px solid var(--default-text-color);
+    border: 1px solid var(--border);
     border-radius: 5px;
     background: var(--background-color);
     font-size: 14px
@@ -1267,13 +1267,12 @@ a:hover,
 
 #tweet-to:hover {
     background-color: var(--border);
-    background-image: linear-gradient(var(--background-color), #eff4f8);
     -ms-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false)
 }
 
 #tweet-to-div {
     padding: 10px;
-    border: 1px solid var(--default-text-color);
+    border: 1px solid var(--border);
     border-radius: 5px;
     background: var(--new-tweet-over)
 }

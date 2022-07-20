@@ -553,7 +553,7 @@ a:hover,
 .tweet-interact-reply:hover,
 .tweet-interact-more:hover:before,
 .tweet-interact-more-menu span:hover {
-    color: #30F !important
+    color: var(--more-color) !important
 }
 
 .tweet-interact-retweeted,
