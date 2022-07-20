@@ -7,6 +7,7 @@ async function copyDir(src, dest) {
     const entries = await fsp.readdir(src, { withFileTypes: true });
     await fsp.mkdir(dest);
     for (let entry of entries) {
+        if(entry.name === '.git') continue;
         const srcPath = path.join(src, entry.name);
         const destPath = path.join(dest, entry.name);
         if (entry.isDirectory()) {
@@ -23,6 +24,7 @@ if (fs.existsSync('../OldTwitterFirefox')) {
 }
 console.log("Copying...");
 copyDir('./', '../OldTwitterFirefox').then(async () => {
+    await copyDir('./', '../OldTwitterTempChrome');
     console.log("Copied!");
     console.log("Patching...");
     let manifest = JSON.parse(fs.readFileSync('../OldTwitterFirefox/manifest.json', 'utf8'));
@@ -128,10 +130,13 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     try {
         const zip = new AdmZip();
         const outputDir = "../OldTwitterChrome.zip";
-        zip.addLocalFolder("./");
+        zip.addLocalFolder("../OldTwitterTempChrome");
         zip.writeZip(outputDir);
     } catch (e) {
         console.log(`Something went wrong ${e}`);
     }
     console.log("Zipped!");
+    console.log("Deleting temporary folder...");
+    fs.rmdirSync('../OldTwitterTempChrome', { recursive: true });
+    console.log("Deleted!");
 });
