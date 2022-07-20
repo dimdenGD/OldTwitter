@@ -354,10 +354,12 @@ function generatePollCode(tweet, tweetElement, user) {
             pollElement.append(choiceElement);
         }
     }
-    let footer = document.createElement('span');
-    footer.classList.add('poll-footer');
-    footer.innerHTML = `${voteCount} vote${voteCount === 1 ? '' : 's'}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ Ends at ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}` : ''}`;
-    pollElement.append(footer);
+    if(tweet.card.url.startsWith('card://')) {
+        let footer = document.createElement('span');
+        footer.classList.add('poll-footer');
+        footer.innerHTML = `${voteCount} vote${voteCount === 1 ? '' : 's'}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ Ends at ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}` : ''}`;
+        pollElement.append(footer);
+    }
 }
 
 API.pollVote = (api, tweet_id, card_uri, card_name, selected_choice) => {
