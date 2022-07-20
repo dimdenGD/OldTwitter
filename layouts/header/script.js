@@ -642,6 +642,8 @@ setTimeout(() => {
                             <span class="navbar-new-tweet-media"></span>
                         </div>
                         <div class="navbar-new-tweet-focused">
+                            <span id="navbar-new-tweet-poll-btn"></span>
+                            <div id="navbar-new-tweet-poll" hidden></div>
                             <div class="navbar-new-tweet-media-cc"><div class="navbar-new-tweet-media-c"></div></div>
                             <button class="navbar-new-tweet-button nice-button">Tweet</button>
                             <br><br>
@@ -656,8 +658,65 @@ setTimeout(() => {
             const newTweetMediaDiv = modal.getElementsByClassName('navbar-new-tweet-media-c')[0];
             const newTweetButton = modal.getElementsByClassName('navbar-new-tweet-button')[0];
             const newTweetUserSearch = modal.getElementsByClassName('navbar-new-tweet-user-search')[0];
+            const newTweetPoll = document.getElementById('navbar-new-tweet-poll');
 
             let selectedIndex = 0;
+            let pollToUpload = undefined;
+
+            document.getElementById('navbar-new-tweet-poll-btn').addEventListener('click', () => {
+                if(newTweetPoll.hidden) {
+                    mediaToUpload = [];
+                    newTweetMediaDiv.innerHTML = '';
+                    newTweetPoll.hidden = false;
+                    newTweetPoll.style.width = "364px";
+                    document.getElementById('navbar-new-tweet-poll').innerHTML = `
+                        <input class="navbar-poll-question" data-variant="1" placeholder="Variant 1"><br>
+                        <input class="navbar-poll-question" data-variant="2" placeholder="Variant 2"><br>
+                        <input class="navbar-poll-question" data-variant="3" placeholder="Variant 3 (optional)"><br>
+                        <input class="navbar-poll-question" data-variant="4" placeholder="Variant 4 (optional)"><br>
+                        <hr>
+                        Days: <input class="navbar-poll-date" id="navbar-poll-days" type="number" min="0" max="7" value="1"><br>
+                        Hours: <input class="navbar-poll-date" id="navbar-poll-hours" type="number" min="0" max="23" value="0"><br>
+                        Minutes: <input class="navbar-poll-date" id="navbar-poll-minutes" type="number" min="0" max="59" value="0"><br>
+                        <hr>
+                        <button class="nice-button" id="navbar-poll-remove">Remove poll</button>
+                    `;
+                    let pollVariants = Array.from(document.getElementsByClassName('navbar-poll-question'));
+                    pollToUpload = {
+                        duration_minutes: 1440,
+                        variants: ['', '', '', '']
+                    }
+                    let pollDates = Array.from(document.getElementsByClassName('navbar-poll-date'));
+                    pollDates.forEach(pollDate => {
+                        pollDate.addEventListener('change', () => {
+                            let days = parseInt(document.getElementById('navbar-poll-days').value);
+                            let hours = parseInt(document.getElementById('navbar-poll-hours').value);
+                            let minutes = parseInt(document.getElementById('navbar-poll-minutes').value);
+                            if(days === 0 && hours === 0 && minutes === 0) {
+                                days = 1;
+                                document.getElementById('navbar-poll-days').value = 1;
+                            }
+                            pollToUpload.duration_minutes = days * 1440 + hours * 60 + minutes;
+                        }, { passive: true });
+                    });
+                    pollVariants.forEach(pollVariant => {
+                        pollVariant.addEventListener('change', () => {
+                            pollToUpload.variants[(+pollVariant.dataset.variant) - 1] = pollVariant.value;
+                        }, { passive: true });
+                    });
+                    document.getElementById('navbar-poll-remove').addEventListener('click', () => {
+                        newTweetPoll.hidden = true;
+                        newTweetPoll.innerHTML = '';
+                        newTweetPoll.style.width = "0";
+                        pollToUpload = undefined;
+                    });
+                } else {
+                    newTweetPoll.innerHTML = '';
+                    newTweetPoll.hidden = true;
+                    newTweetPoll.style.width = "0";
+                    pollToUpload = undefined;
+                }
+            });
     
             modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = user.profile_image_url_https.replace("_normal", "_bigger");
             function updateCharCount(e) {
@@ -762,61 +821,128 @@ setTimeout(() => {
             });
             let mediaToUpload = []; 
             newTweet.addEventListener('drop', e => {
+                document.getElementById('new-tweet').click();
+                newTweetPoll.innerHTML = '';
+                newTweetPoll.hidden = true;
+                newTweetPoll.style.width = "0";
+                pollToUpload = undefined;
                 handleDrop(e, mediaToUpload, newTweetMediaDiv);
             });
             newTweetMedia.addEventListener('click', () => {
+                newTweetPoll.innerHTML = '';
+                newTweetPoll.hidden = true;
+                newTweetPoll.style.width = "0";
+                pollToUpload = undefined;
                 getMedia(mediaToUpload, newTweetMediaDiv); 
             });
             newTweetButton.addEventListener('click', async () => {
                 let tweet = newTweetText.value;
                 if (tweet.length === 0 && mediaToUpload.length === 0) return;
                 newTweetButton.disabled = true;
-                let uploadedMedia = [];
-                for (let i in mediaToUpload) {
-                    let media = mediaToUpload[i];
+                if(!pollToUpload) {
+                    let uploadedMedia = [];
+                    for (let i in mediaToUpload) {
+                        let media = mediaToUpload[i];
+                        try {
+                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                            let mediaId = await API.uploadMedia({
+                                media_type: media.type,
+                                media_category: media.category,
+                                media: media.data,
+                                alt: media.alt,
+                                loadCallback: data => {
+                                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                                }
+                            });
+                            uploadedMedia.push(mediaId);
+                        } catch (e) {
+                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                            console.error(e);
+                            alert(e);
+                        }
+                    }
+                    let tweetObject = {
+                        status: tweet,
+                        auto_populate_reply_metadata: true,
+                        batch_mode: 'off',
+                        exclude_reply_user_ids: '',
+                        cards_platform: 'Web-13',
+                        include_entities: 1,
+                        include_user_entities: 1,
+                        include_cards: 1,
+                        send_error_codes: 1,
+                        tweet_mode: 'extended',
+                        include_ext_alt_text: true,
+                        include_reply_count: true
+                    };
+                    if (uploadedMedia.length > 0) {
+                        tweetObject.media_ids = uploadedMedia.join(',');
+                    }
                     try {
-                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                        let mediaId = await API.uploadMedia({
-                            media_type: media.type,
-                            media_category: media.category,
-                            media: media.data,
-                            alt: media.alt,
-                            loadCallback: data => {
-                                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                            }
-                        });
-                        uploadedMedia.push(mediaId);
+                        let tweet = await API.postTweet(tweetObject);
+                        tweet._ARTIFICIAL = true;
+                        const event = new CustomEvent('newTweet', { detail: tweet });
+                        document.dispatchEvent(event);
                     } catch (e) {
-                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                        newTweetButton.disabled = false;
+                        console.error(e);
+                    }
+                } else {
+                    let pollVariants = pollToUpload.variants.filter(i => i);
+                    if(pollVariants.length < 2) {
+                        newTweetButton.disabled = false;
+                        return alert('You must have at least 2 poll variants');
+                    }
+                    let cardObject = {
+                        "twitter:card": `poll${pollVariants.length}choice_text_only`,
+                        "twitter:api:api:endpoint": "1",
+                        "twitter:long:duration_minutes": pollToUpload.duration_minutes,
+                        "twitter:string:choice1_label": pollVariants[0],
+                        "twitter:string:choice2_label": pollVariants[1]
+                    }
+                    if(pollVariants[2]) {
+                        cardObject["twitter:string:choice3_label"] = pollVariants[2];
+                    }
+                    if(pollVariants[3]) {
+                        cardObject["twitter:string:choice4_label"] = pollVariants[3];
+                    }
+                    try {
+                        let card = await API.createCard(cardObject);
+                        let tweetObject = await API.postTweetV2({
+                            "variables": {
+                                "tweet_text": tweet,
+                                "card_uri": card.card_uri,
+                                "media": {
+                                    "media_entities": [],
+                                    "possibly_sensitive": false
+                                },
+                                "withDownvotePerspective": false,
+                                "withReactionsMetadata": false,
+                                "withReactionsPerspective": false,
+                                "withSuperFollowsTweetFields": true,
+                                "withSuperFollowsUserFields": true,
+                                "semantic_annotation_ids": [],
+                                "dark_request": false
+                            },
+                            "features": {
+                                "dont_mention_me_view_api_enabled": true,
+                                "interactive_text_enabled": true,
+                                "responsive_web_uc_gql_enabled": false,
+                                "vibe_api_enabled": false,
+                                "responsive_web_edit_tweet_api_enabled": false,
+                                "standardized_nudges_misinfo": true,
+                                "responsive_web_enhance_cards_enabled": false
+                            },
+                            "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
+                        });
+                        tweetObject._ARTIFICIAL = true;
+                        const event = new CustomEvent('newTweet', { detail: tweetObject });
+                        document.dispatchEvent(event);
+                    } catch (e) {
+                        newTweetButton.disabled = false;
                         console.error(e);
                         alert(e);
                     }
-                }
-                let tweetObject = {
-                    status: tweet,
-                    auto_populate_reply_metadata: true,
-                    batch_mode: 'off',
-                    exclude_reply_user_ids: '',
-                    cards_platform: 'Web-13',
-                    include_entities: 1,
-                    include_user_entities: 1,
-                    include_cards: 1,
-                    send_error_codes: 1,
-                    tweet_mode: 'extended',
-                    include_ext_alt_text: true,
-                    include_reply_count: true
-                };
-                if (uploadedMedia.length > 0) {
-                    tweetObject.media_ids = uploadedMedia.join(',');
-                }
-                try {
-                    let tweet = await API.postTweet(tweetObject);
-                    tweet._ARTIFICIAL = true;
-                    const event = new CustomEvent('newTweet', { detail: tweet });
-                    document.dispatchEvent(event);
-                } catch (e) {
-                    document.getElementById('new-tweet-button').disabled = false;
-                    console.error(e);
                 }
                 modal.remove();
             });
@@ -1078,7 +1204,7 @@ setTimeout(() => {
         } else {
            fullscreenEvent(false);
         }
-    });
+    }, { passive: true });
     setTimeout(() => {
         document.getElementById('navbar-user-avatar').addEventListener('click', () => {
             if(headerGotUser) return;

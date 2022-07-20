@@ -1510,7 +1510,7 @@ document.addEventListener('scroll', async () => {
             });
         }, 200);
     }
-});
+}, { passive: true });
 
 setTimeout(() => {
     // Buttons

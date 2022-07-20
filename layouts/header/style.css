@@ -872,3 +872,31 @@
 .choice-unselected {
     cursor: pointer;
 }
+#navbar-new-tweet-poll-btn {
+    float: right;
+    position: relative;
+    cursor: pointer;
+    bottom: 89px;
+    left: 4px;
+}
+#navbar-new-tweet-poll-btn:before {
+    color: var(--link-color);
+    content: "\f199";
+    font: 20px RosettaIcons;
+}
+.navbar-poll-question, .navbar-poll-date {
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    font: 16px var(--font);
+    padding: 3px;
+    width: 100%
+}
+#navbar-new-tweet-poll {
+    position: relative;
+    left: 39px;
+    top: 8px;
+    display: inline-block;
+}
+#navbar-new-tweet-poll hr {
+    border-top: #e1e8ed;
+}

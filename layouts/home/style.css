@@ -808,8 +808,8 @@ a:hover,
 
 #new-tweet-button {
     float: right;
-    left: 14px;
-    margin-top: 5px;
+    left: 35px;
+    margin-top: 3px;
     position: relative
 }
 
@@ -948,4 +948,32 @@ a:hover,
 .tweet-self-thread-button:hover,
 .tweet-translate:hover {
     text-decoration: underline
+}
+#new-tweet-poll-btn {
+    float: right;
+    position: relative;
+    cursor: pointer;
+    bottom: 89px;
+    left: 4px;
+}
+#new-tweet-poll-btn:before {
+    color: var(--link-color);
+    content: "\f199";
+    font: 20px RosettaIcons;
+}
+.poll-question, .poll-date {
+    border: 1px solid #e1e8ed;
+    border-radius: 5px;
+    font: 16px var(--font);
+    padding: 3px;
+    width: 100%
+}
+#new-tweet-poll {
+    position: relative;
+    left: 39px;
+    top: 8px;
+    display: inline-block;
+}
+#new-tweet-poll hr {
+    border-top: #e1e8ed;
 }

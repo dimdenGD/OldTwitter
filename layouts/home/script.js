@@ -7,6 +7,7 @@ let timeline = {
 let settings = {};
 let seenThreads = [];
 let mediaToUpload = [];
+let pollToUpload = undefined;
 let linkColors = {};
 let vars = {};
 let algoCursor;
@@ -1066,7 +1067,7 @@ document.addEventListener('scroll', async () => {
             });
         }, 250);
     }
-});
+}, { passive: true });
 
 setTimeout(() => {
     // Buttons
@@ -1087,9 +1088,72 @@ setTimeout(() => {
         document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
     });
     document.getElementById('new-tweet').addEventListener('drop', e => {
+        document.getElementById('new-tweet').click();
+        document.getElementById('new-tweet-poll').innerHTML = '';
+        document.getElementById('new-tweet-poll').hidden = true;
+        document.getElementById('new-tweet-poll').style.width = '0';
+        pollToUpload = undefined;
         handleDrop(e, mediaToUpload, document.getElementById('new-tweet-media-c'));
     });
+    document.getElementById('new-tweet-poll-btn').addEventListener('click', () => {
+        if(document.getElementById('new-tweet-poll').hidden) {
+            mediaToUpload = [];
+            document.getElementById('new-tweet-media-c').innerHTML = '';
+            document.getElementById('new-tweet-poll').hidden = false;
+            document.getElementById('new-tweet-poll').innerHTML = `
+                <input class="poll-question" data-variant="1" placeholder="Variant 1"><br>
+                <input class="poll-question" data-variant="2" placeholder="Variant 2"><br>
+                <input class="poll-question" data-variant="3" placeholder="Variant 3 (optional)"><br>
+                <input class="poll-question" data-variant="4" placeholder="Variant 4 (optional)"><br>
+                <hr>
+                Days: <input class="poll-date" id="poll-days" type="number" min="0" max="7" value="1"><br>
+                Hours: <input class="poll-date" id="poll-hours" type="number" min="0" max="23" value="0"><br>
+                Minutes: <input class="poll-date" id="poll-minutes" type="number" min="0" max="59" value="0"><br>
+                <hr>
+                <button class="nice-button" id="poll-remove">Remove poll</button>
+            `;
+            document.getElementById('new-tweet-poll').style.width = '400px';
+            let pollVariants = Array.from(document.getElementsByClassName('poll-question'));
+            pollToUpload = {
+                duration_minutes: 1440,
+                variants: ['', '', '', '']
+            }
+            let pollDates = Array.from(document.getElementsByClassName('poll-date'));
+            pollDates.forEach(pollDate => {
+                pollDate.addEventListener('change', () => {
+                    let days = parseInt(document.getElementById('poll-days').value);
+                    let hours = parseInt(document.getElementById('poll-hours').value);
+                    let minutes = parseInt(document.getElementById('poll-minutes').value);
+                    if(days === 0 && hours === 0 && minutes === 0) {
+                        days = 1;
+                        document.getElementById('poll-days').value = 1;
+                    }
+                    pollToUpload.duration_minutes = days * 1440 + hours * 60 + minutes;
+                }, { passive: true });
+            });
+            pollVariants.forEach(pollVariant => {
+                pollVariant.addEventListener('change', () => {
+                    pollToUpload.variants[(+pollVariant.dataset.variant) - 1] = pollVariant.value;
+                }, { passive: true });
+            });
+            document.getElementById('poll-remove').addEventListener('click', () => {
+                document.getElementById('new-tweet-poll').hidden = true;
+                document.getElementById('new-tweet-poll').innerHTML = '';
+                document.getElementById('new-tweet-poll').style.width = '0';
+                pollToUpload = undefined;
+            });
+        } else {
+            document.getElementById('new-tweet-poll').innerHTML = '';
+            document.getElementById('new-tweet-poll').hidden = true;
+            document.getElementById('new-tweet-poll').style.width = '0';
+            pollToUpload = undefined;
+        }
+    });
     document.getElementById('new-tweet-media-div').addEventListener('click', () => {
+        document.getElementById('new-tweet-poll').innerHTML = '';
+        document.getElementById('new-tweet-poll').hidden = true;
+        document.getElementById('new-tweet-poll').style.width = '0';
+        pollToUpload = undefined;
         getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
     });
     let newTweetUserSearch = document.getElementById("new-tweet-user-search");
@@ -1202,57 +1266,119 @@ setTimeout(() => {
         let tweet = document.getElementById('new-tweet-text').value;
         if (tweet.length === 0 && mediaToUpload.length === 0) return;
         document.getElementById('new-tweet-button').disabled = true;
-        let uploadedMedia = [];
-        for (let i in mediaToUpload) {
-            let media = mediaToUpload[i];
+        if(!pollToUpload) {
+            let uploadedMedia = [];
+            for (let i in mediaToUpload) {
+                let media = mediaToUpload[i];
+                try {
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                    let mediaId = await API.uploadMedia({
+                        media_type: media.type,
+                        media_category: media.category,
+                        media: media.data,
+                        alt: media.alt,
+                        loadCallback: data => {
+                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                        }
+                    });
+                    uploadedMedia.push(mediaId);
+                } catch (e) {
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                    console.error(e);
+                    alert(e);
+                }
+            }
+            let tweetObject = {
+                status: tweet,
+                auto_populate_reply_metadata: true,
+                batch_mode: 'off',
+                exclude_reply_user_ids: '',
+                cards_platform: 'Web-13',
+                include_entities: 1,
+                include_user_entities: 1,
+                include_cards: 1,
+                send_error_codes: 1,
+                tweet_mode: 'extended',
+                include_ext_alt_text: true,
+                include_reply_count: true
+            };
+            if (uploadedMedia.length > 0) {
+                tweetObject.media_ids = uploadedMedia.join(',');
+            }
             try {
-                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                let mediaId = await API.uploadMedia({
-                    media_type: media.type,
-                    media_category: media.category,
-                    media: media.data,
-                    alt: media.alt,
-                    loadCallback: data => {
-                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                    }
+                let tweet = await API.postTweet(tweetObject);
+                tweet._ARTIFICIAL = true;
+                appendTweet(tweet, document.getElementById('timeline'), {
+                    prepend: true
                 });
-                uploadedMedia.push(mediaId);
             } catch (e) {
-                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                document.getElementById('new-tweet-button').disabled = false;
+                console.error(e);
+            }
+        } else {
+            let pollVariants = pollToUpload.variants.filter(i => i);
+            if(pollVariants.length < 2) {
+                document.getElementById('new-tweet-button').disabled = false;
+                return alert('You must have at least 2 poll variants');
+            }
+            let cardObject = {
+                "twitter:card": `poll${pollVariants.length}choice_text_only`,
+                "twitter:api:api:endpoint": "1",
+                "twitter:long:duration_minutes": pollToUpload.duration_minutes,
+                "twitter:string:choice1_label": pollVariants[0],
+                "twitter:string:choice2_label": pollVariants[1]
+            }
+            if(pollVariants[2]) {
+                cardObject["twitter:string:choice3_label"] = pollVariants[2];
+            }
+            if(pollVariants[3]) {
+                cardObject["twitter:string:choice4_label"] = pollVariants[3];
+            }
+            try {
+                let card = await API.createCard(cardObject);
+                let tweetObject = await API.postTweetV2({
+                    "variables": {
+                        "tweet_text": tweet,
+                        "card_uri": card.card_uri,
+                        "media": {
+                            "media_entities": [],
+                            "possibly_sensitive": false
+                        },
+                        "withDownvotePerspective": false,
+                        "withReactionsMetadata": false,
+                        "withReactionsPerspective": false,
+                        "withSuperFollowsTweetFields": true,
+                        "withSuperFollowsUserFields": true,
+                        "semantic_annotation_ids": [],
+                        "dark_request": false
+                    },
+                    "features": {
+                        "dont_mention_me_view_api_enabled": true,
+                        "interactive_text_enabled": true,
+                        "responsive_web_uc_gql_enabled": false,
+                        "vibe_api_enabled": false,
+                        "responsive_web_edit_tweet_api_enabled": false,
+                        "standardized_nudges_misinfo": true,
+                        "responsive_web_enhance_cards_enabled": false
+                    },
+                    "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
+                });
+                tweetObject._ARTIFICIAL = true;
+                appendTweet(tweetObject, document.getElementById('timeline'), {
+                    prepend: true
+                });
+            } catch (e) {
                 console.error(e);
                 alert(e);
             }
         }
-        let tweetObject = {
-            status: tweet,
-            auto_populate_reply_metadata: true,
-            batch_mode: 'off',
-            exclude_reply_user_ids: '',
-            cards_platform: 'Web-13',
-            include_entities: 1,
-            include_user_entities: 1,
-            include_cards: 1,
-            send_error_codes: 1,
-            tweet_mode: 'extended',
-            include_ext_alt_text: true,
-            include_reply_count: true
-        };
-        if (uploadedMedia.length > 0) {
-            tweetObject.media_ids = uploadedMedia.join(',');
-        }
-        try {
-            let tweet = await API.postTweet(tweetObject);
-            tweet._ARTIFICIAL = true;
-            appendTweet(tweet, document.getElementById('timeline'), {
-                prepend: true
-            });
-        } catch (e) {
-            document.getElementById('new-tweet-button').disabled = false;
-            console.error(e);
-        }
         document.getElementById('new-tweet-text').value = "";
         document.getElementById('new-tweet-media-c').innerHTML = "";
         mediaToUpload = [];
+        pollToUpload = [];
+        document.getElementById('new-tweet-poll').innerHTML = '';
+        document.getElementById('new-tweet-poll').style.width = '0';
+        document.getElementById('new-tweet-poll').hidden = true;
         document.getElementById('new-tweet-focused').hidden = true;
         document.getElementById('new-tweet-char').hidden = true;
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');

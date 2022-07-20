@@ -426,6 +426,31 @@ API.getTimeline = (max_id) => {
         });
     });
 }
+API.createCard = card_data => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://caps.twitter.com/v2/cards/create.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `card_data=${encodeURIComponent(JSON.stringify(card_data))}`
+        }).then(response => response.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    })
+}
 API.getAlgoTimeline = cursor => {
     return new Promise((resolve, reject) => {
         fetch(`https://twitter.com/i/api/2/timeline/home.json?${cursor ? `cursor=${cursor.replace(/\+/g, '%2B')}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&earned=1&count=25&lca=true&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control&browserNotificationPermission=default`, {
@@ -506,6 +531,44 @@ API.postTweet = data => {
                 return reject(data.errors[0].message);
             }
             resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.postTweetV2 = data => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/Mvpg1U7PrmuHeYdY_83kLw/CreateTweet`, {
+            method: 'POST',
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json; charset=utf-8"
+            },
+            credentials: "include",
+            body: JSON.stringify(data)
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let result = data.data.create_tweet.tweet_results.result;
+            let tweet = result.legacy;
+            tweet.id_str = result.rest_id;
+            tweet.user = result.core.user_results.result.legacy;
+            tweet.user.id_str = result.core.user_results.result.rest_id;
+            if(result.card) {
+                tweet.card = result.card.legacy;
+                tweet.card.id_str = result.card.rest_id;
+                tweet.card.id = result.card.rest_id;
+                let binding_values = {};
+                for(let i in tweet.card.binding_values) {
+                    let bv = tweet.card.binding_values[i];
+                    binding_values[bv.key] = bv.value;
+                }
+                tweet.card.binding_values = binding_values;
+            }
+            resolve(tweet);
         }).catch(e => {
             reject(e);
         });
