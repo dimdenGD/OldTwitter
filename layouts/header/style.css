@@ -835,3 +835,40 @@
     padding: 5px;
     z-index: 5
 }
+.tweet-poll {
+    margin-top: 10px;
+}
+.choice {
+    display: block;
+    margin-bottom: -12px;
+}
+.choice-bg {
+    height: 22px;
+    background-color: rgb(207, 217, 222);
+    border-radius: 5px;
+}
+.choice-label {
+    position: relative;
+    bottom: 20px;
+    left: 8px;
+}
+.choice-selected:before {
+    content: "\f043";
+    font-family: RosettaIcons;
+    color: black;
+    font-size: 13px;
+    vertical-align: text-bottom;
+}
+.choice-count {
+    position: relative;
+    float: right;
+    bottom: 35px;
+    right: 7px;
+}
+.poll-footer {
+    font-size: 14px;
+    color: #8899a6;
+}
+.choice-unselected {
+    cursor: pointer;
+}

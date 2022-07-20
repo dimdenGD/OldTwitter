@@ -597,7 +597,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img src="${t.user.profile_image_url_https.replace("_normal", "_bigger")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
         <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
             <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
-                <b class="tweet-header-name ${t.user.verified || t.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.user.protected ? 'user-protected' : ''}">${escape(t.user.name)}</b>
+                <b class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.user.protected ? 'user-protected' : ''}">${escape(t.user.name)}</b>
                 <span class="tweet-header-handle">@${t.user.screen_name}</span>
             </a>
             ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? 'Following' : 'Follow'}</button>` : ''}
@@ -614,6 +614,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escape(m.ext_alt_text)}" title="${escape(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
             </div>
             ` : ``}
+            ${t.card ? `<div class="tweet-poll"></div>` : ''}
             ${t.quoted_status ? `
             <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escape(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
@@ -709,6 +710,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
         </div>
     `;
+    if(t.card) {
+        generatePollCode(t, tweet, user);
+    }
     if (options.top) {
         tweet.querySelector('.tweet-top').hidden = false;
         const icon = document.createElement('span');

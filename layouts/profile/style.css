@@ -198,7 +198,8 @@ body {
 .tweet-body,
 .tweet-interact,
 .tweet-body-text-quote {
-    display: flow-root
+    display: flow-root;
+    overflow-x: hidden
 }
 
 .tweet-body-quote {

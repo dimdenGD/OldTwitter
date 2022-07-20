@@ -308,7 +308,83 @@ function escape(text) {
 function stringInsert(string, index, value) {
     return string.substr(0, index) + value + string.substr(index);
 }
+function generatePollCode(tweet, tweetElement, user) {
+    let pollElement = tweetElement.getElementsByClassName('tweet-poll')[0];
+    pollElement.innerHTML = '';
+    let poll = tweet.card.binding_values;
+    let choices = Object.keys(poll).filter(key => key.endsWith('label')).map((key, i) => ({
+        label: poll[key].string_value,
+        count: poll[key.replace('label', 'count')] ? +poll[key.replace('label', 'count')].string_value : 0,
+        id: i+1
+    }));
+    let voteCount = choices.reduce((acc, cur) => acc + cur.count, 0);
+    if(poll.selected_choice || user.id_str === tweet.user.id_str) {
+        for(let i in choices) {
+            let choice = choices[i];
+            if(user.id_str !== tweet.user.id_str && choice.id === +poll.selected_choice.string_value) {
+                choice.selected = true;
+            }
+            choice.percentage = Math.round(choice.count / voteCount * 100);
+            let choiceElement = document.createElement('div');
+            choiceElement.classList.add('choice');
+            choiceElement.innerHTML = `
+                <div class="choice-bg" style="width:${choice.percentage}%" data-percentage="${choice.percentage}"></div>
+                <div class="choice-label">
+                    <span>${choice.label}</span>
+                    ${choice.selected ? `<span class="choice-selected"></span>` : ''}
+                </div>
+                ${isFinite(choice.percentage) ? `<div class="choice-count">${choice.count} (${choice.percentage}%)</div>` : '<div class="choice-count">0</div>'}
+            `;
+            pollElement.append(choiceElement);
+        }
+    } else {
+        for(let i in choices) {
+            let choice = choices[i];
+            let choiceElement = document.createElement('div');
+            choiceElement.classList.add('choice', 'choice-unselected');
+            choiceElement.innerHTML = `
+                <div class="choice-bg" style="width:100%"></div>
+                <div class="choice-label">${choice.label}</div>
+            `;
+            choiceElement.addEventListener('click', async () => {
+                let newCard = await API.pollVote(poll.api.string_value, tweet.id_str, tweet.card.url, tweet.card.name, choice.id);
+                tweet.card = newCard.card;
+                generatePollCode(tweet, tweetElement, user);
+            });
+            pollElement.append(choiceElement);
+        }
+    }
+    let footer = document.createElement('span');
+    footer.classList.add('poll-footer');
+    footer.innerHTML = `${voteCount} vote${voteCount === 1 ? '' : 's'}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ Ends at ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}` : ''}`;
+    pollElement.append(footer);
+}
 
+API.pollVote = (api, tweet_id, card_uri, card_name, selected_choice) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://caps.twitter.com/v2/capi/${api.split('//')[1]}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `twitter%3Astring%3Acard_uri=${encodeURIComponent(card_uri)}&twitter%3Along%3Aoriginal_tweet_id=${tweet_id}&twitter%3Astring%3Aresponse_card_name=${card_name}&twitter%3Astring%3Acards_platform=Web-12&twitter%3Astring%3Aselected_choice=${selected_choice}`
+        }).then(response => response.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    })
+}
 API.verifyCredentials = () => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/account/verify_credentials.json`, {
@@ -333,7 +409,7 @@ API.verifyCredentials = () => {
 }
 API.getTimeline = (max_id) => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/statuses/home_timeline.json?count=40&include_my_retweet=1&cards_platform=Web13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true${max_id ? `&max_id=${max_id}` : ''}`, {
+        fetch(`https://api.twitter.com/1.1/statuses/home_timeline.json?count=40&include_my_retweet=1&cards_platform=Web-12&include_cards=1&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true${max_id ? `&max_id=${max_id}` : ''}`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -598,9 +674,10 @@ API.discoverPeople = (cache = true) => {
 }
 API.peopleRecommendations = (id, cache = true, by_screen_name = false) => {
     return new Promise((resolve, reject) => {
-        chrome.storage.local.get([`peopleRecommendations${id}${by_screen_name}`], d => {
-            if(cache && d[`peopleRecommendations${id}${by_screen_name}`] && Date.now() - d[`peopleRecommendations${id}${by_screen_name}`].date < 60000*5) {
-                return resolve(d[`peopleRecommendations${id}${by_screen_name}`].data);
+        chrome.storage.local.get([`peopleRecommendations`], d => {
+            if(!d.peopleRecommendations) d.peopleRecommendations = {};
+            if(cache && d.peopleRecommendations[`${id}${by_screen_name}`] && Date.now() - d.peopleRecommendations[`${id}${by_screen_name}`].date < 60000*5) {
+                return resolve(d.peopleRecommendations[`${id}${by_screen_name}`].data);
             }
             fetch(`https://twitter.com/i/api/1.1/users/recommendations.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&&pc=true&display_location=profile_accounts_sidebar&limit=4&${by_screen_name ? 'screen_name' : 'user_id'}=${id}&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
                 headers: {
@@ -620,12 +697,11 @@ API.peopleRecommendations = (id, cache = true, by_screen_name = false) => {
                     return reject(data.errors[0].message);
                 }
                 resolve(data);
-                let obj = {};
-                obj[`peopleRecommendations${id}${by_screen_name}`] = {
+                d.peopleRecommendations[`${id}${by_screen_name}`] = {
                     date: Date.now(),
                     data
                 };
-                chrome.storage.local.set(obj, () => {});
+                chrome.storage.local.set({peopleRecommendations: d.peopleRecommendations}, () => {});
             }).catch(e => {
                 reject(e);
             });
@@ -2050,24 +2126,40 @@ API.sendMessage = obj => {
 }
 API.getUserUpdates = cursor => {
     return new Promise((resolve, reject) => {
-        fetch(`https://twitter.com/i/api/1.1/dm/user_updates.json?${cursor ? `cursor=${cursor}&` : ''}cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&dm_users=false&include_groups=true&include_inbox_timelines=true&include_ext_media_color=true&supports_reactions=true&nsfw_filtering_enabled=false&cursor=GRwmiICwidfJnf8qFozAuPGoksj_KiUkAAA&filter_low_quality=false&include_quality=all&include_ext_edit_control=false&ext=mediaColor%2CaltText%2CmediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            credentials: "include",
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
+        chrome.storage.local.get(['userUpdates'], d => {
+            if(!cursor) cursor = '';
+            if(!d.userUpdates) d.userUpdates = {};
+            if(d.userUpdates[cursor] && Date.now() - d.userUpdates[cursor].date < 4000) {
+                return resolve(d.userUpdates[cursor].data);
             }
-            resolve(data);
-        }).catch(e => {
-            reject(e);
+            fetch(`https://twitter.com/i/api/1.1/dm/user_updates.json?${cursor ? `cursor=${cursor}&` : ''}cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&dm_users=false&include_groups=true&include_inbox_timelines=true&include_ext_media_color=true&supports_reactions=true&nsfw_filtering_enabled=false&cursor=GRwmiICwidfJnf8qFozAuPGoksj_KiUkAAA&filter_low_quality=false&include_quality=all&include_ext_edit_control=false&ext=mediaColor%2CaltText%2CmediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                credentials: "include",
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data);
+                d.userUpdates[cursor] = {
+                    date: Date.now(),
+                    data: data
+                };
+                chrome.storage.local.set({userUpdates: d.userUpdates}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
         });
     });
 }
+setInterval(() => {
+    chrome.storage.local.set({userUpdates: {}}, () => {});
+    chrome.storage.local.set({peopleRecommendations: {}}, () => {});
+}, 60000*10);
 API.deleteMessage = id => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/dm/destroy.json`, {

@@ -132,6 +132,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escape(m.ext_alt_text)}" title="${escape(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
             </div>
             ` : ``}
+            ${t.card ? `<div class="tweet-poll"></div>` : ''}
             ${t.quoted_status ? `
             <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escape(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
@@ -200,6 +201,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
         </div>
     `;
+    if(t.card) {
+        generatePollCode(t, tweet, user);
+    }
     if (options.top) {
         tweet.querySelector('.tweet-top').hidden = false;
         const icon = document.createElement('span');
