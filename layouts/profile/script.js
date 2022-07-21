@@ -689,7 +689,7 @@ function renderProfile() {
 
     let buttonsElement = document.getElementById('profile-nav-buttons');
     if(pageUser.id_str === user.id_str) {
-        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" href="https://mobile.twitter.com/settings/profile">Edit Profile</a>`;
+        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://mobile.twitter.com/settings/profile">Edit Profile</a>`;
     } else {
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`

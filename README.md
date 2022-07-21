@@ -37,7 +37,7 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 The code is open source (duh) so you can check everything yourself. It never sends any of your personal info anywhere.  
 
 #### [insert thing] doesn't look like it was in 2015 Twitter!
-Extension won't be pixel perfect copy of old Twitter. I just took general and feel look of it.
+Extension won't be pixel perfect copy of old Twitter. I just took general look and feel of it.
 
 #### I installed extension and my timeline is feels kinda unusual
 You had algorithmical timeline enabled. By default OldTwitter turns on chronological timeline. If you really want your stinky algo timeline back go to [extension settings](https://twitter.com/old/settings).  

@@ -841,7 +841,7 @@ API.cancelFollow = screen_name => {
 }
 API.getTrends = () => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/trends/plus.json?max_trends=10`, {
+        fetch(`https://api.twitter.com/1.1/trends/plus.json?max_trends=8`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
