@@ -111,10 +111,10 @@ async function renderDiscovery(cache = true) {
             let udiv = document.createElement('div');
             udiv.className = 'wtf-user';
             udiv.innerHTML = `
-                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${userData.name}" class="tweet-avatar" width="48" height="48"></a>
+                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
-                        <b class="tweet-header-name wtf-user-name">${userData.name.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</b>
+                        <b class="tweet-header-name wtf-user-name">${escapeHTML(userData.name)}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
                     </a>
                     <br>
@@ -158,8 +158,8 @@ async function renderTrends() {
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend';
         trendDiv.innerHTML = `
-            <b><a href="https://twitter.com/search?q=${trend.name.replace(/</g, '')}" class="trend-name">${trend.name}</a></b><br>
-            <span class="trend-description">${trend.meta_description ? trend.meta_description : ''}</span>
+            <b><a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a></b><br>
+            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description) : ''}</span>
         `;
         trendsContainer.append(trendDiv);
         if(vars.enableTwemoji) twemoji.parse(trendDiv);

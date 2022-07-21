@@ -171,7 +171,7 @@ setTimeout(async () => {
                 messageElement.innerHTML = `
                     ${sender.id_str !== user.id_str ? `
                         <a href="https://twitter.com/${sender.screen_name}"><img src="${sender.profile_image_url_https.replace("_normal", "_bigger")}" width="32" height="32"></a>
-                        <span class="message-body">${escape(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>')}</span>
+                        <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>')}</span>
                         <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
                     ` : `
                         <span class="message-menu-open"></span>
@@ -179,7 +179,7 @@ setTimeout(async () => {
                             <span class="message-menu-delete">Delete for you</span>
                         </div>
                         <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
-                        <span class="message-body">${escape(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>')}</span>
+                        <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>')}</span>
                     `}
                 `;
                 let menuOpen = messageElement.querySelector('.message-menu-open');
@@ -333,11 +333,11 @@ setTimeout(async () => {
                 messageElement.innerHTML = /*html*/`
                     <img src="${messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : chrome.runtime.getURL(`/images/group.jpg`)}" width="48" height="48" class="inbox-message-avatar">
                     <div class="inbox-text">
-                        <b class="inbox-name">${messageUsers.length === 1 ? messageUsers[0].name : messageUsers.map(i => i.name).join(', ').slice(0, 128)}</b>
+                        <b class="inbox-name">${messageUsers.length === 1 ? escapeHTML(messageUsers[0].name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128)}</b>
                         <span class="inbox-screenname">${messageUsers.length === 1 ? "@"+messageUsers[0].screen_name : ''}</span>
                         <span class="inbox-time">${timeElapsed(new Date(+lastMessage.time))}</span>
                         <br>
-                        <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text === 'dmservice_reaction_one_to_one_text' ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${messageUsers[0].name} reacted to message`}` : escape(lastMessage.message_data.text)}</span>
+                        <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text === 'dmservice_reaction_one_to_one_text' ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${escapeHTML(messageUsers[0].name)} reacted to message`}` : escapeHTML(lastMessage.message_data.text)}</span>
                     </div>
                 `;
                 if(vars.enableTwemoji) {
@@ -477,7 +477,7 @@ setTimeout(async () => {
                     userElement.innerHTML = `
                         <img class="new-message-user-avatar" src="${u.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48">
                         <div class="new-message-user-text">
-                            <b class="new-message-user-name">${escape(u.name)}</b>
+                            <b class="new-message-user-name">${escapeHTML(u.name)}</b>
                             <span class="new-message-user-screenname">@${u.screen_name}</span>
                         </div>
                     `;
@@ -801,7 +801,7 @@ setTimeout(async () => {
                         if(index === 0) userElement.classList.add('search-result-item-active');
                         userElement.innerHTML = `
                             <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
-                            <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${user.name}</span>
+                            <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                             <span class="search-result-item-screen-name">@${user.screen_name}</span>
                         `;
                         userElement.addEventListener('click', () => {

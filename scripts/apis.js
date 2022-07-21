@@ -301,10 +301,14 @@ function openInNewTab(href) {
         href: href,
     }).click();
 }
-function escape(text) {
-    if (typeof text !== "string") return "";
-    return text.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
+function escapeHTML(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "’");
+ }
 function stringInsert(string, index, value) {
     return string.substr(0, index) + value + string.substr(index);
 }
@@ -330,7 +334,7 @@ function generatePollCode(tweet, tweetElement, user) {
             choiceElement.innerHTML = `
                 <div class="choice-bg" style="width:${choice.percentage}%" data-percentage="${choice.percentage}"></div>
                 <div class="choice-label">
-                    <span>${escape(choice.label)}</span>
+                    <span>${escapeHTML(choice.label)}</span>
                     ${choice.selected ? `<span class="choice-selected"></span>` : ''}
                 </div>
                 ${isFinite(choice.percentage) ? `<div class="choice-count">${choice.count} (${choice.percentage}%)</div>` : '<div class="choice-count">0</div>'}
@@ -344,7 +348,7 @@ function generatePollCode(tweet, tweetElement, user) {
             choiceElement.classList.add('choice', 'choice-unselected');
             choiceElement.innerHTML = `
                 <div class="choice-bg" style="width:100%"></div>
-                <div class="choice-label">${escape(choice.label)}</div>
+                <div class="choice-label">${escapeHTML(choice.label)}</div>
             `;
             choiceElement.addEventListener('click', async () => {
                 let newCard = await API.pollVote(poll.api.string_value, tweet.id_str, tweet.card.url, tweet.card.name, choice.id);
