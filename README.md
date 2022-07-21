@@ -59,6 +59,7 @@ Go to [mobile.twitter.com](https://mobile.twitter.com).
 - Tweet pages
 - Tweeting and bundled user search in tweet input
 - Media uploads
+- Poll support
 - Direct Messages support
 - Ability to change default link color and font
 - Ability to enable/disable Twemoji

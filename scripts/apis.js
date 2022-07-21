@@ -330,7 +330,7 @@ function generatePollCode(tweet, tweetElement, user) {
             choiceElement.innerHTML = `
                 <div class="choice-bg" style="width:${choice.percentage}%" data-percentage="${choice.percentage}"></div>
                 <div class="choice-label">
-                    <span>${choice.label}</span>
+                    <span>${escape(choice.label)}</span>
                     ${choice.selected ? `<span class="choice-selected"></span>` : ''}
                 </div>
                 ${isFinite(choice.percentage) ? `<div class="choice-count">${choice.count} (${choice.percentage}%)</div>` : '<div class="choice-count">0</div>'}
@@ -344,7 +344,7 @@ function generatePollCode(tweet, tweetElement, user) {
             choiceElement.classList.add('choice', 'choice-unselected');
             choiceElement.innerHTML = `
                 <div class="choice-bg" style="width:100%"></div>
-                <div class="choice-label">${choice.label}</div>
+                <div class="choice-label">${escape(choice.label)}</div>
             `;
             choiceElement.addEventListener('click', async () => {
                 let newCard = await API.pollVote(poll.api.string_value, tweet.id_str, tweet.card.url, tweet.card.name, choice.id);

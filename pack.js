@@ -54,7 +54,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     content = content.replace("document.close();", "");
 
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background.js', 'utf8');
-    background = background.replace(/chrome\.storage\.sync\./, "chrome.storage.local.");
+    background = background.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     background += `
     chrome.webRequest.onBeforeRequest.addListener(
         function(details) {
@@ -102,7 +102,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     let layouts = fs.readdirSync('../OldTwitterFirefox/layouts');
     for (let layout of layouts) {
         let script = fs.readFileSync(`../OldTwitterFirefox/layouts/${layout}/script.js`, 'utf8');
-        script = script.replace(/chrome\.storage\.sync\./, "chrome.storage.local.");
+        script = script.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
         fs.writeFileSync(`../OldTwitterFirefox/layouts/${layout}/script.js`, script);
     }
 
