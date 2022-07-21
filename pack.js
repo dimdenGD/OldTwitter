@@ -98,6 +98,8 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     fs.writeFileSync('../OldTwitterFirefox/scripts/background.js', background);
     fs.writeFileSync('../OldTwitterFirefox/layouts/header/style.css', headerStyle);
     fs.unlinkSync('../OldTwitterFirefox/ruleset.json');
+    fs.unlinkSync('../OldTwitterFirefox/pack.js');
+    fs.unlinkSync('../OldTwitterTempChrome/pack.js');
 
     let layouts = fs.readdirSync('../OldTwitterFirefox/layouts');
     for (let layout of layouts) {
