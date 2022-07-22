@@ -1622,9 +1622,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
     return tweet;
 }
 
-async function renderTimeline() {
+async function renderTimeline(append = false) {
     let timelineContainer = document.getElementById('timeline');
-    timelineContainer.innerHTML = '';
+    if(!append) timelineContainer.innerHTML = '';
     if(pinnedTweet && subpage === "profile") await appendTweet(pinnedTweet, timelineContainer, {
         top: {
             text: "Pinned Tweet",
@@ -1771,12 +1771,8 @@ window.addEventListener('scroll', async () => {
         timeline.data = timeline.data.concat(tl);
         if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
         previousLastTweet = timeline.data[timeline.data.length - 1];
-        let lastTweet = document.getElementById('timeline').lastChild;
-        await renderTimeline();
+        await renderTimeline(true);
         setTimeout(() => {
-            lastTweet.scrollIntoView({
-                behavior: 'smooth', block: 'center'
-            });
             setTimeout(() => {
                 loadingNewTweets = false;
             });

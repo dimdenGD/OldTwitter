@@ -32,8 +32,10 @@ setTimeout(async () => {
         }
     
         // util
+        let firstTime = false;
         async function updateUnread() {
-            let unread = await API.getUnreadCount();
+            let unread = await API.getUnreadCount(firstTime);
+            if(!firstTime) firstTime = true;
             let dms = unread.dm_unread_count;
             let notifs = unread.ntab_unread_count;
             let total = unread.total_unread_count;

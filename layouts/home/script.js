@@ -947,9 +947,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
     return tweet;
 }
 
-async function renderTimeline() {
+async function renderTimeline(append = false) {
     let timelineContainer = document.getElementById('timeline');
-    timelineContainer.innerHTML = '';
+    if(!append) timelineContainer.innerHTML = '';
     for(let i in timeline.data) {
         let t = timeline.data[i];
         if (t.retweeted_status) {
@@ -1105,16 +1105,12 @@ document.addEventListener('scroll', async () => {
             return;
         }
         timeline.data = timeline.data.concat(tl);
-        let lastTweet = document.getElementById('timeline').lastChild;
         try {
-            await renderTimeline();
+            await renderTimeline(true);
         } catch(e) {
             loadingNewTweets = false;
         }
         setTimeout(() => {
-            lastTweet.scrollIntoView({
-                block: 'center'
-            });
             setTimeout(() => {
                 loadingNewTweets = false;
             });

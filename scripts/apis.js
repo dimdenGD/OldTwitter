@@ -1060,10 +1060,10 @@ API.uploadMedia = (data) => {
         setTimeout(checkStatus, 500);
     });
 }
-API.getUnreadCount = () => {
+API.getUnreadCount = (cache = true) => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['unreadCount'], d => {
-            if(d.unreadCount && Date.now() - d.unreadCount.date < 18000) {
+            if(cache && d.unreadCount && Date.now() - d.unreadCount.date < 18000) {
                 return resolve(d.unreadCount.data);
             }
             fetch(`https://twitter.com/i/api/2/badge_count/badge_count.json?supports_ntab_urt=1`, {
