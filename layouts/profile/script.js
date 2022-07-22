@@ -470,7 +470,6 @@ function renderProfile() {
 
     updateSelection();
 
-
     document.getElementById('profile-bio').innerHTML = escapeHTML(pageUser.description).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('profile-info'));
 
@@ -1622,18 +1621,19 @@ async function appendTweet(t, timelineContainer, options = {}) {
     return tweet;
 }
 
-async function renderTimeline(append = false) {
+async function renderTimeline(append = false, sliceAmount = 0) {
     let timelineContainer = document.getElementById('timeline');
     if(!append) timelineContainer.innerHTML = '';
-    if(pinnedTweet && subpage === "profile") await appendTweet(pinnedTweet, timelineContainer, {
+    let data = timeline.data.slice(sliceAmount, timeline.data.length);;
+    if(pinnedTweet && subpage === "profile" && !append) await appendTweet(pinnedTweet, timelineContainer, {
         top: {
             text: "Pinned Tweet",
             icon: "\uf003",
             color: "var(--link-color)"
         }
     })
-    for(let i in timeline.data) {
-        let t = timeline.data[i];
+    for(let i in data) {
+        let t = data[i];
         if(pinnedTweet && t.id_str === pinnedTweet.id_str) continue;
         if (t.retweeted_status) {
             await appendTweet(t.retweeted_status, timelineContainer, {
@@ -1768,10 +1768,11 @@ window.addEventListener('scroll', async () => {
             loadingNewTweets = false;
             return;
         }
+        let originalLength = timeline.data.length;
         timeline.data = timeline.data.concat(tl);
         if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
         previousLastTweet = timeline.data[timeline.data.length - 1];
-        await renderTimeline(true);
+        await renderTimeline(true, originalLength);
         setTimeout(() => {
             setTimeout(() => {
                 loadingNewTweets = false;
