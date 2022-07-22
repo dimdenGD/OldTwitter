@@ -123,7 +123,7 @@ input, textarea {
     padding: 13px 15px;
     top: 8px;
     position: relative;
-    border-bottom: 3px solid var(--background-color);
+    border-bottom: 3px solid transparent;
     transition: 0.1s;
 }
 

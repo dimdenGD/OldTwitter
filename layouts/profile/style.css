@@ -199,8 +199,10 @@ body {
 .tweet-interact,
 .tweet-body-text-quote {
     display: flow-root;
-    overflow-x: hidden;
     color: var(--default-text-color)
+}
+.tweet-body-text-quote {
+    overflow-x: hidden;
 }
 
 .tweet-body-quote {
