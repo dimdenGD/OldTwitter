@@ -897,7 +897,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
     tweet.addEventListener('click', e => {
         if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
-            location.assign(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+            openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
         }
     });
     tweet.className = `tweet tweet-id-${t.id_str}`;

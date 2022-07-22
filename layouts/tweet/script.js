@@ -5,6 +5,7 @@ let linkColors = {};
 let cursor, likeCursor, retweetCursor, retweetCommentsCursor;
 let seenReplies = [];
 let mainTweetLikers = [];
+let loadedData = {};
 
 let vars;
 chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'darkMode'], data => {
@@ -574,30 +575,40 @@ async function appendTweet(t, timelineContainer, options = {}) {
     if(seenReplies.includes(t.id_str)) return;
     seenReplies.push(t.id_str);
     const tweet = document.createElement('div');
-    if(!options.mainTweet) tweet.addEventListener('click', e => {
-        if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
-            document.getElementById('loading-box').hidden = false;
-            history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
-            updateSubpage();
-            mediaToUpload = [];
-            linkColors = {};
-            cursor = undefined;
-            seenReplies = [];
-            mainTweetLikers = [];
-            let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-            if(subpage === 'tweet') {
-                updateReplies(id);
-            } else if(subpage === 'likes') {
-                updateLikes(id);
-            } else if(subpage === 'retweets') {
-                updateRetweets(id);
-            } else if(subpage === 'retweets_with_comments') {
-                updateRetweetsWithComments(id);
+    if(!options.mainTweet) {
+        tweet.addEventListener('click', e => {
+            if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
+                document.getElementById('loading-box').hidden = false;
+                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                updateSubpage();
+                mediaToUpload = [];
+                linkColors = {};
+                cursor = undefined;
+                seenReplies = [];
+                mainTweetLikers = [];
+                let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+                if(subpage === 'tweet') {
+                    updateReplies(id);
+                } else if(subpage === 'likes') {
+                    updateLikes(id);
+                } else if(subpage === 'retweets') {
+                    updateRetweets(id);
+                } else if(subpage === 'retweets_with_comments') {
+                    updateRetweetsWithComments(id);
+                }
+                renderDiscovery();
+                renderTrends();
             }
-            renderDiscovery();
-            renderTrends();
-        }
-    });
+        });
+        tweet.addEventListener('mousedown', e => {
+            if(e.button === 1) {
+                e.preventDefault();
+                if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
+                    openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                }
+            }
+        });
+    }
     tweet.className = `tweet tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : ''}`;
     if (options.threadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if (options.noTop) tweet.classList.add('tweet-no-top');
@@ -706,7 +717,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             ` : ''}
             <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleString()} ・ ${t.source.split('>')[1].split('<')[0]}</a>
-            ${options.threadButton && options.threadId ? `<br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${options.threadId}">Show this thread</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply">${options.mainTweet ? '' : t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}">${options.mainTweet ? '' : t.retweet_count}</span>
