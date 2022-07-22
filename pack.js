@@ -30,9 +30,12 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     manifest.permissions = [
         ...manifest.permissions,
         ...manifest.host_permissions,
+        "https://dimden.dev/*",
+        "https://raw.githubusercontent.com/*",
         "webRequest",
         "webRequestBlocking"
     ];
+    manifest.content_security_policy = manifest.content_security_policy.extension_page;
     delete manifest.host_permissions;
     delete manifest.declarative_net_request;
     delete manifest.background.service_worker;
@@ -59,7 +62,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     chrome.webRequest.onBeforeRequest.addListener(
         function(details) {
             return {
-                cancel: !details.url.includes("mobile.twitter.com") && (details.url.includes("://twitter.com/manifest.json") || details.url.includes("https://abs.twimg.com/responsive-web/client-web/"))
+                cancel: !details.url.includes("mobile.twitter.com") && (details.url.includes("twitter.com/manifest.json") || details.url.includes("abs.twimg.com/responsive-web/client-web/"))
             };
         }, {
             urls: ["*://twitter.com/*"]
@@ -68,25 +71,41 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     );
     chrome.webRequest.onBeforeSendHeaders.addListener(
         function(details) {
-            if (details.url.includes("twimg.com")) {
-                if(!details.requestHeaders.find(h => h.name.toLowerCase() === 'origin')) details.requestHeaders.push({
-                    name: "Origin",
-                    value: "https://twitter.com"
-                });
-            }
-            for (var i = 0; i < details.requestHeaders.length; ++i) {
-                if (details.requestHeaders[i].name.toLowerCase() === 'content-security-policy') {
-                    details.requestHeaders.splice(i, 1);
-                    break;
-                }
-            }
+            if(!details.requestHeaders.find(h => h.name.toLowerCase() === 'origin')) details.requestHeaders.push({
+                name: "Origin",
+                value: "https://twitter.com"
+            });
             return {
                 requestHeaders: details.requestHeaders
             };
         }, {
-            urls: ["*://twitter.com/*", "*://*.twitter.com/*", "*://*.twimg.com/*", "*://twimg.com/*"]
+            urls: ["*://*.twimg.com/*", "*://twimg.com/*"]
         },
         ["blocking", "requestHeaders"]
+    );
+    chrome.webRequest.onHeadersReceived.addListener(
+        function(details) {
+            for (let i = 0; i < details.responseHeaders.length; ++i) {
+                if (details.responseHeaders[i].name.toLowerCase() === 'content-security-policy') {
+                    details.responseHeaders.splice(i, 1);
+                    break;
+                }
+            }
+            if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.requestHeaders.push({
+                name: "access-control-allow-origin",
+                value: "*"
+            });
+            if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-headers')) details.requestHeaders.push({
+                name: "access-control-allow-headers",
+                value: "*"
+            });
+            return {
+                responseHeaders: details.responseHeaders
+            };
+        }, {
+            urls: ["*://twitter.com/*", "*://*.twitter.com/*", "*://*.twimg.com/*", "*://twimg.com/*"]
+        },
+        ["blocking", "responseHeaders"]
     );
     `;
 
