@@ -12,8 +12,8 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 
 ## Installation
 ### Chrome Web Store / Firefox Add-ons 
-**Firefox:** https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/
-**Chrome:** *to be approved*
+**Firefox:** https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/  
+**Chrome:** *to be approved*  
   
 ### Manual installation
 - Go to [Releases page](https://github.com/dimdenGD/OldTwitter/releases/)  
