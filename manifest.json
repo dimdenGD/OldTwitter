@@ -4,9 +4,6 @@
   "version": "1.1.7",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/OldTwitter",
-  "content_security_policy": {
-    "extension_page": "default-src 'self' dimden.dev raw.githubusercontent.com twitter.com *.twitter.com twimg.com *.twimg.com"
-  },
   "background": {
     "service_worker": "scripts/background.js"
   },
