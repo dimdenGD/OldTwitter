@@ -127,11 +127,6 @@ async function updateTimeline() {
 
     if(vars.linkColorsInTL) {
         let tlUsers = tl.map(t => t.user.screen_name).filter(u => !linkColors[u]);
-        try {
-            await fetch(`https://dimden.dev/services/twitter_link_colors/get_multiple/${tlUsers.join(',')}`)
-        } catch(e) {
-            console.error(e);
-        }
         let linkData = await fetch(`https://dimden.dev/services/twitter_link_colors/get_multiple/${tlUsers.join(',')}`).then(res => res.json()).catch(console.error);
         if(linkData) for(let i in linkData) {
             linkColors[linkData[i].username] = linkData[i].color;
