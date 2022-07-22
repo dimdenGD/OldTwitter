@@ -1062,23 +1062,32 @@ API.uploadMedia = (data) => {
 }
 API.getUnreadCount = () => {
     return new Promise((resolve, reject) => {
-        fetch(`https://twitter.com/i/api/2/badge_count/badge_count.json?supports_ntab_urt=1`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
+        chrome.storage.local.get(['unreadCount'], d => {
+            if(d.unreadCount && Date.now() - d.unreadCount.date < 18000) {
+                return resolve(d.unreadCount.data);
             }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            resolve(data);
-        }).catch(e => {
-            reject(e);
+            fetch(`https://twitter.com/i/api/2/badge_count/badge_count.json?supports_ntab_urt=1`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0].code === 32) {
+                    return reject("Not logged in");
+                }
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data);
+                chrome.storage.local.set({unreadCount: {
+                    date: Date.now(),
+                    data
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
         });
     });
 }
@@ -2115,20 +2124,29 @@ API.saveSearch = q => {
 }
 API.getInbox = max_id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/dm/user_inbox.json?max_conv_count=20&include_groups=true${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session"
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
+        chrome.storage.local.get(['inboxData'], d => {
+            if(d.inboxData && Date.now() - d.inboxData.date < 18000) {
+                return resolve(d.inboxData.data);
             }
-            resolve(data.user_inbox);
-        }).catch(e => {
-            reject(e);
+            fetch(`https://api.twitter.com/1.1/dm/user_inbox.json?max_conv_count=20&include_groups=true${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session"
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data.user_inbox);
+                chrome.storage.local.set({inboxData: {
+                    date: Date.now(),
+                    data: data.user_inbox
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
         });
     });
 }
