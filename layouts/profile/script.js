@@ -1680,7 +1680,7 @@ async function renderDiscovery(cache = true) {
     let discoverContainer = document.getElementById('wtf-list');
     discoverContainer.innerHTML = '';
     try {
-        document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?user_id=${pageUser.id_str}`;
+        document.getElementById('wtf-viewall').href = `https://mobile.twitter.com/i/connect_people?user_id=${pageUser.id_str}`;
         discover.forEach(userData => {
             userData = userData.user;
             if (!userData) return;
