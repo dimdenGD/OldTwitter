@@ -291,7 +291,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ` : ''}
             </a>
             ` : ``}
-            ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
+            ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply">${t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}">${t.retweet_count}</span>
