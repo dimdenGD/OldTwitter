@@ -72,7 +72,8 @@ body {
     left: 95px;
     margin: 0;
     position: relative;
-    width: fit-content
+    width: 195px;
+    overflow-x: hidden
 }
 
 #user-handle {
@@ -345,7 +346,6 @@ body {
 }
 
 .nice-button:hover:not([disabled]) {
-    -ms-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     background-color: var(--border);
     background-image: linear-gradient(var(--background-color), var(--border));
     border-color: var(--border);
@@ -980,4 +980,7 @@ a:hover,
 #new-tweet-poll hr {
     border-color: var(--border);
     border-bottom: none;
+}
+.tweet-self-thread-div {
+    margin-top: -5px;
 }

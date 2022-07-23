@@ -328,7 +328,6 @@ body {
     text-decoration: none;
     background-color: var(--border);
     background-image: linear-gradient(var(--background-color), var(--border));
-    -ms-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
     border-color: var(--border)
 }
 
@@ -1269,7 +1268,6 @@ a:hover,
 
 #tweet-to:hover {
     background-color: var(--border);
-    -ms-filter: progid:DXImageTransform.Microsoft.gradient(enabled=false)
 }
 
 #tweet-to-div {
@@ -1386,4 +1384,7 @@ a:hover,
 .profile-settings-mute:before,
 .profile-settings-unmute:before {
     content: "\f101"
+}
+.tweet-self-thread-div {
+    margin-top: -5px;
 }

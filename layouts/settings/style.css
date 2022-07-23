@@ -72,7 +72,8 @@ body {
     font-size: 22px;
     position: relative;
     bottom: 47px;
-    width: fit-content;
+    width: 195px;
+    overflow-x: hidden;
     color: var(--almost-black);
 }
 #user-handle {
@@ -171,7 +172,6 @@ body {
     text-decoration: none;
     background-color: var(--border);
     background-image: linear-gradient(var(--background-color),var(--border));
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(enabled=false)";
     border-color: var(--border);
 }
 .nice-button:disabled {
