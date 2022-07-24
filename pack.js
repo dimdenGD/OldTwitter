@@ -29,10 +29,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest');
     manifest.permissions = [
         ...manifest.permissions,
-        "*://*.twitter.com/*",
-        "*://twitter.com/*",
-        "*://twimg.com/*",
-        "*://*.twimg.com/*",
+        ...manifest.host_permissions,
         "https://dimden.dev/*",
         "https://raw.githubusercontent.com/*",
         "webRequest",
