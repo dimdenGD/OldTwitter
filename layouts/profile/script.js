@@ -321,7 +321,7 @@ async function renderFollowing(clear = true, cursor) {
             <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
                 <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                 <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
+                    <span class="tweet-header-name following-item-name ${u.verified ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
                 </div>
             </a>
@@ -363,7 +363,7 @@ async function renderFollowers(clear = true, cursor) {
             <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
                 <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                 <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
+                    <span class="tweet-header-name following-item-name ${u.verified ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
                 </div>
             </a>
@@ -949,7 +949,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             ` : ``}
             ${t.card ? `<div class="tweet-poll"></div>` : ''}
             ${t.quoted_status ? `
-            <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
+            <a class="tweet-body-quote" target="_blank" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                 <div class="tweet-header-quote">
                     <span class="tweet-header-info-quote">
