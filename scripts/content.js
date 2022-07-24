@@ -19,11 +19,11 @@ let pages = [
     },
     {
         name: "tweet",
-        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}(|\/)$/g, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/likes$/g, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets$/g, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets\/with_comments$/g]
+        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/likes(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets\/with_comments(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets(|\/)$/]
     },
     {
         name: "profile",
-        paths: [/^\/[A-z-0-9-_]{1,15}$/g, /^\/[A-z-0-9-_]{1,15}\/$/g, /^\/[A-z-0-9-_]{1,15}\/with_replies$/g, /^\/[A-z-0-9-_]{1,15}\/media$/g, /^\/[A-z-0-9-_]{1,15}\/likes$/g, /^\/[A-z-0-9-_]{1,15}\/following$/g, /^\/[A-z-0-9-_]{1,15}\/followers$/g, /^\/[A-z-0-9-_]{1,15}\/followers_you_follow$/g],
+        paths: [/^\/[A-z-0-9-_]{1,15}$/g, /^\/[A-z-0-9-_]{1,15}\/$/, /^\/[A-z-0-9-_]{1,15}\/with_replies(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/media(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/likes(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/following(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/followers(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/followers_you_follow(|\/)$/],
         exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"],
     },
 ];
@@ -41,6 +41,10 @@ if (realPath.startsWith("/i/user/")) {
         }
         location.href = "/" + user.screen_name;
     });
+}
+if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/photo\/\d+(|\/)$/.test(realPath)) {
+    let path = realPath.split("/photo/")[0];
+    location.href = path;
 }
 let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
 
