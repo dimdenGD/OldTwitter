@@ -787,6 +787,10 @@ a:hover,
     color: #5c913b;
     content: "\f006"
 }
+.ni-recommend:before {
+    color: #ca4e4e;
+    content: "\f011"
+}
 
 .notification-avatar {
     display: inline-block;

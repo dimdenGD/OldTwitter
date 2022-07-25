@@ -825,13 +825,18 @@ async function renderNotifications(data, append = false) {
                     matches++;
                 });
             };
+            let users = n.template.aggregateUserActionsV1.fromUsers.map(u => data.globalObjects.users[u.user.id]);
+
+            if(n.icon.id === 'recommendation_icon') {
+                notificationHeader = `<b><a href="https://twitter.com/${users[0].screen_name}">${escapeHTML(notificationHeader)}</a></b> tweeted something you might like`;
+            }
             
             let iconClasses = {
                 'heart_icon': 'ni-favorite',
                 'person_icon': 'ni-follow',
                 'retweet_icon': 'ni-retweet',
+                'recommendation_icon': 'ni-recommend'
             };
-            let users = n.template.aggregateUserActionsV1.fromUsers.map(u => data.globalObjects.users[u.user.id]);
             notificationDiv.innerHTML = /*html*/`
                 <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
                 <div class="notification-header">
