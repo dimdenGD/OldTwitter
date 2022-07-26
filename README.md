@@ -3,8 +3,8 @@ Chrome extension to return old Twitter layout from 2015.
 This extension doesn't add any CSS on top of original Twitter. It's fully original client making it much faster than alternatives.  
   
 ## Installation
-**Chrome, Edge, Opera, Brave & Chromium browsers:** https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf  
-**Firefox:** https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/  
+**Chrome, Edge, Opera, Brave & Chromium browsers:** [Click here](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf)  
+**Firefox:** [Click here](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/)  
   
 ## Screenshots  
 ![Profile](https://lune.dimden.dev/7b17cad5cd.png)  
