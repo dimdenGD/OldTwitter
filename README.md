@@ -67,3 +67,4 @@ Go to [mobile.twitter.com](https://mobile.twitter.com).
 - Ability to show custom user colors in timeline
 - Dark mode support
 - Downloading videos and GIFs
+- Account list & switching accounts
