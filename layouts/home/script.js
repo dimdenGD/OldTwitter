@@ -6,6 +6,7 @@ let timeline = {
 }
 let settings = {};
 let seenThreads = [];
+let seenTweets = [];
 let mediaToUpload = [];
 let pollToUpload = undefined;
 let linkColors = {};
@@ -119,7 +120,7 @@ async function updateTimeline() {
     settings = s;
     if(!vars.chronologicalTL) {
         algoCursor = tl.cursor;
-        tl = tl.list
+        tl = tl.list;
     }
     if(!vars.showTopicTweets) {
         tl = tl.filter(t => !t.socialContext || !t.socialContext.description);
@@ -1091,7 +1092,7 @@ async function renderTrends() {
 // On scroll to end of timeline, load more tweets
 let loadingNewTweets = false;
 document.addEventListener('scroll', async () => {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500) {
+    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
         if (loadingNewTweets || timeline.data.length === 0) return;
         loadingNewTweets = true;
         let tl;
@@ -1099,7 +1100,10 @@ document.addEventListener('scroll', async () => {
             tl = !vars.chronologicalTL ? await API.getAlgoTimeline(algoCursor) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
             if(!vars.chronologicalTL) {
                 algoCursor = tl.cursor;
-                tl = tl.list
+                tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
+                for(let t of tl) {
+                    seenTweets.push(t.id_str);
+                }
             } else {
                 tl = tl.slice(1);
             }
