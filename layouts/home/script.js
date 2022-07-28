@@ -121,6 +121,9 @@ async function updateTimeline() {
     if(!vars.chronologicalTL) {
         algoCursor = tl.cursor;
         tl = tl.list;
+        for(let t of tl) {
+            seenTweets.push(t.id_str);
+        }
     }
     if(!vars.showTopicTweets) {
         tl = tl.filter(t => !t.socialContext || !t.socialContext.description);
@@ -1097,7 +1100,7 @@ document.addEventListener('scroll', async () => {
         loadingNewTweets = true;
         let tl;
         try {
-            tl = !vars.chronologicalTL ? await API.getAlgoTimeline(algoCursor) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+            tl = !vars.chronologicalTL ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
             if(!vars.chronologicalTL) {
                 algoCursor = tl.cursor;
                 tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
