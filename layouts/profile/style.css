@@ -411,7 +411,8 @@ span.tweet-body-text {
     border-radius: 7px;
     object-fit: cover;
     block-size: auto;
-    border: 1px solid var(--border)
+    border: 1px solid var(--border);
+    vertical-align: top
 }
 
 .tweet-media video {
@@ -875,14 +876,14 @@ a:hover,
 .new-tweet-media-img-remove:before {
     content: "\f045";
     margin-bottom: 2px;
-    color: var(--background-color);
+    color: white;
     font: 13px RosettaIcons
 }
 
 .new-tweet-media-img-alt {
     position: absolute;
     background: rgba(0, 0, 0, 0.5);
-    color: var(--background-color);
+    color: white;
     padding: 1px 4px;
     font-size: 12px;
     font-weight: 600;

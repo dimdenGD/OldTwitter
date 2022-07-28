@@ -349,6 +349,7 @@ input, textarea {
     margin-top: 5px;
     left: 14px;
     position: relative;
+    margin-right: -21px;
 }
 .navbar-new-tweet-button:before {
     content: "\f029";
@@ -394,13 +395,13 @@ input, textarea {
     content: "\f045";
     font-family: RosettaIcons;
     margin-bottom: 2px;
-    color: var(--background-color);
+    color: white;
     font-size: 13px;
 }
 .new-tweet-media-img-alt {
     position: absolute;
     background: rgba(0,0,0, 0.5);
-    color: var(--background-color);
+    color: white;
     padding: 1px 4px;
     font-size: 12px;
     font-weight: 600;
@@ -917,7 +918,9 @@ input, textarea {
     left: 39px;
     top: 8px;
     display: inline-block;
+    color: var(--default-text-color);
 }
 #navbar-new-tweet-poll hr {
-    border-top: var(--border);
+    border-color: var(--border);
+    border-bottom: none;
 }

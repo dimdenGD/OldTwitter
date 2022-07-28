@@ -432,7 +432,8 @@ span.tweet-body-text {
     border: 1px solid var(--border);
     border-radius: 7px;
     margin: 5px;
-    object-fit: cover
+    object-fit: cover;
+    vertical-align: top
 }
 
 .tweet-media video {
@@ -887,7 +888,7 @@ a:hover,
 }
 
 .new-tweet-media-img-remove:before {
-    color: var(--background-color);
+    color: white;
     content: "\f045";
     font: 13px RosettaIcons;
     margin-bottom: 2px
@@ -896,7 +897,7 @@ a:hover,
 .new-tweet-media-img-alt {
     background: rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-    color: var(--background-color);
+    color: white;
     cursor: pointer;
     font-size: 12px;
     font-weight: 600;
@@ -980,6 +981,7 @@ a:hover,
     left: 39px;
     top: 8px;
     display: inline-block;
+    color: var(--default-text-color);
 }
 #new-tweet-poll hr {
     border-color: var(--border);

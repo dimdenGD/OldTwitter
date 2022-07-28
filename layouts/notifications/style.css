@@ -438,7 +438,8 @@ span.tweet-body-text {
     border: 1px solid var(--border);
     border-radius: 7px;
     margin: 5px;
-    object-fit: cover
+    object-fit: cover;
+    vertical-align: top
 }
 
 .tweet-media video {
