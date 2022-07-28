@@ -195,6 +195,10 @@ body {
     text-decoration: underline
 }
 
+.tweet-body {
+    line-break: anywhere;
+}
+
 .tweet-body,
 .tweet-interact,
 .tweet-body-text-quote {
