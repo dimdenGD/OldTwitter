@@ -218,8 +218,8 @@ body {
     text-decoration: underline
 }
 
-.tweet-body {
-    line-break: anywhere;
+span.tweet-body-text {
+    word-break: break-word;
 }
 
 .tweet-body,
