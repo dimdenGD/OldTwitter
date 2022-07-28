@@ -1639,7 +1639,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
         let t = data[i];
         if(pinnedTweet && t.id_str === pinnedTweet.id_str) continue;
         if (t.retweeted_status) {
-            t.retweeted_status.current_user_retweet = t;
+            if(pageUser.id_str === user.id_str) t.retweeted_status.current_user_retweet = t;
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> retweeted`,
