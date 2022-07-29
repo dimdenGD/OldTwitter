@@ -17,6 +17,7 @@
     --input-background: white;
     --active-message: #eaf5fd;
     --more-color: #30F;
+    --choice-bg: rgb(207, 217, 222);
 }
 @font-face {
     font-family: 'RosettaIcons';
@@ -863,8 +864,12 @@ input, textarea {
 }
 .choice-bg {
     height: 22px;
-    background-color: rgb(207, 217, 222);
+    background-color: var(--choice-bg);
     border-radius: 5px;
+    padding: 1px;
+}
+.choice-unselected:hover .choice-bg {
+    opacity: 0.8;
 }
 .choice-label {
     position: relative;
@@ -890,9 +895,6 @@ input, textarea {
 }
 .choice-unselected {
     cursor: pointer;
-}
-.choice-unselected:hover .choice-bg {
-    background-color: rgb(180, 190, 196);
 }
 #navbar-new-tweet-poll-btn {
     float: right;

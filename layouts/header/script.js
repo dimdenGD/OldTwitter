@@ -1217,6 +1217,7 @@ setTimeout(async () => {
             root.style.setProperty('--input-background', '#131c24');
             root.style.setProperty('--active-message', '#141d26');
             root.style.setProperty('--more-color', '#a088ff');
+            root.style.setProperty('--choice-bg', 'rgb(44 62 71)');
         } else {
             root.style.setProperty('--background-color', 'white');
             root.style.setProperty('--darker-background-color', '#f5f8fa');
@@ -1230,6 +1231,7 @@ setTimeout(async () => {
             root.style.setProperty('--input-background', 'white');
             root.style.setProperty('--active-message', '#eaf5fd');
             root.style.setProperty('--more-color', '#30F');
+            root.style.setProperty('--choice-bg', 'rgb(207, 217, 222)');
         }
     }
     switchDarkMode(vars.darkMode);
