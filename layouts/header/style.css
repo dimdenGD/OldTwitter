@@ -879,9 +879,9 @@ input, textarea {
 .choice-selected:before {
     content: "\f043";
     font-family: RosettaIcons;
-    color: black;
+    color: var(--default-text-color);
     font-size: 13px;
-    vertical-align: text-bottom;
+    vertical-align: baseline;
 }
 .choice-count {
     position: relative;
