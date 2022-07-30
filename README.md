@@ -54,12 +54,14 @@ When you're on your home timeline there are some hotkeys supported. On bottom-ri
 `L` - (un)favorite/like tweet.  
 `T` - (un)retweet tweet.  
 `R` - open reply box.  
+`Q` - open quote box.  
 `SPACE` - open full image / pause or resume video.  
 `ENTER` - open tweet in new tab.  
   
-These hotkeys work only when reply box is opened.  
+These hotkeys work only when reply/quote box is opened.  
 `ALT+R` - close reply box.  
-`CTRL+ENTER` - send reply.  
+`ALT+Q` - close quote box.  
+`CTRL+ENTER` - send reply/quote tweet.  
 `ALT+M` - upload media.  
 `ALT+F` - remove first uploaded media.   
 
