@@ -59,10 +59,10 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             }
         });
         // clear cache of service worker
-        caches.keys().then(keyList => {
+        if(window.caches) window.caches.keys().then(keyList => {
             return Promise.all(
                 keyList.map(key => {
-                    return caches.delete(key);
+                    return window.caches.delete(key);
                 }),
             );
         });

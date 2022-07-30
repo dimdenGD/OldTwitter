@@ -46,9 +46,19 @@ You had algorithmical timeline enabled. By default OldTwitter turns on chronolog
 #### How do I visit original Twitter client after installing extension?
 Go to [mobile.twitter.com](https://mobile.twitter.com).
 
-## Home hotkeys
-When you're on your home timeline there are some hotkeys supported. On bottom-right of tweet element there's blue square showing tweet is active.  
+## Hotkeys
+You can disable all hotkeys in settings.  
   
+General hotkeys.  
+`F` - focus search bar.  
+`ALT+F` - unfocus search bar (only when search bar is focused).  
+`N` - open new tweet modal.  
+`ALT+N` - close new tweet modal.  
+`ESC` - close any modal.  
+`M` - open/close user menu (use TAB to navigate).  
+`CTRL+ENTER` - send tweet (when typing reply/quote/new tweet).  
+  
+Active tweet hotkeys. On bottom-right of tweet element there's blue dot showing tweet is active.  
 `S` - move to next tweet.  
 `W` - move to previous tweet.  
 `L` - (un)favorite/like tweet.  
@@ -61,7 +71,8 @@ When you're on your home timeline there are some hotkeys supported. On bottom-ri
 These hotkeys work only when reply/quote box is opened.  
 `ALT+R` - close reply box.  
 `ALT+Q` - close quote box.  
-`CTRL+ENTER` - send reply/quote tweet.  
+  
+These will work when reply/quote/new tweet modal is focused.  
 `ALT+M` - upload media.  
 `ALT+F` - remove first uploaded media.   
 
@@ -87,3 +98,4 @@ These hotkeys work only when reply/quote box is opened.
 - Dark mode support
 - Downloading videos and GIFs
 - Account list & switching accounts
+- Lot of hotkeys

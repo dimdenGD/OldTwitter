@@ -155,6 +155,10 @@ body {
     padding: 10px
 }
 
+.tweet:focus {
+    outline: none;
+}
+
 .tweet:not(.tweet-main):hover {
     background-color: var(--darker-background-color);
     cursor: pointer
@@ -898,6 +902,15 @@ a:hover,
     content: "\f045";
     font: 13px RosettaIcons;
     margin-bottom: 2px
+}
+
+.tweet-active .tweet-interact::after {
+    content: "•";
+    float: right;
+    color: #1da1f2;
+    height: 10px;
+    font-size: 47px;
+    margin-top: -9px;
 }
 
 .new-tweet-media-img-alt {

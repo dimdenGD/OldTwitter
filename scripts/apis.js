@@ -23,12 +23,29 @@ function createModal(html, className) {
     let close = document.createElement('span');
     close.classList.add('modal-close');
     close.innerHTML = '&times;';
+    function escapeEvent(e) {
+        if(e.key === 'Escape' || (e.altKey && e.keyCode === 78)) {
+            modal.remove();
+            let event = new Event('findActiveTweet');
+            document.dispatchEvent(event);
+            document.removeEventListener('keydown', escapeEvent);
+        }
+    }
     close.addEventListener('click', () => {
         modal.remove();
+        let event = new Event('findActiveTweet');
+        document.dispatchEvent(event);
+        document.removeEventListener('keydown', escapeEvent);
     });
     modal.addEventListener('click', e => {
-        if(e.target === modal) modal.remove();
+        if(e.target === modal) {
+            modal.remove();
+            let event = new Event('findActiveTweet');
+            document.dispatchEvent(event);
+            document.removeEventListener('keydown', escapeEvent);
+        }
     });
+    document.addEventListener('keydown', escapeEvent);
     modal_content.appendChild(close);
     document.body.appendChild(modal);
     return modal;

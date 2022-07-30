@@ -146,6 +146,9 @@ body {
     min-height: 75px;
     padding: 10px
 }
+.tweet:focus {
+    outline: none;
+}
 
 .tweet:hover {
     background-color: var(--darker-background-color)

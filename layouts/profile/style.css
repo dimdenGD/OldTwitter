@@ -124,6 +124,10 @@ body {
     cursor: pointer
 }
 
+.tweet:focus {
+    outline: none;
+}
+
 .tweet:hover {
     background-color: var(--darker-background-color)
 }
@@ -152,6 +156,15 @@ body {
 
 .tweet-header-name:hover {
     color: var(--link-color)
+}
+
+.tweet-active .tweet-interact::after {
+    content: "•";
+    float: right;
+    color: #1da1f2;
+    height: 10px;
+    font-size: 47px;
+    margin-top: -9px;
 }
 
 .tweet-header-name,

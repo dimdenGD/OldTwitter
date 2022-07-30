@@ -158,6 +158,10 @@ body {
     padding: 10px
 }
 
+.tweet:focus {
+    outline: none;
+}
+
 .tweet:hover {
     background-color: var(--darker-background-color)
 }
@@ -437,6 +441,15 @@ span.tweet-body-text {
 
 .tweet-media img {
     cursor: zoom-in
+}
+
+.tweet-active .tweet-interact::after {
+    content: "•";
+    float: right;
+    color: #1da1f2;
+    height: 10px;
+    font-size: 47px;
+    margin-top: -9px;
 }
 
 .tweet-media-element,

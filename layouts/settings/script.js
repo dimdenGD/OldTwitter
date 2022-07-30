@@ -1,7 +1,7 @@
 let user = {};
 let settings = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys'], data => {
     vars = data;
 });
 // Util
@@ -212,6 +212,8 @@ setTimeout(async () => {
     let showTopicTweets = document.getElementById('show-topic-tweets');
     let colorPreviewDark = document.getElementById('color-preview-dark');
     let colorPreviewLight = document.getElementById('color-preview-light');
+    let disableHotkeys = document.getElementById('disable-hotkeys');
+
     let root = document.querySelector(":root");
 
     for(let i in fonts) {
@@ -259,6 +261,11 @@ setTimeout(async () => {
     showTopicTweets.addEventListener('change', () => {
         chrome.storage.sync.set({
             showTopicTweets: showTopicTweets.checked
+        }, () => { });
+    });
+    disableHotkeys.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableHotkeys: disableHotkeys.checked
         }, () => { });
     });
     darkMode.addEventListener('change', () => {
@@ -328,6 +335,9 @@ setTimeout(async () => {
     }
     if(vars.darkMode) {
         darkMode.checked = vars.darkMode;
+    }
+    if(vars.disableHotkeys) {
+        disableHotkeys.checked = vars.disableHotkeys;
     }
 
     // Run

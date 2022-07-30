@@ -2,10 +2,11 @@ let headerGotUser = false;
 let savedSearches = [], lastSearches = [];
 let inboxData = [];
 let customSet = false;
+let menuFn;
 
 setTimeout(async () => {
     let vars = await new Promise((resolve) => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode'], data => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode', 'disableHotkeys'], data => {
             resolve(data);
         });
     });
@@ -200,12 +201,13 @@ setTimeout(async () => {
                         clicked = true;
                         menu.hidden = false;
                         setTimeout(() => {
-                            document.addEventListener('click', () => {
+                            menuFn = () => {
                                 setTimeout(() => {
                                     clicked = false;
                                     menu.hidden = true;
                                 }, 100);
-                            }, { once: true })
+                            };
+                            document.addEventListener('click', menuFn, { once: true })
                         }, 100);
                     });
                 }
@@ -838,7 +840,8 @@ setTimeout(async () => {
                 newTweetPoll.hidden = true;
                 newTweetPoll.style.width = "0";
                 pollToUpload = undefined;
-                getMedia(mediaToUpload, newTweetMediaDiv); 
+                getMedia(mediaToUpload, newTweetMediaDiv);
+                newTweetText.focus();
             });
             newTweetButton.addEventListener('click', async () => {
                 let tweet = newTweetText.value;
@@ -1198,6 +1201,98 @@ setTimeout(async () => {
         let enabled = e.detail;
         switchDarkMode(enabled);
     });
+
+    // hotkeys
+    if(!vars.disableHotkeys) {
+        let searchInput = document.getElementById('search-input');
+        document.addEventListener('keydown', e => {
+            if(document.activeElement === searchInput && e.altKey && e.keyCode === 70) { // Alt+F
+                // blur search bar
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                searchInput.blur();
+            }
+            if(e.target.className === 'navbar-new-tweet-text' && e.altKey) {
+                let m = document.getElementsByClassName('navbar-new-tweet-container')[0];
+                if(e.keyCode === 77) { // ALT+M
+                    // upload media
+                    let tweetUpload = m.getElementsByClassName('navbar-new-tweet-media')[0];
+                    tweetUpload.click();
+                } else if(e.keyCode === 70) { // ALT+F
+                    // remove first media
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    let tweetMediaElement = m.getElementsByClassName('navbar-new-tweet-media-c')[0].children[0];
+                    if(!tweetMediaElement) return;
+                    let removeBtn = tweetMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
+                    removeBtn.click();
+                }
+            }
+            if(e.target.id === 'new-tweet-text' && e.altKey) {
+                if(e.keyCode === 77) { // ALT+M
+                    // upload media
+                    let tweetUpload = document.getElementById('new-tweet-media');
+                    tweetUpload.click();
+                } else if(e.keyCode === 70) { // ALT+F
+                    // remove first media
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    let tweetMediaElement = document.getElementById('new-tweet-media-c').children[0];
+                    if(!tweetMediaElement) return;
+                    let removeBtn = tweetMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
+                    removeBtn.click();
+                } else if(e.keyCode === 78) { // ALT+N
+                    // unfocus new tweet
+                    e.target.blur();
+                    let f = document.getElementById('timeline').firstChild;
+                    f.scrollIntoView();
+                    f.focus();
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                }
+            }
+
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            if(!e.altKey && !e.ctrlKey && e.keyCode === 70) { // F
+                // focus search bar
+                searchInput.focus();
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            }
+            if(!e.altKey && !e.ctrlKey && e.keyCode === 78) { // N
+                // new tweet
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                let event = new CustomEvent('clearActiveTweet');
+                document.dispatchEvent(event);
+                if(scrollY < 400 && (location.pathname === '/' || location.pathname === '/home')) {
+                    let newTweetText = document.getElementById('new-tweet-text');
+                    document.getElementById('new-tweet').click();
+                    newTweetText.focus();
+                    document.scrollingElement.scrollTop = 0;
+                } else {
+                    document.getElementById('navbar-tweet-button').click();
+                }
+            }
+            if(!e.altKey && !e.ctrlKey && e.keyCode === 77) { // M
+                document.getElementById('navbar-user-avatar').click();
+                if(!document.getElementById('navbar-user-menu').hidden) {
+                    document.getElementById('navbar-user-menu-profile').focus();
+                } else {
+                    document.activeElement.blur();
+                    document.removeEventListener('click', menuFn);
+                    menuFn();
+                    menuFn = undefined;
+                }
+            }
+        });
+    } else {
+        let style = document.createElement('style');
+        style.innerHTML = `.tweet-interact::after { content: '' !important; }`;
+        document.head.appendChild(style);
+    }
+
     function fullscreenEvent(fullscreen) {
         if(fullscreen) {
             root.style.setProperty('--video-cover', 'contain');
