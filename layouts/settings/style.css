@@ -216,9 +216,9 @@ body {
     text-decoration: none !important;
 }
 .wtf-user-name {
-    display: inline-block;
     overflow: hidden;
     margin-right: 5px;
+    overflow-wrap: break-word;
 }
 .wtf-user-handle {
     overflow: hidden;

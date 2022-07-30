@@ -219,12 +219,12 @@ setTimeout(async () => {
         let option = document.createElement('option');
         option.value = font;
         option.innerText = font;
-        option.style.fontFamily = font;
+        option.style.fontFamily = `"${font}"`;
         fontElement.append(option);
     }
     fontElement.addEventListener('change', () => {
         let font = fontElement.value;
-        root.style.setProperty('--font', font);
+        root.style.setProperty('--font', `"${font}"`);
         chrome.storage.sync.set({
             font: font
         }, () => { });
@@ -309,7 +309,7 @@ setTimeout(async () => {
     }
     if(vars.font) {
         fontElement.value = vars.font;
-        root.style.setProperty('--font', vars.font);
+        root.style.setProperty('--font', `"${vars.font}"`);
     }
     if(vars.heartsNotStars) {
         heartsNotStars.checked = vars.heartsNotStars;

@@ -232,6 +232,15 @@ span.tweet-body-text {
     overflow-x: hidden;
 }
 
+.tweet-active .tweet-interact::after {
+    content: "•";
+    float: right;
+    color: #1da1f2;
+    height: 10px;
+    font-size: 47px;
+    margin-top: -9px;
+}
+
 .tweet-body-quote {
     background-color: var(--background-color);
     border: 1px solid var(--border);

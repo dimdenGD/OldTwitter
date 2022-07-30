@@ -209,7 +209,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
         }
     });
-    tweet.className = `tweet tweet-id-${t.id_str}`;
+    tweet.className = `tweet tweet-id-${t.id_str} ${!activeTweet ? 'tweet-active' : ''}`;
+    if(!activeTweet) {
+        activeTweet = tweet;
+    }
     if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if (options.noTop) tweet.classList.add('tweet-no-top');
     if(vars.linkColorsInTL) {
@@ -464,6 +467,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
     tweetReplyUpload.addEventListener('click', () => {
         getMedia(replyMedia, tweetReplyMedia);
+        tweetReplyText.focus();
     });
     tweetInteractReply.addEventListener('click', () => {
         if (!tweetQuote.hidden) tweetQuote.hidden = true;
@@ -593,6 +597,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
     tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
         if (!t.retweeted) {
+            let c = confirm("Are you sure you want to retweet this tweet?");
+            if (!c) return;
             let tweetData;
             try {
                 tweetData = await API.retweetTweet(t.id_str);
@@ -1094,7 +1100,25 @@ async function renderTrends() {
 
 // On scroll to end of timeline, load more tweets
 let loadingNewTweets = false;
+let lastTweetDate = 0;
+let activeTweet;
 document.addEventListener('scroll', async () => {
+    // find active tweet by scroll amount
+    if(Date.now() - lastTweetDate > 50) {
+        lastTweetDate = Date.now();
+        let tweets = Array.from(document.getElementsByClassName('tweet'));
+
+        if(activeTweet) {
+            activeTweet.classList.remove('tweet-active');
+        }
+        let scrollPoint = scrollY + innerHeight/2;
+        activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
+        if(activeTweet) {
+            activeTweet.classList.add('tweet-active');
+        }
+    }
+
+    // loading new tweets
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
         if (loadingNewTweets || timeline.data.length === 0) return;
         loadingNewTweets = true;
@@ -1129,6 +1153,88 @@ document.addEventListener('scroll', async () => {
         }, 250);
     }
 }, { passive: true });
+
+// tweet hotkeys
+let tle = document.getElementById('timeline');
+document.addEventListener('keydown', async e => {
+    if(e.target.className === 'tweet-reply-text') {
+        if(e.altKey) {
+            if(e.keyCode === 82) { // ALT+R
+                // hide reply box
+                e.target.blur();
+                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
+                tweetReply.hidden = true;
+            } else if(e.keyCode === 77) { // ALT+M
+                // upload media
+                let tweetReplyUpload = activeTweet.getElementsByClassName('tweet-reply-upload')[0];
+                tweetReplyUpload.click();
+            } else if(e.keyCode === 70) { // ALT+F
+                // remove first media
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                let tweetReplyMediaElement = activeTweet.getElementsByClassName('tweet-reply-media')[0].children[0];
+                if(!tweetReplyMediaElement) return;
+                let removeBtn = tweetReplyMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
+                removeBtn.click();
+            }
+        }
+    }
+    if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if(e.keyCode === 83) { // S
+        // next tweet
+        let index = [...tle.children].indexOf(activeTweet);
+        if(index === -1) return;
+        let nextTweet = tle.children[index + 1];
+        if(!nextTweet) return;
+        nextTweet.scrollIntoView({ block: 'center' });
+    } else if(e.keyCode === 87) { // W
+        // previous tweet
+        let index = [...tle.children].indexOf(activeTweet);
+        if(index === -1) return;
+        let nextTweet = tle.children[index - 1];
+        if(!nextTweet) return;
+        nextTweet.scrollIntoView({ block: 'center' });
+    } else if(e.keyCode === 76) { // L
+        // like tweet
+        if(!activeTweet) return;
+        let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
+        tweetFavoriteButton.click();
+    } else if(e.keyCode === 84) { // T
+        // retweet
+        if(!activeTweet) return;
+        let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
+        tweetRetweetButton.click();
+    } else if(e.keyCode === 82) { // R
+        // reply to tweet
+        if(!activeTweet) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
+        let tweetReplyText = activeTweet.getElementsByClassName('tweet-reply-text')[0];
+        
+        tweetReply.hidden = false;
+        tweetReplyText.focus();
+    } else if(e.keyCode === 32) { // Space
+        // toggle tweet media
+        if(!activeTweet) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        let tweetMedia = activeTweet.getElementsByClassName('tweet-media')[0].children[0];
+        if(!tweetMedia) return;
+        if(tweetMedia.tagName === "VIDEO") {
+            tweetMedia.paused ? tweetMedia.play() : tweetMedia.pause();
+        } else {
+            tweetMedia.click();
+            tweetMedia.click();
+        }
+    } else if(e.keyCode === 13) { // Enter
+        // open tweet
+        if(!activeTweet) return;
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        activeTweet.click();
+    }
+});
 
 setTimeout(() => {
     // Buttons

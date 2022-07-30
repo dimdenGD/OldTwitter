@@ -23,7 +23,7 @@ setTimeout(async () => {
             root.style.setProperty('--link-color', vars.linkColor);
         }
         if(vars.font) {
-            root.style.setProperty('--font', vars.font);
+            root.style.setProperty('--font', `"${vars.font}"`);
         }
         if(vars.heartsNotStars) {
             root.style.setProperty('--favorite-icon-content', '"\\f148"');

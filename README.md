@@ -46,6 +46,23 @@ You had algorithmical timeline enabled. By default OldTwitter turns on chronolog
 #### How do I visit original Twitter client after installing extension?
 Go to [mobile.twitter.com](https://mobile.twitter.com).
 
+## Home hotkeys
+When you're on your home timeline there are some hotkeys supported. On bottom-right of tweet element there's blue square showing tweet is active.  
+  
+`S` - move to next tweet.  
+`W` - move to previous tweet.  
+`L` - (un)favorite/like tweet.  
+`T` - (un)retweet tweet.  
+`R` - open reply box.  
+`SPACE` - open full image / pause or resume video.  
+`ENTER` - open tweet in new tab.  
+  
+These hotkeys work only when reply box is opened.  
+`ALT+R` - close reply box.  
+`CTRL+ENTER` - send reply.  
+`ALT+M` - upload media.  
+`ALT+F` - remove first uploaded media.   
+
 ## Features
 - Chronological and algorithmical timelines
 - Trends module

@@ -819,7 +819,7 @@ async function renderTrends() {
 }
 async function renderSearch(c) {
     updateSavedButton();
-    let searchDiv = document.getElementById('search-div');
+    let searchDiv = document.getElementById('timeline');
     let searchMore = document.getElementById('search-more');
     searchMore.hidden = false;
     let search;
