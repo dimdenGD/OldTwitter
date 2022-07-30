@@ -663,6 +663,8 @@ setTimeout(async () => {
             const newTweetUserSearch = modal.getElementsByClassName('navbar-new-tweet-user-search')[0];
             const newTweetPoll = document.getElementById('navbar-new-tweet-poll');
 
+            newTweetText.focus();
+
             let selectedIndex = 0;
             let pollToUpload = undefined;
 

@@ -1468,7 +1468,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 console.error(e);
                 return;
             }
-            if(options.after) {
+            if(options.after && !options.disableAfterReplyCounter) {
                 options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
                 options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
             }
@@ -1487,7 +1487,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return timestamp < tweetTime;
                 });
                 if(beforeTweet) {
-                    appendTweet(t, timelineContainer, { after: beforeTweet });
+                    appendTweet(t, timelineContainer, { after: beforeTweet, disableAfterReplyCounter: true });
                 }
                 return;
             } else {
@@ -1907,8 +1907,15 @@ setTimeout(() => {
     
     // custom events
     document.addEventListener('newTweet', e => {
-        let tweet = e.detail;
-        appendTweet(tweet, document.getElementById('timeline'), { prepend: true });
+        if(pageUser.id_str === user.id_str) {
+            let tweet = e.detail;
+            if(pinnedTweet) {
+                let firstTweet = document.getElementById('timeline').firstChild;
+                appendTweet(tweet, document.getElementById('timeline'), { after: firstTweet, disableAfterReplyCounter: true });
+            } else {
+                appendTweet(tweet, document.getElementById('timeline'), { prepend: true });
+            }
+        }
     });
     document.addEventListener('userRequest', e => {
         if(!user) return;
