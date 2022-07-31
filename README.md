@@ -101,3 +101,4 @@ These will work when reply/quote/new tweet modal is focused.
 - Downloading videos and GIFs
 - Account list & switching accounts
 - Lot of hotkeys
+- Custom CSS support

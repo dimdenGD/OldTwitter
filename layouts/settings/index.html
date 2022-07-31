@@ -98,6 +98,23 @@
                     </div>
                     <br>
                     <button class="nice-button" id="sync">Sync</button>
+                    <hr>
+                    <h1>Custom CSS</h1><br>
+                    <span>
+                        Override default CSS variables. Type them as <code>--some-variable: property</code>. Split by newline.<br>
+                        <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/blob/master/layouts/header/script.js#L1318">See list of default CSS variables here.</a>
+                    </span><br><br>
+                    <div class="setting">
+                        <textarea type="text" style="height: 71px; width: 550px;" id="custom-css-variables" placeholder="--background-color: #1b2836&#10;--darker-background-color: #141d26"></textarea>
+                    </div>
+                    <button class="nice-button" id="custom-css-variables-save">Save variables</button>
+                    <br><br>
+                    <span>Custom CSS to add on every page.</span>
+                    <br><br>
+                    <div class="setting">
+                        <textarea type="text" style="height: 71px; width: 550px;" id="custom-css" placeholder="body {&#10;    background-color: blue !important;&#10;}"></textarea>
+                    </div>
+                    <button class="nice-button" id="custom-css-save">Save CSS</button>
                 </div>
             </div>
             <div class="cell" id="right-cell">

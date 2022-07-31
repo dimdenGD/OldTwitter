@@ -1,7 +1,7 @@
 let user = {};
 let settings = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables'], data => {
     vars = data;
 });
 // Util
@@ -213,6 +213,10 @@ setTimeout(async () => {
     let colorPreviewDark = document.getElementById('color-preview-dark');
     let colorPreviewLight = document.getElementById('color-preview-light');
     let disableHotkeys = document.getElementById('disable-hotkeys');
+    let customCSS = document.getElementById('custom-css');
+    let customCSSVariables = document.getElementById('custom-css-variables');
+    let customCSSSave = document.getElementById('custom-css-save');
+    let customCSSVariablesSave = document.getElementById('custom-css-variables-save');
 
     let root = document.querySelector(":root");
 
@@ -309,6 +313,29 @@ setTimeout(async () => {
             API.deleteTweet(tweet.id_str);
         }
     });
+    customCSS.addEventListener('keydown', e => {
+        if(e.key === "Tab") {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            customCSS.value += '    ';
+        }
+    });
+    customCSSSave.addEventListener('click', () => {
+        chrome.storage.sync.set({
+            customCSS: customCSS.value
+        }, () => {
+            let event = new CustomEvent('customCSS', { detail: customCSS.value });
+            document.dispatchEvent(event);
+        });
+    });
+    customCSSVariablesSave.addEventListener('click', () => {
+        chrome.storage.sync.set({
+            customCSSVariables: customCSSVariables.value
+        }, () => {
+            let event = new CustomEvent('customCSSVariables', { detail: customCSSVariables.value });
+            document.dispatchEvent(event);
+        });
+    });
 
     if(vars.linkColor) {
         linkColor.value = vars.linkColor;
@@ -338,6 +365,12 @@ setTimeout(async () => {
     }
     if(vars.disableHotkeys) {
         disableHotkeys.checked = vars.disableHotkeys;
+    }
+    if(vars.customCSS) {
+        customCSS.value = vars.customCSS;
+    }
+    if(vars.customCSSVariables) {
+        customCSSVariables.value = vars.customCSSVariables;
     }
 
     // Run

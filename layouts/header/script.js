@@ -1197,10 +1197,47 @@ setTimeout(async () => {
             root.style.setProperty('--link-color', pageUser.profile_link_color);
         }
     });
+    let isDarkModeEnabled = vars.darkMode;
     document.addEventListener('darkMode', e => {
         let enabled = e.detail;
+        isDarkModeEnabled = enabled;
         switchDarkMode(enabled);
     });
+
+    // custom css
+    document.addEventListener('customCSS', updateCustomCSS);
+    document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
+
+    let customCSS;
+    async function updateCustomCSS() {
+        let data = await new Promise((resolve) => {
+            chrome.storage.sync.get(['customCSS'], data => {
+                resolve(data);
+            });
+        });
+        if(!data.customCSS) data.customCSS = '';
+        if(customCSS) customCSS.remove();
+        customCSS = document.createElement('style');
+        customCSS.id = 'oldtwitter-custom-css';
+        customCSS.innerHTML = data.customCSS;
+        document.head.appendChild(customCSS);
+    }
+    async function updateCustomCSSVariables() {
+        let data = await new Promise((resolve) => {
+            chrome.storage.sync.get(['customCSSVariables'], data => {
+                resolve(data);
+            });
+        });
+        if(data.customCSSVariables) {
+            let csv = data.customCSSVariables.split('\n');
+            csv.forEach(line => {
+                let [name, value] = line.split(':');
+                value = value.trim();
+                if(value.endsWith(';')) value = value.slice(0, -1);
+                root.style.setProperty(name, value);
+            });
+        }
+    }
 
     // hotkeys
     if(!vars.disableHotkeys) {
@@ -1330,8 +1367,10 @@ setTimeout(async () => {
             root.style.setProperty('--more-color', '#30F');
             root.style.setProperty('--choice-bg', 'rgb(207, 217, 222)');
         }
+        updateCustomCSSVariables();
     }
     switchDarkMode(vars.darkMode);
+    updateCustomCSS();
     
     window.addEventListener('resize', () => {
         if (window.matchMedia('(display-mode: fullscreen)').matches ||
