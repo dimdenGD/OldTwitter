@@ -1742,6 +1742,33 @@ setTimeout(() => {
                 e.preventDefault();
                 e.stopImmediatePropagation();
                 activeTweet.click();
+            } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
+                // copy image
+                if(e.target.className.includes('tweet tweet-id-')) {
+                    if(!activeTweet) return;
+                    let media = activeTweet.getElementsByClassName('tweet-media')[0];
+                    if(!media) return;
+                    media = media.children[0];
+                    if(!media) return;
+                    if(media.tagName === "IMG") {
+                        let img = media;
+                        let canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        let ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
+                        canvas.toBlob((blob) => {
+                            navigator.clipboard.write([
+                                new ClipboardItem({ "image/png": blob })
+                            ]);
+                        }, "image/png");
+                    }
+                }
+            } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
+                // download media
+                if(e.target.className.includes('tweet tweet-id-')) {
+                    activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
+                }
             }
         });
     }

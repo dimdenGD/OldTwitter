@@ -66,6 +66,7 @@ Active tweet hotkeys. On bottom-right of tweet element there's blue dot showing 
 `R` - open reply box.  
 `Q` - open quote box.  
 `C` - copy tweet image.  
+`D` - download tweet media.  
 `SPACE` - open full image / pause or resume video.  
 `ENTER` - open tweet in new tab.  
   
