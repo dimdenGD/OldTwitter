@@ -1185,8 +1185,7 @@ setTimeout(() => {
                     if(e.keyCode === 82) { // ALT+R
                         // hide reply box
                         e.target.blur();
-                        let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                        tweetReply.hidden = true;
+                        activeTweet.getElementsByClassName('tweet-interact-reply')[0].click();
                     } else if(e.keyCode === 77) { // ALT+M
                         // upload media
                         let tweetReplyUpload = activeTweet.getElementsByClassName('tweet-reply-upload')[0];
@@ -1207,8 +1206,7 @@ setTimeout(() => {
                     if(e.keyCode === 81) { // ALT+Q
                         // hide quote box
                         e.target.blur();
-                        let tweetReply = activeTweet.getElementsByClassName('tweet-quote')[0];
-                        tweetReply.hidden = true;
+                        activeTweet.getElementsByClassName('tweet-interact-retweet')[0].click();
                     } else if(e.keyCode === 77) { // ALT+M
                         // upload media
                         let tweetQuoteUpload = activeTweet.getElementsByClassName('tweet-quote-upload')[0];
@@ -1298,6 +1296,28 @@ setTimeout(() => {
                 } else if(e.target.className === "tweet-interact-more") {
                     e.target.click();
                     activeTweet.getElementsByClassName('tweet-interact-more-menu-copy')[0].focus();
+                }
+            } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
+                // copy image
+                if(e.target.className.includes('tweet tweet-id-')) {
+                    if(!activeTweet) return;
+                    let media = activeTweet.getElementsByClassName('tweet-media')[0];
+                    if(!media) return;
+                    media = media.children[0];
+                    if(!media) return;
+                    if(media.tagName === "IMG") {
+                        let img = media;
+                        let canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        let ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
+                        canvas.toBlob((blob) => {
+                            navigator.clipboard.write([
+                                new ClipboardItem({ "image/png": blob })
+                            ]);
+                        }, "image/png");
+                    }
                 }
             }
         });
