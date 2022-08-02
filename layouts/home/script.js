@@ -302,6 +302,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ` : ''}
             </a>
             ` : ``}
+            ${t.limited_actions === 'limit_trusted_friends_tweet' ? `
+            <div class="tweet-limited">
+                This tweet is visible only to people who are in @${t.user.screen_name}'s trusted friends circle. <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">Learn more.</a>
+            </div>
+            ` : ''}
             ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply">${t.reply_count}</span>

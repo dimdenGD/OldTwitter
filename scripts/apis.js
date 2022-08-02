@@ -1785,6 +1785,22 @@ API.getReplies = (id, cursor) => {
                         type: tweet.id_str === id ? 'mainTweet' : 'tweet',
                         data: tweet
                     });
+                } else if (e.entryId.startsWith('tombstone-')) {
+                    let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
+                    let user = userData[tweet.user_id_str];
+                    tweet.id_str = e.content.item.content.tombstone.tweet.id;
+                    tweet.user = user;
+                    if(tweet.quoted_status_id_str) {
+                        tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
+                        tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                        tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                    }
+                    tweet.tombstone = e.content.item.content.tombstone.tombstoneInfo.text;
+                    list.push({
+                        type: tweet.id_str === id ? 'mainTweet' : 'tweet',
+                        data: tweet
+                    });
                 } else if(e.entryId.startsWith('conversationThread-')) {
                     let thread = e.content.item.content.conversationThread.conversationComponents.filter(c => c.conversationTweetComponent);
                     let threadList = [];

@@ -1109,3 +1109,17 @@ a:hover,
 .tweet-header-name-main {
     width: 300px;
 }
+.tweet-limited {
+    background-color: rgba(0, 255, 0, 0.05);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.tweet-warning {
+    background-color: rgba(255, 0, 0, 0.05);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

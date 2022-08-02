@@ -1406,3 +1406,17 @@ a:hover,
 .tweet-self-thread-div {
     margin-top: -5px;
 }
+.tweet-warning {
+    background-color: rgba(255, 0, 0, 0.05);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.tweet-limited {
+    background-color: rgba(0, 255, 0, 0.05);
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}

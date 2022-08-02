@@ -114,7 +114,7 @@ async function updateReplies(id, c) {
                     mainTweet: true
                 });
             }
-            appendComposeComponent(document.getElementById('timeline'), t.data);
+            if(t.data.limited_actions !== "non_compliant") appendComposeComponent(document.getElementById('timeline'), t.data);
         }
         if(t.type === 'tweet') {
             await appendTweet(t.data, document.getElementById('timeline'), {
@@ -705,6 +705,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ` : ''}
             </a>
             ` : ``}
+            ${t.limited_actions === 'limit_trusted_friends_tweet' && options.mainTweet ? `
+            <div class="tweet-limited">
+                This tweet is visible only to people who are in @${t.user.screen_name}'s trusted friends circle.<br>
+                <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">Learn more.</a>
+            </div>
+            ` : ''}
+            ${t.tombstone ? `<div class="tweet-warning">${t.tombstone}</div>` : ''}
             ${options.mainTweet ? /*html*/`
             <div class="tweet-footer">
                 <div class="tweet-footer-stats">
