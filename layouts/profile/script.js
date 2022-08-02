@@ -434,6 +434,7 @@ async function renderFollowersYouFollow(clear = true, cursor) {
     document.getElementById('loading-box').hidden = true;
 }
 
+let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 let everAddedAdditional = false;
 function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
@@ -889,6 +890,24 @@ function renderProfile() {
     joined.classList.add('profile-additional-thing', 'profile-additional-joined');
     joined.innerText = `Joined ${new Date(pageUser.created_at).toLocaleDateString('en', {month: 'long', year: 'numeric', day: 'numeric'})}`;
     additionalInfo.appendChild(joined);
+    if(pageUser.birthdate) {
+        let birth = document.createElement('span');
+        birth.classList.add('profile-additional-thing', 'profile-additional-birth');
+        if(user.id_str === pageUser.id_str) {
+            birth.classList.add('profile-additional-birth-me');
+        }
+        if(pageUser.birthdate.year) {
+            birth.innerText = `Born ${months[pageUser.birthdate.month-1]} ${pageUser.birthdate.day}, ${pageUser.birthdate.year}`;
+        } else {
+            birth.innerText = `Born ${months[pageUser.birthdate.month-1]} ${pageUser.birthdate.day}`;
+        }
+        let date = new Date();
+        if(pageUser.birthdate.month-1 === date.getMonth() && pageUser.birthdate.day === date.getDate()) {
+            birth.innerText += ` (today!)`;
+            birth.classList.add('profile-additional-birth-today');
+        }
+        additionalInfo.appendChild(birth);
+    }
 };
 
 async function appendTweet(t, timelineContainer, options = {}) {

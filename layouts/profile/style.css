@@ -1059,6 +1059,50 @@ a:hover,
 .profile-additional-joined:before {
     content: "\f177"
 }
+.profile-additional-birth:before {
+    content: "\f033"
+}
+.profile-additional-birth-today {
+    animation: rainbow 5s infinite
+}
+@keyframes rainbow {
+    0% {
+        color: #ff0000
+    }
+    15% {
+        color: #ff00ff
+    }
+    30% {
+        color: #0000ff
+    }
+    45% {
+        color: #00ffff
+    }
+    60% {
+        color: #00ff00
+    }
+    75% {
+        color: #ffff00
+    }
+    100% {
+        color: #ff0000
+    }
+}
+.profile-additional-birth {
+    width: fit-content
+}
+.profile-additional-birth-me:before {
+    color: currentColor;
+}
+.profile-additional-birth-me {
+    background-color: currentColor;
+}
+.profile-additional-birth-me:hover {
+    background-color: var(--darker-background-color);
+}
+.profile-additional-birth-me:hover:before {
+    color: var(--light-gray);
+}
 
 #profile-media-text:before {
     content: "\f110"

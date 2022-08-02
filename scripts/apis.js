@@ -926,8 +926,12 @@ API.getUserV2 = name => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
-            data.data.user.result.legacy.id_str = data.data.user.result.rest_id;
-            resolve(data.data.user.result.legacy);
+            let result = data.data.user.result;
+            result.legacy.id_str = result.rest_id;
+            if(result.legacy_extended_profile.birthdate) {
+                result.legacy.birthdate = result.legacy_extended_profile.birthdate;
+            }
+            resolve(result.legacy);
         }).catch(e => {
             reject(e);
         });
