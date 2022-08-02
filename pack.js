@@ -45,13 +45,15 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     content = content.replace("document.write(html);", `
     if(document.body) {
         document.body.remove();
+    } else {
+        let removeInt = setInterval(() => {
+            let body = document.querySelector('body[style^="background"]');
+            if(body) {
+                clearInterval(removeInt);
+                body.remove();
+            };
+        }, 50);
     };
-    setInterval(() => {
-        let body = document.querySelector('body[style="background-color: #FFFFFF;"]');
-        if(body) {
-            body.remove();
-        };
-    }, 1000);
     document.documentElement.innerHTML = html;`);
     content = content.replace("document.close();", "");
 
