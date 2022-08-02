@@ -926,3 +926,7 @@ input, textarea {
     border-color: var(--border);
     border-bottom: none;
 }
+.tweet-player {
+    border: none;
+    border-radius: 5px;
+}

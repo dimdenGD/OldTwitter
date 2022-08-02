@@ -209,7 +209,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         </div>
     `;
     if(t.card) {
-        generatePollCode(t, tweet, user);
+        generateCard(t, tweet, user);
     }
     if (options.top) {
         tweet.querySelector('.tweet-top').hidden = false;

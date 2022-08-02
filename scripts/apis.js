@@ -328,7 +328,7 @@ function escapeHTML(unsafe) {
 function stringInsert(string, index, value) {
     return string.substr(0, index) + value + string.substr(index);
 }
-function generatePollCode(tweet, tweetElement, user) {
+function generatePoll(tweet, tweetElement, user) {
     let pollElement = tweetElement.getElementsByClassName('tweet-poll')[0];
     pollElement.innerHTML = '';
     let poll = tweet.card.binding_values;
@@ -369,7 +369,7 @@ function generatePollCode(tweet, tweetElement, user) {
             choiceElement.addEventListener('click', async () => {
                 let newCard = await API.pollVote(poll.api.string_value, tweet.id_str, tweet.card.url, tweet.card.name, choice.id);
                 tweet.card = newCard.card;
-                generatePollCode(tweet, tweetElement, user);
+                generateCard(tweet, tweetElement, user);
             });
             pollElement.append(choiceElement);
         }
@@ -379,6 +379,20 @@ function generatePollCode(tweet, tweetElement, user) {
         footer.classList.add('poll-footer');
         footer.innerHTML = `${voteCount} vote${voteCount === 1 ? '' : 's'}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ Ends at ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}` : ''}`;
         pollElement.append(footer);
+    }
+}
+function generateCard(tweet, tweetElement, user) {
+    if(!tweet.card) return;
+    if(tweet.card.url.startsWith('card://')) {
+        generatePoll(tweet, tweetElement, user);
+    } else if(tweet.card.name === "player") {
+        let iframe = document.createElement('iframe');
+        iframe.src = tweet.card.binding_values.player_url.string_value;
+        iframe.classList.add('tweet-player');
+        iframe.width = 450;
+        iframe.height = 250;
+        tweetElement.getElementsByClassName('tweet-poll')[0].innerHTML = '';
+        tweetElement.getElementsByClassName('tweet-poll')[0].append(iframe);
     }
 }
 
@@ -1288,7 +1302,7 @@ API.getUserTweetsV2 = id => {
 }
 API.getUserTweets = (id, max_id, replies = false) => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=100&exclude_replies=${!replies}&include_my_retweet=1&include_rts=1&user_id=${id}${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+        fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=100&exclude_replies=${!replies}&include_my_retweet=1&include_rts=1&user_id=${id}${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-12&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
