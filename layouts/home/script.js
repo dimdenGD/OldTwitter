@@ -191,7 +191,7 @@ function renderUserData() {
     document.getElementById('user-tweets').innerText = user.statuses_count;
     document.getElementById('user-following').innerText = user.friends_count;
     document.getElementById('user-followers').innerText = user.followers_count;
-    document.getElementById('user-banner').src = user.profile_banner_url;
+    document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
     document.getElementById('wtf-viewall').href = `https://mobile.twitter.com/i/connect_people?user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
