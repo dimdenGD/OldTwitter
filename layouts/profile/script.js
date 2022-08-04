@@ -209,6 +209,16 @@ function updateUserData() {
             }
             return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
         });
+        if(pageUserData.reason) {
+            let e = pageUserData.reason;
+            if(String(e).includes('User has been suspended.')) {
+                return document.getElementById('loading-box-error').innerHTML = `User was suspended.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+            }
+            if(String(e).includes("reading 'result'")) {
+                return document.getElementById('loading-box-error').innerHTML = `User was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+            }
+            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+        }
         pageUserData = pageUserData.value;
         customColor = customColor.value;
         followersYouFollowData = followersYouFollowData.value;
