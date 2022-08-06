@@ -868,7 +868,7 @@ async function renderNotifications(data, append = false) {
                         credentials: 'include'
                     }).then(i => i.text()).then(i => {
                         notificationDiv.remove();
-                        alert(n.feedbkack.confirmation);
+                        alert(n.feedback.confirmation);
                     });
                 });
             }
