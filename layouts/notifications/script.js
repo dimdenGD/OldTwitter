@@ -795,6 +795,7 @@ async function renderNotifications(data, append = false) {
         if(e.content.notification) {
             let n = data.globalObjects.notifications[e.content.notification.id];
             if(!n) continue;
+            if(e.feedbackInfo) n.feedback = data.timeline.responseObjects.feedbackActions[e.feedbackInfo.feedbackKeys[0]];
             let notificationDiv = document.createElement('div');
             notificationDiv.className = 'notification';
             if(+entries[i].sortIndex > unreadBefore) {
@@ -838,18 +839,39 @@ async function renderNotifications(data, append = false) {
                 'heart_icon': 'ni-favorite',
                 'person_icon': 'ni-follow',
                 'retweet_icon': 'ni-retweet',
-                'recommendation_icon': 'ni-recommend'
+                'recommendation_icon': 'ni-recommend',
+                'lightning_bolt_icon': 'ni-bolt'
             };
             notificationDiv.innerHTML = /*html*/`
                 <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
                 <div class="notification-header">
                     ${notificationHeader}
                 </div>
+                ${n.feedback ? `<span class="notification-feedback">[${n.feedback.prompt}]</span>` : ''}
                 <div class="notification-text">${escapeHTML(replyTweet.full_text)}</div>
                 <div class="notification-avatars">
                     ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
                 </div>
             `;
+            if(n.feedback) {
+                let feedbackBtn = notificationDiv.querySelector('.notification-feedback');
+                feedbackBtn.addEventListener('click', () => {
+                    fetch(n.feedback.feedbackUrl, {
+                        headers: {
+                            "authorization": OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "x-twitter-client-language": "en",
+                            "x-twitter-active-user": "yes"
+                        },
+                        method: 'post',
+                        credentials: 'include'
+                    }).then(i => i.text()).then(i => {
+                        notificationDiv.remove();
+                        alert(n.feedbkack.confirmation);
+                    });
+                });
+            }
             notificationsContainer.append(notificationDiv);
             if(vars.enableTwemoji) twemoji.parse(notificationDiv);
         } else if(e.content.tweet) {

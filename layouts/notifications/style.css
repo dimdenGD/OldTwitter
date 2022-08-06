@@ -796,6 +796,10 @@ a:hover,
     color: #ca4e4e;
     content: "\f011"
 }
+.ni-bolt:before {
+    color: #fbff00;
+    content: "\f017"
+}
 
 .notification-avatar {
     display: inline-block;
@@ -854,4 +858,14 @@ a:hover,
 .tweet-translate:hover,
 .center-text:hover {
     text-decoration: underline
+}
+.notification-feedback {
+    float: right;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--default-text-color);
+    margin-top: 5px;
+}
+.notification-feedback:hover {
+    text-decoration: underline;
 }
