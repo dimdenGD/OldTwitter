@@ -189,6 +189,9 @@ function renderUserData() {
 
     document.getElementById('user-handle').innerText = `@${user.screen_name}`;
     document.getElementById('user-tweets').innerText = user.statuses_count;
+    document.getElementById('user-tweets-div').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
+    document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
     document.getElementById('user-following').innerText = user.friends_count;
     document.getElementById('user-followers').innerText = user.followers_count;
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';

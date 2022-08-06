@@ -1009,3 +1009,6 @@ a:hover,
     margin-top: 10px;
     margin-bottom: 10px;
 }
+.user-stat-div:hover {
+    text-decoration: none !important;
+}

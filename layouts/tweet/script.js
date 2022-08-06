@@ -302,6 +302,9 @@ function renderUserData() {
     document.getElementById('user-name').classList.toggle('user-protected', user.protected);
 
     document.getElementById('user-handle').innerText = `@${user.screen_name}`;
+    document.getElementById('user-tweets-div').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
+    document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
     document.getElementById('user-tweets').innerText = user.statuses_count;
     document.getElementById('user-following').innerText = user.friends_count;
     document.getElementById('user-followers').innerText = user.followers_count;
