@@ -840,7 +840,9 @@ async function renderNotifications(data, append = false) {
                 'person_icon': 'ni-follow',
                 'retweet_icon': 'ni-retweet',
                 'recommendation_icon': 'ni-recommend',
-                'lightning_bolt_icon': 'ni-bolt'
+                'lightning_bolt_icon': 'ni-bolt',
+                'bird_icon': 'ni-twitter',
+                'security_alert_icon': 'ni-alert'
             };
             notificationDiv.innerHTML = /*html*/`
                 <div class="notification-icon ${iconClasses[n.icon.id]}"></div>

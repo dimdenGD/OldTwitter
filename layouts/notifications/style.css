@@ -753,7 +753,7 @@ a:hover,
 }
 
 .notification-header {
-    display: inline-block;
+    display: inline;
     font-size: 14px;
     left: 31px;
     position: relative;
@@ -799,6 +799,14 @@ a:hover,
 .ni-bolt:before {
     color: #fbff00;
     content: "\f017"
+}
+.ni-twitter:before {
+    color: #00aced;
+    content: "\f014"
+}
+.ni-alert:before {
+    color: #ff0000;
+    content: "\f182"
 }
 
 .notification-avatar {
