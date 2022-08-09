@@ -338,10 +338,10 @@ function generatePoll(tweet, tweetElement, user) {
         id: i+1
     }));
     let voteCount = choices.reduce((acc, cur) => acc + cur.count, 0);
-    if(poll.selected_choice || user.id_str === tweet.user.id_str) {
+    if(poll.selected_choice || user.id_str === tweet.user.id_str || (poll.counts_are_final && poll.counts_are_final.boolean_value)) {
         for(let i in choices) {
             let choice = choices[i];
-            if(user.id_str !== tweet.user.id_str && choice.id === +poll.selected_choice.string_value) {
+            if(user.id_str !== tweet.user.id_str && poll.selected_choice && choice.id === +poll.selected_choice.string_value) {
                 choice.selected = true;
             }
             choice.percentage = Math.round(choice.count / voteCount * 100);
