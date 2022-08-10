@@ -282,10 +282,12 @@ setTimeout(async () => {
     profileLinkColor.addEventListener('change', () => {
         let previewColor = profileLinkColor.value;
         colorPreviewLight.style.color = `${previewColor}`;
-        let rgb = hex2rgb(previewColor);
-        let ratio = contrast(rgb, [27, 40, 54]);
-        if(ratio < 4) {
-            previewColor = colorShade(previewColor, 80);
+        if(previewColor !== "#000000") {
+            let rgb = hex2rgb(previewColor);
+            let ratio = contrast(rgb, [27, 40, 54]);
+            if(ratio < 4) {
+                previewColor = colorShade(previewColor, 80);
+            }
         }
         colorPreviewDark.style.color = `${previewColor}`;
     });

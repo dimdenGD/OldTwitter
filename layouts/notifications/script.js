@@ -101,7 +101,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                 <div class="tweet-header-quote">
                     <span class="tweet-header-info-quote">
-                        <b class="tweet-header-name-quote">${escapeHTML(t.quoted_status.user.name)}</b>
+                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified || t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                     </span>
                 </div>

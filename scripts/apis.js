@@ -2049,7 +2049,7 @@ API.searchV2 = (obj, cursor) => {
             let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('user-') || e.entryId.startsWith('tweet-'));
             let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
             if(!cursor) {
-                let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace === 'sq-cursor-bottom' || i.replaceEntry.entryIdToReplace === 'cursor-bottom'));
+                let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace.includes('sq-cursor-bottom') || i.replaceEntry.entryIdToReplace.includes('cursor-bottom')));
                 if(entries) {
                     cursor = entries.replaceEntry.entry.content.operation.cursor.value;
                 }

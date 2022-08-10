@@ -242,7 +242,7 @@ function updateUserData() {
             let r = document.querySelector(':root');
             let rgb = hex2rgb(customColor);
             let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4 && vars.darkMode) {
+            if(ratio < 4 && vars.darkMode && customColor !== '000000') {
                 customColor = colorShade(customColor, 80).slice(1);
             }
             r.style.setProperty('--link-color', `#`+customColor);
@@ -250,7 +250,7 @@ function updateUserData() {
             let r = document.querySelector(':root');
             let rgb = hex2rgb(oldUser.profile_link_color);
             let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4 && vars.darkMode) {
+            if(ratio < 4 && vars.darkMode && customColor !== '000000') {
                 oldUser.profile_link_color = colorShade(oldUser.profile_link_color, 80).slice(1);
             }
             if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
@@ -992,7 +992,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                 <div class="tweet-header-quote">
                     <span class="tweet-header-info-quote">
-                        <b class="tweet-header-name-quote">${escapeHTML(t.quoted_status.user.name)}</b>
+                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified || t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                     </span>
                 </div>

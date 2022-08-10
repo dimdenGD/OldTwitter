@@ -5,6 +5,7 @@ chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'
     vars = data;
 });
 let cursor;
+let linkColors = {};
 let searchParams = {}, searchSettings = {};
 let saved;
 
@@ -14,6 +15,7 @@ function updateSubpage() {
     let params = Object.fromEntries(new URLSearchParams(location.search + location.hash));
     searchParams = params || {};
     searchSettings = {};
+    linkColors = {};
     let activeParams = Array.from(document.getElementsByClassName('search-switch-active'));
     activeParams.forEach(a => a.classList.remove('search-switch-active'));
     if(params.f === 'live') {
@@ -76,6 +78,49 @@ function updateUserData() {
 function renderUserData() {
     document.getElementById('wtf-viewall').href = `https://mobile.twitter.com/i/connect_people?user_id=${user.id_str}`;
 }
+function luminance(r, g, b) {
+    var a = [r, g, b].map(function(v) {
+      v /= 255;
+      return v <= 0.03928 ?
+        v / 12.92 :
+        Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+  }
+function contrast(rgb1, rgb2) {
+    var lum1 = luminance(rgb1[0], rgb1[1], rgb1[2]);
+    var lum2 = luminance(rgb2[0], rgb2[1], rgb2[2]);
+    var brightest = Math.max(lum1, lum2);
+    var darkest = Math.min(lum1, lum2);
+    return (brightest + 0.05) /
+      (darkest + 0.05);
+  }
+const hex2rgb = (hex) => {
+      if(!hex.startsWith('#')) hex = `#${hex}`;
+      const r = parseInt(hex.slice(1, 3), 16)
+      const g = parseInt(hex.slice(3, 5), 16)
+      const b = parseInt(hex.slice(5, 7), 16)
+      // return {r, g, b} // return an object
+      return [ r, g, b ]
+}
+  
+const colorShade = (col, amt) => {
+    col = col.replace(/^#/, '')
+    if (col.length === 3) col = col[0] + col[0] + col[1] + col[1] + col[2] + col[2]
+  
+    let [r, g, b] = col.match(/.{2}/g);
+    ([r, g, b] = [parseInt(r, 16) + amt, parseInt(g, 16) + amt, parseInt(b, 16) + amt])
+  
+    r = Math.max(Math.min(255, r), 0).toString(16)
+    g = Math.max(Math.min(255, g), 0).toString(16)
+    b = Math.max(Math.min(255, b), 0).toString(16)
+  
+    const rr = (r.length < 2 ? '0' : '') + r
+    const gg = (g.length < 2 ? '0' : '') + g
+    const bb = (b.length < 2 ? '0' : '') + b
+  
+    return `#${rr}${gg}${bb}`
+}
 
 async function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
@@ -91,6 +136,25 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if (options.noTop) tweet.classList.add('tweet-no-top');
+    if(vars.linkColorsInTL) {
+        if(linkColors[t.user.screen_name]) {
+            let rgb = hex2rgb(linkColors[t.user.screen_name]);
+            let ratio = contrast(rgb, [27, 40, 54]);
+            if(ratio < 4 && vars.darkMode && linkColors[t.user.screen_name] !== '000000') {
+                linkColors[t.user.screen_name] = colorShade(linkColors[t.user.screen_name], 80).slice(1);
+            }
+            tweet.style.setProperty('--link-color', '#'+linkColors[t.user.screen_name]);
+        } else {
+            if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
+                let rgb = hex2rgb(t.user.profile_link_color);
+                let ratio = contrast(rgb, [27, 40, 54]);
+                if(ratio < 4 && vars.darkMode && linkColors[t.user.screen_name] !== '000000') {
+                    t.user.profile_link_color = colorShade(t.user.profile_link_color, 80).slice(1);
+                }
+                tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);
+            }
+        }
+    }
     const mediaClasses = [
         undefined,
         'tweet-media-element-one',
@@ -145,7 +209,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                 <div class="tweet-header-quote">
                     <span class="tweet-header-info-quote">
-                        <b class="tweet-header-name-quote">${escapeHTML(t.quoted_status.user.name)}</b>
+                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified || t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                     </span>
                 </div>
@@ -826,6 +890,7 @@ async function renderSearch(c) {
     let searchDiv = document.getElementById('timeline');
     let searchMore = document.getElementById('search-more');
     searchMore.hidden = false;
+    searchMore.innerText = 'Loading...';
     let search;
     try {
         if(!settings) {
@@ -853,11 +918,27 @@ async function renderSearch(c) {
         console.error(e);
         cursor = undefined;
         searchMore.hidden = true;
+        searchMore.innerText = 'Load more';
         return document.getElementById('loading-box').hidden = true;
     }
     if(!c) {
         searchDiv.innerHTML = '';
     }
+    if(vars.linkColorsInTL) {
+        let tlUsers = [];
+        for(let i in search) {
+            let t = search[i];
+            if(t.type !== 'user') {
+                if(!tlUsers.includes(t.user.screen_name)) tlUsers.push(t.user.screen_name); 
+            }
+        }
+        tlUsers = tlUsers.filter(i => !linkColors[i]);
+        let linkData = await fetch(`https://dimden.dev/services/twitter_link_colors/get_multiple/${tlUsers.join(',')}`).then(res => res.json()).catch(console.error);
+        if(linkData) for(let i in linkData) {
+            linkColors[linkData[i].username] = linkData[i].color;
+        }
+    }
+    searchMore.innerText = 'Load more';
     if(search.length === 0) {
         searchDiv.innerHTML = `<div class="no-results">
             <br><br>

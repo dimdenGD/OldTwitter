@@ -624,7 +624,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(linkColors[t.user.screen_name]) {
             let rgb = hex2rgb(linkColors[t.user.screen_name]);
             let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4 && vars.darkMode) {
+            if(ratio < 4 && vars.darkMode && linkColors[t.user.screen_name] !== '000000') {
                 linkColors[t.user.screen_name] = colorShade(linkColors[t.user.screen_name], 80).slice(1);
             }
             tweet.style.setProperty('--link-color', '#'+linkColors[t.user.screen_name]);
@@ -632,7 +632,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                 let rgb = hex2rgb(t.user.profile_link_color);
                 let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4 && vars.darkMode) {
+                if(ratio < 4 && vars.darkMode && linkColors[t.user.screen_name] !== '000000') {
                     t.user.profile_link_color = colorShade(t.user.profile_link_color, 80).slice(1);
                 }
                 tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);
@@ -695,8 +695,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                 <div class="tweet-header-quote">
                     <span class="tweet-header-info-quote">
-                        <b class="tweet-header-name-quote">${escapeHTML(t.quoted_status.user.name)}</b>
-                        <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
+                    <b class="tweet-header-name-quote ${t.quoted_status.user.verified || t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
+                    <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                     </span>
                 </div>
                 <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
