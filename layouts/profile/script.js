@@ -1497,7 +1497,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
     if (t.user.id_str === user.id_str) {
         tweetInteractMoreMenuAnalytics.addEventListener('click', () => {
-            openInNewTab(`https://twitter.com/dimdenEFF/status/${t.id_str}/analytics`);
+            openInNewTab(`https://mobile.twitter.com/dimdenEFF/status/${t.id_str}/analytics`);
         });
         tweetInteractMoreMenuDelete.addEventListener('click', async () => {
             let sure = confirm("Are you sure you want to delete this tweet?");
