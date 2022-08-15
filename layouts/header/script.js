@@ -1180,13 +1180,29 @@ setTimeout(async () => {
                 userDataFunction({ detail: u });
             });
         }
+    }, 5000);
+    setTimeout(() => {
         let version = document.getElementById('oldtwitter-version');
         if(version) {
             fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`).then(res => res.json()).then(res => {
                 version.innerText += ` (last version: ${res.version})`;
             });
         }
-    }, 5000);
+        let about = document.getElementById('about');
+        if(about) {
+            let a = document.createElement('a');
+            a.href = location.href.replace('twitter.com', 'mobile.twitter.com');
+            setInterval(() => {
+                a.href = location.href.replace('twitter.com', 'mobile.twitter.com');
+            }, 500);
+            a.innerText = '[Open this page in new Twitter]';
+            a.addEventListener('click', e => {
+                e.stopImmediatePropagation();
+            });
+            a.style.color = 'var(--light-gray)';
+            about.appendChild(a);
+        }
+    }, 500);
     document.addEventListener('updateUserData', userDataFunction);
 
     let root = document.querySelector(":root");
