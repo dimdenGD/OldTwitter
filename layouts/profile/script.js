@@ -2070,6 +2070,7 @@ setTimeout(() => {
     document.getElementById('tweet-nav-tweets').addEventListener('click', updatePath);
     document.getElementById('tweet-nav-replies').addEventListener('click', updatePath);
     document.getElementById('tweet-nav-media').addEventListener('click', updatePath);
+    if(document.getElementById('profile-media-text')) document.getElementById('profile-media-text').addEventListener('click', updatePath);
     document.getElementById('profile-stat-tweets-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-following-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-followers-link').addEventListener('click', updatePath);

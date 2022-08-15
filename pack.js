@@ -1,3 +1,7 @@
+/*
+This script generates Firefox version of the extension and packs Chrome and Firefox versions to zip files.
+*/
+
 const fsp = require('fs').promises;
 const fs = require('fs');
 const path = require('path');
