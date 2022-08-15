@@ -46,6 +46,17 @@ You had algorithmical timeline enabled. By default OldTwitter turns on chronolog
 #### How do I visit original Twitter client after installing extension?
 Go to [mobile.twitter.com](https://mobile.twitter.com).
 
+## Features
+- Basically almost all of Twitter functionality is implemented
+- Custom profile links supported
+- You can also change custom profile link and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
+- Ability to change default link color and font, enable/disable Twemoji, disable stars (favorites) back to likes (hearts)
+- Ability to show custom user link colors in timeline
+- Dark mode support
+- Easy download of videos and GIFs
+- Lot of hotkeys
+- Custom CSS support
+  
 ## Hotkeys
 You can disable all hotkeys in settings.  
   
@@ -77,16 +88,3 @@ These hotkeys work only when reply/quote box is opened.
 These will work when reply/quote/new tweet modal is focused.  
 `ALT+M` - upload media.  
 `ALT+F` - remove first uploaded media.   
-
-## Features
-- Basically almost all of Twitter functionality is implemented
-- Custom profile links supported
-- You can also change custom profile link and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
-- Ability to change default link color and font
-- Ability to enable/disable Twemoji
-- Ability to disable stars (favorites) back to likes (hearts)
-- Ability to show custom user colors in timeline
-- Dark mode support
-- Easy download of videos and GIFs
-- Lot of hotkeys
-- Custom CSS support
