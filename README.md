@@ -79,26 +79,14 @@ These will work when reply/quote/new tweet modal is focused.
 `ALT+F` - remove first uploaded media.   
 
 ## Features
-- Chronological and algorithmical timelines
-- Trends module
-- 'Who to follow' and 'You may also like' modules
-- Notifications page (Mentions-only too)
-- Profiles with following/followers/favorites/media/replies subpages
-- Search bar with recent and saved searches
-- Search page with advanced search
+- Basically almost all of Twitter functionality is implemented
 - Custom profile links supported
-- You can also change custom profile link and it'll appear for other extension users (priority: custom color db -> twitter color db -> default color)
-- Tweet pages
-- Tweeting and bundled user search in tweet input
-- Media uploads
-- Poll support
-- Direct Messages support
+- You can also change custom profile link and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
 - Ability to change default link color and font
 - Ability to enable/disable Twemoji
 - Ability to disable stars (favorites) back to likes (hearts)
 - Ability to show custom user colors in timeline
 - Dark mode support
-- Downloading videos and GIFs
-- Account list & switching accounts
+- Easy download of videos and GIFs
 - Lot of hotkeys
 - Custom CSS support
