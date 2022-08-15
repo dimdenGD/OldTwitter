@@ -1189,7 +1189,7 @@ setTimeout(async () => {
             });
         }
         let about = document.getElementById('about');
-        if(about) {
+        if(about && !location.pathname.startsWith('/old/')) {
             let a = document.createElement('a');
             a.href = location.href.replace('twitter.com', 'mobile.twitter.com');
             setInterval(() => {

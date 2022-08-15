@@ -28,7 +28,7 @@ let pages = [
     },
 ];
 
-let realPath = window.location.pathname.split('?')[0].split('#')[0];
+let realPath = location.pathname.split('?')[0].split('#')[0];
 if (realPath.endsWith("/")) {
     realPath = realPath.slice(0, -1);
 }
@@ -45,6 +45,9 @@ if (realPath.startsWith("/i/user/")) {
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/photo\/\d+(|\/)$/.test(realPath)) {
     let path = realPath.split("/photo/")[0];
     location.href = path;
+}
+if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath)) {
+    location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
 }
 let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
 
