@@ -15,7 +15,8 @@ setInterval(() => {
         realPath === '/logout' ||
         realPath === '/account/switch' ||
         realPath.endsWith('/lists') ||
-        realPath.endsWith('/topics')
+        realPath.endsWith('/topics') ||
+        realPath.startsWith('/settings/')
     ) {
         r.hidden = true;
     } else {
