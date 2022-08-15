@@ -14,6 +14,17 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 ![Notifications](https://lune.dimden.dev/079d8c046c.png)  
 ![Search](https://lune.dimden.dev/575b9d30f1.png)  
   
+## Features
+- Basically almost all of Twitter functionality is implemented
+- Custom profile links supported
+- You can also change custom profile link and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
+- Ability to change default link color and font, enable/disable Twemoji, disable stars (favorites) back to likes (hearts)
+- Ability to show custom user link colors in timeline
+- Dark mode support
+- Easy download of videos and GIFs
+- Lot of hotkeys
+- Custom CSS support
+  
 ## Manual installation
 - Go to [Releases page](https://github.com/dimdenGD/OldTwitter/releases/)  
 - Download `OldTwitterChrome.zip` if you're on Chromium based browsers and `OldTwitterFirefox.zip` if you're on Firefox  
@@ -28,7 +39,6 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 #### Firefox
 - Go to `about:debugging#/runtime/this-firefox`  
 - Press "Load Temporary Add-on" and select zip file you downloaded
-![Install Firefox](https://lune.dimden.dev/f1bbe6dd0c.png)  
   
 **Installing this way on Firefox will remove it after closing browser.**
   
@@ -45,17 +55,6 @@ You had algorithmical timeline enabled. By default OldTwitter turns on chronolog
 
 #### How do I visit original Twitter client after installing extension?
 Go to [mobile.twitter.com](https://mobile.twitter.com).
-
-## Features
-- Basically almost all of Twitter functionality is implemented
-- Custom profile links supported
-- You can also change custom profile link and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
-- Ability to change default link color and font, enable/disable Twemoji, disable stars (favorites) back to likes (hearts)
-- Ability to show custom user link colors in timeline
-- Dark mode support
-- Easy download of videos and GIFs
-- Lot of hotkeys
-- Custom CSS support
   
 ## Hotkeys
 You can disable all hotkeys in settings.  
