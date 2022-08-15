@@ -21,6 +21,7 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 - Ability to change default link color and font, enable/disable Twemoji, disable stars (favorites) back to likes (hearts)
 - Ability to show custom user link colors in timeline
 - Dark mode support
+- Removes all ads
 - Easy download of videos and GIFs
 - Lot of hotkeys
 - Custom CSS support
