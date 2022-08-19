@@ -13,6 +13,7 @@ setInterval(() => {
         realPath === '/login' ||
         realPath === '/register' ||
         realPath === '/logout' ||
+        realPath === '/messages' ||
         realPath === '/account/switch' ||
         realPath.endsWith('/lists') ||
         realPath.endsWith('/topics') ||
