@@ -155,6 +155,19 @@ body {
     background-color: var(--darker-background-color)
 }
 
+.tweet-interact-reply[data-val="0"],
+.tweet-interact-retweet[data-val="0"],
+.tweet-interact-favorite[data-val="0"] {
+    color: var(--background-color);
+}
+
+.tweet:hover .tweet-interact-reply[data-val="0"],
+.tweet:hover .tweet-interact-retweet[data-val="0"],
+.tweet:hover .tweet-interact-favorite[data-val="0"] {
+    color: var(--darker-background-color);
+}
+
+
 .tweet-avatar-link {
     float: left;
     margin-right: 10px
@@ -230,7 +243,7 @@ span.tweet-body-text {
 .tweet-interact,
 .tweet-body-text-quote {
     display: flow-root;
-    color: var(--default-text-color)
+    color: var(--almost-black)
 }
 .tweet-body-text-quote {
     overflow-x: hidden;
@@ -731,10 +744,16 @@ a:hover,
 }
 
 .tweet-translate {
-    color: var(--link-color);
+    color: var(--light-gray);
     cursor: pointer;
-    font-size: 13px;
+    font-size: 12px;
     margin-top: 2px
+}
+.tweet-translate:before {
+    content: "\f089";
+    font: 12px RosettaIcons;
+    margin-right: 5px;
+    vertical-align: text-bottom;
 }
 
 .tweet-interact-more-menu hr {

@@ -86,7 +86,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${!isEnglish ? `
             <br>
-            <span class="tweet-translate">Translate tweet</span>
+            <span class="tweet-translate">View translation</span>
             ` : ``}
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
@@ -116,13 +116,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
             ` : ``}
             ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
             <div class="tweet-interact">
-                <span class="tweet-interact-reply">${t.reply_count}</span>
-                <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}">${t.retweet_count}</span>
+                <span class="tweet-interact-reply" data-val="${t.reply_count}">${t.reply_count}</span>
+                <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${t.retweet_count}</span>
                 <div class="tweet-interact-retweet-menu" hidden>
                     <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span><br>
                     <span class="tweet-interact-retweet-menu-quote">Quote tweet</span>
                 </div>
-                <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}">${t.favorite_count}</span>
+                <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${t.favorite_count}</span>
                 <span class="tweet-interact-more"></span>
                 <div class="tweet-interact-more-menu" hidden>
                     <span class="tweet-interact-more-menu-copy">Copy link</span><br>
@@ -361,6 +361,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetReplyText.value = '';
         tweetReply.hidden = true;
         tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
+        tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText) + 1;
         tweetInteractReply.innerText = parseInt(tweetInteractReply.innerText) + 1;
         tweetData._ARTIFICIAL = true;
         timeline.data.unshift(tweetData);
@@ -406,6 +407,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Unretweet';
             tweetInteractRetweet.classList.add('tweet-interact-retweeted');
+            tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText) + 1;
             tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) + 1;
             t.retweeted = true;
             t.newTweetId = tweetData.id_str;
@@ -422,6 +424,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
             tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
+            tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText) - 1;
             tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) - 1;
             t.retweeted = false;
             delete t.newTweetId;
@@ -537,6 +540,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             t.favorited = false;
             t.favorite_count--;
+            tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText) - 1;
             tweetInteractFavorite.innerText = parseInt(tweetInteractFavorite.innerText) - 1;
             tweetInteractFavorite.classList.remove('tweet-interact-favorited');
         } else {
@@ -545,6 +549,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             t.favorited = true;
             t.favorite_count++;
+            tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText) + 1;
             tweetInteractFavorite.innerText = parseInt(tweetInteractFavorite.innerText) + 1;
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }

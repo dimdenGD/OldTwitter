@@ -613,7 +613,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
     }
     tweet.tabIndex = -1;
-    tweet.className = `tweet tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : ''}`;
+    tweet.className = `tweet tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : 'tweet-replying'}`;
     if(!activeTweet) {
         tweet.classList.add('tweet-active');
         activeTweet = tweet;
@@ -676,10 +676,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
         </div>
         <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
-            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
+            <span class="tweet-body-text ${(t.full_text && t.full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${!isEnglish ? `
             <br>
-            <span class="tweet-translate">Translate tweet</span>
+            <span class="tweet-translate">View translation</span>
             ` : ``}
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
@@ -734,10 +734,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <div class="tweet-footer-favorites"></div>
             </div>
             ` : ''}
-            <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleString()} ・ ${t.source.split('>')[1].split('<')[0]}</a>
+            <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source.split('>')[1].split('<')[0]}</a>
             <div class="tweet-interact">
-                <span class="tweet-interact-reply">${options.mainTweet ? '' : t.reply_count}</span>
-                <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}">${options.mainTweet ? '' : t.retweet_count}</span>
+                <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
+                <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
                 <div class="tweet-interact-retweet-menu" hidden>
                     <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span><br>
                     <span class="tweet-interact-retweet-menu-quote">Quote tweet</span><br>
@@ -746,7 +746,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         <span class="tweet-interact-retweet-menu-retweeters">See retweeters</span><br>
                     ` : ''}
                 </div>
-                <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}">${options.mainTweet ? '' : t.favorite_count}</span>
+                <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : t.favorite_count}</span>
                 <span class="tweet-interact-more"></span>
                 <div class="tweet-interact-more-menu" hidden>
                     <span class="tweet-interact-more-menu-copy">Copy link</span><br>
@@ -1097,8 +1097,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetReplyText.value = '';
         tweetReply.hidden = true;
         tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
-        if(!options.mainTweet) tweetInteractReply.innerText = parseInt(tweetInteractReply.innerText) + 1;
-        else tweetFooterReplies.innerText = parseInt(tweetFooterReplies.innerText) + 1;
+        if(!options.mainTweet) {
+            tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText) + 1;
+            tweetInteractReply.innerText = parseInt(tweetInteractReply.innerText) + 1;
+        } else {
+            tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.innerText) + 1;
+            tweetFooterReplies.innerText = parseInt(tweetFooterReplies.innerText) + 1;
+        }
         tweetData._ARTIFICIAL = true;
         if(tweet.getElementsByClassName('tweet-self-thread-div')[0]) tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
         tweetReplyButton.disabled = false;
@@ -1148,8 +1153,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractRetweet.classList.add('tweet-interact-retweeted');
             t.retweeted = true;
             t.newTweetId = tweetData.id_str;
-            if(!options.mainTweet) tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) + 1;
-            else tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+            if(!options.mainTweet) {
+                tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText) + 1;
+                tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) + 1;
+            } else {
+                tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+            }
         } else {
             let tweetData;
             try {
@@ -1164,8 +1173,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
             tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
             t.retweeted = false;
-            if(!options.mainTweet) tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) - 1;
-            else tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+            if(!options.mainTweet) {
+                tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText) - 1;
+                tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) - 1;
+            } else {
+                tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+            }
             delete t.newTweetId;
         }
     });
@@ -1325,8 +1338,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             t.favorited = false;
             t.favorite_count--;
-            if(!options.mainTweet) tweetInteractFavorite.innerText = parseInt(tweetInteractFavorite.innerText) - 1;
-            else tweetFooterFavorites.innerText = Number(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+            if(!options.mainTweet) {
+                tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText) - 1;
+                tweetInteractFavorite.innerText = parseInt(tweetInteractFavorite.innerText) - 1;
+            } else {
+                tweetFooterFavorites.innerText = Number(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+            }
             tweetInteractFavorite.classList.remove('tweet-interact-favorited');
         } else {
             API.favoriteTweet({
@@ -1334,8 +1351,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             t.favorited = true;
             t.favorite_count++;
-            if(!options.mainTweet) tweetInteractFavorite.innerText = parseInt(tweetInteractFavorite.innerText) + 1;
-            else tweetFooterFavorites.innerText = Number(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+            if(!options.mainTweet) {
+                tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText) + 1;
+                tweetInteractFavorite.innerText = parseInt(tweetInteractFavorite.innerText) + 1;
+            } else {
+                tweetFooterFavorites.innerText = Number(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+            }
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }
     });
