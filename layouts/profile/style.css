@@ -928,10 +928,16 @@ a:hover,
 }
 
 .tweet-translate {
-    color: var(--link-color);
-    font-size: 13px;
+    color: var(--light-gray);
     cursor: pointer;
+    font-size: 12px;
     margin-top: 2px
+}
+.tweet-translate:before {
+    content: "\f089";
+    font: 12px RosettaIcons;
+    margin-right: 5px;
+    vertical-align: text-bottom;
 }
 
 .tweet-interact-more-menu hr {
