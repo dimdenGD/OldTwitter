@@ -423,23 +423,32 @@ API.pollVote = (api, tweet_id, card_uri, card_name, selected_choice) => {
 }
 API.verifyCredentials = () => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/account/verify_credentials.json`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session"
-            },
-            credentials: "include"
-        }).then(response => response.json()).then(data => {
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
+        chrome.storage.local.get(['credentials'], d => {
+            if(d.credentials && Date.now() - d.credentials.date < 60000*15) {
+                return resolve(d.credentials.data);
             }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            resolve(data);
-        }).catch(e => {
-            reject(e);
+            fetch(`https://api.twitter.com/1.1/account/verify_credentials.json`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session"
+                },
+                credentials: "include"
+            }).then(response => response.json()).then(data => {
+                if (data.errors && data.errors[0].code === 32) {
+                    return reject("Not logged in");
+                }
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data);
+                chrome.storage.local.set({credentials: {
+                    date: Date.now(),
+                    data
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
         });
     })
 }
@@ -717,23 +726,32 @@ API.getTweet = id => {
 }
 API.getSettings = () => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/account/settings.json`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
+        chrome.storage.local.get(['twitterSettings'], d => {
+            if(d.twitterSettings && Date.now() - d.twitterSettings.date < 60000*10) {
+                return resolve(d.twitterSettings.data);
             }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            resolve(data);
-        }).catch(e => {
-            reject(e);
+            fetch(`https://api.twitter.com/1.1/account/settings.json`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0].code === 32) {
+                    return reject("Not logged in");
+                }
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data);
+                chrome.storage.local.set({twitterSettings: {
+                    date: Date.now(),
+                    data
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
         });
     });
 }
@@ -1767,99 +1785,117 @@ API.getReplies = (id, cursor) => {
         if(cursor) {
             cursor = cursor.replace(/\+/g, '%2B');
         }
-        fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=20&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded"
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
+        chrome.storage.local.get(['tweetReplies'], d => {
+            if(!d.tweetReplies) d.tweetReplies = {};
+            if(!cursor) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
+                    return resolve(d.tweetReplies[id].data);
+                }
             }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            let tweetData = data.globalObjects.tweets;
-            let userData = data.globalObjects.users;
-            let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
-            let list = [];
-            for (let i = 0; i < entries.length; i++) {
-                let e = entries[i];
-                if (e.entryId.startsWith('tweet-')) {
-                    let tweet = tweetData[e.content.item.content.tweet.id];
-                    let user = userData[tweet.user_id_str];
-                    tweet.id_str = e.content.item.content.tweet.id;
-                    tweet.user = user;
-                    if(tweet.quoted_status_id_str) {
-                        tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
-                        tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
-                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                        tweet.quoted_status.id_str = tweet.quoted_status_id_str;
-                    }
-                    list.push({
-                        type: tweet.id_str === id ? 'mainTweet' : 'tweet',
-                        data: tweet
-                    });
-                } else if (e.entryId.startsWith('tombstone-')) {
-                    let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
-                    let user = userData[tweet.user_id_str];
-                    tweet.id_str = e.content.item.content.tombstone.tweet.id;
-                    tweet.user = user;
-                    if(tweet.quoted_status_id_str) {
-                        tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
-                        tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
-                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                        tweet.quoted_status.id_str = tweet.quoted_status_id_str;
-                    }
-                    tweet.tombstone = e.content.item.content.tombstone.tombstoneInfo.text;
-                    list.push({
-                        type: tweet.id_str === id ? 'mainTweet' : 'tweet',
-                        data: tweet
-                    });
-                } else if(e.entryId.startsWith('conversationThread-')) {
-                    let thread = e.content.item.content.conversationThread.conversationComponents.filter(c => c.conversationTweetComponent);
-                    let threadList = [];
-                    for (let j = 0; j < thread.length; j++) {
-                        let t = thread[j];
-                        let tweet = tweetData[t.conversationTweetComponent.tweet.id];
-                        if(!tweet) continue;
+            fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=20&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                    "content-type": "application/x-www-form-urlencoded"
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0].code === 32) {
+                    return reject("Not logged in");
+                }
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                let tweetData = data.globalObjects.tweets;
+                let userData = data.globalObjects.users;
+                let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
+                let list = [];
+                for (let i = 0; i < entries.length; i++) {
+                    let e = entries[i];
+                    if (e.entryId.startsWith('tweet-')) {
+                        let tweet = tweetData[e.content.item.content.tweet.id];
                         let user = userData[tweet.user_id_str];
-                        tweet.id_str = t.conversationTweetComponent.tweet.id;
+                        tweet.id_str = e.content.item.content.tweet.id;
+                        tweet.user = user;
                         if(tweet.quoted_status_id_str) {
                             tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
                             tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
                             tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
                             tweet.quoted_status.id_str = tweet.quoted_status_id_str;
                         }
+                        list.push({
+                            type: tweet.id_str === id ? 'mainTweet' : 'tweet',
+                            data: tweet
+                        });
+                    } else if (e.entryId.startsWith('tombstone-')) {
+                        let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
+                        let user = userData[tweet.user_id_str];
+                        tweet.id_str = e.content.item.content.tombstone.tweet.id;
                         tweet.user = user;
-                        threadList.push(tweet);
-                    }
-                    if(threadList.length === 1) {
+                        if(tweet.quoted_status_id_str) {
+                            tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
+                            tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                            tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                        }
+                        tweet.tombstone = e.content.item.content.tombstone.tombstoneInfo.text;
                         list.push({
-                            type: threadList[0].id_str === id ? 'mainTweet' : 'tweet',
-                            data: threadList[0]
+                            type: tweet.id_str === id ? 'mainTweet' : 'tweet',
+                            data: tweet
                         });
-                    } else {
-                        list.push({
-                            type: 'conversation',
-                            data: threadList
-                        });
+                    } else if(e.entryId.startsWith('conversationThread-')) {
+                        let thread = e.content.item.content.conversationThread.conversationComponents.filter(c => c.conversationTweetComponent);
+                        let threadList = [];
+                        for (let j = 0; j < thread.length; j++) {
+                            let t = thread[j];
+                            let tweet = tweetData[t.conversationTweetComponent.tweet.id];
+                            if(!tweet) continue;
+                            let user = userData[tweet.user_id_str];
+                            tweet.id_str = t.conversationTweetComponent.tweet.id;
+                            if(tweet.quoted_status_id_str) {
+                                tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
+                                tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                                tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                            }
+                            tweet.user = user;
+                            threadList.push(tweet);
+                        }
+                        if(threadList.length === 1) {
+                            list.push({
+                                type: threadList[0].id_str === id ? 'mainTweet' : 'tweet',
+                                data: threadList[0]
+                            });
+                        } else {
+                            list.push({
+                                type: 'conversation',
+                                data: threadList
+                            });
+                        }
                     }
                 }
-            }
-            let cursor;
-            try {
-                cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value;
-            } catch(e) {}
-            resolve({
-                list,
-                cursor
+                let newCursor;
+                try {
+                    newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value;
+                } catch(e) {}
+                resolve({
+                    list,
+                    cursor: newCursor
+                });
+                if(!cursor) {
+                    d.tweetReplies[id] = {
+                        date: Date.now(),
+                        data: {
+                            list,
+                            cursor: newCursor
+                        }
+                    };
+                    chrome.storage.local.set({tweetReplies: d.tweetReplies}, () => {});
+                }
+            }).catch(e => {
+                reject(e);
             });
-        }).catch(e => {
-            reject(e);
         });
     });
 }
@@ -1880,43 +1916,57 @@ API.getTweetLikers = (id, cursor) => {
             "withV2Timeline": true
         };
         if(cursor) obj.cursor = cursor;
-        fetch(`https://twitter.com/i/api/graphql/RMoTahkos95Jcdw-UWlZog/Favoriters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
-            "dont_mention_me_view_api_enabled": true,
-            "interactive_text_enabled": true,
-            "responsive_web_uc_gql_enabled": false,
-            "vibe_tweet_context_enabled": false,
-            "responsive_web_edit_tweet_api_enabled": false,
-            "standardized_nudges_misinfo": false,
-            "responsive_web_enhance_cards_enabled": false
-        }))}`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.public_token,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/json"
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
+        chrome.storage.local.get(['tweetLikers'], d => {
+            if(!cursor) cursor = '';
+            if(!d.tweetLikers) d.tweetLikers = {};
+            if(d.tweetLikers[id+cursor] && Date.now() - d.tweetLikers[id+cursor].date < 60000) {
+                return resolve(d.tweetLikers[id+cursor].data);
             }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            let list = data.data.favoriters_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
-            if(!list) return resolve({ list: [], cursor: undefined });
-            list = list.entries;
-            resolve({
-                list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
-                    if(e.content.itemContent.user_results.result.__typename === "UserUnavailable") return;
-                    let user = e.content.itemContent.user_results.result;
-                    user.legacy.id_str = user.rest_id;
-                    return user.legacy;
-                }).filter(u => u),
-                cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+            fetch(`https://twitter.com/i/api/graphql/RMoTahkos95Jcdw-UWlZog/Favoriters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+                "dont_mention_me_view_api_enabled": true,
+                "interactive_text_enabled": true,
+                "responsive_web_uc_gql_enabled": false,
+                "vibe_tweet_context_enabled": false,
+                "responsive_web_edit_tweet_api_enabled": false,
+                "standardized_nudges_misinfo": false,
+                "responsive_web_enhance_cards_enabled": false
+            }))}`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.public_token,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                    "content-type": "application/json"
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0].code === 32) {
+                    return reject("Not logged in");
+                }
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                let list = data.data.favoriters_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
+                if(!list) return resolve({ list: [], cursor: undefined });
+                list = list.entries;
+                let rdata = {
+                    list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
+                        if(e.content.itemContent.user_results.result.__typename === "UserUnavailable") return;
+                        let user = e.content.itemContent.user_results.result;
+                        user.legacy.id_str = user.rest_id;
+                        return user.legacy;
+                    }).filter(u => u),
+                    cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                };
+                resolve(rdata);
+                if(!rdata.cursor) rdata.cursor = '';
+                d.tweetLikers[id+cursor] = {
+                    date: Date.now(),
+                    data: rdata
+                };
+                chrome.storage.local.set({tweetLikers: d.tweetLikers}, () => {});
+            }).catch(e => {
+                reject(e);
             });
-        }).catch(e => {
-            reject(e);
         });
     });
 }
@@ -2296,6 +2346,7 @@ API.getUserUpdates = cursor => {
 setInterval(() => {
     chrome.storage.local.set({userUpdates: {}}, () => {});
     chrome.storage.local.set({peopleRecommendations: {}}, () => {});
+    chrome.storage.local.set({tweetReplies: {}}, () => {});
 }, 60000*10);
 API.deleteMessage = id => {
     return new Promise((resolve, reject) => {

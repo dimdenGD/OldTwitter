@@ -254,6 +254,9 @@ span.tweet-body-text {
     font-size: 47px;
     margin-top: -14px;
 }
+.tweet-preload .tweet-interact::after {
+    color: #1df2e7;
+}
 
 .tweet-body-quote {
     background-color: var(--background-color);

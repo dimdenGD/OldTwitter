@@ -177,6 +177,9 @@ body {
     font-size: 47px;
     margin-top: -14px;
 }
+.tweet-preload .tweet-interact::after {
+    color: #1df2e7;
+}
 
 .tweet-header-name,
 .tweet-header-name-quote {

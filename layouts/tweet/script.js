@@ -64,16 +64,19 @@ function updateUserData() {
 }
 async function updateReplies(id, c) {
     if(!c) document.getElementById('timeline').innerHTML = '';
-    let tl;
+    let tl, tweetLikers;
     try {
-        let [tlData, s] = await Promise.allSettled([API.getReplies(id, c), API.getSettings()]);
+        let [tlData, s, tweetLikersData] = await Promise.allSettled([API.getReplies(id, c), API.getSettings(), API.getTweetLikers(id)]);
         if(!tlData.value) {
             cursor = undefined;
             return console.error(tlData.reason);
         }
         tl = tlData.value;
         settings = s.value;
+        tweetLikers = tweetLikersData.value;
+        loadingNewTweets = false;
     } catch(e) {
+        loadingNewTweets = false;
         return cursor = undefined;
     }
 
@@ -101,7 +104,6 @@ async function updateReplies(id, c) {
     for(let i in tl.list) {
         let t = tl.list[i];
         if(t.type === 'mainTweet') {
-            let tweetLikers = await API.getTweetLikers(t.data.id_str);
             mainTweetLikers = tweetLikers.list;
             likeCursor = tweetLikers.cursor;
             if(i === 0) {
@@ -1624,11 +1626,6 @@ document.addEventListener('scroll', async () => {
         let path = location.pathname;
         if(path.endsWith('/')) path = path.slice(0, -1);
         updateReplies(path.split('/').slice(-1)[0], cursor);
-        setTimeout(() => {
-            setTimeout(() => {
-                loadingNewTweets = false;
-            });
-        }, 200);
     }
 }, { passive: true });
 

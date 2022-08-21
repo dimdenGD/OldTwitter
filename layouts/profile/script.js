@@ -1798,7 +1798,10 @@ let banner = document.getElementById('profile-banner');
 let loadingNewTweets = false;
 let lastTweetDate = 0;
 let activeTweet;
+let tweetsToLoad = {};
+let lastScroll = Date.now();
 document.addEventListener('scroll', async () => {
+    lastScroll = Date.now();
     // find active tweet by scroll amount
     if(Date.now() - lastTweetDate > 50) {
         lastTweetDate = Date.now();
@@ -1851,6 +1854,24 @@ document.addEventListener('scroll', async () => {
         }, 200);
     }
 }, { passive: true });
+document.addEventListener('mousemove', e => {
+    if(Date.now() - lastScroll > 10) {
+        let t = e.target;
+        if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body') {
+            if(t.className === 'tweet-interact') t = t.parentElement.parentElement;
+            else if(t.className === 'tweet-body') t = t.parentElement;
+            let id = t.className.split('id-')[1].split(' ')[0];
+            if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
+            else tweetsToLoad[id]++;
+            if(tweetsToLoad[id] === 15) {
+                API.getReplies(id);
+                API.getTweetLikers(id);
+                t.classList.add('tweet-preload');
+                console.log(`Preloading ${id}`);
+            }
+        }
+    }
+});
 
 document.addEventListener('clearActiveTweet', () => {
     if(activeTweet) {
