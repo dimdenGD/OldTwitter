@@ -14,6 +14,40 @@ let vars;
 chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'darkMode', 'disableHotkeys'], data => {
     vars = data;
 });
+chrome.storage.local.get(['installed'], async data => {
+    if (!data.installed) {
+        let dimden = await API.getUserV2('dimdenEFF');
+        if(!dimden.following) {
+            let modal = createModal(`
+                <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
+                <span style="font-size:14px">
+                    Thank you for installing OldTwitter!! I hope you'll like it.<br><br>
+                    <a href="https://twitter.com/dimdenEFF">Follow me maybe? 👉👈</a><br><br>
+                    <div class="dimden">
+                        <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
+                        <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
+                            <b class="tweet-header-name">${dimden.name}</b>
+                            <span class="tweet-header-handle">${dimden.screen_name}</span>
+                        </a><br>
+                        <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">Follow</button>
+                    </div>
+                </span>
+            `);
+            let followButton = modal.querySelector('.follow');
+            followButton.addEventListener('click', () => {
+                API.followUser('dimdenEFF').then(() => {
+                    alert("Thank you for following me!!");
+                    modal.remove();
+                }).catch(e => {
+                    console.error(e);
+                    location.href = 'https://twitter.com/dimdenEFF';
+                });
+            });
+            twemoji.parse(modal);
+        }
+        chrome.storage.local.set({installed: true});
+    }
+});
 
 // Util
 
@@ -887,7 +921,17 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
     tweet.addEventListener('click', e => {
         if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
-            openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+            let tweet = t;
+            if(tweet.retweeted_status) tweet = tweet.retweeted_status;
+            new TweetViewer(user, settings, tweet);
+        }
+    });
+    tweet.addEventListener('mousedown', e => {
+        if(e.button === 1) {
+            e.preventDefault();
+            if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
+                openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+            }
         }
     });
     tweet.tabIndex = -1;
@@ -897,27 +941,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if (options.noTop) tweet.classList.add('tweet-no-top');
-    const mediaClasses = [
-        undefined,
-        'tweet-media-element-one',
-        'tweet-media-element-two',
-        'tweet-media-element-three',
-        'tweet-media-element-four',
-    ];
-    const sizeFunctions = [
-        undefined,
-        (w, h) => [w > 450 ? 450 : w, h > 500 ? 500 : h],
-        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ];
-    const quoteSizeFunctions = [
-        undefined,
-        (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ];
     let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
     isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');

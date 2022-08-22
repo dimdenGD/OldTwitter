@@ -12,7 +12,7 @@ function arrayBufferToBase64(buffer) {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-function createModal(html, className) {
+function createModal(html, className, onclose) {
     let modal = document.createElement('div');
     modal.classList.add('modal');
     let modal_content = document.createElement('div');
@@ -29,6 +29,7 @@ function createModal(html, className) {
             let event = new Event('findActiveTweet');
             document.dispatchEvent(event);
             document.removeEventListener('keydown', escapeEvent);
+            if(onclose) onclose();
         }
     }
     close.addEventListener('click', () => {
@@ -36,6 +37,7 @@ function createModal(html, className) {
         let event = new Event('findActiveTweet');
         document.dispatchEvent(event);
         document.removeEventListener('keydown', escapeEvent);
+        if(onclose) onclose();
     });
     modal.addEventListener('click', e => {
         if(e.target === modal) {
@@ -43,6 +45,7 @@ function createModal(html, className) {
             let event = new Event('findActiveTweet');
             document.dispatchEvent(event);
             document.removeEventListener('keydown', escapeEvent);
+            if(onclose) onclose();
         }
     });
     document.addEventListener('keydown', escapeEvent);
@@ -439,6 +442,27 @@ const colorShade = (col, amt) => {
   
     return `#${rr}${gg}${bb}`
 }
+const mediaClasses = [
+    undefined,
+    'tweet-media-element-one',
+    'tweet-media-element-two',
+    'tweet-media-element-three',
+    'tweet-media-element-four',
+];
+const sizeFunctions = [
+    undefined,
+    (w, h) => [w > 450 ? 450 : w, h > 500 ? 500 : h],
+    (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
+    (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
+    (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
+];
+const quoteSizeFunctions = [
+    undefined,
+    (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
+    (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
+    (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
+    (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
+];
 
 API.pollVote = (api, tweet_id, card_uri, card_name, selected_choice) => {
     return new Promise((resolve, reject) => {
@@ -1824,6 +1848,8 @@ API.getFollowersYouFollow = (id, cursor) => {
         });
     });
 }
+
+let loadingReplies = {};
 API.getReplies = (id, cursor) => {
     return new Promise((resolve, reject) => {
         if(cursor) {
@@ -1836,6 +1862,15 @@ API.getReplies = (id, cursor) => {
                     return resolve(d.tweetReplies[id].data);
                 }
             }
+            if(!cursor) {
+                if(loadingReplies[id]) {
+                    return loadingReplies[id].listeners.push([resolve, reject]);
+                } else {
+                    loadingReplies[id] = {
+                        listeners: []
+                    };
+                }
+            }
             fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=20&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true`, {
                 headers: {
                     "authorization": OLDTWITTER_CONFIG.oauth_key,
@@ -1846,9 +1881,17 @@ API.getReplies = (id, cursor) => {
                 credentials: "include"
             }).then(i => i.json()).then(data => {
                 if (data.errors && data.errors[0].code === 32) {
+                    if(!cursor) {
+                        loadingReplies[id].listeners.forEach(l => l[1]('Not logged in'));
+                        delete loadingReplies[id];
+                    }
                     return reject("Not logged in");
                 }
                 if (data.errors && data.errors[0]) {
+                    if(!cursor) {
+                        loadingReplies[id].listeners.forEach(l => l[1](data.errors[0].message));
+                        delete loadingReplies[id];
+                    }
                     return reject(data.errors[0].message);
                 }
                 let tweetData = data.globalObjects.tweets;
@@ -1936,6 +1979,11 @@ API.getReplies = (id, cursor) => {
                     cursor: newCursor
                 });
                 if(!cursor) {
+                    loadingReplies[id].listeners.forEach(l => l[0]({
+                        list,
+                        cursor: newCursor
+                    }));
+                    delete loadingReplies[id];
                     d.tweetReplies[id] = {
                         date: Date.now(),
                         data: {
@@ -1946,11 +1994,16 @@ API.getReplies = (id, cursor) => {
                     chrome.storage.local.set({tweetReplies: d.tweetReplies}, () => {});
                 }
             }).catch(e => {
+                if(!cursor) {
+                    loadingReplies[id].listeners.forEach(l => l[1](e));
+                    delete loadingReplies[id];
+                }
                 reject(e);
             });
         });
     });
 }
+let loadingLikers = {};
 API.getTweetLikers = (id, cursor) => {
     return new Promise((resolve, reject) => {
         let obj = {
@@ -1974,6 +2027,15 @@ API.getTweetLikers = (id, cursor) => {
             if(d.tweetLikers[id+cursor] && Date.now() - d.tweetLikers[id+cursor].date < 60000) {
                 return resolve(d.tweetLikers[id+cursor].data);
             }
+            if(!cursor) {
+                if(loadingLikers[id]) {
+                    return loadingLikers[id].listeners.push([resolve, reject]);
+                } else {
+                    loadingLikers[id] = {
+                        listeners: []
+                    };
+                }
+            }
             fetch(`https://twitter.com/i/api/graphql/RMoTahkos95Jcdw-UWlZog/Favoriters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
                 "dont_mention_me_view_api_enabled": true,
                 "interactive_text_enabled": true,
@@ -1992,9 +2054,17 @@ API.getTweetLikers = (id, cursor) => {
                 credentials: "include"
             }).then(i => i.json()).then(data => {
                 if (data.errors && data.errors[0].code === 32) {
+                    if(!cursor) {
+                        loadingLikers[id].listeners.forEach(l => l[1]('Not logged in'));
+                        delete loadingLikers[id];
+                    }
                     return reject("Not logged in");
                 }
                 if (data.errors && data.errors[0]) {
+                    if(!cursor) {
+                        loadingLikers[id].listeners.forEach(l => l[1](data.errors[0].message));
+                        delete loadingLikers[id];
+                    }
                     return reject(data.errors[0].message);
                 }
                 let list = data.data.favoriters_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
@@ -2010,6 +2080,10 @@ API.getTweetLikers = (id, cursor) => {
                     cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                 };
                 resolve(rdata);
+                if(!cursor) {
+                    loadingLikers[id].listeners.forEach(l => l[0](rdata));
+                    delete loadingLikers[id];
+                }
                 if(!rdata.cursor) rdata.cursor = '';
                 d.tweetLikers[id+cursor] = {
                     date: Date.now(),
@@ -2017,6 +2091,10 @@ API.getTweetLikers = (id, cursor) => {
                 };
                 chrome.storage.local.set({tweetLikers: d.tweetLikers}, () => {});
             }).catch(e => {
+                if(!cursor) {
+                    loadingLikers[id].listeners.forEach(l => l[1](e));
+                    delete loadingLikers[id];
+                }
                 reject(e);
             });
         });
@@ -2105,6 +2183,15 @@ API.getTweetQuotes = (id, cursor) => {
             });
             entries = entries.addEntries.entries;
             let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('tweet-'));
+            let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
+            if(!cursor) {
+                let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace.includes('sq-cursor-bottom') || i.replaceEntry.entryIdToReplace.includes('cursor-bottom')));
+                if(entries) {
+                    cursor = entries.replaceEntry.entry.content.operation.cursor.value;
+                }
+            } else {
+                cursor = cursor.content.operation.cursor.value;
+            }
             return resolve({
                 list: list.map(e => {
                     let tweet = tweets[e.content.item.content.tweet.id];
@@ -2116,7 +2203,7 @@ API.getTweetQuotes = (id, cursor) => {
                     tweet.user = user;
                     return tweet;
                 }),
-                cursor: entries.find(e => e.entryId.startsWith('sq-cursor-bottom')).content.operation.cursor.value
+                cursor
             });
         }).catch(e => {
             reject(e);
@@ -2399,6 +2486,7 @@ setInterval(() => {
     chrome.storage.local.set({userUpdates: {}}, () => {});
     chrome.storage.local.set({peopleRecommendations: {}}, () => {});
     chrome.storage.local.set({tweetReplies: {}}, () => {});
+    chrome.storage.local.set({tweetLikers: {}}, () => {});
 }, 60000*10);
 API.deleteMessage = id => {
     return new Promise((resolve, reject) => {

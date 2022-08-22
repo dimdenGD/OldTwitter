@@ -436,6 +436,7 @@ setTimeout(async () => {
                     <div class="new-message-results"></div>
                 </div>
             `, "inbox-modal");
+            modal.querySelector('.modal-close').hidden = true;
             const inboxList = modal.querySelector('.inbox-list');
             const readAll = modal.querySelector('.inbox-readall');
             const refresh = modal.querySelector('.inbox-refresh');

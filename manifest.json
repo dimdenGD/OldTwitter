@@ -1,7 +1,7 @@
 {
   "name": "Old Twitter Layout (2022)",
   "description": "A new extension that returns old Twitter's look.",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/OldTwitter",
   "background": {
@@ -81,13 +81,13 @@
     },
     {
       "matches": ["https://twitter.com/*"],
-      "js": ["layouts/header/script.js"],
+      "js": ["layouts/header/script.js", "scripts/tweetviewer.js"],
       "all_frames": true,
       "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/home", "https://twitter.com/", "https://twitter.com/home/"],
-      "js": ["libraries/twemoji.min.js", "layouts/home/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
+      "js": ["libraries/twemoji.min.js", "layouts/home/script.js", "libraries/gif.js", "libraries/viewer.min.js", "scripts/tweetviewer.js"],
       "css": ["libraries/viewer.min.css"],
       "all_frames": true,
       "run_at": "document_idle"
@@ -107,7 +107,7 @@
     },
     {
       "matches": ["https://twitter.com/search", "https://twitter.com/search?*", "https://twitter.com/search/", "https://twitter.com/search/?*"],
-      "js": ["libraries/twemoji.min.js", "layouts/search/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
+      "js": ["libraries/twemoji.min.js", "layouts/search/script.js", "libraries/gif.js", "libraries/viewer.min.js", "scripts/tweetviewer.js"],
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle",
       "all_frames": true

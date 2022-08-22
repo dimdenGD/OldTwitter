@@ -24,6 +24,19 @@
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
 
+::-webkit-scrollbar {
+    width: 6px;
+}
+  
+::-webkit-scrollbar-track {
+    background: var(--background-color); 
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--link-color); 
+    border-radius: 3px;
+}
+
 input, textarea {
     background-color: var(--input-background);
     color: var(--default-text-color)
@@ -929,4 +942,285 @@ input, textarea {
 .tweet-player {
     border: none;
     border-radius: 5px;
+}
+.tweet-date {
+    color: var(--light-gray);
+    font-size: 14px
+}
+
+.tweet-footer-stat {
+    display: grid;
+    text-decoration: none
+}
+
+.tweet-footer {
+    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    display: inline-block;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100%
+}
+
+.tweet-footer-stats {
+    border-right: 1px solid var(--border);
+    display: inline-flex;
+    float: left;
+    padding-bottom: 5px
+}
+
+.tweet-footer-favorites {
+    display: inline-flex;
+    float: left;
+    margin-left: 10px;
+    margin-top: 12px
+}
+
+.tweet-footer-stat-text {
+    color: var(--light-gray);
+    float: left;
+    font-size: 10px;
+    line-height: 16px;
+    padding: 7px 28px 0 0;
+    text-transform: uppercase
+}
+
+.tweet-footer-stat:hover .tweet-footer-stat-text {
+    color: var(--link-color)
+}
+
+.tweet-footer-stat-count {
+    color: var(--link-color);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 20px
+}
+
+.tweet-time[hidden] {
+    display: none !important
+}
+
+.tweet-header-info-main {
+    display: inline-grid !important;
+    width: fit-content
+}
+
+.tweet-header-info-main>b {
+    font-size: 18px;
+    line-height: 1.25;
+    margin-top: 3px;
+    padding-top: 2px
+}
+
+.tweet-body-main {
+    display: block !important;
+    margin-top: 10px
+}
+
+.tweet-main {
+    padding: 20px
+}
+
+.tweet-footer-favorites-img {
+    border-radius: 5px;
+    margin-right: 5px
+}
+
+.tweet-header-follow {
+    float: right;
+    margin-top: 2px;
+    padding: 9px 12px !important
+}
+
+.following-item-btn {
+    bottom: 52px;
+    float: right;
+    height: 40px;
+    position: relative
+}
+
+.following-item-text {
+    bottom: 14px;
+    display: inline-block;
+    margin-left: 8px;
+    position: relative;
+    width: fit-content
+}
+
+.following-item {
+    margin-bottom: 5px
+}
+
+.following-list,
+.followers-list {
+    padding: 10px
+}
+
+.following-item-name {
+    position: absolute;
+    width: 300px
+}
+
+.new-tweet-user-search {
+    background-color: var(--background-color);
+    color: var(--almost-black);
+    padding: 5px;
+    position: absolute;
+    z-index: 5
+}
+
+.new-tweet-user-search span {
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 2px
+}
+
+.new-tweet-user-search span:hover,
+.search-result-item-active {
+    background-color: var(--link-color) !important;
+    color: var(--background-color) !important
+}
+.tweet-viewer {
+    width: 580px;
+    max-height: 100%;
+}
+.new-tweet-avatar {
+    vertical-align: top
+}
+
+.new-tweet-text {
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    display: inline-block;
+    font: 18px var(--font);
+    height: 23px;
+    padding: 5px;
+    padding-right: 40px;
+    resize: none;
+    scrollbar-width: thin;
+    width: 450px
+}
+
+.new-tweet-text::-webkit-scrollbar {
+    width: 2px
+}
+
+.new-tweet-text:focus {
+    outline: none
+}
+
+.new-tweet-text-focused {
+    height: 100px !important
+}
+
+.new-tweet {
+    background-color: var(--new-tweet-over);
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    border-top: none !important;
+    padding: 10px;
+    width: 538px
+}
+.new-tweet-view {
+    background-color: var(--new-tweet-over);
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    border-top: none !important;
+    border-right: none !important;
+    border-left: none !important;
+    padding: 10px;
+    width: 541px;
+}
+
+
+.new-tweet-container {
+    background-color: var(--link-color)
+}
+
+.new-tweet-media-div {
+    bottom: 36px;
+    cursor: pointer;
+    float: right;
+    position: relative;
+    right: 15px
+}
+
+.new-tweet-media-div-focused {
+    bottom: 112px !important
+}
+
+.new-tweet-media:before {
+    color: var(--link-color);
+    content: "\f159";
+    font: 20px RosettaIcons
+}
+
+.new-tweet-button {
+    float: right;
+    left: 14px;
+    margin-top: 5px;
+    position: relative
+}
+
+.new-tweet-char {
+    color: var(--light-gray);
+    font-size: 12px;
+    margin-left: -46px;
+    margin-top: 38px;
+    position: absolute;
+    text-align: center;
+    width: 43px
+}
+.tweet-view-self-thread-div {
+    bottom: 35px;
+    position: relative
+}
+.tweet-view-self-thread-button {
+    font-size: 13px;
+    margin-top: 2px;
+    text-decoration: none
+}
+
+.tweet-no-top {
+    border-top: none !important
+}
+
+.tweet-view-self-thread-line {
+    background-color: var(--border);
+    height: 32px;
+    margin-top: 21px;
+    margin-left: -34px;
+    position: absolute;
+    width: 2px;
+    z-index: 1;
+}
+
+.tweet-view-self-thread-line-dots {
+    border: 2px var(--background-color) solid;
+    display: unset;
+    height: 2px;
+    margin-left: -41px;
+    margin-top: 23px;
+    position: absolute;
+    width: 12px;
+    z-index: 2;
+}
+
+.tweet:hover .tweet-view-self-thread-line-dots {
+    border: 2px var(--darker-background-color) solid !important
+}
+.cool-header {
+    color: var(--darker-gray);
+    display: inline-block;
+    font-size: 22px;
+    font-weight: 300;
+    margin: 0
+}
+
+.cool-header {
+    margin-bottom: 10px
+}
+.tweet-view {
+    border-right: none !important;
+    border-left: none !important;
 }

@@ -48,27 +48,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
     tweet.className = `tweet tweet-id-${t.id_str}`;
     if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
     if (options.noTop) tweet.classList.add('tweet-no-top');
-    const mediaClasses = [
-        undefined,
-        'tweet-media-element-one',
-        'tweet-media-element-two',
-        'tweet-media-element-three',
-        'tweet-media-element-four',
-    ];
-    const sizeFunctions = [
-        undefined,
-        (w, h) => [w > 450 ? 450 : w, h > 500 ? 500 : h],
-        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ];
-    const quoteSizeFunctions = [
-        undefined,
-        (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ];
     let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
     isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');

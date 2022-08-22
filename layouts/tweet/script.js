@@ -95,15 +95,12 @@ function updateSubpage() {
         if(path.endsWith('/retweets')) {
             subpage = 'retweets';
             rtDiv.hidden = false;
-            rtMore.hidden = false;
         } else if(path.endsWith('/likes')) {
             subpage = 'likes';
             likesDiv.hidden = false;
-            likesMore.hidden = false;
         } else if(path.endsWith('/retweets/with_comments')) {
             subpage = 'retweets_with_comments';
             rtwDiv.hidden = false;
-            rtwMore.hidden = false;
         }
     }
 }
@@ -267,6 +264,11 @@ async function updateLikes(id, c) {
 
         likeDiv.appendChild(likeElement);
     }
+    if(!likeCursor || tweetLikers.length === 0) {
+        document.getElementById('likes-more').hidden = true;
+    } else {
+        document.getElementById('likes-more').hidden = false;
+    }
     document.getElementById('loading-box').hidden = true;
 }
 async function updateRetweets(id, c) {
@@ -293,6 +295,24 @@ async function updateRetweets(id, c) {
         h1.innerHTML = `Retweeted by (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">see quotes</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
+        h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
+            e.preventDefault();
+            history.pushState({}, null, `https://twitter.com/${tweet.user.screen_name}/status/${id}/retweets/with_comments`);
+            this.updateSubpage();
+            this.mediaToUpload = [];
+            this.linkColors = {};
+            this.cursor = undefined;
+            this.seenReplies = [];
+            this.mainTweetLikers = [];
+            let tid = location.pathname.match(/status\/(\d{1,32})/)[1];
+            this.updateRetweetsWithComments(tid);
+            this.currentLocation = location.pathname;
+        });
+    }
+    if(!retweetCursor) {
+        document.getElementById('retweets-more').hidden = true;
+    } else {
+        document.getElementById('retweets-more').hidden = false;
     }
 
     for(let i in tweetRetweeters) {
@@ -345,11 +365,31 @@ async function updateRetweetsWithComments(id, c) {
     let retweetDiv = document.getElementById('retweets_with_comments');
 
     if(!c) {
+        let t = await API.getTweet(id);
         retweetDiv.innerHTML = '';
         let h1 = document.createElement('h1');
         h1.innerHTML = `Quote tweets (<a href="https://twitter.com/aabehhh/status/${id}/retweets">see retweets</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
+        h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
+            e.preventDefault();
+            let t = await API.getTweet(id);
+            history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${id}/retweets`);
+            this.updateSubpage();
+            this.mediaToUpload = [];
+            this.linkColors = {};
+            this.cursor = undefined;
+            this.seenReplies = [];
+            this.mainTweetLikers = [];
+            let tid = location.pathname.match(/status\/(\d{1,32})/)[1];
+            this.updateRetweets(tid);
+            this.currentLocation = location.pathname;
+        });
+    }
+    if(!retweetCommentsCursor) {
+        document.getElementById('retweets_with_comments-more').hidden = true;
+    } else {
+        document.getElementById('retweets_with_comments-more').hidden = false;
     }
 
     for(let i in tweetRetweeters) {
@@ -383,7 +423,7 @@ async function appendComposeComponent(container, replyTweet) {
     if(!replyTweet) return;
     tweets.push(['compose', replyTweet]);
     let el = document.createElement('div');
-    el.id = 'new-tweet-container';
+    el.className = 'new-tweet-container';
     el.innerHTML = /*html*/`
         <div id="new-tweet" class="box">
             <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
@@ -665,27 +705,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
     }
-    const mediaClasses = [
-        undefined,
-        'tweet-media-element-one',
-        'tweet-media-element-two',
-        'tweet-media-element-three',
-        'tweet-media-element-four',
-    ];
-    const sizeFunctions = [
-        undefined,
-        (w, h) => [w > 450 ? 450 : w, h > 500 ? 500 : h],
-        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ];
-    const quoteSizeFunctions = [
-        undefined,
-        (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ];
     t.full_text = t.full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
     let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);

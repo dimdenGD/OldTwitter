@@ -48,7 +48,7 @@ chrome.storage.local.get(['installed'], async data => {
         }
         chrome.storage.local.set({installed: true});
     }
-})
+});
 
 // Util
 function updateUserData() {
@@ -166,7 +166,17 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
     tweet.addEventListener('click', e => {
         if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
-            openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+            let tweet = t;
+            if(tweet.retweeted_status) tweet = tweet.retweeted_status;
+            new TweetViewer(user, settings, tweet);
+        }
+    });
+    tweet.addEventListener('mousedown', e => {
+        if(e.button === 1) {
+            e.preventDefault();
+            if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
+                openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+            }
         }
     });
     tweet.tabIndex = -1;
@@ -195,27 +205,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
     }
-    const mediaClasses = [
-        undefined,
-        'tweet-media-element-one',
-        'tweet-media-element-two',
-        'tweet-media-element-three',
-        'tweet-media-element-four',
-    ];
-    const sizeFunctions = [
-        undefined,
-        (w, h) => [w > 450 ? 450 : w, h > 500 ? 500 : h],
-        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 150 ? 150 : w, h > 250 ? 250 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ];
-    const quoteSizeFunctions = [
-        undefined,
-        (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-        (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
-        (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    ];
     let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
     isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
@@ -1131,9 +1120,11 @@ document.addEventListener('mousemove', e => {
     if(Date.now() - lastScroll > 10) {
         let t = e.target;
         if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
+            if(t.className.includes('tweet-view')) return;
             if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
             else if(t.className === 'tweet-body') t = t.parentElement;
-            let id = t.className.split('id-')[1].split(' ')[0];
+            let id;
+            try { id = t.className.split('id-')[1].split(' ')[0] } catch(e) { return };
             if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
             else tweetsToLoad[id]++;
             if(tweetsToLoad[id] === 15) {
