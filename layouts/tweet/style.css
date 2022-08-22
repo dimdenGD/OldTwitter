@@ -493,7 +493,8 @@ span.tweet-body-text {
     font-size: 14px;
     margin-bottom: 10px;
     padding: 10px;
-    text-align: center
+    text-align: center;
+    padding-left: 100px;
 }
 
 .tweet-interact-retweet-menu span,
@@ -1143,4 +1144,10 @@ a:hover,
 }
 .user-stat-div:hover {
     text-decoration: none !important;
+}
+.tweet-tombstone {
+    background-color: var(--background-color);
+    padding: 10px;
+    z-index: 10;
+    border: 1px solid var(--border);
 }

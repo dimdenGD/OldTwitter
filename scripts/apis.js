@@ -396,6 +396,50 @@ function generateCard(tweet, tweetElement, user) {
     }
 }
 
+function luminance(r, g, b) {
+    var a = [r, g, b].map(function(v) {
+      v /= 255;
+      return v <= 0.03928 ?
+        v / 12.92 :
+        Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+}
+function contrast(rgb1, rgb2) {
+    var lum1 = luminance(rgb1[0], rgb1[1], rgb1[2]);
+    var lum2 = luminance(rgb2[0], rgb2[1], rgb2[2]);
+    var brightest = Math.max(lum1, lum2);
+    var darkest = Math.min(lum1, lum2);
+    return (brightest + 0.05) /
+      (darkest + 0.05);
+}
+const hex2rgb = (hex) => {
+      if(!hex.startsWith('#')) hex = `#${hex}`;
+      const r = parseInt(hex.slice(1, 3), 16)
+      const g = parseInt(hex.slice(3, 5), 16)
+      const b = parseInt(hex.slice(5, 7), 16)
+      // return {r, g, b} // return an object
+      return [ r, g, b ]
+}
+  
+const colorShade = (col, amt) => {
+    col = col.replace(/^#/, '')
+    if (col.length === 3) col = col[0] + col[0] + col[1] + col[1] + col[2] + col[2]
+  
+    let [r, g, b] = col.match(/.{2}/g);
+    ([r, g, b] = [parseInt(r, 16) + amt, parseInt(g, 16) + amt, parseInt(b, 16) + amt])
+  
+    r = Math.max(Math.min(255, r), 0).toString(16)
+    g = Math.max(Math.min(255, g), 0).toString(16)
+    b = Math.max(Math.min(255, b), 0).toString(16)
+  
+    const rr = (r.length < 2 ? '0' : '') + r
+    const gg = (g.length < 2 ? '0' : '') + g
+    const bb = (b.length < 2 ? '0' : '') + b
+  
+    return `#${rr}${gg}${bb}`
+}
+
 API.pollVote = (api, tweet_id, card_uri, card_name, selected_choice) => {
     return new Promise((resolve, reject) => {
         fetch(`https://caps.twitter.com/v2/capi/${api.split('//')[1]}`, {
@@ -1815,6 +1859,7 @@ API.getReplies = (id, cursor) => {
                     let e = entries[i];
                     if (e.entryId.startsWith('tweet-')) {
                         let tweet = tweetData[e.content.item.content.tweet.id];
+                        if(!tweet) continue;
                         let user = userData[tweet.user_id_str];
                         tweet.id_str = e.content.item.content.tweet.id;
                         tweet.user = user;
@@ -1829,21 +1874,28 @@ API.getReplies = (id, cursor) => {
                             data: tweet
                         });
                     } else if (e.entryId.startsWith('tombstone-')) {
-                        let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
-                        let user = userData[tweet.user_id_str];
-                        tweet.id_str = e.content.item.content.tombstone.tweet.id;
-                        tweet.user = user;
-                        if(tweet.quoted_status_id_str) {
-                            tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
-                            tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
-                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                            tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                        if(e.content.item.content.tombstone.tweet) {
+                            let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
+                            let user = userData[tweet.user_id_str];
+                            tweet.id_str = e.content.item.content.tombstone.tweet.id;
+                            tweet.user = user;
+                            if(tweet.quoted_status_id_str) {
+                                tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
+                                tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                                tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                            }
+                            tweet.tombstone = e.content.item.content.tombstone.tombstoneInfo.text;
+                            list.push({
+                                type: tweet.id_str === id ? 'mainTweet' : 'tweet',
+                                data: tweet
+                            });
+                        } else {
+                            list.push({
+                                type: 'tombstone',
+                                data: e.content.item.content.tombstone.tombstoneInfo.text
+                            });
                         }
-                        tweet.tombstone = e.content.item.content.tombstone.tombstoneInfo.text;
-                        list.push({
-                            type: tweet.id_str === id ? 'mainTweet' : 'tweet',
-                            data: tweet
-                        });
                     } else if(e.entryId.startsWith('conversationThread-')) {
                         let thread = e.content.item.content.conversationThread.conversationComponents.filter(c => c.conversationTweetComponent);
                         let threadList = [];

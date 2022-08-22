@@ -5,7 +5,9 @@ let linkColors = {};
 let cursor, likeCursor, retweetCursor, retweetCommentsCursor;
 let seenReplies = [];
 let mainTweetLikers = [];
-let loadedData = {};
+let pageData = {};
+let tweets = [];
+let currentLocation = location.pathname;
 
 let vars;
 chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'darkMode', 'disableHotkeys'], data => {
@@ -13,6 +15,63 @@ chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL'
 });
 
 // Util
+
+function savePageData(path) {
+    if(!path) {
+        path = location.pathname.split('?')[0].split('#')[0];
+        if(path.endsWith('/')) path = path.slice(0, -1);
+    }
+    pageData[path] = {
+        linkColors, cursor, likeCursor, retweetCursor, retweetCommentsCursor, mainTweetLikers, seenReplies,
+        tweets,
+        scrollY
+    }
+    console.log(`Saving page: ${path}`, pageData[path]);
+}
+async function restorePageData() {
+    let path = location.pathname.split('?')[0].split('#')[0];
+    if(path.endsWith('/')) path = path.slice(0, -1);
+    if(pageData[path]) {
+        console.log(`Restoring page: ${path}`, pageData[path]);
+        linkColors = pageData[path].linkColors;
+        cursor = pageData[path].cursor;
+        likeCursor = pageData[path].likeCursor;
+        retweetCursor = pageData[path].retweetCursor;
+        retweetCommentsCursor = pageData[path].retweetCommentsCursor;
+        mainTweetLikers = pageData[path].mainTweetLikers;
+        seenReplies = [];
+        tweets = [];
+        let tl = document.getElementById('timeline');
+        tl.innerHTML = '';
+        for(let i in pageData[path].tweets) {
+            let t = pageData[path].tweets[i];
+            if(t[0] === 'tweet') {
+                await appendTweet(t[1], tl, t[2]);
+            } else if(t[0] === 'compose') {
+                await appendComposeComponent(tl, t[1]);
+            } else if(t[0] === 'tombstone') {
+                await appendTombstone(tl, t[1]);
+            }
+        }
+        let id = currentLocation.match(/status\/(\d{1,32})/)[1];
+        if(id) {
+            setTimeout(() => {
+                let tweet = document.getElementsByClassName(`tweet-id-${id}`)[0];
+                if(tweet) {
+                    tweet.scrollIntoView({ block: 'center' });
+                }
+                document.getElementById('loading-box').hidden = true;
+            }, 100);
+        } else {
+            document.getElementById('loading-box').hidden = true;
+        }
+        return true;
+    } else {
+        tweets = [];
+        seenReplies = [];
+    }
+    return false;
+}
 
 let subpage;
 function updateSubpage() {
@@ -85,7 +144,7 @@ async function updateReplies(id, c) {
         for(let i in tl.list) {
             let t = tl.list[i];
             if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.screen_name)) tlUsers.push(t.data.user.screen_name); }
-            else {
+            else if(t.type === 'conversation') {
                 for(let j in t.data) {
                     tlUsers.push(t.data[j].user.screen_name);
                 }
@@ -101,39 +160,41 @@ async function updateReplies(id, c) {
     cursor = tl.cursor;
     let mainTweet;
     let mainTweetIndex = tl.list.findIndex(t => t.type === 'mainTweet');
+    let tlContainer = document.getElementById('timeline');
     for(let i in tl.list) {
         let t = tl.list[i];
         if(t.type === 'mainTweet') {
             mainTweetLikers = tweetLikers.list;
             likeCursor = tweetLikers.cursor;
             if(i === 0) {
-                mainTweet = await appendTweet(t.data, document.getElementById('timeline'), {
+                mainTweet = await appendTweet(t.data, tlContainer, {
                     mainTweet: true
                 });
             } else {
-                mainTweet = await appendTweet(t.data, document.getElementById('timeline'), {
+                mainTweet = await appendTweet(t.data, tlContainer, {
                     noTop: true,
                     mainTweet: true
                 });
             }
-            if(t.data.limited_actions !== "non_compliant") appendComposeComponent(document.getElementById('timeline'), t.data);
+            if(t.data.limited_actions !== "non_compliant") appendComposeComponent(tlContainer, t.data);
         }
         if(t.type === 'tweet') {
-            await appendTweet(t.data, document.getElementById('timeline'), {
+            await appendTweet(t.data, tlContainer, {
                 noTop: i !== 0 && i < mainTweetIndex,
                 threadContinuation: i < mainTweetIndex
             });
-        }
-        if(t.type === 'conversation') {
+        } else if(t.type === 'conversation') {
             for(let i2 in t.data) {
                 let t2 = t.data[i2];
-                await appendTweet(t2, document.getElementById('timeline'), {
+                await appendTweet(t2, tlContainer, {
                     noTop: +i2 !== 0,
                     threadContinuation: +i2 !== t.data.length - 1,
                     threadButton: +i2 === t.data.length - 1,
                     threadId: t2.conversation_id_str
                 });
             }
+        } else if(t.type === 'tombstone') {
+            appendTombstone(tlContainer, t.data);
         }
     }
     if(mainTweet) mainTweet.scrollIntoView();
@@ -229,7 +290,7 @@ async function updateRetweets(id, c) {
         tweet.style.marginBottom = '10px';
         tweet.style.borderRadius = '5px';
         let h1 = document.createElement('h1');
-        h1.innerText = `Retweeted by`;
+        h1.innerHTML = `Retweeted by (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">see quotes</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
     }
@@ -286,7 +347,7 @@ async function updateRetweetsWithComments(id, c) {
     if(!c) {
         retweetDiv.innerHTML = '';
         let h1 = document.createElement('h1');
-        h1.innerText = `Quote tweets`;
+        h1.innerHTML = `Quote tweets (<a href="https://twitter.com/aabehhh/status/${id}/retweets">see retweets</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
     }
@@ -319,6 +380,8 @@ function renderUserData() {
     twemoji.parse(document.getElementById('user-name'));
 }
 async function appendComposeComponent(container, replyTweet) {
+    if(!replyTweet) return;
+    tweets.push(['compose', replyTweet]);
     let el = document.createElement('div');
     el.id = 'new-tweet-container';
     el.innerHTML = /*html*/`
@@ -532,58 +595,17 @@ async function appendComposeComponent(container, replyTweet) {
         document.getElementById('new-tweet-button').disabled = false;
     });
 }
-function luminance(r, g, b) {
-    var a = [r, g, b].map(function(v) {
-      v /= 255;
-      return v <= 0.03928 ?
-        v / 12.92 :
-        Math.pow((v + 0.055) / 1.055, 2.4);
-    });
-    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
-  }
-function contrast(rgb1, rgb2) {
-    var lum1 = luminance(rgb1[0], rgb1[1], rgb1[2]);
-    var lum2 = luminance(rgb2[0], rgb2[1], rgb2[2]);
-    var brightest = Math.max(lum1, lum2);
-    var darkest = Math.min(lum1, lum2);
-    return (brightest + 0.05) /
-      (darkest + 0.05);
-  }
-const hex2rgb = (hex) => {
-      if(!hex.startsWith('#')) hex = `#${hex}`;
-      const r = parseInt(hex.slice(1, 3), 16)
-      const g = parseInt(hex.slice(3, 5), 16)
-      const b = parseInt(hex.slice(5, 7), 16)
-      // return {r, g, b} // return an object
-      return [ r, g, b ]
-}
-  
-const colorShade = (col, amt) => {
-    col = col.replace(/^#/, '')
-    if (col.length === 3) col = col[0] + col[0] + col[1] + col[1] + col[2] + col[2]
-  
-    let [r, g, b] = col.match(/.{2}/g);
-    ([r, g, b] = [parseInt(r, 16) + amt, parseInt(g, 16) + amt, parseInt(b, 16) + amt])
-  
-    r = Math.max(Math.min(255, r), 0).toString(16)
-    g = Math.max(Math.min(255, g), 0).toString(16)
-    b = Math.max(Math.min(255, b), 0).toString(16)
-  
-    const rr = (r.length < 2 ? '0' : '') + r
-    const gg = (g.length < 2 ? '0' : '') + g
-    const bb = (b.length < 2 ? '0' : '') + b
-  
-    return `#${rr}${gg}${bb}`
-}
 
 async function appendTweet(t, timelineContainer, options = {}) {
     if(seenReplies.includes(t.id_str)) return;
+    tweets.push(['tweet', t, options]);
     seenReplies.push(t.id_str);
     const tweet = document.createElement('div');
     if(!options.mainTweet) {
-        tweet.addEventListener('click', e => {
+        tweet.addEventListener('click', async e => {
             if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
                 document.getElementById('loading-box').hidden = false;
+                savePageData();
                 history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                 updateSubpage();
                 mediaToUpload = [];
@@ -591,8 +613,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 cursor = undefined;
                 seenReplies = [];
                 mainTweetLikers = [];
+                let restored = await restorePageData();
                 let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-                if(subpage === 'tweet') {
+                if(subpage === 'tweet' && !restored) {
                     updateReplies(id);
                 } else if(subpage === 'likes') {
                     updateLikes(id);
@@ -603,6 +626,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }
                 renderDiscovery();
                 renderTrends();
+                currentLocation = location.pathname;
             }
         });
         tweet.addEventListener('mousedown', e => {
@@ -839,6 +863,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             updateLikes(id);
             renderDiscovery();
             renderTrends();
+            currentLocation = location.pathname;
         });
         let retweetsLink = tweet.getElementsByClassName('tweet-footer-stat-r')[0];
         retweetsLink.addEventListener('click', e => {
@@ -855,6 +880,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             updateRetweetsWithComments(id);
             renderDiscovery();
             renderTrends();
+            currentLocation = location.pathname;
         });
     }
     if(options.mainTweet && t.user.id_str !== user.id_str) {
@@ -946,6 +972,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             renderDiscovery();
             renderTrends();
+            currentLocation = location.pathname;
         });
     }
 
@@ -1206,6 +1233,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             renderDiscovery();
             renderTrends();
+            currentLocation = location.pathname;
         });
         tweetInteractRetweetMenuRetweeters.addEventListener('click', async () => {
             document.getElementById('loading-box').hidden = false;
@@ -1228,6 +1256,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             renderDiscovery();
             renderTrends();
+            currentLocation = location.pathname;
         });
     }
     tweetInteractRetweetMenuQuote.addEventListener('click', async () => {
@@ -1529,6 +1558,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     twemoji.parse(tweet);
     return tweet;
+}
+async function appendTombstone(timelineContainer, text) {
+    tweets.push(['tombstone', text]);
+    let tombstone = document.createElement('div');
+    tombstone.className = 'tweet-tombstone';
+    tombstone.innerText = text;
+    timelineContainer.append(tombstone);
 }
 
 async function renderDiscovery(cache = true) {
@@ -1832,6 +1868,7 @@ setTimeout(() => {
 
     window.addEventListener("popstate", async () => {
         document.getElementById('loading-box').hidden = false;
+        savePageData(currentLocation);
         updateSubpage();
         mediaToUpload = [];
         linkColors = {};
@@ -1839,7 +1876,8 @@ setTimeout(() => {
         seenReplies = [];
         mainTweetLikers = [];
         let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-        if(subpage === 'tweet') {
+        let restored = await restorePageData();
+        if(subpage === 'tweet' && !restored) {
             updateReplies(id);
         } else if(subpage === 'likes') {
             updateLikes(id);
@@ -1850,6 +1888,7 @@ setTimeout(() => {
         }
         renderDiscovery();
         renderTrends();
+        currentLocation = location.pathname;
     });
     
     // custom events
