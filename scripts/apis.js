@@ -1861,8 +1861,6 @@ API.getReplies = (id, cursor) => {
                 if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
                     return resolve(d.tweetReplies[id].data);
                 }
-            }
-            if(!cursor) {
                 if(loadingReplies[id]) {
                     return loadingReplies[id].listeners.push([resolve, reject]);
                 } else {
@@ -2024,10 +2022,13 @@ API.getTweetLikers = (id, cursor) => {
         chrome.storage.local.get(['tweetLikers'], d => {
             if(!cursor) cursor = '';
             if(!d.tweetLikers) d.tweetLikers = {};
-            if(d.tweetLikers[id+cursor] && Date.now() - d.tweetLikers[id+cursor].date < 60000) {
-                return resolve(d.tweetLikers[id+cursor].data);
-            }
             if(!cursor) {
+                if(d.tweetLikers[id]) {
+                    console.log(d.tweetLikers[id], Date.now() - d.tweetLikers[id].date < 60000);
+                }
+                if(d.tweetLikers[id] && Date.now() - d.tweetLikers[id].date < 60000) {
+                    return resolve(d.tweetLikers[id].data);
+                }
                 if(loadingLikers[id]) {
                     return loadingLikers[id].listeners.push([resolve, reject]);
                 } else {
@@ -2068,7 +2069,13 @@ API.getTweetLikers = (id, cursor) => {
                     return reject(data.errors[0].message);
                 }
                 let list = data.data.favoriters_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
-                if(!list) return resolve({ list: [], cursor: undefined });
+                if(!list) {
+                    if(!cursor) {
+                        loadingLikers[id].listeners.forEach(l => l[0]({ list: [], cursor: undefined }));
+                        delete loadingLikers[id];
+                    }
+                    return resolve({ list: [], cursor: undefined });
+                }
                 list = list.entries;
                 let rdata = {
                     list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
@@ -2083,13 +2090,12 @@ API.getTweetLikers = (id, cursor) => {
                 if(!cursor) {
                     loadingLikers[id].listeners.forEach(l => l[0](rdata));
                     delete loadingLikers[id];
+                    d.tweetLikers[id] = {
+                        date: Date.now(),
+                        data: rdata
+                    };
+                    chrome.storage.local.set({tweetLikers: d.tweetLikers}, () => {});
                 }
-                if(!rdata.cursor) rdata.cursor = '';
-                d.tweetLikers[id+cursor] = {
-                    date: Date.now(),
-                    data: rdata
-                };
-                chrome.storage.local.set({tweetLikers: d.tweetLikers}, () => {});
             }).catch(e => {
                 if(!cursor) {
                     loadingLikers[id].listeners.forEach(l => l[1](e));
