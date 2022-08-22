@@ -1857,8 +1857,8 @@ document.addEventListener('scroll', async () => {
 document.addEventListener('mousemove', e => {
     if(Date.now() - lastScroll > 10) {
         let t = e.target;
-        if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body') {
-            if(t.className === 'tweet-interact') t = t.parentElement.parentElement;
+        if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
+            if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
             else if(t.className === 'tweet-body') t = t.parentElement;
             let id = t.className.split('id-')[1].split(' ')[0];
             if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;

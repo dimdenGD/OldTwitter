@@ -12,6 +12,7 @@ let saved;
 // Util
 
 function updateSubpage() {
+    document.getElementById('search-more').hidden = false;
     let params = Object.fromEntries(new URLSearchParams(location.search + location.hash));
     searchParams = params || {};
     searchSettings = {};
@@ -897,6 +898,7 @@ async function renderSearch(c) {
     searchMore.hidden = false;
     searchMore.innerText = 'Loading...';
     let search;
+    let currentCursor = cursor;
     try {
         if(!settings) {
             let [searchData, s] = await Promise.allSettled([
@@ -945,17 +947,21 @@ async function renderSearch(c) {
     }
     searchMore.innerText = 'Load more';
     if(search.length === 0) {
-        searchDiv.innerHTML = `<div class="no-results">
-            <br><br>
-            No results found. Try changing something on left?<br><br>
-            <button class="nice-button">Try again</button>
-        </div>`;
-        searchMore.hidden = true;
-        cursor = undefined;
-        let button = searchDiv.querySelector('button');
-        button.addEventListener('click', () => {
-            renderSearch();
-        });
+        if(!currentCursor) {
+            searchDiv.innerHTML = `<div class="no-results">
+                <br><br>
+                No results found. Try changing something on left?<br><br>
+                <button class="nice-button">Try again</button>
+            </div>`;
+            searchMore.hidden = true;
+            cursor = undefined;
+            let button = searchDiv.querySelector('button');
+            button.addEventListener('click', () => {
+                renderSearch();
+            });
+        } else {
+            document.getElementById('search-more').hidden = true;
+        }
         return document.getElementById('loading-box').hidden = true;
     }
     for(let i = 0; i < search.length; i++) {
