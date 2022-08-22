@@ -59,7 +59,7 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/login";
+            window.location.href = "https://mobile.twitter.com/login";
         }
         console.error(e);
     });

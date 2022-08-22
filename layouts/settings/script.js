@@ -32,7 +32,7 @@ function updateUserData() {
         }
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/login";
+            window.location.href = "https://mobile.twitter.com/login";
         }
         console.error(e);
     });
@@ -345,7 +345,7 @@ setTimeout(async () => {
         setInterval(renderTrends, 60000 * 5);
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/login";
+            window.location.href = "https://mobile.twitter.com/login";
         }
         console.error(e);
     });
