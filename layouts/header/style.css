@@ -1134,7 +1134,8 @@ input, textarea {
 
 
 .new-tweet-container {
-    background-color: var(--link-color)
+    background-color: var(--link-color);
+    width: fit-content
 }
 
 .new-tweet-media-div {

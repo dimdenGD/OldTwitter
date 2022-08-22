@@ -1546,7 +1546,6 @@ setTimeout(() => {
             }
             try {
                 let tweet = await API.postTweet(tweetObject);
-                tweet._ARTIFICIAL = true;
                 appendTweet(tweet, document.getElementById('timeline'), {
                     prepend: true
                 });

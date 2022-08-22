@@ -411,7 +411,7 @@ class TweetViewer {
         if(!replyTweet) return;
         this.tweets.push(['compose', replyTweet]);
         let el = document.createElement('div');
-        el.class = 'new-tweet-container';
+        el.className = 'new-tweet-container';
         el.innerHTML = /*html*/`
             <div class="new-tweet-view box">
                 <img width="35" height="35" class="tweet-avatar new-tweet-avatar">
