@@ -1007,6 +1007,20 @@ a:hover,
     color: var(--light-gray);
     text-decoration: none
 }
+.translate-bio {
+    font-size: 12px;
+    color: var(--light-gray);
+}
+.translate-bio:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.translate-bio:before {
+    content: "\f089";
+    font: 12px RosettaIcons;
+    margin-right: 5px;
+    vertical-align: text-bottom;
+}
 
 #profile-info-text {
     margin-top: 10px;

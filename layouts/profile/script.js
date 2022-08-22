@@ -439,7 +439,7 @@ async function renderFollowersYouFollow(clear = true, cursor) {
 
 let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 let everAddedAdditional = false;
-function renderProfile() {
+async function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     let attempts = 0;
     document.getElementById('profile-avatar').addEventListener('error', () => {
@@ -478,6 +478,30 @@ function renderProfile() {
     updateSelection();
 
     document.getElementById('profile-bio').innerHTML = escapeHTML(pageUser.description).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
+    let textWithoutLinks = pageUser.description.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
+    let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
+    isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
+    let at = false;
+    if(!isEnglish) {
+        let translateBtn = document.createElement('span');
+        translateBtn.className = "translate-bio";
+        translateBtn.addEventListener('click', async () => {
+            if(at) return;
+            let translated = await API.translateProfile(pageUser.id_str);
+            at = true;
+            let span = document.createElement('span');
+            span.innerHTML = `
+                <br>
+                <span class='piu-a'>Translated from [${translated.localizedSourceLanguage}]</span>
+                <span>${escapeHTML(translated.translation)}</span>
+            `;
+            document.getElementById('profile-bio').append(span);
+            if(vars.enableTwemoji) twemoji.parse(span);
+        });
+        translateBtn.innerText = "Translate bio";
+        document.getElementById('profile-bio').append(document.createElement('br'), translateBtn);
+    }
+    
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('profile-info'));
 
     document.getElementById('profile-stat-tweets-value').innerText = Number(pageUser.statuses_count).toLocaleString().replace(/\s/g, ',');

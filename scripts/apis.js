@@ -1214,11 +1214,12 @@ API.getUnreadCount = (cache = true) => {
 }
 API.translateTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/translations/show.json?id=${id}&dest=en&use_display_text=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+        fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": navigator.language ? navigator.language.split('-')[0] : "en"
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -1228,7 +1229,33 @@ API.translateTweet = id => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
-            resolve(data);
+            resolve({
+                translated_lang: data.localizedSourceLanguage,
+                text: data.translation
+            });
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.translateProfile = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/strato/column/None/profileUserId=${id},destinationLanguage=None,translationSource=Some(Google)/translation/service/translateProfile`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": navigator.language ? navigator.language.split('-')[0] : "en"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data.profileTranslation);
         }).catch(e => {
             reject(e);
         });
