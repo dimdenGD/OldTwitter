@@ -169,7 +169,7 @@ body {
     color: var(--link-color)
 }
 
-.tweet-active .tweet-interact::after {
+.tweet-active:not(.tweet-view) .tweet-interact::after {
     content: "•";
     float: right;
     color: #1da1f2;
