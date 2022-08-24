@@ -5,7 +5,7 @@ let customSet = false;
 let menuFn;
 
 setTimeout(async () => {
-    let vars = await new Promise((resolve) => {
+    let vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode', 'disableHotkeys'], data => {
             resolve(data);
         });
@@ -1227,7 +1227,7 @@ setTimeout(async () => {
 
     let customCSS;
     async function updateCustomCSS() {
-        let data = await new Promise((resolve) => {
+        let data = await new Promise(resolve => {
             chrome.storage.sync.get(['customCSS'], data => {
                 resolve(data);
             });
@@ -1240,7 +1240,7 @@ setTimeout(async () => {
         document.head.appendChild(customCSS);
     }
     async function updateCustomCSSVariables() {
-        let data = await new Promise((resolve) => {
+        let data = await new Promise(resolve => {
             chrome.storage.sync.get(['customCSSVariables'], data => {
                 resolve(data);
             });

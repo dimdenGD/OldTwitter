@@ -1,9 +1,6 @@
 let user = {};
 let settings = {};
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
-    vars = data;
-});
 let subpage;
 
 // Util
@@ -897,7 +894,12 @@ async function updateNotifications(append = false) {
     document.getElementById('loading-box').hidden = true;
 }
 
-setTimeout(() => {
+setTimeout(async () => {
+    vars = await new Promise(resolve => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
+            resolve(data);
+        });
+    });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
