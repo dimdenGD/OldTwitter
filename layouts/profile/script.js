@@ -487,8 +487,8 @@ async function renderProfile() {
         translateBtn.className = "translate-bio";
         translateBtn.addEventListener('click', async () => {
             if(at) return;
-            let translated = await API.translateProfile(pageUser.id_str);
             at = true;
+            let translated = await API.translateProfile(pageUser.id_str);
             let span = document.createElement('span');
             span.innerHTML = `
                 <br>
