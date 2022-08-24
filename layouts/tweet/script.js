@@ -8,11 +8,7 @@ let mainTweetLikers = [];
 let pageData = {};
 let tweets = [];
 let currentLocation = location.pathname;
-
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'darkMode', 'disableHotkeys'], data => {
-    vars = data;
-});
 
 // Util
 
@@ -1722,7 +1718,12 @@ document.addEventListener('findActiveTweet', () => {
     }
 });
 
-setTimeout(() => {
+setTimeout(async () => {
+    vars = await new Promise(resolve => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'darkMode', 'disableHotkeys'], data => {
+            resolve(data);
+        });
+    });
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');

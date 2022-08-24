@@ -11,9 +11,6 @@ let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
 let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor;
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'darkMode', 'disableHotkeys'], data => {
-    vars = data;
-});
 chrome.storage.local.get(['installed'], async data => {
     if (!data.installed) {
         let dimden = await API.getUserV2('dimdenEFF');
@@ -1894,7 +1891,12 @@ document.addEventListener('findActiveTweet', () => {
     }
 });
 
-setTimeout(() => {
+setTimeout(async () => {
+    vars = await new Promise(resolve => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'darkMode', 'disableHotkeys'], data => {
+            resolve(data);
+        });
+    });
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');
