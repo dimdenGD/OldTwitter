@@ -5,11 +5,7 @@ let customSet = false;
 let menuFn;
 
 setTimeout(async () => {
-    let vars = await new Promise((resolve) => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode', 'disableHotkeys'], data => {
-            resolve(data);
-        });
-    });
+    let vars = await chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode', 'disableHotkeys']);
     let userDataFunction = async e => {
         if(headerGotUser || Object.keys(e.detail).length === 0) return;
         headerGotUser = true;
@@ -1227,11 +1223,7 @@ setTimeout(async () => {
 
     let customCSS;
     async function updateCustomCSS() {
-        let data = await new Promise((resolve) => {
-            chrome.storage.sync.get(['customCSS'], data => {
-                resolve(data);
-            });
-        });
+        let data = await chrome.storage.sync.get(['customCSS']);
         if(!data.customCSS) data.customCSS = '';
         if(customCSS) customCSS.remove();
         customCSS = document.createElement('style');
@@ -1240,11 +1232,7 @@ setTimeout(async () => {
         document.head.appendChild(customCSS);
     }
     async function updateCustomCSSVariables() {
-        let data = await new Promise((resolve) => {
-            chrome.storage.sync.get(['customCSSVariables'], data => {
-                resolve(data);
-            });
-        });
+        let data = await chrome.storage.sync.get(['customCSSVariables']);
         if(data.customCSSVariables) {
             let csv = data.customCSSVariables.split('\n');
             csv.forEach(line => {

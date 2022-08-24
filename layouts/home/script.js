@@ -10,11 +10,8 @@ let seenTweets = [];
 let mediaToUpload = [];
 let pollToUpload = undefined;
 let linkColors = {};
-let vars = {};
+let vars;
 let algoCursor;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys'], data => {
-    vars = data;
-});
 chrome.storage.local.get(['installed'], async data => {
     if (!data.installed) {
         let dimden = await API.getUserV2('dimdenEFF');
@@ -1155,7 +1152,8 @@ document.addEventListener('findActiveTweet', () => {
     }
 });
 
-setTimeout(() => {
+setTimeout(async () => {
+    vars = await chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys']);
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');

@@ -1,9 +1,5 @@
 chrome.runtime.onInstalled.addListener(async () => {
-    let vars = await new Promise((resolve, reject) => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets'], data => {
-            resolve(data);
-        });
-    });
+    let vars = await chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets']);
     if(typeof(vars.linkColorsInTL) !== 'boolean') {
         chrome.storage.sync.set({
             linkColorsInTL: true
