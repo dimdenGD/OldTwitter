@@ -1892,7 +1892,11 @@ document.addEventListener('findActiveTweet', () => {
 });
 
 setTimeout(async () => {
-    vars = await chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'darkMode', 'disableHotkeys']);
+    vars = await new Promise(resolve => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'darkMode', 'disableHotkeys'], data => {
+            resolve(data);
+        });
+    });
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');

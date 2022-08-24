@@ -895,7 +895,11 @@ async function updateNotifications(append = false) {
 }
 
 setTimeout(async () => {
-    vars = await chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji']);
+    vars = await new Promise(resolve => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji'], data => {
+            resolve(data);
+        });
+    });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });

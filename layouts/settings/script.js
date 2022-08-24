@@ -122,7 +122,11 @@ async function renderTrends() {
 }
 
 setTimeout(async () => {
-    vars = await chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables']);
+    vars = await new Promise(resolve => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables'], data => {
+            resolve(data);
+        });
+    });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
