@@ -17,7 +17,7 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 ## Features
 - Basically almost all of Twitter functionality is implemented
 - Custom profile link colors supported
-- You can also change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
+- You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
 - Ability to change default link color and font, enable/disable Twemoji, disable stars (favorites) back to likes (hearts)
 - Ability to show custom user link colors in timeline
 - Dark mode support
