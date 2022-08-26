@@ -70,6 +70,7 @@ class TweetViewer {
             this.mainTweetLikers = this.pageData[path].mainTweetLikers;
             this.seenReplies = [];
             this.tweets = [];
+            this.container.getElementsByClassName('timeline-more')[0].hidden = !this.cursor;
             let tl = document.getElementsByClassName('timeline')[0];
             tl.innerHTML = '';
             for(let i in this.pageData[path].tweets) {

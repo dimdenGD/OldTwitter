@@ -1225,3 +1225,6 @@ input, textarea {
     border-right: none !important;
     border-left: none !important;
 }
+.timeline-more {
+    margin-bottom: -10px;
+}

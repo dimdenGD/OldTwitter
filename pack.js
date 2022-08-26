@@ -124,6 +124,14 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     fs.unlinkSync('../OldTwitterFirefox/ruleset.json');
     fs.unlinkSync('../OldTwitterFirefox/pack.js');
     fs.unlinkSync('../OldTwitterTempChrome/pack.js');
+    if(fs.existsSync('../OldTwitterTempChrome/_metadata')) {
+        fs.rmdirSync('../OldTwitterTempChrome/_metadata', { recursive: true });
+        fs.rmdirSync('../OldTwitterFirefox/_metadata', { recursive: true });
+    }
+    if(fs.existsSync('../OldTwitterTempChrome/.github')) {
+        fs.rmdirSync('../OldTwitterTempChrome/.github', { recursive: true });
+        fs.rmdirSync('../OldTwitterFirefox/.github', { recursive: true });
+    }
 
     let layouts = fs.readdirSync('../OldTwitterFirefox/layouts');
     for (let layout of layouts) {
