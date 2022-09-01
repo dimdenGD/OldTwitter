@@ -204,7 +204,25 @@ body {
 }
 
 @media screen and (max-width: 1195px) {
-    #wtf, #about {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+    #user-banner {
+        width: 258px;
+    }
+    .user-stat-div>h2 {
+        font-size: 12px;
+    }
+    .user-stat-div>h1 {
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 1073px) {
+    #wtf {
         display: none;
     }
 }

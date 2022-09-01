@@ -776,8 +776,10 @@ async function renderDiscovery(cache = true) {
     let discoverContainer = document.getElementById('wtf-list');
     discoverContainer.innerHTML = '';
     try {
+        let max = 7;
+        if(innerHeight < 650) max = 5;
         let usersData = discover.globalObjects.users;
-        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
+        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, max); // why is it so deep
         usersSuggestions.slice(0, 5).forEach(userId => {
             let userData = usersData[userId];
             if (!userData) return;

@@ -612,15 +612,22 @@ a:hover,
 }
 
 @media screen and (max-width: 1195px) {
-
-    #wtf,
-    #about {
-        display: none
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
     }
 
     #profile-nav-right-cell,
     #profile-nav-center-cell {
         width: fit-content
+    }
+}
+@media screen and (max-width: 1073px) {
+    #wtf {
+        display: none;
     }
 }
 

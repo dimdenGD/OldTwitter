@@ -2114,6 +2114,7 @@ setTimeout(async () => {
         let el = e.target;
         if(!el) return;
         if(el.tagName !== 'A') el = el.parentElement;
+        if(!el) return;
         if(el.tagName === "A") {
             let path;
             try {

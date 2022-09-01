@@ -993,7 +993,9 @@ async function renderDiscovery(cache = true) {
     discoverContainer.innerHTML = '';
     try {
         let usersData = discover.globalObjects.users;
-        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
+        let max = 7;
+        if(innerHeight < 650) max = 5;
+        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, max); // why is it so deep
         usersSuggestions.forEach(userId => {
             let userData = usersData[userId];
             if (!userData) return;

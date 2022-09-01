@@ -622,8 +622,7 @@ a:hover,
 
 @media screen and (max-width: 1195px) {
 
-    #wtf,
-    #about {
+    #wtf {
         display: none
     }
 }

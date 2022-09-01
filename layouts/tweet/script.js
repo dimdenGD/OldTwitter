@@ -1877,6 +1877,10 @@ setTimeout(async () => {
         });
     }
     // Buttons
+    if(!document.getElementById('wtf-refresh')) {
+        // weird bug
+        location.reload();
+    }
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
