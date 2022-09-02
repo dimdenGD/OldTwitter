@@ -1002,6 +1002,10 @@ let lastTweetDate = 0;
 let activeTweet;
 
 setTimeout(() => {
+    if(!document.getElementById('wtf-refresh')) {
+        // weird bug
+        location.reload();
+    }
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });

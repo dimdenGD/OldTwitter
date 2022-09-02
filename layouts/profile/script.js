@@ -2048,6 +2048,10 @@ setTimeout(async () => {
         });
     }
     // Buttons
+    if(!document.getElementById('new-tweets')) {
+        // weird bug
+        location.reload();
+    }
     document.getElementById('new-tweets').addEventListener('click', () => {
         timeline.toBeUpdated = 0;
         timeline.data = timeline.dataToUpdate;
