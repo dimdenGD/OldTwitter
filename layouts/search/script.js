@@ -12,7 +12,6 @@ let saved;
 // Util
 
 function updateSubpage() {
-    document.getElementById('search-more').hidden = false;
     let params = Object.fromEntries(new URLSearchParams(location.search + location.hash));
     searchParams = params || {};
     searchSettings = {};
@@ -863,9 +862,6 @@ async function renderTrends() {
 async function renderSearch(c) {
     updateSavedButton();
     let searchDiv = document.getElementById('timeline');
-    let searchMore = document.getElementById('search-more');
-    searchMore.hidden = false;
-    searchMore.innerText = 'Loading...';
     let search;
     let currentCursor = cursor;
     try {
@@ -893,8 +889,6 @@ async function renderSearch(c) {
     } catch(e) {
         console.error(e);
         cursor = undefined;
-        searchMore.hidden = true;
-        searchMore.innerText = 'Load more';
         return document.getElementById('loading-box').hidden = true;
     }
     if(!c) {
@@ -914,7 +908,6 @@ async function renderSearch(c) {
             linkColors[linkData[i].username] = linkData[i].color;
         }
     }
-    searchMore.innerText = 'Load more';
     if(search.length === 0) {
         if(!currentCursor) {
             searchDiv.innerHTML = `<div class="no-results">
@@ -922,7 +915,6 @@ async function renderSearch(c) {
                 No results found. Try changing something on left?<br><br>
                 <button class="nice-button">Try again</button>
             </div>`;
-            searchMore.hidden = true;
             cursor = undefined;
             let button = searchDiv.querySelector('button');
             button.addEventListener('click', () => {
@@ -1021,6 +1013,7 @@ async function updateSavedButton() {
 }
 let lastTweetDate = 0;
 let activeTweet;
+let loadingNewTweets = false;
 
 setTimeout(() => {
     if(!document.getElementById('wtf-refresh')) {
@@ -1029,10 +1022,6 @@ setTimeout(() => {
     }
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
-    });
-    document.getElementById('search-more').addEventListener('click', async () => {
-        if(!cursor) return;
-        renderSearch(cursor);
     });
     window.addEventListener("popstate", async () => {
         cursor = undefined;
@@ -1053,6 +1042,17 @@ setTimeout(() => {
             if(activeTweet) {
                 activeTweet.classList.add('tweet-active');
             }
+        }
+        // load more tweets
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+            if (loadingNewTweets || !cursor) return;
+            loadingNewTweets = true;
+            await renderSearch(cursor);
+            setTimeout(() => {
+                setTimeout(() => {
+                    loadingNewTweets = false;
+                });
+            }, 200);
         }
     });
     
