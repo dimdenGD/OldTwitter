@@ -69,6 +69,8 @@ function updateSubpage() {
             subpage = 'followers';
         } else if(user_handle.endsWith('/followers_you_follow')) {
             subpage = 'followers_you_follow';
+        } else if(user_handle.endsWith('/lists')) {
+            subpage = 'lists';
         }
     }
     user_handle = user_handle.split('/')[0];
@@ -168,6 +170,16 @@ function updateSelection() {
         document.getElementById('followers_you_follow-more').hidden = false;
 
         document.getElementById('profile-stat-followers-link').classList.add('profile-stat-active');
+    } else if(subpage === "lists") {
+        document.getElementById('tweet-nav').hidden = true;
+        document.getElementById('timeline').hidden = true;
+        document.getElementById('following-list').hidden = true;
+        document.getElementById('followers-list').hidden = true;
+        document.getElementById('following-more').hidden = true;
+        document.getElementById('followers-more').hidden = true;
+        document.getElementById('followers_you_follow-list').hidden = true;
+        document.getElementById('followers_you_follow-more').hidden = true;
+        document.getElementById('lists-list').hidden = false;
     }
     if(subpage !== 'profile') document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
     document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
@@ -431,6 +443,55 @@ async function renderFollowersYouFollow(clear = true, cursor) {
 
         followingList.appendChild(followingElement);
     });
+    document.getElementById('loading-box').hidden = true;
+}
+async function renderLists() {
+    let lists = pageUser.id_str === user.id_str ? await API.getMyLists() : await API.getUserLists(pageUser.id_str);
+    let listsList = document.getElementById('lists-list');
+    listsList.innerHTML = `<h1 class="nice-header">Lists</h1>`;
+    if(pageUser.id_str === user.id_str) {
+        listsList.innerHTML += `<h1 class="nice-header" style="float:right;cursor:pointer" id="create-list">[create]</h1>`;
+        document.getElementById('create-list').addEventListener('click', () => {
+            let modal = createModal(`
+                <div id="list-creator">
+                    <h1 class="cool-header">Create list</h1><br>
+                    <span id="list-editor-error" style="color:red"></span><br>
+                    Name:<br><input maxlength="25" type="text" id="list-name-input"><br><br>
+                    Description:<br><textarea maxlength="100" type="text" id="list-description-input"></textarea><br>
+                    <br>
+                    Is private: <input type="checkbox" style="width: 15px;" id="list-private-input"><br>
+                    <br>
+                    <button class="nice-button" id="list-btn-create">Create</button> 
+                </div>
+            `, 'list-creator-modal');
+            document.getElementById('list-btn-create').addEventListener('click', async () => {
+                let list;
+                try {
+                    list = await API.createList(document.getElementById('list-name-input').value, document.getElementById('list-description-input').value, document.getElementById('list-private-input').checked);
+                } catch(e) {
+                    return document.getElementById('list-editor-error').innerText = e && e.message ? e.message : e;
+                }
+                location.href = `https://twitter.com/i/lists/${list.id_str}`;
+            });
+        });
+    }
+    for(let i in lists) {
+        let l = lists[i];
+        let listElement = document.createElement('div');
+        listElement.classList.add('list-item');
+        listElement.innerHTML = `
+            <div>
+                <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                    <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                    <div class="following-item-text" style="position: relative;bottom: 12px;">
+                        <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
+                        <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : 'No description'}</span>
+                    </div>
+                </a>
+            </div>
+        `;
+        listsList.appendChild(listElement);
+    }
     document.getElementById('loading-box').hidden = true;
 }
 
@@ -731,6 +792,7 @@ async function renderProfile() {
                 <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `Unblock @${pageUser.screen_name}` : `Block @${pageUser.screen_name}`}<br></span>
                 <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? `Stop ignoring` : `Ignore`}<br></span>
                 ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">Remove from followers</span><br>` : ''}
+                <span id="profile-settings-lists-action" style="width: 100%;">Add/remove from list<br></span>
                 <hr>
                 <span id="profile-settings-lists" style="width: 100%;">See lists<br></span>
                 <span id="profile-settings-share" style="width: 100%;">Share user<br></span>
@@ -874,8 +936,58 @@ async function renderProfile() {
                 modal.remove();
             });
         });
+        document.getElementById('profile-settings-lists-action').addEventListener('click', async () => {
+            let lists = await API.getListOwnerships(user.id_str, pageUser.id_str);
+            let modal = createModal(`
+                <h1 class="cool-header">Add/remove from list</h1>
+                <div id="modal-lists"></div>
+            `);
+            let container = document.getElementById('modal-lists');
+            for(let i in lists) {
+                let l = lists[i];
+                let listElement = document.createElement('div');
+                listElement.classList.add('list-item');
+                listElement.innerHTML = `
+                    <div style="display:inline-block;">
+                        <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                            <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                            <div class="following-item-text" style="position: relative;bottom: 12px;">
+                                <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
+                                <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : 'No description'}</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div style="display:inline-block;float: right;margin-top: 5px;">
+                        <button class="nice-button">${l.is_member ? 'Remove' : 'Add'}</button>
+                    </div>
+                `;
+                container.appendChild(listElement);
+                listElement.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
+                    if(l.is_member) {
+                        await API.listRemoveMember(l.id_str, pageUser.id_str);
+                        l.is_member = false;
+                        listElement.getElementsByClassName('nice-button')[0].innerText = 'Add';
+                    } else {
+                        await API.listAddMember(l.id_str, pageUser.id_str);
+                        l.is_member = true;
+                        listElement.getElementsByClassName('nice-button')[0].innerText = 'Remove';
+                    }
+                    l.is_member = !l.is_member;
+                });
+            }
+        });
         document.getElementById('profile-settings-lists').addEventListener('click', async () => {
-            openInNewTab(`https://twitter.com/${pageUser.screen_name}/lists`);
+            document.getElementById('loading-box').hidden = false;
+            history.pushState({}, null, `https://twitter.com/${pageUser.screen_name}/lists`);
+            everAddedAdditional = false;
+            mediaToUpload = [];
+            document.getElementById('profile-media-div').innerHTML = '';
+            document.getElementById('tweet-to-bg').hidden = true;
+            document.getElementById('profile-additional').innerHTML = '';
+            document.getElementById('profile-friends-div').innerHTML = '';
+            updateSubpage();
+            updateSelection();
+            renderLists();
         });
         document.getElementById('profile-settings-share').addEventListener('click', async () => {
             navigator.share({ url: `https://twitter.com/${pageUser.screen_name}` });
@@ -2102,13 +2214,15 @@ setTimeout(async () => {
         followersCursor = undefined;
         followingCursor = undefined;
         followersYouKnowCursor = undefined;
-        if(subpage !== 'following' && subpage !== 'followers' && subpage !== 'followers_you_follow') updateTimeline();
+        if(subpage !== 'following' && subpage !== 'followers' && subpage !== 'followers_you_follow' && subpage !== 'lists') updateTimeline();
         else if(subpage === 'following') {
             renderFollowing();
         } else if(subpage === 'followers') {
             renderFollowers();
         } else if(subpage === 'followers_you_follow') {
             renderFollowersYouFollow();
+        } else if(subpage === 'lists') {
+            renderLists();
         }
     }
     document.getElementById('tweet-nav-tweets').addEventListener('click', updatePath);
@@ -2201,13 +2315,15 @@ setTimeout(async () => {
         settings = s;
         updateSubpage();
         await updateUserData();
-        if(subpage !== 'following' && subpage !== 'followers' && subpage !== 'followers_you_follow') updateTimeline();
+        if(subpage !== 'following' && subpage !== 'followers' && subpage !== 'followers_you_follow' && subpage !== 'lists') updateTimeline();
         else if(subpage === 'following') {
             renderFollowing();
         } else if(subpage === 'followers') {
             renderFollowers();
         } else  if(subpage === 'followers_you_follow') {
             renderFollowersYouFollow();
+        } else  if(subpage === 'lists') {
+            renderLists();
         }
         renderDiscovery();
         renderTrends();

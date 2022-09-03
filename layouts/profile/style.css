@@ -109,7 +109,8 @@ body {
 
 #following-list,
 #followers-list,
-#followers_you_follow-list {
+#followers_you_follow-list,
+#lists-list {
     width: 570px;
     margin-bottom: 10px
 }
@@ -1318,6 +1319,9 @@ a:hover,
 #profile-settings-lists:before {
     content: "\f094"
 }
+#profile-settings-lists-action:before {
+    content: "\f051";
+}
 
 #profile-settings-share:before {
     content: "\f185"
@@ -1420,7 +1424,8 @@ a:hover,
 
 #following-list,
 #followers-list,
-#followers_you_follow-list {
+#followers_you_follow-list,
+#lists-list {
     padding: 10px
 }
 
@@ -1516,4 +1521,18 @@ a:hover,
 }
 #loading-box-error {
     color: var(--default-text-color)
+}
+.list-creator-modal input, .list-creator-modal textarea {
+    border: 1px solid var(--border);
+    resize: none;
+    border-radius: 3px;
+    width: 80%;
+    padding: 5px;
+    font-family: var(--font);
+    display: inline-block;
+    font-size: 18px;
+    padding-right: 40px;
+}
+.list-creator-modal {
+    color: var(--default-text-color);
 }
