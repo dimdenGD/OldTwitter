@@ -2050,9 +2050,6 @@ API.getTweetLikers = (id, cursor) => {
             if(!cursor) cursor = '';
             if(!d.tweetLikers) d.tweetLikers = {};
             if(!cursor) {
-                if(d.tweetLikers[id]) {
-                    console.log(d.tweetLikers[id], Date.now() - d.tweetLikers[id].date < 60000);
-                }
                 if(d.tweetLikers[id] && Date.now() - d.tweetLikers[id].date < 60000) {
                     return resolve(d.tweetLikers[id].data);
                 }

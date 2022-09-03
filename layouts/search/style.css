@@ -530,6 +530,10 @@ span.tweet-body-text {
     content: "\f186"
 }
 
+.tweet-interact-more-menu-bookmark:before {
+    content: "\f093"
+}
+
 .tweet-interact-more-menu-download-gif:before {
     content: "\f309"
 }

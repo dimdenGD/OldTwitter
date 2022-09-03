@@ -802,6 +802,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <hr>
                     <span class="tweet-interact-more-menu-follow">${t.user.following ? 'Unfollow' : 'Follow'} @${t.user.screen_name}</span><br>
                     ` : ''}
+                    <span class="tweet-interact-more-menu-bookmark">Bookmark tweet</span>
                     <hr>
                     <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
@@ -964,6 +965,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
     const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
+    const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
 
     if(tweetBodyQuote) {
         tweetBodyQuote.addEventListener('click', e => {
@@ -1001,6 +1003,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
         <br>
         <span>${escapeHTML(translated.text)}</span>`;
         twemoji.parse(tweetBodyText);
+    });
+
+    tweetInteractMoreMenuBookmark.addEventListener('click', async () => {
+        API.createBookmark(t.id_str);
     });
 
     // Media
