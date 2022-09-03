@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old Twitter - Settings</title>
+    <link rel="preconnect" href="https://twitter.com">
+</head>
+<body>
+    <div id="loading-box">
+        <div id="loading-box-container">
+            <span id="loading-box-text"></span>
+        </div>
+    </div>
+    <header></header>
+    <main id="container">
+		<div id="content">
+            <div class="cell" id="left-cell">
+                <div id="user-div" class="box">
+                    <img id="user-banner" height="100" width="300">
+                    <div id="user-data">
+                        <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
+                        <a id="user-info">
+                            <h1 id="user-name">Loading</h1>
+                            <h2 id="user-handle">@loading</h2>
+                        </a>
+                        <div id="user-stats">
+                            <div class="user-stat-div">
+                                <h2>Tweets</h2>
+                                <h1 id="user-tweets">0</h1>
+                            </div>
+                            <div class="user-stat-div">
+                                <h2>Following</h2>
+                                <h1 id="user-following">0</h1>
+                            </div>
+                            <div class="user-stat-div">
+                                <h2>Followers</h2>
+                                <h1 id="user-followers">0</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="trends" class="box">
+                    <h1>Trends</h1>
+                    <div id="trends-list">
+                    </div>
+                </div>
+            </div>
+            <div class="cell" id="center-cell">
+                <div id="bookmarks">
+                    <h1>Bookmarks</h1>
+                    <span id="delete-all">Delete all</span>
+                    <br>
+                    <div id="bookmarks-list"></div>
+                </div>
+            </div>
+            <div class="cell" id="right-cell">
+                <div id="wtf" class="box">
+                    <h1>Who to follow</h1><br>
+                    <span id="wtf-refresh">Refresh</span> · <a id="wtf-viewall" target="_blank" href="https://mobile.twitter.com/i/connect_people?user_id=">View all</a>
+                    <br><br>
+                    <div id="wtf-list"></div>
+                </div>
+                <div id="about">
+                    <span>
+                        Running <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
+                        Created by <a href="https://dimden.dev/" target="_blank">dimden</a>.<br>
+                    </span>
+                    <br>
+                    <div class="about-links">
+                        <span>© 2022 dimden</span> 
+                        <a href="https://dimden.dev/" target="_blank">Website</a>
+                        <a href="/dimdenEFF">Twitter</a>
+                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">Donate</a>
+                    </div>
+                    <div class="about-links">
+                        <span>© 2015 Twitter</span> 
+                        <a href="/about">About</a>
+                        <a href="https://support.twitter.com">Help</a>
+                        <a href="/tos">Terms</a>
+                        <a href="/privacy">Privacy</a>
+                    </div>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,7 +1,7 @@
 {
   "name": "Old Twitter Layout (2022)",
   "description": "A new extension that returns old Twitter's look.",
-  "version": "1.5.3.1",
+  "version": "1.5.4",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/OldTwitter",
   "background": {
@@ -41,6 +41,8 @@
         "layouts/tweet/style.css",
         "layouts/search/index.html",
         "layouts/search/style.css",
+        "layouts/bookmarks/index.html",
+        "layouts/bookmarks/style.css",
         "/images/logo32.png",
         "/images/logo32_notification.png",
         "/images/group.jpg",
@@ -118,6 +120,12 @@
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle",
       "all_frames": true
+    },
+    {
+      "matches": ["https://twitter.com/i/bookmarks", "https://twitter.com/i/bookmarks/"],
+      "js": ["libraries/twemoji.min.js", "layouts/bookmarks/script.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/with_replies/", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers", "https://twitter.com/*/followers_you_follow", "https://twitter.com/*/followers_you_follow/", "https://twitter.com/*/media/", "https://twitter.com/*/likes/", "https://twitter.com/*/following/", "https://twitter.com/*/followers/"],

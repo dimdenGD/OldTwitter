@@ -2596,3 +2596,97 @@ API.pinTweet = id => {
         });
     });
 }
+API.getBookmarks = (cursor) => {
+    return new Promise((resolve, reject) => {
+        let obj = {"count":20,"includePromotedContent":true,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true};
+        if(cursor) obj.cursor = cursor;
+        fetch(`https://twitter.com/i/api/graphql/-fOdcL5PyRcFM9_X5X-rfw/Bookmarks?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let list = data.data.bookmark_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
+            if(!list) return resolve({ list: [], cursor: undefined });
+            list = list.entries;
+            resolve({
+                list: list.filter(e => e.entryId.startsWith('tweet-')).map(e => {
+                    let res = e.content.itemContent.tweet_results.result;
+                    let tweet = res.legacy;
+                    tweet.user = res.core.user_results.result.legacy;
+                    tweet.user.id_str = tweet.user_id_str;
+                    return tweet;
+                }),
+                cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+            });
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.deleteAllBookmarks = () => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/skiACZKC1GDYli-M8RzEPQ/BookmarksAllDelete`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `{"variables":{},"queryId":"skiACZKC1GDYli-M8RzEPQ"}`
+        }).then(i => i.text()).then(() => {
+            resolve(true);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.createBookmark = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/aoDbu3RHznuiSkQ9aNM67Q/CreateBookmark`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json"
+            },
+            credentials: "include",
+            method: 'post',
+            body: JSON.stringify({"variables":{"tweet_id":id},"queryId":"aoDbu3RHznuiSkQ9aNM67Q"})
+        }).then(i => i.text()).then(() => {
+            resolve(true);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.deleteBookmark = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/Wlmlj2-xzyS1GN3a6cj-mQ/DeleteBookmark`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json"
+            },
+            credentials: "include",
+            method: 'post',
+            body: JSON.stringify({"variables":{"tweet_id":id},"queryId":"Wlmlj2-xzyS1GN3a6cj-mQ"})
+        }).then(i => i.text()).then(() => {
+            resolve(true);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
