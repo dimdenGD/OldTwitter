@@ -820,7 +820,12 @@ async function renderDiscovery(cache = true) {
     }
 }
 function renderListData(data) {
-    if(data.default_banner_media && data.default_banner_media.media_info) document.getElementById('list-banner').src = data.default_banner_media.media_info.original_img_url;
+    console.log(data);
+    if(data.custom_banner_media) {
+        document.getElementById('list-banner').src = data.custom_banner_media.media_info.original_img_url;
+    } else {
+        document.getElementById('list-banner').src = data.default_banner_media.media_info.original_img_url;
+    }
     document.getElementById('list-name').innerText = data.name;
     document.getElementById('list-description').innerText = data.description;
     document.getElementById('list-members-count').innerText = data.member_count;
@@ -828,6 +833,123 @@ function renderListData(data) {
     if(data.user_results && data.user_results.result) {
         document.getElementById('list-user').href = `https://twitter.com/${data.user_results.result.legacy.screen_name}/lists`;
         document.getElementById('list-avatar').src = data.user_results.result.legacy.profile_image_url_https.replace('_normal', '_bigger');
+        let actions = document.getElementById('list-actions');
+        actions.innerHTML = ``;
+        if(data.user_results.result.rest_id === user.id_str) {
+            actions.innerHTML = `
+                <button class="nice-button" id="list-btn-edit">Edit</button>
+                <button class="nice-button" id="list-btn-delete">Delete</button>
+            `;
+            document.getElementById('list-btn-edit').addEventListener('click', () => {
+                let modal = createModal(`
+                    <div id="list-editor">
+                        <h1 class="cool-header">Edit list</h1><br>
+                        <span id="list-editor-error" style="color:red"></span><br>
+                        Name:<br><input maxlength="25" type="text" id="list-name-input" value="${escapeHTML(data.name)}"><br><br>
+                        Description:<br><textarea maxlength="100" type="text" id="list-description-input">${escapeHTML(data.description)}</textarea><br>
+                        <br>
+                        Is private: <input type="checkbox" style="width: 15px;" id="list-private-input" ${data.mode === 'Private' ? 'checked' : ''}><br>
+                        <br>
+                        <button class="nice-button" id="list-btn-save">Save</button> 
+                        <button class="nice-button" id="list-btn-members">Edit members</button>
+                    </div>
+                    <div id="list-editor-members" hidden>
+                        <h1 class="cool-header">Edit list members</h1>
+                        <span id='list-editor-members-back'>Back</span>
+                        <br>
+                        <div id="list-editor-members-container"></div>
+                        <div class="box" style="border-bottom:none"></div>
+                        <div id="list-editor-members-more" class="center-text" style="padding-left: 90px;">Load more</div>
+                    </div>
+                `, 'list-editor-modal');
+                document.getElementById('list-btn-save').addEventListener('click', async () => {
+                    document.getElementById('list-editor-error').innerText = '';
+                    let name = document.getElementById('list-name-input').value;
+                    let description = document.getElementById('list-description-input').value;
+                    let isPrivate = document.getElementById('list-private-input').checked;
+                    try {
+                        await API.updateList(data.id_str, name, description, isPrivate);
+                    } catch(e) {
+                        return document.getElementById('list-editor-error').innerText = e && e.message ? e.message : e;
+                    }
+                    modal.remove();
+                    renderListData(await API.getList(data.id_str));
+                });
+                let membersCursor;
+                let membersContainer = document.getElementById('list-editor-members-container');
+                async function getMembers() {
+                    let listMembers = await API.getListMembers(data.id_str, membersCursor);
+                    membersCursor = listMembers.cursor;
+                    listMembers = listMembers.list;
+                    if(!cursor || listMembers.length === 0) document.getElementById('list-editor-members-more').hidden = true;
+                    for(let i in listMembers) {
+                        let t = listMembers[i];
+                        let followingElement = document.createElement('div');
+                        followingElement.classList.add('following-item');
+                        followingElement.innerHTML = `
+                        <div style="height:48px">
+                            <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
+                                <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                                <div class="following-item-text">
+                                    <span class="tweet-header-name following-item-name">${escapeHTML(t.name)}</span><br>
+                                    <span class="tweet-header-handle">@${t.screen_name}</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <button class="following-item-btn nice-button">Remove</button>
+                        </div>`;
+
+                        let removeButton = followingElement.querySelector('.following-item-btn');
+                        removeButton.addEventListener('click', async () => {
+                            await API.listRemoveMember(listId, t.id_str);
+                            document.getElementById('list-members-count').innerText = parseInt(document.getElementById('list-members-count').innerText) - 1;
+                            followingElement.remove();
+                        });
+
+                        membersContainer.appendChild(followingElement);
+                    }
+                }
+                document.getElementById('list-btn-members').addEventListener('click', async () => {
+                    document.getElementById('list-editor').hidden = true;
+                    document.getElementById('list-editor-members').hidden = false;
+                    getMembers();
+                });
+                document.getElementById('list-editor-members-more').addEventListener('click', getMembers);
+                document.getElementById('list-editor-members-back').addEventListener('click', () => {
+                    document.getElementById('list-editor').hidden = false;
+                    document.getElementById('list-editor-members').hidden = true;
+                });
+            });
+            document.getElementById('list-btn-delete').addEventListener('click', async () => {
+                let modal = createModal(`
+                    <h1 class="cool-header">Delete list</h1><br>
+                    <span>Are you sure you want to delete this list?</span>
+                    <br><br>
+                    <button class="nice-button" id="list-btn-delete-confirm">Delete</button>
+                `, 'list-editor-modal');
+                document.getElementById('list-btn-delete-confirm').addEventListener('click', async () => {
+                    await API.deleteList(data.id_str);
+                    modal.remove();
+                    window.location.href = `https://twitter.com/${user.screen_name}/lists`;
+                });
+            });
+        } else {
+            actions.innerHTML = `<button class="nice-button" id="list-btn-subscribe">${data.following ? 'Unsubscribe' : 'Subscribe'}</button>`;
+            document.getElementById('list-btn-subscribe').addEventListener('click', async () => {
+                if(data.following) {
+                    await API.unsubscribeList(data.id_str);
+                    document.getElementById('list-followers-count').innerText = +document.getElementById('list-followers-count').innerText - 1;
+                    data.following = false;
+                    document.getElementById('list-btn-subscribe').innerText = 'Subscribe';
+                } else {
+                    await API.subscribeList(data.id_str);
+                    document.getElementById('list-followers-count').innerText = +document.getElementById('list-followers-count').innerText + 1;
+                    data.following = true;
+                    document.getElementById('list-btn-subscribe').innerText = 'Unsubscribe';
+                }
+            });
+        }
     }
 }
 async function renderListTweets(c) {
@@ -838,6 +960,11 @@ async function renderListTweets(c) {
     ]).catch(e => {
         console.error(e);
     });
+    if(listTweets.reason) {
+        console.error(listTweets.reason);
+        document.getElementById('loading-box-error').innerHTML = `List was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+        return false;
+    }
     listInfo = listInfo.value;
     listTweets = listTweets.value;
     settings = settingsData.value;
@@ -850,6 +977,7 @@ async function renderListTweets(c) {
         let t = listTweets[i];
         await appendTweet(t, container);
     }
+    return true;
 }
 async function renderListMembers(c) {
     let [listInfo, listMembers, settingsData] = await Promise.allSettled([
@@ -859,6 +987,11 @@ async function renderListMembers(c) {
     ]).catch(e => {
         console.error(e);
     });
+    if(listMembers.reason) {
+        console.error(listTweets.reason);
+        document.getElementById('loading-box-error').innerHTML = `List was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+        return false;
+    }
     listInfo = listInfo.value;
     listMembers = listMembers.value;
     settings = settingsData.value;
@@ -902,6 +1035,7 @@ async function renderListMembers(c) {
 
         container.appendChild(followingElement);
     }
+    return true;
 }
 async function renderListFollowers(c) {
     let [listInfo, listFollowers, settingsData] = await Promise.allSettled([
@@ -911,7 +1045,11 @@ async function renderListFollowers(c) {
     ]).catch(e => {
         console.error(e);
     });
-    console.log(listFollowers);
+    if(listFollowers.reason) {
+        console.error(listTweets.reason);
+        document.getElementById('loading-box-error').innerHTML = `List was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+        return false;
+    }
     listInfo = listInfo.value;
     listFollowers = listFollowers.value;
     settings = settingsData.value;
@@ -955,15 +1093,16 @@ async function renderListFollowers(c) {
 
         container.appendChild(followingElement);
     }
+    return true;
 }
 
 async function renderList() {
     if(subpage === 'tweets') {
-        await renderListTweets(cursor);
+        if(!await renderListTweets(cursor)) return;
     } else if(subpage === 'members') {
-        await renderListMembers(cursor);
+        if(!await renderListMembers(cursor)) return;
     } else if(subpage === 'followers') {
-        await renderListFollowers(cursor);
+        if(!await renderListFollowers(cursor)) return;
     }
     document.getElementById('loading-box').hidden = true;
     return true;

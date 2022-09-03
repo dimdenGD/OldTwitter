@@ -104,7 +104,7 @@ body {
 #list-avatar {
     float: right;
     margin-right: 10px;
-    margin-top: -50px;
+    margin-top: 5px;
     border-radius: 5px;
 }
 
@@ -923,4 +923,29 @@ a:hover,
 .list-stat-div:hover {
     text-decoration: none;
     cursor: pointer;
+}
+#list-actions {
+    padding: 10px;
+    border-top: 1px solid var(--border);
+    background-color: var(--list-actions-bg);
+}
+.list-editor-modal input, .list-editor-modal textarea {
+    border: 1px solid var(--border);
+    resize: none;
+    border-radius: 3px;
+    width: 80%;
+    padding: 5px;
+    font-family: var(--font);
+    display: inline-block;
+    font-size: 18px;
+    padding-right: 40px;
+}
+.list-editor-modal {
+    color: var(--default-text-color);
+}
+#list-editor-members-back {
+    float: right;
+    cursor: pointer;
+    color: var(--darker-gray);
+    margin-top: 4px;
 }

@@ -10,7 +10,9 @@
 <body>
     <div id="loading-box">
         <div id="loading-box-container">
-            <span id="loading-box-text"></span>
+            <span id="loading-box-text">
+                <br><span id="loading-box-error"></span>
+            </span>
         </div>
     </div>
     <header></header>
@@ -19,9 +21,9 @@
             <div class="cell" id="left-cell">
                 <div class="box" id="list-info">
                     <img id="list-banner" height="100" width="300">
+                    <a id="list-user"><img width="48" height="48" id="list-avatar"></img></a>
                     <h1 id="list-name">Loading</h1>
                     <div id="list-description"></div>
-                    <a id="list-user"><img width="48" height="48" id="list-avatar"></img></a>
                     <br>
                     <div id="list-stats">
                         <a class="list-stat-div" id="list-members-div">
@@ -33,6 +35,7 @@
                             <h1 id="list-followers-count">0</h1>
                         </a>
                     </div>
+                    <div id="list-actions"></div>
                 </div>
                 <div class="box list-switches" style="width: 280px;margin-top:10px;">
                     <span class="list-switch" id="ns-tweets">Tweets</span>
