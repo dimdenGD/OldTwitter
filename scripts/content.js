@@ -22,12 +22,16 @@ let pages = [
         paths: ["/i/bookmarks"]
     },
     {
+        name: "lists",
+        paths: [/^\/i\/lists\/\d+(\/members|\/followers|)$/]
+    },
+    {
         name: "tweet",
         paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/likes(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets\/with_comments(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets(|\/)$/]
     },
     {
         name: "profile",
-        paths: [/^\/[A-z-0-9-_]{1,15}$/g, /^\/[A-z-0-9-_]{1,15}\/$/, /^\/[A-z-0-9-_]{1,15}\/with_replies(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/media(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/likes(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/following(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/followers(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/followers_you_follow(|\/)$/],
+        paths: [/^\/[A-z-0-9-_]{1,15}(\/with_replies|\/media|\/likes|\/following|\/followers|\/followers_you_follow|\/lists|)$/g],
         exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"],
     },
 ];
@@ -54,7 +58,6 @@ if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath)) {
     location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
 }
 let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
-
 (async () => {
     if (!page) return;
 

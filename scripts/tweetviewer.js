@@ -37,6 +37,9 @@ class TweetViewer {
         this.subpage = undefined;
         this.popstateHelper = undefined;
 
+        let event = new CustomEvent('clearActiveTweet');
+        document.dispatchEvent(event);
+
         this.init();
     }
     async savePageData(path) {

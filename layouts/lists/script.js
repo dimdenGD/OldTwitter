@@ -1,13 +1,42 @@
 let user = {};
-let settings = {};
+let settings;
 let vars;
-let bookmarkCursor = null;
-let end = false;
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'disableHotkeys'], data => {
+    vars = data;
+});
+let cursor;
 let linkColors = {};
-let activeTweet;
+let listId = location.pathname.split('/')[3];
+let subpage;
+// Util
 
+function updateSubpage() {
+    Array.from(document.getElementsByClassName('list-switch')).forEach(el => el.classList.remove('list-switch-active'));
+    document.getElementById('list-members-container').hidden = true;
+    document.getElementById('list-tweets-container').hidden = true;
+    document.getElementById('list-followers-container').hidden = true;
+    end = false;
+    cursor = undefined;
+
+    if(location.href.endsWith('/members')) {
+        subpage = 'members';
+        document.getElementById('list-members-container').hidden = false;
+        document.getElementById('list-members').innerHTML = '';
+        document.getElementById('ns-members').classList.add('list-switch-active');
+    } else if(location.href.endsWith('/followers')) {
+        subpage = 'followers';
+        document.getElementById('list-followers-container').hidden = false;
+        document.getElementById('list-followers').innerHTML = '';
+        document.getElementById('ns-followers').classList.add('list-switch-active');
+    } else {
+        subpage = 'tweets';
+        document.getElementById('list-tweets-container').hidden = false;
+        document.getElementById('list-tweets').innerHTML = '';
+        document.getElementById('ns-tweets').classList.add('list-switch-active');
+    }
+}
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.verifyCredentials().then(u => {
         user = u;
         const event = new CustomEvent('updateUserData', { detail: u });
         document.dispatchEvent(event);
@@ -21,21 +50,7 @@ function updateUserData() {
 }
 // Render
 function renderUserData() {
-    document.getElementById('user-name').innerText = user.name;
-    document.getElementById('user-name').classList.toggle('user-verified', user.verified);
-    document.getElementById('user-name').classList.toggle('user-protected', user.protected);
-
-    document.getElementById('user-handle').innerText = `@${user.screen_name}`;
-    document.getElementById('user-tweets').innerText = user.statuses_count;
-    document.getElementById('user-following').innerText = user.friends_count;
-    document.getElementById('user-followers').innerText = user.followers_count;
-    document.getElementById('user-banner').src = user.profile_banner_url;
-    document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
     document.getElementById('wtf-viewall').href = `https://mobile.twitter.com/i/connect_people?user_id=${user.id_str}`;
-    document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
-    document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
-
-    if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
 
 async function appendTweet(t, timelineContainer, options = {}) {
@@ -92,14 +107,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <b class="tweet-header-name ${t.user.verified || t.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.user.protected ? 'user-protected' : ''}">${escapeHTML(t.user.name)}</b>
                 <span class="tweet-header-handle">@${t.user.screen_name}</span>
             </a>
-            <span class="tweet-delete-bookmark">&times;</span>
         </div>
         <a class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body">
-            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
+            <span class="tweet-body-text ${t.full_text && t.full_text.length > 100 ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1" target="_blank">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${!isEnglish ? `
             <br>
-            <span class="tweet-translate">View translation</span>
+            <span class="tweet-translate">Translate tweet</span>
             ` : ``}
             ${t.extended_entities && t.extended_entities.media ? `
             <div class="tweet-media">
@@ -128,12 +142,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ` : ''}
             </a>
             ` : ``}
-            ${t.limited_actions === 'limit_trusted_friends_tweet' ? `
-            <div class="tweet-limited">
-                This tweet is visible only to people who are in @${t.user.screen_name}'s trusted friends circle. <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">Learn more.</a>
-            </div>
-            ` : ''}
-            ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
+            ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply" data-val="${t.reply_count}">${t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${t.retweet_count}</span>
@@ -155,8 +164,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <hr>
                     <span class="tweet-interact-more-menu-follow">${t.user.following ? 'Unfollow' : 'Follow'} @${t.user.screen_name}</span><br>
                     `}
+                    <span class="tweet-interact-more-menu-bookmark">Bookmark tweet</span>
                     <hr>
-                    ${t.feedback ? t.feedback.map((f, i) => `<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : "Not interested in topic"}</span><br>`).join("\n") : ''}
                     <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
                     ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">Download as GIF</span><br>` : ``}
@@ -204,7 +213,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
     const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
-    const tweetDeleteBookmark = tweet.getElementsByClassName('tweet-delete-bookmark')[0];
 
     const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
     const tweetReplyUpload = tweet.getElementsByClassName('tweet-reply-upload')[0];
@@ -243,7 +251,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
     const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
-    const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
+    const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
 
     // Translate
     if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
@@ -255,14 +263,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         <span>${escapeHTML(translated.text)}</span>`;
         if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
     });
-    // Delete bookmark
-    tweetDeleteBookmark.addEventListener('click', async () => {
-        await API.deleteBookmark(t.id_str);
-        tweet.remove();
-        if(timelineContainer.children.length === 0) {
-            timelineContainer.innerHTML = '<div style="color:var(--light-gray)">Wow, such empty</div>';
-            document.getElementById('delete-all').hidden = true;
-        }
+
+    tweetInteractMoreMenuBookmark.addEventListener('click', async () => {
+        API.createBookmark(t.id_str);
     });
 
     // Media
@@ -281,20 +284,18 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
     // Links
     if (tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
-        if (t.entities.urls && (t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length - 1].url !== tweetBodyText.lastChild.href)) {
+        if (t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length - 1].url !== tweetBodyText.lastChild.href) {
             tweetBodyText.lastChild.remove();
         }
     }
     let links = Array.from(tweetBodyText.getElementsByTagName('a')).filter(a => a.href.startsWith('https://t.co/'));
     links.forEach(a => {
-        let link = t.entities.urls && t.entities.urls.find(u => u.url === a.href);
+        let link = t.entities.urls.find(u => u.url === a.href);
         if (link) {
             a.innerText = link.display_url;
             a.href = link.expanded_url;
             a.target = '_blank';
             a.rel = 'noopener noreferrer';
-        } else {
-            if(!vars.chronologicalTL) a.remove();
         }
     });
 
@@ -309,7 +310,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
     tweetReplyUpload.addEventListener('click', () => {
         getMedia(replyMedia, tweetReplyMedia);
-        tweetReplyText.focus();
     });
     tweetInteractReply.addEventListener('click', () => {
         if (!tweetQuote.hidden) tweetQuote.hidden = true;
@@ -410,10 +410,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetReplyButton.disabled = false;
         tweetReplyMedia.innerHTML = [];
         replyMedia = [];
-        appendTweet(tweetData, document.getElementById('bookmarks-list'), {
-            noTop: true,
-            after: tweet
-        });
     });
 
     // Retweet / Quote Tweet
@@ -440,8 +436,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
     tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
         if (!t.retweeted) {
-            let c = confirm("Are you sure you want to retweet this tweet?");
-            if (!c) return;
             let tweetData;
             try {
                 tweetData = await API.retweetTweet(t.id_str);
@@ -454,10 +448,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Unretweet';
             tweetInteractRetweet.classList.add('tweet-interact-retweeted');
-            t.retweeted = true;
-            t.newTweetId = tweetData.id_str;
             tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText) + 1;
             tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) + 1;
+            t.retweeted = true;
+            t.newTweetId = tweetData.id_str;
         } else {
             let tweetData;
             try {
@@ -471,9 +465,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
             tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
-            t.retweeted = false;
             tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText) - 1;
             tweetInteractRetweet.innerText = parseInt(tweetInteractRetweet.innerText) - 1;
+            t.retweeted = false;
             delete t.newTweetId;
         }
     });
@@ -577,7 +571,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetQuoteButton.disabled = false;
         tweetQuoteMedia.innerHTML = '';
         timeline.data.unshift(tweetData);
-        appendTweet(tweetData, timelineContainer, { prepend: true });
     });
 
     // Favorite
@@ -656,7 +649,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
                 options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
             }
-            Array.from(document.getElementById('bookmarks-list').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
+            Array.from(document.getElementById('list-tweets').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                 tweet.remove();
             });
         });
@@ -760,41 +753,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
         }
     }
-    tweetInteractMoreMenuFeedbacks.forEach(feedbackButton => {
-        let feedback = t.feedback[feedbackButton.dataset.index];
-        if (!feedback) return;
-        feedbackButton.addEventListener('click', () => {
-            if(feedback.richBehavior && feedback.richBehavior.markNotInterestedTopic) {
-                fetch(`https://twitter.com/i/api/graphql/OiKldXdrDrSjh36WO9_3Xw/TopicNotInterested`, {
-                    method: 'post',
-                    headers: {
-                        'content-type': 'application/json',
-                        'authorization': OLDTWITTER_CONFIG.public_token,
-                        "x-twitter-active-user": 'yes',
-                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                        "x-twitter-auth-type": 'OAuth2Session',
-                    },
-                    body: JSON.stringify({"variables":{"topicId": feedback.richBehavior.markNotInterestedTopic.topicId,"undo":false},"queryId":"OiKldXdrDrSjh36WO9_3Xw"}),
-                    credentials: 'include'
-                }).then(i => i.json()).then(() => {});
-            }
-            fetch(`https://twitter.com/i/api/graphql/vfVbgvTPTQ-dF_PQ5lD1WQ/timelinesFeedback`, {
-                method: 'post',
-                headers: {
-                    'content-type': 'application/json',
-                    'authorization': OLDTWITTER_CONFIG.public_token,
-                    "x-twitter-active-user": 'yes',
-                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                    "x-twitter-auth-type": 'OAuth2Session',
-                },
-                body: JSON.stringify({"variables":{"encoded_feedback_request": feedback.encodedFeedbackRequest,"undo":false},"queryId":"vfVbgvTPTQ-dF_PQ5lD1WQ"}),
-                credentials: 'include'
-            }).then(i => i.json()).then(i => {
-                alert(feedback.confirmation ? feedback.confirmation : 'Thanks for your feedback!');
-                tweet.remove();
-            });
-        });
-    });
 
     if(options.after) {
         options.after.after(tweet);
@@ -812,8 +770,10 @@ async function renderDiscovery(cache = true) {
     let discoverContainer = document.getElementById('wtf-list');
     discoverContainer.innerHTML = '';
     try {
+        let max = 7;
+        if(innerHeight < 650) max = 5;
         let usersData = discover.globalObjects.users;
-        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
+        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, max); // why is it so deep
         usersSuggestions.slice(0, 5).forEach(userId => {
             let userData = usersData[userId];
             if (!userData) return;
@@ -821,7 +781,7 @@ async function renderDiscovery(cache = true) {
             udiv.className = 'wtf-user';
             udiv.innerHTML = `
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
-                <div class="tweet-header">
+                <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
                         <b class="tweet-header-name wtf-user-name">${escapeHTML(userData.name)}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
@@ -853,62 +813,206 @@ async function renderDiscovery(cache = true) {
                 }, () => { })
             });
             discoverContainer.append(udiv);
-            if(vars.enableTwemoji) twemoji.parse(udiv);
+            twemoji.parse(udiv);
         });
     } catch (e) {
         console.warn(e);
     }
 }
-async function renderTrends() {
-    let trends = (await API.getTrends()).modules;
-    let trendsContainer = document.getElementById('trends-list');
-    trendsContainer.innerHTML = '';
-    trends.forEach(({ trend }) => {
-        let trendDiv = document.createElement('div');
-        trendDiv.className = 'trend';
-        trendDiv.innerHTML = `
-            <b><a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a></b><br>
-            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description) : ''}</span>
-        `;
-        trendsContainer.append(trendDiv);
-        if(vars.enableTwemoji) twemoji.parse(trendDiv);
+function renderListData(data) {
+    if(data.default_banner_media && data.default_banner_media.media_info) document.getElementById('list-banner').src = data.default_banner_media.media_info.original_img_url;
+    document.getElementById('list-name').innerText = data.name;
+    document.getElementById('list-description').innerText = data.description;
+    document.getElementById('list-members-count').innerText = data.member_count;
+    document.getElementById('list-followers-count').innerText = data.subscriber_count;
+    if(data.user_results && data.user_results.result) {
+        document.getElementById('list-user').href = `https://twitter.com/${data.user_results.result.legacy.screen_name}/lists`;
+        document.getElementById('list-avatar').src = data.user_results.result.legacy.profile_image_url_https.replace('_normal', '_bigger');
+    }
+}
+async function renderListTweets(c) {
+    let [listInfo, listTweets, settingsData] = await Promise.allSettled([
+        API.getList(listId),
+        API.getListTweets(listId, c),
+        API.getSettings()
+    ]).catch(e => {
+        console.error(e);
     });
-}
-async function renderBookmarks(cursor) {
-    let bookmarks = await API.getBookmarks(cursor);
-    let bookmarksContainer = document.getElementById('bookmarks-list');
-    
-    if (bookmarks.cursor) {
-        bookmarkCursor = bookmarks.cursor;
-    } else {
-        end = true;
-    }
-    bookmarks = bookmarks.list;
-    if(bookmarks.length === 0 && !cursor) {
-        bookmarksContainer.innerHTML = '<div style="color:var(--light-gray)">Wow, such empty</div>';
-        document.getElementById('delete-all').hidden = true;
-        return;
-    }
-    if(bookmarks.length === 0 && cursor) {
-        end = true;
-        return;
-    }
-    for (let i = 0; i < bookmarks.length; i++) {
-        let b = bookmarks[i];
-        await appendTweet(b, bookmarksContainer);
+    listInfo = listInfo.value;
+    listTweets = listTweets.value;
+    settings = settingsData.value;
+    cursor = listTweets.cursor;
+    listTweets = listTweets.list;
+    if(!cursor || listTweets.length === 0) end = true;
+    renderListData(listInfo);
+    let container = document.getElementById('list-tweets');
+    for(let i in listTweets) {
+        let t = listTweets[i];
+        await appendTweet(t, container);
     }
 }
-let lastScroll = Date.now();
-let loadingNewTweets = false;
-let lastTweetDate = 0;
+async function renderListMembers(c) {
+    let [listInfo, listMembers, settingsData] = await Promise.allSettled([
+        API.getList(listId),
+        API.getListMembers(listId, c),
+        API.getSettings()
+    ]).catch(e => {
+        console.error(e);
+    });
+    listInfo = listInfo.value;
+    listMembers = listMembers.value;
+    settings = settingsData.value;
+    cursor = listMembers.cursor;
+    listMembers = listMembers.list;
+    if(!cursor || listMembers.length === 0) end = true;
+    renderListData(listInfo);
+    let container = document.getElementById('list-members');
+    for(let i in listMembers) {
+        let t = listMembers[i];
+        let followingElement = document.createElement('div');
+        followingElement.classList.add('following-item');
+        followingElement.innerHTML = `
+        <div style="height:48px">
+            <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
+                <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                <div class="following-item-text">
+                    <span class="tweet-header-name following-item-name">${escapeHTML(t.name)}</span><br>
+                    <span class="tweet-header-handle">@${t.screen_name}</span>
+                </div>
+            </a>
+        </div>
+        <div>
+            <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? 'Following' : 'Follow'}</button>
+        </div>`;
 
-setTimeout(async () => {
-    vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables'], data => {
-            resolve(data);
+        let followButton = followingElement.querySelector('.following-item-btn');
+        followButton.addEventListener('click', async () => {
+            if (followButton.classList.contains('following')) {
+                await API.unfollowUser(t.screen_name);
+                followButton.classList.remove('following');
+                followButton.classList.add('follow');
+                followButton.innerText = 'Follow';
+            } else {
+                await API.followUser(t.screen_name);
+                followButton.classList.remove('follow');
+                followButton.classList.add('following');
+                followButton.innerText = 'Following';
+            }
         });
-    });
 
+        container.appendChild(followingElement);
+    }
+}
+async function renderListFollowers(c) {
+    let [listInfo, listFollowers, settingsData] = await Promise.allSettled([
+        API.getList(listId),
+        API.getListFollowers(listId, c),
+        API.getSettings()
+    ]).catch(e => {
+        console.error(e);
+    });
+    console.log(listFollowers);
+    listInfo = listInfo.value;
+    listFollowers = listFollowers.value;
+    settings = settingsData.value;
+    cursor = listFollowers.cursor;
+    listFollowers = listFollowers.list;
+    if(!cursor || listFollowers.length === 0) end = true;
+    renderListData(listInfo);
+    let container = document.getElementById('list-members');
+    for(let i in listFollowers) {
+        let t = listFollowers[i];
+        let followingElement = document.createElement('div');
+        followingElement.classList.add('following-item');
+        followingElement.innerHTML = `
+        <div style="height:48px">
+            <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
+                <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                <div class="following-item-text">
+                    <span class="tweet-header-name following-item-name">${escapeHTML(t.name)}</span><br>
+                    <span class="tweet-header-handle">@${t.screen_name}</span>
+                </div>
+            </a>
+        </div>
+        <div>
+            <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? 'Following' : 'Follow'}</button>
+        </div>`;
+
+        let followButton = followingElement.querySelector('.following-item-btn');
+        followButton.addEventListener('click', async () => {
+            if (followButton.classList.contains('following')) {
+                await API.unfollowUser(t.screen_name);
+                followButton.classList.remove('following');
+                followButton.classList.add('follow');
+                followButton.innerText = 'Follow';
+            } else {
+                await API.followUser(t.screen_name);
+                followButton.classList.remove('follow');
+                followButton.classList.add('following');
+                followButton.innerText = 'Following';
+            }
+        });
+
+        container.appendChild(followingElement);
+    }
+}
+
+async function renderList() {
+    if(subpage === 'tweets') {
+        await renderListTweets(cursor);
+    } else if(subpage === 'members') {
+        await renderListMembers(cursor);
+    } else if(subpage === 'followers') {
+        await renderListFollowers(cursor);
+    }
+    document.getElementById('loading-box').hidden = true;
+    return true;
+}
+
+let lastTweetDate = 0;
+let activeTweet;
+let loadingNewTweets = false;
+let end = false;
+
+setTimeout(() => {
+    if(!document.getElementById('wtf-refresh')) {
+        // weird bug
+        location.reload();
+    }
+    document.getElementById('wtf-refresh').addEventListener('click', async () => {
+        renderDiscovery(false);
+    });
+    window.addEventListener("popstate", async () => {
+        cursor = undefined;
+        updateSubpage();
+        renderList();
+    });
+    document.addEventListener('scroll', async () => {
+        // find active tweet by scroll amount
+        if(Date.now() - lastTweetDate > 50) {
+            lastTweetDate = Date.now();
+            let tweets = Array.from(document.getElementsByClassName('tweet'));
+
+            if(activeTweet) {
+                activeTweet.classList.remove('tweet-active');
+            }
+            let scrollPoint = scrollY + innerHeight/2;
+            activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
+            if(activeTweet) {
+                activeTweet.classList.add('tweet-active');
+            }
+        }
+        // loading new tweets
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
+            if (loadingNewTweets) return;
+            loadingNewTweets = true;
+            await renderList();
+            setTimeout(() => {
+                loadingNewTweets = false;
+            }, 250);
+        }
+    });
+    
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('list-tweets');
@@ -1059,49 +1163,55 @@ setTimeout(async () => {
             }
         });
     }
-    document.addEventListener('scroll', async () => {
-        lastScroll = Date.now();
-        // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 50) {
-            lastTweetDate = Date.now();
-            let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-            if(activeTweet) {
-                activeTweet.classList.remove('tweet-active');
-            }
-            let scrollPoint = scrollY + innerHeight/2;
-            activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(activeTweet) {
-                activeTweet.classList.add('tweet-active');
-            }
+    document.addEventListener('clearActiveTweet', () => {
+        if(activeTweet) {
+            activeTweet.classList.remove('tweet-active');
         }
-
-        // loading new tweets
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
-            if (loadingNewTweets) return;
-            loadingNewTweets = true;
-            await renderBookmarks(bookmarkCursor);
-            setTimeout(() => {
-                loadingNewTweets = false;
-            }, 250);
+        activeTweet = undefined;
+    });
+    document.addEventListener('findActiveTweet', () => {
+        let tweets = Array.from(document.getElementsByClassName('tweet'));
+        if(activeTweet) {
+            activeTweet.classList.remove('tweet-active');
         }
-    }, { passive: true });
-    document.getElementById('delete-all').addEventListener('click', async () => {
-        let modal = createModal(`
-            <p>Are you sure you want to delete all your bookmarks? This action cannot be undone.</p>
-            <button class="nice-button" id="delete-all-confirm">Delete all</button>
-        `);
-        modal.getElementsByClassName('nice-button')[0].addEventListener('click', () => {
-            API.deleteAllBookmarks().then(() => {
-                document.getElementById('bookmarks-list').innerHTML = '<div style="color:var(--light-gray)">Wow, such empty</div>';
-                document.getElementById('delete-all').hidden = true;
-                modal.remove();
-            });
+        let scrollPoint = scrollY + innerHeight/2;
+        activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
+        if(activeTweet) {
+            activeTweet.classList.add('tweet-active');
+        }
+    });
+
+    document.getElementById('list-members-div').addEventListener('click', () => {
+        document.getElementById('ns-members').click();
+    });
+    document.getElementById('list-followers-div').addEventListener('click', () => {
+        document.getElementById('ns-followers').click();
+    });
+
+    let listSwitches = Array.from(document.getElementsByClassName('list-switch'));
+    listSwitches.forEach(s => {
+        s.addEventListener('click', async () => {
+            let id = s.id.split('-')[1];
+            switch(id) {
+                case 'tweets': history.pushState({}, null, `/i/lists/${listId}`); break;
+                case 'members': history.pushState({}, null, `/i/lists/${listId}/members`); break;
+                case 'followers': history.pushState({}, null, `/i/lists/${listId}/followers`); break;
+            }
+            document.getElementById('loading-box').hidden = false;
+            updateSubpage();
+            cursor = undefined;
+            renderList();
         });
     });
-    document.getElementById('wtf-refresh').addEventListener('click', async () => {
-        renderDiscovery(false);
-    });
+    // Update dates every minute
+    setInterval(() => {
+        let tweetDates = Array.from(document.getElementsByClassName('tweet-time'));
+        let tweetQuoteDates = Array.from(document.getElementsByClassName('tweet-time-quote'));
+        let all = [...tweetDates, ...tweetQuoteDates];
+        all.forEach(date => {
+            date.innerText = timeElapsed(+date.dataset.timestamp);
+        });
+    }, 60000);
     
     // custom events
     document.addEventListener('userRequest', () => {
@@ -1109,22 +1219,11 @@ setTimeout(async () => {
         let event = new CustomEvent('updateUserData', { detail: user });
         document.dispatchEvent(event);
     });
-    
     // Run
-    API.getSettings().then(async s => {
-        settings = s;
-        updateUserData();
-        renderDiscovery();
-        renderTrends();
-        renderBookmarks();
-        document.getElementById('loading-box').hidden = true;
-        setInterval(updateUserData, 60000 * 3);
-        setInterval(() => renderDiscovery(false), 60000 * 15);
-        setInterval(renderTrends, 60000 * 5);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://mobile.twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateSubpage();
+    updateUserData();
+    renderDiscovery();
+    renderList();
+    setInterval(updateUserData, 60000 * 3);
+    setInterval(() => renderDiscovery(false), 60000 * 5);
 }, 250);

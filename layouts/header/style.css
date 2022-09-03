@@ -501,6 +501,9 @@ input, textarea {
 #navbar-user-menu-bookmarks:before {
     content: "\f093";
 }
+#navbar-user-menu-lists:before {
+    content: "\f094";
+}
 #navbar-user-menu-display:before {
     content: "\f112";
 }

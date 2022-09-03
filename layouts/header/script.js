@@ -17,6 +17,7 @@ setTimeout(async () => {
         let userAvatar = document.getElementById('navbar-user-avatar');
         userAvatar.src = user.profile_image_url_https.replace("_normal", "_bigger");
         document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
+        document.getElementById('navbar-user-menu-lists').href = `/${user.screen_name}/lists`;
 
         let root = document.querySelector(":root");
 

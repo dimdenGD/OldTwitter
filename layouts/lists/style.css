@@ -52,47 +52,42 @@ body {
     border-radius: 5px
 }
 
-#user-banner {
+#list-banner {
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     object-fit: cover
 }
 
-#user-avatar {
-    border: 4px solid var(--background-color);
-    border-radius: 7px;
-    margin-left: 7px;
-    margin-top: -32px
-}
-
-#user-name {
-    bottom: 47px;
+#list-name {
     color: var(--almost-black);
     font-size: 22px;
-    left: 95px;
     margin: 0;
-    position: relative;
-    width: 195px;
-    overflow-x: hidden
+    overflow-x: hidden;
+    width: 200px;
+    float: left;
+    margin-top: 5px;
+    margin-left: 10px;
 }
 
-#user-handle {
-    bottom: 48px;
+#list-description {
     color: var(--lil-darker-gray);
     font-size: 14px;
     font-weight: 100;
-    left: 95px;
     margin: 0;
     position: relative;
-    width: fit-content
+    width: fit-content;
+    width: 200px;
+    float: left;
+    margin-left: 10px;
 }
 
-#user-stats {
+#list-stats {
     display: inline-flex;
-    padding-bottom: 7px
+    padding-bottom: 7px;
+    margin-top: 10px;
 }
 
-.user-stat-div>h2 {
+.list-stat-div>h2 {
     color: var(--lil-darker-gray);
     font-size: 14px;
     font-weight: 100;
@@ -100,15 +95,21 @@ body {
     text-transform: uppercase
 }
 
-.user-stat-div>h1 {
+.list-stat-div>h1 {
     color: var(--link-color);
     font-size: 20px;
     margin: 0 10px
 }
 
-#user-info {
+#list-avatar {
+    float: right;
+    margin-right: 10px;
+    margin-top: -50px;
+    border-radius: 5px;
+}
+
+#list-info {
     display: block;
-    height: 5px;
     text-decoration: none
 }
 
@@ -132,27 +133,35 @@ body {
     top: 55px
 }
 
-#notifications-div {
+#list-div {
     margin-bottom: 10px;
     min-height: 700px;
-    width: 560px
+    width: 590px
+}
+
+#trends {
+    margin-top: 10px;
+    padding: 10px
+}
+
+.trend {
+    font-size: 13px
 }
 
 .tweet,
-.notification {
+.following-item {
     background-color: var(--background-color);
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
     border-top: 1px solid var(--border);
     cursor: pointer;
     min-height: 50px;
-    padding: 10px
+    padding: 10px;
+    margin-bottom: 0 !important;
 }
 
-.tweet:hover,
-.notification:hover,
-.notification-unread {
-    background-color: var(--darker-background-color)
+.tweet:focus {
+    outline: none;
 }
 
 .tweet-interact-reply[data-val="0"],
@@ -161,6 +170,9 @@ body {
     color: var(--background-color);
 }
 
+.tweet:hover {
+    background-color: var(--darker-background-color)
+}
 .tweet:hover .tweet-interact-reply[data-val="0"],
 .tweet:hover .tweet-interact-retweet[data-val="0"],
 .tweet:hover .tweet-interact-favorite[data-val="0"] {
@@ -445,6 +457,15 @@ span.tweet-body-text {
     cursor: zoom-in
 }
 
+.tweet-active:not(.tweet-view) .tweet-interact::after {
+    content: "•";
+    float: right;
+    color: #1da1f2;
+    height: 10px;
+    font-size: 47px;
+    margin-top: -14px;
+}
+
 .tweet-media-element,
 .new-tweet-media-img {
     block-size: auto;
@@ -511,6 +532,14 @@ span.tweet-body-text {
     content: "\f186"
 }
 
+.tweet-interact-more-menu-bookmark:before {
+    content: "\f093"
+}
+
+.tweet-interact-more-menu-follow:before {
+    content: "\f056"
+}
+
 .tweet-interact-more-menu-download-gif:before {
     content: "\f309"
 }
@@ -533,10 +562,22 @@ span.tweet-body-text {
 }
 
 #wtf h1,
-#trends h1 {
+#trends h1,
+.nice-header {
     color: var(--darker-gray);
     display: inline-block;
     font-size: 22px;
+    font-weight: 300;
+    margin: 0
+}
+
+.nice-header {
+    margin-bottom: 5px
+}
+
+.nice-subheader {
+    color: var(--darker-gray);
+    display: inline-block;
     font-weight: 300;
     margin: 0
 }
@@ -590,17 +631,9 @@ a:hover,
 }
 
 @media screen and (max-width: 1195px) {
+
     #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
+        display: none
     }
 }
 
@@ -714,13 +747,8 @@ a:hover,
     padding: 10px
 }
 
-.trend {
-    margin-top: 10px
-}
-
-.trend-description {
-    color: var(--light-gray);
-    font-size: 14px
+#trends>h1 {
+    margin-bottom: 5px
 }
 
 .emoji {
@@ -768,42 +796,6 @@ a:hover,
     margin: 2px
 }
 
-.notification-icon {
-    bottom: -1px;
-    display: inline-block;
-    font: 16px RosettaIcons;
-    left: 31px;
-    margin-right: 5px;
-    position: relative;
-    vertical-align: text-bottom
-}
-
-.notification-header {
-    display: inline;
-    font-size: 14px;
-    left: 31px;
-    position: relative;
-    color: var(--default-text-color)
-}
-
-.notification-text {
-    color: var(--light-gray);
-    font-size: 14px;
-    left: 57px;
-    position: relative;
-    width: 475px
-}
-
-.notification-avatars {
-    left: 54px;
-    position: relative
-}
-
-.notification-header a {
-    color: var(--default-text-color);
-    font-weight: 700
-}
-
 .ni-favorite:before {
     color: var(--favorite-icon-color);
     content: var(--favorite-icon-content-notif)
@@ -818,32 +810,6 @@ a:hover,
     color: #5c913b;
     content: "\f006"
 }
-.ni-recommend:before {
-    color: #ca4e4e;
-    content: "\f011"
-}
-.ni-bolt:before {
-    color: #fbff00;
-    content: "\f017"
-}
-.ni-twitter:before {
-    color: #00aced;
-    content: "\f014"
-}
-.ni-alert:before {
-    color: #ff0000;
-    content: "\f182"
-}
-
-.notification-avatar {
-    display: inline-block;
-    margin: 2px;
-    margin-top: 10px
-}
-
-.notification-avatar img {
-    border-radius: 5px
-}
 
 .center-text {
     background-color: var(--background-color);
@@ -857,36 +823,87 @@ a:hover,
     text-align: center
 }
 
-#notification-switches {
+.list-switches {
+    margin-bottom: 10px;
     padding: 10px;
-    width: 300px
+    width: 250px
 }
 
-#notification-switches>hr {
+.list-switches>hr {
     border-color: var(--border);
     border-bottom: none;
 }
 
-.notification-switch {
+.list-switch {
     color: var(--darker-gray);
     cursor: pointer;
-    padding-right: 200px
+    padding-right: 100px
 }
 
-.notification-switch:hover,
-.notification-switch-active {
+.list-switch:hover,
+.list-switch-active {
     color: var(--default-text-color)
 }
 
-.notification-switch::after {
+.list-switch:after {
     content: "\f173";
     float: right;
     font-family: RosettaIcons;
     margin-top: -2px;
 }
 
+#advanced:before {
+    color: var(--light-gray);
+    content: "\f059" !important
+}
+
 .wtf-header {
     display: flow-root
+}
+
+.following-item-btn {
+    bottom: 43px !important;
+    float: right;
+    height: 40px;
+    position: relative
+}
+
+.following-item-text {
+    bottom: 11px;
+    display: inline-block;
+    margin-left: 8px;
+    position: relative;
+    width: fit-content
+}
+
+.following-item-link:hover {
+    text-decoration: none
+}
+
+.following-item-name {
+    position: absolute;
+    width: 300px
+}
+
+.no-results {
+    text-align: center
+}
+
+.example {
+    color: var(--light-gray);
+    font-size: 14px
+}
+
+.search-advanced-input {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font: 16px var(--font);
+    padding: 3px;
+    width: 100%
+}
+
+#save-search {
+    margin-top: 0
 }
 
 .tweet-self-thread-button:hover,
@@ -894,13 +911,16 @@ a:hover,
 .center-text:hover {
     text-decoration: underline
 }
-.notification-feedback {
-    float: right;
-    cursor: pointer;
-    font-size: 12px;
-    color: var(--default-text-color);
-    margin-top: 5px;
+.list-top {
+    width: 568px;
+    margin-bottom: 0 !important;
+    padding: 10px;
+    border-bottom: none !important;
+    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    padding-bottom: 8px;
 }
-.notification-feedback:hover {
-    text-decoration: underline;
+.list-stat-div:hover {
+    text-decoration: none;
+    cursor: pointer;
 }

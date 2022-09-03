@@ -43,6 +43,8 @@
         "layouts/search/style.css",
         "layouts/bookmarks/index.html",
         "layouts/bookmarks/style.css",
+        "layouts/lists/index.html",
+        "layouts/lists/style.css",
         "/images/logo32.png",
         "/images/logo32_notification.png",
         "/images/group.jpg",
@@ -120,6 +122,12 @@
       "css": ["libraries/viewer.min.css"],
       "run_at": "document_idle",
       "all_frames": true
+    },
+    {
+      "matches": ["https://twitter.com/i/lists/*", "https://twitter.com/i/lists/*/", "https://twitter.com/i/lists/*/members", "https://twitter.com/i/lists/*/members/", "https://twitter.com/i/lists/*/followers", "https://twitter.com/i/lists/*/followers/"],
+      "js": ["libraries/twemoji.min.js", "layouts/lists/script.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/i/bookmarks", "https://twitter.com/i/bookmarks/"],
