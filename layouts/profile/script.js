@@ -99,6 +99,7 @@ function updateSelection() {
         document.getElementById('followers-more').hidden = true;
         document.getElementById('followers_you_follow-list').hidden = true;
         document.getElementById('followers_you_follow-more').hidden = true;
+        document.getElementById('lists-list').hidden = true;
 
         document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
         document.getElementById('tweet-nav-tweets').classList.add('tweet-nav-active');
@@ -111,6 +112,7 @@ function updateSelection() {
         document.getElementById('followers-more').hidden = true;
         document.getElementById('followers_you_follow-list').hidden = true;
         document.getElementById('followers_you_follow-more').hidden = true;
+        document.getElementById('lists-list').hidden = true;
 
         document.getElementById('profile-stat-favorites-link').classList.add('profile-stat-active');
     } else if(subpage === "replies") {
@@ -122,6 +124,7 @@ function updateSelection() {
         document.getElementById('followers-more').hidden = true;
         document.getElementById('followers_you_follow-list').hidden = true;
         document.getElementById('followers_you_follow-more').hidden = true;
+        document.getElementById('lists-list').hidden = true;
 
         document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
         document.getElementById('tweet-nav-replies').classList.add('tweet-nav-active');
@@ -134,6 +137,7 @@ function updateSelection() {
         document.getElementById('followers-more').hidden = true;
         document.getElementById('followers_you_follow-list').hidden = true;
         document.getElementById('followers_you_follow-more').hidden = true;
+        document.getElementById('lists-list').hidden = true;
 
         document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
         document.getElementById('tweet-nav-media').classList.add('tweet-nav-active');
@@ -146,6 +150,7 @@ function updateSelection() {
         document.getElementById('followers-more').hidden = true;
         document.getElementById('followers_you_follow-list').hidden = true;
         document.getElementById('followers_you_follow-more').hidden = true;
+        document.getElementById('lists-list').hidden = true;
 
         document.getElementById('profile-stat-following-link').classList.add('profile-stat-active');
     } else if(subpage === "followers") {
@@ -157,6 +162,7 @@ function updateSelection() {
         document.getElementById('followers-more').hidden = false;
         document.getElementById('followers_you_follow-list').hidden = true;
         document.getElementById('followers_you_follow-more').hidden = true;
+        document.getElementById('lists-list').hidden = true;
 
         document.getElementById('profile-stat-followers-link').classList.add('profile-stat-active');
     } else if(subpage === "followers_you_follow") {
@@ -168,6 +174,7 @@ function updateSelection() {
         document.getElementById('followers-more').hidden = true;
         document.getElementById('followers_you_follow-list').hidden = false;
         document.getElementById('followers_you_follow-more').hidden = false;
+        document.getElementById('lists-list').hidden = true;
 
         document.getElementById('profile-stat-followers-link').classList.add('profile-stat-active');
     } else if(subpage === "lists") {
