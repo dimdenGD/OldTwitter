@@ -1057,7 +1057,7 @@ async function renderListFollowers(c) {
     listFollowers = listFollowers.list;
     if(!cursor || listFollowers.length === 0) end = true;
     renderListData(listInfo);
-    let container = document.getElementById('list-members');
+    let container = document.getElementById('list-followers');
     for(let i in listFollowers) {
         let t = listFollowers[i];
         let followingElement = document.createElement('div');
