@@ -7,7 +7,7 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 **Firefox:** [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/)  
   
 ## Screenshots  
-![Profile](https://lune.dimden.dev/7b17cad5cd.png)  
+![Profile](https://lune.dimden.dev/049d147d03.png)  
 ![Profile 2](https://lune.dimden.dev/e073d858d4.png)  
 ![Profile dark mode](https://lune.dimden.dev/8e7afd71fe.png)  
 ![Tweet](https://lune.dimden.dev/2381fb0adb.png)  
