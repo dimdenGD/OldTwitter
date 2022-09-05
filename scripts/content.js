@@ -40,6 +40,7 @@ let realPath = location.pathname.split('?')[0].split('#')[0];
 if (realPath.endsWith("/")) {
     realPath = realPath.slice(0, -1);
 }
+
 if (realPath.startsWith("/i/user/")) {
     let id = realPath.split("/i/user/")[1];
     if (id.endsWith("/")) id = id.slice(0, -1);
@@ -49,6 +50,9 @@ if (realPath.startsWith("/i/user/")) {
         }
         location.href = "/" + user.screen_name;
     });
+}
+if(/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
+    location.href = `https://twitter.com/${realPath.split("/direct_messages/create/")[1]}#dm`;
 }
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/photo\/\d+(|\/)$/.test(realPath)) {
     let path = realPath.split("/photo/")[0];

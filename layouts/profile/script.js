@@ -2332,6 +2332,13 @@ setTimeout(async () => {
         } else  if(subpage === 'lists') {
             renderLists();
         }
+        if(location.hash === "#dm") {
+            setTimeout(() => {
+                let event = new CustomEvent('messageUser', { detail: { id: `${user.id_str}-${pageUser.id_str}`, user: pageUser } });
+                document.dispatchEvent(event);
+                location.hash = "";
+            }, 1000);
+        }
         renderDiscovery();
         renderTrends();
         setInterval(() => renderDiscovery(false), 60000 * 5);
