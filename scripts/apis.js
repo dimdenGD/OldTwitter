@@ -24,6 +24,7 @@ function createModal(html, className, onclose) {
     close.classList.add('modal-close');
     close.innerHTML = '&times;';
     function escapeEvent(e) {
+        if(document.querySelector('.viewer-in')) return;
         if(e.key === 'Escape' || (e.altKey && e.keyCode === 78)) {
             modal.remove();
             let event = new Event('findActiveTweet');
