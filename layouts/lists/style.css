@@ -734,6 +734,7 @@ a:hover,
     font-size: 12px;
     margin-top: 5px;
     padding: 10px 3px;
+    padding-right: 0;
 }
 
 .about-links a,

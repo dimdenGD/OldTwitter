@@ -734,7 +734,8 @@ a:hover,
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
-    color: var(--light-gray)
+    color: var(--light-gray);
+    padding-right: 0;
 }
 
 .about-links a,
