@@ -484,6 +484,7 @@ async function renderLists() {
     }
     for(let i in lists) {
         let l = lists[i];
+        if(!l) continue;
         let listElement = document.createElement('div');
         listElement.classList.add('list-item');
         listElement.innerHTML = `
@@ -491,7 +492,7 @@ async function renderLists() {
                 <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
                     <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                     <div class="following-item-text" style="position: relative;bottom: 12px;">
-                        <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
+                        <span class="tweet-header-name following-item-name${l.mode === 'Private' ? ' user-protected' : ''}" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
                         <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : 'No description'}</span>
                     </div>
                 </a>

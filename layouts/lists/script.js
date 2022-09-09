@@ -827,6 +827,7 @@ function renderListData(data) {
         document.getElementById('list-banner').src = data.default_banner_media.media_info.original_img_url;
     }
     document.getElementById('list-name').innerText = data.name;
+    document.getElementById('list-name').classList.toggle('user-protected', data.mode === 'Private');
     document.getElementById('list-description').innerText = data.description;
     document.getElementById('list-members-count').innerText = data.member_count;
     document.getElementById('list-followers-count').innerText = data.subscriber_count;
@@ -869,6 +870,7 @@ function renderListData(data) {
                     let isPrivate = document.getElementById('list-private-input').checked;
                     try {
                         await API.updateList(data.id_str, name, description, isPrivate);
+                        document.getElementById('list-name').classList.toggle('user-protected', isPrivate);
                     } catch(e) {
                         return document.getElementById('list-editor-error').innerText = e && e.message ? e.message : e;
                     }
