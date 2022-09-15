@@ -121,7 +121,10 @@ async function updateReplies(id, c) {
         let [tlData, s, tweetLikersData] = await Promise.allSettled([API.getReplies(id, c), API.getSettings(), API.getTweetLikers(id)]);
         if(!tlData.value) {
             cursor = undefined;
-            return console.error(tlData.reason);
+            console.error(tlData.reason);
+            appendTombstone(document.getElementById('timeline'), tlData.reason);
+            document.getElementById('loading-box').hidden = true;
+            return;
         }
         tl = tlData.value;
         settings = s.value;
@@ -1942,10 +1945,6 @@ setTimeout(async () => {
     });
     
     // custom events
-    document.addEventListener('newTweet', e => {
-        let tweet = e.detail;
-        appendTweet(tweet, document.getElementById('timeline'), { prepend: true });
-    });
     document.addEventListener('userRequest', e => {
         if(!user) return;
         let event = new CustomEvent('updateUserData', { detail: user });
@@ -1957,7 +1956,13 @@ setTimeout(async () => {
     updateSubpage();
     let id = location.pathname.match(/status\/(\d{1,32})/)[1];
     if(subpage === 'tweet') {
-        updateReplies(id);
+        try {
+            await updateReplies(id);
+        } catch(e) {
+            console.error(e);
+            appendTombstone(document.getElementById('timeline'), "Error loading tweet.");
+            document.getElementById('loading-box').hidden = true;
+        }
     } else if(subpage === 'likes') {
         updateLikes(id);
     } else if(subpage === 'retweets') {
