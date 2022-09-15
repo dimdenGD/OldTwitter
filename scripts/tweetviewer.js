@@ -1462,6 +1462,9 @@ class TweetViewer {
                 Array.from(document.getElementsByClassName('timeline')[0].getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                     tweet.remove();
                 });
+                if(document.getElementById('timeline')) Array.from(document.getElementById('timeline').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
+                    tweet.remove();
+                });
                 if(options.mainTweet) {
                     let tweets = Array.from(timelineContainer.getElementsByClassName('tweet'));
                     if(tweets.length === 0) {
