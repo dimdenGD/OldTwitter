@@ -11,7 +11,7 @@ async function copyDir(src, dest) {
     const entries = await fsp.readdir(src, { withFileTypes: true });
     await fsp.mkdir(dest);
     for (let entry of entries) {
-        if(entry.name === '.git') continue;
+        if(entry.name === '.git' || entry.name === '.github' || entry.name === '_metadata') continue;
         const srcPath = path.join(src, entry.name);
         const destPath = path.join(dest, entry.name);
         if (entry.isDirectory()) {
@@ -47,71 +47,71 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     let content = fs.readFileSync('../OldTwitterFirefox/scripts/content.js', 'utf8');
     content = content.replace("document.open();", "");
     content = content.replace("document.write(html);", `
-    if(document.body) {
-        document.body.remove();
-    } else {
-        let removeInt = setInterval(() => {
-            let body = document.querySelector('body[style^="background"]');
-            if(body) {
-                clearInterval(removeInt);
-                body.remove();
-            };
-        }, 50);
-    };
-    document.documentElement.innerHTML = html;`);
+if(document.body) {
+    document.body.remove();
+} else {
+    let removeInt = setInterval(() => {
+        let body = document.querySelector('body[style^="background"]');
+        if(body) {
+            clearInterval(removeInt);
+            body.remove();
+        };
+    }, 50);
+};
+document.documentElement.innerHTML = html;`);
     content = content.replace("document.close();", "");
 
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background.js', 'utf8');
     background = background.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     background += `
-    chrome.webRequest.onBeforeRequest.addListener(
-        function(details) {
-            return {
-                cancel: !details.url.includes("mobile.twitter.com") && (details.url.includes("twitter.com/manifest.json") || details.url.includes("abs.twimg.com/responsive-web/client-web/"))
-            };
-        }, {
-            urls: ["*://twitter.com/*"]
-        },
-        ["blocking"]
-    );
-    chrome.webRequest.onBeforeSendHeaders.addListener(
-        function(details) {
-            if(!details.requestHeaders.find(h => h.name.toLowerCase() === 'origin')) details.requestHeaders.push({
-                name: "Origin",
-                value: "https://twitter.com"
-            });
-            return {
-                requestHeaders: details.requestHeaders
-            };
-        }, {
-            urls: ["*://*.twimg.com/*", "*://twimg.com/*"]
-        },
-        ["blocking", "requestHeaders"]
-    );
-    chrome.webRequest.onHeadersReceived.addListener(
-        function(details) {
-            for (let i = 0; i < details.responseHeaders.length; ++i) {
-                if (details.responseHeaders[i].name.toLowerCase() === 'content-security-policy') {
-                    details.responseHeaders.splice(i, 1);
-                    break;
-                }
+chrome.webRequest.onBeforeRequest.addListener(
+    function(details) {
+        return {
+            cancel: !details.url.includes("mobile.twitter.com") && (details.url.includes("twitter.com/manifest.json") || details.url.includes("abs.twimg.com/responsive-web/client-web/"))
+        };
+    }, {
+        urls: ["*://twitter.com/*"]
+    },
+    ["blocking"]
+);
+chrome.webRequest.onBeforeSendHeaders.addListener(
+    function(details) {
+        if(!details.requestHeaders.find(h => h.name.toLowerCase() === 'origin')) details.requestHeaders.push({
+            name: "Origin",
+            value: "https://twitter.com"
+        });
+        return {
+            requestHeaders: details.requestHeaders
+        };
+    }, {
+        urls: ["*://*.twimg.com/*", "*://twimg.com/*"]
+    },
+    ["blocking", "requestHeaders"]
+);
+chrome.webRequest.onHeadersReceived.addListener(
+    function(details) {
+        for (let i = 0; i < details.responseHeaders.length; ++i) {
+            if (details.responseHeaders[i].name.toLowerCase() === 'content-security-policy') {
+                details.responseHeaders.splice(i, 1);
+                break;
             }
-            if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.requestHeaders.push({
-                name: "access-control-allow-origin",
-                value: "*"
-            });
-            if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-headers')) details.requestHeaders.push({
-                name: "access-control-allow-headers",
-                value: "*"
-            });
-            return {
-                responseHeaders: details.responseHeaders
-            };
-        }, {
-            urls: ["*://twitter.com/*", "*://*.twitter.com/*", "*://*.twimg.com/*", "*://twimg.com/*"]
-        },
-        ["blocking", "responseHeaders"]
-    );
+        }
+        if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.requestHeaders.push({
+            name: "access-control-allow-origin",
+            value: "*"
+        });
+        if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-headers')) details.requestHeaders.push({
+            name: "access-control-allow-headers",
+            value: "*"
+        });
+        return {
+            responseHeaders: details.responseHeaders
+        };
+    }, {
+        urls: ["*://twitter.com/*", "*://*.twitter.com/*", "*://*.twimg.com/*", "*://twimg.com/*"]
+    },
+    ["blocking", "responseHeaders"]
+);
     `;
 
     let headerStyle = fs.readFileSync('../OldTwitterFirefox/layouts/header/style.css', 'utf8');
@@ -124,14 +124,6 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     fs.unlinkSync('../OldTwitterFirefox/ruleset.json');
     fs.unlinkSync('../OldTwitterFirefox/pack.js');
     fs.unlinkSync('../OldTwitterTempChrome/pack.js');
-    if(fs.existsSync('../OldTwitterTempChrome/_metadata')) {
-        fs.rmdirSync('../OldTwitterTempChrome/_metadata', { recursive: true });
-        fs.rmdirSync('../OldTwitterFirefox/_metadata', { recursive: true });
-    }
-    if(fs.existsSync('../OldTwitterTempChrome/.github')) {
-        fs.rmdirSync('../OldTwitterTempChrome/.github', { recursive: true });
-        fs.rmdirSync('../OldTwitterFirefox/.github', { recursive: true });
-    }
 
     let layouts = fs.readdirSync('../OldTwitterFirefox/layouts');
     for (let layout of layouts) {
