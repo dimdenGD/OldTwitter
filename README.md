@@ -1,6 +1,6 @@
 # OldTwitter (2022)
 Chrome extension to return old Twitter layout from 2015.  
-This extension doesn't add any CSS on top of original Twitter. It's fully original client making it much faster than alternatives.  
+This extension doesn't add any CSS on top of original Twitter. It's fully original client that replaces Twitter, making it much faster than alternatives.  
   
 ## Installation
 **Chrome, Edge, Opera, Brave & Chromium browsers:** [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf)  
@@ -18,7 +18,7 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 - Basically almost all of Twitter functionality is implemented
 - Custom profile link colors supported
 - You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
-- Ability to change default link color and font, enable/disable Twemoji, disable stars (favorites) back to likes (hearts)
+- Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change default link color and font
 - Ability to show custom user link colors in timeline
 - Dark mode support
 - Removes all ads
