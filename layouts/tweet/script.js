@@ -626,7 +626,7 @@ async function appendComposeComponent(container, replyTweet) {
             let tweet = await API.postTweet(tweetObject);
             tweet._ARTIFICIAL = true;
             appendTweet(tweet, document.getElementById('timeline'), {
-                after: document.getElementById('new-tweet-container')
+                after: document.getElementsByClassName('new-tweet-container')[0]
             });
         } catch (e) {
             document.getElementById('new-tweet-button').disabled = false;
