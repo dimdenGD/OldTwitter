@@ -1462,6 +1462,14 @@ class TweetViewer {
                 Array.from(document.getElementsByClassName('timeline')[0].getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                     tweet.remove();
                 });
+                if(options.mainTweet) {
+                    let tweets = Array.from(timelineContainer.getElementsByClassName('tweet'));
+                    if(tweets.length === 0) {
+                        document.getElementsByClassName('modal-close')[0].click();
+                    } else {
+                        tweets[0].click();
+                    }
+                }
                 if(options.after) {
                     if(options.after.getElementsByClassName('tweet-self-thread-div')[0]) options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
                     if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();

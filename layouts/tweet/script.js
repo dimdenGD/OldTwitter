@@ -408,7 +408,7 @@ function renderUserData() {
     document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
     document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
     document.getElementById('user-tweets').innerText = Number(user.statuses_count).toLocaleString().replace(/\s/g, ',');
-    if(user.statuses_count >= 1000000) {
+    if(user.statuses_count >= 100000) {
         let style = document.createElement('style');
         style.innerText = `
             .user-stat-div > h1 { font-size: 18px !important }
@@ -1496,6 +1496,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
             Array.from(document.getElementById('timeline').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                 tweet.remove();
             });
+            if(options.mainTweet) {
+                let tweets = Array.from(document.getElementsByClassName('tweet'));
+                if(tweets.length === 0) {
+                    location.href = 'https://twitter.com/home';
+                } else {
+                    location.href = tweets[0].getElementsByClassName('tweet-time')[0].href;
+                }
+            }
             if(options.after) {
                 if(options.after.getElementsByClassName('tweet-self-thread-div')[0]) options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
                 if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
