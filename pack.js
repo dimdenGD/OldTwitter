@@ -124,6 +124,8 @@ chrome.webRequest.onHeadersReceived.addListener(
     fs.unlinkSync('../OldTwitterFirefox/ruleset.json');
     fs.unlinkSync('../OldTwitterFirefox/pack.js');
     fs.unlinkSync('../OldTwitterTempChrome/pack.js');
+    fs.unlinkSync('../OldTwitterFirefox/.gitignore');
+    fs.unlinkSync('../OldTwitterTempChrome/.gitignore');
 
     let layouts = fs.readdirSync('../OldTwitterFirefox/layouts');
     for (let layout of layouts) {
