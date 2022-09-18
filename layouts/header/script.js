@@ -1185,11 +1185,11 @@ setTimeout(async () => {
                         </a>
                         <br>
                         <a class="preview-user-info" href="https://twitter.com/${user.screen_name}">
-                            <h1 class="preview-user-name">${user.name}</h1>
+                            <h1 class="preview-user-name">${escapeHTML(user.name)}</h1>
                             <h2 class="preview-user-handle">@${user.screen_name}</h2>
                         </a>
                         <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? 'Following' : 'Follow'}</button>
-                        <span class="preview-user-description">${user.description}</span>
+                        <span class="preview-user-description">${escapeHTML(user.description)}</span>
                         <br>
                         <div class="preview-user-stats">
                             <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
