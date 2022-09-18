@@ -1147,7 +1147,7 @@ setTimeout(async () => {
                     let event = new Event('newSearch');
                     document.dispatchEvent(event);
                 } else {
-                    location.href = `/search?q=${searchInput.value}`;
+                    location.href = `/search?q=${encodeURIComponent(searchInput.value)}`;
                 }
             });
         });
