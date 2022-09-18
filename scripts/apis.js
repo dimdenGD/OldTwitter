@@ -2434,7 +2434,7 @@ API.saveSearch = q => {
 API.getInbox = max_id => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['inboxData'], d => {
-            if(d.inboxData && Date.now() - d.inboxData.date < 18000) {
+            if(!max_id && d.inboxData && Date.now() - d.inboxData.date < 18000) {
                 return resolve(d.inboxData.data);
             }
             fetch(`https://api.twitter.com/1.1/dm/user_inbox.json?max_conv_count=20&include_groups=true${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
@@ -2449,7 +2449,7 @@ API.getInbox = max_id => {
                     return reject(data.errors[0].message);
                 }
                 resolve(data.user_inbox);
-                chrome.storage.local.set({inboxData: {
+                if(!max_id) chrome.storage.local.set({inboxData: {
                     date: Date.now(),
                     data: data.user_inbox
                 }}, () => {});
