@@ -449,6 +449,16 @@ class TweetViewer {
         let newTweetUserSearch = document.getElementsByClassName("new-tweet-user-search")[0];
         let newTweetText = document.getElementsByClassName('new-tweet-text')[0];
         let selectedIndex = 0;
+        newTweetText.addEventListener('paste', event => {
+            let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+            for (let index in items) {
+                let item = items[index];
+                if (item.kind === 'file') {
+                    let file = item.getAsFile();
+                    handleFiles([file], this.mediaToUpload, document.getElementsByClassName('new-tweet-media-c')[0]);
+                }
+            }
+        });
         newTweetText.addEventListener('focus', async e => {
             setTimeout(() => {
                 if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
@@ -542,7 +552,7 @@ class TweetViewer {
                 charElement.style.color = "";
             }
         });
-        document.getElementsByClassName('new-tweet-text')[0].addEventListener('keydown', e => {
+        newTweetText.addEventListener('keydown', e => {
             if (e.key === 'Enter' && e.ctrlKey) {
                 document.getElementsByClassName('new-tweet-button')[0].click();
             }
@@ -554,7 +564,7 @@ class TweetViewer {
                 charElement.style.color = "";
             }
         });
-        document.getElementsByClassName('new-tweet-text')[0].addEventListener('keyup', e => {
+        newTweetText.addEventListener('keyup', e => {
             let charElement = document.getElementsByClassName('new-tweet-char')[0];
             charElement.innerText = `${e.target.value.length}/280`;
             charElement.innerText = `${e.target.value.length}/280`;
@@ -1032,6 +1042,16 @@ class TweetViewer {
         tweetReply.addEventListener('drop', e => {
             handleDrop(e, replyMedia, tweetReplyMedia);
         });
+        tweetReply.addEventListener('paste', event => {
+            let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+            for (index in items) {
+                let item = items[index];
+                if (item.kind === 'file') {
+                    let file = item.getAsFile();
+                    handleFiles([file], replyMedia, tweetReplyMedia);
+                }
+            }
+        });
         tweetReplyUpload.addEventListener('click', () => {
             getMedia(replyMedia, tweetReplyMedia);
         });
@@ -1271,6 +1291,16 @@ class TweetViewer {
         let quoteMedia = [];
         tweetQuote.addEventListener('drop', e => {
             handleDrop(e, quoteMedia, tweetQuoteMedia);
+        });
+        tweetQuote.addEventListener('paste', event => {
+            let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+            for (index in items) {
+                let item = items[index];
+                if (item.kind === 'file') {
+                    let file = item.getAsFile();
+                    handleFiles([file], quoteMedia, tweetQuoteMedia);
+                }
+            }
         });
         tweetQuoteUpload.addEventListener('click', () => {
             getMedia(quoteMedia, tweetQuoteMedia);

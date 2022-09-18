@@ -514,6 +514,16 @@ setTimeout(async () => {
             newMediaButton.addEventListener('click', () => {
                 getDMMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
             });
+            newInput.addEventListener('paste', event => {
+                let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+                for (index in items) {
+                    let item = items[index];
+                    if (item.kind === 'file') {
+                        let file = item.getAsFile();
+                        handleFiles([file], mediaToUpload, newMedia);
+                    }
+                }
+            });
             newInput.addEventListener('keypress', e => {
                 if(e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
@@ -836,6 +846,16 @@ setTimeout(async () => {
                 newTweetPoll.style.width = "0";
                 pollToUpload = undefined;
                 handleDrop(e, mediaToUpload, newTweetMediaDiv);
+            });
+            newTweet.addEventListener('paste', event => {
+                let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+                for (index in items) {
+                    let item = items[index];
+                    if (item.kind === 'file') {
+                        let file = item.getAsFile();
+                        handleFiles([file], mediaToUpload, newTweetMediaDiv);
+                    }
+                }
             });
             newTweetMedia.addEventListener('click', () => {
                 newTweetPoll.innerHTML = '';

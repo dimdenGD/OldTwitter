@@ -334,6 +334,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
     tweetReply.addEventListener('drop', e => {
         handleDrop(e, replyMedia, tweetReplyMedia);
     });
+    tweetReply.addEventListener('paste', event => {
+        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (index in items) {
+            let item = items[index];
+            if (item.kind === 'file') {
+                let file = item.getAsFile();
+                handleFiles([file], replyMedia, tweetReplyMedia);
+            }
+        }
+    });
     tweetReplyUpload.addEventListener('click', () => {
         getMedia(replyMedia, tweetReplyMedia);
     });
@@ -510,6 +520,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
     let quoteMedia = [];
     tweetQuote.addEventListener('drop', e => {
         handleDrop(e, quoteMedia, tweetQuoteMedia);
+    });
+    tweetQuote.addEventListener('paste', event => {
+        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (index in items) {
+            let item = items[index];
+            if (item.kind === 'file') {
+                let file = item.getAsFile();
+                handleFiles([file], quoteMedia, tweetQuoteMedia);
+            }
+        }
     });
     tweetQuoteUpload.addEventListener('click', () => {
         getMedia(quoteMedia, tweetQuoteMedia);

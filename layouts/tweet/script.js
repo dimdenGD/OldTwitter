@@ -458,6 +458,16 @@ async function appendComposeComponent(container, replyTweet) {
     document.getElementById('new-tweet').addEventListener('drop', e => {
         handleDrop(e, mediaToUpload, document.getElementById('new-tweet-media-c'));
     });
+    document.getElementById('new-tweet').addEventListener('paste', event => {
+        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (index in items) {
+            let item = items[index];
+            if (item.kind === 'file') {
+                let file = item.getAsFile();
+                handleFiles([file], mediaToUpload, document.getElementById('new-tweet-media-c'));
+            }
+        }
+    });
     document.getElementById('new-tweet-media-div').addEventListener('click', async () => {
         getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
     });
@@ -1060,6 +1070,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
     tweetReply.addEventListener('drop', e => {
         handleDrop(e, replyMedia, tweetReplyMedia);
     });
+    tweetReply.addEventListener('paste', event => {
+        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (index in items) {
+            let item = items[index];
+            if (item.kind === 'file') {
+                let file = item.getAsFile();
+                handleFiles([file], replyMedia, tweetReplyMedia);
+            }
+        }
+    });
     tweetReplyUpload.addEventListener('click', () => {
         getMedia(replyMedia, tweetReplyMedia);
     });
@@ -1305,6 +1325,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
     let quoteMedia = [];
     tweetQuote.addEventListener('drop', e => {
         handleDrop(e, quoteMedia, tweetQuoteMedia);
+    });
+    tweetQuote.addEventListener('paste', event => {
+        let items = (event.clipboardData || event.originalEvent.clipboardData).items;
+        for (index in items) {
+            let item = items[index];
+            if (item.kind === 'file') {
+                let file = item.getAsFile();
+                handleFiles([file], quoteMedia, tweetQuoteMedia);
+            }
+        }
     });
     tweetQuoteUpload.addEventListener('click', () => {
         getMedia(quoteMedia, tweetQuoteMedia);
