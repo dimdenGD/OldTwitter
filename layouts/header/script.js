@@ -1152,6 +1152,98 @@ setTimeout(async () => {
             });
         });
 
+        let userPreviewTimeouts = [];
+        let leavePreviewTimeout;
+        document.addEventListener('mouseover', e => {
+            for(let timeout of userPreviewTimeouts) {
+                clearTimeout(timeout);
+            }
+            userPreviewTimeouts = [];
+            let el = e.target;
+            if(el.closest('.user-preview')) {
+                clearTimeout(leavePreviewTimeout);
+                leavePreviewTimeout = null;
+            }
+            if(document.getElementsByClassName('user-preview').length > 0) return;
+            el = el.closest('a');
+            if(!el) return;
+            let url;
+            try { url = new URL(el.href) } catch(e) { return };
+            if(!isProfilePath(url.pathname)) return;
+            let username = url.pathname.slice(1);
+            if(location.pathname.slice(1) === username) return;
+            if(username === user.screen_name) return;
+            userPreviewTimeouts.push(setTimeout(async () => {
+                let user = await API.getUser(username, false);
+                let userPreview = document.createElement('div');
+                userPreview.className = 'user-preview';
+                userPreview.innerHTML = `
+                    <img class="preview-user-banner" height="100" width="300" src="${user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png'}">
+                    <div class="preview-user-data">
+                        <a class="preview-user-avatar-link" href="https://twitter.com/${user.screen_name}">
+                            <img class="preview-user-avatar" width="50" height="50" src="${user.profile_image_url_https.replace('_normal.', '_400x400.')}">
+                        </a>
+                        <br>
+                        <a class="preview-user-info" href="https://twitter.com/${user.screen_name}">
+                            <h1 class="preview-user-name">${user.name}</h1>
+                            <h2 class="preview-user-handle">@${user.screen_name}</h2>
+                        </a>
+                        <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? 'Following' : 'Follow'}</button>
+                        <span class="preview-user-description">${user.description}</span>
+                        <br>
+                        <div class="preview-user-stats">
+                            <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
+                                <h2>Following</h2>
+                                <h1 class="preview-user-following">${Number(user.friends_count).toLocaleString().replace(/\s/g, ',')}</h1>
+                            </a>
+                            <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/followers">
+                                <h2>Followers</h2>
+                                <h1 class="preview-user-followers">${Number(user.followers_count).toLocaleString().replace(/\s/g, ',')}</h1>
+                            </a>
+                        </div>
+                    </div>
+                `;
+                const followBtn = userPreview.getElementsByClassName('preview-user-follow')[0];
+                followBtn.addEventListener('click', async () => {
+                    if (followBtn.className.includes('following')) {
+                        await API.unfollowUser(user.screen_name);
+                        followBtn.classList.remove('following');
+                        followBtn.classList.add('follow');
+                        followBtn.innerText = 'Follow';
+                        user.following = false;
+                        let wtfFollow = document.querySelector(`.wtf-user > .tweet-avatar-link[href="https://twitter.com/${user.screen_name}"]`);
+                        if(!wtfFollow) return;
+                        wtfFollow = wtfFollow.parentElement.getElementsByClassName('discover-follow-btn')[0];
+                        wtfFollow.classList.remove('following');
+                        wtfFollow.classList.add('follow');
+                        wtfFollow.innerText = 'Follow';
+                    } else {
+                        await API.followUser(user.screen_name);
+                        followBtn.classList.add('following');
+                        followBtn.classList.remove('follow');
+                        followBtn.innerText = 'Following';
+                        user.following = true;
+                        let wtfFollow = document.querySelector(`.wtf-user > .tweet-avatar-link[href="https://twitter.com/${user.screen_name}"]`);
+                        if(!wtfFollow) return;
+                        wtfFollow = wtfFollow.parentElement.getElementsByClassName('discover-follow-btn')[0];
+                        wtfFollow.classList.add('following');
+                        wtfFollow.classList.remove('follow');
+                        wtfFollow.innerText = 'Following';
+                    }
+                });
+                el.parentElement.append(userPreview);
+                let leaveFunction = () => {
+                    leavePreviewTimeout = setTimeout(() => {
+                        userPreview.remove();
+                        el.removeEventListener('mouseleave', leaveFunction);
+                    }, 500);
+                }
+                userPreview.addEventListener('mouseleave', leaveFunction);
+                el.addEventListener('mouseleave', leaveFunction);
+
+            }, 1000));
+        }, { passive: true });
+
         document.addEventListener('messageUser', e => {
             document.getElementById('messages').click();
             setTimeout(async () => {
@@ -1175,7 +1267,7 @@ setTimeout(async () => {
     
                 renderConversation(messageData, convo_id);
             }, 50);
-        })
+        });
 
         // menu
         let userMenu = document.getElementById('navbar-user-menu');

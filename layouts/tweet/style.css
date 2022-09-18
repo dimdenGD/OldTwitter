@@ -558,7 +558,7 @@ span.tweet-body-text {
     width: 250px
 }
 
-#wtf h1,
+#wtf > h1,
 #trends h1,
 .cool-header {
     color: var(--darker-gray);

@@ -186,7 +186,7 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1, #trends h1, #settings h1 {
+#wtf > h1, #trends h1, #settings h1 {
     margin: 0;
     display: inline-block;
     font-size: 22px;

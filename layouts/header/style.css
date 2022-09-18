@@ -1235,3 +1235,61 @@ input, textarea {
 .timeline-more {
     margin-bottom: -10px;
 }
+.user-preview {
+    position: absolute;
+    z-index: 5;
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+}
+.preview-user-banner {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    object-fit: cover;
+}
+.preview-user-info {
+    left: 10px;
+    position: relative;
+    text-decoration: none !important;
+}
+.preview-user-stats {
+    display: inline-flex;
+    padding-bottom: 7px;
+}
+.preview-user-avatar {
+    border: 4px solid var(--background-color);
+    border-radius: 7px;
+    margin-left: 7px;
+    margin-top: -32px;
+}
+.preview-user-name {
+    color: var(--almost-black);
+    font-size: 22px;
+    margin: 0;
+    position: relative;
+    width: 195px;
+    overflow-x: hidden;
+}
+.preview-user-handle {
+    color: var(--lil-darker-gray);
+    font-size: 14px;
+    font-weight: 100;
+    margin: 0;
+    position: relative;
+    width: fit-content;
+}
+.preview-user-follow {
+    float: right;
+    bottom: 68px;
+    position: relative;
+    right: 7px;
+}
+.preview-user-description {
+    width: 280px;
+    color: var(--darker-gray);
+    font-size: 15px;
+    left: 10px;
+    position: relative;
+    display: block;
+    margin-top: 5px;
+}

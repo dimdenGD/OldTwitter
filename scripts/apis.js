@@ -438,6 +438,14 @@ const hex2rgb = (hex) => {
       // return {r, g, b} // return an object
       return [ r, g, b ]
 }
+
+function isProfilePath(path) {
+    path = path.split('?')[0].split('#')[0];
+    if(path.endsWith('/')) path = path.slice(0, -1);
+    if(path.split('/').length > 2) return false;
+    if(['/home', '/notifications', '/messages', '/settings', '/explore', '/login', '/register', '/signin', '/signup', '/logout', '/i', '/old', '/search'].includes(path)) return false;
+    return true;
+}
   
 const colorShade = (col, amt) => {
     col = col.replace(/^#/, '')

@@ -543,7 +543,7 @@ span.tweet-body-text {
     width: 250px
 }
 
-#wtf h1,
+#wtf > h1,
 #trends h1,
 .nice-header {
     margin: 0;
