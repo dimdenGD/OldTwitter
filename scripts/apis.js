@@ -2328,8 +2328,10 @@ API.searchV2 = (obj, cursor) => {
                         user.id_str = tweet.user_id_str;
                         if(tweet.quoted_status_id_str) {
                             tweet.quoted_status = tweets[tweet.quoted_status_id_str];
-                            tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
-                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                            if(tweet.quoted_status) {
+                                tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
+                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                            }
                         }
                         if(tweet.retweeted_status_id_str) {
                             tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];

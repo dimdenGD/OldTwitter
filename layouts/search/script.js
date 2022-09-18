@@ -895,6 +895,21 @@ async function renderSearch(c) {
                 }, cursor),
                 API.getSettings()
             ]);
+            if(searchData.reason) {
+                console.error(searchData.reason);
+                searchDiv.innerHTML = `<div class="no-results">
+                    <br><br>
+                    ${searchData.reason}<br><br>
+                    <button class="nice-button">Try again</button>
+                </div>`;
+                cursor = undefined;
+                let button = searchDiv.querySelector('button');
+                button.addEventListener('click', () => {
+                    renderSearch();
+                });
+                document.getElementById('loading-box').hidden = true;
+                return;
+            }
             search = searchData.value; settings = s.value;
         } else {
             search = await API.searchV2({
