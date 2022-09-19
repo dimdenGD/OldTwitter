@@ -617,7 +617,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
     }
     tweet.tabIndex = -1;
-    tweet.className = `tweet tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : 'tweet-replying'}`;
+    tweet.className = `tweet tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`;
     try {
         if(!activeTweet) {
             tweet.classList.add('tweet-active');
@@ -753,7 +753,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             ` : ''}
             <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source.split('>')[1].split('<')[0]}</a>
-            ${options.selfThreadButton && t.self_thread.id_str ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
+            ${options.selfThreadButton && t.self_thread.id_str && !options.threadContinuation ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
+            ${t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">Show this thread</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
@@ -810,7 +811,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             <div class="tweet-self-thread-div" ${(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) ? '' : 'hidden'}>
                 <span class="tweet-self-thread-line"></span>
                 <div class="tweet-self-thread-line-dots"></div>
-                <br>${options.selfThreadContinuation && t.self_thread.id_str ? `<a class="tweet-self-thread-button" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : `<br>`}
+                <br>${options.selfThreadContinuation && t.self_thread.id_str ? `<a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : `<br>`}
             </div>
         </div>
     `;
