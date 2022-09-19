@@ -1172,3 +1172,7 @@ a:hover,
     z-index: 10;
     border: 1px solid var(--border);
 }
+
+.tweet-self-thread-continuation .tweet-body {
+    margin-bottom: -30px;
+}
