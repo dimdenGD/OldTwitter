@@ -558,6 +558,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(seenReplies.includes(t.id_str)) return;
         seenReplies.push(t.id_str);
     }
+    if(typeof seenThreads !== 'undefined') {
+        if(seenThreads.includes(t.id_str)) return;
+    }
     if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
     const tweet = document.createElement('div');
     if(!options.mainTweet && typeof mainTweetLikers !== 'undefined') {
