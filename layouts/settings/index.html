@@ -77,6 +77,14 @@
                         <input type="checkbox" id="disable-hotkeys"> <label for="disable-hotkeys">Disable hotkeys</label>. <a target="_blank" href="https://github.com/dimdenGD/OldTwitter#hotkeys">See list of hotkeys here.</a>
                     </div>
                     <div class="setting">
+                        <input type="checkbox" id="save-preferred-quality"> <label for="save-preferred-quality">Save preferred video quality. If this is set to true, OldTwitter will save your preferred video quality and use it (or use closest quality to preferred one). If it's off, OldTwitter will select highest quality.</label>
+                        <span>
+                            <div id="preferred-quality" hidden>
+                                Preferred quality: <input id="preferred-quality-input" disabled style="width:50px" value="" readonly>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="setting">
                         <input type="color" id="link-color"> <label for="link-color">Default link color</label>
                     </div>
                     <div class="setting">
@@ -86,7 +94,7 @@
                     <h1>Link color synchronization</h1><br>
                     <span>
                         By pressing Sync button your profile link color will be sent to colors database and shown to other extension users.<br>
-                        If you have set Twitter link color before years ago, it'll override your old color.
+                        If you have set Twitter link color before (years ago, when it was still a thing), it'll override your old color.
                     </span><br>
                     <br>
                     <div class="setting">

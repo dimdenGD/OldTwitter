@@ -1,6 +1,6 @@
 chrome.runtime.onInstalled.addListener(async () => {
     let vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets'], data => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'savePreferredQuality'], data => {
             resolve(data);
         });
     });
@@ -22,6 +22,11 @@ chrome.runtime.onInstalled.addListener(async () => {
     if(typeof(vars.showTopicTweets) !== 'boolean') {
         chrome.storage.sync.set({
             showTopicTweets: true
+        }, () => {});
+    }
+    if(typeof(vars.savePreferredQuality) !== 'boolean') {
+        chrome.storage.sync.set({
+            savePreferredQuality: true
         }, () => {});
     }
 });

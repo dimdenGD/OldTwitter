@@ -707,6 +707,24 @@ class TweetViewer {
         let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
         let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
         isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
+        let hasVideo = t.extended_entities && t.extended_entities.media && t.extended_entities.media.some(m => m.type === 'video');
+        if(hasVideo) {
+            t.extended_entities.media[0].video_info.variants = t.extended_entities.media[0].video_info.variants.sort((a, b) => {
+                if(!b.bitrate) return -1;
+                return b.bitrate-a.bitrate;
+            });
+            if(localStorage.preferredQuality && vars.savePreferredQuality) {
+                let closestQuality = t.extended_entities.media[0].video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                    return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+                });
+                let preferredQualityVariantIndex = t.extended_entities.media[0].video_info.variants.findIndex(v => v.url === closestQuality.url);
+                if(preferredQualityVariantIndex !== -1) {
+                    let preferredQualityVariant = t.extended_entities.media[0].video_info.variants[preferredQualityVariantIndex];
+                    t.extended_entities.media[0].video_info.variants.splice(preferredQualityVariantIndex, 1);
+                    t.extended_entities.media[0].video_info.variants.unshift(preferredQualityVariant);
+                }
+            }
+        }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
             <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'" src="${t.user.profile_image_url_https.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
@@ -725,12 +743,18 @@ class TweetViewer {
                 <span class="tweet-translate">View translation</span>
                 ` : ``}
                 ${t.extended_entities && t.extended_entities.media ? `
-                <div class="tweet-media">
-                    ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
-                        ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                        Your browser does not support this video.
-                    </video>` : ''}`).join('\n')}
-                </div>
+                    <div class="tweet-media">
+                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
+                            ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
+                            Your browser does not support this video.
+                        </video>` : ''}`).join('\n')}
+                    </div>
+                    ${hasVideo ? /*html*/`
+                        <div class="tweet-media-controls">
+                            ${t.extended_entities.media[0].ext && t.extended_entities.media[0].ext.r && t.extended_entities.media[0].ext.r.ok ? `<span class="tweet-video-views">${Number(t.extended_entities.media[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} views</span> • ` : ''}<span class="tweet-video-reload">Reload</span> •
+                            ${t.extended_entities.media[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
+                        </div>
+                    ` : ``}
                 ` : ``}
                 ${t.card ? `<div class="tweet-poll"></div>` : ''}
                 ${t.quoted_status ? `
@@ -835,6 +859,52 @@ class TweetViewer {
                 </div>
             </div>
         `;
+        // video
+        if(hasVideo) {
+            let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
+            vid.onloadstart = () => {
+                let src = vid.currentSrc;
+                Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
+                    if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
+                });
+                tweet.getElementsByClassName('tweet-video-reload')[0].addEventListener('click', () => {
+                    tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
+                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
+                            ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
+                            Your browser does not support this video.
+                        </video>` : ''}`).join('\n')}
+                    `;
+                    let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
+                    vid.onloadstart = () => {
+                        let src = vid.currentSrc;
+                        Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
+                            if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
+                            else el.classList.remove('tweet-video-quality-current');
+                        });
+                    }
+                });
+                Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => el.addEventListener('click', () => {
+                    if(el.className.includes('tweet-video-quality-current')) return;
+                    let url = el.getAttribute('data-url');
+                    localStorage.preferredQuality = parseInt(el.innerText);
+                    tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
+                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
+                            ${m.video_info.variants.filter(v => v.url === url).map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
+                            Your browser does not support this video.
+                        </video>` : ''}`).join('\n')}
+                    `;
+                    let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
+                    vid.onloadstart = () => {
+                        let src = vid.currentSrc;
+                        Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
+                            if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
+                            else el.classList.remove('tweet-video-quality-current');
+                        });
+                    }
+                }));
+            };
+        }
+
         let footerFavorites = tweet.getElementsByClassName('tweet-footer-favorites')[0];
         if(t.card) {
             generateCard(t, tweet, user);

@@ -1293,3 +1293,20 @@ input, textarea {
     display: block;
     margin-top: 5px;
 }
+.tweet-media-controls {
+    color: var(--lil-darker-gray);
+    font-size: 12px;
+    margin-top: 5px;
+}
+.tweet-video-quality:hover,
+.tweet-video-reload:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.tweet-video-quality-current:hover {
+    cursor: auto;
+    text-decoration: none;
+}
+.tweet-video-quality-current {
+    color: var(--almost-black);
+}

@@ -6,7 +6,7 @@ let menuFn;
 
 setTimeout(async () => {
     let vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode', 'disableHotkeys'], data => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode', 'disableHotkeys', 'savePreferredQuality'], data => {
             resolve(data);
         });
     });
@@ -1241,7 +1241,7 @@ setTimeout(async () => {
                 userPreview.addEventListener('mouseleave', leaveFunction);
                 el.addEventListener('mouseleave', leaveFunction);
 
-            }, 1000));
+            }, 700));
         }, { passive: true });
 
         document.addEventListener('messageUser', e => {

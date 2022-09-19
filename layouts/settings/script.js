@@ -53,80 +53,38 @@ function renderUserData() {
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
 
-async function renderDiscovery(cache = true) {
-    let discover = await API.discoverPeople(cache);
-    let discoverContainer = document.getElementById('wtf-list');
-    discoverContainer.innerHTML = '';
-    try {
-        let usersData = discover.globalObjects.users;
-        let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, 7); // why is it so deep
-        usersSuggestions.slice(0, 5).forEach(userId => {
-            let userData = usersData[userId];
-            if (!userData) return;
-            let udiv = document.createElement('div');
-            udiv.className = 'wtf-user';
-            udiv.innerHTML = `
-                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${userData.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
-                <div class="tweet-header">
-                    <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
-                        <b class="tweet-header-name wtf-user-name">${escapeHTML(userData.name)}</b>
-                        <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
-                    </a>
-                    <br>
-                    <button class="nice-button discover-follow-btn ${userData.following ? 'following' : 'follow'}" style="position:relative;bottom: 1px;">${userData.following ? 'Following' : 'Follow'}</button>
-                </div>
-            `;
-            const followBtn = udiv.querySelector('.discover-follow-btn');
-            followBtn.addEventListener('click', async () => {
-                if (followBtn.className.includes('following')) {
-                    await API.unfollowUser(userData.screen_name);
-                    followBtn.classList.remove('following');
-                    followBtn.classList.add('follow');
-                    followBtn.innerText = 'Follow';
-                    userData.following = false;
-                } else {
-                    await API.followUser(userData.screen_name);
-                    followBtn.classList.add('following');
-                    followBtn.classList.remove('follow');
-                    followBtn.innerText = 'Following';
-                    userData.following = true;
-                }
-                chrome.storage.local.set({
-                    discoverData: {
-                        date: Date.now(),
-                        data: discover
-                    }
-                }, () => { })
-            });
-            discoverContainer.append(udiv);
-            if(vars.enableTwemoji) twemoji.parse(udiv);
-        });
-    } catch (e) {
-        console.warn(e);
-    }
-}
-async function renderTrends() {
-    let trends = (await API.getTrends()).modules;
-    let trendsContainer = document.getElementById('trends-list');
-    trendsContainer.innerHTML = '';
-    trends.forEach(({ trend }) => {
-        let trendDiv = document.createElement('div');
-        trendDiv.className = 'trend';
-        trendDiv.innerHTML = `
-            <b><a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a></b><br>
-            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description) : ''}</span>
-        `;
-        trendsContainer.append(trendDiv);
-        if(vars.enableTwemoji) twemoji.parse(trendDiv);
-    });
-}
-
 setTimeout(async () => {
     vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables'], data => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
+        'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality'], data => {
             resolve(data);
         });
     });
+    if(typeof(vars.linkColorsInTL) !== 'boolean') {
+        chrome.storage.sync.set({
+            linkColorsInTL: true
+        }, () => {});
+    }
+    if(typeof(vars.enableTwemoji) !== 'boolean') {
+        chrome.storage.sync.set({
+            enableTwemoji: true
+        }, () => {});
+    }
+    if(typeof(vars.chronologicalTL) !== 'boolean') {
+        chrome.storage.sync.set({
+            chronologicalTL: true
+        }, () => {});
+    }
+    if(typeof(vars.showTopicTweets) !== 'boolean') {
+        chrome.storage.sync.set({
+            showTopicTweets: true
+        }, () => {});
+    }
+    if(typeof(vars.savePreferredQuality) !== 'boolean') {
+        chrome.storage.sync.set({
+            savePreferredQuality: true
+        }, () => {});
+    }
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
@@ -177,6 +135,9 @@ setTimeout(async () => {
     let customCSSVariables = document.getElementById('custom-css-variables');
     let customCSSSave = document.getElementById('custom-css-save');
     let customCSSVariablesSave = document.getElementById('custom-css-variables-save');
+    let savePreferredQuality = document.getElementById('save-preferred-quality');
+    let preferredQuality = document.getElementById('preferred-quality');
+    let preferredQualityInput = document.getElementById('preferred-quality-input');
 
     let root = document.querySelector(":root");
 
@@ -231,6 +192,12 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             disableHotkeys: disableHotkeys.checked
         }, () => { });
+    });
+    savePreferredQuality.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            savePreferredQuality: savePreferredQuality.checked
+        }, () => { });
+        preferredQuality.hidden = !savePreferredQuality.checked;
     });
     darkMode.addEventListener('change', () => {
         let event = new CustomEvent('darkMode', { detail: darkMode.checked });
@@ -307,33 +274,22 @@ setTimeout(async () => {
         fontElement.value = vars.font;
         root.style.setProperty('--font', `"${vars.font}"`);
     }
-    if(vars.heartsNotStars) {
-        heartsNotStars.checked = vars.heartsNotStars;
-    }
-    if(vars.linkColorsInTL) {
-        linkColorsInTL.checked = vars.linkColorsInTL;
-    }
-    if(vars.enableTwemoji) {
-        enableTwemoji.checked = vars.enableTwemoji;
-    }
-    if(vars.chronologicalTL) {
-        chrono.checked = vars.chronologicalTL;
-    }
-    if(vars.showTopicTweets) {
-        showTopicTweets.checked = vars.showTopicTweets;
-    }
-    if(vars.darkMode) {
-        darkMode.checked = vars.darkMode;
-    }
-    if(vars.disableHotkeys) {
-        disableHotkeys.checked = vars.disableHotkeys;
-    }
+    heartsNotStars.checked = vars.heartsNotStars;
+    linkColorsInTL.checked = vars.linkColorsInTL;
+    enableTwemoji.checked = vars.enableTwemoji;
+    chrono.checked = vars.chronologicalTL;
+    showTopicTweets.checked = vars.showTopicTweets;
+    darkMode.checked = vars.darkMode;
+    disableHotkeys.checked = vars.disableHotkeys;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
     if(vars.customCSSVariables) {
         customCSSVariables.value = vars.customCSSVariables;
     }
+    savePreferredQuality.checked = vars.savePreferredQuality;
+    preferredQuality.hidden = !savePreferredQuality.checked;
+    preferredQualityInput.value = localStorage.preferredQuality ? localStorage.preferredQuality + 'p' : 'highest';
 
     // Run
     API.getSettings().then(async s => {

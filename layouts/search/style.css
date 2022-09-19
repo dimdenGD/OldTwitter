@@ -920,3 +920,6 @@ a:hover,
 .center-text:hover {
     text-decoration: underline
 }
+.modal .tweet {
+    width: 550px;
+}
