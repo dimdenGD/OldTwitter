@@ -576,7 +576,7 @@ class TweetViewer {
         });
         document.getElementsByClassName('new-tweet-button')[0].addEventListener('click', async () => {
             let tweet = document.getElementsByClassName('new-tweet-text')[0].value;
-            if (tweet.length === 0 && mediaToUpload.length === 0) return;
+            if (tweet.length === 0 && this.mediaToUpload.length === 0) return;
             document.getElementsByClassName('new-tweet-button')[0].disabled = true;
             let uploadedMedia = [];
             for (let i in this.mediaToUpload) {
