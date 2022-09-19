@@ -24,7 +24,7 @@ chrome.storage.local.get(['installed'], async data => {
                         <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
                         <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
                             <b class="tweet-header-name">${dimden.name}</b>
-                            <span class="tweet-header-handle">${dimden.screen_name}</span>
+                            <span class="tweet-header-handle">@${dimden.screen_name}</span>
                         </a><br>
                         <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">Follow</button>
                     </div>

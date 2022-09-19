@@ -52,6 +52,12 @@ API.logout = () => {
             method: 'post',
             body: 'redirectAfterLogout=https%3A%2F%2Ftwitter.com%2Faccount%2Fswitch'
         }).then(i => i.json()).then(data => {
+            chrome.storage.local.set({credentials: undefined}, () => {});
+            chrome.storage.local.set({userUpdates: {}}, () => {});
+            chrome.storage.local.set({peopleRecommendations: {}}, () => {});
+            chrome.storage.local.set({tweetReplies: {}}, () => {});
+            chrome.storage.local.set({tweetLikers: {}}, () => {});
+            chrome.storage.local.set({listData: {}}, () => {});
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
