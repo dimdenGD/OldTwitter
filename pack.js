@@ -60,6 +60,7 @@ if(document.body) {
 };
 document.documentElement.innerHTML = html;`);
     content = content.replace("document.close();", "");
+    content = content.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
 
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background.js', 'utf8');
     background = background.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
