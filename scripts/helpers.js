@@ -647,7 +647,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
     }
-    t.full_text = t.full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
+    if(location.pathname.includes('/status/')) t.full_text = t.full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
     let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
     isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
@@ -709,7 +709,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             ` : ``}
             ${t.card ? `<div class="tweet-poll"></div>` : ''}
             ${t.quoted_status ? `
-            <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
+            <a class="tweet-body-quote" target="_blank" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                 <div class="tweet-header-quote">
                     <span class="tweet-header-info-quote">
@@ -753,8 +753,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             ` : ''}
             <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source.split('>')[1].split('<')[0]}</a>
-            ${options.selfThreadButton && t.self_thread.id_str && !options.threadContinuation ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
-            ${t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">Show this thread</a>` : ``}
+            ${options.selfThreadButton && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
+            ${t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">Show this thread</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
@@ -811,7 +811,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             <div class="tweet-self-thread-div" ${(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) ? '' : 'hidden'}>
                 <span class="tweet-self-thread-line"></span>
                 <div class="tweet-self-thread-line-dots"></div>
-                <br>${options.selfThreadContinuation && t.self_thread.id_str ? `<a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : `<br>`}
+                <br>${options.selfThreadContinuation && t.self_thread.id_str && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : `<br>`}
             </div>
         </div>
     `;
@@ -1082,13 +1082,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
     // Links
     if (tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
-        if (t.entities.urls && (t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length - 1].url !== tweetBodyText.lastChild.href)) {
+        if (t.entities.urls && (t.entities.urls.length === 0 || !tweetBodyText.lastChild.href.includes(t.entities.urls[t.entities.urls.length - 1].url))) {
             tweetBodyText.lastChild.remove();
         }
     }
     let links = Array.from(tweetBodyText.getElementsByTagName('a')).filter(a => a.href.startsWith('https://t.co/'));
     links.forEach(a => {
-        let link = t.entities.urls && t.entities.urls.find(u => u.url === a.href);
+        let link = t.entities.urls && t.entities.urls.find(u => u.url === a.href.split('?')[0].split('#')[0]);
         if (link) {
             a.innerText = link.display_url;
             a.href = link.expanded_url;
