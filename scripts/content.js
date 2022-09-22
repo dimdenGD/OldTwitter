@@ -1,3 +1,42 @@
+(async () => {
+    let vars = await new Promise(resolve => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'timelineType', 'showTopicTweets', 'savePreferredQuality'], data => {
+            resolve(data);
+        });
+    });
+    if(typeof(vars.linkColorsInTL) !== 'boolean') {
+        chrome.storage.sync.set({
+            linkColorsInTL: true
+        }, () => {});
+    }
+    if(typeof(vars.enableTwemoji) !== 'boolean') {
+        chrome.storage.sync.set({
+            enableTwemoji: true
+        }, () => {});
+    }
+    if(typeof(vars.timelineType) !== 'string') {
+        let type;
+        if(typeof(vars.chronologicalTL) === 'boolean') {
+            type = vars.chronologicalTL ? 'chrono' : 'algo';
+        } else {
+            type = 'chrono';
+        }
+        chrome.storage.sync.set({
+            timelineType: type
+        }, () => {});
+    }
+    if(typeof(vars.showTopicTweets) !== 'boolean') {
+        chrome.storage.sync.set({
+            showTopicTweets: true
+        }, () => {});
+    }
+    if(typeof(vars.savePreferredQuality) !== 'boolean') {
+        chrome.storage.sync.set({
+            savePreferredQuality: true
+        }, () => {});
+    }
+})();
+
 let pages = [
     {
         name: "home",

@@ -64,7 +64,7 @@ function updateUserData() {
 async function updateTimeline() {
     seenThreads = [];
     if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
-    let fn = !vars.chronologicalTL ? API.getAlgoTimeline : API.getTimeline;
+    let fn = vars.timelineType === 'algo' ? API.getAlgoTimeline : vars.timelineType === 'chrono-social' ? API.getMixedTimeline : API.getTimeline;
     let [tl, s] = await Promise.allSettled([fn(), API.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
@@ -72,7 +72,7 @@ async function updateTimeline() {
     }
     s = s.value; tl = tl.value;
     settings = s;
-    if(!vars.chronologicalTL) {
+    if(vars.timelineType === 'algo') {
         algoCursor = tl.cursor;
         tl = tl.list;
         for(let t of tl) {
@@ -266,8 +266,8 @@ document.addEventListener('scroll', async () => {
         loadingNewTweets = true;
         let tl;
         try {
-            tl = !vars.chronologicalTL ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
-            if(!vars.chronologicalTL) {
+            tl = vars.timelineType === 'algo' ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+            if(vars.timelineType === 'algo') {
                 algoCursor = tl.cursor;
                 tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
                 for(let t of tl) {
@@ -289,9 +289,7 @@ document.addEventListener('scroll', async () => {
             loadingNewTweets = false;
         }
         setTimeout(() => {
-            setTimeout(() => {
-                loadingNewTweets = false;
-            });
+            loadingNewTweets = false;
         }, 250);
     }
 }, { passive: true });
@@ -337,7 +335,7 @@ document.addEventListener('findActiveTweet', () => {
 setTimeout(async () => {
     vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
-        'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'savePreferredQuality'], data => {
+        'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'savePreferredQuality'], data => {
             resolve(data);
         });
     });
@@ -850,7 +848,7 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.chronologicalTL) setInterval(updateTimeline, 60000);
+    if(vars.timelineType !== 'algo') setInterval(updateTimeline, 60000);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 250);

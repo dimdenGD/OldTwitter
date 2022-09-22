@@ -1095,7 +1095,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             a.target = '_blank';
             a.rel = 'noopener noreferrer';
         } else {
-            if(!vars.chronologicalTL) a.remove();
+            // if(!vars.chronologicalTL) a.remove();
         }
     });
 

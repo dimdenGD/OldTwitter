@@ -56,9 +56,14 @@
                     <h1>OldTwitter settings</h1><br>
                     <span>Refresh tabs to apply settings.</span><br><br>
                     <div class="setting">
-                        <input type="checkbox" id="chronological-tl"> <label for="chronological-tl">Chronological timeline / Disable algo-timeline</label>
+                        <select id="tl-type">
+                            <option value="chrono">Reverse chronological</option>
+                            <option value="chrono-social">Reverse chronological with friends likes</option>
+                            <option value="algo">Algorithmical</option>
+                        </select>
+                        <label for="tl-type">Timeline type</label>
                     </div>
-                    <div class="setting">
+                    <div class="setting" id="stt-div" hidden>
                         <input type="checkbox" id="show-topic-tweets"> <label for="show-topic-tweets">Show topic tweets (algo only)</label>
                     </div>
                     <div class="setting">

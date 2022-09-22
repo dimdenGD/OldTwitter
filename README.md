@@ -15,7 +15,8 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 ![Search](https://lune.dimden.dev/575b9d30f1.png)  
   
 ## Features
-- Basically almost all of Twitter functionality is implemented
+- Almost all of Twitter functionality is implemented
+- Both reverse chronological, algorithmical timelines support. And exclusive: Reverse chronological timeline with friends likes and follows (basically mix of both chrono and algo timelines)
 - Custom profile link colors supported
 - You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
 - Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change default link color and font
@@ -51,8 +52,8 @@ The code is open source (duh) so you can check everything yourself. It never sen
 Extension won't be pixel perfect copy of old Twitter. I just took general look and feel of it.
 
 #### I installed extension and my timeline is feels kinda unusual
-You had algorithmical timeline enabled. By default OldTwitter turns on chronological timeline. If you really want algo timeline back go to [extension settings](https://twitter.com/old/settings).  
-*Fun fact: algo timeline is around 5 times slower than chronological one*  
+You had algorithmical timeline enabled. By default OldTwitter turns on reverse chronological timeline. If you really want algo timeline back go to [extension settings](https://twitter.com/old/settings).  
+*Fun fact: algo timeline is around 5 times slower than reverse chronological one*  
 
 #### How do I visit original Twitter client after installing extension?
 Go to [mobile.twitter.com](https://mobile.twitter.com).

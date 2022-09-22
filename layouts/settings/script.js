@@ -56,35 +56,10 @@ function renderUserData() {
 setTimeout(async () => {
     vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
-        'chronologicalTL', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality'], data => {
+        'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality'], data => {
             resolve(data);
         });
     });
-    if(typeof(vars.linkColorsInTL) !== 'boolean') {
-        chrome.storage.sync.set({
-            linkColorsInTL: true
-        }, () => {});
-    }
-    if(typeof(vars.enableTwemoji) !== 'boolean') {
-        chrome.storage.sync.set({
-            enableTwemoji: true
-        }, () => {});
-    }
-    if(typeof(vars.chronologicalTL) !== 'boolean') {
-        chrome.storage.sync.set({
-            chronologicalTL: true
-        }, () => {});
-    }
-    if(typeof(vars.showTopicTweets) !== 'boolean') {
-        chrome.storage.sync.set({
-            showTopicTweets: true
-        }, () => {});
-    }
-    if(typeof(vars.savePreferredQuality) !== 'boolean') {
-        chrome.storage.sync.set({
-            savePreferredQuality: true
-        }, () => {});
-    }
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
@@ -125,7 +100,7 @@ setTimeout(async () => {
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
     let enableTwemoji = document.getElementById('enable-twemoji');
-    let chrono = document.getElementById('chronological-tl');
+    let timelineType = document.getElementById('tl-type');
     let darkMode = document.getElementById('dark-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
     let colorPreviewDark = document.getElementById('color-preview-dark');
@@ -178,9 +153,10 @@ setTimeout(async () => {
             enableTwemoji: enableTwemoji.checked
         }, () => { });
     });
-    chrono.addEventListener('change', () => {
+    timelineType.addEventListener('change', () => {
+        document.getElementById('stt-div').hidden = timelineType.value !== 'algo';
         chrome.storage.sync.set({
-            chronologicalTL: chrono.checked
+            timelineType: timelineType.value
         }, () => { });
     });
     showTopicTweets.addEventListener('change', () => {
@@ -277,7 +253,7 @@ setTimeout(async () => {
     heartsNotStars.checked = vars.heartsNotStars;
     linkColorsInTL.checked = vars.linkColorsInTL;
     enableTwemoji.checked = vars.enableTwemoji;
-    chrono.checked = vars.chronologicalTL;
+    timelineType.value = vars.timelineType;
     showTopicTweets.checked = vars.showTopicTweets;
     darkMode.checked = vars.darkMode;
     disableHotkeys.checked = vars.disableHotkeys;
@@ -287,6 +263,7 @@ setTimeout(async () => {
     if(vars.customCSSVariables) {
         customCSSVariables.value = vars.customCSSVariables;
     }
+    document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
     savePreferredQuality.checked = vars.savePreferredQuality;
     preferredQuality.hidden = !savePreferredQuality.checked;
     preferredQualityInput.value = localStorage.preferredQuality ? localStorage.preferredQuality + 'p' : 'highest';

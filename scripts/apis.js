@@ -269,6 +269,26 @@ API.getAlgoTimeline = (cursor, count = 25) => {
         });
     });
 }
+API.getMixedTimeline = async () => {
+    let [chrono, algo] = await Promise.allSettled([API.getTimeline(), API.getAlgoTimeline()]);
+    if(chrono.reason) {
+        throw chrono.reason;
+    }
+    chrono = chrono.value;
+    if(algo.reason) {
+        algo = [];
+    } else {
+        algo = algo.value.list;
+    }
+    let social = algo.filter(t => t.socialContext && (t.socialContext.contextType === 'Like' || t.socialContext.contextType === 'Follow'));
+    for(let i = chrono.length-1; i >= 0; i--) {
+        if(social.length === 0) break;
+        if(i % 7 === 0) {
+            chrono.splice(chrono.length-i, 0, social.pop());
+        }
+    }
+    return chrono;
+}
 
 // Discovering
 API.discoverPeople = (cache = true) => {

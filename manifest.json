@@ -1,7 +1,7 @@
 {
   "name": "Old Twitter Layout (2022)",
   "description": "A new extension that returns old Twitter's look.",
-  "version": "1.5.9.2",
+  "version": "1.6.0",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/OldTwitter",
   "background": {
