@@ -19,7 +19,7 @@ chrome.storage.local.get(['installed'], async data => {
             let modal = createModal(`
                 <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
                 <span style="font-size:14px">
-                    Thank you for installing OldTwitter!! I hope you'll like it.<br><br>
+                    Thank you for installing OldTwitter!! I hope you'll like it. Check <a target="_blank" href="https://twitter.com/old/settings">extension settings</a>!<br><br>
                     <a href="https://twitter.com/dimdenEFF">Follow me maybe? 👉👈</a><br><br>
                     <div class="dimden">
                         <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
