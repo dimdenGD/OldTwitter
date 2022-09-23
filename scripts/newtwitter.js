@@ -14,7 +14,9 @@ setInterval(() => {
         realPath === '/register' ||
         realPath === '/logout' ||
         realPath === '/messages' ||
-        realPath === '/account/switch' ||
+        realPath.endsWith('/tos') ||
+        realPath.endsWith('/privacy') ||
+        realPath.startsWith('/account/') ||
         realPath.endsWith('/lists') ||
         realPath.endsWith('/topics') ||
         realPath.startsWith('/settings/')

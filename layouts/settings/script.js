@@ -202,12 +202,14 @@ setTimeout(async () => {
         colorPreviewDark.style.color = `${previewColor}`;
     });
     sync.addEventListener('click', async () => {
+        sync.disabled = true;
         let color = profileLinkColor.value;
         if(color.startsWith('#')) color = color.slice(1);
-        let tweet = await API.postTweet({
-            status: `link_color=${color}`
-        })
+        let tweet;
         try {
+            tweet = await API.postTweet({
+                status: `link_color=${color}`
+            })
             let res = await fetch(`https://dimden.dev/services/twitter_link_colors/set/${tweet.id_str}`, {
                 method: 'POST',
                 headers: {
@@ -220,8 +222,10 @@ setTimeout(async () => {
                 alert('Link color set!');
             }
         } catch(e) {
+            console.error(e);
             alert('Error setting link color');
         } finally {
+            sync.disabled = false;
             API.deleteTweet(tweet.id_str);
         }
     });

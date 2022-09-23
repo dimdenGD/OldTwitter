@@ -165,7 +165,11 @@
         "https://twitter.com/search?*",
         "https://twitter.com/search",
         "https://twitter.com/search/",
-        "https://twitter.com/search/?*"
+        "https://twitter.com/search/?*",
+        "https://twitter.com/tos",
+        "https://twitter.com/privacy",
+        "https://twitter.com/*/tos",
+        "https://twitter.com/*/privacy"
       ],
       "js": ["libraries/twemoji.min.js", "layouts/profile/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "css": ["libraries/viewer.min.css"],
