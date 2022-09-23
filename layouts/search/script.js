@@ -1,7 +1,7 @@
 let user = {};
 let settings;
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'disableHotkeys', 'savePreferredQuality'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'disableHotkeys', 'savePreferredQuality', 'noBigFont'], data => {
     vars = data;
 });
 let cursor;

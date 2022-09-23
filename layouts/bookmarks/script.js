@@ -77,7 +77,7 @@ let lastTweetDate = 0;
 setTimeout(async () => {
     vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL',
-        'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality'], data => {
+        'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality', 'noBigFont'], data => {
             resolve(data);
         });
     });

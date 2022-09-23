@@ -56,7 +56,8 @@ function renderUserData() {
 setTimeout(async () => {
     vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
-        'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality'], data => {
+        'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
+        'noBigFont'], data => {
             resolve(data);
         });
     });
@@ -113,6 +114,7 @@ setTimeout(async () => {
     let savePreferredQuality = document.getElementById('save-preferred-quality');
     let preferredQuality = document.getElementById('preferred-quality');
     let preferredQualityInput = document.getElementById('preferred-quality-input');
+    let noBigFont = document.getElementById('no-big-font');
 
     let root = document.querySelector(":root");
 
@@ -174,6 +176,11 @@ setTimeout(async () => {
             savePreferredQuality: savePreferredQuality.checked
         }, () => { });
         preferredQuality.hidden = !savePreferredQuality.checked;
+    });
+    noBigFont.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            noBigFont: noBigFont.checked
+        }, () => { });
     });
     darkMode.addEventListener('change', () => {
         let event = new CustomEvent('darkMode', { detail: darkMode.checked });
@@ -250,13 +257,14 @@ setTimeout(async () => {
         fontElement.value = vars.font;
         root.style.setProperty('--font', `"${vars.font}"`);
     }
-    heartsNotStars.checked = vars.heartsNotStars;
-    linkColorsInTL.checked = vars.linkColorsInTL;
-    enableTwemoji.checked = vars.enableTwemoji;
+    heartsNotStars.checked = !!vars.heartsNotStars;
+    linkColorsInTL.checked = !!vars.linkColorsInTL;
+    enableTwemoji.checked = !!vars.enableTwemoji;
     timelineType.value = vars.timelineType;
-    showTopicTweets.checked = vars.showTopicTweets;
-    darkMode.checked = vars.darkMode;
-    disableHotkeys.checked = vars.disableHotkeys;
+    showTopicTweets.checked = !!vars.showTopicTweets;
+    darkMode.checked = !!vars.darkMode;
+    disableHotkeys.checked = !!vars.disableHotkeys;
+    noBigFont.checked = !!vars.noBigFont;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
@@ -264,7 +272,7 @@ setTimeout(async () => {
         customCSSVariables.value = vars.customCSSVariables;
     }
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
-    savePreferredQuality.checked = vars.savePreferredQuality;
+    savePreferredQuality.checked = !!vars.savePreferredQuality;
     preferredQuality.hidden = !savePreferredQuality.checked;
     preferredQualityInput.value = localStorage.preferredQuality ? localStorage.preferredQuality + 'p' : 'highest';
 

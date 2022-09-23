@@ -175,7 +175,7 @@ async function updateNotifications(append = false) {
 
 setTimeout(async () => {
     vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'savePreferredQuality'], data => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'savePreferredQuality', 'noBigFont'], data => {
             resolve(data);
         });
     });
