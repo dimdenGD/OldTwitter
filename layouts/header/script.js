@@ -3,6 +3,16 @@ let savedSearches = [], lastSearches = [];
 let inboxData = [];
 let customSet = false;
 let menuFn;
+const notificationBus = new BroadcastChannel('notification_bus');
+notificationBus.onmessage = function (e) {
+    if(e.data.type === 'markAsRead') {
+        let notifElement = document.getElementById('notifications-count');
+        let icon = document.getElementById('site-icon');
+
+        notifElement.hidden = true;
+        icon.href = chrome.runtime.getURL(`images/logo32.png`);
+    }
+};
 
 setTimeout(async () => {
     let vars = await new Promise(resolve => {

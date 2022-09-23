@@ -150,6 +150,7 @@ async function renderNotifications(data, append = false) {
     if(unreadNotifications > 0) {
         setTimeout(() => {
             API.markAsReadNotifications(cursor);
+            notificationBus.postMessage({type: 'markAsRead', cursor});
         }, 1000);
     }
 }
