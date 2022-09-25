@@ -733,6 +733,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             ` : ''}
             ${t.tombstone ? `<div class="tweet-warning">${t.tombstone}</div>` : ''}
+            ${t.conversation_control ? `<div class="tweet-warning">This tweet has limitations to who can reply.</div>` : ''}
             ${options.mainTweet ? /*html*/`
             <div class="tweet-footer">
                 <div class="tweet-footer-stats">
