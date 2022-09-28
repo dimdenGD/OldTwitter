@@ -1064,3 +1064,51 @@ a:hover,
 .user-stat-div:hover {
     text-decoration: none !important;
 }
+#new-tweet-audience {
+    position: relative;
+    margin-left: 39px;
+    margin-bottom: 5px;
+}
+#new-tweet-audience-input {
+    border-color: var(--border);
+    padding: 1px;
+}
+#new-tweet-circle-edit {
+    cursor: pointer;
+}
+#new-tweet-circle-edit:hover {
+    text-decoration: underline;
+}
+#new-tweet-circle-people {
+    font-size: 12px;
+}
+.circle-menu-selector {
+    display: inline-flex;
+    width: 100%;
+}
+.circle-menu-selector > span {
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    margin-bottom: 3px;
+    font-size: 18px !important;
+    cursor: pointer;
+}
+.circle-menu-selector > span:hover {
+    text-decoration: underline;
+}
+.circle-menu-selector-selected {
+    font-weight: bolder !important;
+    color: var(--link-color) !important;
+    cursor: default !important;
+    text-decoration: none !important;
+}
+.circle-user {
+    padding: 5px;
+}
+.circle-control-btn {
+    float: right;
+    margin-top: 10px;
+}

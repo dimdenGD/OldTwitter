@@ -1,0 +1,880 @@
+{
+    "ext_description": {
+        "message": "תוסף חדש שמחזיר לטוויטר את המראה הישן"
+    },
+    "timeline": {
+        "message": "ציר זמן"
+    },
+    "loading": {
+        "message": "טוען"
+    },
+    "tweets": {
+        "message": "ציוצים"
+    },
+    "following": {
+        "description": "Try to keep this word equal or less than 9 characters",
+        "message": "נעקבים"
+    },
+    "following_btn": {
+        "description": "Try to keep this word equal or less than 9 characters",
+        "message": "נעקבים"
+    },
+    "followers": {
+        "description": "Try to keep this word equal or less than 9 characters",
+        "message": "עוקבים"
+    },
+    "trends": {
+        "message": "טרנדים"
+    },
+    "tweet": {
+        "message": "ציוץ"
+    },
+    "load_more": {
+        "message": "טען עוד"
+    },
+    "who_to_follow": {
+        "description": "Max 19 characters, you can use word 'People' if no space",
+        "message": "עקבו אחרי "
+    },
+    "refresh": {
+        "message": "רענן"
+    },
+    "view_all": {
+        "message": "ראה הכל"
+    },
+    "running": {
+        "example": "->Running<- OldTwitter v0.0.0",
+        "message": "רץ"
+    },
+    "created_by": {
+        "example": "->Created by<- dimden",
+        "message": "נוצר ע\"י"
+    },
+    "website": {
+        "message": "אתר"
+    },
+    "help": {
+        "description": "noun",
+        "message": "עזרה"
+    },
+    "terms": {
+        "description": "Shortest word that you can find for Terms of service",
+        "message": "תנאי השירות "
+    },
+    "privacy": {
+        "description": "Shortest word that you can find for Privacy policy",
+        "message": "פרטיות"
+    },
+    "about": {
+        "message": " למידע נוסף "
+    },
+    "donate": {
+        "message": "תרום "
+    },
+    "home": {
+        "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline",
+        "message": "דף הבית "
+    },
+    "notifications": {
+        "message": "התראות"
+    },
+    "messages": {
+        "message": "הודעות"
+    },
+    "search_twitter": {
+        "message": "חפש בטוויטר"
+    },
+    "profile": {
+        "message": "פרופיל"
+    },
+    "settings": {
+        "message": "הגדרות"
+    },
+    "lists": {
+        "message": "רשימות "
+    },
+    "list": {
+        "message": "רשימה"
+    },
+    "bookmarks": {
+        "message": "סימניות"
+    },
+    "manage_accounts": {
+        "message": "נהל חשבונות"
+    },
+    "logout": {
+        "message": "צא "
+    },
+    "whats_happening": {
+        "message": "מה קורה?"
+    },
+    "variant": {
+        "message": "זן "
+    },
+    "days": {
+        "message": "ימים "
+    },
+    "hours": {
+        "message": "שעות"
+    },
+    "minutes": {
+        "message": "דקות"
+    },
+    "remove_poll": {
+        "message": "הסר שאלון "
+    },
+    "open_newtwitter": {
+        "message": "פתח בחלון חדש "
+    },
+    "last_version": {
+        "message": "גרסא אחרונה"
+    },
+    "follow_mb": {
+        "message": "אולי תעקבו אחרי?"
+    },
+    "follow": {
+        "message": "עקוב"
+    },
+    "unfollow": {
+        "message": "הסר עוקב "
+    },
+    "loading_tweets": {
+        "message": "טוען ציוצים "
+    },
+    "retweeted": {
+        "example": "CoolPerson2000 ->retweeted<-",
+        "message": "צויץ מחדש"
+    },
+    "see_new_tweets": {
+        "message": "ראה ציוצים חדשים"
+    },
+    "must2variants": {
+        "message": "אתם חייבים לבחור לפחות שני סוגי שאלונים  "
+    },
+    "delete_all": {
+        "message": "מחק הכל"
+    },
+    "empty": {
+        "description": "Funky message about nothing found",
+        "message": "ואו, ממש ריק"
+    },
+    "delete_bookmarks": {
+        "message": "אתם בטוחים שברצונכם למחוק את כל הסימניות? לא ניתן לחזור בפעולה זו."
+    },
+    "members": {
+        "message": "משתמשים"
+    },
+    "subscribers": {
+        "message": "נרשמים"
+    },
+    "list_members": {
+        "message": "הצג משתמשים "
+    },
+    "list_subscribers": {
+        "message": "הצג נרשמים "
+    },
+    "edit": {
+        "message": "ערוך"
+    },
+    "delete": {
+        "message": "מחק"
+    },
+    "remove": {
+        "message": "הסר"
+    },
+    "edit_list": {
+        "message": "ערוך רשימה"
+    },
+    "edit_members": {
+        "message": "ערוך משתמשים "
+    },
+    "save": {
+        "message": "שמור "
+    },
+    "back": {
+        "message": "חזור"
+    },
+    "delete_list": {
+        "message": "מחק רשימה"
+    },
+    "delete_list_sure": {
+        "message": "האם אתם בטוחים שברצונכם למחוק רשימה זו?"
+    },
+    "unsubscribe": {
+        "message": "הסר רישום"
+    },
+    "subscribe": {
+        "message": "הרשם"
+    },
+    "list_not_found": {
+        "message": "רשימה לא נמצאה"
+    },
+    "go_homepage": {
+        "message": "לדף הבית "
+    },
+    "mentions": {
+        "message": "אזכורים"
+    },
+    "tweeted_like": {
+        "example": "CoolPerson2000 ->tweeted something you might like<-",
+        "message": "צייצו משהו שאולי תאהבו "
+    },
+    "favorites": {
+        "message": "מועדפים"
+    },
+    "follows_you": {
+        "message": "עוקבים אחריך"
+    },
+    "tweet_to_user": {
+        "message": "צייץ למשתמש"
+    },
+    "followers_you_know": {
+        "example": "123 ->followers you know<-",
+        "message": "עוקבים שאתם מכירים "
+    },
+    "photos_and_videos": {
+        "message": "תמונות וסרטונים"
+    },
+    "photos_and_videos2": {
+        "message": "תמונות וסרטונים "
+    },
+    "tweets_and_replies": {
+        "message": "ציוצים ותגובות"
+    },
+    "you_may_also_like": {
+        "description": "Max 19 characters, you can use word 'People' if no space",
+        "message": "אולי תאהבו גם "
+    },
+    "user_was_suspended": {
+        "message": "משתמש הושעה"
+    },
+    "user_was_not_found": {
+        "message": "משתמש לא נמצא"
+    },
+    "timeline_not_authorized": {
+        "message": "אין לך הרשאה לצפות בציר הזמן של משתמש זה"
+    },
+    "create_btn": {
+        "message": "צור"
+    },
+    "create_list": {
+        "message": "צור רשימה"
+    },
+    "create": {
+        "message": "צור"
+    },
+    "name": {
+        "message": "שם"
+    },
+    "description": {
+        "message": "תיאור"
+    },
+    "no_description": {
+        "message": "אין תיאור"
+    },
+    "born": {
+        "message": "נולד "
+    },
+    "january": {
+        "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "ינואר $NUMBER$"
+    },
+    "february": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "פברואר $NUMBER$"
+    },
+    "march": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "מרץ $NUMBER$"
+    },
+    "april": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "אפריל $NUMBER$"
+    },
+    "may": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "מאי $NUMBER$"
+    },
+    "june": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "יוני $NUMBER$"
+    },
+    "july": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "יולי $NUMBER$"
+    },
+    "august": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "אוגוסט $NUMBER$"
+    },
+    "september": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "ספטמבר $NUMBER$"
+    },
+    "october": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "אוקטובר $NUMBER$"
+    },
+    "november": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "נובמבר $NUMBER$"
+    },
+    "december": {
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        },
+        "message": "דצמבר $NUMBER$"
+    },
+    "tweet_to": {
+        "example": "->Tweet to<- @CoolPerson2000",
+        "message": "צייץ ל"
+    },
+    "translated_from": {
+        "example": "->Translated from<- Japanese",
+        "message": "צייץ מ"
+    },
+    "translate_bio": {
+        "message": "תרגם "
+    },
+    "edit_profile": {
+        "message": "ערוך פרופיל"
+    },
+    "follow_request_sent": {
+        "message": "בקשת עוקב נשלחה"
+    },
+    "unblock_user": {
+        "example": "->Unblock<- @CoolPerson2000",
+        "message": "הסר חסימה"
+    },
+    "block_user": {
+        "example": "->Block<- @CoolPerson2000",
+        "message": "התעלם"
+    },
+    "unblock": {
+        "example": "->Unblock<- @CoolPerson2000",
+        "message": "הסר חסימה"
+    },
+    "block": {
+        "example": "->Block<- @CoolPerson2000",
+        "message": "התעלם"
+    },
+    "unmute": {
+        "message": "הסר התעלמות"
+    },
+    "see_lists": {
+        "message": "ראה רשימות "
+    },
+    "stop_notifications": {
+        "message": "הסר התראות "
+    },
+    "receive_notifications": {
+        "message": "קבל התראות "
+    },
+    "from_list": {
+        "message": "הוסף/הסר לרשימה"
+    },
+    "share_user": {
+        "message": "שתף משתמש"
+    },
+    "copy_profile_link": {
+        "message": "העתק קישור לפרופיל"
+    },
+    "remove_from_followers_button": {
+        "message": "הסר עקיבה אחרי"
+    },
+    "able_in_future": {
+        "message": "הם יוכלו לעקוב אחריכם שוב בעתיד"
+    },
+    "block_sure": {
+        "example": "->Are you sure you want to block<- @CoolPerson2000?",
+        "message": "האם אתם בטוחים שברצונכם לחסום?"
+    },
+    "add": {
+        "message": "הוסף"
+    },
+    "joined": {
+        "example": "->Joined<- April 30, 2019",
+        "message": "היום הצטרפות "
+    },
+    "pinned_tweet": {
+        "message": "ציוץ מודבק "
+    },
+    "search": {
+        "message": "חפש"
+    },
+    "popular": {
+        "message": "פופולרי "
+    },
+    "live": {
+        "message": "שידור חי "
+    },
+    "people": {
+        "message": "אנשים"
+    },
+    "photos": {
+        "message": "תמונות"
+    },
+    "videos": {
+        "message": "סרטונים"
+    },
+    "all_people": {
+        "message": "כל האנשים "
+    },
+    "people_yk": {
+        "message": "אנשים שאתם מכירים "
+    },
+    "everywhere": {
+        "message": "בכל מקום "
+    },
+    "near_you": {
+        "message": "לידך"
+    },
+    "advanced_search": {
+        "message": "חיפוש מתקדם"
+    },
+    "save_search": {
+        "message": "שמור חיפוש"
+    },
+    "remove_search": {
+        "message": "הסר שמירה"
+    },
+    "try_again": {
+        "message": "נסה שוב "
+    },
+    "no_results": {
+        "message": "לא נמצאו תוצאות. נסו לשנות משהו משמאל?"
+    },
+    "words": {
+        "message": "מילים"
+    },
+    "all_these_words": {
+        "message": "כל המילים האלו"
+    },
+    "all_these_words_example": {
+        "message": "דוגמא: מה קורה - כולל \"מה\", \"קורה\""
+    },
+    "exact_phrase": {
+        "message": "חיפוש לפי ביטוי מדויק"
+    },
+    "exact_phrase_example": {
+        "message": "דוגמא: זמן שמח - כולל \"זמן שמח\""
+    },
+    "any_words": {
+        "message": "כל אחד מהמילים האלו"
+    },
+    "any_words_example": {
+        "message": "דוגמא: חתולים כלבים - כולל \"חתולים\" או \"כלבים\""
+    },
+    "not_these_words": {
+        "message": "אף אחד מהמילים האלו "
+    },
+    "not_these_words_example": {
+        "message": "לדוגמא: חתולים כלבים - לא כולל \"חתולים\" ו\"כלבים\""
+    },
+    "user": {
+        "message": "משתמש"
+    },
+    "from_this_user": {
+        "message": "ממשתמש זה"
+    },
+    "from_this_user_example": {
+        "message": "לדוגמא: @sonrick98 - ממשתמש sonrick98"
+    },
+    "mentions_this_user": {
+        "message": "מאזכר את המשתמש"
+    },
+    "mentions_this_user_example": {
+        "message": "דוגמא: @minimacca123 - בתגובה לminimacca123"
+    },
+    "interactions": {
+        "message": "אינטראקציות "
+    },
+    "min_replies": {
+        "message": "כמות מינימלית של תגובות"
+    },
+    "min_replies_example": {
+        "message": "דוגמא: 10 - ציוצים עם לפחות 10 תגובות"
+    },
+    "min_retweets": {
+        "message": "כמות מינימלית של ציוצים מחדש"
+    },
+    "min_retweets_example": {
+        "message": "דוגמא: 10 - ציוצים עם לפחות 10 ציוצים מחדש"
+    },
+    "min_favorites": {
+        "message": "כמות מינימלית של מועדפים"
+    },
+    "min_favorites_example": {
+        "message": "דוגמא: 10 - ציוצים שנשמרו לפחות 10 פעמים למועדפים"
+    },
+    "dates": {
+        "message": "תאריכים"
+    },
+    "since": {
+        "message": "מאז"
+    },
+    "until": {
+        "message": "עד"
+    },
+    "twitter_settings": {
+        "message": "הגדרות טוויטר "
+    },
+    "oldtwitter_settings": {
+        "message": "הגדרות old Twitter "
+    },
+    "edit_twitter_settings": {
+        "message": "ערוך הגדרות טוויטר "
+    },
+    "refresh_tabs": {
+        "message": "רענן חלוניות כדי להחל הגדרות"
+    },
+    "chrono": {
+        "message": "כרונולוגי הפוך (מהיר)"
+    },
+    "chrono_social": {
+        "message": "כרונולוגי הפוך עם לייקים של החברים"
+    },
+    "algo": {
+        "message": "אלגוריתמי"
+    },
+    "timeline_type": {
+        "message": "סוג ציר זמן"
+    },
+    "show_topic_tweets": {
+        "message": "הצג ציוצי נושא (אלגוריתמי בלבד) "
+    },
+    "show_colors_in_timeline": {
+        "message": "הצג קישור צבע מותאם אישית של משתמשים בציר זמן דף הבית "
+    },
+    "enable_twemoji": {
+        "message": "הפעל Twemoji"
+    },
+    "hearts_instead_stars": {
+        "message": "הצג לייקים כלבבות במקום כוכבים"
+    },
+    "dark_mode": {
+        "message": "מצב כהה"
+    },
+    "disable_hotkeys": {
+        "message": "בטל קיצורי מקשים"
+    },
+    "hotkeys_list": {
+        "message": "ראו רשימת קיצורי מקשים כאן"
+    },
+    "no_big_font": {
+        "message": "בטל גופן גדול עבור ציוצים קצרים"
+    },
+    "save_preferred_quality": {
+        "message": "שמור איכות וידאו מועדפת. אם הגדרה זו מופעלת, Old Twitter ישמור את האיכות המועדפת או ישתמש באיכות הזמינה הקרובה ביותר. אם לא, תיבחר האיכות הגבוהה ביותר."
+    },
+    "preferred_quality": {
+        "message": "איכות מועדפת"
+    },
+    "default_link_color": {
+        "message": "צבע קישור ברירת מחדל"
+    },
+    "font": {
+        "message": "גופן"
+    },
+    "color_sync": {
+        "message": "סנכרון צבע קישור"
+    },
+    "by_pressing_sync": {
+        "message": "ע\"י לחיצה על כפתור הסנכרון צבע קישור הפרופיל שלכם ירשם בבסיס נתוני הצבעים וישותף עם משתמשים אחרים."
+    },
+    "color_years_ago": {
+        "message": "אם הגדרתם צבע לפני שנים כשזה עוד היה נתמך רשמית, פעולה זו תחליף לכם את הצבע בצבע החדש."
+    },
+    "sync": {
+        "message": "סנכרון "
+    },
+    "profile_link_color": {
+        "message": "צבע קישור פרופיל"
+    },
+    "light_mode_link": {
+        "message": "קישור מצב בהיר"
+    },
+    "dark_mode_link": {
+        "message": "קישור מצב כהה"
+    },
+    "custom_css": {
+        "message": " CSS מותאם אישית"
+    },
+    "css_var_override": {
+        "message": "מחליף את משתני CSS של ברירת המחדל. רשמו אותם כ ..."
+    },
+    "css_var_list": {
+        "message": "ראו רשימה של משתני ברירת המחדל של CSS כאן."
+    },
+    "save_vars": {
+        "message": "שמור משתנים"
+    },
+    "custom_css_text": {
+        "message": "CSS להוסיף לכל עמוד  מותאם אישית "
+    },
+    "save_css": {
+        "message": "שמור CSS"
+    },
+    "error_setting_color": {
+        "message": "שגיאה בעת שמירת צבע קישור"
+    },
+    "link_color_set": {
+        "message": "צבע קישור הוגדר!"
+    },
+    "retweeted_by": {
+        "message": "צויץ מחדש ע\"י"
+    },
+    "see_quotes": {
+        "message": "ראה ציטוטים"
+    },
+    "see_quotes_big": {
+        "message": "ראה ציטוטים"
+    },
+    "quote_tweets": {
+        "message": "ציוצי ציטוט "
+    },
+    "see_retweets": {
+        "message": "ראה ציוצים מחדש"
+    },
+    "reply_to": {
+        "example": "->Reply to<- @CoolGuy2000",
+        "message": "הגב ל"
+    },
+    "error_loading_tweet": {
+        "message": "שגיאה בעת טעינת ציוץ"
+    },
+    "direct_messages": {
+        "message": "מסרים ישירים"
+    },
+    "mark_all_read": {
+        "message": "סמן הכל כנקרא"
+    },
+    "send": {
+        "description": "Max 5 characters, if no word keep it in English",
+        "message": "שלח"
+    },
+    "new_message": {
+        "message": "הודעה חדשה"
+    },
+    "create_new_group": {
+        "message": "צור קבוצה חדשה"
+    },
+    "search_people": {
+        "message": "חפש אנשים"
+    },
+    "type_message": {
+        "message": "כתוב את ההודעה שלך "
+    },
+    "cant_send": {
+        "message": "אין ביכולתך לשלוח הודעות למשתמש זה "
+    },
+    "gifs_max": {
+        "message": " גיפים חייבים להיות 15MB או פחות"
+    },
+    "videos_max": {
+        "message": "סרטונים חייבים להיות 500 MB או פחות"
+    },
+    "images_max": {
+        "message": "תמונות חייבות להיות 5MB או פחות"
+    },
+    "max_count": {
+        "message": "אתם יכולים להעלות עד ל4 תמונות או סרטון/גיף אחד"
+    },
+    "alt_text": {
+        "message": "רשמו טקסט חלופי לתמונה"
+    },
+    "vote": {
+        "example": "1 ->vote<-",
+        "message": "הצבע"
+    },
+    "votes": {
+        "example": "10 ->votes<-",
+        "message": "קולות "
+    },
+    "ends_at": {
+        "example": "->Ends at<- 16th November",
+        "message": "מסתיים ב"
+    },
+    "view_translation": {
+        "message": "ראה תרגום"
+    },
+    "unsupported_video": {
+        "message": "הדפדפן שלכם לא תומך בסרטון זה"
+    },
+    "views": {
+        "example": "10 ->views<-",
+        "message": "צפיות"
+    },
+    "reload": {
+        "message": "טען מחדש"
+    },
+    "circle_limited_tweet": {
+        "placeholders": {
+            "screen_name": {
+                "content": "CoolPerson2000"
+            }
+        },
+        "message": "הציוץ הזה נגיש רק למי שחלק ממעגל החברים של $SCREEN_NAME$"
+    },
+    "learn_more": {
+        "message": "למד עוד"
+    },
+    "limited_tweet": {
+        "message": "ציוץ זה מגביל למי ניתן להגיב עליו"
+    },
+    "replies": {
+        "message": "תגובות "
+    },
+    "retweets": {
+        "message": "ציוצים מחדש"
+    },
+    "likes": {
+        "message": "לייקים"
+    },
+    "show_this_thread": {
+        "message": "הצג התכתבות זאת"
+    },
+    "quote_tweet": {
+        "message": "צטט ציוץ"
+    },
+    "see_retweeters": {
+        "message": "ראה מצייצים מחדש"
+    },
+    "copy_link": {
+        "message": "העתק קישור"
+    },
+    "embed_tweet": {
+        "message": "שבץ ציוץ"
+    },
+    "share_tweet": {
+        "message": "שתף ציוץ"
+    },
+    "tweet_analytics": {
+        "message": "ניתוח הציוץ"
+    },
+    "delete_tweet": {
+        "message": "מחק ציוץ "
+    },
+    "unpin_tweet": {
+        "message": "הסר הדבקת הציוץ"
+    },
+    "pin_tweet": {
+        "message": "הדבק ציוץ"
+    },
+    "bookmark_tweet": {
+        "message": "הוסף סימנייה לציוץ"
+    },
+    "topic_not_interested": {
+        "message": "לא מעוניין/ת בנושא זה"
+    },
+    "refresh_tweet": {
+        "message": "רענן נתוני הציוץ"
+    },
+    "download_media": {
+        "message": "הורד מדיה"
+    },
+    "download_gif": {
+        "message": "הורד כגיף"
+    },
+    "replying_to_tweet": {
+        "message": "הגב לציוץ"
+    },
+    "upload_media_btn": {
+        "message": "העלה  מדיה"
+    },
+    "cancel_btn": {
+        "message": "בטל "
+    },
+    "quote": {
+        "message": "צטט "
+    },
+    "reply_example": {
+        "message": "ציוץ תגובה מגניב "
+    },
+    "quote_example": {
+        "message": "ציוץ ציטוט מגניב "
+    },
+    "error_sending_tweet": {
+        "message": " שגיאה בעת שליחת הציוץ"
+    },
+    "retweet_sure": {
+        "message": "האם אתם בטוחים שברצונכם לצייץ את זה מחדש?"
+    },
+    "unretweet": {
+        "message": "הסר ציוץ מחדש"
+    },
+    "retweet": {
+        "message": "צייץ מחדש "
+    },
+    "delete_sure": {
+        "message": "האם אתם בטוחים שברצונכם למחוק ציוץ זה?"
+    },
+    "long_vid": {
+        "message": "הסרטון ארוך מ10 שניות. האם אתם בטוחים שברצונכם להמיר אותו, האיכות עשויה להיפגע "
+    },
+    "feedback_thanks": {
+        "message": "תודה על חוות הדעת!"
+    },
+    "thank_you": { "message": "!!תודה שעקבתם אחרי" },
+    "liked_by": {
+        "message": "נאהב ע\"י"
+    },
+    "reply": {
+        "message": "הגב"
+    },
+    "language": {
+        "description": "Please add English 'Language' word in parentheses in addition to translation",
+        "example": "Язык (Language)",
+        "message": "שפה (Language)"
+    },
+    "translated_by": {
+        "message": "תורגם על ידי $TRANSLATOR$.י"
+    }
+}

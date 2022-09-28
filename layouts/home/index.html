@@ -50,6 +50,13 @@
             <div class="cell" id="center-cell">
                 <div id="new-tweet-container">
                     <div id="new-tweet" class="box">
+                        <div id="new-tweet-audience" hidden>
+                            <select id="new-tweet-audience-input">
+                                <option value="everyone">Everyone</option>
+                            </select>
+                            <span id="new-tweet-circle-people" hidden><span id="new-tweet-circle-people-count">0</span> __MSG_people__ <b id="new-tweet-circle-edit">[edit]</b></span>
+                            <br>
+                        </div>
                         <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
                         <span id="new-tweet-char" hidden>0/280</span>
                         <textarea id="new-tweet-text" placeholder="What's happening?" maxlength="280"></textarea>

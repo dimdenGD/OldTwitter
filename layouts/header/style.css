@@ -169,7 +169,7 @@ input, textarea {
     bottom: 41px;
     display: inline-flex;
     z-index: 98;
-    margin-right: 25px;
+    margin-right: 15px;
 }
 
 #search-input {
@@ -672,13 +672,16 @@ input, textarea {
     color: var(--light-gray);
     float: right;
 }
-.inbox-top {
+.inbox-top, .modal-top {
     position: fixed;
     background-color: var(--background-color);
     width: 585px;
     padding-top: 15px;
     margin-top: -20px;
     z-index: 50;
+}
+.modal-top  {
+    width: 495px;
 }
 .home-top {
     width: 598px;
@@ -806,7 +809,7 @@ input, textarea {
     margin-bottom: 20px;
     display: flow-root;
 }
-.message-new-input, .new-message-user-search {
+.message-new-input, .new-message-user-search, .circle-user-search {
     border: 1px solid var(--border);
     resize: none;
     border-radius: 3px;
@@ -906,7 +909,7 @@ input, textarea {
 .choice-count {
     position: relative;
     float: right;
-    bottom: 35px;
+    bottom: 37px;
     right: 7px;
 }
 .poll-footer {

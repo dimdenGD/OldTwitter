@@ -68,7 +68,7 @@ if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/video\/\d+(|\/)$/.test(realPath)) {
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath)) {
     location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "gr", "ro", "tl", "lv"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "gr", "ro", "tl", "lv", "he", "ne"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -78,7 +78,9 @@ const TRANSLATORS = {
     "gr": ["VasilisTheChu", "https://pikachu.systems/"],
     "ro": ["Skylar", "https://143.dust.moe/"],
     "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
-    "lv": ["yourfriend", "https://3.141.lv/"]
+    "lv": ["yourfriend", "https://3.141.lv/"],
+    "he": ["ugh"],
+    "ne": ["DimeDead", "https://dimedead.neocities.org/"]
 };
 let LOC = {};
 let LOC_EN = {};

@@ -1545,3 +1545,6 @@ a:hover,
 .list-creator-modal {
     color: var(--default-text-color);
 }
+#navbar-right {
+    margin-right: 25px !important;
+}

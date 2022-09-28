@@ -2702,3 +2702,153 @@ API.getListOwnerships = (myId, userId) => {
         });
     });
 }
+
+// Circles
+API.getCircles = () => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/QjN8ZdavFDqxUjNn3r9cig/AuthenticatedUserTFLists?variables=%7B%7D`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data.data.authenticated_user_trusted_friends_lists);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getCircleMembers = (id, cursor = null) => {
+    return new Promise((resolve, reject) => {
+        let variables = {"trustedFriendsId":"1565979811046211584","cursor":cursor, count: 150};
+        let features = {"responsive_web_graphql_timeline_navigation_enabled":false};
+        fetch(`https://twitter.com/i/api/graphql/i3_opgZeSaeWbfyFQjZ5Sw/TrustedFriendsMembersQuery?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data.data.trusted_friends_list_by_rest_id.members_slice.items_results.filter(u => u.result && u.result.is_trusted_friends_list_member).map(u => u.result));
+        }).catch(e => {
+            reject(e);
+        });
+    });
+};
+API.trustedFriendsTypeahead = (circle_id, query) => {
+    return new Promise((resolve, reject) => {
+        let variables = {"trustedFriendsId": circle_id, "prefix": query};
+        fetch(`https://twitter.com/i/api/graphql/4lk-D0Y8kfimSyPJjEocsA/TrustedFriendsTypeahead?variables=${encodeURIComponent(JSON.stringify(variables))}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data.data.trusted_friends_list_by_rest_id.recommended_members_typeahead_results.map(i => i.result));
+        }).catch(e => {
+            reject(e);
+        });
+    });
+};
+API.removeUserFromCircle = (circle_id, circle_rest_id, item_id, user_id) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/fl9NbcQB1UE5uiYvEHfHGA/TrustedFriendsAddRemoveButtonRemoveMutation`, {
+            method: "POST",
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                variables: {
+                    trustedFriendsId: circle_rest_id,
+                    userId: user_id,
+                    slices: [
+                        `client:${circle_id}=:__TrustedFriendsMembers_slice_result_slice`
+                    ],
+                    itemID: item_id
+                },
+                features: {"responsive_web_graphql_timeline_navigation_enabled":false},
+                queryId: "fl9NbcQB1UE5uiYvEHfHGA"
+            })
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(true);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+};
+API.addUserToCircle = (circle_id, circle_rest_id, user_id) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/QFcDZhljP_e9bzeT8saZ3A/TrustedFriendsAddRemoveButtonAddMutation`, {
+            method: "POST",
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                variables: {
+                    trustedFriendsId: circle_rest_id,
+                    userId: user_id,
+                    slices: [
+                        `client:${circle_id}=:__TrustedFriendsMembers_slice_result_slice`
+                    ],
+                },
+                features: {"responsive_web_graphql_timeline_navigation_enabled":false},
+                queryId: "QFcDZhljP_e9bzeT8saZ3A"
+            })
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(true);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+};

@@ -10,6 +10,8 @@ let seenTweets = [];
 let mediaToUpload = [];
 let pollToUpload = undefined;
 let linkColors = {};
+let circles = [];
+let selectedCircle = undefined;
 let vars;
 let algoCursor;
 chrome.storage.local.get(['installed'], async data => {
@@ -132,6 +134,16 @@ async function updateTimeline() {
             timeline.toBeUpdated = 0;
             timeline.dataToUpdate = [];
         }
+    }
+}
+async function updateCircles() {
+    let circlesList = document.getElementById('new-tweet-audience-input');
+    circles = await API.getCircles();
+    for(let i in circles) {
+        let option = document.createElement('option');
+        option.value = circles[i].rest_id;
+        option.innerText = circles[i].name;
+        circlesList.appendChild(option);
     }
 }
 
@@ -547,6 +559,7 @@ setTimeout(async () => {
     });
     document.getElementById('new-tweet').addEventListener('click', async () => {
         document.getElementById('new-tweet-focused').hidden = false;
+        document.getElementById('new-tweet-audience').hidden = false;
         document.getElementById('new-tweet-char').hidden = false;
         document.getElementById('new-tweet-text').classList.add('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
@@ -736,59 +749,139 @@ setTimeout(async () => {
             }
         }
     });
+    document.getElementById('new-tweet-audience-input').addEventListener('change', e => {
+        let val = e.target.value;
+        if(val === 'everyone') {
+            selectedCircle = undefined;
+            document.getElementById('new-tweet-circle-people').hidden = true;
+        } else {
+            let circle = circles.find(c => c.rest_id === val);
+            selectedCircle = circle;
+            document.getElementById('new-tweet-circle-people-count').innerText = circle.member_count;
+            document.getElementById('new-tweet-circle-people').hidden = false;
+        }
+    });
+    document.getElementById('new-tweet-circle-edit').addEventListener('click', async () => {
+        let modal = createModal(/*html*/`
+            <div class="modal-top">
+                <div class="circle-menu-selector">
+                    <span class="larger nice-header circle-menu-selector-selected circle-menu-edit_members" style="float: left;margin-left: 14px;">${LOC.edit_members.message}</span>
+                    <span class="larger nice-header circle-menu-search_people" style="float: left;margin-left: 14px;">${LOC.search_people.message}</span>
+                </div>
+                <br>
+                <input type="text" class="circle-user-search" placeholder="${LOC.search_people.message}" style="width: 448px;margin-top:5px;display:none">
+                <hr>
+            </div>
+            <br><br><br><br><br>
+            <div class="circle-members" style="margin-top: -33px;"></div>
+            <div class="circle-search" hidden></div>
+        `);
+        let circleMembers = modal.querySelector('.circle-members');
+        let circleSearch = modal.querySelector('.circle-search');
+        let userSearch = modal.querySelector('.circle-user-search');
+
+        function renderMembers(members) {
+            members.forEach(u => {
+                let userElement = document.createElement('div');
+                userElement.className = 'circle-user';
+                userElement.innerHTML = /*html*/`
+                    <a href="/${u.legacy.screen_name}" target="_blank" style="text-decoration:none!important">
+                        <img class="new-message-user-avatar" src="${u.legacy.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48">
+                        <div class="new-message-user-text">
+                            <b class="new-message-user-name">${escapeHTML(u.legacy.name)}</b>
+                            <span class="new-message-user-screenname">@${u.legacy.screen_name}</span>
+                        </div>
+                    </a>
+                    <button class="nice-button circle-control-btn">${LOC.remove.message}</button>
+                `;
+                userElement.querySelector('.circle-control-btn').addEventListener('click', async () => {
+                    await API.removeUserFromCircle(selectedCircle.id, selectedCircle.rest_id, u.id, u.legacy.id_str);
+                    userElement.remove();
+                    document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) - 1;
+                });
+                circleMembers.appendChild(userElement);
+            });
+        }
+
+        let members = await API.getCircleMembers(selectedCircle.rest_id);
+        renderMembers(members);
+        userSearch.addEventListener('keyup', async () => {
+            let q = userSearch.value;
+            let res = await API.trustedFriendsTypeahead(selectedCircle.rest_id, q);
+            circleSearch.innerHTML = '';
+            res.slice(0, 5).forEach(u => {
+                let userElement = document.createElement('div');
+                userElement.classList.add('circle-user');
+                userElement.innerHTML = /*html*/`
+                    <a href="/${u.legacy.screen_name}" target="_blank" style="text-decoration:none!important">
+                        <img class="new-message-user-avatar" src="${u.legacy.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48">
+                        <div class="new-message-user-text">
+                            <b class="new-message-user-name">${escapeHTML(u.legacy.name)}</b>
+                            <span class="new-message-user-screenname">@${u.legacy.screen_name}</span>
+                        </div>
+                    </a>
+                    <button class="nice-button circle-control-btn">${u.is_trusted_friends_list_member ? LOC.remove.message : LOC.add.message}</button>
+                `;
+                userElement.querySelector('.circle-control-btn').addEventListener('click', async e => {
+                    if(u.is_trusted_friends_list_member) {
+                        await API.removeUserFromCircle(selectedCircle.id, selectedCircle.rest_id, u.id, u.rest_id);
+                        e.target.innerText = LOC.add.message;
+                        document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) - 1;
+                    } else {
+                        await API.addUserToCircle(selectedCircle.id, selectedCircle.rest_id, u.rest_id);
+                        e.target.innerText = LOC.remove.message;
+                        document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) + 1;
+                    }
+                });
+                circleSearch.appendChild(userElement);
+            });
+        });
+
+        modal.querySelector('.circle-menu-edit_members').addEventListener('click', async () => {
+            modal.querySelector('.circle-menu-edit_members').classList.add('circle-menu-selector-selected');
+            modal.querySelector('.circle-menu-search_people').classList.remove('circle-menu-selector-selected');
+            modal.querySelector('.circle-search').hidden = true;
+            circleMembers.innerHTML = '';
+            circleMembers.hidden = false;
+            userSearch.style.display = 'none';
+            let members = await API.getCircleMembers(selectedCircle.rest_id);
+            renderMembers(members);
+        });
+        modal.querySelector('.circle-menu-search_people').addEventListener('click', async () => {
+            modal.querySelector('.circle-menu-search_people').classList.add('circle-menu-selector-selected');
+            modal.querySelector('.circle-menu-edit_members').classList.remove('circle-menu-selector-selected');
+            circleMembers.hidden = true;
+            userSearch.style.display = 'block';
+            modal.querySelector('.circle-search').hidden = false;
+        });
+    });
     document.getElementById('new-tweet-button').addEventListener('click', async () => {
         let tweet = document.getElementById('new-tweet-text').value;
         if (tweet.length === 0 && mediaToUpload.length === 0) return;
         document.getElementById('new-tweet-button').disabled = true;
-        if(!pollToUpload) {
-            let uploadedMedia = [];
-            for (let i in mediaToUpload) {
-                let media = mediaToUpload[i];
-                try {
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                    let mediaId = await API.uploadMedia({
-                        media_type: media.type,
-                        media_category: media.category,
-                        media: media.data,
-                        alt: media.alt,
-                        loadCallback: data => {
-                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                        }
-                    });
-                    uploadedMedia.push(mediaId);
-                } catch (e) {
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
-                    console.error(e);
-                    alert(e);
-                }
-            }
-            let tweetObject = {
-                status: tweet,
-                auto_populate_reply_metadata: true,
-                batch_mode: 'off',
-                exclude_reply_user_ids: '',
-                cards_platform: 'Web-13',
-                include_entities: 1,
-                include_user_entities: 1,
-                include_cards: 1,
-                send_error_codes: 1,
-                tweet_mode: 'extended',
-                include_ext_alt_text: true,
-                include_reply_count: true
-            };
-            if (uploadedMedia.length > 0) {
-                tweetObject.media_ids = uploadedMedia.join(',');
-            }
+        let uploadedMedia = [];
+        for (let i in mediaToUpload) {
+            let media = mediaToUpload[i];
             try {
-                let tweet = await API.postTweet(tweetObject);
-                appendTweet(tweet, document.getElementById('timeline'), {
-                    prepend: true
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                let mediaId = await API.uploadMedia({
+                    media_type: media.type,
+                    media_category: media.category,
+                    media: media.data,
+                    alt: media.alt,
+                    loadCallback: data => {
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                    }
                 });
+                uploadedMedia.push(mediaId);
             } catch (e) {
-                document.getElementById('new-tweet-button').disabled = false;
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
                 console.error(e);
+                alert(e);
             }
-        } else {
+        }
+        let card;
+        if(pollToUpload) {
             let pollVariants = pollToUpload.variants.filter(i => i);
             if(pollVariants.length < 2) {
                 document.getElementById('new-tweet-button').disabled = false;
@@ -807,43 +900,52 @@ setTimeout(async () => {
             if(pollVariants[3]) {
                 cardObject["twitter:string:choice4_label"] = pollVariants[3];
             }
-            try {
-                let card = await API.createCard(cardObject);
-                let tweetObject = await API.postTweetV2({
-                    "variables": {
-                        "tweet_text": tweet,
-                        "card_uri": card.card_uri,
-                        "media": {
-                            "media_entities": [],
-                            "possibly_sensitive": false
-                        },
-                        "withDownvotePerspective": false,
-                        "withReactionsMetadata": false,
-                        "withReactionsPerspective": false,
-                        "withSuperFollowsTweetFields": true,
-                        "withSuperFollowsUserFields": true,
-                        "semantic_annotation_ids": [],
-                        "dark_request": false
-                    },
-                    "features": {
-                        "dont_mention_me_view_api_enabled": true,
-                        "interactive_text_enabled": true,
-                        "responsive_web_uc_gql_enabled": false,
-                        "vibe_api_enabled": false,
-                        "responsive_web_edit_tweet_api_enabled": false,
-                        "standardized_nudges_misinfo": true,
-                        "responsive_web_enhance_cards_enabled": false
-                    },
-                    "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
-                });
-                tweetObject._ARTIFICIAL = true;
-                appendTweet(tweetObject, document.getElementById('timeline'), {
-                    prepend: true
-                });
-            } catch (e) {
-                console.error(e);
-                alert(e);
+            card = await API.createCard(cardObject);
+        }
+        try {
+            let variables = {
+                "tweet_text": tweet,
+                "media": {
+                    "media_entities": [],
+                    "possibly_sensitive": false
+                },
+                "withDownvotePerspective": false,
+                "withReactionsMetadata": false,
+                "withReactionsPerspective": false,
+                "withSuperFollowsTweetFields": true,
+                "withSuperFollowsUserFields": true,
+                "semantic_annotation_ids": [],
+                "dark_request": false
+            };
+            if(card) {
+                variables.card_uri = card.card_uri;
             }
+            if(selectedCircle) {
+                variables.trusted_friends_control_options = { "trusted_friends_list_id": selectedCircle.rest_id };
+            }
+            if(uploadedMedia.length > 0) {
+                variables.media.media_entities = uploadedMedia.map(i => ({media_id: i, tagged_users: []}));
+            }
+            let tweetObject = await API.postTweetV2({
+                "variables": variables,
+                "features": {
+                    "dont_mention_me_view_api_enabled": true,
+                    "interactive_text_enabled": true,
+                    "responsive_web_uc_gql_enabled": false,
+                    "vibe_api_enabled": false,
+                    "responsive_web_edit_tweet_api_enabled": false,
+                    "standardized_nudges_misinfo": true,
+                    "responsive_web_enhance_cards_enabled": false
+                },
+                "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
+            });
+            tweetObject._ARTIFICIAL = true;
+            appendTweet(tweetObject, document.getElementById('timeline'), {
+                prepend: true
+            });
+        } catch (e) {
+            console.error(e);
+            alert(e);
         }
         document.getElementById('new-tweet-text').value = "";
         document.getElementById('new-tweet-media-c').innerHTML = "";
@@ -853,6 +955,7 @@ setTimeout(async () => {
         document.getElementById('new-tweet-poll').style.width = '0';
         document.getElementById('new-tweet-poll').hidden = true;
         document.getElementById('new-tweet-focused').hidden = true;
+        document.getElementById('new-tweet-audience').hidden = true;
         document.getElementById('new-tweet-char').hidden = true;
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
@@ -882,6 +985,7 @@ setTimeout(async () => {
 
     // Run
     updateUserData();
+    updateCircles();
     updateTimeline();
     renderDiscovery();
     renderTrends();
