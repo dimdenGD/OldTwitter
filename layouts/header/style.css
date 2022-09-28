@@ -169,7 +169,7 @@ input, textarea {
     bottom: 41px;
     display: inline-flex;
     z-index: 98;
-    margin-right: 15px;
+    margin-right: 25px;
 }
 
 #search-input {

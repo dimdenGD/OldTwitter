@@ -793,7 +793,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             <div class="tweet-reply" hidden>
                 <br>
-                <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
+                <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                 <span class="tweet-reply-error" style="color:red"></span>
                 <textarea maxlength="280" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
                 <button class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>

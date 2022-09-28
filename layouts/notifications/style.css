@@ -609,6 +609,19 @@ a:hover,
         display: none;
     }
 }
+@media screen and (max-width: 1075px) {
+    .notification-switch {
+        padding-right: 100px !important;
+    }
+    #notification-switches {
+        width: 200px !important;
+    }
+}
+@media screen and (max-width: 966px) {
+    #about {
+        display: none;
+    }
+}
 
 .wtf-user {
     display: inline-block;

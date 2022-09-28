@@ -648,6 +648,11 @@ a:hover,
         display: none;
     }
 }
+@media screen and (max-width: 982px) {
+    #about {
+        display: none;
+    }
+}
 
 .wtf-user {
     display: inline-block;

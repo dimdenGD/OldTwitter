@@ -81,7 +81,6 @@ body {
 
 #profile-nav-right-cell {
     height: fit-content;
-    margin-left: 10px;
     margin-right: 10px;
     width: 272px
 }
@@ -634,7 +633,16 @@ a:hover,
         display: none;
     }
 }
-
+@media screen and (max-width: 1052px) {
+    #trends {
+        display: none;
+    }
+}
+@media screen and (max-width: 994px) {
+    #about {
+        display: none;
+    }
+}
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px

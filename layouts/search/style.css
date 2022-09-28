@@ -627,8 +627,21 @@ a:hover,
 }
 
 @media screen and (max-width: 1195px) {
-
     #wtf {
+        display: none
+    }
+}
+@media screen and (max-width: 1060px) {
+    .search-switch {
+        font-size: 15px;
+        padding-right: 50px !important;
+    }
+    .search-switches {
+        width: 200px !important;
+    }
+}
+@media screen and (max-width: 1012px) {
+    #about {
         display: none
     }
 }
