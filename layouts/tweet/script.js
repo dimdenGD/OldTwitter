@@ -223,7 +223,7 @@ async function updateLikes(id, c) {
         tweet.style.marginBottom = '10px';
         tweet.style.borderRadius = '5px';
         let h1 = document.createElement('h1');
-        h1.innerText = `Liked by`;
+        h1.innerText = LOC.liked_by.message;
         h1.className = 'cool-header';
         likeDiv.appendChild(h1);
     }
@@ -243,7 +243,7 @@ async function updateLikes(id, c) {
             </a>
         </div>
         <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
         </div>`;
 
         let followButton = likeElement.querySelector('.following-item-btn');
@@ -252,12 +252,12 @@ async function updateLikes(id, c) {
                 await API.unfollowUser(u.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
+                followButton.innerText = LOC.follow.message;
             } else {
                 await API.followUser(u.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
-                followButton.innerText = 'Following';
+                followButton.innerText = LOC.following_btn.message;
             }
         });
 
@@ -291,7 +291,7 @@ async function updateRetweets(id, c) {
         tweet.style.marginBottom = '10px';
         tweet.style.borderRadius = '5px';
         let h1 = document.createElement('h1');
-        h1.innerHTML = `Retweeted by (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">see quotes</a>)`;
+        h1.innerHTML = `${LOC.retweeted_by.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
         h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
@@ -329,7 +329,7 @@ async function updateRetweets(id, c) {
             </a>
         </div>
         <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
         </div>`;
 
         let followButton = retweetElement.querySelector('.following-item-btn');
@@ -338,12 +338,12 @@ async function updateRetweets(id, c) {
                 await API.unfollowUser(u.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
+                followButton.innerText = LOC.follow.message;
             } else {
                 await API.followUser(u.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
-                followButton.innerText = 'Following';
+                followButton.innerText = LOC.following_btn.message;
             }
         });
 
@@ -367,7 +367,7 @@ async function updateRetweetsWithComments(id, c) {
         let t = await API.getTweet(id);
         retweetDiv.innerHTML = '';
         let h1 = document.createElement('h1');
-        h1.innerHTML = `Quote tweets (<a href="https://twitter.com/aabehhh/status/${id}/retweets">see retweets</a>)`;
+        h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
         h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
@@ -435,14 +435,14 @@ async function appendComposeComponent(container, replyTweet) {
         <div id="new-tweet" class="box">
             <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
             <span id="new-tweet-char" hidden>0/280</span>
-            <textarea id="new-tweet-text" placeholder="Reply to @${replyTweet.user.screen_name}" maxlength="280"></textarea>
+            <textarea id="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="280"></textarea>
             <div id="new-tweet-user-search" class="box" hidden></div>
             <div id="new-tweet-media-div">
                 <span id="new-tweet-media"></span>
             </div>
             <div id="new-tweet-focused" hidden>
                 <div id="new-tweet-media-cc"><div id="new-tweet-media-c"></div></div>
-                <button id="new-tweet-button" class="nice-button">Tweet</button>
+                <button id="new-tweet-button" class="nice-button">${LOC.tweet.message}</button>
                 <br><br>
             </div>
         </div>`;
@@ -665,31 +665,6 @@ async function appendTombstone(timelineContainer, text) {
 let loadingNewTweets = false;
 let lastTweetDate = 0;
 let activeTweet;
-document.addEventListener('scroll', async () => {
-    // find active tweet by scroll amount
-    if(Date.now() - lastTweetDate > 50) {
-        lastTweetDate = Date.now();
-        let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-        if(activeTweet) {
-            activeTweet.classList.remove('tweet-active');
-        }
-        let scrollPoint = scrollY + innerHeight/2;
-        activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-        if(activeTweet) {
-            activeTweet.classList.add('tweet-active');
-        }
-    }
-
-    // loading new tweets
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
-        if (!cursor || loadingNewTweets) return;
-        loadingNewTweets = true;
-        let path = location.pathname;
-        if(path.endsWith('/')) path = path.slice(0, -1);
-        updateReplies(path.split('/').slice(-1)[0], cursor);
-    }
-}, { passive: true });
 
 document.addEventListener('clearActiveTweet', () => {
     if(activeTweet) {
@@ -890,6 +865,32 @@ setTimeout(async () => {
         let id = location.pathname.match(/status\/(\d{1,32})/)[1];
         updateRetweetsWithComments(id, retweetCommentsCursor);
     });
+
+    document.addEventListener('scroll', async () => {
+        // find active tweet by scroll amount
+        if(Date.now() - lastTweetDate > 50) {
+            lastTweetDate = Date.now();
+            let tweets = Array.from(document.getElementsByClassName('tweet'));
+    
+            if(activeTweet) {
+                activeTweet.classList.remove('tweet-active');
+            }
+            let scrollPoint = scrollY + innerHeight/2;
+            activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
+            if(activeTweet) {
+                activeTweet.classList.add('tweet-active');
+            }
+        }
+    
+        // loading new tweets
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
+            if (!cursor || loadingNewTweets) return;
+            loadingNewTweets = true;
+            let path = location.pathname;
+            if(path.endsWith('/')) path = path.slice(0, -1);
+            updateReplies(path.split('/').slice(-1)[0], cursor);
+        }
+    }, { passive: true });    
     
     // Update dates every minute
     setInterval(() => {
@@ -942,7 +943,7 @@ setTimeout(async () => {
             await updateReplies(id);
         } catch(e) {
             console.error(e);
-            appendTombstone(document.getElementById('timeline'), "Error loading tweet.");
+            appendTombstone(document.getElementById('timeline'), LOC.error_loading_tweet.message);
             document.getElementById('loading-box').hidden = true;
         }
     } else if(subpage === 'likes') {

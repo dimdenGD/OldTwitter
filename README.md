@@ -89,3 +89,15 @@ These hotkeys work only when reply/quote box is opened.
 These will work when reply/quote/new tweet modal is focused.  
 `ALT+M` - upload media.  
 `ALT+F` - remove first uploaded media.   
+
+## Translations
+English - [dimden](https://dimden.dev/)  
+Russian - [dimden](https://dimden.dev/)  
+Ukrainian - [dimden](https://dimden.dev/)  
+French - [Aurore C.](https://asuure.com/)  
+Portuguese (Brazil) - [dzshn](https://dzshn.xyz/)  
+Spanish - [rogerpb98](https://twitter.com/anbulansia)  
+Greek - [VasilisTheChu](https://pikachu.systems/)  
+Romanian - [Skylar](https://143.dust.moe/)  
+Tagalog - [Eurasian](https://twitter.com/NotPROxV)  
+Latvian - [yourfriend](https://3.141.lv/)  

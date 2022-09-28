@@ -75,6 +75,9 @@ body {
     width: 195px;
     overflow-x: hidden;
     color: var(--almost-black);
+    overflow-y: hidden;
+    height: 24px;
+    white-space: nowrap;
 }
 #user-handle {
     margin: 0;
@@ -96,6 +99,7 @@ body {
     font-weight: 100;
     text-transform: uppercase;
     margin: 0 10px;
+    white-space: nowrap;
 }
 .user-stat-div > h1 {
     margin: 0 10px;

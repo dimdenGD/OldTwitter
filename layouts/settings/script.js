@@ -57,7 +57,7 @@ setTimeout(async () => {
     vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
         'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
-        'noBigFont'], data => {
+        'noBigFont', 'language'], data => {
             resolve(data);
         });
     });
@@ -115,6 +115,7 @@ setTimeout(async () => {
     let preferredQuality = document.getElementById('preferred-quality');
     let preferredQualityInput = document.getElementById('preferred-quality-input');
     let noBigFont = document.getElementById('no-big-font');
+    let language = document.getElementById('language');
 
     let root = document.querySelector(":root");
 
@@ -182,6 +183,13 @@ setTimeout(async () => {
             noBigFont: noBigFont.checked
         }, () => { });
     });
+    language.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            language: language.value
+        }, () => {
+            location.reload();
+        });
+    });
     darkMode.addEventListener('change', () => {
         let event = new CustomEvent('darkMode', { detail: darkMode.checked });
         document.dispatchEvent(event);
@@ -217,13 +225,13 @@ setTimeout(async () => {
                 }
             }).then(i => i.text());
             if(res === 'error') {
-                alert('Error setting link color');
+                alert(LOC.error_setting_color.message);
             } else {
-                alert('Link color set!');
+                alert(LOC.link_color_set.message);
             }
         } catch(e) {
             console.error(e);
-            alert('Error setting link color');
+            alert(LOC.error_setting_color.message);
         } finally {
             sync.disabled = false;
             API.deleteTweet(tweet.id_str);
@@ -279,6 +287,7 @@ setTimeout(async () => {
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     preferredQuality.hidden = !savePreferredQuality.checked;
     preferredQualityInput.value = localStorage.preferredQuality ? localStorage.preferredQuality + 'p' : 'highest';
+    language.value = vars.language;
 
     // Run
     API.getSettings().then(async s => {

@@ -11,6 +11,7 @@ let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
 let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor;
 let vars;
+
 chrome.storage.local.get(['installed'], async data => {
     if (!data.installed) {
         let dimden = await API.getUserV2('dimdenEFF');
@@ -18,22 +19,22 @@ chrome.storage.local.get(['installed'], async data => {
             let modal = createModal(`
                 <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
                 <span style="font-size:14px">
-                    Thank you for installing OldTwitter!! I hope you'll like it. Check <a target="_blank" href="https://twitter.com/old/settings">extension settings</a>!<br><br>
-                    <a href="https://twitter.com/dimdenEFF">Follow me maybe? 👉👈</a><br><br>
+                    ${LOC.thank_you.message}<br><br>
+                    <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
                     <div class="dimden">
                         <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
                         <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
                             <b class="tweet-header-name">${dimden.name}</b>
                             <span class="tweet-header-handle">@${dimden.screen_name}</span>
                         </a><br>
-                        <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">Follow</button>
+                        <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
                     </div>
                 </span>
             `);
             let followButton = modal.querySelector('.follow');
             followButton.addEventListener('click', () => {
                 API.followUser('dimdenEFF').then(() => {
-                    alert("Thank you for following me!!");
+                    alert(LOC.thank_you_follow.message);
                     modal.remove();
                 }).catch(e => {
                     console.error(e);
@@ -208,25 +209,25 @@ function updateUserData() {
             API.verifyCredentials()
         ]).catch(e => {
             if(String(e).includes('User has been suspended.')) {
-                return document.getElementById('loading-box-error').innerHTML = `User was suspended.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_suspended.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
             }
             if(String(e).includes("reading 'result'")) {
-                return document.getElementById('loading-box-error').innerHTML = `User was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
             }
-            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         });
         if(oldUser.reason) {
             let e = oldUser.reason;
             if(String(e).includes('User has been suspended.')) {
-                return document.getElementById('loading-box-error').innerHTML = `User was suspended.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_suspended.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
             }
         }
         if(pageUserData.reason) {
             let e = pageUserData.reason;
             if(String(e).includes("reading 'result'")) {
-                return document.getElementById('loading-box-error').innerHTML = `User was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
             }
-            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         }
         pageUserData = pageUserData.value;
         customColor = customColor.value;
@@ -261,8 +262,13 @@ function updateUserData() {
             }
             if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
         }
-        if(pageUser.id_str !== user.id_str) followersYouFollow = followersYouFollowData;
-        else followersYouFollow = undefined;
+        if(pageUser.id_str !== user.id_str) {
+            followersYouFollow = followersYouFollowData;
+            document.getElementById('profile-friends-text').style.display = 'unset';
+        } else {
+            followersYouFollow = undefined;
+            document.getElementById('profile-friends-text').style.display = 'none';
+        }
         renderProfile();
         try {
             pinnedTweet = pageUser.pinned_tweet_ids_str;
@@ -284,7 +290,7 @@ function updateUserData() {
 
 async function updateTimeline() {
     seenThreads = [];
-    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
+    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.loading_tweets.message}</span>`;
     let tl;
     if(subpage === "likes") {
         let data = await API.getFavorites(pageUser.id_str);
@@ -299,7 +305,7 @@ async function updateTimeline() {
         }
     }
     if(tl.error === "Not authorized.") {
-        document.getElementById('timeline').innerHTML = `<div class="error">You are not authorized to view this user's timeline.</div>`;
+        document.getElementById('timeline').innerHTML = `<div class="error">${LOC.timeline_not_authorized.message}</div>`;
         return document.getElementById('loading-box').hidden = true;
     }
     tl.forEach(t => {
@@ -328,10 +334,15 @@ async function updateTimeline() {
 
 async function renderFollowing(clear = true, cursor) {
     let followingList = document.getElementById('following-list');
-    if(clear) followingList.innerHTML = '<h1 class="nice-header">Following</h1>';
+    if(clear) followingList.innerHTML = `<h1 class="nice-header">${LOC.following.message}</h1>`;
     let following = await API.getFollowing(pageUser.id_str, cursor);
     followingCursor = following.cursor;
     following = following.list;
+    if(following.length === 0) {
+        document.getElementById('following-more').hidden = true;
+    } else {
+        document.getElementById('following-more').hidden = false;
+    }
     following.forEach(u => {
         let followingElement = document.createElement('div');
         followingElement.classList.add('following-item');
@@ -346,7 +357,7 @@ async function renderFollowing(clear = true, cursor) {
             </a>
         </div>
         <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
         </div>`;
 
         let followButton = followingElement.querySelector('.following-item-btn');
@@ -355,12 +366,12 @@ async function renderFollowing(clear = true, cursor) {
                 await API.unfollowUser(u.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
+                followButton.innerText = LOC.follow.message;
             } else {
                 await API.followUser(u.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
-                followButton.innerText = 'Following';
+                followButton.innerText = LOC.following_btn.message;
             }
         });
 
@@ -374,6 +385,11 @@ async function renderFollowers(clear = true, cursor) {
     let following = await API.getFollowers(pageUser.id_str, cursor);
     followersCursor = following.cursor;
     following = following.list;
+    if(following.length === 0) {
+        document.getElementById('followers-more').hidden = true;
+    } else {
+        document.getElementById('followers-more').hidden = false;
+    }
     following.forEach(u => {
         let followingElement = document.createElement('div');
         followingElement.classList.add('following-item');
@@ -388,7 +404,7 @@ async function renderFollowers(clear = true, cursor) {
             </a>
         </div>
         <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
         </div>`;
 
         let followButton = followingElement.querySelector('.following-item-btn');
@@ -397,12 +413,12 @@ async function renderFollowers(clear = true, cursor) {
                 await API.unfollowUser(u.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
+                followButton.innerText = LOC.follow.message;
             } else {
                 await API.followUser(u.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
-                followButton.innerText = 'Following';
+                followButton.innerText = LOC.following_btn.message;
             }
         });
 
@@ -416,6 +432,11 @@ async function renderFollowersYouFollow(clear = true, cursor) {
     let following = await API.getFollowersYouFollow(pageUser.id_str, cursor);
     followersYouKnowCursor = following.cursor;
     following = following.list;
+    if(following.length === 0) {
+        document.getElementById('followers_you_follow-more').hidden = true;
+    } else {
+        document.getElementById('followers_you_follow-more').hidden = false;
+    }
     following.forEach(u => {
         let followingElement = document.createElement('div');
         followingElement.classList.add('following-item');
@@ -430,7 +451,7 @@ async function renderFollowersYouFollow(clear = true, cursor) {
             </a>
         </div>
         <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
         </div>`;
 
         let followButton = followingElement.querySelector('.following-item-btn');
@@ -439,12 +460,12 @@ async function renderFollowersYouFollow(clear = true, cursor) {
                 await API.unfollowUser(u.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
+                followButton.innerText = LOC.follow.message;
             } else {
                 await API.followUser(u.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
-                followButton.innerText = 'Following';
+                followButton.innerText = LOC.following_btn.message;
             }
         });
 
@@ -455,20 +476,20 @@ async function renderFollowersYouFollow(clear = true, cursor) {
 async function renderLists() {
     let lists = pageUser.id_str === user.id_str ? await API.getMyLists() : await API.getUserLists(pageUser.id_str);
     let listsList = document.getElementById('lists-list');
-    listsList.innerHTML = `<h1 class="nice-header">Lists</h1>`;
+    listsList.innerHTML = `<h1 class="nice-header">${LOC.lists.message}</h1>`;
     if(pageUser.id_str === user.id_str) {
-        listsList.innerHTML += `<h1 class="nice-header" style="float:right;cursor:pointer" id="create-list">[create]</h1>`;
+        listsList.innerHTML += `<h1 class="nice-header" style="float:right;cursor:pointer" id="create-list">${LOC.create_btn.message}</h1>`;
         document.getElementById('create-list').addEventListener('click', () => {
             let modal = createModal(`
                 <div id="list-creator">
-                    <h1 class="cool-header">Create list</h1><br>
+                    <h1 class="cool-header">${LOC.create_list.message}</h1><br>
                     <span id="list-editor-error" style="color:red"></span><br>
-                    Name:<br><input maxlength="25" type="text" id="list-name-input"><br><br>
-                    Description:<br><textarea maxlength="100" type="text" id="list-description-input"></textarea><br>
+                    ${LOC.name.message}:<br><input maxlength="25" type="text" id="list-name-input"><br><br>
+                    ${LOC.description.message}:<br><textarea maxlength="100" type="text" id="list-description-input"></textarea><br>
                     <br>
                     Is private: <input type="checkbox" style="width: 15px;" id="list-private-input"><br>
                     <br>
-                    <button class="nice-button" id="list-btn-create">Create</button> 
+                    <button class="nice-button" id="list-btn-create">${LOC.create.message}</button> 
                 </div>
             `, 'list-creator-modal');
             document.getElementById('list-btn-create').addEventListener('click', async () => {
@@ -493,7 +514,7 @@ async function renderLists() {
                     <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                     <div class="following-item-text" style="position: relative;bottom: 12px;">
                         <span class="tweet-header-name following-item-name${l.mode === 'Private' ? ' user-protected' : ''}" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
-                        <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : 'No description'}</span>
+                        <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : LOC.no_description.message}</span>
                     </div>
                 </a>
             </div>
@@ -503,7 +524,7 @@ async function renderLists() {
     document.getElementById('loading-box').hidden = true;
 }
 
-let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+let months = [LOC.january.message, LOC.february.message, LOC.march.message, LOC.april.message, LOC.may.message, LOC.june.message, LOC.july.message, LOC.august.message, LOC.september.message, LOC.october.message, LOC.november.message, LOC.december.message];
 let everAddedAdditional = false;
 async function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
@@ -520,7 +541,7 @@ async function renderProfile() {
     document.getElementById('profile-name').innerText = pageUser.name;
     document.getElementById('nav-profile-name').innerText = pageUser.name;
     document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal.', '_400x400.');;
-    document.getElementById('tweet-to').innerText = `Tweet to ${pageUser.name}`;
+    document.getElementById('tweet-to').innerText = `${LOC.tweet_to.message} ${pageUser.name}`;
 
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
@@ -545,8 +566,8 @@ async function renderProfile() {
 
     document.getElementById('profile-bio').innerHTML = escapeHTML(pageUser.description).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`);
     let textWithoutLinks = pageUser.description.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
-    let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
-    isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
+    let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
+    isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith(LANGUAGE);
     let at = false;
     if(!isEnglish) {
         let translateBtn = document.createElement('span');
@@ -558,13 +579,13 @@ async function renderProfile() {
             let span = document.createElement('span');
             span.innerHTML = `
                 <br>
-                <span class='piu-a'>Translated from [${translated.localizedSourceLanguage}]</span>
+                <span class='piu-a'>${LOC.translated_from.message} [${translated.localizedSourceLanguage}]</span>
                 <span>${escapeHTML(translated.translation)}</span>
             `;
             document.getElementById('profile-bio').append(span);
             if(vars.enableTwemoji) twemoji.parse(span);
         });
-        translateBtn.innerText = "Translate bio";
+        translateBtn.innerText = LOC.translate_bio.message;
         document.getElementById('profile-bio').append(document.createElement('br'), translateBtn);
     }
     
@@ -586,14 +607,14 @@ async function renderProfile() {
                 <div class="navbar-new-tweet">
                     <img width="35" height="35" class="navbar-new-tweet-avatar">
                     <span class="navbar-new-tweet-char">0/280</span>
-                    <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="Tweet to @${pageUser.screen_name}">@${pageUser.screen_name} </textarea>
+                    <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="${LOC.tweet_to.message} @${pageUser.screen_name}">@${pageUser.screen_name} </textarea>
                     <div class="navbar-new-tweet-user-search" class="box" hidden></div>
                     <div class="navbar-new-tweet-media-div">
                         <span class="navbar-new-tweet-media"></span>
                     </div>
                     <div class="navbar-new-tweet-focused">
                         <div class="navbar-new-tweet-media-cc"><div class="navbar-new-tweet-media-c"></div></div>
-                        <button class="navbar-new-tweet-button nice-button">Tweet</button>
+                        <button class="navbar-new-tweet-button nice-button">${LOC.tweet.message}</button>
                         <br><br>
                     </div>
                 </div>
@@ -766,15 +787,15 @@ async function renderProfile() {
         let friendsFollowing = document.getElementById('profile-friends-following');
         let friendsFollowingList = document.getElementById('profile-friends-div');
         let friendsFollowingText = document.getElementById('profile-friends-text');
-        friendsFollowingText.innerText = `${followersYouFollow.total_count} followers you know`;
+        friendsFollowingText.innerText = `${followersYouFollow.total_count} ${LOC.followers_you_know.message}`;
         friendsFollowingText.href = `https://twitter.com/${pageUser.screen_name}/followers_you_follow`;
         followersYouFollow.users.forEach(u => {
             let a = document.createElement('a');
             a.href = `/${u.screen_name}`;
             let avatar = document.createElement('img');
             avatar.src = u.profile_image_url_https.replace('_normal', '_bigger');
-            avatar.width = 48;
-            avatar.height = 48;
+            avatar.width = 45;
+            avatar.height = 45;
             avatar.title = u.name + ' (@' + u.screen_name + ')';
             avatar.classList.add('profile-friends-avatar');
             a.append(avatar);
@@ -785,26 +806,26 @@ async function renderProfile() {
 
     let buttonsElement = document.getElementById('profile-nav-buttons');
     if(pageUser.id_str === user.id_str) {
-        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://mobile.twitter.com/settings/profile">Edit Profile</a>`;
+        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://mobile.twitter.com/settings/profile">${LOC.edit_profile.message}</a>`;
     } else {
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`
-            <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? 'Follow request sent' : 'Following') : 'Follow'}</button>
-            <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>Unblock</button>
+            <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? LOC.follow_request_sent.message : LOC.following_btn.message) : LOC.follow.message}</button>
+            <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>${LOC.unblock.message}</button>
             <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user"></a>
         `;
         buttonsElement.innerHTML += /*html*/`
             <span class="profile-additional-thing" id="profile-settings"></span>
             <div id="profile-settings-div" hidden>
-                <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications? `Stop getting notifications` : `Receive notifications`}<br></span>
-                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `Unblock @${pageUser.screen_name}` : `Block @${pageUser.screen_name}`}<br></span>
-                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? `Stop ignoring` : `Ignore`}<br></span>
-                ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">Remove from followers</span><br>` : ''}
-                <span id="profile-settings-lists-action" style="width: 100%;">Add/remove from list<br></span>
+                <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications ? LOC.stop_notifications.message : LOC.receive_notifications.message}<br></span>
+                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `${LOC.unblock_user.message} @${pageUser.screen_name}` : `${LOC.block_user.message} @${pageUser.screen_name}`}<br></span>
+                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}<br></span>
+                ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span><br>` : ''}
+                <span id="profile-settings-lists-action" style="width: 100%;">${LOC.from_list.message}<br></span>
                 <hr>
-                <span id="profile-settings-lists" style="width: 100%;">See lists<br></span>
-                <span id="profile-settings-share" style="width: 100%;">Share user<br></span>
-                <span id="profile-settings-copy" style="width: 100%;">Copy profile link<br></span>
+                <span id="profile-settings-lists" style="width: 100%;">${LOC.see_lists.message}<br></span>
+                <span id="profile-settings-share" style="width: 100%;">${LOC.share_user.message}<br></span>
+                <span id="profile-settings-copy" style="width: 100%;">${LOC.copy_profile_link.message}<br></span>
             </div>
         `;
         let messageUser = document.getElementById('message-user');
@@ -819,7 +840,7 @@ async function renderProfile() {
                 pageUser.protected && pageUser.follow_request_sent ? await API.cancelFollow(pageUser.screen_name) : await API.unfollowUser(pageUser.screen_name);
                 controlFollow.classList.remove('following');
                 controlFollow.classList.add('follow');
-                controlFollow.innerText = 'Follow';
+                controlFollow.innerText = LOC.follow.message;
                 pageUser.following = false;
                 document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) - 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = true;
@@ -827,7 +848,7 @@ async function renderProfile() {
                 await API.followUser(pageUser.screen_name);
                 controlFollow.classList.add('following');
                 controlFollow.classList.remove('follow');
-                controlFollow.innerText = pageUser.protected && pageUser.follow_request_sent ? 'Follow request sent' : 'Following';
+                controlFollow.innerText = pageUser.protected && pageUser.follow_request_sent ? LOC.follow_request_sent.message : LOC.following_btn.message;
                 pageUser.following = true;
                 document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = false;
@@ -867,7 +888,7 @@ async function renderProfile() {
                 pageUser.blocking = false;
                 document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
                 document.getElementById('profile-settings-block').classList.add('profile-settings-block');
-                document.getElementById('profile-settings-block').innerText = `Block @${pageUser.screen_name}`;
+                document.getElementById('profile-settings-block').innerText = `${LOC.block_user.message} @${pageUser.screen_name}`;
                 document.getElementById('control-unblock').hidden = true;
                 document.getElementById('control-follow').hidden = false;
                 document.getElementById('message-user').hidden = !pageUser.can_dm;
@@ -875,16 +896,16 @@ async function renderProfile() {
                 document.getElementById("profile-settings-mute").hidden = false;
             } else {
                 let modal = createModal(`
-                <span style='font-size:14px'>Are you sure you want to block @${pageUser.screen_name}?</span>
+                <span style='font-size:14px'>${LOC.block_sure.message} @${pageUser.screen_name}?</span>
                     <br><br>
-                    <button class="nice-button">Block</button>
+                    <button class="nice-button">${LOC.block.message}</button>
                 `)
                 modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
                     await API.blockUser(pageUser.id_str);
                     pageUser.blocking = true;
                     document.getElementById('profile-settings-block').classList.add('profile-settings-unblock');
                     document.getElementById('profile-settings-block').classList.remove('profile-settings-block');
-                    document.getElementById('profile-settings-block').innerText = `Unblock @${pageUser.screen_name}`;
+                    document.getElementById('profile-settings-block').innerText = `${LOC.unblock_user.message} @${pageUser.screen_name}`;
                     document.getElementById('control-unblock').hidden = false;
                     document.getElementById('control-follow').hidden = true;
                     document.getElementById('message-user').hidden = true;
@@ -900,7 +921,7 @@ async function renderProfile() {
                 pageUser.blocking = false;
                 document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
                 document.getElementById('profile-settings-block').classList.add('profile-settings-block');
-                document.getElementById('profile-settings-block').innerText = `Block @${pageUser.screen_name}`;
+                document.getElementById('profile-settings-block').innerText = `${LOC.block_user.message} @${pageUser.screen_name}`;
                 document.getElementById('control-unblock').hidden = true;
                 document.getElementById('control-follow').hidden = false;
                 document.getElementById("profile-settings-notifications").hidden = false;
@@ -914,28 +935,28 @@ async function renderProfile() {
                 pageUser.muting = false;
                 document.getElementById('profile-settings-mute').classList.remove('profile-settings-unmute');
                 document.getElementById('profile-settings-mute').classList.add('profile-settings-mute');
-                document.getElementById('profile-settings-mute').innerText = `Ignore`;
+                document.getElementById('profile-settings-mute').innerText = LOC.mute.message;
                 document.getElementById('profile-name').classList.remove('user-muted');
             } else {
                 await API.muteUser(pageUser.id_str);
                 pageUser.muting = true;
                 document.getElementById('profile-settings-mute').classList.add('profile-settings-unmute');
                 document.getElementById('profile-settings-mute').classList.remove('profile-settings-mute');
-                document.getElementById('profile-settings-mute').innerText = `Stop ignoring`;
+                document.getElementById('profile-settings-mute').innerText = LOC.unmute.message;
                 document.getElementById('profile-name').classList.add('user-muted');
             }
         });
         if(document.getElementById('profile-settings-removefollowing')) document.getElementById('profile-settings-removefollowing').addEventListener('click', async () => {
             let modal = createModal(`
             <span style='font-size:14px'>
-            Are you sure you want to remove @${pageUser.screen_name} from your followers?
-            <br>They'll be able to follow you again in future.
+            ${LOC.remove_from_followers_sure.message}
+            <br>${LOC.able_in_future.message}
             <br><br>
-            THIS WILL REMOVE THEM FROM YOUR FOLLOWERS LIST, NOT FROM YOUR FOLLOWING LIST.
+            ${LOC.remove_from_followers_warn.message}
             </span>
                 <br><br>
-                <button class="nice-button">Unfollow them from me</button>
-            `)
+                <button class="nice-button">${LOC.remove_from_followers_button.message}</button>
+            `.replace('$SCREEN_NAME$', pageUser.screen_name));
             modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
                 await API.removeFollower(pageUser.id_str);
                 pageUser.followed_by = false;
@@ -947,7 +968,7 @@ async function renderProfile() {
         document.getElementById('profile-settings-lists-action').addEventListener('click', async () => {
             let lists = await API.getListOwnerships(user.id_str, pageUser.id_str);
             let modal = createModal(`
-                <h1 class="cool-header">Add/remove from list</h1>
+                <h1 class="cool-header">${LOC.from_list.message}</h1>
                 <div id="modal-lists"></div>
             `);
             let container = document.getElementById('modal-lists');
@@ -961,12 +982,12 @@ async function renderProfile() {
                             <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                             <div class="following-item-text" style="position: relative;bottom: 12px;">
                                 <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
-                                <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : 'No description'}</span>
+                                <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : LOC.no_description.message}</span>
                             </div>
                         </a>
                     </div>
                     <div style="display:inline-block;float: right;margin-top: 5px;">
-                        <button class="nice-button">${l.is_member ? 'Remove' : 'Add'}</button>
+                        <button class="nice-button">${l.is_member ? LOC.remove.message : LOC.add.message}</button>
                     </div>
                 `;
                 container.appendChild(listElement);
@@ -974,11 +995,11 @@ async function renderProfile() {
                     if(l.is_member) {
                         await API.listRemoveMember(l.id_str, pageUser.id_str);
                         l.is_member = false;
-                        listElement.getElementsByClassName('nice-button')[0].innerText = 'Add';
+                        listElement.getElementsByClassName('nice-button')[0].innerText = LOC.add.message;
                     } else {
                         await API.listAddMember(l.id_str, pageUser.id_str);
                         l.is_member = true;
-                        listElement.getElementsByClassName('nice-button')[0].innerText = 'Remove';
+                        listElement.getElementsByClassName('nice-button')[0].innerText = LOC.remove.message;
                     }
                     l.is_member = !l.is_member;
                 });
@@ -1035,7 +1056,7 @@ async function renderProfile() {
     }
     let joined = document.createElement('span');
     joined.classList.add('profile-additional-thing', 'profile-additional-joined');
-    joined.innerText = `Joined ${new Date(pageUser.created_at).toLocaleDateString('en', {month: 'long', year: 'numeric', day: 'numeric'})}`;
+    joined.innerText = `${LOC.joined.message} ${new Date(pageUser.created_at).toLocaleDateString(LANGUAGE, {month: 'long', year: 'numeric', day: 'numeric'})}`;
     additionalInfo.appendChild(joined);
     if(pageUser.birthdate) {
         let birth = document.createElement('span');
@@ -1044,13 +1065,13 @@ async function renderProfile() {
             birth.classList.add('profile-additional-birth-me');
         }
         if(pageUser.birthdate.year) {
-            birth.innerText = `Born ${months[pageUser.birthdate.month-1]} ${pageUser.birthdate.day}, ${pageUser.birthdate.year}`;
+            birth.innerText = `${LOC.born.message} ${months[pageUser.birthdate.month-1].replace("$NUMBER$", pageUser.birthdate.day)}, ${pageUser.birthdate.year}`;
         } else {
-            birth.innerText = `Born ${months[pageUser.birthdate.month-1]} ${pageUser.birthdate.day}`;
+            birth.innerText = `${LOC.born.message} ${months[pageUser.birthdate.month-1].replace("$NUMBER$", pageUser.birthdate.day)}`;
         }
         let date = new Date();
         if(pageUser.birthdate.month-1 === date.getMonth() && pageUser.birthdate.day === date.getDate()) {
-            birth.innerText += ` (today!)`;
+            birth.innerText += ' ' + LOC.birthday_today.message;
             birth.classList.add('profile-additional-birth-today');
         }
         additionalInfo.appendChild(birth);
@@ -1063,9 +1084,10 @@ async function renderTimeline(append = false, sliceAmount = 0) {
     let data = timeline.data.slice(sliceAmount, timeline.data.length);;
     if(pinnedTweet && subpage === "profile" && !append) await appendTweet(pinnedTweet, timelineContainer, {
         top: {
-            text: "Pinned Tweet",
+            text: LOC.pinned_tweet.message,
             icon: "\uf003",
-            color: "var(--link-color)"
+            color: "var(--link-color)",
+            class: 'pinned'
         }
     })
     for(let i in data) {
@@ -1075,7 +1097,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
             if(pageUser.id_str === user.id_str) t.retweeted_status.current_user_retweet = t;
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
-                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> retweeted`,
+                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255"
                 }
@@ -1107,7 +1129,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
 function renderNewTweetsButton() {
     if (timeline.toBeUpdated > 0) {
         document.getElementById('new-tweets').hidden = false;
-        document.getElementById('new-tweets').innerText = `See new tweets`;
+        document.getElementById('new-tweets').innerText = LOC.see_new_tweets.message;
     } else {
         document.getElementById('new-tweets').hidden = true;
     }

@@ -73,7 +73,10 @@ body {
     margin: 0;
     position: relative;
     width: 195px;
-    overflow-x: hidden
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 24px;
+    white-space: nowrap;
 }
 
 #user-handle {
@@ -97,7 +100,8 @@ body {
     font-size: 14px;
     font-weight: 100;
     margin: 0 10px;
-    text-transform: uppercase
+    text-transform: uppercase;
+    white-space: nowrap;
 }
 
 .user-stat-div>h1 {

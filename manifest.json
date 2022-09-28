@@ -1,12 +1,13 @@
 {
   "name": "Old Twitter Layout (2022)",
-  "description": "A new extension that returns old Twitter's look.",
-  "version": "1.6.1",
+  "description": "__MSG_ext_description__",
+  "version": "1.6.2",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/OldTwitter",
   "background": {
     "service_worker": "scripts/background.js"
   },
+  "default_locale": "en",
   "permissions": [
     "storage",
     "declarativeNetRequest"
@@ -27,29 +28,11 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "layouts/home/index.html",
-        "layouts/home/style.css",
-        "layouts/notifications/index.html",
-        "layouts/notifications/style.css",
-        "layouts/profile/index.html",
-        "layouts/profile/style.css",
-        "layouts/settings/index.html",
-        "layouts/settings/style.css",
-        "layouts/header/index.html",
-        "layouts/header/style.css",
-        "layouts/tweet/index.html",
-        "layouts/tweet/style.css",
-        "layouts/search/index.html",
-        "layouts/search/style.css",
-        "layouts/bookmarks/index.html",
-        "layouts/bookmarks/style.css",
-        "layouts/lists/index.html",
-        "layouts/lists/style.css",
-        "/images/logo32.png",
-        "/images/logo32_notification.png",
-        "/images/group.jpg",
-        "/fonts/rosetta.woff",
-        "/libraries/gif.worker.js"
+        "layouts/*",
+        "/images/*",
+        "/fonts/*",
+        "/libraries/*",
+        "/_locales/*"
       ],
       "matches": [
         "*://*.twitter.com/*"

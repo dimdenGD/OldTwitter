@@ -57,7 +57,7 @@ async function renderBookmarks(cursor) {
     }
     bookmarks = bookmarks.list;
     if(bookmarks.length === 0 && !cursor) {
-        bookmarksContainer.innerHTML = '<div style="color:var(--light-gray)">Wow, such empty</div>';
+        bookmarksContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
         document.getElementById('delete-all').hidden = true;
         return;
     }
@@ -261,12 +261,12 @@ setTimeout(async () => {
     }, { passive: true });
     document.getElementById('delete-all').addEventListener('click', async () => {
         let modal = createModal(`
-            <p>Are you sure you want to delete all your bookmarks? This action cannot be undone.</p>
-            <button class="nice-button" id="delete-all-confirm">Delete all</button>
+            <p>${LOC.delete_bookmarks.message}</p>
+            <button class="nice-button" id="delete-all-confirm">${LOC.delete_all.message}</button>
         `);
         modal.getElementsByClassName('nice-button')[0].addEventListener('click', () => {
             API.deleteAllBookmarks().then(() => {
-                document.getElementById('timeline').innerHTML = '<div style="color:var(--light-gray)">Wow, such empty</div>';
+                document.getElementById('timeline').innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
                 document.getElementById('delete-all').hidden = true;
                 modal.remove();
             });

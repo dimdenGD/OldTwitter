@@ -96,6 +96,7 @@ body {
     font-weight: 100;
     text-transform: uppercase;
     margin: 0 10px;
+    white-space: nowrap;
 }
 .user-stat-div > h1 {
     margin: 0 10px;
@@ -132,6 +133,7 @@ body {
 }
 #settings hr {
     border-top: var(--border);
+    border-color: var(--border);
 }
 #settings h1 {
     margin-bottom: 5px !important;
@@ -390,4 +392,9 @@ body {
 }
 #color-preview-dark {
     background-color: #1b2836;
+}
+
+select {
+    color: var(--default-text-color);
+    background-color: var(--darker-background-color);
 }

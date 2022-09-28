@@ -167,6 +167,12 @@ body {
     color: var(--darker-background-color);
 }
 
+.notification-unread .tweet-interact-reply[data-val="0"],
+.notification-unread .tweet-interact-retweet[data-val="0"],
+.notification-unread .tweet-interact-favorite[data-val="0"] {
+    color: var(--darker-background-color);
+}
+
 
 .tweet-avatar-link {
     float: left;
@@ -678,7 +684,8 @@ a:hover,
     z-index: 2
 }
 
-.tweet:hover .tweet-self-thread-line-dots {
+.tweet:hover .tweet-self-thread-line-dots,
+.notification-unread .tweet-self-thread-line-dots {
     border: 2px var(--darker-background-color) solid !important
 }
 
@@ -776,7 +783,7 @@ a:hover,
     left: 31px;
     margin-right: 5px;
     position: relative;
-    vertical-align: text-bottom
+    vertical-align: top;
 }
 
 .notification-header {
@@ -784,7 +791,9 @@ a:hover,
     font-size: 14px;
     left: 31px;
     position: relative;
-    color: var(--default-text-color)
+    color: var(--default-text-color);
+    width: 90%;
+    display: inline-block;
 }
 
 .notification-text {
@@ -834,6 +843,10 @@ a:hover,
 .ni-alert:before {
     color: #ff0000;
     content: "\f182"
+}
+.ni-bell:before {
+    color: #9900ff;
+    content: "\f000";
 }
 
 .notification-avatar {

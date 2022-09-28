@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Old Twitter - Settings</title>
+    <title>Old Twitter - __MSG_settings__</title>
     <link rel="preconnect" href="https://twitter.com">
 </head>
 <body>
@@ -22,142 +22,157 @@
                     <div id="user-data">
                         <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
                         <a id="user-info">
-                            <h1 id="user-name">Loading</h1>
+                            <h1 id="user-name">__MSG_loading__</h1>
                             <h2 id="user-handle">@loading</h2>
                         </a>
                         <div id="user-stats">
                             <div class="user-stat-div">
-                                <h2>Tweets</h2>
+                                <h2>__MSG_tweets__</h2>
                                 <h1 id="user-tweets">0</h1>
                             </div>
                             <div class="user-stat-div">
-                                <h2>Following</h2>
+                                <h2>__MSG_following__</h2>
                                 <h1 id="user-following">0</h1>
                             </div>
                             <div class="user-stat-div">
-                                <h2>Followers</h2>
+                                <h2>__MSG_followers__</h2>
                                 <h1 id="user-followers">0</h1>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div id="trends" class="box">
-                    <h1>Trends</h1>
+                    <h1>__MSG_trends__</h1>
                     <div id="trends-list">
                     </div>
                 </div>
             </div>
             <div class="cell" id="center-cell">
                 <div id="settings" class="box">
-                    <h1>Twitter settings</h1><br>
-                    <a href="https://mobile.twitter.com/settings/profile">Edit profile</a><br>
-                    <a href="https://mobile.twitter.com/settings">Edit Twitter settings</a><br>                    
+                    <h1>__MSG_twitter_settings__</h1><br>
+                    <a href="https://mobile.twitter.com/settings/profile">__MSG_edit_profile__</a><br>
+                    <a href="https://mobile.twitter.com/settings">__MSG_edit_twitter_settings__</a><br>                    
                     <hr>
-                    <h1>OldTwitter settings</h1><br>
-                    <span>Refresh tabs to apply settings.</span><br><br>
+                    <h1>__MSG_oldtwitter_settings__</h1><br>
+                    <span>__MSG_refresh_tabs__</span><br><br>
+                    <div class="setting">
+                        <select id="language">
+                            <option value="en">English</option>
+                            <option value="es">Español (Spanish)</option>
+                            <option value="ru">Русский (Russian)</option>
+                            <option value="pt_BR">Português do Brasil (Brazilian Portuguese)</option>
+                            <option value="fr">Français (French)</option>
+                            <option value="uk">Українська (Ukrainian)</option>
+                            <option value="ro">Română (Romanian)</option>
+                            <option value="lv">Latviešu (Latvian)</option>
+                            <option value="gr">Ελληνικά (Greek)</option>
+                            <option value="tl">Tagalog (Filipino)</option>
+                        </select>
+                        <label for="show-topic-tweets">__MSG_language__</label>
+                    </div>
                     <div class="setting">
                         <select id="tl-type">
-                            <option value="chrono">Reverse chronological (fast)</option>
-                            <option value="chrono-social">Reverse chronological with friends likes</option>
-                            <option value="algo">Algorithmical</option>
+                            <option value="chrono">__MSG_chrono__</option>
+                            <option value="chrono-social">__MSG_chrono_social__</option>
+                            <option value="algo">__MSG_algo__</option>
                         </select>
-                        <label for="tl-type">Timeline type</label>
+                        <label for="tl-type">__MSG_timeline_type__</label>
                     </div>
                     <div class="setting" id="stt-div" hidden>
-                        <input type="checkbox" id="show-topic-tweets"> <label for="show-topic-tweets">Show topic tweets (algo only)</label>
+                        <input type="checkbox" id="show-topic-tweets"> <label for="show-topic-tweets">__MSG_show_topic_tweets__</label>
                     </div>
                     <div class="setting">
-                        <input type="checkbox" id="link-colors-in-tl"> <label for="link-colors-in-tl">Show custom link colors of users in home timeline</label>
+                        <input type="checkbox" id="link-colors-in-tl"> <label for="link-colors-in-tl">__MSG_show_colors_in_timeline__</label>
                     </div>
                     <div class="setting">
-                        <input type="checkbox" id="enable-twemoji"> <label for="enable-twemoji">Enable twemoji</label>
+                        <input type="checkbox" id="enable-twemoji"> <label for="enable-twemoji">__MSG_enable_twemoji__</label>
                     </div>
                     <div class="setting">
-                        <input type="checkbox" id="hearts-instead-stars"> <label for="hearts-instead-stars">Show hearts (likes) instead of stars (favorites)</label>
+                        <input type="checkbox" id="hearts-instead-stars"> <label for="hearts-instead-stars">__MSG_hearts_instead_stars__</label>
                     </div>
                     <div class="setting">
-                        <input type="checkbox" id="dark-mode"> <label for="dark-mode">Dark mode</label>
+                        <input type="checkbox" id="dark-mode"> <label for="dark-mode">__MSG_dark_mode__</label>
                     </div>
                     <div class="setting">
-                        <input type="checkbox" id="disable-hotkeys"> <label for="disable-hotkeys">Disable hotkeys</label>. <a target="_blank" href="https://github.com/dimdenGD/OldTwitter#hotkeys">See list of hotkeys here.</a>
+                        <input type="checkbox" id="disable-hotkeys"> <label for="disable-hotkeys">__MSG_disable_hotkeys__</label>. <a target="_blank" href="https://github.com/dimdenGD/OldTwitter#hotkeys">__MSG_hotkeys_list__.</a>
                     </div>
                     <div class="setting">
-                        <input type="checkbox" id="no-big-font"> <label for="no-big-font">Disable large font for short tweets.</label>
+                        <input type="checkbox" id="no-big-font"> <label for="no-big-font">__MSG_no_big_font__</label>
                     </div>
                     <div class="setting">
-                        <input type="checkbox" id="save-preferred-quality"> <label for="save-preferred-quality">Save preferred video quality. If this is set to true, OldTwitter will save your preferred video quality and use it (or use closest quality to preferred one). If it's off, OldTwitter will select highest quality.</label>
+                        <input type="checkbox" id="save-preferred-quality"> <label for="save-preferred-quality">__MSG_save_preferred_quality__</label>
                         <span>
                             <div id="preferred-quality" hidden>
-                                Preferred quality: <input id="preferred-quality-input" disabled style="width:50px" value="" readonly>
+                                __MSG_preferred_quality__: <input id="preferred-quality-input" disabled style="width:50px" value="" readonly>
                             </div>
                         </span>
                     </div>
                     <div class="setting">
-                        <input type="color" id="link-color"> <label for="link-color">Default link color</label>
+                        <input type="color" id="link-color"> <label for="link-color">__MSG_default_link_color__</label>
                     </div>
                     <div class="setting">
-                        <select id="font"></select> <label for="font">Font</label>
+                        <select id="font"></select> <label for="font">__MSG_font__</label>
                     </div>
                     <hr>
-                    <h1>Link color synchronization</h1><br>
+                    <h1>__MSG_color_sync__</h1><br>
                     <span>
-                        By pressing Sync button your profile link color will be sent to colors database and shown to other extension users.<br>
-                        If you have set Twitter link color before (years ago, when it was still a thing), it'll override your old color.
+                        __MSG_by_pressing_sync__<br>
+                        __MSG_color_years_ago__
                     </span><br>
                     <br>
                     <div class="setting">
-                        <input type="color" id="profile-link-color"> <label for="profile-link-color">Profile link color</label>
+                        <input type="color" id="profile-link-color"> <label for="profile-link-color">__MSG_profile_link_color__</label>
                     </div>
                     <div id="color-preview">
-                        <div id="color-preview-light">Light mode link</div>
-                        <div id="color-preview-dark">Dark mode link</div>
+                        <div id="color-preview-light">__MSG_light_mode_link__</div>
+                        <div id="color-preview-dark">__MSG_dark_mode_link__</div>
                     </div>
                     <br>
-                    <button class="nice-button" id="sync">Sync</button>
+                    <button class="nice-button" id="sync">__MSG_sync__</button>
                     <hr>
-                    <h1>Custom CSS</h1><br>
+                    <h1>__MSG_custom_css__</h1><br>
                     <span>
-                        Override default CSS variables. Type them as <code>--some-variable: property</code>. Split by newline.<br>
-                        <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/blob/master/layouts/header/script.js#:~:text=function%20switchDarkMode">See list of default CSS variables here.</a>
+                        __MSG_css_var_override__<br>
+                        <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/blob/master/layouts/header/script.js#:~:text=function%20switchDarkMode">__MSG_css_var_list__</a>
                     </span><br><br>
                     <div class="setting">
                         <textarea type="text" style="height: 71px; width: 550px;" id="custom-css-variables" placeholder="--background-color: #1b2836&#10;--darker-background-color: #141d26"></textarea>
                     </div>
-                    <button class="nice-button" id="custom-css-variables-save">Save variables</button>
+                    <button class="nice-button" id="custom-css-variables-save">__MSG_save_vars__</button>
                     <br><br>
-                    <span>Custom CSS to add on every page.</span>
+                    <span>__MSG_custom_css_text__</span>
                     <br><br>
                     <div class="setting">
                         <textarea type="text" style="height: 71px; width: 550px;" id="custom-css" placeholder="body {&#10;    background-color: blue !important;&#10;}"></textarea>
                     </div>
-                    <button class="nice-button" id="custom-css-save">Save CSS</button>
+                    <button class="nice-button" id="custom-css-save">__MSG_save_css__</button>
                 </div>
             </div>
             <div class="cell" id="right-cell">
                 <div id="wtf" class="box">
-                    <h1>Who to follow</h1><br>
-                    <span id="wtf-refresh">Refresh</span> · <a id="wtf-viewall" target="_blank" href="https://mobile.twitter.com/i/connect_people?user_id=">View all</a>
+                    <h1>__MSG_who_to_follow__</h1><br>
+                    <span id="wtf-refresh">__MSG_refresh__</span> · <a id="wtf-viewall" target="_blank" href="https://mobile.twitter.com/i/connect_people?user_id=">__MSG_view_all__</a>
                     <br><br>
                     <div id="wtf-list"></div>
                 </div>
                 <div id="about">
                     <span>
-                        Running <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
-                        Created by <a href="https://dimden.dev/" target="_blank">dimden</a>.<br>
+                        __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
+                        __MSG_created_by__ <a href="https://dimden.dev/" target="_blank">dimden</a>.
                     </span>
                     <br>
                     <div class="about-links">
                         <span>© 2022 dimden</span> 
-                        <a href="https://dimden.dev/" target="_blank">Website</a>
+                        <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
                         <a href="/dimdenEFF">Twitter</a>
-                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">Donate</a>
+                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
                     </div>
                     <div class="about-links">
                         <span>© 2015 Twitter</span> 
-                        <a href="/about">About</a>
-                        <a href="https://support.twitter.com">Help</a>
-                        <a href="/tos">Terms</a>
-                        <a href="/privacy">Privacy</a>
+                        <a href="/about">__MSG_about__</a>
+                        <a href="https://support.twitter.com">__MSG_help__</a>
+                        <a href="/tos">__MSG_terms__</a>
+                        <a href="/privacy">__MSG_privacy__</a>
                     </div>
                     <br>
                 </div>

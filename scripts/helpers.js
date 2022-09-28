@@ -61,19 +61,19 @@ function handleFiles(files, mediaArray, mediaContainer) {
         if (file.type.includes('gif')) {
             // max 15 mb
             if (file.size > 15000000) {
-                return alert('GIFs must be less than 15 MB');
+                return alert(LOC.gifs_max.message);
             }
             gifs.push(file);
         } else if (file.type.includes('video')) {
             // max 500 mb
             if (file.size > 500000000) {
-                return alert('Videos must be less than 500 MB');
+                return alert(LOC.videos_max.message);
             }
             videos.push(file);
         } else if (file.type.includes('image')) {
             // max 5 mb
             if (file.size > 5000000) {
-                return alert('Images must be less than 5 MB');
+                return alert(LOC.images_max.message);
             }
             images.push(file);
         }
@@ -84,17 +84,17 @@ function handleFiles(files, mediaArray, mediaContainer) {
             images = images.slice(0, 4);
         }
         if (videos.length > 0 || gifs.length > 0) {
-            return alert('You can only upload up to 4 images or 1 video or 1 gif');
+            return alert(LOC.max_count.message);
         }
     }
     if (videos.length > 0) {
         if (images.length > 0 || gifs.length > 0 || videos.length > 1) {
-            return alert('You can only upload up to 4 images or 1 video or 1 gif');
+            return alert(LOC.max_count.message);
         }
     }
     if (gifs.length > 0) {
         if (images.length > 0 || videos.length > 0 || gifs.length > 1) {
-            return alert('You can only upload up to 4 images or 1 video or 1 gif');
+            return alert(LOC.max_count.message);
         }
     }
     // get base64 data
@@ -129,7 +129,7 @@ function handleFiles(files, mediaArray, mediaContainer) {
                         alt.className = "new-tweet-media-img-alt";
                         alt.innerText = "ALT";
                         alt.addEventListener('click', () => {
-                            mediaObject.alt = prompt('Enter alt text for image');
+                            mediaObject.alt = prompt(LOC.alt_text.message);
                         });
                     }
                     let dataBase64 = arrayBufferToBase64(data);
@@ -193,7 +193,7 @@ function getMedia(mediaArray, mediaContainer) {
 function getDMMedia(mediaArray, mediaContainer, modalElement) {
     let input = document.createElement('input');
     input.type = 'file';
-    input.accept = 'image/*,image/gif';
+    input.accept = 'image/*';
     input.addEventListener('change', async () => {
         let files = input.files;
         let images = [];
@@ -203,13 +203,13 @@ function getDMMedia(mediaArray, mediaContainer, modalElement) {
             if (file.type.includes('gif')) {
                 // max 15 mb
                 if (file.size > 15000000) {
-                    return alert('GIFs must be less than 15 MB');
+                    return alert(LOC.gifs_max.message);
                 }
                 gifs.push(file);
             } else if (file.type.includes('image')) {
                 // max 5 mb
                 if (file.size > 5000000) {
-                    return alert('Images must be less than 5 MB');
+                    return alert(LOC.images_max.message);
                 }
                 images.push(file);
             }
@@ -379,7 +379,7 @@ function generatePoll(tweet, tweetElement, user) {
     if(tweet.card.url.startsWith('card://')) {
         let footer = document.createElement('span');
         footer.classList.add('poll-footer');
-        footer.innerHTML = `${voteCount} vote${voteCount === 1 ? '' : 's'}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ Ends at ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}` : ''}`;
+        footer.innerHTML = `${voteCount} ${voteCount === 1 ? LOC.vote.message : LOC.votes.message}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ ${LOC.ends_at.message} ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}` : ''}`;
         pollElement.append(footer);
     }
 }
@@ -441,7 +441,7 @@ function isProfilePath(path) {
     path = path.split('?')[0].split('#')[0];
     if(path.endsWith('/')) path = path.slice(0, -1);
     if(path.split('/').length > 2) return false;
-    if(['/home', '/notifications', '/messages', '/settings', '/explore', '/login', '/register', '/signin', '/signup', '/logout', '/i', '/old', '/search'].includes(path)) return false;
+    if(['/home', '/notifications', '/messages', '/settings', '/explore', '/login', '/register', '/signin', '/signup', '/logout', '/i', '/old', '/search', '/donate'].includes(path)) return false;
     return true;
 }
   
@@ -521,7 +521,7 @@ async function renderDiscovery(cache = true) {
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
                     </a>
                     <br>
-                    <button class="nice-button discover-follow-btn ${userData.following ? 'following' : 'follow'}" style="position:relative;bottom: 1px;">${userData.following ? 'Following' : 'Follow'}</button>
+                    <button class="nice-button discover-follow-btn ${userData.following ? 'following' : 'follow'}" style="position:relative;bottom: 1px;">${userData.following ? LOC.following_btn.message : LOC.follow.message}</button>
                 </div>
             `;
             const followBtn = udiv.querySelector('.discover-follow-btn');
@@ -530,13 +530,13 @@ async function renderDiscovery(cache = true) {
                     await API.unfollowUser(userData.screen_name);
                     followBtn.classList.remove('following');
                     followBtn.classList.add('follow');
-                    followBtn.innerText = 'Follow';
+                    followBtn.innerText = LOC.follow.message;
                     userData.following = false;
                 } else {
                     await API.followUser(userData.screen_name);
                     followBtn.classList.add('following');
                     followBtn.classList.remove('follow');
-                    followBtn.innerText = 'Following';
+                    followBtn.innerText = LOC.following_btn.message;
                     userData.following = true;
                 }
                 chrome.storage.local.set({
@@ -649,8 +649,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     if(location.pathname.includes('/status/')) t.full_text = t.full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
     let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
-    let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
-    isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
+    let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
+    isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith(LANGUAGE);
     let hasVideo = t.extended_entities && t.extended_entities.media && t.extended_entities.media.some(m => m.type === 'video');
     if(hasVideo) {
         t.extended_entities.media[0].video_info.variants = t.extended_entities.media[0].video_info.variants.sort((a, b) => {
@@ -684,25 +684,25 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <span class="tweet-header-handle">@${t.user.screen_name}</span>
             </a>
             ${location.pathname.split("?")[0].split("#")[0] === '/i/bookmarks' ? '<span class="tweet-delete-bookmark">&times;</span>' : ''}
-            ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? 'Following' : 'Follow'}</button>` : ''}
+            ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
         </div>
         <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
             <span class="tweet-body-text ${vars.noBigFont || (t.full_text && t.full_text.length > 100) || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
             ${!isEnglish ? `
             <br>
-            <span class="tweet-translate">View translation</span>
+            <span class="tweet-translate">${LOC.view_translation.message}</span>
             ` : ``}
             ${t.extended_entities && t.extended_entities.media ? `
                 <div class="tweet-media">
                     ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                         ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                        Your browser does not support this video.
+                        ${LOC.unsupported_video.message}
                     </video>` : ''}`).join('\n')}
                 </div>
                 ${hasVideo ? /*html*/`
                     <div class="tweet-media-controls">
-                        ${t.extended_entities.media[0].ext && t.extended_entities.media[0].ext.r && t.extended_entities.media[0].ext.r.ok ? `<span class="tweet-video-views">${Number(t.extended_entities.media[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} views</span> • ` : ''}<span class="tweet-video-reload">Reload</span> •
+                        ${t.extended_entities.media[0].ext && t.extended_entities.media[0].ext.r && t.extended_entities.media[0].ext.r.ok ? `<span class="tweet-video-views">${Number(t.extended_entities.media[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload">${LOC.reload.message}</span> •
                         ${t.extended_entities.media[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
                     </div>
                 ` : ``}
@@ -728,25 +728,25 @@ async function appendTweet(t, timelineContainer, options = {}) {
             ` : ``}
             ${t.limited_actions === 'limit_trusted_friends_tweet' && (options.mainTweet || !location.pathname.includes('/status/')) ? `
             <div class="tweet-limited">
-                This tweet is visible only to people who are in @${t.user.screen_name}'s trusted friends circle.<br>
-                <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">Learn more.</a>
+                ${LOC.circle_limited_tweet.message}<br>
+                <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">${LOC.learn_more.message}</a>
             </div>
-            ` : ''}
+            `.replace('$SCREEN_NAME$', t.user.screen_name) : ''}
             ${t.tombstone ? `<div class="tweet-warning">${t.tombstone}</div>` : ''}
-            ${t.conversation_control ? `<div class="tweet-warning">This tweet has limitations to who can reply.</div>` : ''}
+            ${t.conversation_control ? `<div class="tweet-warning">${LOC.limited_tweet.message}</div>` : ''}
             ${options.mainTweet ? /*html*/`
             <div class="tweet-footer">
                 <div class="tweet-footer-stats">
                     <div class="tweet-footer-stat">
-                        <span class="tweet-footer-stat-text">Replies</span>
+                        <span class="tweet-footer-stat-text">${LOC.replies.message}</span>
                         <b class="tweet-footer-stat-count tweet-footer-stat-replies">${Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</b>
                     </div>
                     <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-r">
-                        <span class="tweet-footer-stat-text">Retweets</span>
+                        <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                         <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</b>
                     </a>
                     <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
-                        <span class="tweet-footer-stat-text">Favorites</span>
+                        <span class="tweet-footer-stat-text">${LOC.favorites.message}</span>
                         <b class="tweet-footer-stat-count tweet-footer-stat-favorites">${Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</b>
                     </a>
                 </div>
@@ -754,65 +754,65 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             ` : ''}
             <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source.split('>')[1].split('<')[0]}</a>
-            ${options.selfThreadButton && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : ``}
-            ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">Show this thread</a>` : ``}
+            ${options.selfThreadButton && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
+            ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
                 <div class="tweet-interact-retweet-menu" hidden>
                     <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span><br>
-                    <span class="tweet-interact-retweet-menu-quote">Quote tweet</span><br>
+                    <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span><br>
                     ${options.mainTweet ? `
-                        <span class="tweet-interact-retweet-menu-quotes">See quotes</span><br>
-                        <span class="tweet-interact-retweet-menu-retweeters">See retweeters</span><br>
+                        <span class="tweet-interact-retweet-menu-quotes">${LOC.see_quotes_big.message}</span><br>
+                        <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span><br>
                     ` : ''}
                 </div>
                 <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : t.favorite_count}</span>
                 <span class="tweet-interact-more"></span>
                 <div class="tweet-interact-more-menu" hidden>
-                    <span class="tweet-interact-more-menu-copy">Copy link</span><br>
-                    <span class="tweet-interact-more-menu-embed">Embed tweet</span><br>
-                    <span class="tweet-interact-more-menu-share">Share tweet</span><br>
+                    <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span><br>
+                    <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span><br>
+                    <span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span><br>
                     ${t.user.id_str === user.id_str ? /*html*/`
                     <hr>
-                    <span class="tweet-interact-more-menu-analytics">Tweet analytics</span><br>
-                    <span class="tweet-interact-more-menu-delete">Delete tweet</span><br>
-                    ${typeof pageUser !== 'undefined' && pageUser.id_str === user.id_str ? /*html*/`<span class="tweet-interact-more-menu-pin">${pinnedTweet && pinnedTweet.id_str === t.id_str ? 'Unpin tweet' :  'Pin tweet'}</span><br>` : ''}
+                    <span class="tweet-interact-more-menu-analytics">${LOC.tweet_analytics.message}</span><br>
+                    <span class="tweet-interact-more-menu-delete">${LOC.delete_tweet.message}</span><br>
+                    ${typeof pageUser !== 'undefined' && pageUser.id_str === user.id_str ? /*html*/`<span class="tweet-interact-more-menu-pin">${pinnedTweet && pinnedTweet.id_str === t.id_str ? LOC.unpin_tweet.message :  LOC.pin_tweet.message}</span><br>` : ''}
                     ` : ``}
                     ${t.user.id_str !== user.id_str && !options.mainTweet ? `
                     <hr>
-                    <span class="tweet-interact-more-menu-follow">${t.user.following ? 'Unfollow' : 'Follow'} @${t.user.screen_name}</span><br>
+                    <span class="tweet-interact-more-menu-follow">${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
                     ` : ''}
-                    <span class="tweet-interact-more-menu-bookmark">Bookmark tweet</span>
+                    <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>
                     <hr>
-                    ${t.feedback ? t.feedback.map((f, i) => `<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : "Not interested in topic"}</span><br>`).join("\n") : ''}
-                    <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
-                    ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
-                    ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">Download as GIF</span><br>` : ``}
+                    ${t.feedback ? t.feedback.map((f, i) => `<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span><br>`).join("\n") : ''}
+                    <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span><br>
+                    ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
+                    ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span><br>` : ``}
                 </div>
             </div>
             <div class="tweet-reply" hidden>
                 <br>
-                <b style="font-size: 12px;display: block;margin-bottom: 5px;">Replying to tweet <span class="tweet-reply-upload">[upload media]</span> <span class="tweet-reply-cancel">[cancel]</span></b>
+                <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                 <span class="tweet-reply-error" style="color:red"></span>
-                <textarea maxlength="280" class="tweet-reply-text" placeholder="Cool reply tweet"></textarea>
-                <button class="tweet-reply-button nice-button">Reply</button><br>
+                <textarea maxlength="280" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
+                <button class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
                 <span class="tweet-reply-char">0/280</span><br>
                 <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
             </div>
             <div class="tweet-quote" hidden>
                 <br>
-                <b style="font-size: 12px;display: block;margin-bottom: 5px;">Quote tweet <span class="tweet-quote-upload">[upload media]</span> <span class="tweet-quote-cancel">[cancel]</span></b>
+                <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                 <span class="tweet-quote-error" style="color:red"></span>
-                <textarea maxlength="280" class="tweet-quote-text" placeholder="Cool quote tweet"></textarea>
-                <button class="tweet-quote-button nice-button">Quote</button><br>
+                <textarea maxlength="280" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
+                <button class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
                 <span class="tweet-quote-char">0/280</span><br>
                 <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
             </div>
             <div class="tweet-self-thread-div" ${(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) ? '' : 'hidden'}>
                 <span class="tweet-self-thread-line"></span>
                 <div class="tweet-self-thread-line-dots"></div>
-                <br>${options.selfThreadContinuation && t.self_thread.id_str && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">Show this thread</a>` : `<br>`}
+                <br>${options.selfThreadContinuation && t.self_thread.id_str && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : `<br>`}
             </div>
         </div>
     `;
@@ -828,7 +828,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
                     ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                         ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                        Your browser does not support this video.
+                        ${LOC.unsupported_video.message}
                     </video>` : ''}`).join('\n')}
                 `;
                 let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
@@ -847,7 +847,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
                     ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                         ${m.video_info.variants.filter(v => v.url === url).map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                        Your browser does not support this video.
+                        ${LOC.unsupported_video.message}
                     </video>` : ''}`).join('\n')}
                 `;
                 let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
@@ -876,6 +876,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const span = document.createElement("span");
         span.classList.add("tweet-top-text");
         span.innerHTML = options.top.text;
+        if(options.top.class) span.classList.add(options.top.class);
         tweet.querySelector('.tweet-top').append(icon, span);
     }
     if(options.mainTweet) {
@@ -934,13 +935,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetFollow.addEventListener('click', async () => {
             if(t.user.following) {
                 await API.unfollowUser(t.user.screen_name);
-                tweetFollow.innerText = 'Follow';
+                tweetFollow.innerText = LOC.follow.message;
                 tweetFollow.classList.remove('following');
                 tweetFollow.classList.add('follow');
                 t.user.following = false;
             } else {
                 await API.followUser(t.user.screen_name);
-                tweetFollow.innerText = 'Unfollow';
+                tweetFollow.innerText = LOC.unfollow.message;
                 tweetFollow.classList.remove('follow');
                 tweetFollow.classList.add('following');
                 t.user.following = true;
@@ -1031,7 +1032,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         let translated = await API.translateTweet(t.id_str);
         tweetTranslate.hidden = true;
         tweetBodyText.innerHTML += `<br>
-        <span style="font-size: 12px;color: var(--light-gray);">Translated from [${translated.translated_lang}]:</span>
+        <span style="font-size: 12px;color: var(--light-gray);">${LOC.translated_from.message} [${translated.translated_lang}]:</span>
         <br>
         <span>${escapeHTML(translated.text)}</span>`;
         if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
@@ -1045,7 +1046,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         await API.deleteBookmark(t.id_str);
         tweet.remove();
         if(timelineContainer.children.length === 0) {
-            timelineContainer.innerHTML = '<div style="color:var(--light-gray)">Wow, such empty</div>';
+            timelineContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
             document.getElementById('delete-all').hidden = true;
         }
     });
@@ -1213,7 +1214,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         if (!tweetData) {
             tweetReplyButton.disabled = false;
-            tweetReplyError.innerHTML = "Error sending tweet<br>";
+            tweetReplyError.innerHTML = `${LOC.error_sending_tweet.message}<br>`;
             return;
         }
         tweetReplyText.value = '';
@@ -1264,7 +1265,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     });
     tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
         if (!t.retweeted) {
-            let c = confirm("Are you sure you want to retweet this tweet?");
+            let c = confirm(LOC.retweet_sure.message);
             if (!c) return;
             let tweetData;
             try {
@@ -1276,7 +1277,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (!tweetData) {
                 return;
             }
-            tweetInteractRetweetMenuRetweet.innerText = 'Unretweet';
+            tweetInteractRetweetMenuRetweet.innerText = LOC.unretweet.message;
             tweetInteractRetweet.classList.add('tweet-interact-retweeted');
             t.retweeted = true;
             t.newTweetId = tweetData.id_str;
@@ -1297,7 +1298,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (!tweetData) {
                 return;
             }
-            tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
+            tweetInteractRetweetMenuRetweet.innerText = LOC.retweet.message;
             tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
             t.retweeted = false;
             if(!options.mainTweet) {
@@ -1456,7 +1457,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             return;
         }
         if (!tweetData) {
-            tweetQuoteError.innerHTML = "Error sending tweet<br>";
+            tweetQuoteError.innerHTML = `${LOC.error_sending_tweet}<br>`;
             tweetQuoteButton.disabled = false;
             return;
         }
@@ -1539,11 +1540,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if (t.user.following) {
             await API.unfollowUser(t.user.screen_name);
             t.user.following = false;
-            tweetInteractMoreMenuFollow.innerText = `Follow @${t.user.screen_name}`;
+            tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
         } else {
             await API.followUser(t.user.screen_name);
             t.user.following = true;
-            tweetInteractMoreMenuFollow.innerText = `Unfollow @${t.user.screen_name}`;
+            tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
         }
     });
     tweetInteractMoreMenuCopy.addEventListener('click', () => {
@@ -1560,7 +1561,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             openInNewTab(`https://mobile.twitter.com/dimdenEFF/status/${t.id_str}/analytics`);
         });
         tweetInteractMoreMenuDelete.addEventListener('click', async () => {
-            let sure = confirm("Are you sure you want to delete this tweet?");
+            let sure = confirm(LOC.delete_sure.message);
             if (!sure) return;
             try {
                 await API.deleteTweet(t.id_str);
@@ -1609,7 +1610,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 pinnedTweet = t;
                 let pinnedTweetElement = Array.from(document.getElementsByClassName('tweet')).find(i => {
                     let topText = i.getElementsByClassName('tweet-top-text')[0];
-                    return (topText && topText.innerText === 'Pinned Tweet');
+                    return (topText && topText.className.includes('pinned'));
                 });
                 if(pinnedTweetElement) {
                     pinnedTweetElement.remove();
@@ -1618,9 +1619,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 appendTweet(t, timelineContainer, {
                     prepend: true,
                     top: {
-                        text: 'Pinned Tweet',
+                        text: LOC.pinned_tweet.message,
                         icon: "\uf003",
-                        color: "var(--link-color)"
+                        color: "var(--link-color)",
+                        class: "pinned"
                     }
                 });
                 return;
@@ -1691,7 +1693,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 canvas.width = video.videoWidth;
                 canvas.height = video.videoHeight;
                 let ctx = canvas.getContext('2d');
-                if (video.duration > 10 && !confirm('This video is longer than 10 seconds. Are you sure you want to convert it, might lag')) {
+                if (video.duration > 10 && !confirm(LOC.long_vid.message)) {
                     return downloading = false;
                 }
                 let gif = new GIF({
@@ -1760,7 +1762,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 body: JSON.stringify({"variables":{"encoded_feedback_request": feedback.encodedFeedbackRequest,"undo":false},"queryId":"vfVbgvTPTQ-dF_PQ5lD1WQ"}),
                 credentials: 'include'
             }).then(i => i.json()).then(i => {
-                alert(feedback.confirmation ? feedback.confirmation : 'Thanks for your feedback!');
+                alert(feedback.confirmation ? feedback.confirmation : LOC.feedback_thanks.message);
                 tweet.remove();
             });
         });
@@ -1775,4 +1777,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     if(vars.enableTwemoji) twemoji.parse(tweet);
     return tweet;
+}
+
+function replaceAll(str, find, replace) {
+    return str.split(find).join(replace);
 }

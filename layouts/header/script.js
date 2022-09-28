@@ -396,15 +396,15 @@ setTimeout(async () => {
             modal = createModal(/*html*/`
                 <div class="inbox">
                     <div class="inbox-top home-top">
-                        <h1 class="larger nice-header">Direct messages</h1>
+                        <h1 class="larger nice-header">${LOC.direct_messages.message}</h1>
                         <div class="inbox-buttons">
-                        <button class="nice-button inbox-refresh" title="Refresh">
+                        <button class="nice-button inbox-refresh" title="${LOC.refresh.message}">
                                 <span class="inbox-refresh-icon"></span>
                             </button>
-                            <button class="nice-button inbox-readall" title="Mark all as read">
+                            <button class="nice-button inbox-readall" title="${LOC.mark_all_read.message}">
                                 <span class="inbox-readall-icon"></span>
                             </button>
-                            <button class="nice-button inbox-new" title="New message">
+                            <button class="nice-button inbox-new" title="${LOC.new_message.message}">
                                 <span class="inbox-new-icon"></span>
                             </button>
                         </div>
@@ -412,35 +412,35 @@ setTimeout(async () => {
                     </div>
                     <br><br><br>
                     <div class="inbox-list"></div>
-                    <div class="center-text load-more" ${cursor ? '' : 'hidden'}>Load more</div>
+                    <div class="center-text load-more" ${cursor ? '' : 'hidden'}>${LOC.load_more.message}</div>
                 </div>
                 <div class="message-box" hidden>
                     <div class="inbox-top name-top">
                         <span class="message-header-back"></span>
                         <a class="message-header-link">
                             <img class="message-header-avatar" width="32" height="32">
-                            <h1 class="larger message-header-name nice-header">Name</h1>
+                            <h1 class="larger message-header-name nice-header">${LOC.name.message}</h1>
                         </a>
                         <span class="message-leave"></span>
                         <hr>
                     </div>
                     <br><br><br><br>
-                    <div class="messages-load-more center-text" style="margin-top:-18px;">Load more messages</div>
+                    <div class="messages-load-more center-text" style="margin-top:-18px;">${LOC.load_more.message}</div>
                     <div class="messages-list"></div>
                     <div class="message-new">
                         <div class="message-new-media"></div>
                         <span class="message-new-media-btn"></span>
-                        <textarea type="text" class="message-new-input" placeholder="Type your message"></textarea>
-                        <button class="nice-button message-new-send">Send</button>
+                        <textarea type="text" class="message-new-input" placeholder="${LOC.type_message.message}"></textarea>
+                        <button class="nice-button message-new-send">${LOC.send.message}</button>
                     </div>
                 </div>
                 <div class="new-message-box" hidden>
                     <div class="inbox-top new-name-top">
                         <span class="message-header-back message-new-message-back"></span>
-                        <h1 class="larger message-header-name nice-header" style="float: left;margin-left: 14px;">New message</h1>
-                        <button class="new-message-group nice-button" hidden>Create new group</button>
+                        <h1 class="larger message-header-name nice-header" style="float: left;margin-left: 14px;">${LOC.new_message.message}</h1>
+                        <button class="new-message-group nice-button" hidden>${LOC.create_new_group.message}</button>
                         <br>
-                        <input type="text" class="new-message-user-search" placeholder="Search people" style="width:551px">
+                        <input type="text" class="new-message-user-search" placeholder="${LOC.search_people.message}" style="width:551px">
                         <hr>
                     </div>
                     <br><br><br><br><br>
@@ -582,7 +582,7 @@ setTimeout(async () => {
                     console.error(e);
                     if(String(e).includes('You cannot send messages to this user.')) {
                         let messageList = modal.querySelector('.messages-list');
-                        messageList.innerHTML = 'You cannot send messages to this user.';
+                        messageList.innerHTML = LOC.cant_send.message;
                         return;
                     }
                     newSend.disabled = false;
@@ -663,7 +663,7 @@ setTimeout(async () => {
                     <div class="navbar-new-tweet">
                         <img width="35" height="35" class="navbar-new-tweet-avatar">
                         <span class="navbar-new-tweet-char">0/280</span>
-                        <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="What's happening?"></textarea>
+                        <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="${LOC.whats_happening.message}"></textarea>
                         <div class="navbar-new-tweet-user-search box" hidden></div>
                         <div class="navbar-new-tweet-media-div">
                             <span class="navbar-new-tweet-media"></span>
@@ -672,7 +672,7 @@ setTimeout(async () => {
                             <span id="navbar-new-tweet-poll-btn"></span>
                             <div id="navbar-new-tweet-poll" hidden></div>
                             <div class="navbar-new-tweet-media-cc"><div class="navbar-new-tweet-media-c"></div></div>
-                            <button class="navbar-new-tweet-button nice-button">Tweet</button>
+                            <button class="navbar-new-tweet-button nice-button">${LOC.tweet.message}</button>
                             <br><br>
                         </div>
                     </div>
@@ -699,16 +699,16 @@ setTimeout(async () => {
                     newTweetPoll.hidden = false;
                     newTweetPoll.style.width = "364px";
                     document.getElementById('navbar-new-tweet-poll').innerHTML = `
-                        <input class="navbar-poll-question" data-variant="1" placeholder="Variant 1"><br>
-                        <input class="navbar-poll-question" data-variant="2" placeholder="Variant 2"><br>
-                        <input class="navbar-poll-question" data-variant="3" placeholder="Variant 3 (optional)"><br>
-                        <input class="navbar-poll-question" data-variant="4" placeholder="Variant 4 (optional)"><br>
+                        <input class="navbar-poll-question" data-variant="1" placeholder="${LOC.variant.message} 1"><br>
+                        <input class="navbar-poll-question" data-variant="2" placeholder="${LOC.variant.message} 2"><br>
+                        <input class="navbar-poll-question" data-variant="3" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
+                        <input class="navbar-poll-question" data-variant="4" placeholder="${LOC.variant.message} 4 ${LOC.optional.message}"><br>
                         <hr>
-                        Days: <input class="navbar-poll-date" id="navbar-poll-days" type="number" min="0" max="7" value="1"><br>
-                        Hours: <input class="navbar-poll-date" id="navbar-poll-hours" type="number" min="0" max="23" value="0"><br>
-                        Minutes: <input class="navbar-poll-date" id="navbar-poll-minutes" type="number" min="0" max="59" value="0"><br>
+                        ${LOC.days.message}: <input class="navbar-poll-date" id="navbar-poll-days" type="number" min="0" max="7" value="1"><br>
+                        ${LOC.hours.message}: <input class="navbar-poll-date" id="navbar-poll-hours" type="number" min="0" max="23" value="0"><br>
+                        ${LOC.minutes.message}: <input class="navbar-poll-date" id="navbar-poll-minutes" type="number" min="0" max="59" value="0"><br>
                         <hr>
-                        <button class="nice-button" id="navbar-poll-remove">Remove poll</button>
+                        <button class="nice-button" id="navbar-poll-remove">${LOC.remove_poll.message}</button>
                     `;
                     let pollVariants = Array.from(document.getElementsByClassName('navbar-poll-question'));
                     pollToUpload = {
@@ -1010,7 +1010,7 @@ setTimeout(async () => {
             }
             if(lastSearches.length > 0) {
                 let span = document.createElement('span');
-                span.innerText = "Last Searches";
+                span.innerText = LOC.last_searches.message;
                 searchResults.append(span);
                 for(let i in lastSearches) {
                     let topic = lastSearches[i];
@@ -1039,7 +1039,7 @@ setTimeout(async () => {
             }
             if(savedSearches.length > 0) {
                 let span = document.createElement('span');
-                span.innerText = "Saved Searches";
+                span.innerText = LOC.saved_searches.message;
                 searchResults.append(span);
                 for(let i in savedSearches) {
                     let topic = savedSearches[i].query;
@@ -1198,16 +1198,16 @@ setTimeout(async () => {
                             <h1 class="preview-user-name">${escapeHTML(user.name)}</h1>
                             <h2 class="preview-user-handle">@${user.screen_name}</h2>
                         </a>
-                        <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? 'Following' : 'Follow'}</button>
+                        <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? LOC.following_btn.message : LOC.follow.message}</button>
                         <span class="preview-user-description">${escapeHTML(user.description)}</span>
                         <br>
                         <div class="preview-user-stats">
                             <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
-                                <h2>Following</h2>
+                                <h2>${LOC.following.message}</h2>
                                 <h1 class="preview-user-following">${Number(user.friends_count).toLocaleString().replace(/\s/g, ',')}</h1>
                             </a>
                             <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/followers">
-                                <h2>Followers</h2>
+                                <h2>${LOC.followers.message}</h2>
                                 <h1 class="preview-user-followers">${Number(user.followers_count).toLocaleString().replace(/\s/g, ',')}</h1>
                             </a>
                         </div>
@@ -1219,26 +1219,26 @@ setTimeout(async () => {
                         await API.unfollowUser(user.screen_name);
                         followBtn.classList.remove('following');
                         followBtn.classList.add('follow');
-                        followBtn.innerText = 'Follow';
+                        followBtn.innerText = LOC.follow.message;
                         user.following = false;
                         let wtfFollow = document.querySelector(`.wtf-user > .tweet-avatar-link[href="https://twitter.com/${user.screen_name}"]`);
                         if(!wtfFollow) return;
                         wtfFollow = wtfFollow.parentElement.getElementsByClassName('discover-follow-btn')[0];
                         wtfFollow.classList.remove('following');
                         wtfFollow.classList.add('follow');
-                        wtfFollow.innerText = 'Follow';
+                        wtfFollow.innerText = LOC.follow.message;
                     } else {
                         await API.followUser(user.screen_name);
                         followBtn.classList.add('following');
                         followBtn.classList.remove('follow');
-                        followBtn.innerText = 'Following';
+                        followBtn.innerText = LOC.following_btn.message;
                         user.following = true;
                         let wtfFollow = document.querySelector(`.wtf-user > .tweet-avatar-link[href="https://twitter.com/${user.screen_name}"]`);
                         if(!wtfFollow) return;
                         wtfFollow = wtfFollow.parentElement.getElementsByClassName('discover-follow-btn')[0];
                         wtfFollow.classList.add('following');
                         wtfFollow.classList.remove('follow');
-                        wtfFollow.innerText = 'Following';
+                        wtfFollow.innerText = LOC.following_btn.message;
                     }
                 });
                 el.parentElement.append(userPreview);
@@ -1309,7 +1309,14 @@ setTimeout(async () => {
         let version = document.getElementById('oldtwitter-version');
         if(version) {
             fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`).then(res => res.json()).then(res => {
-                version.innerText += ` (last version: ${res.version})`;
+                version.innerText += ` (${LOC.last_version.message}: ${res.version})`;
+                if(TRANSLATORS[LANGUAGE]) {
+                    let translated_by = document.createElement('span');
+                    translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
+                    document.getElementById('about').children[0].append(translated_by);
+                } else {
+                    document.getElementById('about').children[0].append(document.createElement('br'));
+                }
             });
         }
         let about = document.getElementById('about');
@@ -1319,7 +1326,7 @@ setTimeout(async () => {
             setInterval(() => {
                 a.href = location.href.replace('twitter.com', 'mobile.twitter.com');
             }, 500);
-            a.innerText = '[Open this page in new Twitter]';
+            a.innerText = `[${LOC.open_newtwitter.message}]`;
             a.addEventListener('click', e => {
                 e.stopImmediatePropagation();
             });

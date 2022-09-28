@@ -71,29 +71,29 @@ function renderListData(data) {
         actions.innerHTML = ``;
         if(data.user_results.result.rest_id === user.id_str) {
             actions.innerHTML = `
-                <button class="nice-button" id="list-btn-edit">Edit</button>
-                <button class="nice-button" id="list-btn-delete">Delete</button>
+                <button class="nice-button" id="list-btn-edit">${LOC.edit.message}</button>
+                <button class="nice-button" id="list-btn-delete">${LOC.delete.message}</button>
             `;
             document.getElementById('list-btn-edit').addEventListener('click', () => {
                 let modal = createModal(`
                     <div id="list-editor">
-                        <h1 class="cool-header">Edit list</h1><br>
+                        <h1 class="cool-header">${LOC.edit_list.message}</h1><br>
                         <span id="list-editor-error" style="color:red"></span><br>
                         Name:<br><input maxlength="25" type="text" id="list-name-input" value="${escapeHTML(data.name)}"><br><br>
                         Description:<br><textarea maxlength="100" type="text" id="list-description-input">${escapeHTML(data.description)}</textarea><br>
                         <br>
                         Is private: <input type="checkbox" style="width: 15px;" id="list-private-input" ${data.mode === 'Private' ? 'checked' : ''}><br>
                         <br>
-                        <button class="nice-button" id="list-btn-save">Save</button> 
-                        <button class="nice-button" id="list-btn-members">Edit members</button>
+                        <button class="nice-button" id="list-btn-save">${LOC.save.message}</button> 
+                        <button class="nice-button" id="list-btn-members">${LOC.edit_members.message}</button>
                     </div>
                     <div id="list-editor-members" hidden>
-                        <h1 class="cool-header">Edit list members</h1>
-                        <span id='list-editor-members-back'>Back</span>
+                        <h1 class="cool-header">${LOC.edit_members.message}</h1>
+                        <span id='list-editor-members-back'>${LOC.back.message}</span>
                         <br>
                         <div id="list-editor-members-container"></div>
                         <div class="box" style="border-bottom:none"></div>
-                        <div id="list-editor-members-more" class="center-text" style="padding-left: 90px;">Load more</div>
+                        <div id="list-editor-members-more" class="center-text" style="padding-left: 90px;">${LOC.load_more.message}</div>
                     </div>
                 `, 'list-editor-modal');
                 document.getElementById('list-btn-save').addEventListener('click', async () => {
@@ -132,7 +132,7 @@ function renderListData(data) {
                             </a>
                         </div>
                         <div>
-                            <button class="following-item-btn nice-button">Remove</button>
+                            <button class="following-item-btn nice-button">${LOC.remove.message}</button>
                         </div>`;
 
                         let removeButton = followingElement.querySelector('.following-item-btn');
@@ -158,10 +158,10 @@ function renderListData(data) {
             });
             document.getElementById('list-btn-delete').addEventListener('click', async () => {
                 let modal = createModal(`
-                    <h1 class="cool-header">Delete list</h1><br>
-                    <span>Are you sure you want to delete this list?</span>
+                    <h1 class="cool-header">${LOC.delete_list.message}</h1><br>
+                    <span>${LOC.delete_list_sure.message}</span>
                     <br><br>
-                    <button class="nice-button" id="list-btn-delete-confirm">Delete</button>
+                    <button class="nice-button" id="list-btn-delete-confirm">${LOC.delete.message}</button>
                 `, 'list-editor-modal');
                 document.getElementById('list-btn-delete-confirm').addEventListener('click', async () => {
                     await API.deleteList(data.id_str);
@@ -170,18 +170,18 @@ function renderListData(data) {
                 });
             });
         } else {
-            actions.innerHTML = `<button class="nice-button" id="list-btn-subscribe">${data.following ? 'Unsubscribe' : 'Subscribe'}</button>`;
+            actions.innerHTML = `<button class="nice-button" id="list-btn-subscribe">${data.following ? LOC.unsubscribe.message : LOC.subscribe.message}</button>`;
             document.getElementById('list-btn-subscribe').addEventListener('click', async () => {
                 if(data.following) {
                     await API.unsubscribeList(data.id_str);
                     document.getElementById('list-followers-count').innerText = +document.getElementById('list-followers-count').innerText - 1;
                     data.following = false;
-                    document.getElementById('list-btn-subscribe').innerText = 'Subscribe';
+                    document.getElementById('list-btn-subscribe').innerText = LOC.subscribe.message;
                 } else {
                     await API.subscribeList(data.id_str);
                     document.getElementById('list-followers-count').innerText = +document.getElementById('list-followers-count').innerText + 1;
                     data.following = true;
-                    document.getElementById('list-btn-subscribe').innerText = 'Unsubscribe';
+                    document.getElementById('list-btn-subscribe').innerText = LOC.unsubscribe.message;
                 }
             });
         }
@@ -197,7 +197,7 @@ async function renderListTweets(c) {
     });
     if(listTweets.reason) {
         console.error(listTweets.reason);
-        document.getElementById('loading-box-error').innerHTML = `List was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -224,7 +224,7 @@ async function renderListMembers(c) {
     });
     if(listMembers.reason) {
         console.error(listTweets.reason);
-        document.getElementById('loading-box-error').innerHTML = `List was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -250,7 +250,7 @@ async function renderListMembers(c) {
             </a>
         </div>
         <div>
-            <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? 'Following' : 'Follow'}</button>
+            <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? LOC.following_btn.message: LOC.follow.message}</button>
         </div>`;
 
         let followButton = followingElement.querySelector('.following-item-btn');
@@ -259,12 +259,12 @@ async function renderListMembers(c) {
                 await API.unfollowUser(t.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
+                followButton.innerText = LOC.follow.message;
             } else {
                 await API.followUser(t.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
-                followButton.innerText = 'Following';
+                followButton.innerText = LOC.following_btn.message;
             }
         });
 
@@ -282,7 +282,7 @@ async function renderListFollowers(c) {
     });
     if(listFollowers.reason) {
         console.error(listTweets.reason);
-        document.getElementById('loading-box-error').innerHTML = `List was not found.<br><a href="https://twitter.com/home">Go to homepage</a>`;
+        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -308,7 +308,7 @@ async function renderListFollowers(c) {
             </a>
         </div>
         <div>
-            <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? 'Following' : 'Follow'}</button>
+            <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? LOC.following.message: LOC.follow.message}</button>
         </div>`;
 
         let followButton = followingElement.querySelector('.following-item-btn');
@@ -317,12 +317,12 @@ async function renderListFollowers(c) {
                 await API.unfollowUser(t.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
-                followButton.innerText = 'Follow';
+                followButton.innerText = LOC.follow.message;
             } else {
                 await API.followUser(t.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
-                followButton.innerText = 'Following';
+                followButton.innerText = LOC.following.message;
             }
         });
 

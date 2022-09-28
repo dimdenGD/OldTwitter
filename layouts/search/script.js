@@ -100,7 +100,7 @@ async function renderSearch(c) {
                 searchDiv.innerHTML = `<div class="no-results">
                     <br><br>
                     ${searchData.reason}<br><br>
-                    <button class="nice-button">Try again</button>
+                    <button class="nice-button">${LOC.try_again.message}</button>
                 </div>`;
                 cursor = undefined;
                 let button = searchDiv.querySelector('button');
@@ -147,8 +147,8 @@ async function renderSearch(c) {
         if(!currentCursor) {
             searchDiv.innerHTML = `<div class="no-results">
                 <br><br>
-                No results found. Try changing something on left?<br><br>
-                <button class="nice-button">Try again</button>
+                ${LOC.no_results.message}<br><br>
+                <button class="nice-button">${LOC.try_again.message}</button>
             </div>`;
             cursor = undefined;
             let button = searchDiv.querySelector('button');
@@ -176,7 +176,7 @@ async function renderSearch(c) {
                 </a>
             </div>
             <div>
-                <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? 'Following' : 'Follow'}</button>
+                <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? LOC.following_btn.message : LOC.follow.message}</button>
             </div>`;
 
             let followButton = followingElement.querySelector('.following-item-btn');
@@ -185,12 +185,12 @@ async function renderSearch(c) {
                     await API.unfollowUser(t.screen_name);
                     followButton.classList.remove('following');
                     followButton.classList.add('follow');
-                    followButton.innerText = 'Follow';
+                    followButton.innerText = LOC.follow.message;
                 } else {
                     await API.followUser(t.screen_name);
                     followButton.classList.remove('follow');
                     followButton.classList.add('following');
-                    followButton.innerText = 'Following';
+                    followButton.innerText = LOC.following_btn.message;
                 }
             });
 
@@ -199,7 +199,7 @@ async function renderSearch(c) {
             if (t.retweeted_status) {
                 await appendTweet(t.retweeted_status, searchDiv, {
                     top: {
-                        text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> retweeted`,
+                        text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255"
                     }
@@ -215,16 +215,16 @@ async function updateSavedButton() {
     API.getSavedSearches().then(savedSearches => {
         saved = savedSearches.find(s => s.query === searchParams.q);
         if(saved) {
-            document.getElementById('save-search').innerText = "Remove from saved";
+            document.getElementById('save-search').innerText = LOC.remove_search.message;
             document.getElementById('save-search').classList.add('saved');
         } else {
-            document.getElementById('save-search').innerText = "Save search";
+            document.getElementById('save-search').innerText = LOC.save_search.message;
             document.getElementById('save-search').classList.remove('saved');
         }
         document.getElementById('save-search').addEventListener('click', async () => {
             if(saved) {
                 await API.deleteSavedSearch(saved.id_str);
-                document.getElementById('save-search').innerText = "Save search";
+                document.getElementById('save-search').innerText = LOC.save_search.message;
                 document.getElementById('save-search').classList.remove('saved');
                 savedSearches = savedSearches.filter(s => s.id_str !== saved.id_str);
                 chrome.storage.local.set({savedSearches: {
@@ -240,7 +240,7 @@ async function updateSavedButton() {
                     data: savedSearches
                 }}, () => {});
                 saved = saveData;
-                document.getElementById('save-search').innerText = "Remove from saved";
+                document.getElementById('save-search').innerText = LOC.remove_search.message;
                 document.getElementById('save-search').classList.add('saved');
             }
         });
@@ -465,46 +465,46 @@ setTimeout(() => {
             let id = s.id.split('-')[1];
             if(s.id === "advanced") {
                 let modal = createModal(/*html*/`
-                    <h1 class="nice-header">Advanced search</h1>
+                    <h1 class="nice-header">${LOC.advanced_search.message}</h1>
                     <div class="search-advanced-div">
-                        <h3 class="nice-subheader">Words</h3><br>
-                        <input type="text" id="sai-allthesewords" class="search-advanced-input" placeholder="All these words"><br>
-                        <span class="example">Example: whats happening - includes "whats", "happening"</span>
+                        <h3 class="nice-subheader">${LOC.words.message}</h3><br>
+                        <input type="text" id="sai-allthesewords" class="search-advanced-input" placeholder="${LOC.all_these_words.message}"><br>
+                        <span class="example">${LOC.all_these_words_example.message}</span>
                         <br><br>
-                        <input type="text" id="sai-exactphrase" class="search-advanced-input" placeholder="Exact phrase"><br>
-                        <span class="example">Example: happy time - includes "happy time"</span>
+                        <input type="text" id="sai-exactphrase" class="search-advanced-input" placeholder="${LOC.exact_phrase.message}"><br>
+                        <span class="example">${LOC.exact_phrase_example.message}</span>
                         <br><br>
-                        <input type="text" id="sai-anywords" class="search-advanced-input" placeholder="Any of these words"><br>
-                        <span class="example">Example: cats dogs - includes either "cats" or "dogs"</span>
+                        <input type="text" id="sai-anywords" class="search-advanced-input" placeholder="${LOC.any_words.message}"><br>
+                        <span class="example">${LOC.any_words_example.message}</span>
                         <br><br>
-                        <input type="text" id="sai-notthesewords" class="search-advanced-input" placeholder="Not these words"><br>
-                        <span class="example">Example: cats dogs - doesnt include "cats" and doesnt include "dogs"</span>
+                        <input type="text" id="sai-notthesewords" class="search-advanced-input" placeholder="${LOC.not_these_words.message}"><br>
+                        <span class="example">${LOC.not_these_words_example.message}</span>
                         <br><br>
-                        <h3 class="nice-subheader">Users</h3>
-                        <input type="text" id="sai-fromuser" class="search-advanced-input" placeholder="From this user"><br>
-                        <span class="example">Example: @dimdenEFF - from user dimdenEFF</span>
+                        <h3 class="nice-subheader">${LOC.user.message}</h3>
+                        <input type="text" id="sai-fromuser" class="search-advanced-input" placeholder="${LOC.from_this_user.message}"><br>
+                        <span class="example">${LOC.from_this_user_example.message}</span>
                         <br><br>
-                        <input type="text" id="sai-mentionsuser" class="search-advanced-input" placeholder="Mentions this user"><br>
-                        <span class="example">Example: @dimdenEFF - in reply to dimdenEFF</span>
+                        <input type="text" id="sai-mentionsuser" class="search-advanced-input" placeholder="${LOC.mentions_this_user.message}"><br>
+                        <span class="example">${LOC.mentions_this_user_example.message}</span>
                         <br><br>
-                        <h3 class="nice-subheader">Interactions</h3>
-                        <input type="number" id="sai-minreplies" class="search-advanced-input" placeholder="Minimal amount of replies"><br>
-                        <span class="example">Example: 280 - tweets that have at least 280 replies</span>
+                        <h3 class="nice-subheader">${LOC.interactions.message}</h3>
+                        <input type="number" id="sai-minreplies" class="search-advanced-input" placeholder="${LOC.min_replies.message}"><br>
+                        <span class="example">${LOC.min_replies_example.message}</span>
                         <br><br>
-                        <input type="number" id="sai-minlikes" class="search-advanced-input" placeholder="Minimal amount of favorites/likes"><br>
-                        <span class="example">Example: 280 - tweets that have at least 280 favorites</span>
+                        <input type="number" id="sai-minlikes" class="search-advanced-input" placeholder="${LOC.min_favorites.message}"><br>
+                        <span class="example">${LOC.min_favorites_example.message}</span>
                         <br><br>
-                        <input type="number" id="sai-minretweets" class="search-advanced-input" placeholder="Minimal amount of retweets"><br>
-                        <span class="example">Example: 280 - tweets that have at least 280 retweets</span>
+                        <input type="number" id="sai-minretweets" class="search-advanced-input" placeholder="${LOC.min_retweets.message}"><br>
+                        <span class="example">${LOC.min_retweets_example.message}</span>
                         <br><br>
-                        <h3 class="nice-subheader">Dates</h3><br>
-                        Since:
+                        <h3 class="nice-subheader">${LOC.dates.message}</h3><br>
+                        ${LOC.since.message}:
                         <input type="date" id="sai-after" class="search-advanced-input"><br>
                         <br>
-                        Until:
+                        ${LOC.until.message}:
                         <input type="date" id="sai-before" class="search-advanced-input"><br>
                         <br>
-                        <button class="nice-button">Search</button>
+                        <button class="nice-button">${LOC.search.message}</button>
                     </div>
                 `);
                 modal.querySelector('.nice-button').addEventListener('click', async () => {

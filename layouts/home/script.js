@@ -19,22 +19,22 @@ chrome.storage.local.get(['installed'], async data => {
             let modal = createModal(`
                 <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
                 <span style="font-size:14px">
-                    Thank you for installing OldTwitter!! I hope you'll like it. Check <a target="_blank" href="https://twitter.com/old/settings">extension settings</a>!<br><br>
-                    <a href="https://twitter.com/dimdenEFF">Follow me maybe? 👉👈</a><br><br>
+                    ${LOC.thank_you.message}<br><br>
+                    <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
                     <div class="dimden">
                         <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
                         <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
                             <b class="tweet-header-name">${dimden.name}</b>
                             <span class="tweet-header-handle">@${dimden.screen_name}</span>
                         </a><br>
-                        <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">Follow</button>
+                        <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
                     </div>
                 </span>
             `);
             let followButton = modal.querySelector('.follow');
             followButton.addEventListener('click', () => {
                 API.followUser('dimdenEFF').then(() => {
-                    alert("Thank you for following me!!");
+                    alert(LOC.thank_you_follow.message);
                     modal.remove();
                 }).catch(e => {
                     console.error(e);
@@ -63,7 +63,7 @@ function updateUserData() {
 }
 async function updateTimeline() {
     seenThreads = [];
-    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = 'Loading tweets...';
+    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = LOC.loading_tweets.message;
     let fn = vars.timelineType === 'algo' ? API.getAlgoTimeline : vars.timelineType === 'chrono-social' ? API.getMixedTimeline : API.getTimeline;
     let [tl, s] = await Promise.allSettled([fn(), API.getSettings()]);
     if(!tl.value) {
@@ -175,7 +175,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
         if (t.retweeted_status) {
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
-                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> retweeted`,
+                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255"
                 }
@@ -231,7 +231,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
 function renderNewTweetsButton() {
     if (timeline.toBeUpdated > 0) {
         document.getElementById('new-tweets').hidden = false;
-        document.getElementById('new-tweets').innerText = `See new tweets`;
+        document.getElementById('new-tweets').innerText = `${LOC.see_new_tweets.message}`;
     } else {
         document.getElementById('new-tweets').hidden = true;
     }
@@ -429,7 +429,7 @@ setTimeout(async () => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
             if (loadingNewTweets || timeline.data.length === 0) return;
             loadingNewTweets = true;
-            document.getElementById('load-more').innerText = "Loading...";
+            document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
             let tl;
             try {
                 tl = vars.timelineType === 'algo' ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
@@ -444,7 +444,7 @@ setTimeout(async () => {
                 }
             } catch (e) {
                 console.error(e);
-                document.getElementById('load-more').innerText = "Load more";
+                document.getElementById('load-more').innerText = LOC.load_more.message;
                 loadingNewTweets = false;
                 return;
             }
@@ -453,11 +453,11 @@ setTimeout(async () => {
             try {
                 await renderTimeline(true, originalLength);
             } catch(e) {
-                document.getElementById('load-more').innerText = "Load more";
+                document.getElementById('load-more').innerText = LOC.load_more.message;
                 loadingNewTweets = false;
             }
             setTimeout(() => {
-                document.getElementById('load-more').innerText = "Load more";
+                document.getElementById('load-more').innerText = LOC.load_more.message;
                 loadingNewTweets = false;
             }, 250);
         }
@@ -510,7 +510,7 @@ setTimeout(async () => {
     document.getElementById('load-more').addEventListener('click', async () => {
         if (loadingNewTweets || timeline.data.length === 0) return;
         loadingNewTweets = true;
-        document.getElementById('load-more').innerText = "Loading...";
+        document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
         let tl;
         try {
             tl = vars.timelineType === 'algo' ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
@@ -525,7 +525,7 @@ setTimeout(async () => {
             }
         } catch (e) {
             console.error(e);
-            document.getElementById('load-more').innerText = "Load more";
+            document.getElementById('load-more').innerText = LOC.load_more.message;
             loadingNewTweets = false;
             return;
         }
@@ -534,11 +534,11 @@ setTimeout(async () => {
         try {
             await renderTimeline(true, originalLength);
         } catch(e) {
-            document.getElementById('load-more').innerText = "Load more";
+            document.getElementById('load-more').innerText = LOC.load_more.message;
             loadingNewTweets = false;
         }
         setTimeout(() => {
-            document.getElementById('load-more').innerText = "Load more";
+            document.getElementById('load-more').innerText = LOC.load_more.message;
             loadingNewTweets = false;
         }, 250);
     });
@@ -565,16 +565,16 @@ setTimeout(async () => {
             document.getElementById('new-tweet-media-c').innerHTML = '';
             document.getElementById('new-tweet-poll').hidden = false;
             document.getElementById('new-tweet-poll').innerHTML = `
-                <input class="poll-question" data-variant="1" placeholder="Variant 1"><br>
-                <input class="poll-question" data-variant="2" placeholder="Variant 2"><br>
-                <input class="poll-question" data-variant="3" placeholder="Variant 3 (optional)"><br>
-                <input class="poll-question" data-variant="4" placeholder="Variant 4 (optional)"><br>
+                <input class="poll-question" data-variant="1" placeholder="${LOC.variant.message} 1"><br>
+                <input class="poll-question" data-variant="2" placeholder="${LOC.variant.message} 2"><br>
+                <input class="poll-question" data-variant="3" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
+                <input class="poll-question" data-variant="4" placeholder="${LOC.variant.message} 4 ${LOC.optional.message}"><br>
                 <hr>
-                Days: <input class="poll-date" id="poll-days" type="number" min="0" max="7" value="1"><br>
-                Hours: <input class="poll-date" id="poll-hours" type="number" min="0" max="23" value="0"><br>
-                Minutes: <input class="poll-date" id="poll-minutes" type="number" min="0" max="59" value="0"><br>
+                ${LOC.days.message}: <input class="poll-date" id="poll-days" type="number" min="0" max="7" value="1"><br>
+                ${LOC.hours.message}: <input class="poll-date" id="poll-hours" type="number" min="0" max="23" value="0"><br>
+                ${LOC.minutes.message}: <input class="poll-date" id="poll-minutes" type="number" min="0" max="59" value="0"><br>
                 <hr>
-                <button class="nice-button" id="poll-remove">Remove poll</button>
+                <button class="nice-button" id="poll-remove">${LOC.remove_poll.message}</button>
             `;
             document.getElementById('new-tweet-poll').style.width = '400px';
             let pollVariants = Array.from(document.getElementsByClassName('poll-question'));
@@ -792,7 +792,7 @@ setTimeout(async () => {
             let pollVariants = pollToUpload.variants.filter(i => i);
             if(pollVariants.length < 2) {
                 document.getElementById('new-tweet-button').disabled = false;
-                return alert('You must have at least 2 poll variants');
+                return alert(LOC.must2variants.message);
             }
             let cardObject = {
                 "twitter:card": `poll${pollVariants.length}choice_text_only`,

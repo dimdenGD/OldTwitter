@@ -92,7 +92,7 @@ async function renderNotifications(data, append = false) {
             let users = n.template.aggregateUserActionsV1.fromUsers.map(u => data.globalObjects.users[u.user.id]);
 
             if(n.icon.id === 'recommendation_icon') {
-                notificationHeader = `<b><a href="https://twitter.com/${users[0].screen_name}">${escapeHTML(notificationHeader)}</a></b> tweeted something you might like`;
+                notificationHeader = `<b><a href="https://twitter.com/${users[0].screen_name}">${escapeHTML(notificationHeader)}</a></b>`;
             }
             
             let iconClasses = {
@@ -102,8 +102,12 @@ async function renderNotifications(data, append = false) {
                 'recommendation_icon': 'ni-recommend',
                 'lightning_bolt_icon': 'ni-bolt',
                 'bird_icon': 'ni-twitter',
-                'security_alert_icon': 'ni-alert'
+                'security_alert_icon': 'ni-alert',
+                'bell_icon': 'ni-bell'
             };
+            if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
+                notificationHeader = notificationHeader.replace(' liked ', ' favorited ');
+            }
             notificationDiv.innerHTML = /*html*/`
                 <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
                 <div class="notification-header">

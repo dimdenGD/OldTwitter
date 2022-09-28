@@ -1,0 +1,928 @@
+{
+    "ext_description": {
+        "message": "Jauns paplašinājums, kas atgriež veco Twitter izskatu."
+    },
+    "timeline": {
+        "message": "Feed"
+    },
+    "loading": {
+        "message": "Notiek ielāde"
+    },
+    "tweets": {
+        "message": "Tvīti"
+    },
+    "following_btn": {
+        "message": "Sekot",
+        "description": "This one is used in button showing that user is following someone."
+    },
+    "following": {
+        "message": "Seko",
+        "description": "This is used in list showing who user follows. Try to keep this word equal or less than 9 characters"
+    },
+    "followers": {
+        "message": "Sekotāji",
+        "description": "Try to keep this word equal or less than 9 characters"
+    },
+    "trends": {
+        "message": "Tendences"
+    },
+    "tweet": {
+        "message": "Tvītot"
+    },
+    "load_more": {
+        "message": "Ielādēt vairāk"
+    },
+    "who_to_follow": {
+        "message": "Kam sekot?",
+        "description": "Max 19 characters, you can use word 'People' if no space"
+    },
+    "refresh": {
+        "message": "Atjaunot"
+    },
+    "view_all": {
+        "message": "Apskatīt visus"
+    },
+    "running": {
+        "message": "Strādā",
+        "example": "->Running<- OldTwitter v0.0.0"
+    },
+    "created_by": {
+        "message": "Izveidoja",
+        "example": "->Created by<- dimden"
+    },
+    "website": {
+        "message": "Mājaslapa"
+    },
+    "help": {
+        "message": "Palīdzība",
+        "description": "noun"
+    },
+    "terms": {
+        "message": "Noteikumi",
+        "description": "Shortest word that you can find for Terms of service"
+    },
+    "privacy": {
+        "message": "Privātuma politika",
+        "description": "Shortest word that you can find for Privacy policy"
+    },
+    "about": {
+        "message": "Par"
+    },
+    "donate": {
+        "message": "Ziedot"
+    },
+    "home": {
+        "message": "Mājas",
+        "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline"
+    },
+    "notifications": {
+        "message": "Paziņojumi"
+    },
+    "messages": {
+        "message": "Īsziņas"
+    },
+    "search_twitter": {
+        "message": "Meklēt Twitter"
+    },
+    "profile": {
+        "message": "Profils"
+    },
+    "settings": {
+        "message": "Iestatījumi"
+    },
+    "lists": {
+        "message": "Saraksti"
+    },
+    "list": {
+        "message": "Saraksts"
+    },
+    "bookmarks": {
+        "message": "Grāmatzīmes"
+    },
+    "manage_accounts": {
+        "message": "Pārvaldīt kontus"
+    },
+    "logout": {
+        "message": "Iziet"
+    },
+    "whats_happening": {
+        "message": "Kas notiek?"
+    },
+    "variant": {
+        "message": "Variants"
+    },
+    "optional": {
+        "message": "(neobligāti)"
+    },
+    "days": {
+        "message": "Dienas"
+    },
+    "hours": {
+        "message": "Stundas"
+    },
+    "minutes": {
+        "message": "Minūtes"
+    },
+    "remove_poll": {
+        "message": "Noņemt aptauju"
+    },
+    "open_newtwitter": {
+        "message": "Atveriet šo lapu jaunajā Twitter"
+    },
+    "last_version": {
+        "message": "pēdējā versija"
+    },
+    "thank_you": {
+        "message": "Paldies, ka instalējāt OldTwitter! Es ceru, ka jums tas patiks. Pārbaudiet <a target=\"_blank\" href=\"https://twitter.com/old/settings\">paplašinājuma iestatījumus</a>!"
+    },
+    "follow_mb": {
+        "message": "Varbūt seko man?"
+    },
+    "follow": {
+        "message": "Sekot"
+    },
+    "unfollow": {
+        "message": "Beidz sekošanu"
+    },
+    "follow_user": {
+        "message": "Sekot",
+        "example": "->Follow<- @CoolPerson2000"
+    },
+    "unfollow_user": {
+        "message": "Beidz sekot",
+        "example": "->Unfollow<- @CoolPerson2000"
+    },
+    "thank_you_follow": {
+        "message": "Paldies, ka sekojat man!!"
+    },
+    "loading_tweets": {
+        "message": "Notiek tvītu ielāde..."
+    },
+    "retweeted": {
+        "message": "retvītoja",
+        "example": "CoolPerson2000 ->retweeted<-"
+    },
+    "see_new_tweets": {
+        "message": "Skatīt jaunus tvītus"
+    },
+    "must2variants": {
+        "message": "Jums ir jābūt vismaz diviem aptaujas variantiem."
+    },
+    "delete_all": {
+        "message": "Dzēst visus"
+    },
+    "empty": {
+        "message": "Oho, tik tukšs",
+        "description": "Funky message about nothing found"
+    },
+    "delete_bookmarks": {
+        "message": "Vai tiešām vēlaties dzēst visas savas grāmatzīmes? Šo darbību nevar atsaukt."
+    },
+    "members": {
+        "message": "Dalībnieki"
+    },
+    "subscribers": {
+        "message": "Abonenti"
+    },
+    "list_members": {
+        "message": "Saraksta dalībnieki"
+    },
+    "list_subscribers": {
+        "message": "Saraksta abonenti"
+    },
+    "edit": {
+        "message": "Rediģēt"
+    },
+    "delete": {
+        "message": "Dzēst"
+    },
+    "remove": {
+        "message": "Noņemt"
+    },
+    "edit_list": {
+        "message": "Rediģēt sarakstu"
+    },
+    "edit_members": {
+        "message": "Rediģēt dalībniekus"
+    },
+    "save": {
+        "message": "Saglabāt"
+    },
+    "back": {
+        "message": "Atpakaļ"
+    },
+    "delete_list": {
+        "message": "Dzēst sarakstu"
+    },
+    "delete_list_sure": {
+        "message": "Vai tiešām vēlaties dzēst šo sarakstu?"
+    },
+    "unsubscribe": {
+        "message": "Anulēt abonementu"
+    },
+    "subscribe": {
+        "message": "Abonēt"
+    },
+    "list_not_found": {
+        "message": "Saraksts netika atrasts."
+    },
+    "go_homepage": {
+        "message": "Dodieties uz mājaslapu."
+    },
+    "mentions": {
+        "message": "Piemin"
+    },
+    "tweeted_like": {
+        "message": "tvītoja kaut ko, kas jums varētu patikt",
+        "example": "CoolPerson2000 ->tweeted something you might like<-"
+    },
+    "favorites": {
+        "message": "Mīļākie"
+    },
+    "follows_you": {
+        "message": "Seko tev"
+    },
+    "tweet_to_user": {
+        "message": "Tvītot lietotājam"
+    },
+    "followers_you_know": {
+        "message": "sekotāji, kurus tu pazīsti",
+        "example": "123 ->followers you know<-"
+    },
+    "photos_and_videos": {
+        "message": "Fotogrāfijas un video"
+    },
+    "photos_and_videos2": {
+        "message": "Fotogrāfijas & video"
+    },
+    "tweets_and_replies": {
+        "message": "Tvīti & atbildes"
+    },
+    "you_may_also_like": {
+        "message": "Jums arī varētu patikt",
+        "description": "Max 19 characters, you can use word 'People' if no space"
+    },
+    "user_was_suspended": {
+        "message": "Lietotājs tika apturēts."
+    },
+    "user_was_not_found": {
+        "message": "Lietotājs netika atrasts."
+    },
+    "timeline_not_authorized": {
+        "message": "Jums nav tiesību skatīt šī lietotāja feedu."
+    },
+    "create_btn": {
+        "message": "[izveidot]"
+    },
+    "create_list": {
+        "message": "Izveidot sarakstu"
+    },
+    "create": {
+        "message": "Izveidot"
+    },
+    "name": {
+        "message": "Vārds"
+    },
+    "description": {
+        "message": "Apraksts"
+    },
+    "no_description": {
+        "message": "Nav apraksta."
+    },
+    "born": {
+        "message": "Dzimis"
+    },
+    "january": {
+        "message": "janvāris $NUMBER$",
+        "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "february": {
+        "message": "februāris $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "march": {
+        "message": "marts $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "april": {
+        "message": "aprīlis $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "may": {
+        "message": "maijs $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "june": {
+        "message": "Jūnijs $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "july": {
+        "message": "Jūlijs $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "august": {
+        "message": "augusts $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "september": {
+        "message": "Septembris $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "october": {
+        "message": "oktobris $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "november": {
+        "message": "Novembris $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "december": {
+        "message": "decembris $NUMBER$",
+        "placeholders": {
+            "number": {
+                "content": "1"
+            }
+        }
+    },
+    "tweet_to": {
+        "message": "Tvītot uz",
+        "example": "->Tweet to<- @CoolPerson2000"
+    },
+    "translated_from": {
+        "message": "Tulkots no",
+        "example": "->Translated from<- Japanese"
+    },
+    "translate_bio": {
+        "message": "Tulkot biogrāfiju"
+    },
+    "edit_profile": {
+        "message": "Rediģēt profilu"
+    },
+    "follow_request_sent": {
+        "message": "Izsekošanas pieprasījums ir nosūtīts"
+    },
+    "unblock_user": {
+        "message": "Atbloķēt",
+        "example": "->Unblock<- @CoolPerson2000"
+    },
+    "unblock": {
+        "message": "Atbloķēt",
+        "description": "Just for unblock button"
+    },
+    "block_user": {
+        "message": "Bloķēt",
+        "example": "->Block<- @CoolPerson2000"
+    },
+    "block": {
+        "message": "Bloķēt",
+        "description": "Just for block button"
+    },
+    "mute": {
+        "message": "Ignorēt"
+    },
+    "unmute": {
+        "message": "Beidz ignorēt"
+    },
+    "see_lists": {
+        "message": "Skatīt sarakstus"
+    },
+    "stop_notifications": {
+        "message": "Pārtrauciet saņemt paziņojumus"
+    },
+    "receive_notifications": {
+        "message": "Saņemt paziņojumus"
+    },
+    "from_list": {
+        "message": "Pievienot/noņemt no saraksta"
+    },
+    "share_user": {
+        "message": "Kopīgot lietotāju"
+    },
+    "copy_profile_link": {
+        "message": "Kopēt profila saiti"
+    },
+    "remove_from_followers": {
+        "message": "Noņemt no sekotājiem",
+        "description": "This button unfollows person from you, not unfollows you from them"
+    },
+    "remove_from_followers_sure": {
+        "message": "Vai tiešām vēlaties noņemt @$SCREEN_NAME$ no saviem sekotājiem?",
+        "placeholders": {
+            "screen_name": {
+                "content": "CoolPerson2000"
+            }
+        }
+    },
+    "remove_from_followers_warn": {
+        "message": "VIŅI TIKS NOŅEMTI NO JŪSU SEKOTĀJIEM, NEVIS NO JŪSU SEKOTĀJU SARAKSTA."
+    },
+    "remove_from_followers_button": {
+        "message": "Atsekot viņus no manis"
+    },
+    "able_in_future": {
+        "message": "Viņi varēs jums sekot arī turpmāk."
+    },
+    "block_sure": {
+        "message": "Vai tiešām vēlaties bloķēt?",
+        "example": "->Are you sure you want to block<- @CoolPerson2000?"
+    },
+    "add": {
+        "message": "Pievienot"
+    },
+    "joined": {
+        "message": "Pievienojās",
+        "example": "->Joined<- April 30, 2019"
+    },
+    "birthday_today": {
+        "message": "(šodien!)"
+    },
+    "pinned_tweet": {
+        "message": "Piesprausts tvīts"
+    },
+    "search": {
+        "message": "Meklēt"
+    },
+    "popular": {
+        "message": "Populārs"
+    },
+    "live": {
+        "message": "Tiešraide"
+    },
+    "people": {
+        "message": "Cilvēki"
+    },
+    "photos": {
+        "message": "Fotogrāfijas"
+    },
+    "videos": {
+        "message": "Video"
+    },
+    "all_people": {
+        "message": "Visi cilvēki"
+    },
+    "people_yk": {
+        "message": "Cilvēki, kurus pazīstat"
+    },
+    "everywhere": {
+        "message": "Visur"
+    },
+    "near_you": {
+        "message": "Pie jums"
+    },
+    "advanced_search": {
+        "message": "Specialā meklēšana"
+    },
+    "save_search": {
+        "message": "Saglabāt šo meklēšanu"
+    },
+    "remove_search": {
+        "message": "Noņemt no saglabātajiem"
+    },
+    "try_again": {
+        "message": "Mēģini vēlreiz"
+    },
+    "no_results": {
+        "message": "Nekas nav atrasts. Mēģināt kaut ko mainīt kreisajā pusē?"
+    },
+    "words": {
+        "message": "Vārdi"
+    },
+    "all_these_words": {
+        "message": "Visi šie vārdi"
+    },
+    "all_these_words_example": {
+        "message": "Piemērs: kas notiek — ietver \"kas\", \"notiek\""
+    },
+    "exact_phrase": {
+        "message": "Precīza frāze"
+    },
+    "exact_phrase_example": {
+        "message": "Piemērs: laimīgs laiks — ietver \"laimīgo laiku\""
+    },
+    "any_words": {
+        "message": "Jebkurš no šiem vārdiem"
+    },
+    "any_words_example": {
+        "message": "Piemērs: kaķi suņi — ietver vai nu \"kaķi\" vai \"suņi\""
+    },
+    "not_these_words": {
+        "message": "Neviens no šiem vārdiem"
+    },
+    "not_these_words_example": {
+        "message": "Piemērs: kaķi, suņi — neietver \"kaķus\" un \"suņus\""
+    },
+    "user": {
+        "message": "Lietotājs"
+    },
+    "from_this_user": {
+        "message": "No šī lietotāja"
+    },
+    "from_this_user_example": {
+        "message": "Piemērs: @dimdenEFF — no lietotāja dimdenEFF"
+    },
+    "mentions_this_user": {
+        "message": "Piemin šo lietotāju"
+    },
+    "mentions_this_user_example": {
+        "message": "Piemērs: @dimdenEFF — atbildot uz dimdenEFF"
+    },
+    "interactions": {
+        "message": "Mijiedarbība"
+    },
+    "min_replies": {
+        "message": "Minimālais atbilžu skaits"
+    },
+    "min_replies_example": {
+        "message": "Piemērs: 10 — tvīti ar vismaz 10 atbildēm"
+    },
+    "min_retweets": {
+        "message": "Minimāls retvītu skaits"
+    },
+    "min_retweets_example": {
+        "message": "Piemērs: 10 — tvīti ar vismaz 10 retvītiem"
+    },
+    "min_favorites": {
+        "message": "Minimāls izlases skaits"
+    },
+    "min_favorites_example": {
+        "message": "Piemērs: 10 — tvīti ar vismaz 10 izlases"
+    },
+    "dates": {
+        "message": "Datumi"
+    },
+    "since": {
+        "message": "Kopš"
+    },
+    "until": {
+        "message": "Līdz plkst"
+    },
+    "twitter_settings": {
+        "message": "Twitter iestatījumi"
+    },
+    "oldtwitter_settings": {
+        "message": "OldTwitter iestatījumi"
+    },
+    "edit_twitter_settings": {
+        "message": "Rediģēt Twitter iestatījumus"
+    },
+    "refresh_tabs": {
+        "message": "Atsvaidziniet cilnes, lai lietotu iestatījumus"
+    },
+    "chrono": {
+        "message": "Apgriezti hronoloģiski (ātri)"
+    },
+    "chrono_social": {
+        "message": "Apgrieztā hronoloģiskā secība ar draugu patīkām"
+    },
+    "algo": {
+        "message": "Algoritmisks"
+    },
+    "timeline_type": {
+        "message": "Feeda veids"
+    },
+    "show_topic_tweets": {
+        "message": "Rādīt tēmu tvītus (tikai algo)"
+    },
+    "show_colors_in_timeline": {
+        "message": "Rādīt pielāgotas lietotāju saišu krāsas sākuma feeda"
+    },
+    "enable_twemoji": {
+        "message": "Iezlēgt Twemoji"
+    },
+    "hearts_instead_stars": {
+        "message": "Rādīt sirdis (patīk), nevis zvaigznītes (izlases)"
+    },
+    "dark_mode": {
+        "message": "Tumšais režīms"
+    },
+    "disable_hotkeys": {
+        "message": "Atspējot karstos taustiņus"
+    },
+    "hotkeys_list": {
+        "message": "Skatiet karsto taustiņu sarakstu šeit"
+    },
+    "no_big_font": {
+        "message": "Atspējot lielo fontu īsiem tvītiem."
+    },
+    "save_preferred_quality": {
+        "message": "Saglabājiet vēlamo video kvalitāti. Ja tas ir iestatīts uz True, OldTwitter saglabās jūsu vēlamo video kvalitāti un izmantos to (vai izmantos vēlamo kvalitāti, kas ir tuvāka izvēlētajai kvalitātei). Ja tas ir izslēgts, OldTwitter izvēlēsies augstāko kvalitāti."
+    },
+    "preferred_quality": {
+        "message": "Vēlamā kvalitāte"
+    },
+    "default_link_color": {
+        "message": "Noklusējuma saites krāsa"
+    },
+    "font": {
+        "message": "Fonts"
+    },
+    "color_sync": {
+        "message": "Saites krāsu sinhronizācija"
+    },
+    "by_pressing_sync": {
+        "message": "Nospiežot pogu Sinhronizēt, jūsu profila saites krāsa tiks nosūtīta uz krāsu datu bāzi un parādīta citiem paplašinājuma lietotājiem."
+    },
+    "color_years_ago": {
+        "message": "Ja Twitter saites krāsu esat iestatījis iepriekš (pirms gadiem, kad tā vēl bija lieta), tā aizstās jūsu veco krāsu."
+    },
+    "sync": {
+        "message": "Sinhronizēt"
+    },
+    "profile_link_color": {
+        "message": "Profila saites krāsa"
+    },
+    "light_mode_link": {
+        "message": "Gaismas režīma saite"
+    },
+    "dark_mode_link": {
+        "message": "Tumšā režīma saite"
+    },
+    "custom_css": {
+        "message": "Pielāgots CSS"
+    },
+    "css_var_override": {
+        "message": "Ignorēt noklusējuma CSS mainīgos. Ierakstiet tos kā <code>--some-variable: property</code>. Sadalīts ar jaunu rindiņu."
+    },
+    "css_var_list": {
+        "message": "Šeit skatiet noklusējuma CSS mainīgo sarakstu."
+    },
+    "save_vars": {
+        "message": "Saglabāt mainīgos"
+    },
+    "custom_css_text": {
+        "message": "Pielāgots CSS, ko pievienot katrai lapai."
+    },
+    "save_css": {
+        "message": "Saglabāt CSS"
+    },
+    "error_setting_color": {
+        "message": "Iestatot saites krāsu, radās kļūda"
+    },
+    "link_color_set": {
+        "message": "Saites krāsu komplekts!"
+    },
+    "retweeted_by": {
+        "message": "Retvītoja"
+    },
+    "see_quotes": {
+        "message": "skatiet citātus"
+    },
+    "see_quotes_big": {
+        "message": "Skatīt citātus"
+    },
+    "quote_tweets": {
+        "message": "Citējiet tvītus"
+    },
+    "see_retweets": {
+        "message": "skatīt retvītus"
+    },
+    "reply_to": {
+        "message": "Atbildēt uz",
+        "example": "->Reply to<- @CoolGuy2000"
+    },
+    "error_loading_tweet": {
+        "message": "Ielādējot tvītu, radās kļūda"
+    },
+    "direct_messages": {
+        "message": "Tiešās ziņas"
+    },
+    "mark_all_read": {
+        "message": "atzīmēt visu kā izlasītu"
+    },
+    "send": {
+        "message": "Sūtīt",
+        "description": "Max 5 characters, if no word keep it in English"
+    },
+    "new_message": {
+        "message": "Jauna ziņa"
+    },
+    "create_new_group": {
+        "message": "Izveidot jaunu grupu"
+    },
+    "search_people": {
+        "message": "Meklēt cilvēkus"
+    },
+    "type_message": {
+        "message": "Ierakstiet savu ziņojumu"
+    },
+    "cant_send": {
+        "message": "Jūs nevarat nosūtīt ziņojumus šim lietotājam."
+    },
+    "gifs_max": {
+        "message": "GIF failiem ir jābūt mazākiem par 15 MB"
+    },
+    "videos_max": {
+        "message": "Video lielumam ir jābūt mazākam par 500 MB"
+    },
+    "images_max": {
+        "message": "Attēliem jābūt mazākiem par 5 MB"
+    },
+    "max_count": {
+        "message": "Varat augšupielādēt ne vairāk kā 4 attēlus vai 1 video vai 1 gif failu"
+    },
+    "alt_text": {
+        "message": "Ievadiet attēla alternatīvo tekstu"
+    },
+    "vote": {
+        "message": "balsot",
+        "example": "1 ->vote<-"
+    },
+    "votes": {
+        "message": "balsis",
+        "example": "10 ->votes<-"
+    },
+    "ends_at": {
+        "message": "Beidzas plkst",
+        "example": "->Ends at<- 16th November"
+    },
+    "view_translation": {
+        "message": "Skatīt tulkojumu"
+    },
+    "unsupported_video": {
+        "message": "Jūsu pārlūkprogramma neatbalsta šo video."
+    },
+    "views": {
+        "message": "skatījumi",
+        "example": "10 ->views<-"
+    },
+    "reload": {
+        "message": "Pārlādēt"
+    },
+    "circle_limited_tweet": {
+        "message": "Šis tvīts ir redzams tikai personām, kas ir lietotāja @$SCREEN_NAME$ uzticamo draugu lokā.",
+        "placeholders": {
+            "screen_name": {
+                "content": "CoolPerson2000"
+            }
+        }
+    },
+    "learn_more": {
+        "message": "Uzzināt vairāk."
+    },
+    "limited_tweet": {
+        "message": "Šim tvītam ir ierobežojumi attiecībā uz to, kurš var atbildēt."
+    },
+    "replies": {
+        "message": "Atbildes"
+    },
+    "retweets": {
+        "message": "Retvīti"
+    },
+    "likes": {
+        "message": "Patīk"
+    },
+    "show_this_thread": {
+        "message": "Parādiet šo pavedienu"
+    },
+    "quote_tweet": {
+        "message": "Citēt tvītu"
+    },
+    "see_retweeters": {
+        "message": "Skatiet retvītotājus"
+    },
+    "copy_link": {
+        "message": "Kopēt saiti"
+    },
+    "embed_tweet": {
+        "message": "Iegult tvītu"
+    },
+    "share_tweet": {
+        "message": "Kopīgojiet tvītu"
+    },
+    "tweet_analytics": {
+        "message": "Tvītu analīze"
+    },
+    "delete_tweet": {
+        "message": "Dzēst tvītu"
+    },
+    "unpin_tweet": {
+        "message": "Atspraust tvītu"
+    },
+    "pin_tweet": {
+        "message": "Piespraudiet tvītu"
+    },
+    "bookmark_tweet": {
+        "message": "Atzīmēt tvītu kā grāmatzīmi"
+    },
+    "topic_not_interested": {
+        "message": "Neinteresē šī tēma"
+    },
+    "refresh_tweet": {
+        "message": "Atsvaidziniet tvīta datus"
+    },
+    "download_media": {
+        "message": "Lejupielādēt multividi"
+    },
+    "download_gif": {
+        "message": "Lejupielādēt kā GIF"
+    },
+    "replying_to_tweet": {
+        "message": "Atbildēt uz tvītu"
+    },
+    "upload_media_btn": {
+        "message": "[augšupielādēt multividi]"
+    },
+    "cancel_btn": {
+        "message": "[atcelt]"
+    },
+    "quote": {
+        "message": "Citāts"
+    },
+    "reply_example": {
+        "message": "Foršs atbildes tvīts"
+    },
+    "quote_example": {
+        "message": "Foršs citāt-tvīts"
+    },
+    "error_sending_tweet": {
+        "message": "Nosūtot tvītu, radās kļūda"
+    },
+    "retweet_sure": {
+        "message": "Vai tiešām vēlaties atkārtot šo tvītu?"
+    },
+    "unretweet": {
+        "message": "Unretweet"
+    },
+    "retweet": {
+        "message": "Retvīto"
+    },
+    "delete_sure": {
+        "message": "Vai tiešām vēlaties dzēst šo tvītu?"
+    },
+    "long_vid": {
+        "message": "Šis video ir garāks par 10 sekundēm. Vai tiešām vēlaties to konvertēt, var aizkavēties.."
+    },
+    "feedback_thanks": {
+        "message": "Paldies par jūsu atsauksmēm!"
+    },
+    "liked_by": {
+        "message": "Patika"
+    },
+    "reply": {
+        "message": "Atbildēt"
+    },
+    "language": {
+        "message": "Valoda (Language)",
+        "description": "Please add English 'Language' word in parentheses in addition to translation",
+        "example": "Язык (Language)"
+    },
+    "translated_by": {
+        "message": "Tulkojis $TRANSLATOR$.",
+        "placeholders": {
+            "translator": {
+                "content": "CoolPerson2000"
+            }
+        }
+    },
+    "last_searches": {
+        "message": "Pēdējie meklējumi"
+    },
+    "saved_searches": {
+        "message": "Saglabātie meklējumi"
+    }
+}

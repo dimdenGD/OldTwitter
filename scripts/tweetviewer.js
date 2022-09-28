@@ -5,10 +5,10 @@ class TweetViewer {
             <div class="retweets" class="box" hidden></div>
             <div class="retweets_with_comments" hidden></div>
             <div class="likes" class="box" hidden></div>
-            <div class="timeline-more center-text" hidden>Load more</div>
-            <div class="retweets-more center-text" hidden>Load more</div>
-            <div class="retweets_with_comments-more center-text" hidden>Load more</div>
-            <div class="likes-more center-text" hidden>Load more</div>
+            <div class="timeline-more center-text" hidden>${LOC.load_more.message}</div>
+            <div class="retweets-more center-text" hidden>${LOC.load_more.message}</div>
+            <div class="retweets_with_comments-more center-text" hidden>${LOC.load_more.message}</div>
+            <div class="likes-more center-text" hidden>${LOC.load_more.message}</div>
         `, 'tweet-viewer', () => {
             this.close();
             history.pushState({}, null, previousLocation);
@@ -242,7 +242,7 @@ class TweetViewer {
             tweet.style.marginBottom = '10px';
             tweet.style.borderRadius = '5px';
             let h1 = document.createElement('h1');
-            h1.innerText = `Liked by`;
+            h1.innerText = LOC.liked_by.message;
             h1.className = 'cool-header';
             likeDiv.appendChild(h1);
         }
@@ -267,7 +267,7 @@ class TweetViewer {
                 </a>
             </div>
             <div>
-                <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+                <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
             </div>`;
     
             let followButton = likeElement.querySelector('.following-item-btn');
@@ -276,12 +276,12 @@ class TweetViewer {
                     await API.unfollowUser(u.screen_name);
                     followButton.classList.remove('following');
                     followButton.classList.add('follow');
-                    followButton.innerText = 'Follow';
+                    followButton.innerText = LOC.follow.message;
                 } else {
                     await API.followUser(u.screen_name);
                     followButton.classList.remove('follow');
                     followButton.classList.add('following');
-                    followButton.innerText = 'Following';
+                    followButton.innerText = LOC.following_btn.message;
                 }
             });
     
@@ -309,7 +309,7 @@ class TweetViewer {
             tweet.style.marginBottom = '10px';
             tweet.style.borderRadius = '5px';
             let h1 = document.createElement('h1');
-            h1.innerHTML = `Retweeted by (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">see quotes</a>)`;
+            h1.innerHTML = `${LOC.retweeted_by.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
             h1.className = 'cool-header';
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
@@ -347,7 +347,7 @@ class TweetViewer {
                 </a>
             </div>
             <div>
-                <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? 'Following' : 'Follow'}</button>
+                <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
             </div>`;
     
             let followButton = retweetElement.querySelector('.following-item-btn');
@@ -356,12 +356,12 @@ class TweetViewer {
                     await API.unfollowUser(u.screen_name);
                     followButton.classList.remove('following');
                     followButton.classList.add('follow');
-                    followButton.innerText = 'Follow';
+                    followButton.innerText = LOC.follow.message;
                 } else {
                     await API.followUser(u.screen_name);
                     followButton.classList.remove('follow');
                     followButton.classList.add('following');
-                    followButton.innerText = 'Following';
+                    followButton.innerText = LOC.following_btn.message;
                 }
             });
     
@@ -383,7 +383,7 @@ class TweetViewer {
         if(!c) {
             retweetDiv.innerHTML = '';
             let h1 = document.createElement('h1');
-            h1.innerHTML = `Quote tweets (<a href="https://twitter.com/aabehhh/status/${id}/retweets">see retweets</a>)`;
+            h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
             h1.className = 'cool-header';
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
@@ -420,14 +420,14 @@ class TweetViewer {
             <div class="new-tweet-view box">
                 <img width="35" height="35" class="tweet-avatar new-tweet-avatar">
                 <span class="new-tweet-char" hidden>0/280</span>
-                <textarea class="new-tweet-text" placeholder="Reply to @${replyTweet.user.screen_name}" maxlength="280"></textarea>
+                <textarea class="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="280"></textarea>
                 <div class="new-tweet-user-search box" hidden></div>
                 <div class="new-tweet-media-div">
                     <span class="new-tweet-media"></span>
                 </div>
                 <div class="new-tweet-focused" hidden>
                     <div class="new-tweet-media-cc"><div class="new-tweet-media-c"></div></div>
-                    <button class="new-tweet-button nice-button">Tweet</button>
+                    <button class="new-tweet-button nice-button">${LOC.tweet.message}</button>
                     <br><br>
                 </div>
             </div>`;
@@ -705,8 +705,8 @@ class TweetViewer {
         }
         t.full_text = t.full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
         let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
-        let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:'en', percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
-        isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith('en');
+        let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
+        isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith(LANGUAGE);
         let hasVideo = t.extended_entities && t.extended_entities.media && t.extended_entities.media.some(m => m.type === 'video');
         if(hasVideo) {
             t.extended_entities.media[0].video_info.variants = t.extended_entities.media[0].video_info.variants.sort((a, b) => {
@@ -733,25 +733,25 @@ class TweetViewer {
                     <b class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.user.protected ? 'user-protected' : ''}">${escapeHTML(t.user.name)}</b>
                     <span class="tweet-header-handle">@${t.user.screen_name}</span>
                 </a>
-                ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? 'Following' : 'Follow'}</button>` : ''}
+                ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
             </div>
             <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 <span class="tweet-body-text ${vars.noBigFont || (t.full_text && t.full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
                 ${!isEnglish ? `
                 <br>
-                <span class="tweet-translate">View translation</span>
+                <span class="tweet-translate">${LOC.view_translation.message}</span>
                 ` : ``}
                 ${t.extended_entities && t.extended_entities.media ? `
                     <div class="tweet-media">
                         ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                             ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                            Your browser does not support this video.
+                            ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     </div>
                     ${hasVideo ? /*html*/`
                         <div class="tweet-media-controls">
-                            ${t.extended_entities.media[0].ext && t.extended_entities.media[0].ext.r && t.extended_entities.media[0].ext.r.ok ? `<span class="tweet-video-views">${Number(t.extended_entities.media[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} views</span> • ` : ''}<span class="tweet-video-reload">Reload</span> •
+                            ${t.extended_entities.media[0].ext && t.extended_entities.media[0].ext.r && t.extended_entities.media[0].ext.r.ok ? `<span class="tweet-video-views">${Number(t.extended_entities.media[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload">${LOC.reload.message}</span> •
                             ${t.extended_entities.media[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
                         </div>
                     ` : ``}
@@ -777,25 +777,25 @@ class TweetViewer {
                 ` : ``}
                 ${t.limited_actions === 'limit_trusted_friends_tweet' && options.mainTweet ? `
                 <div class="tweet-limited">
-                    This tweet is visible only to people who are in @${t.user.screen_name}'s trusted friends circle.<br>
-                    <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">Learn more.</a>
+                ${LOC.circle_limited_tweet.message}<br>
+                    <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">${LOC.learn_more.message}</a>
                 </div>
-                ` : ''}
+                `.replace('$SCREEN_NAME$', t.user.screen_name) : ''}
                 ${t.tombstone ? `<div class="tweet-warning">${t.tombstone}</div>` : ''}
-                ${t.conversation_control ? `<div class="tweet-warning">This tweet has limitations to who can reply.</div>` : ''}
+                ${t.conversation_control ? `<div class="tweet-warning">${LOC.limited_tweet.message}</div>` : ''}
                 ${options.mainTweet ? /*html*/`
                 <div class="tweet-footer">
                     <div class="tweet-footer-stats">
                         <div class="tweet-footer-stat">
-                            <span class="tweet-footer-stat-text">Replies</span>
+                            <span class="tweet-footer-stat-text">${LOC.replies.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-replies">${Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</b>
                         </div>
                         <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-r">
-                            <span class="tweet-footer-stat-text">Retweets</span>
+                            <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</b>
                         </a>
                         <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
-                            <span class="tweet-footer-stat-text">Favorites</span>
+                            <span class="tweet-footer-stat-text">${LOC.favorites.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-favorites">${Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</b>
                         </a>
                     </div>
@@ -808,7 +808,7 @@ class TweetViewer {
                     <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
                     <div class="tweet-interact-retweet-menu" hidden>
                         <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span><br>
-                        <span class="tweet-interact-retweet-menu-quote">Quote tweet</span><br>
+                        <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span><br>
                         ${options.mainTweet ? `
                             <span class="tweet-interact-retweet-menu-quotes">See quotes</span><br>
                             <span class="tweet-interact-retweet-menu-retweeters">See retweeters</span><br>
@@ -817,9 +817,9 @@ class TweetViewer {
                     <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : t.favorite_count}</span>
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu" hidden>
-                        <span class="tweet-interact-more-menu-copy">Copy link</span><br>
-                        <span class="tweet-interact-more-menu-embed">Embed tweet</span><br>
-                        <span class="tweet-interact-more-menu-share">Share tweet</span><br>
+                        <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span><br>
+                        <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span><br>
+                        <span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span><br>
                         ${t.user.id_str === user.id_str ? `
                         <hr>
                         <span class="tweet-interact-more-menu-analytics">Tweet analytics</span><br>
@@ -827,30 +827,30 @@ class TweetViewer {
                         ` : ``}
                         ${t.user.id_str !== user.id_str && !options.mainTweet ? `
                         <hr>
-                        <span class="tweet-interact-more-menu-follow">${t.user.following ? 'Unfollow' : 'Follow'} @${t.user.screen_name}</span><br>
+                        <span class="tweet-interact-more-menu-follow">${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
                         ` : ''}
-                        <span class="tweet-interact-more-menu-bookmark">Bookmark tweet</span>
+                        <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>
                         <hr>
-                        <span class="tweet-interact-more-menu-refresh">Refresh tweet data</span><br>
-                        ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">Download media</span><br>` : ``}
-                        ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">Download as GIF</span><br>` : ``}
+                        <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span><br>
+                        ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
+                        ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span><br>` : ``}
                     </div>
                 </div>
                 <div class="tweet-reply" hidden>
                     <br>
-                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">Replying to tweet <span class="tweet-reply-upload">[upload media]</span> <span class="tweet-reply-cancel">[cancel]</span></b>
+                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-reply-error" style="color:red"></span>
-                    <textarea maxlength="280" class="tweet-reply-text" placeholder="Cool reply tweet"></textarea>
-                    <button class="tweet-reply-button nice-button">Reply</button><br>
+                    <textarea maxlength="280" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
+                    <button class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
                     <span class="tweet-reply-char">0/280</span><br>
                     <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
                 </div>
                 <div class="tweet-quote" hidden>
                     <br>
-                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">Quote tweet <span class="tweet-quote-upload">[upload media]</span> <span class="tweet-quote-cancel">[cancel]</span></b>
+                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-quote-error" style="color:red"></span>
-                    <textarea maxlength="280" class="tweet-quote-text" placeholder="Cool quote tweet"></textarea>
-                    <button class="tweet-quote-button nice-button">Quote</button><br>
+                    <textarea maxlength="280" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
+                    <button class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
                     <span class="tweet-quote-char">0/280</span><br>
                     <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
                 </div>
@@ -872,7 +872,7 @@ class TweetViewer {
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
                         ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                             ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                            Your browser does not support this video.
+                            ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     `;
                     let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
@@ -891,7 +891,7 @@ class TweetViewer {
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
                         ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!settings.display_sensitive_media && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                             ${m.video_info.variants.filter(v => v.url === url).map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                            Your browser does not support this video.
+                            ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     `;
                     let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
@@ -972,13 +972,13 @@ class TweetViewer {
             tweetFollow.addEventListener('click', async () => {
                 if(t.user.following) {
                     await API.unfollowUser(t.user.screen_name);
-                    tweetFollow.innerText = 'Follow';
+                    tweetFollow.innerText = LOC.follow.message;
                     tweetFollow.classList.remove('following');
                     tweetFollow.classList.add('follow');
                     t.user.following = false;
                 } else {
                     await API.followUser(t.user.screen_name);
-                    tweetFollow.innerText = 'Unfollow';
+                    tweetFollow.innerText = LOC.unfollow.message;
                     tweetFollow.classList.remove('follow');
                     tweetFollow.classList.add('following');
                     t.user.following = true;
@@ -1063,7 +1063,7 @@ class TweetViewer {
             let translated = await API.translateTweet(t.id_str);
             tweetTranslate.hidden = true;
             tweetBodyText.innerHTML += `<br>
-            <span style="font-size: 12px;color: var(--light-gray);">Translated from [${translated.translated_lang}]:</span>
+            <span style="font-size: 12px;color: var(--light-gray);">${LOC.translated_from.message} [${translated.translated_lang}]:</span>
             <br>
             <span>${escapeHTML(translated.text)}</span>`;
             twemoji.parse(tweetBodyText);
@@ -1216,7 +1216,7 @@ class TweetViewer {
             }
             if (!tweetData) {
                 tweetReplyButton.disabled = false;
-                tweetReplyError.innerHTML = "Error sending tweet<br>";
+                tweetReplyError.innerHTML = `${LOC.error_sending_tweet.message}<br>`;
                 return;
             }
             tweetReplyText.value = '';
@@ -1274,7 +1274,7 @@ class TweetViewer {
                 if (!tweetData) {
                     return;
                 }
-                tweetInteractRetweetMenuRetweet.innerText = 'Unretweet';
+                tweetInteractRetweetMenuRetweet.innerText = LOC.unretweet.message;
                 tweetInteractRetweet.classList.add('tweet-interact-retweeted');
                 t.retweeted = true;
                 t.newTweetId = tweetData.id_str;
@@ -1295,7 +1295,7 @@ class TweetViewer {
                 if (!tweetData) {
                     return;
                 }
-                tweetInteractRetweetMenuRetweet.innerText = 'Retweet';
+                tweetInteractRetweetMenuRetweet.innerText = LOC.retweet.message;
                 tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
                 t.retweeted = false;
                 if(!options.mainTweet) {
@@ -1448,7 +1448,7 @@ class TweetViewer {
                 return;
             }
             if (!tweetData) {
-                tweetQuoteError.innerHTML = "Error sending tweet<br>";
+                tweetQuoteError.innerHTML = `${LOC.error_sending_tweet.message}<br>`;
                 tweetQuoteButton.disabled = false;
                 return;
             }
@@ -1530,11 +1530,11 @@ class TweetViewer {
             if (t.user.following) {
                 await API.unfollowUser(t.user.screen_name);
                 t.user.following = false;
-                tweetInteractMoreMenuFollow.innerText = `Follow @${t.user.screen_name}`;
+                tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
             } else {
                 await API.followUser(t.user.screen_name);
                 t.user.following = true;
-                tweetInteractMoreMenuFollow.innerText = `Unfollow @${t.user.screen_name}`;
+                tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
             }
         });
         tweetInteractMoreMenuCopy.addEventListener('click', () => {
@@ -1551,7 +1551,7 @@ class TweetViewer {
                 openInNewTab(`https://mobile.twitter.com/dimdenEFF/status/${t.id_str}/analytics`);
             });
             tweetInteractMoreMenuDelete.addEventListener('click', async () => {
-                let sure = confirm("Are you sure you want to delete this tweet?");
+                let sure = confirm(LOC.delete_sure.message);
                 if (!sure) return;
                 try {
                     await API.deleteTweet(t.id_str);
@@ -1639,7 +1639,7 @@ class TweetViewer {
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     let ctx = canvas.getContext('2d');
-                    if (video.duration > 10 && !confirm('This video is longer than 10 seconds. Are you sure you want to convert it, might lag')) {
+                    if (video.duration > 10 && !confirm(LOC.long_vid.message)) {
                         return downloading = false;
                     }
                     let gif = new GIF({

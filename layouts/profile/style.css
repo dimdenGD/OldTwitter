@@ -540,7 +540,7 @@ span.tweet-body-text {
 
 #wtf {
     padding: 10px;
-    width: 250px
+    max-width: 280px
 }
 
 #wtf > h1,
@@ -1180,8 +1180,8 @@ a:hover,
 .profile-media-preview {
     cursor: pointer;
     vertical-align: text-top;
-    width: 82px;
-    height: 82px;
+    width: 76px;
+    height: 76px;
     margin: 3px
 }
 

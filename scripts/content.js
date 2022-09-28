@@ -1,42 +1,3 @@
-(async () => {
-    let vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 'timelineType', 'showTopicTweets', 'savePreferredQuality'], data => {
-            resolve(data);
-        });
-    });
-    if(typeof(vars.linkColorsInTL) !== 'boolean') {
-        chrome.storage.sync.set({
-            linkColorsInTL: true
-        }, () => {});
-    }
-    if(typeof(vars.enableTwemoji) !== 'boolean') {
-        chrome.storage.sync.set({
-            enableTwemoji: true
-        }, () => {});
-    }
-    if(typeof(vars.timelineType) !== 'string') {
-        let type;
-        if(typeof(vars.chronologicalTL) === 'boolean') {
-            type = vars.chronologicalTL ? 'chrono' : 'algo';
-        } else {
-            type = 'chrono';
-        }
-        chrome.storage.sync.set({
-            timelineType: type
-        }, () => {});
-    }
-    if(typeof(vars.showTopicTweets) !== 'boolean') {
-        chrome.storage.sync.set({
-            showTopicTweets: true
-        }, () => {});
-    }
-    if(typeof(vars.savePreferredQuality) !== 'boolean') {
-        chrome.storage.sync.set({
-            savePreferredQuality: true
-        }, () => {});
-    }
-})();
-
 let pages = [
     {
         name: "home",
@@ -107,6 +68,27 @@ if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/video\/\d+(|\/)$/.test(realPath)) {
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath)) {
     location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
 }
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "gr", "ro", "tl", "lv"];
+const TRANSLATORS = {
+    "ru": ["dimden", "https://dimden.dev/"],
+    "uk": ["dimden", "https://dimden.dev/"],
+    "fr": ["Aurore C.", "https://asuure.com/"],
+    "pt_BR": ["dzshn", "https://dzshn.xyz/"],
+    "es": ["rogerpb98", "https://twitter.com/anbulansia"],
+    "gr": ["VasilisTheChu", "https://pikachu.systems/"],
+    "ro": ["Skylar", "https://143.dust.moe/"],
+    "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
+    "lv": ["yourfriend", "https://3.141.lv/"]
+};
+let LOC = {};
+let LOC_EN = {};
+let LANGUAGE = navigator.language.replace("-", "_");
+if(!LANGUAGES.includes(LANGUAGE)) {
+    LANGUAGE = LANGUAGE.split("_")[0];
+    if(!LANGUAGES.includes(LANGUAGE)) {
+        LANGUAGE = "en";
+    }
+}
 let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
 (async () => {
     if (!page) return;
@@ -130,13 +112,85 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     // invalidate manifest cache by blocking it
     try {
-        await fetch('/manifest.json').then(response => response.text()).catch(e => { });
-    } catch (e) { }
+        await fetch('/manifest.json').then(response => response.text()).catch(e => {});
+    } catch (e) {}
 
+    // default variables
+    let vars = await new Promise(resolve => {
+        chrome.storage.sync.get([
+            'linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
+            'chronologicalTL', 'timelineType', 'showTopicTweets', 'savePreferredQuality',
+            'language'
+        ], data => {
+            resolve(data);
+        });
+    });
+    if(typeof(vars.linkColorsInTL) !== 'boolean') {
+        chrome.storage.sync.set({
+            linkColorsInTL: true
+        }, () => {});
+    }
+    if(typeof(vars.enableTwemoji) !== 'boolean') {
+        chrome.storage.sync.set({
+            enableTwemoji: true
+        }, () => {});
+    }
+    if(typeof(vars.timelineType) !== 'string') {
+        let type;
+        if(typeof(vars.chronologicalTL) === 'boolean') {
+            type = vars.chronologicalTL ? 'chrono' : 'algo';
+        } else {
+            type = 'chrono';
+        }
+        chrome.storage.sync.set({
+            timelineType: type
+        }, () => {});
+    }
+    if(typeof(vars.showTopicTweets) !== 'boolean') {
+        chrome.storage.sync.set({
+            showTopicTweets: true
+        }, () => {});
+    }
+    if(typeof(vars.savePreferredQuality) !== 'boolean') {
+        chrome.storage.sync.set({
+            savePreferredQuality: true
+        }, () => {});
+    }
+    if(typeof(vars.language) !== 'string') {
+        chrome.storage.sync.set({
+            language: LANGUAGE
+        }, () => {});
+    } else {
+        LANGUAGE = LANGUAGES.includes(vars.language) ? vars.language : "en";
+    }
+
+    LOC = await fetch(chrome.runtime.getURL(`_locales/${LANGUAGE}/messages.json`)).then(response => response.json());
+    LOC_EN = await fetch(chrome.runtime.getURL(`_locales/en/messages.json`)).then(response => response.json());
     let html = await fetch(chrome.runtime.getURL(`layouts/${page.name}/index.html`)).then(response => response.text());
     let css = await fetch(chrome.runtime.getURL(`layouts/${page.name}/style.css`)).then(response => response.text());
     let header_html = await fetch(chrome.runtime.getURL(`layouts/header/index.html`)).then(response => response.text());
     let header_css = await fetch(chrome.runtime.getURL(`layouts/header/style.css`)).then(response => response.text());
+
+    // internationalization
+    for(let i in LOC_EN) {
+        if(!LOC[i]) {
+            LOC[i] = LOC_EN[i];
+        }
+    }
+    let msgs = html.match(/__MSG_(\w+)__/g);
+    if (msgs) {
+        for (let i = 0; i < msgs.length; i++) {
+            let m = msgs[i].slice(6, -2);
+            if(LOC[m]) html = replaceAll(html, msgs[i], LOC[m].message);
+        }
+    }
+    msgs = header_html.match(/__MSG_(\w+)__/g);
+    if (msgs) {
+        for (let i = 0; i < msgs.length; i++) {
+            let m = msgs[i].slice(6, -2);
+            if(LOC[m]) header_html = replaceAll(header_html, msgs[i], LOC[m].message);
+        }
+    }
 
     document.open();
     document.write(html);

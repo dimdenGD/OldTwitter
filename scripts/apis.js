@@ -83,7 +83,7 @@ API.getAccounts = (cache = true) => {
                     "x-twitter-auth-type": "OAuth2Session",
                     "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                     "x-twitter-active-user": "yes",
-                    "x-twitter-client-language": "en"
+                    "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
@@ -113,7 +113,7 @@ API.switchAccount = id => {
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
                 "x-twitter-active-user": "yes",
-                "x-twitter-client-language": "en",
+                "x-twitter-client-language": navigator.language ? navigator.language : "en",
                 "content-type": "application/x-www-form-urlencoded"
             },
             credentials: "include",
@@ -193,7 +193,8 @@ API.getTimeline = (max_id) => {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session"
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include"
         }).then(response => response.json()).then(data => {
@@ -212,7 +213,8 @@ API.getAlgoTimeline = (cursor, count = 25) => {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session"
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include"
         }).then(response => response.json()).then(data => {
@@ -304,7 +306,7 @@ API.discoverPeople = (cache = true) => {
                     "x-twitter-auth-type": "OAuth2Session",
                     "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                     "x-twitter-active-user": "yes",
-                    "x-twitter-client-language": "en"
+                    "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
@@ -339,7 +341,7 @@ API.peopleRecommendations = (id, cache = true, by_screen_name = false) => {
                     "x-twitter-auth-type": "OAuth2Session",
                     "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/",
                     "x-twitter-active-user": "yes",
-                    "x-twitter-client-language": "en"
+                    "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
@@ -368,7 +370,8 @@ API.getTrends = () => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include",
         }).then(i => i.json()).then(data => {
@@ -528,7 +531,7 @@ API.translateTweet = id => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-language": navigator.language ? navigator.language.split('-')[0] : "en"
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -554,7 +557,7 @@ API.translateProfile = id => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-language": navigator.language ? navigator.language.split('-')[0] : "en"
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -610,7 +613,8 @@ API.getNotifications = (cursor, onlyMentions = false) => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-language": "en"
+                "x-twitter-client-language": navigator.language ? navigator.language : "en",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include",
         }).then(i => i.json()).then(data => {
@@ -1462,7 +1466,8 @@ API.getReplies = (id, cursor) => {
                     "authorization": OLDTWITTER_CONFIG.oauth_key,
                     "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                     "x-twitter-auth-type": "OAuth2Session",
-                    "content-type": "application/x-www-form-urlencoded"
+                    "content-type": "application/x-www-form-urlencoded",
+                    "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
@@ -1810,6 +1815,7 @@ API.search = query => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -1832,7 +1838,8 @@ API.searchV2 = (obj, cursor) => {
                 "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded"
+                "content-type": "application/x-www-form-urlencoded",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include",
         }).then(i => i.json()).then(data => {
@@ -2205,11 +2212,12 @@ API.getBookmarks = (cursor) => {
             resolve({
                 list: list.filter(e => e.entryId.startsWith('tweet-')).map(e => {
                     let res = e.content.itemContent.tweet_results.result;
+                    if(!res || !res.legacy) return;
                     let tweet = res.legacy;
                     tweet.user = res.core.user_results.result.legacy;
                     tweet.user.id_str = tweet.user_id_str;
                     return tweet;
-                }),
+                }).filter(i => !!i),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
             });
         }).catch(e => {
