@@ -218,7 +218,7 @@
     "create_new_group": { "message": "Créer un nouveau groupe" },
     "search_people": { "message": "Rechercher des personnes" },
     "type_message": { "message": "Entrez votre message" },
-    "cant_send": { "message": "You cannot send messages to this user.Vous ne pouvez pas enovoyer des messages à cet utilisateur" },
+    "cant_send": { "message": "Vous ne pouvez pas enovoyer des messages à cet utilisateur." },
     "gifs_max": { "message": "Les gifs ne doivent pas dépasser 15MB" },
     "videos_max": { "message": "Les vidéos ne doivent pas dépasser 500 MB" },
     "images_max": { "message": "Les images ne doivent pas dépasser 5 MB" },
@@ -271,5 +271,9 @@
     "translated_by": { "message": "Traduit par $TRANSLATOR$", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
     "last_searches": { "message": "Dernières recherches" },
     "saved_searches": { "message": "Recherche sauvegardée" },
-    "everyone": { "message": "Tout le monde", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" }
+    "everyone": { "message": "Tout le monde", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
+    "topic": { "message": "Sujet" },
+    "not_interested": { "message": "Pas intéressé.e.s" },
+    "cancel": { "message": "Annuler" },
+    "youre_not_interested": { "message": "Vous n'êtes pas intéressé.e.s par ce sujet" }
 }

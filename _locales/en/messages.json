@@ -275,5 +275,5 @@
     "topic": { "message": "Topic" },
     "not_interested": { "message": "Not interested" },
     "cancel": { "message": "Cancel" },
-    "youre_not_interested": { "message": "You're not interested in this topic" }
+    "youre_not_interested": { "message": "You're not interested in this topic." }
 }

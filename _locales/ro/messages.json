@@ -270,5 +270,11 @@
     "language": { "message": "Limbă (Language)", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Язык (Language)" },
     "translated_by": { "message": "Tradus de $TRANSLATOR$.", "placeholders": { "translator": { "content": "Skylar Carina Stevens" } } },
     "last_searches": { "message": "Ultimele căutări" },
-    "saved_searches": { "message": "Căutări salvate" }
+    "saved_searches": { "message": "Căutări salvate" },
+    "everyone": { "message": "Toată lumea" },
+    "topic": { "message": "Subiect" },
+    "not_interested": { "message": "Nu sunt interesat(ă)" },
+    "cancel": { "message": "Anulează" },
+    "youre_not_interested": { "message": "Nu esti interesat(ă) de acest subiect." },
+    "autoplay_videos": { "message": "Redare automată a videoclipurilor" }
 }

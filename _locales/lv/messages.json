@@ -925,5 +925,10 @@
     "saved_searches": {
         "message": "Saglabātie meklējumi"
     },
-    "everyone": { "message": "Publisks", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" }
+    "everyone": { "message": "Publisks", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
+    "topic": { "message": "Temats" },
+    "not_interested": { "message": "Neesmu ieinteresēts" },
+    "cancel": { "message": "Atcelt" },
+    "youre_not_interested": { "message": "Jūs nēesat interesēts šī tēma" },
+    "autoplay_videos": { "message": "Automātiski atskaņot video" }
 }
