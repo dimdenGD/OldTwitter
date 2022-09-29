@@ -924,5 +924,6 @@
     },
     "saved_searches": {
         "message": "Saglabātie meklējumi"
-    }
+    },
+    "everyone": { "message": "Publisks", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" }
 }

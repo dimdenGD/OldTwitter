@@ -783,7 +783,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <hr>
                     <span class="tweet-interact-more-menu-follow">${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
                     ` : ''}
-                    <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>
+                    ${!location.pathname.startsWith('/i/bookmarks') ? `<span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>` : ''}
                     <hr>
                     ${t.feedback ? t.feedback.map((f, i) => `<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span><br>`).join("\n") : ''}
                     <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span><br>
@@ -1097,7 +1097,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             a.target = '_blank';
             a.rel = 'noopener noreferrer';
         } else {
-            // if(!vars.chronologicalTL) a.remove();
+            a.remove();
         }
     });
 

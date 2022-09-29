@@ -268,5 +268,8 @@
     "liked_by": { "message": "Сподобалось" },
     "reply": { "message": "Відповідь" },
     "language": { "message": "Мова (Language)", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Язык (Language)" },
-    "translated_by": { "message": "Перекладено $TRANSLATOR$." }
+    "translated_by": { "message": "Перекладено $TRANSLATOR$." },
+    "everyone": { "message": "Всі" },
+    "last_searches": { "message": "Останні пошуки" },
+    "saved_searches": { "message": "Збережені пошуки" }
 }

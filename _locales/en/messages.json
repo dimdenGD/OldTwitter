@@ -271,5 +271,9 @@
     "translated_by": { "message": "Translated by $TRANSLATOR$.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
     "last_searches": { "message": "Last searches" },
     "saved_searches": { "message": "Saved searches" },
-    "everyone": { "message": "Everyone", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" }
+    "everyone": { "message": "Everyone", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
+    "topic": { "message": "Topic" },
+    "not_interested": { "message": "Not interested" },
+    "cancel": { "message": "Cancel" },
+    "youre_not_interested": { "message": "You're not interested in this topic" }
 }

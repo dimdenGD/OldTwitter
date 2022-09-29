@@ -914,5 +914,6 @@
       }
     },
     "last_searches": { "message": "Τελευταίες αναζητήσεις" },
-    "saved_searches": { "message": "Αποθηκευμένες αναζητήσεις" }
+    "saved_searches": { "message": "Αποθηκευμένες αναζητήσεις" },
+    "everyone": { "message": "Ολοι", "description": "Used to say that tweet will be shown to public (who will see the tweet?: Everyone), can use word Public if it fits better" }
   }

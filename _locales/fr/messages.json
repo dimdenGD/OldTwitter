@@ -270,5 +270,6 @@
     "language": { "message": "Langue (Language)", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Язык (Language)" },
     "translated_by": { "message": "Traduit par $TRANSLATOR$", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
     "last_searches": { "message": "Dernières recherches" },
-    "saved_searches": { "message": "Recherche sauvegardée" }
+    "saved_searches": { "message": "Recherche sauvegardée" },
+    "everyone": { "message": "Tout le monde", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" }
 }

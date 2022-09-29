@@ -26,6 +26,10 @@ let pages = [
         paths: [/^\/i\/lists\/\d+(\/members|\/followers|)$/]
     },
     {
+        name: "topics",
+        paths: [/^\/i\/topics\/\d+$/]
+    },
+    {
         name: "tweet",
         paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/likes(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets\/with_comments(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets(|\/)$/]
     },

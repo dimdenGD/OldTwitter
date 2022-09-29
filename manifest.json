@@ -109,13 +109,19 @@
     },
     {
       "matches": ["https://twitter.com/i/lists/*", "https://twitter.com/i/lists/*/", "https://twitter.com/i/lists/*/members", "https://twitter.com/i/lists/*/members/", "https://twitter.com/i/lists/*/followers", "https://twitter.com/i/lists/*/followers/"],
-      "js": ["libraries/twemoji.min.js", "layouts/lists/script.js"],
+      "js": ["libraries/twemoji.min.js", "layouts/lists/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "all_frames": true,
       "run_at": "document_idle"
     },
     {
       "matches": ["https://twitter.com/i/bookmarks", "https://twitter.com/i/bookmarks/"],
-      "js": ["libraries/twemoji.min.js", "layouts/bookmarks/script.js"],
+      "js": ["libraries/twemoji.min.js", "layouts/bookmarks/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://twitter.com/i/topics/*", "https://twitter.com/i/topics/*/"],
+      "js": ["libraries/twemoji.min.js", "layouts/topics/script.js", "libraries/gif.js", "libraries/viewer.min.js"],
       "all_frames": true,
       "run_at": "document_idle"
     },

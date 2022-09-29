@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Old Twitter - __MSG_timeline__</title>
+    <title>Old Twitter - __MSG_topic__</title>
     <link rel="preconnect" href="https://twitter.com">
 </head>
 <body>
@@ -26,18 +26,18 @@
                             <h2 id="user-handle">@loading</h2>
                         </a>
                         <div id="user-stats">
-                            <a class="user-stat-div" id="user-tweets-div">
+                            <div class="user-stat-div">
                                 <h2>__MSG_tweets__</h2>
                                 <h1 id="user-tweets">0</h1>
-                            </a>
-                            <a class="user-stat-div" id="user-following-div">
+                            </div>
+                            <div class="user-stat-div">
                                 <h2>__MSG_following__</h2>
                                 <h1 id="user-following">0</h1>
-                            </a>
-                            <a class="user-stat-div" id="user-followers-div">
+                            </div>
+                            <div class="user-stat-div">
                                 <h2>__MSG_followers__</h2>
                                 <h1 id="user-followers">0</h1>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -48,34 +48,21 @@
                 </div>
             </div>
             <div class="cell" id="center-cell">
-                <div id="new-tweet-container">
-                    <div id="new-tweet" class="box">
-                        <div id="new-tweet-audience" hidden>
-                            <select id="new-tweet-audience-input">
-                                <option value="everyone">__MSG_everyone__</option>
-                            </select>
-                            <span id="new-tweet-circle-people" hidden><span id="new-tweet-circle-people-count">0</span> __MSG_people__ <b id="new-tweet-circle-edit">[edit]</b></span>
-                            <br>
-                        </div>
-                        <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
-                        <span id="new-tweet-char" hidden>0/280</span>
-                        <textarea id="new-tweet-text" placeholder="__MSG_whats_happening__" maxlength="280"></textarea>
-                        <div id="new-tweet-user-search" class="box" hidden></div>
-                        <div id="new-tweet-media-div">
-                            <span id="new-tweet-media"></span>
-                        </div>
-                        <div id="new-tweet-focused" hidden>
-                            <span id="new-tweet-poll-btn"></span>
-                            <div id="new-tweet-poll" hidden></div>
-                            <div id="new-tweet-media-cc"><div id="new-tweet-media-c"></div></div>
-                            <button id="new-tweet-button" class="nice-button">__MSG_tweet__</button>
-                            <br><br>
-                        </div>
+                <div id="topic-div">
+                    <h1 id="topic-name">__MSG_loading__</h1>
+                    <span id="topic-description"></span>
+                    <br>
+                    <div id="topic-not-interested" class="box" hidden>
+                        <span id="topic-not-interested-text">__MSG_youre_not_interested__</span>
+                        <button id="topic-not-interested-cancel" class="nice-button">__MSG_cancel__</button>
                     </div>
+                    <div id="topic-interested" hidden>
+                        <button class="nice-button" id="topic-not-interested-btn">__MSG_not_interested__</button>
+                        <button class="nice-button" id="topic-follow-control"></button>
+                    </div>
+                    <br>
+                    <div id="timeline"></div>
                 </div>
-                <div id="new-tweets" class="center-text" hidden></div>
-                <div id="timeline"></div>
-                <div id="load-more" class="center-text">__MSG_load_more__</div>
             </div>
             <div class="cell" id="right-cell">
                 <div id="wtf" class="box">

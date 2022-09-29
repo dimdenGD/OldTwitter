@@ -1,10 +1,12 @@
 let user = {};
 let settings = {};
 let vars;
-let bookmarkCursor = null;
+let cursor = null;
 let end = false;
 let linkColors = {};
 let activeTweet;
+// /i/topics/1397001890898989057
+let topicId = location.pathname.split('/')[3];
 
 function updateUserData() {
     API.verifyCredentials().then(async u => {
@@ -45,31 +47,51 @@ function renderUserData() {
 
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
-
-async function renderBookmarks(cursor) {
-    let bookmarks = await API.getBookmarks(cursor);
-    let bookmarksContainer = document.getElementById('timeline');
-    
-    if (bookmarks.cursor) {
-        bookmarkCursor = bookmarks.cursor;
+async function renderTopic(cursorRn) {
+    let [topic, s] = await Promise.all([
+        API.topicLandingPage(topicId, cursorRn),
+        API.getSettings()
+    ]);
+    settings = s;
+    document.getElementById("topic-name").innerText = topic.header.topic.name;
+    document.getElementById("topic-description").innerText = topic.header.topic.description;
+    if(topic.header.topic.not_interested) {
+        document.getElementById("topic-not-interested").hidden = false;
+        document.getElementById("topic-interested").hidden = true;
     } else {
-        end = true;
+        document.getElementById("topic-not-interested").hidden = true;
+        document.getElementById("topic-interested").hidden = false;
     }
-    bookmarks = bookmarks.list;
-    if(bookmarks.length === 0 && !cursor) {
-        bookmarksContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
-        document.getElementById('delete-all').hidden = true;
-        return;
+    if(topic.header.topic.following) {
+        document.getElementById('topic-not-interested-btn').hidden = true;
+        document.getElementById('topic-follow-control').innerText = LOC.following.message;
+        document.getElementById('topic-follow-control').classList.add("topic-following");
+        document.getElementById('topic-follow-control').classList.remove("topic-follow");
+    } else {
+        document.getElementById('topic-not-interested-btn').hidden = false;
+        document.getElementById('topic-follow-control').innerText = LOC.follow.message;
+        document.getElementById('topic-follow-control').classList.add("topic-follow");
+        document.getElementById('topic-follow-control').classList.remove("topic-following");
     }
-    if(bookmarks.length === 0 && cursor) {
-        end = true;
-        return;
-    }
-    for (let i = 0; i < bookmarks.length; i++) {
-        let b = bookmarks[i];
-        await appendTweet(b, bookmarksContainer);
+
+    let entries = topic.body.timeline.instructions.find(i => i.type === "TimelineAddEntries").entries;
+    cursor = entries.find(e => e.entryId.startsWith("cursor-bottom")).content.value;
+    let tweets = entries.filter(e => e.entryId.startsWith('tweet-')).map(e => {
+        let result = e.content.itemContent.tweet_results.result;
+        if(!result || !result.legacy) return;
+        result.legacy.id_str = result.rest_id;
+        result.legacy.user = result.core.user_results.result;
+        result.legacy.user.legacy.id_str = result.legacy.user.rest_id;
+        result.legacy.user = result.legacy.user.legacy;
+        return result.legacy;
+    }).filter(i => !!i);
+
+    let tl = document.getElementById("timeline");
+    for(let i in tweets) {
+        await appendTweet(tweets[i], tl);
     }
 }
+
 let lastScroll = Date.now();
 let loadingNewTweets = false;
 let lastTweetDate = 0;
@@ -253,27 +275,63 @@ setTimeout(async () => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
             if (loadingNewTweets) return;
             loadingNewTweets = true;
-            await renderBookmarks(bookmarkCursor);
+            await renderTopic(cursor);
             setTimeout(() => {
                 loadingNewTweets = false;
             }, 250);
         }
     }, { passive: true });
-    document.getElementById('delete-all').addEventListener('click', async () => {
-        let modal = createModal(`
-            <p>${LOC.delete_bookmarks.message}</p>
-            <button class="nice-button" id="delete-all-confirm">${LOC.delete_all.message}</button>
-        `);
-        modal.getElementsByClassName('nice-button')[0].addEventListener('click', () => {
-            API.deleteAllBookmarks().then(() => {
-                document.getElementById('timeline').innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
-                document.getElementById('delete-all').hidden = true;
-                modal.remove();
-            });
-        });
-    });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
+    });
+    document.getElementById('topic-not-interested-btn').addEventListener('click', async () => {
+        try {
+            await API.topicNotInterested(topicId);
+        } catch(e) {
+            console.error(e);
+            alert(e);
+            return;
+        }
+        document.getElementById("topic-not-interested").hidden = false;
+        document.getElementById("topic-interested").hidden = true;
+    });
+    document.getElementById('topic-not-interested-cancel').addEventListener('click', async () => {
+        try {
+            await API.topicUndoNotInterested(topicId);
+        } catch(e) {
+            console.error(e);
+            alert(e);
+            return;
+        }
+        document.getElementById("topic-not-interested").hidden = true;
+        document.getElementById("topic-interested").hidden = false;
+    });
+    document.getElementById('topic-follow-control').addEventListener('click', async e => {
+        if(e.target.className.includes('topic-following')) {
+            try {
+                await API.topicUnfollow(topicId);
+            } catch(e) {
+                console.error(e);
+                alert(e);
+                return;
+            }
+            document.getElementById('topic-follow-control').classList.remove('topic-following');
+            document.getElementById('topic-follow-control').classList.add('topic-follow');
+            document.getElementById('topic-follow-control').innerText = LOC.follow.message;
+            document.getElementById('topic-not-interested-btn').hidden = false;
+        } else {
+            try {
+                await API.topicFollow(topicId);
+            } catch(e) {
+                console.error(e);
+                alert(e);
+                return;
+            }
+            document.getElementById('topic-follow-control').classList.remove('topic-follow');
+            document.getElementById('topic-follow-control').classList.add('topic-following');
+            document.getElementById('topic-follow-control').innerText = LOC.following.message;
+            document.getElementById('topic-not-interested-btn').hidden = true;
+        }
     });
     
     // custom events
@@ -289,7 +347,7 @@ setTimeout(async () => {
         updateUserData();
         renderDiscovery();
         renderTrends();
-        renderBookmarks();
+        renderTopic();
         document.getElementById('loading-box').hidden = true;
         setInterval(updateUserData, 60000 * 3);
         setInterval(() => renderDiscovery(false), 60000 * 15);

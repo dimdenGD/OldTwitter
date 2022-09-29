@@ -128,16 +128,16 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
-#bookmarks {
+#topic-div {
     width: 560px;
     margin-bottom: 10px;
     min-height: 700px;
     padding: 10px;
 }
-#bookmarks hr {
+#topic-div hr {
     border-top: var(--border);
 }
-#bookmarks h1 {
+#topic-div h1 {
     margin-bottom: 5px !important;
 }
 .tweet, .notification {
@@ -184,7 +184,7 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1, #trends h1, #bookmarks h1 {
+#wtf h1, #trends h1, #topic-div h1 {
     margin: 0;
     display: inline-block;
     font-size: 22px;
@@ -799,7 +799,6 @@ span.tweet-body-text {
 .tweet-interact-more-menu-bookmark:before {
     content: "\f093"
 }
-
 .tweet-interact-more-menu-feedback:before {
     content: "\f044"
 }
@@ -1035,19 +1034,24 @@ a:hover,
 .tweet-body-text-long .emoji {
     vertical-align: text-bottom !important
 }
-#delete-all {
+#topic-not-interested-cancel {
     float: right;
-    margin-top: 5px;
-    color: var(--light-gray);
+    height: 25px;
+    padding-top: 4px;
+    margin-top: -3px;
 }
-#delete-all:hover {
-    cursor: pointer;
-    text-decoration: underline;
+#topic-description {
+    color: var(--lil-darker-gray);
+    font-size: 14px;
+    display: block;
+    margin-top: -3px;
+    margin-bottom: -6px;
 }
-.tweet-delete-bookmark {
-    float: right;
-    color: var(--light-gray);
-    margin-top: -8px;
-    font-size: 24px;
-    margin-left: -16px;
+#topic-not-interested-text {
+    color: var(--lil-darker-gray);
+    font-size: 14px;
+}
+#topic-not-interested {
+    padding: 10px;
+    margin-bottom: -6px;
 }
