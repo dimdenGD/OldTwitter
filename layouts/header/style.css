@@ -4,7 +4,7 @@
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
     --favorite-icon-color: #ffac33;
-    --video-cover: cover;
+    --video-cover: contain;
     --background-color: white;
     --darker-background-color: #f5f8fa;
     --almost-black: #292f33;

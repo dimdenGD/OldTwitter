@@ -7,7 +7,7 @@ Then open newly pasted folder and open messages.json in it. You'll now see { "me
 Things to keep in mind:
 - Some lines have "description" or "example" fields, it's comments for translators. You don't have to translate them.
 - !! Pay attention to texts case and symbols in it! If English version has something in lowercase, use lowercase in translation too.
-- Keep $SOMETHING_HERE$ parts unchanged.
+- Keep \$SOMETHING_HERE$ parts unchanged.
 - "\n" text means new line symbol.
 - Place \ before " inside your text.
 - Try to keep everything as short as English version, if possible (unless it's big messages)

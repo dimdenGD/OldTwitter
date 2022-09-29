@@ -270,5 +270,10 @@
     "translated_by": { "message": "$TRANSLATOR$ले अनुवाद गरेको.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
     "last_searches": { "message": "अन्तिम खोजेको कुरा" },
     "saved_searches": { "message": "राखेको खोजेको कुरा" },
-    "everyone": { "message": "सबैलाई" }
+    "everyone": { "message": "सबैलाई" },
+    "topic": { "message": "विषय" },
+    "not_interested": { "message": "रुचि छैन" },
+    "cancel": { "message": "नगर्न" },
+    "youre_not_interested": { "message": "यो विषय मा तपाईँको रुचि छैन" },
+    "autoplay_videos": { "message": "आफै विडिओ लगाउन" }
 }

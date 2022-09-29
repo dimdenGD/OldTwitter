@@ -1478,11 +1478,11 @@ setTimeout(async () => {
     }
 
     function fullscreenEvent(fullscreen) {
-        if(fullscreen) {
-            root.style.setProperty('--video-cover', 'contain');
-        } else {
-            root.style.setProperty('--video-cover', 'cover');
-        }
+        // if(fullscreen) {
+        //     root.style.setProperty('--video-cover', 'contain');
+        // } else {
+        //     root.style.setProperty('--video-cover', 'cover');
+        // }
     }
     function switchDarkMode(enabled) {
         if(enabled) {
