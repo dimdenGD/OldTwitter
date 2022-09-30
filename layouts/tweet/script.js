@@ -686,7 +686,7 @@ document.addEventListener('findActiveTweet', () => {
 
 setTimeout(async () => {
     vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'darkMode', 'disableHotkeys', 'savePreferredQuality', 'noBigFont'], data => {
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'darkMode', 'disableHotkeys', 'savePreferredQuality', 'noBigFont'], data => {
             resolve(data);
         });
     });

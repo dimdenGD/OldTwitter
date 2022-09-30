@@ -1242,6 +1242,7 @@ setTimeout(async () => {
                     }
                 });
                 el.parentElement.append(userPreview);
+                if(vars.enableTwemoji) twemoji.parse(userPreview);
                 let leaveFunction = () => {
                     leavePreviewTimeout = setTimeout(() => {
                         userPreview.remove();
