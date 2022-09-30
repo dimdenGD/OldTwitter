@@ -1179,7 +1179,7 @@ setTimeout(async () => {
             if(!el) return;
             let url;
             try { url = new URL(el.href) } catch(e) { return };
-            if(!isProfilePath(url.pathname)) return;
+            if(!isProfilePath(url.pathname) || url.host !== 'twitter.com') return;
             let username = url.pathname.slice(1);
             if(location.pathname.slice(1) === username) return;
             if(username === user.screen_name) return;
