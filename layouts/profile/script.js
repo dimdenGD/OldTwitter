@@ -1135,85 +1135,6 @@ function renderNewTweetsButton() {
     }
 }
 
-let banner = document.getElementById('profile-banner');
-let loadingNewTweets = false;
-let lastTweetDate = 0;
-let activeTweet;
-let tweetsToLoad = {};
-let lastScroll = Date.now();
-document.addEventListener('scroll', async () => {
-    lastScroll = Date.now();
-    // find active tweet by scroll amount
-    if(Date.now() - lastTweetDate > 50) {
-        lastTweetDate = Date.now();
-        let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-        if(activeTweet) {
-            activeTweet.classList.remove('tweet-active');
-        }
-        let scrollPoint = scrollY + innerHeight/2;
-        activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-        if(activeTweet) {
-            activeTweet.classList.add('tweet-active');
-        }
-    }
-    
-    // banner scroll
-    banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
-
-    // load more tweets
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
-        if (loadingNewTweets || timeline.data.length === 0 || stopLoad) return;
-        loadingNewTweets = true;
-        let tl;
-        try {
-            if(subpage === "likes") {
-                let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
-                tl = data.tl;
-                favoritesCursor = data.cursor;
-            } else {
-                tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
-                tl = tl.slice(1);
-                if(subpage === 'media') {
-                    tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
-                }
-            }
-        } catch (e) {
-            console.error(e);
-            loadingNewTweets = false;
-            return;
-        }
-        let originalLength = timeline.data.length;
-        timeline.data = timeline.data.concat(tl);
-        if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
-        previousLastTweet = timeline.data[timeline.data.length - 1];
-        await renderTimeline(true, originalLength);
-        setTimeout(() => {
-            setTimeout(() => {
-                loadingNewTweets = false;
-            });
-        }, 200);
-    }
-}, { passive: true });
-document.addEventListener('mousemove', e => {
-    if(Date.now() - lastScroll > 10) {
-        let t = e.target;
-        if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
-            if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
-            else if(t.className === 'tweet-body') t = t.parentElement;
-            let id = t.className.split('id-')[1].split(' ')[0];
-            if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
-            else tweetsToLoad[id]++;
-            if(tweetsToLoad[id] === 15) {
-                API.getReplies(id);
-                API.getTweetLikers(id);
-                t.classList.add('tweet-preload');
-                console.log(`Preloading ${id}`);
-            }
-        }
-    }
-});
-
 document.addEventListener('clearActiveTweet', () => {
     if(activeTweet) {
         activeTweet.classList.remove('tweet-active');
@@ -1231,6 +1152,11 @@ document.addEventListener('findActiveTweet', () => {
         activeTweet.classList.add('tweet-active');
     }
 });
+let loadingNewTweets = false;
+let lastTweetDate = 0;
+let activeTweet;
+let tweetsToLoad = {};
+let lastScroll = Date.now();
 
 setTimeout(async () => {
     vars = await new Promise(resolve => {
@@ -1393,6 +1319,80 @@ setTimeout(async () => {
         // weird bug
         location.reload();
     }
+    let banner = document.getElementById('profile-banner');
+
+    document.addEventListener('scroll', async () => {
+        lastScroll = Date.now();
+        // find active tweet by scroll amount
+        if(Date.now() - lastTweetDate > 50) {
+            lastTweetDate = Date.now();
+            let tweets = Array.from(document.getElementsByClassName('tweet'));
+    
+            if(activeTweet) {
+                activeTweet.classList.remove('tweet-active');
+            }
+            let scrollPoint = scrollY + innerHeight/2;
+            activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
+            if(activeTweet) {
+                activeTweet.classList.add('tweet-active');
+            }
+        }
+        
+        // banner scroll
+        banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
+    
+        // load more tweets
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+            if (loadingNewTweets || timeline.data.length === 0 || stopLoad) return;
+            loadingNewTweets = true;
+            let tl;
+            try {
+                if(subpage === "likes") {
+                    let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
+                    tl = data.tl;
+                    favoritesCursor = data.cursor;
+                } else {
+                    tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
+                    tl = tl.slice(1);
+                    if(subpage === 'media') {
+                        tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                loadingNewTweets = false;
+                return;
+            }
+            let originalLength = timeline.data.length;
+            timeline.data = timeline.data.concat(tl);
+            if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
+            previousLastTweet = timeline.data[timeline.data.length - 1];
+            await renderTimeline(true, originalLength);
+            setTimeout(() => {
+                setTimeout(() => {
+                    loadingNewTweets = false;
+                });
+            }, 200);
+        }
+    }, { passive: true });
+    document.addEventListener('mousemove', e => {
+        if(Date.now() - lastScroll > 10) {
+            let t = e.target;
+            if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
+                if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
+                else if(t.className === 'tweet-body') t = t.parentElement;
+                let id = t.className.split('id-')[1].split(' ')[0];
+                if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
+                else tweetsToLoad[id]++;
+                if(tweetsToLoad[id] === 15) {
+                    API.getReplies(id);
+                    API.getTweetLikers(id);
+                    t.classList.add('tweet-preload');
+                    console.log(`Preloading ${id}`);
+                }
+            }
+        }
+    });
     document.getElementById('new-tweets').addEventListener('click', () => {
         timeline.toBeUpdated = 0;
         timeline.data = timeline.dataToUpdate;
