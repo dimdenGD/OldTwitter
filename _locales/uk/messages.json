@@ -278,5 +278,11 @@
     "youre_not_interested": { "message": "Вам не цікава ця тема." },
     "autoplay_videos": { "message": "Автовідтворення відео." },
     "turn_on_retweets": { "message": "Показувати ретвіти" },
-    "turn_off_retweets": { "message": "Приховувати ретвіти" }
+    "turn_off_retweets": { "message": "Приховувати ретвіти" },
+    "you_can_reply": { "message": "(ви можете відповісти)" },
+    "audience": { "message": "Аудиторія" },
+    "who_can_reply": { "message": "Хто може відповісти" },
+    "people_you_follow": { "message": "Люди на яких ви підписані" },
+    "people_you_mention": { "message": "Люди яких ви згадуєте" },
+    "new_version": { "message": "Оновлено до нової версії" }
 }

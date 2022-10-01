@@ -1072,6 +1072,8 @@ a:hover,
 #new-tweet-audience-input, #new-tweet-wcr-input {
     border-color: var(--border);
     padding: 1px;
+    background-color: var(--input-background);
+    color: var(--default-text-color);
 }
 #new-tweet-circle-edit {
     cursor: pointer;

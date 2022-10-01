@@ -396,5 +396,6 @@ body {
 
 select {
     color: var(--default-text-color);
-    background-color: var(--darker-background-color);
+    background-color: var(--input-background);
+    border-color: var(--border);
 }

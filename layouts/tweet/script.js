@@ -888,7 +888,7 @@ setTimeout(async () => {
                         }
                     }
                     let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
-                    if(newVideo) {
+                    if(newVideo && !newVideo.ended) {
                         newVideo.play();
                     }
                 }

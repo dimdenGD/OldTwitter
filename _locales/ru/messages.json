@@ -278,5 +278,11 @@
     "youre_not_interested": { "message": "Вам не интересна эта тема." },
     "autoplay_videos": { "message": "Автовоспроизведение видео." },
     "turn_on_retweets": { "message": "Показывать ретвиты" },
-    "turn_off_retweets": { "message": "Скрыть ретвиты" }
+    "turn_off_retweets": { "message": "Скрыть ретвиты" },
+    "you_can_reply": { "message": "(вы можете ответить)" },
+    "audience": { "message": "Аудитория" },
+    "who_can_reply": { "message": "Кто может ответить" },
+    "people_you_follow": { "message": "Люди на которых вы подписаны" },
+    "people_you_mention": { "message": "Люди которых вы упоминаете" },
+    "new_version": { "message": "Обновлено до новой версии" }
 }
