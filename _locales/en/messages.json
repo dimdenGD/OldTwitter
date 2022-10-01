@@ -275,5 +275,7 @@
     "topic": { "message": "Topic" },
     "not_interested": { "message": "Not interested" },
     "cancel": { "message": "Cancel" },
-    "youre_not_interested": { "message": "You're not interested in this topic." }
+    "youre_not_interested": { "message": "You're not interested in this topic." },
+    "turn_on_retweets": { "message": "Show retweets in timeline" },
+    "turn_off_retweets": { "message": "Hide retweets in timeline" }
 }

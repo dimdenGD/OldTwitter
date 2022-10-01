@@ -1331,6 +1331,9 @@ a:hover,
 #profile-settings-lists-action:before {
     content: "\f051";
 }
+#profile-settings-retweets:before {
+    content: "\f502";
+}
 
 #profile-settings-share:before {
     content: "\f185"

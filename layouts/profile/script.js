@@ -832,6 +832,7 @@ async function renderProfile() {
                 <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}<br></span>
                 ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span><br>` : ''}
                 <span id="profile-settings-lists-action" style="width: 100%;">${LOC.from_list.message}<br></span>
+                <span id="profile-settings-retweets" style="width: 100%;">${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}<br></span>
                 <hr>
                 <span id="profile-settings-lists" style="width: 100%;">${LOC.see_lists.message}<br></span>
                 <span id="profile-settings-share" style="width: 100%;">${LOC.share_user.message}<br></span>
@@ -862,6 +863,17 @@ async function renderProfile() {
                 pageUser.following = true;
                 document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = false;
+            }
+        });
+        document.getElementById('profile-settings-retweets').addEventListener('click', async e => {
+            if(pageUser.want_retweets) {
+                await API.switchRetweetsVisibility(pageUser.id_str, false);
+                pageUser.want_retweets = false;
+                e.target.innerText = LOC.turn_on_retweets.message;
+            } else {
+                await API.switchRetweetsVisibility(pageUser.id_str, true);
+                pageUser.want_retweets = true;
+                e.target.innerText = LOC.turn_off_retweets.message;
             }
         });
         document.getElementById('profile-settings').addEventListener('click', () => {

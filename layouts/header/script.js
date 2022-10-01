@@ -1307,7 +1307,7 @@ setTimeout(async () => {
                 userDataFunction({ detail: u });
             });
         }
-    }, 5000);
+    }, 3000);
     setTimeout(() => {
         let version = document.getElementById('oldtwitter-version');
         if(version) {

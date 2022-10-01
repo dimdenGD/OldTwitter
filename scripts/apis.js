@@ -1224,6 +1224,31 @@ API.getFollowersYouFollow = (id, cursor) => {
         });
     });
 }
+API.switchRetweetsVisibility = (user_id, see) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/1.1/friendships/update.json`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded"
+            },
+            credentials: "include",
+            method: 'post',
+            body: `id=${user_id}&retweets=${see}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 
 // Tweets
 API.postTweet = data => {
