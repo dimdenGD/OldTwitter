@@ -361,7 +361,6 @@ setTimeout(async () => {
                 const messageHeaderName = modal.querySelector('.message-header-name');
                 const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
                 const messageHeaderLink = modal.querySelector('.message-header-link');
-                const messageHeaderBack = modal.querySelector('.message-header-back');
                 messageElement.addEventListener('click', async () => {
                     let messageData = await API.getConversation(c.conversation_id);
                     modal.querySelector('.message-box').hidden = false;
@@ -378,16 +377,19 @@ setTimeout(async () => {
 
                     renderConversation(messageData, c.conversation_id);
                 });
-                messageHeaderBack.addEventListener('click', () => {
-                    modal.remove();
-                    document.getElementById('messages').click();
-                });
                 if(isUnread) {
                     inboxList.prepend(messageElement);
                 } else {
                     inboxList.append(messageElement);
                 }
             }
+            const messageHeaderBack = modal.querySelector('.message-header-back');
+            messageHeaderBack.addEventListener('click', e => {
+                modal.remove();
+                setTimeout(() => {
+                    document.getElementById('messages').click();
+                }, 20);
+            });
         }
         document.getElementById('messages').addEventListener('click', async e => {
             e.preventDefault();

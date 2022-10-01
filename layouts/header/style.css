@@ -1320,3 +1320,6 @@ input, textarea {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+.message-element .emoji {
+    vertical-align: text-bottom;
+}
