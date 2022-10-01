@@ -276,6 +276,7 @@
     "not_interested": { "message": "Not interested" },
     "cancel": { "message": "Cancel" },
     "youre_not_interested": { "message": "You're not interested in this topic." },
+    "autoplay_videos": { "message": "Autoplay videos." },
     "turn_on_retweets": { "message": "Show retweets in timeline" },
     "turn_off_retweets": { "message": "Hide retweets in timeline" }
 }

@@ -920,5 +920,5 @@
     "not_interested": { "message": "Δεν ενδιαφέρομαι" },
     "cancel": { "message": "Άκυρο" },
     "youre_not_interested": { "message": "Δεν σε ενδιαφέρει αυτό το θέμα" },
-    "autoplay_videos": { "message": "Αυτόματη αναπαραγωγή βίντεο" }
+    "autoplay_videos": { "message": "Αυτόματη αναπαραγωγή βίντεο." }
   }

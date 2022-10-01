@@ -276,5 +276,5 @@
     "not_interested": { "message": "No me interesa" },
     "cancel": { "message": "Cancelar" },
     "youre_not_interested": { "message": "No estás interesado en este tema" },
-    "autoplay_videos": { "message": "Autoplay videos" }
+    "autoplay_videos": { "message": "Autoplay videos." }
 }

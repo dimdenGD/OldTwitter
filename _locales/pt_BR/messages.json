@@ -272,5 +272,10 @@
     "translated_by": { "message": "Traduzido por $TRANSLATOR$." },
     "last_searches": { "message": "Últimas pesquisas" },
     "saved_searches": { "message": "Pesquisas salvas" },
-    "everyone": { "message": "Todo mundo", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" }
+    "everyone": { "message": "Todo mundo", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
+    "topic": { "message": "Tópico" },
+    "not_interested": { "message": "Não me interesso" },
+    "cancel": { "message": "Cancelar" },
+    "youre_not_interested": { "message": "Você não se interessa nesse tópico " },
+    "autoplay_videos": { "message": "Tocar vídeos automaticamente" }
 }

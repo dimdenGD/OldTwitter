@@ -1,7 +1,8 @@
 let user = {};
 let settings;
 let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'disableHotkeys', 'savePreferredQuality', 'noBigFont'], data => {
+chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL',
+'enableTwemoji', 'disableHotkeys', 'savePreferredQuality', 'noBigFont', 'autoplayVideos'], data => {
     vars = data;
 });
 let cursor;
@@ -367,13 +368,26 @@ setTimeout(() => {
             lastTweetDate = Date.now();
             let tweets = Array.from(document.getElementsByClassName('tweet'));
 
-            if(activeTweet) {
-                activeTweet.classList.remove('tweet-active');
-            }
             let scrollPoint = scrollY + innerHeight/2;
-            activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(activeTweet) {
-                activeTweet.classList.add('tweet-active');
+            let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
+            if(!activeTweet || !activeTweet.className.startsWith(newActiveTweet.className)) {
+                if(activeTweet) {
+                    activeTweet.classList.remove('tweet-active');
+                }
+                newActiveTweet.classList.add('tweet-active');
+                if(vars.autoplayVideos) {
+                    if(activeTweet) {
+                        let video = activeTweet.querySelector('.tweet-media > video[controls]');
+                        if(video) {
+                            video.pause();
+                        }
+                    }
+                    let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
+                    if(newVideo) {
+                        newVideo.play();
+                    }
+                }
+                activeTweet = newActiveTweet;
             }
         }
         // loading new tweets

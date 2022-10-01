@@ -276,5 +276,7 @@
     "not_interested": { "message": "Не цікаво" },
     "cancel": { "message": "Скасувати" },
     "youre_not_interested": { "message": "Вам не цікава ця тема." },
-    "autoplay_videos": { "message": "Автовідтворення відео" }
+    "autoplay_videos": { "message": "Автовідтворення відео." },
+    "turn_on_retweets": { "message": "Показувати ретвіти" },
+    "turn_off_retweets": { "message": "Приховувати ретвіти" }
 }

@@ -276,5 +276,7 @@
     "not_interested": { "message": "Не интересно" },
     "cancel": { "message": "Отменить" },
     "youre_not_interested": { "message": "Вам не интересна эта тема." },
-    "autoplay_videos": { "message": "Автовоспроизведение видео" }
+    "autoplay_videos": { "message": "Автовоспроизведение видео." },
+    "turn_on_retweets": { "message": "Показывать ретвиты" },
+    "turn_off_retweets": { "message": "Скрыть ретвиты" }
 }

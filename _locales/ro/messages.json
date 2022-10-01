@@ -276,5 +276,5 @@
     "not_interested": { "message": "Nu sunt interesat(ă)" },
     "cancel": { "message": "Anulează" },
     "youre_not_interested": { "message": "Nu esti interesat(ă) de acest subiect." },
-    "autoplay_videos": { "message": "Redare automată a videoclipurilor" }
+    "autoplay_videos": { "message": "Redare automată a videoclipurilor." }
 }

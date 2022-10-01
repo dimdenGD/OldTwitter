@@ -275,5 +275,5 @@
     "not_interested": { "message": "रुचि छैन" },
     "cancel": { "message": "नगर्न" },
     "youre_not_interested": { "message": "यो विषय मा तपाईँको रुचि छैन" },
-    "autoplay_videos": { "message": "आफै विडिओ लगाउन" }
+    "autoplay_videos": { "message": "आफै विडिओ लगाउन." }
 }

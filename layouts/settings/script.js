@@ -57,7 +57,7 @@ setTimeout(async () => {
     vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
         'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
-        'noBigFont', 'language'], data => {
+        'noBigFont', 'language', 'autoplayVideos'], data => {
             resolve(data);
         });
     });
@@ -116,6 +116,7 @@ setTimeout(async () => {
     let preferredQualityInput = document.getElementById('preferred-quality-input');
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
+    let autoplayVideos = document.getElementById('autoplay-videos');
 
     let root = document.querySelector(":root");
 
@@ -181,6 +182,11 @@ setTimeout(async () => {
     noBigFont.addEventListener('change', () => {
         chrome.storage.sync.set({
             noBigFont: noBigFont.checked
+        }, () => { });
+    });
+    autoplayVideos.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            autoplayVideos: autoplayVideos.checked
         }, () => { });
     });
     language.addEventListener('change', () => {
@@ -277,6 +283,7 @@ setTimeout(async () => {
     darkMode.checked = !!vars.darkMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
+    autoplayVideos.checked = !!vars.autoplayVideos;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

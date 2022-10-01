@@ -930,5 +930,5 @@
     "not_interested": { "message": "Neesmu ieinteresēts" },
     "cancel": { "message": "Atcelt" },
     "youre_not_interested": { "message": "Jūs nēesat interesēts šī tēma" },
-    "autoplay_videos": { "message": "Automātiski atskaņot video" }
+    "autoplay_videos": { "message": "Automātiski atskaņot video." }
 }
