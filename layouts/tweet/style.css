@@ -1165,13 +1165,6 @@ a:hover,
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.tweet-warning {
-    background-color: rgba(255, 0, 0, 0.05);
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
 .user-stat-div:hover {
     text-decoration: none !important;
 }

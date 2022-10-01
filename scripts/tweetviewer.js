@@ -1065,8 +1065,18 @@ class TweetViewer {
             tweetBodyText.innerHTML += `<br>
             <span style="font-size: 12px;color: var(--light-gray);">${LOC.translated_from.message} [${translated.translated_lang}]:</span>
             <br>
-            <span>${escapeHTML(translated.text)}</span>`;
-            twemoji.parse(tweetBodyText);
+            <span class="tweet-translated-text">${escapeHTML(translated.text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`)}</span>`;
+            if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
+            let links = Array.from(tweetBodyText.getElementsByClassName('tweet-translated-text')[0].getElementsByTagName('a'));
+            links.forEach(a => {
+                let link = t.entities.urls && t.entities.urls.find(u => u.url === a.href.split('?')[0].split('#')[0]);
+                if (link) {
+                    a.innerText = link.display_url;
+                    a.href = link.expanded_url;
+                    a.target = '_blank';
+                    a.rel = 'noopener noreferrer';
+                }
+            });
         });
 
         tweetInteractMoreMenuBookmark.addEventListener('click', async () => {

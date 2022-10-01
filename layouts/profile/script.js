@@ -580,9 +580,18 @@ async function renderProfile() {
             span.innerHTML = `
                 <br>
                 <span class='piu-a'>${LOC.translated_from.message} [${translated.localizedSourceLanguage}]</span>
-                <span>${escapeHTML(translated.translation)}</span>
+                <span>${escapeHTML(translated.translation).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`)}</span>
             `;
             document.getElementById('profile-bio').append(span);
+            let links = Array.from(span.getElementsByTagName('a'));
+            links.forEach(link => {
+                let realLink = pageUser.entities.description.urls.find(u => u.url === link.href);
+                if (realLink) {
+                    link.href = realLink.expanded_url;
+                    if(!link.href.startsWith('https://twitter.com/')) link.target = '_blank';
+                    link.innerText = realLink.display_url;
+                }
+            });
             if(vars.enableTwemoji) twemoji.parse(span);
         });
         translateBtn.innerText = LOC.translate_bio.message;
