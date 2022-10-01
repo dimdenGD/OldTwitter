@@ -283,5 +283,6 @@
     "audience": { "message": "Audience" },
     "who_can_reply": { "message": "Who can reply" },
     "people_you_follow": { "message": "People you follow" },
-    "people_you_mention": { "message": "People you mention" }
+    "people_you_mention": { "message": "People you mention" },
+    "new_version": { "message": "Updated to new version" }
 }

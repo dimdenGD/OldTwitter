@@ -14,40 +14,82 @@ let circles = [];
 let selectedCircle = undefined;
 let vars;
 let algoCursor;
-chrome.storage.local.get(['installed'], async data => {
-    if (!data.installed) {
-        let dimden = await API.getUserV2('dimdenEFF');
-        if(!dimden.following) {
-            let modal = createModal(`
-                <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
-                <span style="font-size:14px">
-                    ${LOC.thank_you.message}<br><br>
-                    <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
-                    <div class="dimden">
-                        <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                        <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
-                            <b class="tweet-header-name">${dimden.name}</b>
-                            <span class="tweet-header-handle">@${dimden.screen_name}</span>
-                        </a><br>
-                        <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
-                    </div>
-                </span>
-            `);
-            let followButton = modal.querySelector('.follow');
-            followButton.addEventListener('click', () => {
-                API.followUser('dimdenEFF').then(() => {
-                    alert(LOC.thank_you_follow.message);
-                    modal.remove();
-                }).catch(e => {
-                    console.error(e);
-                    location.href = 'https://twitter.com/dimdenEFF';
+setTimeout(() => {
+    chrome.storage.local.get(['installed', 'lastVersion'], async data => {
+        if (!data.installed) {
+            let dimden = await API.getUserV2('dimdenEFF');
+            if(!dimden.following) {
+                let modal = createModal(`
+                    <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
+                    <span style="font-size:14px">
+                        ${LOC.thank_you.message}<br><br>
+                        <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
+                        <div class="dimden">
+                            <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
+                            <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
+                                <b class="tweet-header-name">${dimden.name}</b>
+                                <span class="tweet-header-handle">@${dimden.screen_name}</span>
+                            </a><br>
+                            <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
+                        </div>
+                    </span>
+                `);
+                let followButton = modal.querySelector('.follow');
+                followButton.addEventListener('click', () => {
+                    API.followUser('dimdenEFF').then(() => {
+                        alert(LOC.thank_you_follow.message);
+                        modal.remove();
+                    }).catch(e => {
+                        console.error(e);
+                        location.href = 'https://twitter.com/dimdenEFF';
+                    });
                 });
-            });
-            twemoji.parse(modal);
+                twemoji.parse(modal);
+            }
+            chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version});
+        } else {
+            if (data.lastVersion !== chrome.runtime.getManifest().version) {
+                let modal = createModal(`
+                    <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
+                    <span id="changelog" style="font-size:14px">
+                        <b>Features</b>
+                        <ul>
+                            <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, French, Ukrainian, Romanian, Greek, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>
+                            <li>Now 'translate tweet' and 'translate bio' buttons translate to your selected language instead of English.</li>
+                            <li>Support for 'Twitter Circles'. You can now post tweets in them and manage members.</li>
+                            <li>Support for Topics page.</li>
+                            <li>Translations now retain links and formatting.</li>
+                            <li>Extension now supports screens as small as 950 pixels wide.</li>
+                            <li>Added autoplay videos option.</li>
+                            <li>You can now set who can reply to tweet.</li>
+                            <li>You'll now receive changelog modals like these :)</li>
+                        </ul>
+                        <b>Fixes</b>
+                        <ul>
+                            <li>Fixed timeline never loading new tweets sometimes.</li>
+                            <li>Fixed 'Load more' buttons never disappearing even if list is over.</li>
+                            <li>Fixed video container not showing full video unless fullscreen.</li>
+                            <li>Fixed Twemojis never appearing on tweet pages.</li>
+                            <li>Fixed 'followers you follow' appearing and disappearing randomly on navigation.</li>
+                            <li>Made notifications say 'favorited' instead of 'liked' (if option to disable this is off).</li>
+                            <li>Fixed text overflow in notifications page and added more icons.</li>
+                        </ul>
+                    </span>
+                `, 'changelog-modal');
+                let changelog = document.getElementById('changelog');
+                let text = changelog.innerText;
+                let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
+                if(!lang.startsWith('en')) {
+                    changelog.innerHTML += `<span class="tweet-translate">${LOC.view_translation.message}</span>`;
+                    changelog.querySelector('.tweet-translate').addEventListener('click', () => {
+                        openInNewTab('https://translate.google.com/?sl=en&tl=' + lang + '&text=' + encodeURIComponent(text) + '&op=translate');
+                    });
+                }
+                chrome.storage.local.set({lastVersion: chrome.runtime.getManifest().version});
+            }
         }
-        chrome.storage.local.set({installed: true});
-    }
-});
+    });
+}, 2000);
 
 // Util
 function updateUserData() {

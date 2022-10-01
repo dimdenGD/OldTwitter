@@ -1323,3 +1323,9 @@ input, textarea {
 .message-element .emoji {
     vertical-align: text-bottom;
 }
+.changelog-modal {
+    max-width: 800px;
+}
+.changelog-modal ul {
+    margin: 5px;
+}
