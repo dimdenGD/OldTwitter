@@ -233,7 +233,7 @@
     "reload": { "message": "Recharger" },
     "circle_limited_tweet": { "message": "Ce tweet est visible seulement par les personnes qui sont dans ce cercle d'amis proches de @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "learn_more": { "message": "En savoir plus." },
-    "limited_tweet": { "message": "Ce tweet a des restrictions sur qui peut y répondre." },
+    "limited_tweet": { "message": "Ce tweet a des restrictions sur qui peut y répondre" },
     "replies": { "message": "Réponses" },
     "retweets": { "message": "Retweets" },
     "likes": { "message": "Aimes" },

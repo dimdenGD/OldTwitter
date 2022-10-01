@@ -100,7 +100,7 @@ async function renderSearch(c) {
                 console.error(searchData.reason);
                 searchDiv.innerHTML = `<div class="no-results">
                     <br><br>
-                    ${searchData.reason}<br><br>
+                    <span style="color:var(--default-text-color)">${searchData.reason}</span><br><br>
                     <button class="nice-button">${LOC.try_again.message}</button>
                 </div>`;
                 cursor = undefined;
@@ -277,7 +277,7 @@ setTimeout(() => {
                     activeTweet.classList.remove('tweet-active');
                 }
                 newActiveTweet.classList.add('tweet-active');
-                if(vars.autoplayVideos) {
+                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
                     if(activeTweet) {
                         let video = activeTweet.querySelector('.tweet-media > video[controls]');
                         if(video) {

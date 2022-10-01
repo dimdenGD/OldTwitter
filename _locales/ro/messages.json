@@ -233,7 +233,7 @@
     "reload": { "message": "Reîncărcare" },
     "circle_limited_tweet": { "message": "Acest tweet este vizibil doar pentru persoanele care fac parte din cercul de prieteni de încredere al lui @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "learn_more": { "message": "Află mai multe." },
-    "limited_tweet": { "message": "Acest tweet are limitări în ceea ce privește persoanele care pot răspunde." },
+    "limited_tweet": { "message": "Acest tweet are limitări în ceea ce privește persoanele care pot răspunde" },
     "replies": { "message": "Răspunsuri" },
     "retweets": { "message": "Retweet-uri" },
     "likes": { "message": "Apreciări" },

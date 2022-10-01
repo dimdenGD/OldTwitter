@@ -233,7 +233,7 @@
     "reload": { "message": "Перезагрузить" },
     "circle_limited_tweet": { "message": "Твит виден только пользователям в близком круге @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "learn_more": { "message": "Узнать больше." },
-    "limited_tweet": { "message": "Твит имеет ограничения на то кто может отвечать." },
+    "limited_tweet": { "message": "Твит имеет ограничения на то кто может отвечать" },
     "replies": { "message": "Ответы" },
     "retweets": { "message": "Ретвиты" },
     "likes": { "message": "Лайки" },

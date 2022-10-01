@@ -1183,7 +1183,7 @@ setTimeout(async () => {
                     activeTweet.classList.remove('tweet-active');
                 }
                 newActiveTweet.classList.add('tweet-active');
-                if(vars.autoplayVideos) {
+                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
                     if(activeTweet) {
                         let video = activeTweet.querySelector('.tweet-media > video[controls]');
                         if(video) {

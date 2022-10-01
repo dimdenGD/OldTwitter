@@ -233,7 +233,7 @@
     "reload": { "message": "Reload" },
     "circle_limited_tweet": { "message": "This tweet is visible only to people who are in @$SCREEN_NAME$'s trusted friends circle.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "learn_more": { "message": "Learn more." },
-    "limited_tweet": { "message": "This tweet has limitations to who can reply." },
+    "limited_tweet": { "message": "This tweet has limitations to who can reply" },
     "replies": { "message": "Replies" },
     "retweets": { "message": "Retweets" },
     "likes": { "message": "Likes" },
@@ -278,5 +278,10 @@
     "youre_not_interested": { "message": "You're not interested in this topic." },
     "autoplay_videos": { "message": "Autoplay videos." },
     "turn_on_retweets": { "message": "Show retweets in timeline" },
-    "turn_off_retweets": { "message": "Hide retweets in timeline" }
+    "turn_off_retweets": { "message": "Hide retweets in timeline" },
+    "you_can_reply": { "message": "(you can reply)" },
+    "audience": { "message": "Audience" },
+    "who_can_reply": { "message": "Who can reply" },
+    "people_you_follow": { "message": "People you follow" },
+    "people_you_mention": { "message": "People you mention" }
 }

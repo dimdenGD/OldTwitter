@@ -733,7 +733,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             `.replace('$SCREEN_NAME$', t.user.screen_name) : ''}
             ${t.tombstone ? `<div class="tweet-warning">${t.tombstone}</div>` : ''}
-            ${t.conversation_control ? `<div class="tweet-warning">${LOC.limited_tweet.message}</div>` : ''}
+            ${t.conversation_control ? `<div class="tweet-warning">${LOC.limited_tweet.message}${t.conversation_control.policy && (t.user.id_str === user.id_str || (t.conversation_control.policy.toLowerCase() === 'community' && (t.user.followed_by || (t.full_text && t.full_text.includes(`@${user.screen_name}`)))) || (t.conversation_control.policy.toLowerCase() === 'by_invitation' && t.full_text && t.full_text.includes(`@${user.screen_name}`))) ? ' ' + LOC.you_can_reply.message : ''}.</div>` : ''}
             ${options.mainTweet ? /*html*/`
             <div class="tweet-footer">
                 <div class="tweet-footer-stats">

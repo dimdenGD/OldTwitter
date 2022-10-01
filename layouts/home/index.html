@@ -52,9 +52,18 @@
                     <div id="new-tweet" class="box">
                         <div id="new-tweet-audience" hidden>
                             <select id="new-tweet-audience-input">
-                                <option value="everyone">__MSG_everyone__</option>
+                                <optgroup label="__MSG_audience__" id="audience-group">
+                                    <option value="everyone">__MSG_everyone__</option>
+                                </optgroup>
                             </select>
-                            <span id="new-tweet-circle-people" hidden><span id="new-tweet-circle-people-count">0</span> __MSG_people__ <b id="new-tweet-circle-edit">[edit]</b></span>
+                            <span id="new-tweet-circle-people" hidden><span id="new-tweet-circle-people-count">0</span> __MSG_people__ <b id="new-tweet-circle-edit">[__MSG_edit__]</b></span>
+                            <select id="new-tweet-wcr-input">
+                                <optgroup label="__MSG_who_can_reply__" id="wcr-group">
+                                    <option value="everyone">__MSG_everyone__</option>
+                                    <option value="follows">__MSG_people_you_follow__</option>
+                                    <option value="mentions">__MSG_people_you_mention__</option>
+                                </optgroup>
+                            </select>
                             <br>
                         </div>
                         <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">

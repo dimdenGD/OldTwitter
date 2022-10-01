@@ -1069,7 +1069,7 @@ a:hover,
     margin-left: 39px;
     margin-bottom: 5px;
 }
-#new-tweet-audience-input {
+#new-tweet-audience-input, #new-tweet-wcr-input {
     border-color: var(--border);
     padding: 1px;
 }

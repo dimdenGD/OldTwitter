@@ -137,7 +137,7 @@ async function updateTimeline() {
     }
 }
 async function updateCircles() {
-    let circlesList = document.getElementById('new-tweet-audience-input');
+    let circlesList = document.getElementById('audience-group');
     circles = await API.getCircles();
     for(let i in circles) {
         let option = document.createElement('option');
@@ -435,7 +435,7 @@ setTimeout(async () => {
                     activeTweet.classList.remove('tweet-active');
                 }
                 newActiveTweet.classList.add('tweet-active');
-                if(vars.autoplayVideos) {
+                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
                     if(activeTweet) {
                         let video = activeTweet.querySelector('.tweet-media > video[controls]');
                         if(video) {
@@ -768,11 +768,13 @@ setTimeout(async () => {
         if(val === 'everyone') {
             selectedCircle = undefined;
             document.getElementById('new-tweet-circle-people').hidden = true;
+            document.getElementById('new-tweet-wcr-input').hidden = false;
         } else {
             let circle = circles.find(c => c.rest_id === val);
             selectedCircle = circle;
             document.getElementById('new-tweet-circle-people-count').innerText = circle.member_count;
             document.getElementById('new-tweet-circle-people').hidden = false;
+            document.getElementById('new-tweet-wcr-input').hidden = true;
         }
     });
     document.getElementById('new-tweet-circle-edit').addEventListener('click', async () => {
@@ -936,6 +938,13 @@ setTimeout(async () => {
             }
             if(selectedCircle) {
                 variables.trusted_friends_control_options = { "trusted_friends_list_id": selectedCircle.rest_id };
+            } else {
+                let whoCanReply = document.getElementById('new-tweet-wcr-input').value;
+                if(whoCanReply === 'follows') {
+                    variables.conversation_control = { mode: 'Community' };
+                } else if(whoCanReply === 'mentions') {
+                    variables.conversation_control = { mode: 'ByInvitation' };
+                }
             }
             if(uploadedMedia.length > 0) {
                 variables.media.media_entities = uploadedMedia.map(i => ({media_id: i, tagged_users: []}));

@@ -286,7 +286,11 @@ API.getMixedTimeline = async () => {
     for(let i = chrono.length-1; i >= 0; i--) {
         if(social.length === 0) break;
         if(i % 7 === 0) {
-            chrono.splice(chrono.length-i, 0, social.pop());
+            if(chrono.map(t => t.id_str).includes(social[social.length-1].id_str)) {
+                social.pop();
+            } else {
+                chrono.splice(chrono.length-i, 0, social.pop());
+            }
         }
     }
     return chrono;

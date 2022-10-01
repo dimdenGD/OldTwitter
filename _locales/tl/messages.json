@@ -233,7 +233,7 @@
     "reload": { "message": "I-reload" },
     "circle_limited_tweet": { "message": "Ang tweet na ito ay makikita lamang ng mga taong nasa grupo ng mga pinagkakatiwalaang kaibigan ni @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "learn_more": { "message": "Matuto pa." },
-    "limited_tweet": { "message": "Ang tweet na ito ay may mga limitasyon sa kung sino ang maaaring tumugon." },
+    "limited_tweet": { "message": "Ang tweet na ito ay may mga limitasyon sa kung sino ang maaaring tumugon" },
     "replies": { "message": "Mga tugon" },
     "retweets": { "message": "Mga retweet" },
     "likes": { "message": "Mga gusto" },

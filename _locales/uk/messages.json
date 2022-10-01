@@ -233,7 +233,7 @@
     "reload": { "message": "Перезагрузити" },
     "circle_limited_tweet": { "message": "Цей твіт видно тільки людям в довіреному колі @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "learn_more": { "message": "Більше інформації." },
-    "limited_tweet": { "message": "Цей твіт має обмеження на те хто може відповідати." },
+    "limited_tweet": { "message": "Цей твіт має обмеження на те хто може відповідати" },
     "replies": { "message": "Відповіді" },
     "retweets": { "message": "Ретвіти" },
     "likes": { "message": "Вподобання" },
