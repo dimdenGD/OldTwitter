@@ -1,6 +1,5 @@
 let user = {};
 let settings = {};
-let vars;
 let subpage;
 
 // Util
@@ -179,11 +178,6 @@ async function updateNotifications(append = false) {
 }
 
 setTimeout(async () => {
-    vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'savePreferredQuality', 'noBigFont'], data => {
-            resolve(data);
-        });
-    });
     if(!document.getElementById('wtf-refresh')) {
         // weird bug
         location.reload();

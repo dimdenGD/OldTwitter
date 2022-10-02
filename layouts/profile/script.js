@@ -10,7 +10,6 @@ let seenThreads = [];
 let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
 let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor;
-let vars;
 
 setTimeout(() => {
     chrome.storage.local.get(['installed'], async data => {
@@ -255,7 +254,7 @@ function updateUserData() {
             let r = document.querySelector(':root');
             let rgb = hex2rgb(customColor);
             let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4 && vars.darkMode && customColor !== '000000') {
+            if(ratio < 4 && isDarkModeEnabled && customColor !== '000000') {
                 customColor = colorShade(customColor, 80).slice(1);
             }
             r.style.setProperty('--link-color', `#`+customColor);
@@ -263,7 +262,7 @@ function updateUserData() {
             let r = document.querySelector(':root');
             let rgb = hex2rgb(oldUser.profile_link_color);
             let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4 && vars.darkMode && customColor !== '000000') {
+            if(ratio < 4 && isDarkModeEnabled && customColor !== '000000') {
                 oldUser.profile_link_color = colorShade(oldUser.profile_link_color, 80).slice(1);
             }
             if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
@@ -1014,12 +1013,6 @@ let tweetsToLoad = {};
 let lastScroll = Date.now();
 
 setTimeout(async () => {
-    vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'darkMode',
-        'disableHotkeys', 'savePreferredQuality', 'noBigFont', 'autoplayVideos'], data => {
-            resolve(data);
-        });
-    });
     months = [LOC.january.message, LOC.february.message, LOC.march.message, LOC.april.message, LOC.may.message, LOC.june.message, LOC.july.message, LOC.august.message, LOC.september.message, LOC.october.message, LOC.november.message, LOC.december.message];
     // tweet hotkeys
     if(!vars.disableHotkeys) {

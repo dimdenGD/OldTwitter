@@ -632,7 +632,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(linkColors[t.user.screen_name]) {
             let rgb = hex2rgb(linkColors[t.user.screen_name]);
             let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4 && vars.darkMode && linkColors[t.user.screen_name] !== '000000') {
+            if(ratio < 4 && isDarkModeEnabled && linkColors[t.user.screen_name] !== '000000') {
                 linkColors[t.user.screen_name] = colorShade(linkColors[t.user.screen_name], 80).slice(1);
             }
             tweet.style.setProperty('--link-color', '#'+linkColors[t.user.screen_name]);
@@ -640,7 +640,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                 let rgb = hex2rgb(t.user.profile_link_color);
                 let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4 && vars.darkMode && linkColors[t.user.screen_name] !== '000000') {
+                if(ratio < 4 && isDarkModeEnabled && linkColors[t.user.screen_name] !== '000000') {
                     t.user.profile_link_color = colorShade(t.user.profile_link_color, 80).slice(1);
                 }
                 tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);

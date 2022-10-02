@@ -1,10 +1,5 @@
 let user = {};
 let settings;
-let vars;
-chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL',
-'enableTwemoji', 'disableHotkeys', 'savePreferredQuality', 'noBigFont', 'autoplayVideos'], data => {
-    vars = data;
-});
 let cursor;
 let linkColors = {};
 let listId = location.pathname.split('/')[3];

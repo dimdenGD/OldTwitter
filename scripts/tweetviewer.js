@@ -689,7 +689,7 @@ class TweetViewer {
             if(this.linkColors[t.user.screen_name]) {
                 let rgb = hex2rgb(this.linkColors[t.user.screen_name]);
                 let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4 && vars.darkMode && this.linkColors[t.user.screen_name] !== '000000') {
+                if(ratio < 4 && isDarkModeEnabled && this.linkColors[t.user.screen_name] !== '000000') {
                     this.linkColors[t.user.screen_name] = colorShade(this.linkColors[t.user.screen_name], 80).slice(1);
                 }
                 tweet.style.setProperty('--link-color', '#'+this.linkColors[t.user.screen_name]);
@@ -697,7 +697,7 @@ class TweetViewer {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                     let rgb = hex2rgb(t.user.profile_link_color);
                     let ratio = contrast(rgb, [27, 40, 54]);
-                    if(ratio < 4 && vars.darkMode && this.linkColors[t.user.screen_name] !== '000000') {
+                    if(ratio < 4 && isDarkModeEnabled && this.linkColors[t.user.screen_name] !== '000000') {
                         t.user.profile_link_color = colorShade(t.user.profile_link_color, 80).slice(1);
                     }
                     tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);

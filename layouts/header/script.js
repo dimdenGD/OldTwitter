@@ -3,6 +3,7 @@ let savedSearches = [], lastSearches = [];
 let inboxData = [];
 let customSet = false;
 let menuFn;
+let isDarkModeEnabled = vars.darkMode;
 const notificationBus = new BroadcastChannel('notification_bus');
 notificationBus.onmessage = function (e) {
     if(e.data.type === 'markAsRead') {
@@ -13,13 +14,80 @@ notificationBus.onmessage = function (e) {
         icon.href = chrome.runtime.getURL(`images/logo32.png`);
     }
 };
+const themeBus = new BroadcastChannel('theme_bus');
+themeBus.onmessage = function (e) {
+    isDarkModeEnabled = e.data;
+    switchDarkMode(isDarkModeEnabled);
+}
 
-setTimeout(async () => {
-    let vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'enableTwemoji', 'darkMode', 'disableHotkeys', 'savePreferredQuality'], data => {
+function switchDarkMode(enabled) {
+    let root = document.querySelector(":root");
+    if(enabled) {
+        root.style.setProperty('--background-color', '#1b2836');
+        root.style.setProperty('--darker-background-color', '#141d26');
+        root.style.setProperty('--almost-black', '#d4e3ed');
+        root.style.setProperty('--border', 'black');
+        root.style.setProperty('--darker-gray', 'white');
+        root.style.setProperty('--lil-darker-gray', '#8394a1');
+        root.style.setProperty('--light-gray', '#8394a1');
+        root.style.setProperty('--default-text-color', 'white');
+        root.style.setProperty('--new-tweet-over', 'rgba(27, 40, 54, 0.92)');
+        root.style.setProperty('--input-background', '#131c24');
+        root.style.setProperty('--active-message', '#141d26');
+        root.style.setProperty('--more-color', '#a088ff');
+        root.style.setProperty('--choice-bg', 'rgb(44 62 71)');
+        root.style.setProperty('--list-actions-bg', "#19212b");
+    } else {
+        root.style.setProperty('--background-color', 'white');
+        root.style.setProperty('--darker-background-color', '#f5f8fa');
+        root.style.setProperty('--almost-black', '#292f33');
+        root.style.setProperty('--border', '#e1e8ed');
+        root.style.setProperty('--darker-gray', '#66757f');
+        root.style.setProperty('--lil-darker-gray', '#6a7d8c');
+        root.style.setProperty('--light-gray', '#8899a6');
+        root.style.setProperty('--default-text-color', 'black');
+        root.style.setProperty('--new-tweet-over', 'rgba(255, 255, 255, 0.92)');
+        root.style.setProperty('--input-background', 'white');
+        root.style.setProperty('--active-message', '#eaf5fd');
+        root.style.setProperty('--more-color', '#30F');
+        root.style.setProperty('--choice-bg', 'rgb(207, 217, 222)');
+        root.style.setProperty('--list-actions-bg', "#efefef");
+    }
+    updateCustomCSSVariables();
+}
+let customCSS;
+async function updateCustomCSS() {
+    let data = await new Promise(resolve => {
+        chrome.storage.sync.get(['customCSS'], data => {
             resolve(data);
         });
     });
+    if(!data.customCSS) data.customCSS = '';
+    if(customCSS) customCSS.remove();
+    customCSS = document.createElement('style');
+    customCSS.id = 'oldtwitter-custom-css';
+    customCSS.innerHTML = data.customCSS;
+    document.head.appendChild(customCSS);
+}
+async function updateCustomCSSVariables() {
+    let root = document.querySelector(":root");
+    let data = await new Promise(resolve => {
+        chrome.storage.sync.get(['customCSSVariables'], data => {
+            resolve(data);
+        });
+    });
+    if(data.customCSSVariables) {
+        let csv = data.customCSSVariables.split('\n');
+        csv.forEach(line => {
+            let [name, value] = line.split(':');
+            value = value.trim();
+            if(value.endsWith(';')) value = value.slice(0, -1);
+            root.style.setProperty(name, value);
+        });
+    }
+}
+
+setTimeout(async () => {
     let userDataFunction = async e => {
         if(headerGotUser || Object.keys(e.detail).length === 0) return;
         headerGotUser = true;
@@ -1183,7 +1251,7 @@ setTimeout(async () => {
             try { url = new URL(el.href.split('?')[0].split('#')[0]) } catch(e) { return };
             if(!isProfilePath(url.pathname) || url.host !== 'twitter.com') return;
             let username = url.pathname.slice(1);
-            
+
             if(location.pathname.slice(1) === username) return;
             if(username === user.screen_name) return;
             if(typeof pageUser !== 'undefined') {
@@ -1351,47 +1419,10 @@ setTimeout(async () => {
             root.style.setProperty('--link-color', pageUser.profile_link_color);
         }
     });
-    let isDarkModeEnabled = vars.darkMode;
-    document.addEventListener('darkMode', e => {
-        let enabled = e.detail;
-        isDarkModeEnabled = enabled;
-        switchDarkMode(enabled);
-    });
 
     // custom css
     document.addEventListener('customCSS', updateCustomCSS);
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
-
-    let customCSS;
-    async function updateCustomCSS() {
-        let data = await new Promise(resolve => {
-            chrome.storage.sync.get(['customCSS'], data => {
-                resolve(data);
-            });
-        });
-        if(!data.customCSS) data.customCSS = '';
-        if(customCSS) customCSS.remove();
-        customCSS = document.createElement('style');
-        customCSS.id = 'oldtwitter-custom-css';
-        customCSS.innerHTML = data.customCSS;
-        document.head.appendChild(customCSS);
-    }
-    async function updateCustomCSSVariables() {
-        let data = await new Promise(resolve => {
-            chrome.storage.sync.get(['customCSSVariables'], data => {
-                resolve(data);
-            });
-        });
-        if(data.customCSSVariables) {
-            let csv = data.customCSSVariables.split('\n');
-            csv.forEach(line => {
-                let [name, value] = line.split(':');
-                value = value.trim();
-                if(value.endsWith(';')) value = value.slice(0, -1);
-                root.style.setProperty(name, value);
-            });
-        }
-    }
 
     // hotkeys
     if(!vars.disableHotkeys) {
@@ -1491,40 +1522,7 @@ setTimeout(async () => {
         //     root.style.setProperty('--video-cover', 'cover');
         // }
     }
-    function switchDarkMode(enabled) {
-        if(enabled) {
-            root.style.setProperty('--background-color', '#1b2836');
-            root.style.setProperty('--darker-background-color', '#141d26');
-            root.style.setProperty('--almost-black', '#d4e3ed');
-            root.style.setProperty('--border', 'black');
-            root.style.setProperty('--darker-gray', 'white');
-            root.style.setProperty('--lil-darker-gray', '#8394a1');
-            root.style.setProperty('--light-gray', '#8394a1');
-            root.style.setProperty('--default-text-color', 'white');
-            root.style.setProperty('--new-tweet-over', 'rgba(27, 40, 54, 0.92)');
-            root.style.setProperty('--input-background', '#131c24');
-            root.style.setProperty('--active-message', '#141d26');
-            root.style.setProperty('--more-color', '#a088ff');
-            root.style.setProperty('--choice-bg', 'rgb(44 62 71)');
-            root.style.setProperty('--list-actions-bg', "#19212b");
-        } else {
-            root.style.setProperty('--background-color', 'white');
-            root.style.setProperty('--darker-background-color', '#f5f8fa');
-            root.style.setProperty('--almost-black', '#292f33');
-            root.style.setProperty('--border', '#e1e8ed');
-            root.style.setProperty('--darker-gray', '#66757f');
-            root.style.setProperty('--lil-darker-gray', '#6a7d8c');
-            root.style.setProperty('--light-gray', '#8899a6');
-            root.style.setProperty('--default-text-color', 'black');
-            root.style.setProperty('--new-tweet-over', 'rgba(255, 255, 255, 0.92)');
-            root.style.setProperty('--input-background', 'white');
-            root.style.setProperty('--active-message', '#eaf5fd');
-            root.style.setProperty('--more-color', '#30F');
-            root.style.setProperty('--choice-bg', 'rgb(207, 217, 222)');
-            root.style.setProperty('--list-actions-bg', "#efefef");
-        }
-        updateCustomCSSVariables();
-    }
+
     switchDarkMode(vars.darkMode);
     updateCustomCSS();
     
@@ -1544,4 +1542,4 @@ setTimeout(async () => {
             });
         });
     }, 1000);
-}, 50);
+}, 60);

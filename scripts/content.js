@@ -122,15 +122,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     } catch (e) {}
 
     // default variables
-    let vars = await new Promise(resolve => {
-        chrome.storage.sync.get([
-            'linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
-            'chronologicalTL', 'timelineType', 'showTopicTweets', 'savePreferredQuality',
-            'language'
-        ], data => {
-            resolve(data);
-        });
-    });
     if(typeof(vars.linkColorsInTL) !== 'boolean') {
         chrome.storage.sync.set({
             linkColorsInTL: true

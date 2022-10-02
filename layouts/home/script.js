@@ -12,7 +12,6 @@ let pollToUpload = undefined;
 let linkColors = {};
 let circles = [];
 let selectedCircle = undefined;
-let vars;
 let algoCursor;
 setTimeout(() => {
     chrome.storage.local.get(['installed', 'lastVersion'], async data => {
@@ -294,13 +293,6 @@ function renderNewTweetsButton() {
 }
 
 setTimeout(async () => {
-    vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
-        'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'savePreferredQuality', 'noBigFont',
-    'autoplayVideos'], data => {
-            resolve(data);
-        });
-    });
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');

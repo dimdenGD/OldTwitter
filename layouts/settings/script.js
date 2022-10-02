@@ -1,6 +1,5 @@
 let user = {};
 let settings = {};
-let vars;
 // Util
 
 function updateUserData() {
@@ -54,13 +53,6 @@ function renderUserData() {
 }
 
 setTimeout(async () => {
-    vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
-        'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
-        'noBigFont', 'language', 'autoplayVideos'], data => {
-            resolve(data);
-        });
-    });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
@@ -197,8 +189,9 @@ setTimeout(async () => {
         });
     });
     darkMode.addEventListener('change', () => {
-        let event = new CustomEvent('darkMode', { detail: darkMode.checked });
-        document.dispatchEvent(event);
+        themeBus.postMessage(darkMode.checked);
+        isDarkModeEnabled = darkMode.checked;
+        switchDarkMode(isDarkModeEnabled);
         chrome.storage.sync.set({
             darkMode: darkMode.checked
         }, () => { });

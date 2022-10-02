@@ -1,6 +1,5 @@
 let user = {};
 let settings = {};
-let vars;
 let bookmarkCursor = null;
 let end = false;
 let linkColors = {};
@@ -75,14 +74,6 @@ let loadingNewTweets = false;
 let lastTweetDate = 0;
 
 setTimeout(async () => {
-    vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL',
-        'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality', 'noBigFont',
-        'autoplayVideos'], data => {
-            resolve(data);
-        });
-    });
-
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');
