@@ -211,6 +211,7 @@ function updateUserData() {
             API.getUser(user_handle, false),
             API.verifyCredentials()
         ]).catch(e => {
+            document.getElementById('loading-box').hidden = false;
             if(String(e).includes('User has been suspended.')) {
                 return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_suspended.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
             }
@@ -222,11 +223,13 @@ function updateUserData() {
         if(oldUser.reason) {
             let e = oldUser.reason;
             if(String(e).includes('User has been suspended.')) {
+                document.getElementById('loading-box').hidden = false;
                 return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_suspended.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
             }
         }
         if(pageUserData.reason) {
             let e = pageUserData.reason;
+            document.getElementById('loading-box').hidden = false;
             if(String(e).includes("reading 'result'")) {
                 return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
             }
@@ -527,7 +530,7 @@ async function renderLists() {
     document.getElementById('loading-box').hidden = true;
 }
 
-let months = [LOC.january.message, LOC.february.message, LOC.march.message, LOC.april.message, LOC.may.message, LOC.june.message, LOC.july.message, LOC.august.message, LOC.september.message, LOC.october.message, LOC.november.message, LOC.december.message];
+let months = [];
 let everAddedAdditional = false;
 async function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
@@ -856,7 +859,7 @@ async function renderProfile() {
             }
         });
         document.getElementById('profile-settings-lists').addEventListener('click', async () => {
-            document.getElementById('loading-box').hidden = false;
+            // document.getElementById('loading-box').hidden = false;
             history.pushState({}, null, `https://twitter.com/${pageUser.screen_name}/lists`);
             everAddedAdditional = false;
             mediaToUpload = [];
@@ -926,6 +929,8 @@ async function renderProfile() {
         }
         additionalInfo.appendChild(birth);
     }
+
+    document.getElementById('loading-box').hidden = true;
 };
 
 async function renderTimeline(append = false, sliceAmount = 0) {
@@ -1015,6 +1020,7 @@ setTimeout(async () => {
             resolve(data);
         });
     });
+    months = [LOC.january.message, LOC.february.message, LOC.march.message, LOC.april.message, LOC.may.message, LOC.june.message, LOC.july.message, LOC.august.message, LOC.september.message, LOC.october.message, LOC.november.message, LOC.december.message];
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');
@@ -1336,8 +1342,9 @@ setTimeout(async () => {
             if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
                 e.preventDefault();
                 mediaToUpload = [];
-                document.getElementById('loading-box').hidden = false;
+                // document.getElementById('loading-box').hidden = false;
                 everAddedAdditional = false;
+                document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.loading_tweets.message}</span>`;
                 document.getElementById('profile-media-div').innerHTML = '';
                 document.getElementById('tweet-to-bg').hidden = true;
                 document.getElementById('profile-additional').innerHTML = '';
@@ -1354,7 +1361,7 @@ setTimeout(async () => {
     window.addEventListener("popstate", async () => {
         let path = location.pathname;
         if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
-            document.getElementById('loading-box').hidden = false;
+            // document.getElementById('loading-box').hidden = false;
             everAddedAdditional = false;
             mediaToUpload = [];
             document.getElementById('profile-media-div').innerHTML = '';

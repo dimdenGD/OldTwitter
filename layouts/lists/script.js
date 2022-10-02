@@ -198,6 +198,7 @@ async function renderListTweets(c) {
     });
     if(listTweets.reason) {
         console.error(listTweets.reason);
+        document.getElementById('loading-box').hidden = false;
         document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
@@ -225,6 +226,7 @@ async function renderListMembers(c) {
     });
     if(listMembers.reason) {
         console.error(listTweets.reason);
+        document.getElementById('loading-box').hidden = false;
         document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
@@ -283,6 +285,7 @@ async function renderListFollowers(c) {
     });
     if(listFollowers.reason) {
         console.error(listTweets.reason);
+        document.getElementById('loading-box').hidden = false;
         document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
@@ -585,7 +588,7 @@ setTimeout(() => {
                 case 'members': history.pushState({}, null, `/i/lists/${listId}/members`); break;
                 case 'followers': history.pushState({}, null, `/i/lists/${listId}/followers`); break;
             }
-            document.getElementById('loading-box').hidden = false;
+            // document.getElementById('loading-box').hidden = false;
             updateSubpage();
             cursor = undefined;
             renderList();

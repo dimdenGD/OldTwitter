@@ -107,7 +107,7 @@ function updateUserData() {
 }
 async function updateTimeline() {
     seenThreads = [];
-    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = LOC.loading_tweets.message;
+    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.loading_tweets.message}</span>`;
     let fn = vars.timelineType === 'algo' ? API.getAlgoTimeline : vars.timelineType === 'chrono-social' ? API.getMixedTimeline : API.getTimeline;
     let [tl, s] = await Promise.allSettled([fn(), API.getSettings()]);
     if(!tl.value) {
@@ -218,6 +218,8 @@ function renderUserData() {
     document.getElementById('new-tweet-avatar').src = user.profile_image_url_https.replace("_normal", "_bigger");
 
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
+
+    document.getElementById('loading-box').hidden = true;
 }
 
 async function renderTimeline(append = false, sliceAmount = 0) {

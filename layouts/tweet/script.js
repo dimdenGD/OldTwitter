@@ -917,7 +917,7 @@ setTimeout(async () => {
     }, 60000);
 
     window.addEventListener("popstate", async () => {
-        document.getElementById('loading-box').hidden = false;
+        // document.getElementById('loading-box').hidden = false;
         savePageData(currentLocation);
         updateSubpage();
         mediaToUpload = [];
