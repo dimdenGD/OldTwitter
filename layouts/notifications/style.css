@@ -249,7 +249,8 @@ span.tweet-body-text {
 .tweet-interact,
 .tweet-body-text-quote {
     display: flow-root;
-    color: var(--almost-black)
+    color: var(--almost-black);
+    width: fit-content;
 }
 .tweet-body-text-quote {
     overflow-x: hidden;
@@ -444,7 +445,8 @@ span.tweet-body-text {
     display: block;
     max-width: 500px;
     position: relative;
-    right: 5px
+    right: 5px;
+    width: fit-content;
 }
 
 .tweet-media img {

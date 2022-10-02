@@ -254,7 +254,8 @@ span.tweet-body-text {
 .tweet-interact,
 .tweet-body-text-quote {
     display: flow-root;
-    color: var(--almost-black)
+    color: var(--almost-black);
+    width: fit-content;
 }
 .tweet-body-text-quote {
     overflow-x: hidden;
@@ -447,7 +448,8 @@ span.tweet-body-text {
     display: block;
     max-width: 500px;
     position: relative;
-    right: 5px
+    right: 5px;
+    width: fit-content;
 }
 
 .tweet-media img {
@@ -945,15 +947,6 @@ a:hover,
     content: "\f045";
     font: 13px RosettaIcons;
     margin-bottom: 2px
-}
-
-.tweet-active .tweet-interact::after {
-    content: "•";
-    float: right;
-    color: #1da1f2;
-    height: 10px;
-    font-size: 47px;
-    margin-top: -14px;
 }
 
 .new-tweet-media-img-alt {

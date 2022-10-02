@@ -3,7 +3,7 @@ let savedSearches = [], lastSearches = [];
 let inboxData = [];
 let customSet = false;
 let menuFn;
-let isDarkModeEnabled = vars.darkMode;
+let isDarkModeEnabled = typeof vars !== 'undefined' ? vars.darkMode : false;
 const notificationBus = new BroadcastChannel('notification_bus');
 notificationBus.onmessage = function (e) {
     if(e.data.type === 'markAsRead') {

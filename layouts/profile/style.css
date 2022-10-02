@@ -169,18 +169,6 @@ body {
     color: var(--link-color)
 }
 
-.tweet-active:not(.tweet-view) .tweet-interact::after {
-    content: "•";
-    float: right;
-    color: #1da1f2;
-    height: 10px;
-    font-size: 47px;
-    margin-top: -14px;
-}
-.tweet-preload .tweet-interact::after {
-    color: #1df2e7;
-}
-
 .tweet-header-name,
 .tweet-header-name-quote {
     display: inline;
@@ -230,7 +218,8 @@ span.tweet-body-text {
 .tweet-interact,
 .tweet-body-text-quote {
     display: flow-root;
-    color: var(--almost-black)
+    color: var(--almost-black);
+    width: fit-content;
 }
 .tweet-body-text-quote {
     overflow-x: hidden;
@@ -425,7 +414,8 @@ span.tweet-body-text {
     max-width: 500px;
     display: block;
     position: relative;
-    right: 5px
+    right: 5px;
+    width: fit-content;
 }
 
 .tweet-media img {
