@@ -1,5 +1,4 @@
 let user = {};
-let settings = {};
 let mediaToUpload = [];
 let linkColors = {};
 let cursor, likeCursor, retweetCursor, retweetCommentsCursor;
@@ -117,7 +116,7 @@ async function updateReplies(id, c) {
     if(!c) document.getElementById('timeline').innerHTML = '';
     let tl, tweetLikers;
     try {
-        let [tlData, s, tweetLikersData] = await Promise.allSettled([API.getReplies(id, c), API.getSettings(), API.getTweetLikers(id)]);
+        let [tlData, tweetLikersData] = await Promise.allSettled([API.getReplies(id, c), API.getTweetLikers(id)]);
         if(!tlData.value) {
             cursor = undefined;
             console.error(tlData.reason);
@@ -126,7 +125,6 @@ async function updateReplies(id, c) {
             return;
         }
         tl = tlData.value;
-        settings = s.value;
         tweetLikers = tweetLikersData.value;
         loadingNewTweets = false;
     } catch(e) {

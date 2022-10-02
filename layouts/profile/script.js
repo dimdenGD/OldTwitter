@@ -5,7 +5,6 @@ let timeline = {
     dataToUpdate: [],
     toBeUpdated: 0
 }
-let settings = {};
 let seenThreads = [];
 let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
@@ -1398,35 +1397,27 @@ setTimeout(async () => {
     });
 
     // Run
-    API.getSettings().then(async s => {
-        settings = s;
-        updateSubpage();
-        await updateUserData();
-        if(subpage !== 'following' && subpage !== 'followers' && subpage !== 'followers_you_follow' && subpage !== 'lists') updateTimeline();
-        else if(subpage === 'following') {
-            renderFollowing();
-        } else if(subpage === 'followers') {
-            renderFollowers();
-        } else  if(subpage === 'followers_you_follow') {
-            renderFollowersYouFollow();
-        } else  if(subpage === 'lists') {
-            renderLists();
-        }
-        if(location.hash === "#dm") {
-            setTimeout(() => {
-                let event = new CustomEvent('messageUser', { detail: { id: `${user.id_str}-${pageUser.id_str}`, user: pageUser } });
-                document.dispatchEvent(event);
-                location.hash = "";
-            }, 1000);
-        }
-        renderDiscovery();
-        renderTrends(true);
-        setInterval(() => renderDiscovery(false), 60000 * 5);
-        setInterval(() => renderTrends(true), 60000 * 5);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateSubpage();
+    await updateUserData();
+    if(subpage !== 'following' && subpage !== 'followers' && subpage !== 'followers_you_follow' && subpage !== 'lists') updateTimeline();
+    else if(subpage === 'following') {
+        renderFollowing();
+    } else if(subpage === 'followers') {
+        renderFollowers();
+    } else  if(subpage === 'followers_you_follow') {
+        renderFollowersYouFollow();
+    } else  if(subpage === 'lists') {
+        renderLists();
+    }
+    if(location.hash === "#dm") {
+        setTimeout(() => {
+            let event = new CustomEvent('messageUser', { detail: { id: `${user.id_str}-${pageUser.id_str}`, user: pageUser } });
+            document.dispatchEvent(event);
+            location.hash = "";
+        }, 1000);
+    }
+    renderDiscovery();
+    renderTrends(true);
+    setInterval(() => renderDiscovery(false), 60000 * 5);
+    setInterval(() => renderTrends(true), 60000 * 5);
 }, 250);

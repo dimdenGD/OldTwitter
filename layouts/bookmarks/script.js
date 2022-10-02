@@ -1,5 +1,4 @@
 let user = {};
-let settings = {};
 let bookmarkCursor = null;
 let end = false;
 let linkColors = {};
@@ -289,20 +288,12 @@ setTimeout(async () => {
     });
     
     // Run
-    API.getSettings().then(async s => {
-        settings = s;
-        updateUserData();
-        renderDiscovery();
-        renderTrends();
-        renderBookmarks();
-        document.getElementById('loading-box').hidden = true;
-        setInterval(updateUserData, 60000 * 3);
-        setInterval(() => renderDiscovery(false), 60000 * 15);
-        setInterval(renderTrends, 60000 * 5);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://mobile.twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateUserData();
+    renderDiscovery();
+    renderTrends();
+    renderBookmarks();
+    document.getElementById('loading-box').hidden = true;
+    setInterval(updateUserData, 60000 * 3);
+    setInterval(() => renderDiscovery(false), 60000 * 15);
+    setInterval(renderTrends, 60000 * 5);
 }, 250);

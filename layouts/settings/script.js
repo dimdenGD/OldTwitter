@@ -1,5 +1,4 @@
 let user = {};
-let settings = {};
 // Util
 
 function updateUserData() {
@@ -109,6 +108,7 @@ setTimeout(async () => {
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
     let autoplayVideos = document.getElementById('autoplay-videos');
+    let displaySensitiveContent = document.getElementById('display-sensitive-content');
 
     let root = document.querySelector(":root");
 
@@ -179,6 +179,11 @@ setTimeout(async () => {
     autoplayVideos.addEventListener('change', () => {
         chrome.storage.sync.set({
             autoplayVideos: autoplayVideos.checked
+        }, () => { });
+    });
+    displaySensitiveContent.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            displaySensitiveContent: displaySensitiveContent.checked
         }, () => { });
     });
     language.addEventListener('change', () => {
@@ -277,6 +282,7 @@ setTimeout(async () => {
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
     autoplayVideos.checked = !!vars.autoplayVideos;
+    displaySensitiveContent.checked = !!vars.displaySensitiveContent;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
@@ -290,19 +296,11 @@ setTimeout(async () => {
     language.value = vars.language;
 
     // Run
-    API.getSettings().then(async s => {
-        settings = s;
-        updateUserData();
-        renderDiscovery();
-        renderTrends();
-        document.getElementById('loading-box').hidden = true;
-        setInterval(updateUserData, 60000 * 3);
-        setInterval(() => renderDiscovery(false), 60000 * 15);
-        setInterval(renderTrends, 60000 * 5);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://mobile.twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateUserData();
+    renderDiscovery();
+    renderTrends();
+    document.getElementById('loading-box').hidden = true;
+    setInterval(updateUserData, 60000 * 3);
+    setInterval(() => renderDiscovery(false), 60000 * 15);
+    setInterval(renderTrends, 60000 * 5);
 }, 250);

@@ -1,5 +1,4 @@
 let user = {};
-let settings = {};
 let cursor = null;
 let end = false;
 let linkColors = {};
@@ -47,11 +46,9 @@ function renderUserData() {
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
 async function renderTopic(cursorRn) {
-    let [topic, s] = await Promise.all([
-        API.topicLandingPage(topicId, cursorRn),
-        API.getSettings()
+    let [topic] = await Promise.all([
+        API.topicLandingPage(topicId, cursorRn)
     ]);
-    settings = s;
     document.getElementById("topic-name").innerText = topic.header.topic.name;
     document.getElementById("topic-description").innerText = topic.header.topic.description;
     if(topic.header.topic.not_interested) {
@@ -347,20 +344,12 @@ setTimeout(async () => {
     });
     
     // Run
-    API.getSettings().then(async s => {
-        settings = s;
-        updateUserData();
-        renderDiscovery();
-        renderTrends();
-        renderTopic();
-        document.getElementById('loading-box').hidden = true;
-        setInterval(updateUserData, 60000 * 3);
-        setInterval(() => renderDiscovery(false), 60000 * 15);
-        setInterval(renderTrends, 60000 * 5);
-    }).catch(e => {
-        if (e === "Not logged in") {
-            window.location.href = "https://mobile.twitter.com/login";
-        }
-        console.error(e);
-    });
+    updateUserData();
+    renderDiscovery();
+    renderTrends();
+    renderTopic();
+    document.getElementById('loading-box').hidden = true;
+    setInterval(updateUserData, 60000 * 3);
+    setInterval(() => renderDiscovery(false), 60000 * 15);
+    setInterval(renderTrends, 60000 * 5);
 }, 250);

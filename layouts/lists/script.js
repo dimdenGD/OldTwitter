@@ -1,5 +1,4 @@
 let user = {};
-let settings;
 let cursor;
 let linkColors = {};
 let listId = location.pathname.split('/')[3];
@@ -184,10 +183,9 @@ function renderListData(data) {
     }
 }
 async function renderListTweets(c) {
-    let [listInfo, listTweets, settingsData] = await Promise.allSettled([
+    let [listInfo, listTweets] = await Promise.allSettled([
         API.getList(listId),
-        API.getListTweets(listId, c),
-        API.getSettings()
+        API.getListTweets(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -199,7 +197,6 @@ async function renderListTweets(c) {
     }
     listInfo = listInfo.value;
     listTweets = listTweets.value;
-    settings = settingsData.value;
     cursor = listTweets.cursor;
     listTweets = listTweets.list;
     if(!cursor || listTweets.length === 0) end = true;
@@ -212,10 +209,9 @@ async function renderListTweets(c) {
     return true;
 }
 async function renderListMembers(c) {
-    let [listInfo, listMembers, settingsData] = await Promise.allSettled([
+    let [listInfo, listMembers] = await Promise.allSettled([
         API.getList(listId),
-        API.getListMembers(listId, c),
-        API.getSettings()
+        API.getListMembers(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -227,7 +223,6 @@ async function renderListMembers(c) {
     }
     listInfo = listInfo.value;
     listMembers = listMembers.value;
-    settings = settingsData.value;
     cursor = listMembers.cursor;
     listMembers = listMembers.list;
     if(!cursor || listMembers.length === 0) end = true;
@@ -271,10 +266,9 @@ async function renderListMembers(c) {
     return true;
 }
 async function renderListFollowers(c) {
-    let [listInfo, listFollowers, settingsData] = await Promise.allSettled([
+    let [listInfo, listFollowers] = await Promise.allSettled([
         API.getList(listId),
-        API.getListFollowers(listId, c),
-        API.getSettings()
+        API.getListFollowers(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -286,7 +280,6 @@ async function renderListFollowers(c) {
     }
     listInfo = listInfo.value;
     listFollowers = listFollowers.value;
-    settings = settingsData.value;
     cursor = listFollowers.cursor;
     listFollowers = listFollowers.list;
     if(!cursor || listFollowers.length === 0) end = true;

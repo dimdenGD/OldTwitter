@@ -1,5 +1,4 @@
 let user = {};
-let settings;
 let cursor;
 let linkColors = {};
 let searchParams = {}, searchSettings = {};
@@ -81,40 +80,30 @@ async function renderSearch(c) {
     let search;
     let currentCursor = cursor;
     try {
-        if(!settings) {
-            let [searchData, s] = await Promise.allSettled([
-                API.searchV2({
-                    q: encodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : ''),
-                    tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
-                    social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
-                    result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
-                }, cursor),
-                API.getSettings()
-            ]);
-            if(searchData.reason) {
-                console.error(searchData.reason);
-                searchDiv.innerHTML = `<div class="no-results">
-                    <br><br>
-                    <span style="color:var(--default-text-color)">${searchData.reason}</span><br><br>
-                    <button class="nice-button">${LOC.try_again.message}</button>
-                </div>`;
-                cursor = undefined;
-                let button = searchDiv.querySelector('button');
-                button.addEventListener('click', () => {
-                    renderSearch();
-                });
-                document.getElementById('loading-box').hidden = true;
-                return;
-            }
-            search = searchData.value; settings = s.value;
-        } else {
-            search = await API.searchV2({
+        let searchData;
+        try {
+            searchData = await API.searchV2({
                 q: encodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : ''),
                 tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
                 social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
                 result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
             }, cursor);
+        } catch(e) {
+            console.error(e);
+            searchDiv.innerHTML = `<div class="no-results">
+                <br><br>
+                <span style="color:var(--default-text-color)">${String(e)}</span><br><br>
+                <button class="nice-button">${LOC.try_again.message}</button>
+            </div>`;
+            cursor = undefined;
+            let button = searchDiv.querySelector('button');
+            button.addEventListener('click', () => {
+                renderSearch();
+            });
+            document.getElementById('loading-box').hidden = true;
+            return;
         }
+        search = searchData;
         cursor = search.cursor;
         search = search.list;
     } catch(e) {

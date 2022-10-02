@@ -157,6 +157,14 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             savePreferredQuality: true
         }, () => {});
     }
+    if(!vars.displaySensitiveContentMoved) {
+        API.getSettings().then(settings => {
+            chrome.storage.sync.set({
+                displaySensitiveContentMoved: true,
+                displaySensitiveContent: settings.display_sensitive_media
+            }, () => {});
+        });
+    }
     if(typeof(vars.language) !== 'string') {
         chrome.storage.sync.set({
             language: LANGUAGE

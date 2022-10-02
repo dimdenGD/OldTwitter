@@ -1,5 +1,4 @@
 let user = {};
-let settings = {};
 let subpage;
 
 // Util
@@ -159,8 +158,7 @@ async function renderNotifications(data, append = false) {
 }
 let lastData;
 async function updateNotifications(append = false) {
-    let [data, s] = await Promise.allSettled([API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions'), API.getSettings()]);
-    data = data.value; settings = s.value;
+    let data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
     if(append || !lastCursor) {
         let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
         lastCursor = entries[entries.length-1].content.operation.cursor.value;
