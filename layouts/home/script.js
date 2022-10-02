@@ -60,6 +60,7 @@ setTimeout(() => {
                             <li>Extension now supports screens as small as 950 pixels wide.</li>
                             <li>Added autoplay videos option.</li>
                             <li>You can now set who can reply to tweet.</li>
+                            <li>Now preferred video volume is saved.</li>
                             <li>You'll now receive changelog modals like these :)</li>
                         </ul>
                         <b>Fixes</b>

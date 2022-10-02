@@ -904,6 +904,18 @@ class TweetViewer {
                     }
                 }));
             };
+            if(typeof vars.volume === 'number') {
+                vid.volume = vars.volume;
+            }
+            vid.onvolumechange = () => {
+                chrome.storage.sync.set({
+                    volume: vid.volume
+                }, () => { });
+                let allVids = document.getElementsByTagName('video');
+                for(let i = 0; i < allVids.length; i++) {
+                    allVids[i].volume = vid.volume;
+                }
+            };
         }
 
         let footerFavorites = tweet.getElementsByClassName('tweet-footer-favorites')[0];

@@ -284,5 +284,6 @@
     "who_can_reply": { "message": "Хто може відповісти" },
     "people_you_follow": { "message": "Люди на яких ви підписані" },
     "people_you_mention": { "message": "Люди яких ви згадуєте" },
-    "new_version": { "message": "Оновлено до нової версії" }
+    "new_version": { "message": "Оновлено до нової версії" },
+    "display_sensitive_content": { "message": "Показувати медіа які можуть мати чутливий контент" }
 }
