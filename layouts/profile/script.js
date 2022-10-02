@@ -615,12 +615,6 @@ async function renderProfile() {
     } else {
         document.getElementById('follows-you').hidden = true;
     }
-    document.getElementById('tweet-to').addEventListener('click', () => {
-        document.getElementById('navbar-tweet-button').click();
-        setTimeout(() => {
-            document.getElementsByClassName('navbar-new-tweet-text')[0].value = `@${pageUser.screen_name} `;
-        }, 10);
-    });
 
     if(followersYouFollow && followersYouFollow.total_count > 0) {
         let friendsFollowing = document.getElementById('profile-friends-following');
@@ -628,6 +622,7 @@ async function renderProfile() {
         let friendsFollowingText = document.getElementById('profile-friends-text');
         friendsFollowingText.innerText = `${followersYouFollow.total_count} ${LOC.followers_you_know.message}`;
         friendsFollowingText.href = `https://twitter.com/${pageUser.screen_name}/followers_you_follow`;
+        friendsFollowingText
         followersYouFollow.users.forEach(u => {
             let a = document.createElement('a');
             a.href = `/${u.screen_name}`;
@@ -641,6 +636,9 @@ async function renderProfile() {
             friendsFollowingList.append(a);
         });
         friendsFollowing.hidden = false;
+    } else {
+        let friendsFollowing = document.getElementById('profile-friends-following');
+        friendsFollowing.hidden = true;
     }
 
     let buttonsElement = document.getElementById('profile-nav-buttons');
@@ -1264,6 +1262,12 @@ setTimeout(async () => {
         timeline.dataToUpdate = [];
         renderNewTweetsButton();
         renderTimeline();
+    });
+    document.getElementById('tweet-to').addEventListener('click', () => {
+        document.getElementById('navbar-tweet-button').click();
+        setTimeout(() => {
+            document.getElementsByClassName('navbar-new-tweet-text')[0].value = `@${pageUser.screen_name} `;
+        }, 10);
     });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
