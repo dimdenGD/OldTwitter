@@ -364,11 +364,11 @@ setTimeout(async () => {
 
             let scrollPoint = scrollY + innerHeight/2;
             let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(!activeTweet || !activeTweet.className.startsWith(newActiveTweet.className)) {
+            if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
                 if(activeTweet) {
                     activeTweet.classList.remove('tweet-active');
                 }
-                newActiveTweet.classList.add('tweet-active');
+                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
                 if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
                     if(activeTweet) {
                         let video = activeTweet.querySelector('.tweet-media > video[controls]');
@@ -376,9 +376,11 @@ setTimeout(async () => {
                             video.pause();
                         }
                     }
-                    let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
-                    if(newVideo && !newVideo.ended) {
-                        newVideo.play();
+                    if(newActiveTweet) {
+                        let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
+                        if(newVideo && !newVideo.ended) {
+                            newVideo.play();
+                        }
                     }
                 }
                 activeTweet = newActiveTweet;

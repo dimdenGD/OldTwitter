@@ -103,6 +103,6 @@ Greek - [VasilisTheChu](https://pikachu.systems/)
 Romanian - [Skylar](https://143.dust.moe/)  
 Tagalog - [Eurasian](https://twitter.com/NotPROxV)  
 Latvian - [yourfriend](https://3.141.lv/)  
-Hebrew - ugh  
+Hebrew - ugh, qqqq  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
