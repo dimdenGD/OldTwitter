@@ -602,9 +602,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
     } else {
         tweet.addEventListener('click', e => {
             if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
-                let tweet = t;
-                if(tweet.retweeted_status) tweet = tweet.retweeted_status;
-                new TweetViewer(user, tweet);
+                let tweetData = t;
+                if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
+                tweet.classList.add('tweet-preload');
+                new TweetViewer(user, tweetData);
             }
         });
         tweet.addEventListener('mousedown', e => {

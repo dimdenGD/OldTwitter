@@ -235,7 +235,10 @@ let lastTweetDate = 0;
 let activeTweet;
 let loadingNewTweets = false;
 
-setTimeout(() => {
+setTimeout(async () => {
+    if(!vars) {
+        await loadVars();
+    }
     if(!document.getElementById('wtf-refresh')) {
         // weird bug
         location.reload();

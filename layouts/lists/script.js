@@ -340,7 +340,10 @@ let activeTweet;
 let loadingNewTweets = false;
 let end = false;
 
-setTimeout(() => {
+setTimeout(async () => {
+    if(!vars) {
+        await loadVars();
+    }
     if(!document.getElementById('wtf-refresh')) {
         // weird bug
         location.reload();

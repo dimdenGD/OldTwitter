@@ -292,6 +292,9 @@ function renderNewTweetsButton() {
 }
 
 setTimeout(async () => {
+    if(!vars) {
+        await loadVars();
+    }
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');

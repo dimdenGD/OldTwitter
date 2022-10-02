@@ -52,6 +52,9 @@ function renderUserData() {
 }
 
 setTimeout(async () => {
+    if(!vars) {
+        await loadVars();
+    }
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });

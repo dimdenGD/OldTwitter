@@ -88,6 +88,13 @@ async function updateCustomCSSVariables() {
 }
 
 setTimeout(async () => {
+    if(!vars) {
+        await loadVars();
+        if(vars.darkMode) {
+            isDarkModeEnabled = true;
+            switchDarkMode(true);
+        }
+    }
     let userDataFunction = async e => {
         if(headerGotUser || Object.keys(e.detail).length === 0) return;
         headerGotUser = true;

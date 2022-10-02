@@ -176,6 +176,9 @@ async function updateNotifications(append = false) {
 }
 
 setTimeout(async () => {
+    if(!vars) {
+        await loadVars();
+    }
     if(!document.getElementById('wtf-refresh')) {
         // weird bug
         location.reload();
