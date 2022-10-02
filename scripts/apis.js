@@ -271,8 +271,28 @@ API.getAlgoTimeline = (cursor, count = 25) => {
         });
     });
 }
+API.getAlgoTimelineWithCache = () => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(['algoTimeline'], d => {
+            if(d.algoTimeline && Date.now() - d.algoTimeline.date < 60000*10) {
+                return resolve(d.algoTimeline.data);
+            }
+            API.getAlgoTimeline().then(data => {
+                chrome.storage.local.set({
+                    algoTimeline: {
+                        date: Date.now(),
+                        data
+                    }
+                });
+                resolve(data);
+            }).catch(e => {
+                reject(e);
+            });
+        });
+    });
+}
 API.getMixedTimeline = async () => {
-    let [chrono, algo] = await Promise.allSettled([API.getTimeline(), API.getAlgoTimeline()]);
+    let [chrono, algo] = await Promise.allSettled([API.getTimeline(), API.getAlgoTimelineWithCache()]);
     if(chrono.reason) {
         throw chrono.reason;
     }
