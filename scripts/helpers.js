@@ -21,30 +21,28 @@ function createModal(html, className, onclose) {
     let close = document.createElement('span');
     close.classList.add('modal-close');
     close.innerHTML = '&times;';
-    function escapeEvent(e) {
-        if(document.querySelector('.viewer-in')) return;
-        if(e.key === 'Escape' || (e.altKey && e.keyCode === 78)) {
-            modal.remove();
-            let event = new Event('findActiveTweet');
-            document.dispatchEvent(event);
-            document.removeEventListener('keydown', escapeEvent);
-            if(onclose) onclose();
-        }
-    }
-    close.addEventListener('click', () => {
+    document.body.style.overflowY = 'hidden';
+    function removeModal() {
         modal.remove();
         let event = new Event('findActiveTweet');
         document.dispatchEvent(event);
         document.removeEventListener('keydown', escapeEvent);
         if(onclose) onclose();
-    });
+        let modals = document.getElementsByClassName('modal');
+        if(modals.length === 0) {
+            document.body.style.overflowY = 'auto';
+        }
+    }
+    function escapeEvent(e) {
+        if(document.querySelector('.viewer-in')) return;
+        if(e.key === 'Escape' || (e.altKey && e.keyCode === 78)) {
+            removeModal();
+        }
+    }
+    close.addEventListener('click', removeModal);
     modal.addEventListener('click', e => {
         if(e.target === modal) {
-            modal.remove();
-            let event = new Event('findActiveTweet');
-            document.dispatchEvent(event);
-            document.removeEventListener('keydown', escapeEvent);
-            if(onclose) onclose();
+            removeModal();
         }
     });
     document.addEventListener('keydown', escapeEvent);

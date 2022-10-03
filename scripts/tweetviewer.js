@@ -210,7 +210,7 @@ class TweetViewer {
                     });
                 }
             } else if(t.type === 'tombstone') {
-                appendTombstone(tlContainer, t.data);
+                this.appendTombstone(tlContainer, t.data);
             }
         }
         if(mainTweet) mainTweet.scrollIntoView();
