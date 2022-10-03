@@ -422,6 +422,7 @@ function renderUserData() {
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
     twemoji.parse(document.getElementById('user-name'));
+    document.getElementById('loading-box').hidden = true;
 }
 async function appendComposeComponent(container, replyTweet) {
     if(!replyTweet) return;
