@@ -1013,6 +1013,9 @@ setTimeout(async () => {
     if(!vars) {
         await loadVars();
     }
+    while(!LOC || !LOC.january) {
+        await sleep(10);
+    }
     months = [LOC.january.message, LOC.february.message, LOC.march.message, LOC.april.message, LOC.may.message, LOC.june.message, LOC.july.message, LOC.august.message, LOC.september.message, LOC.october.message, LOC.november.message, LOC.december.message];
     // tweet hotkeys
     if(!vars.disableHotkeys) {

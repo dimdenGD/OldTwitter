@@ -235,7 +235,8 @@ class TweetViewer {
     
         if(!c) {
             likeDiv.innerHTML = '';
-            let tweet = await appendTweet(await API.getTweet(id), likeDiv, {
+            let tweetData = await API.getTweet(id);
+            let tweet = await appendTweet(tweetData, likeDiv, {
                 mainTweet: true
             });
             tweet.style.borderBottom = '1px solid var(--border)';
@@ -302,19 +303,20 @@ class TweetViewer {
     
         if(!c) {
             retweetDiv.innerHTML = '';
-            let tweet = await this.appendTweet(await API.getTweet(id), retweetDiv, {
+            let tweetData = await API.getTweet(id);
+            let tweet = await this.appendTweet(tweetData, retweetDiv, {
                 mainTweet: true
             });
             tweet.style.borderBottom = '1px solid var(--border)';
             tweet.style.marginBottom = '10px';
             tweet.style.borderRadius = '5px';
             let h1 = document.createElement('h1');
-            h1.innerHTML = `${LOC.retweeted_by.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
+            h1.innerHTML = `${LOC.retweeted_by.message} (<a href="https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
             h1.className = 'cool-header';
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
                 e.preventDefault();
-                history.pushState({}, null, `https://twitter.com/${tweet.user.screen_name}/status/${id}/retweets/with_comments`);
+                history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets/with_comments`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.linkColors = {};
@@ -370,6 +372,7 @@ class TweetViewer {
     }
     async updateRetweetsWithComments(id, c) {
         let tweetRetweeters;
+        let tweetData = await API.getTweet(id);
         try {
             tweetRetweeters = await API.getTweetQuotes(id, c);
             this.retweetCommentsCursor = tweetRetweeters.cursor;
@@ -383,13 +386,13 @@ class TweetViewer {
         if(!c) {
             retweetDiv.innerHTML = '';
             let h1 = document.createElement('h1');
-            h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
+            h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
             h1.className = 'cool-header';
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
                 e.preventDefault();
                 let t = await API.getTweet(id);
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${id}/retweets`);
+                history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.linkColors = {};
@@ -1345,7 +1348,7 @@ class TweetViewer {
                     this.updateLikes(id);
                 } else if(this.subpage === 'retweets') {
                     this.updateRetweets(id);
-                } else if(subpage === 'retweets_with_comments') {
+                } else if(this.subpage === 'retweets_with_comments') {
                     this.updateRetweetsWithComments(id);
                 }
                 this.currentLocation = location.pathname;
