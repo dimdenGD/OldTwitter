@@ -740,10 +740,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             ${options.mainTweet ? /*html*/`
             <div class="tweet-footer">
                 <div class="tweet-footer-stats">
-                    <div class="tweet-footer-stat">
+                    <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}" class="tweet-footer-stat tweet-footer-stat-o">
                         <span class="tweet-footer-stat-text">${LOC.replies.message}</span>
                         <b class="tweet-footer-stat-count tweet-footer-stat-replies">${Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</b>
-                    </div>
+                    </a>
                     <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets" class="tweet-footer-stat tweet-footer-stat-r">
                         <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                         <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</b>
@@ -940,6 +940,23 @@ async function appendTweet(t, timelineContainer, options = {}) {
             mainTweetLikers = [];
             let id = location.pathname.match(/status\/(\d{1,32})/)[1];
             updateRetweets(id);
+            renderDiscovery();
+            renderTrends();
+            currentLocation = location.pathname;
+        });
+        let repliesLink = tweet.getElementsByClassName('tweet-footer-stat-o')[0];
+        repliesLink.addEventListener('click', e => {
+            e.preventDefault();
+            document.getElementById('loading-box').hidden = false;
+            history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+            updateSubpage();
+            mediaToUpload = [];
+            linkColors = {};
+            cursor = undefined;
+            seenReplies = [];
+            mainTweetLikers = [];
+            let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+            updateReplies(id);
             renderDiscovery();
             renderTrends();
             currentLocation = location.pathname;
