@@ -1270,8 +1270,9 @@ setTimeout(async () => {
             renderTimeline();
         });
     } catch(e) {
-        console.error(e);
+        console.error(e, location);
         location.reload();
+        return;
     }
     document.getElementById('tweet-to').addEventListener('click', () => {
         document.getElementById('navbar-tweet-button').click();

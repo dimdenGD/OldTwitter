@@ -72,7 +72,7 @@ if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/video\/\d+(|\/)$/.test(realPath)) {
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath)) {
     location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "gr", "ro", "tl", "lv", "he", "ne", "nl", "ja"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "gr", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -86,7 +86,8 @@ const TRANSLATORS = {
     "he": ["ugh"],
     "ne": ["DimeDead", "https://dimedead.neocities.org/"],
     "nl": ["Puka1611"],
-    "ja": ["Chazuru", "https://twitter.com/AIWMD"]
+    "ja": ["Chazuru", "https://twitter.com/AIWMD"],
+    "tr": ["KayrabCebll", "https://steamcommunity.com/id/KayrabCebll"]
 };
 let LOC = {};
 let LOC_EN = {};
