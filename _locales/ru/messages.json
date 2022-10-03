@@ -285,6 +285,7 @@
     "people_you_follow": { "message": "Люди на которых вы подписаны" },
     "people_you_mention": { "message": "Люди которых вы упоминаете" },
     "new_version": { "message": "Обновлено до новой версии" },
-    "display_sensitive_content": { "message": "Показывать медиа с возможным деликатным контентом" }
+    "display_sensitive_content": { "message": "Показывать медиа с возможно деликатным контентом" },
+    "is_private": { "message": "Приватный" }
 
 }

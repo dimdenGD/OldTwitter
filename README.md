@@ -106,3 +106,4 @@ Latvian - [yourfriend](https://3.141.lv/)
 Hebrew - ugh, qqqq  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
+Japanese - [Chazuru](https://twitter.com/AIWMD)  

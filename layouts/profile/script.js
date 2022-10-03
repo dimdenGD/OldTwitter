@@ -1261,13 +1261,18 @@ setTimeout(async () => {
             }
         }
     });
-    document.getElementById('new-tweets').addEventListener('click', () => {
-        timeline.toBeUpdated = 0;
-        timeline.data = timeline.dataToUpdate;
-        timeline.dataToUpdate = [];
-        renderNewTweetsButton();
-        renderTimeline();
-    });
+    try {
+        document.getElementById('new-tweets').addEventListener('click', () => {
+            timeline.toBeUpdated = 0;
+            timeline.data = timeline.dataToUpdate;
+            timeline.dataToUpdate = [];
+            renderNewTweetsButton();
+            renderTimeline();
+        });
+    } catch(e) {
+        console.error(e);
+        location.reload();
+    }
     document.getElementById('tweet-to').addEventListener('click', () => {
         document.getElementById('navbar-tweet-button').click();
         setTimeout(() => {

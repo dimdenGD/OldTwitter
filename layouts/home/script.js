@@ -52,7 +52,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px">
                         <b>Features</b>
                         <ul>
-                            <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, French, Ukrainian, Romanian, Greek, Dutch, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>
+                            <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, Japanese, French, Ukrainian, Romanian, Greek, Dutch, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>
                             <li>Now 'translate tweet' and 'translate bio' buttons translate to your selected language instead of English.</li>
                             <li>Support for 'Twitter Circles'. You can now post tweets in them and manage members.</li>
                             <li>Support for Topics page.</li>

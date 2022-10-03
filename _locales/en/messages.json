@@ -285,5 +285,6 @@
     "people_you_follow": { "message": "People you follow" },
     "people_you_mention": { "message": "People you mention" },
     "new_version": { "message": "Updated to new version" },
-    "display_sensitive_content": { "message": "Display media that may contain sensitive content" }
+    "display_sensitive_content": { "message": "Display media that may contain sensitive content" },
+    "is_private": { "message": "Is private" }
 }

@@ -74,10 +74,10 @@ function renderListData(data) {
                     <div id="list-editor">
                         <h1 class="cool-header">${LOC.edit_list.message}</h1><br>
                         <span id="list-editor-error" style="color:red"></span><br>
-                        Name:<br><input maxlength="25" type="text" id="list-name-input" value="${escapeHTML(data.name)}"><br><br>
-                        Description:<br><textarea maxlength="100" type="text" id="list-description-input">${escapeHTML(data.description)}</textarea><br>
+                        ${LOC.name.message}:<br><input maxlength="25" type="text" id="list-name-input" value="${escapeHTML(data.name)}"><br><br>
+                        ${LOC.description.message}:<br><textarea maxlength="100" type="text" id="list-description-input">${escapeHTML(data.description)}</textarea><br>
                         <br>
-                        Is private: <input type="checkbox" style="width: 15px;" id="list-private-input" ${data.mode === 'Private' ? 'checked' : ''}><br>
+                        ${LOC.is_private.message}: <input type="checkbox" style="width: 15px;" id="list-private-input" ${data.mode === 'Private' ? 'checked' : ''}><br>
                         <br>
                         <button class="nice-button" id="list-btn-save">${LOC.save.message}</button> 
                         <button class="nice-button" id="list-btn-members">${LOC.edit_members.message}</button>
