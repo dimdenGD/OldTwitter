@@ -1103,3 +1103,6 @@ a:hover,
     float: right;
     margin-top: 10px;
 }
+.poll-date {
+    width: 50px;
+}

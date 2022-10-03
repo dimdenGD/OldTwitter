@@ -640,9 +640,9 @@ setTimeout(async () => {
                 <input class="poll-question" data-variant="3" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
                 <input class="poll-question" data-variant="4" placeholder="${LOC.variant.message} 4 ${LOC.optional.message}"><br>
                 <hr>
-                ${LOC.days.message}: <input class="poll-date" id="poll-days" type="number" min="0" max="7" value="1"><br>
-                ${LOC.hours.message}: <input class="poll-date" id="poll-hours" type="number" min="0" max="23" value="0"><br>
-                ${LOC.minutes.message}: <input class="poll-date" id="poll-minutes" type="number" min="0" max="59" value="0"><br>
+                ${LOC.days.message}: <input class="poll-date" id="poll-days" type="number" min="0" max="7" value="1">
+                ${LOC.hours.message}: <input class="poll-date" id="poll-hours" type="number" min="0" max="23" value="0">
+                ${LOC.minutes.message}: <input class="poll-date" id="poll-minutes" type="number" min="0" max="59" value="0">
                 <hr>
                 <button class="nice-button" id="poll-remove">${LOC.remove_poll.message}</button>
             `;
