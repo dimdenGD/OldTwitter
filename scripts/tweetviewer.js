@@ -647,7 +647,7 @@ class TweetViewer {
         const tweet = document.createElement('div');
         if(!options.mainTweet) {
             tweet.addEventListener('click', async e => {
-                if(e.target.className.startsWith('tweet tweet-view tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
+                if(e.target.className.startsWith('tweet tweet-view tweet-id-') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
                     this.savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     this.updateSubpage();
@@ -673,7 +673,7 @@ class TweetViewer {
             tweet.addEventListener('mousedown', e => {
                 if(e.button === 1) {
                     e.preventDefault();
-                    if(e.target.className.startsWith('tweet tweet-view tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
+                    if(e.target.className.startsWith('tweet tweet-view tweet-id-') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
                         openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     }
                 }

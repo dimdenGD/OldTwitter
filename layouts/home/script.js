@@ -63,6 +63,7 @@ setTimeout(() => {
                             <li>Now preferred video volume is saved.</li>
                             <li>You'll now receive changelog modals like these :)</li>
                             <li>Made page unscrollable when any modal is opened.</li>
+                            <li>More space to click to open tweet.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
