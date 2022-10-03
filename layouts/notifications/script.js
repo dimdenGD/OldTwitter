@@ -64,7 +64,7 @@ async function renderNotifications(data, append = false) {
             let replyUser = replyTweet ? data.globalObjects.users[replyTweet.user_id_str] : undefined;
             notificationDiv.addEventListener('click', e => {
                 if(e.target == notificationDiv || e.target.className === 'notification-avatars' && replyUser) {
-                    location.assign(`https://twitter.com/${replyUser.screen_name}/status/${replyTweet.id_str}`);
+                    openInNewTab(`https://twitter.com/${replyUser.screen_name}/status/${replyTweet.id_str}` + (n.icon.id === 'heart_icon' ? '/likes' : n.icon.id === 'retweet_icon' ? '/retweets' : ''));
                 }
             });
             let notificationHeader = n.message.text;
