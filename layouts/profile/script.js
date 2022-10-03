@@ -276,7 +276,7 @@ function updateUserData() {
         renderProfile();
         try {
             pinnedTweet = pageUser.pinned_tweet_ids_str;
-            if(pinnedTweet && pinnedTweet.length > 0) pinnedTweet = await API.getTweet(pinnedTweet[0]);
+            if(pinnedTweet && pinnedTweet.length > 0) pinnedTweet = await API.tweetDetail(pinnedTweet[0]);
             else pinnedTweet = undefined;
         } catch(e) {
             pinnedTweet = undefined;

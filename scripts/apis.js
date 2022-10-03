@@ -1440,6 +1440,51 @@ API.getTweet = id => {
         });
     });
 }
+API.tweetDetail = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/8lxrBz5JaVweczpN0RcGXA/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
+            "focalTweetId":id,
+            "with_rux_injections":false,
+            "withCommunity":true,
+            "includePromotedContent": false,
+            "withDownvotePerspective": false,
+            "withReactionsMetadata": true,
+            "withReactionsPerspective": true,
+            "withSuperFollowsTweetFields": false,
+            "withSuperFollowsUserFields": false,
+            "withVoice": true,
+            "withBirdwatchNotes":false
+        }))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let tweetData = data.data.threaded_conversation_with_injections.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
+            let tweet = tweetData.legacy;
+            if(tweetData.card) {
+                tweet.card = tweetData.card.legacy;
+                let newBindingValues = {};
+                for(let i of tweet.card.binding_values) {
+                    newBindingValues[i.key] = i.value;
+                }
+                tweet.card.binding_values = newBindingValues;
+            }
+            tweet.user = tweetData.core.user_results.result;
+            tweet.user.legacy.id_str = tweet.user.rest_id;
+            tweet.user = tweet.user.legacy;
+            resolve(tweet);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.tweetDetail('1568816225475756034').then(console.log)
 API.pollVote = (api, tweet_id, card_uri, card_name, selected_choice) => {
     return new Promise((resolve, reject) => {
         fetch(`https://caps.twitter.com/v2/capi/${api.split('//')[1]}`, {
