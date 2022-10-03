@@ -225,6 +225,12 @@ async function updateLikes(id, c) {
         likeDiv.appendChild(h1);
     }
 
+    if(!likeCursor || tweetLikers.length === 0) {
+        document.getElementById("likes-more").hidden = true;
+    } else {
+        document.getElementById("likes-more").hidden = false;
+    }
+
     for(let i in tweetLikers) {
         let u = tweetLikers[i];
         let likeElement = document.createElement('div');
@@ -281,7 +287,8 @@ async function updateRetweets(id, c) {
 
     if(!c) {
         retweetDiv.innerHTML = '';
-        let tweet = await appendTweet(await API.getTweet(id), retweetDiv, {
+        let tweetData = await API.getTweet(id);
+        let tweet = await appendTweet(tweetData, retweetDiv, {
             mainTweet: true
         });
         tweet.style.borderBottom = '1px solid var(--border)';
@@ -291,21 +298,21 @@ async function updateRetweets(id, c) {
         h1.innerHTML = `${LOC.retweeted_by.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
-        h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
-            e.preventDefault();
-            history.pushState({}, null, `https://twitter.com/${tweet.user.screen_name}/status/${id}/retweets/with_comments`);
-            this.updateSubpage();
-            this.mediaToUpload = [];
-            this.linkColors = {};
-            this.cursor = undefined;
-            this.seenReplies = [];
-            this.mainTweetLikers = [];
-            let tid = location.pathname.match(/status\/(\d{1,32})/)[1];
-            this.updateRetweetsWithComments(tid);
-            this.currentLocation = location.pathname;
-        });
+        // h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
+        //     e.preventDefault();
+        //     history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets/with_comments`);
+        //     this.updateSubpage();
+        //     this.mediaToUpload = [];
+        //     this.linkColors = {};
+        //     this.cursor = undefined;
+        //     this.seenReplies = [];
+        //     this.mainTweetLikers = [];
+        //     let tid = location.pathname.match(/status\/(\d{1,32})/)[1];
+        //     this.updateRetweetsWithComments(tid);
+        //     this.currentLocation = location.pathname;
+        // });
     }
-    if(!retweetCursor) {
+    if(!retweetCursor || tweetRetweeters.length === 0) {
         document.getElementById('retweets-more').hidden = true;
     } else {
         document.getElementById('retweets-more').hidden = false;
@@ -367,22 +374,22 @@ async function updateRetweetsWithComments(id, c) {
         h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
-        h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
-            e.preventDefault();
-            let t = await API.getTweet(id);
-            history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${id}/retweets`);
-            this.updateSubpage();
-            this.mediaToUpload = [];
-            this.linkColors = {};
-            this.cursor = undefined;
-            this.seenReplies = [];
-            this.mainTweetLikers = [];
-            let tid = location.pathname.match(/status\/(\d{1,32})/)[1];
-            this.updateRetweets(tid);
-            this.currentLocation = location.pathname;
-        });
+        // h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
+        //     e.preventDefault();
+        //     let t = await API.getTweet(id);
+        //     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${id}/retweets`);
+        //     this.updateSubpage();
+        //     this.mediaToUpload = [];
+        //     this.linkColors = {};
+        //     this.cursor = undefined;
+        //     this.seenReplies = [];
+        //     this.mainTweetLikers = [];
+        //     let tid = location.pathname.match(/status\/(\d{1,32})/)[1];
+        //     this.updateRetweets(tid);
+        //     this.currentLocation = location.pathname;
+        // });
     }
-    if(!retweetCommentsCursor) {
+    if(!retweetCommentsCursor || tweetRetweeters.length === 0) {
         document.getElementById('retweets_with_comments-more').hidden = true;
     } else {
         document.getElementById('retweets_with_comments-more').hidden = false;

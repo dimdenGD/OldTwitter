@@ -1484,7 +1484,6 @@ API.tweetDetail = id => {
         });
     });
 }
-API.tweetDetail('1568816225475756034').then(console.log)
 API.pollVote = (api, tweet_id, card_uri, card_name, selected_choice) => {
     return new Promise((resolve, reject) => {
         fetch(`https://caps.twitter.com/v2/capi/${api.split('//')[1]}`, {

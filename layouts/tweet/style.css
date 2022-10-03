@@ -500,7 +500,7 @@ span.tweet-body-text {
     margin-bottom: 10px;
     padding: 10px;
     text-align: center;
-    padding-left: 100px;
+    padding-left: 100px !important;
 }
 
 .tweet-interact-retweet-menu span,

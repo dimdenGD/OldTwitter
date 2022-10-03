@@ -790,7 +790,7 @@ class TweetViewer {
                             <span class="tweet-footer-stat-text">${LOC.replies.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-replies">${Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</b>
                         </div>
-                        <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-r">
+                        <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets" class="tweet-footer-stat tweet-footer-stat-r">
                             <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</b>
                         </a>
@@ -967,7 +967,7 @@ class TweetViewer {
             let retweetsLink = tweet.getElementsByClassName('tweet-footer-stat-r')[0];
             retweetsLink.addEventListener('click', e => {
                 e.preventDefault();
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
+                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.linkColors = {};
@@ -975,7 +975,7 @@ class TweetViewer {
                 this.seenReplies = [];
                 this.mainTweetLikers = [];
                 let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-                this.updateRetweetsWithComments(id);
+                this.updateRetweets(id);
                 this.currentLocation = location.pathname;
             });
         }

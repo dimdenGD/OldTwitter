@@ -600,22 +600,24 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         });
     } else {
-        tweet.addEventListener('click', e => {
-            if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
-                let tweetData = t;
-                if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
-                tweet.classList.add('tweet-preload');
-                new TweetViewer(user, tweetData);
-            }
-        });
-        tweet.addEventListener('mousedown', e => {
-            if(e.button === 1) {
-                e.preventDefault();
+        if(!options.mainTweet) {
+            tweet.addEventListener('click', e => {
                 if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
-                    openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                    let tweetData = t;
+                    if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
+                    tweet.classList.add('tweet-preload');
+                    new TweetViewer(user, tweetData);
                 }
-            }
-        });
+            });
+            tweet.addEventListener('mousedown', e => {
+                if(e.button === 1) {
+                    e.preventDefault();
+                    if(e.target.className.startsWith('tweet tweet-id-') || e.target.className === 'tweet-body' || e.target.className === 'tweet-interact') {
+                        openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                    }
+                }
+            });
+        }
     }
     tweet.tabIndex = -1;
     tweet.className = `tweet tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`;
@@ -742,7 +744,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         <span class="tweet-footer-stat-text">${LOC.replies.message}</span>
                         <b class="tweet-footer-stat-count tweet-footer-stat-replies">${Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</b>
                     </div>
-                    <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-r">
+                    <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets" class="tweet-footer-stat tweet-footer-stat-r">
                         <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                         <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</b>
                     </a>
@@ -929,7 +931,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         retweetsLink.addEventListener('click', e => {
             e.preventDefault();
             document.getElementById('loading-box').hidden = false;
-            history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
+            history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets`);
             updateSubpage();
             mediaToUpload = [];
             linkColors = {};
@@ -937,7 +939,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             seenReplies = [];
             mainTweetLikers = [];
             let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-            updateRetweetsWithComments(id);
+            updateRetweets(id);
             renderDiscovery();
             renderTrends();
             currentLocation = location.pathname;
