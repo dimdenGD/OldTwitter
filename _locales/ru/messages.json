@@ -286,6 +286,9 @@
     "people_you_mention": { "message": "Люди которых вы упоминаете" },
     "new_version": { "message": "Обновлено до новой версии" },
     "display_sensitive_content": { "message": "Показывать медиа с возможно деликатным контентом" },
-    "is_private": { "message": "Приватный" }
-
+    "is_private": { "message": "Приватный" },
+    "s": { "message": "$NUMBER$сек", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$мин", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$ч", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$д", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
 }

@@ -52,19 +52,17 @@ API.logout = () => {
             method: 'post',
             body: 'redirectAfterLogout=https%3A%2F%2Ftwitter.com%2Faccount%2Fswitch'
         }).then(i => i.json()).then(data => {
-            chrome.storage.local.set({credentials: undefined}, () => {});
-            chrome.storage.local.set({userUpdates: {}}, () => {});
-            chrome.storage.local.set({peopleRecommendations: {}}, () => {});
-            chrome.storage.local.set({tweetReplies: {}}, () => {});
-            chrome.storage.local.set({tweetLikers: {}}, () => {});
-            chrome.storage.local.set({listData: {}}, () => {});
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
-            }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            resolve(data);
+            chrome.storage.local.clear(() => {
+                chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version}, () => {
+                    if (data.errors && data.errors[0].code === 32) {
+                        return reject("Not logged in");
+                    }
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    resolve(data);
+                });
+            });
         }).catch(e => {
             reject(e);
         });
@@ -113,7 +111,6 @@ API.switchAccount = id => {
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
                 "x-twitter-active-user": "yes",
-                "x-twitter-client-language": navigator.language ? navigator.language : "en",
                 "content-type": "application/x-www-form-urlencoded"
             },
             credentials: "include",
@@ -123,11 +120,15 @@ API.switchAccount = id => {
             status = i.status;
             return i.text();
         }).then(data => {
-            if(String(status).startsWith("2")) {
-                resolve(data);
-            } else {
-                reject(data);
-            }
+            chrome.storage.local.clear(() => {
+                chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version}, () => {
+                    if(String(status).startsWith("2")) {
+                        resolve(data);
+                    } else {
+                        reject(data);
+                    }
+                });
+            });
         }).catch(e => {
             reject(e);
         });

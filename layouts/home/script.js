@@ -61,6 +61,7 @@ setTimeout(() => {
                             <li>Added autoplay videos option.</li>
                             <li>You can now set who can reply to tweet.</li>
                             <li>Now preferred video volume is saved.</li>
+                            <li>You can now hide/show retweets of user in timeline.</li>
                             <li>You'll now receive changelog modals like these :)</li>
                             <li>Made page unscrollable when any modal is opened.</li>
                             <li>More space to click to open tweet.</li>

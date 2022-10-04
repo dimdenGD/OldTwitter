@@ -277,5 +277,15 @@
     "not_interested": { "message": "Não me interesso" },
     "cancel": { "message": "Cancelar" },
     "youre_not_interested": { "message": "Você não se interessa nesse tópico " },
-    "autoplay_videos": { "message": "Tocar vídeos automaticamente" }
+    "autoplay_videos": { "message": "Tocar vídeos automaticamente" },
+    "turn_on_retweets": { "message": "Mostrar retweets no seu feed" },
+    "turn_off_retweets": { "message": "Esconder retweets no seu feed" },
+    "you_can_reply": { "message": "(você pode responder)" },
+    "audience": { "message": "Audiência" },
+    "who_can_reply": { "message": "Quem pode responder" },
+    "people_you_follow": { "message": "Quem você segue" },
+    "people_you_mention": { "message": "Quem você mencionou" },
+    "new_version": { "message": "Atualizado para nova versão" },
+    "display_sensitive_content": { "message": "Mostrar conteúdo possivelmente sensível" },
+    "is_private": { "message": "Privado" }
 }

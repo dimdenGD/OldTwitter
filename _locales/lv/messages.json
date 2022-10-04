@@ -930,5 +930,19 @@
     "not_interested": { "message": "Neesmu ieinteresēts" },
     "cancel": { "message": "Atcelt" },
     "youre_not_interested": { "message": "Jūs nēesat interesēts šī tēma" },
-    "autoplay_videos": { "message": "Automātiski atskaņot video." }
+    "autoplay_videos": { "message": "Automātiski atskaņot video." },
+    "turn_on_retweets": { "message": "Izslēgt re-tvītus feedā" },
+    "turn_off_retweets": { "message": "Noslēpt re-tvītus feedāe" },
+    "you_can_reply": { "message": "(tu vari atbildēt)" },
+    "audience": { "message": "Cilvēki" },
+    "who_can_reply": { "message": "Kas var atbildēt" },
+    "people_you_follow": { "message": "Cilvēki kam tu seko" },
+    "people_you_mention": { "message": "Cilvēki kurus tu piemini" },
+    "new_version": { "message": "Atjaunināts uz jauno versiju" },
+    "display_sensitive_content": { "message": "Parādīt mēdiju kas var saturēt sensitīvu saturu" },
+    "is_private": { "message": "Ir privāts" },
+    "s": { "message": "$NUMBER$sek", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$st", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
 }

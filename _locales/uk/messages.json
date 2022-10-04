@@ -286,5 +286,9 @@
     "people_you_mention": { "message": "Люди яких ви згадуєте" },
     "new_version": { "message": "Оновлено до нової версії" },
     "display_sensitive_content": { "message": "Показувати медіа які можуть мати чутливий контент" },
-    "is_private": { "message": "Приватний" }
+    "is_private": { "message": "Приватний" },
+    "s": { "message": "$NUMBER$сек", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$хв", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$г", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$д", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
 }

@@ -1335,9 +1335,14 @@ input, textarea {
     float: right;
     color: #1da1f2;
     height: 10px;
-    font-size: 47px;
-    margin-top: -33px;
+    font-size: 36px;
+    margin-top: -19px;
+    margin-right: -8px;
 }
 .tweet-preload::after {
     color: #1df2e7 !important;
+}
+.tweet-thread-right {
+    float: right;
+    margin-right: 5px;
 }

@@ -276,5 +276,19 @@
     "not_interested": { "message": "Pas intéressé.e" },
     "cancel": { "message": "Annuler" },
     "youre_not_interested": { "message": "Vous n'êtes pas intéressé.e par ce sujet" },
-    "autoplay_videos": { "message": "Lire automatiquement les vidéos." }
+    "autoplay_videos": { "message": "Lire automatiquement les vidéos." },
+    "turn_on_retweets": { "message": "Montrer les retweets dans la chronologie" },
+    "turn_off_retweets": { "message": "Cacher les retweets dans la chronologie" },
+    "you_can_reply": { "message": "(vous pouvez répondre)" },
+    "audience": { "message": "Audience" },
+    "who_can_reply": { "message": "Qui peut répondre" },
+    "people_you_follow": { "message": "Personnes que vous suivez" },
+    "people_you_mention": { "message": "Personnes que vous mentionnez" },
+    "new_version": { "message": "Mise à jour à la nouvelle version" },
+    "display_sensitive_content": { "message": "Montrer des médias qui pourraient contenir du contenu sensible" },
+    "is_private": { "message": "Est privé" },
+    "s": { "message": "$NUMBER$s", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$j", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
 }

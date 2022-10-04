@@ -309,7 +309,7 @@ async function updateTimeline() {
         }
     }
     if(tl.error === "Not authorized.") {
-        document.getElementById('timeline').innerHTML = `<div class="error">${LOC.timeline_not_authorized.message}</div>`;
+        document.getElementById('timeline').innerHTML = `<div style="margin-top: 10px;color: var(--darker-gray);">${LOC.timeline_not_authorized.message}</div>`;
         return document.getElementById('loading-box').hidden = true;
     }
     tl.forEach(t => {
@@ -1270,8 +1270,10 @@ setTimeout(async () => {
             renderTimeline();
         });
     } catch(e) {
-        console.error(e, location);
-        location.reload();
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+        console.error(e);
         return;
     }
     document.getElementById('tweet-to').addEventListener('click', () => {

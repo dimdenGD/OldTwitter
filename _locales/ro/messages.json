@@ -276,5 +276,19 @@
     "not_interested": { "message": "Nu sunt interesat(ă)" },
     "cancel": { "message": "Anulează" },
     "youre_not_interested": { "message": "Nu esti interesat(ă) de acest subiect." },
-    "autoplay_videos": { "message": "Redare automată a videoclipurilor." }
+    "autoplay_videos": { "message": "Redare automată a videoclipurilor." },
+    "turn_on_retweets": { "message": "Arată retweet-uri în timeline" },
+    "turn_off_retweets": { "message": "Ascunde retweet-uri în timeline" },
+    "you_can_reply": { "message": "(poți să răspunzi)" },
+    "audience": { "message": "Audiență" },
+    "who_can_reply": { "message": "Cine poate să raspundă" },
+    "people_you_follow": { "message": "Persoane pe care le urmăreşti" },
+    "people_you_mention": { "message": "Persoane pe care le menționați" },
+    "new_version": { "message": "Actualizat la noua versiune" },
+    "display_sensitive_content": { "message": "Afișarea fotografiilor si videoclipurilor care pot avea conținut sensibil" },
+    "is_private": { "message": "Este privat" },
+    "s": { "message": "$NUMBER$s", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$h", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$zi(le)", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
 }

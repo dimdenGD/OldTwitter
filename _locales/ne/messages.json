@@ -275,5 +275,15 @@
     "not_interested": { "message": "रुचि छैन" },
     "cancel": { "message": "नगर्न" },
     "youre_not_interested": { "message": "यो विषय मा तपाईँको रुचि छैन" },
-    "autoplay_videos": { "message": "आफै विडिओ लगाउन." }
+    "autoplay_videos": { "message": "आफै विडिओ लगाउन." },
+    "turn_on_retweets": { "message": "ट्वीटहरू देखाउन" },
+    "turn_off_retweets": { "message": "ट्वीटहरू नदेखाउन" },
+    "you_can_reply": { "message": "(तपाईँले जवाफ दिन मिल्छ)" },
+    "audience": { "message": "दर्शक देखाउन" },
+    "who_can_reply": { "message": "कसले जवाफ दिन मिल्छ" },
+    "people_you_follow": { "message": "तपाईँले पछ्याउदै गरेको मान्छे" },
+    "people_you_mention": { "message": "तपाईँले उल्लेख गर्ने मान्छे" },
+    "new_version": { "message": "नया संस्करण अपडेट गर्न" },
+    "display_sensitive_content": { "message": "स्पष्ट सामग्री देखाउन" },
+    "is_private": { "message": "निजी छ" }
 }

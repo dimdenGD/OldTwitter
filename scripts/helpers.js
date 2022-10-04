@@ -278,38 +278,38 @@ function timeElapsed(targetTimestamp) {
     let targetTimeInms = targetDate.getTime();
     let elapsed = Math.floor((currentTimeInms - targetTimeInms) / 1000);
     const MonthNames = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-        'July',
-        'August',
-        'September',
-        'October',
-        'November',
-        'December',
+        LOC.january.message,
+        LOC.february.message,
+        LOC.march.message,
+        LOC.april.message,
+        LOC.may.message,
+        LOC.june.message,
+        LOC.july.message,
+        LOC.august.message,
+        LOC.september.message,
+        LOC.october.message,
+        LOC.november.message,
+        LOC.december.message
     ];
     if (elapsed < 1) {
-        return '0s';
+        return LOC.s.message.replace('$NUMBER$', 0);
     }
     if (elapsed < 60) { //< 60 sec
-        return `${elapsed}s`;
+        return LOC.s.message.replace('$NUMBER$', elapsed);
     }
     if (elapsed < 3600) { //< 60 minutes
-        return `${Math.floor(elapsed / (60))}m`;
+        return LOC.m.message.replace('$NUMBER$', Math.floor(elapsed / (60)));
     }
     if (elapsed < 86400) { //< 24 hours
-        return `${Math.floor(elapsed / (3600))}h`;
+        return LOC.h.message.replace('$NUMBER$', Math.floor(elapsed / (3600)));
     }
     if (elapsed < 604800) { //<7 days
-        return `${Math.floor(elapsed / (86400))}d`;
+        return LOC.d.message.replace('$NUMBER$', Math.floor(elapsed / (86400)));
     }
     if (elapsed < 2628000) { //<1 month
-        return `${targetDate.getDate()} ${MonthNames[targetDate.getMonth()]}`;
+        return MonthNames[targetDate.getMonth()].replace('$NUMBER$', targetDate.getDate());
     }
-    return `${targetDate.getDate()} ${MonthNames[targetDate.getMonth()]} ${targetDate.getFullYear()}`; //more than a monh
+    return `${MonthNames[targetDate.getMonth()].replace('$NUMBER$', targetDate.getDate())}, ${targetDate.getFullYear()}`; //more than a monh
 }
 function openInNewTab(href) {
     Object.assign(document.createElement('a'), {
@@ -755,8 +755,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             ` : ''}
             <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source.split('>')[1].split('<')[0]}</a>
-            ${options.selfThreadButton && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
-            ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<br><a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
             <div class="tweet-interact">
                 <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
@@ -791,6 +789,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
                     ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span><br>` : ``}
                 </div>
+                ${options.selfThreadButton && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
+                ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
             </div>
             <div class="tweet-reply" hidden>
                 <br>
