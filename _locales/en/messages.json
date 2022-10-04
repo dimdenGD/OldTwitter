@@ -290,5 +290,10 @@
     "s": { "message": "$NUMBER$s", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
     "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
     "h": { "message": "$NUMBER$h", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
+    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
+    "follow_requests": { "message": "Follow requests" },
+    "accept": { "message": "Accept" },
+    "decline": { "message": "Decline" },
+    "mute_convo": { "message": "Mute conversation" },
+    "unmute_convo": { "message": "Unmute conversation" }
 }

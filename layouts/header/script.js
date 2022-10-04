@@ -1,6 +1,7 @@
 let headerGotUser = false;
 let savedSearches = [], lastSearches = [];
 let inboxData = [];
+let followRequestsData = [];
 let customSet = false;
 let menuFn;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? vars.darkMode : false;
@@ -200,6 +201,123 @@ setTimeout(async () => {
 
             return true;
         }
+
+        // follow requests
+        if(user.protected) {
+            let followRequests = document.getElementById('navbar-user-menu-requests');
+            let followRequestsCount = document.getElementById('follow-request-count');
+            followRequests.hidden = false;
+            document.getElementById('navbar-user-menu-requests-br').hidden = false;
+
+            async function updateFollowRequests() {
+                let list = document.querySelector('.follow-requests-list');
+                let newUserData = await Promise.all(followRequestsData.ids.filter(i => typeof i === 'string').map(i => API.getUser(i)));
+                for(let i = 0; i < newUserData.length; i++) {
+                    followRequestsData.ids[i] = newUserData[i];
+                }
+                for(let i in followRequestsData.ids) {
+                    let u = followRequestsData.ids[i];
+                    let userElement = document.createElement('div');
+                    userElement.classList.add('follow-requests-user');
+                    userElement.innerHTML = /*html*/`
+                        <div>
+                            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
+                                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                                <div class="following-item-text">
+                                    <span class="tweet-header-name following-item-name ${u.verified ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
+                                    <span class="tweet-header-handle">@${u.screen_name}</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div>
+                            <button class="request-item-btn nice-button accept">${LOC.accept.message}</button>
+                            <button class="request-item-btn nice-button decline">${LOC.decline.message}</button>
+                        </div>
+                    `;
+                    userElement.querySelector('.accept').addEventListener('click', async () => {
+                        try {
+                            await API.acceptFollowRequest(u.id_str);
+                        } catch(e) {
+                            console.error(e);
+                            alert(e);
+                            return;
+                        }
+                        userElement.remove();
+                        data.ids.splice(i, 1);
+                        let count;
+                        if(data.total_count) {
+                            count = --data.total_count;
+                        } else {
+                            count = data.ids.length;
+                        }
+                        if(count > 0) {
+                            followRequestsCount.hidden = false;
+                            followRequestsCount.innerText = count;
+                        } else {
+                            followRequestsCount.hidden = true;
+                        }
+                    });
+                    userElement.querySelector('.decline').addEventListener('click', async () => {
+                        try {
+                            await API.declineFollowRequest(u.id_str);
+                        } catch(e) {
+                            console.error(e);
+                            alert(e);
+                            return;
+                        }
+                        userElement.remove();
+                        data.ids.splice(i, 1);
+                        let count;
+                        if(data.total_count) {
+                            count = --data.total_count;
+                        } else {
+                            count = data.ids.length;
+                        }
+                        if(count > 0) {
+                            followRequestsCount.hidden = false;
+                            followRequestsCount.innerText = count;
+                        } else {
+                            followRequestsCount.hidden = true;
+                        }
+                    });
+                    list.appendChild(userElement);
+                }
+            }
+            followRequests.addEventListener('click', async () => {
+                let modal = createModal(/*html*/`
+                    <h1 class="larger nice-header">${LOC.follow_requests.message}</h1>
+                    <div class="follow-requests-list"></div>
+                    <div class="requests-load-more center-text">${LOC.load_more.message}</div>
+                `, 'follow-requests-modal');
+                let loadMoreBtn = modal.querySelector('.requests-load-more');
+
+                if(followRequestsData.next_cursor_str !== '0') {
+                    loadMoreBtn.hidden = false;
+                    loadMoreBtn.addEventListener('click', async () => {
+                        loadMoreBtn.innerText = LOC.loading.message;
+                        loadMoreBtn.disabled = true;
+                        API.getFollowRequests(followRequestsData.next_cursor_str).then(data => {
+                            followRequestsData.ids = followRequestsData.ids.concat(data.ids);
+                            followRequestsData.next_cursor_str = data.next_cursor_str;
+                            updateFollowRequests();
+                        });
+                    });
+                } else {
+                    loadMoreBtn.hidden = true;
+                }
+                updateFollowRequests();
+            });
+            API.getFollowRequests().then(data => {
+                followRequestsData = data;
+                let count = data.total_count ? data.total_count : data.ids.length;
+                if(count > 0) {
+                    followRequestsCount.hidden = false;
+                    followRequestsCount.innerText = count;
+                } else {
+                    followRequestsCount.hidden = true;
+                }
+            });
+        }
         
         // messages
         let cursor;
@@ -207,8 +325,7 @@ setTimeout(async () => {
         let lastConvo;
         function compare(e, t) {
             var i = e.length - t.length;
-            return i || (e > t ? i = 1 : e < t && (i = -1)),
-            i
+            return i || (e > t ? i = 1 : e < t && (i = -1)), i;
         };
         function renderConversation(convo, convoId, newMessages = true, updateConvo = true) {
             if(updateConvo) {

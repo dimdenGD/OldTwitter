@@ -60,6 +60,7 @@ setTimeout(() => {
                             <li>Extension now supports screens as small as 950 pixels wide.</li>
                             <li>Added autoplay videos option.</li>
                             <li>You can now set who can reply to tweet.</li>
+                            <li>Follow requests support.</li>
                             <li>Now preferred video volume is saved.</li>
                             <li>You can now hide/show retweets of user in timeline.</li>
                             <li>You'll now receive changelog modals like these :)</li>
@@ -71,6 +72,7 @@ setTimeout(() => {
                             <li>Fixed timeline never loading new tweets sometimes.</li>
                             <li>Fixed 'Load more' buttons never disappearing even if list is over.</li>
                             <li>Fixed video container not showing full video unless fullscreen.</li>
+                            <li>Fixed bugs with switching account.</li>
                             <li>Fixed Twemojis never appearing on tweet pages.</li>
                             <li>Fixed 'followers you follow' appearing and disappearing randomly on navigation.</li>
                             <li>Fixed polls and cards not displaying on pinned tweets.</li>

@@ -162,6 +162,15 @@ input, textarea {
     padding: 3px 7px;
     margin-left: 3px;
 }
+#follow-request-count {
+    background: #55acee;
+    color: var(--background-color);
+    border-radius: 25px;
+    padding: 2px 7px;
+    margin-left: 3px;
+    font-size: 12px;
+    height: 14px;
+}
 
 #navbar-right {
     float: right;
@@ -510,6 +519,12 @@ input, textarea {
 }
 #navbar-user-menu-accounts:before {
     content: "\f205";
+}
+#navbar-user-menu-requests {
+    cursor: pointer;
+}
+#navbar-user-menu-requests:before {
+    content: "\f175";
 }
 #navbar-user-menu-logout {
     color: #d34444 !important;
@@ -1345,4 +1360,17 @@ input, textarea {
 .tweet-thread-right {
     float: right;
     margin-right: 5px;
+}
+.request-item-btn {
+    float: right;
+    position: relative;
+    bottom: 46px;
+    height: 40px;
+    margin-right: 5px;
+}
+.accept {
+    color: darkgreen;
+}
+.decline {
+    color: darkred;
 }
