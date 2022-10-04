@@ -243,8 +243,7 @@ function updateUserData() {
             user.profile_link_color = customColor;
         }
 
-        const event = new CustomEvent('updateUserData', { detail: u });
-        document.dispatchEvent(event);
+        userDataFunction(u);
         const event2 = new CustomEvent('updatePageUserData', { detail: oldUser });
         document.dispatchEvent(event2);
 
@@ -1409,11 +1408,6 @@ setTimeout(async () => {
                 appendTweet(tweet, document.getElementById('timeline'), { prepend: true });
             }
         }
-    });
-    document.addEventListener('userRequest', e => {
-        if(!user) return;
-        let event = new CustomEvent('updateUserData', { detail: user });
-        document.dispatchEvent(event);
     });
 
     // Run

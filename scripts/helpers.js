@@ -786,6 +786,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <hr>
                     ${t.feedback ? t.feedback.map((f, i) => `<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span><br>`).join("\n") : ''}
                     <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span><br>
+                    <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span><br>
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
                     ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span><br>` : ``}
                 </div>
@@ -1022,6 +1023,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuShare = tweet.getElementsByClassName('tweet-interact-more-menu-share')[0];
     const tweetInteractMoreMenuAnalytics = tweet.getElementsByClassName('tweet-interact-more-menu-analytics')[0];
     const tweetInteractMoreMenuRefresh = tweet.getElementsByClassName('tweet-interact-more-menu-refresh')[0];
+    const tweetInteractMoreMenuMute = tweet.getElementsByClassName('tweet-interact-more-menu-mute')[0];
     const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
     const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
@@ -1586,6 +1588,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.user.following = true;
             tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
         }
+        chrome.storage.local.set({tweetReplies: {}}, () => {});
     });
     tweetInteractMoreMenuCopy.addEventListener('click', () => {
         navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
@@ -1703,6 +1706,18 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractRetweet.innerText = tweetData.retweet_count;
             tweetInteractReply.innerText = tweetData.reply_count;
         }
+    });
+    tweetInteractMoreMenuMute.addEventListener('click', async () => {
+        if(t.conversation_muted) {
+            await API.unmuteTweet(t.id_str);
+            t.conversation_muted = false;
+            tweetInteractMoreMenuMute.innerText = LOC.mute_convo.message;
+        } else {
+            await API.muteTweet(t.id_str);
+            t.conversation_muted = true;
+            tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
+        }
+        chrome.storage.local.set({tweetReplies: {}}, () => {});
     });
     let downloading = false;
     if (t.extended_entities && t.extended_entities.media.length === 1) {

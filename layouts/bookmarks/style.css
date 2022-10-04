@@ -754,45 +754,6 @@ span.tweet-body-text {
     margin-right: 5px !important
 }
 
-.tweet-interact-more-menu-copy:before {
-    content: "\f203"
-}
-
-.tweet-interact-more-menu-share:before {
-    content: "\f185"
-}
-
-.tweet-interact-more-menu-analytics:before {
-    content: "\f200"
-}
-
-.tweet-interact-more-menu-refresh:before {
-    content: "\f303"
-}
-
-.tweet-interact-more-menu-download:before {
-    content: "\f186"
-}
-
-.tweet-interact-more-menu-download-gif:before {
-    content: "\f309"
-}
-
-.tweet-interact-more-menu-delete:before {
-    content: "\f154"
-}
-
-.tweet-interact-more-menu-follow:before {
-    content: "\f056"
-}
-.tweet-interact-more-menu-bookmark:before {
-    content: "\f093"
-}
-
-.tweet-interact-more-menu-feedback:before {
-    content: "\f044"
-}
-
 .tweet-media-element-censor {
     -moz-filter: blur(20px);
     -webkit-filter: blur(20px);

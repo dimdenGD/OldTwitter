@@ -7,8 +7,7 @@ let activeTweet;
 function updateUserData() {
     API.verifyCredentials().then(async u => {
         user = u;
-        const event = new CustomEvent('updateUserData', { detail: u });
-        document.dispatchEvent(event);
+        userDataFunction(u);
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
@@ -283,13 +282,6 @@ setTimeout(async () => {
     });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
-    });
-    
-    // custom events
-    document.addEventListener('userRequest', () => {
-        if(!user) return;
-        let event = new CustomEvent('updateUserData', { detail: user });
-        document.dispatchEvent(event);
     });
     
     // Run

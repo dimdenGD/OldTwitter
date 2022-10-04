@@ -1374,3 +1374,48 @@ input, textarea {
 .decline {
     color: darkred;
 }
+
+.tweet-interact-more-menu-copy:before {
+    content: "\f203"
+}
+
+.tweet-interact-more-menu-share:before {
+    content: "\f185"
+}
+
+.tweet-interact-more-menu-analytics:before {
+    content: "\f200"
+}
+
+.tweet-interact-more-menu-refresh:before {
+    content: "\f303"
+}
+
+.tweet-interact-more-menu-download:before {
+    content: "\f186"
+}
+
+.tweet-interact-more-menu-download-gif:before {
+    content: "\f309"
+}
+
+.tweet-interact-more-menu-delete:before {
+    content: "\f154"
+}
+
+.tweet-interact-more-menu-follow:before {
+    content: "\f056"
+}
+.tweet-interact-more-menu-bookmark:before {
+    content: "\f093"
+}
+
+.tweet-interact-more-menu-feedback:before {
+    content: "\f044"
+}
+.tweet-interact-more-menu-mute:before {
+    content: "\f055"
+}
+.tweet-interact-more-menu-pin:before {
+    content: "\f003"
+}

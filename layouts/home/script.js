@@ -61,6 +61,7 @@ setTimeout(() => {
                             <li>Added autoplay videos option.</li>
                             <li>You can now set who can reply to tweet.</li>
                             <li>Follow requests support.</li>
+                            <li>You can now mute tweets.</li>
                             <li>Now preferred video volume is saved.</li>
                             <li>You can now hide/show retweets of user in timeline.</li>
                             <li>You'll now receive changelog modals like these :)</li>
@@ -73,6 +74,7 @@ setTimeout(() => {
                             <li>Fixed 'Load more' buttons never disappearing even if list is over.</li>
                             <li>Fixed video container not showing full video unless fullscreen.</li>
                             <li>Fixed bugs with switching account.</li>
+                            <li>Fixed bug with header taking a while to load.</li>
                             <li>Fixed Twemojis never appearing on tweet pages.</li>
                             <li>Fixed 'followers you follow' appearing and disappearing randomly on navigation.</li>
                             <li>Fixed polls and cards not displaying on pinned tweets.</li>
@@ -100,8 +102,7 @@ setTimeout(() => {
 function updateUserData() {
     API.verifyCredentials().then(u => {
         user = u;
-        const event = new CustomEvent('updateUserData', { detail: u });
-        document.dispatchEvent(event);
+        userDataFunction(u);
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
@@ -1045,11 +1046,6 @@ setTimeout(async () => {
     document.addEventListener('newTweet', e => {
         let tweet = e.detail;
         appendTweet(tweet, document.getElementById('timeline'), { prepend: true });
-    });
-    document.addEventListener('userRequest', e => {
-        if(!user) return;
-        let event = new CustomEvent('updateUserData', { detail: user });
-        document.dispatchEvent(event);
     });
 
     // Run

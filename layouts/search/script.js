@@ -59,8 +59,7 @@ function craftParams() {
 function updateUserData() {
     API.verifyCredentials().then(u => {
         user = u;
-        const event = new CustomEvent('updateUserData', { detail: u });
-        document.dispatchEvent(event);
+        userDataFunction(u);
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
@@ -574,13 +573,7 @@ setTimeout(async () => {
             date.innerText = timeElapsed(+date.dataset.timestamp);
         });
     }, 60000);
-    
-    // custom events
-    document.addEventListener('userRequest', () => {
-        if(!user) return;
-        let event = new CustomEvent('updateUserData', { detail: user });
-        document.dispatchEvent(event);
-    });
+
     document.addEventListener('newSearch', () => {
         document.getElementById('loading-box').hidden = false;
         searchParams.q = document.getElementById('search-input').value;

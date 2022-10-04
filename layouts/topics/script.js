@@ -9,8 +9,7 @@ let topicId = location.pathname.split('/')[3];
 function updateUserData() {
     API.verifyCredentials().then(async u => {
         user = u;
-        const event = new CustomEvent('updateUserData', { detail: u });
-        document.dispatchEvent(event);
+        userDataFunction(u);
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
@@ -339,13 +338,6 @@ setTimeout(async () => {
             document.getElementById('topic-follow-control').innerText = LOC.following.message;
             document.getElementById('topic-not-interested-btn').hidden = true;
         }
-    });
-    
-    // custom events
-    document.addEventListener('userRequest', () => {
-        if(!user) return;
-        let event = new CustomEvent('updateUserData', { detail: user });
-        document.dispatchEvent(event);
     });
     
     // Run

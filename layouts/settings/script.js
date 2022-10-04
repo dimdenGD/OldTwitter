@@ -4,8 +4,7 @@ let user = {};
 function updateUserData() {
     API.verifyCredentials().then(async u => {
         user = u;
-        const event = new CustomEvent('updateUserData', { detail: u });
-        document.dispatchEvent(event);
+        userDataFunction(u);
         renderUserData();
         let profileLinkColor = document.getElementById('profile-link-color');
         let colorPreviewDark = document.getElementById('color-preview-dark');
@@ -57,13 +56,6 @@ setTimeout(async () => {
     }
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
-    });
-    
-    // custom events
-    document.addEventListener('userRequest', () => {
-        if(!user) return;
-        let event = new CustomEvent('updateUserData', { detail: user });
-        document.dispatchEvent(event);
     });
 
     const fontCheck = new Set([
