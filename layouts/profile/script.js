@@ -1302,7 +1302,7 @@ setTimeout(async () => {
         e.preventDefault();
         let el = e.target;
         if(!el) return;
-        if(!el.href) el = el.parentElement; 
+        if(!el.href) el = el.parentElement;
         history.pushState({}, null, el.href);
         updateSubpage();
         updateSelection();
@@ -1352,7 +1352,7 @@ setTimeout(async () => {
             if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
                 e.preventDefault();
                 mediaToUpload = [];
-                // document.getElementById('loading-box').hidden = false;
+                document.getElementById('loading-box').hidden = false;
                 everAddedAdditional = false;
                 document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.loading_tweets.message}</span>`;
                 document.getElementById('profile-media-div').innerHTML = '';
@@ -1371,7 +1371,7 @@ setTimeout(async () => {
     window.addEventListener("popstate", async () => {
         let path = location.pathname;
         if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
-            // document.getElementById('loading-box').hidden = false;
+            document.getElementById('loading-box').hidden = false;
             everAddedAdditional = false;
             mediaToUpload = [];
             document.getElementById('profile-media-div').innerHTML = '';
