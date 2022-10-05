@@ -17,6 +17,7 @@ setTimeout(() => {
         if (!data.installed) {
             let dimden = await API.getUserV2('dimdenEFF');
             if(!dimden.following) {
+                let followed = false;
                 let modal = createModal(`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
                     <span style="font-size:14px">
@@ -31,9 +32,19 @@ setTimeout(() => {
                             <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
                         </div>
                     </span>
-                `);
+                `, 'shameless-plug', () => {
+                    if(!followed) {
+                        if(!vars.disableAnalytics) {
+                            ga('send', 'event', "dimden", "dismiss");
+                        }
+                    }
+                });
                 let followButton = modal.querySelector('.follow');
                 followButton.addEventListener('click', () => {
+                    if(!vars.disableAnalytics) {
+                        ga('send', 'event', "dimden", "follow");
+                    }
+                    followed = true;
                     API.followUser('dimdenEFF').then(() => {
                         alert(LOC.thank_you_follow.message);
                         modal.remove();
@@ -43,6 +54,11 @@ setTimeout(() => {
                     });
                 });
                 twemoji.parse(modal);
+            }
+            if(!vars.disableAnalytics) {
+                if(!vars.disableAnalytics) {
+                    ga('send', 'event', "ext", "install");
+                }
             }
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version});
         } else {
@@ -84,7 +100,11 @@ setTimeout(() => {
                             <li>Fixed text overflow in notifications page and added more icons.</li>
                         </ul>
                     </span>
-                `, 'changelog-modal');
+                `, 'changelog-modal', () => {
+                    if(!vars.disableAnalytics) {
+                        ga('send', 'event', "ext", "read_changelog");
+                    }
+                });
                 let changelog = document.getElementById('changelog');
                 let text = changelog.innerText;
                 let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
@@ -241,8 +261,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255"
-                },
-                bigFont: t.retweeted_status.full_text.length < 75
+                }
             });
         } else {
             if (t.self_thread) {
@@ -250,11 +269,10 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                 if (selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
                     await appendTweet(selfThreadTweet, timelineContainer, {
                         selfThreadContinuation: true,
-                        bigFont: t.full_text.length < 75
+                        bigFont: selfThreadTweet.full_text.length < 75
                     });
                     await appendTweet(t, timelineContainer, {
-                        noTop: true,
-                        bigFont: t.full_text.length < 75
+                        noTop: true
                     });
                     seenThreads.push(selfThreadTweet.id_str);
                 } else {

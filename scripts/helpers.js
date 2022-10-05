@@ -1867,6 +1867,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         let feedback = t.feedback[feedbackButton.dataset.index];
         if (!feedback) return;
         feedbackButton.addEventListener('click', () => {
+            chrome.storage.local.remove("algoTimeline");
             if(feedback.richBehavior && feedback.richBehavior.markNotInterestedTopic) {
                 fetch(`https://twitter.com/i/api/graphql/OiKldXdrDrSjh36WO9_3Xw/TopicNotInterested`, {
                     method: 'post',
@@ -1880,6 +1881,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     body: JSON.stringify({"variables":{"topicId": feedback.richBehavior.markNotInterestedTopic.topicId,"undo":false},"queryId":"OiKldXdrDrSjh36WO9_3Xw"}),
                     credentials: 'include'
                 }).then(i => i.json()).then(() => {});
+                return;
             }
             fetch(`https://twitter.com/i/api/graphql/vfVbgvTPTQ-dF_PQ5lD1WQ/timelinesFeedback`, {
                 method: 'post',

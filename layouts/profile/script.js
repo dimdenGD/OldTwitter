@@ -11,44 +11,6 @@ let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
 let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor;
 
-setTimeout(() => {
-    chrome.storage.local.get(['installed'], async data => {
-        if (!data.installed) {
-            let dimden = await API.getUserV2('dimdenEFF');
-            if(!dimden.following) {
-                let modal = createModal(`
-                    <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
-                    <span style="font-size:14px">
-                        ${LOC.thank_you.message}<br><br>
-                        <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
-                        <div class="dimden">
-                            <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                            <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
-                                <b class="tweet-header-name">${dimden.name}</b>
-                                <span class="tweet-header-handle">@${dimden.screen_name}</span>
-                            </a><br>
-                            <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
-                        </div>
-                    </span>
-                `);
-                let followButton = modal.querySelector('.follow');
-                followButton.addEventListener('click', () => {
-                    API.followUser('dimdenEFF').then(() => {
-                        alert(LOC.thank_you_follow.message);
-                        modal.remove();
-                    }).catch(e => {
-                        console.error(e);
-                        location.href = 'https://twitter.com/dimdenEFF';
-                    });
-                });
-                twemoji.parse(modal);
-            }
-            chrome.storage.local.set({installed: true});
-        }
-    });
-}, 2000);
-
-
 // Util
 
 let subpage;

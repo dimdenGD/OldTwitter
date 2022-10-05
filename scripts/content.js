@@ -125,7 +125,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     // invalidate manifest cache by blocking it
     try {
-        await fetch('/manifest.json').then(response => response.text()).catch(e => {});
+        fetch('/manifest.json').then(response => response.text()).catch(e => {});
     } catch (e) {}
 
     // default variables

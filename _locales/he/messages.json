@@ -608,9 +608,6 @@
     "hotkeys_list": {
         "message": "ראו רשימת קיצורי מקשים כאן"
     },
-    "no_big_font": {
-        "message": "בטל גופן גדול עבור ציוצים קצרים"
-    },
     "save_preferred_quality": {
         "message": "שמור איכות וידאו מועדפת. אם הגדרה זו מופעלת, Old Twitter ישמור את האיכות המועדפת או ישתמש באיכות הזמינה הקרובה ביותר. אם לא, תיבחר האיכות הגבוהה ביותר."
     },
@@ -876,5 +873,33 @@
     },
     "translated_by": {
         "message": "תורגם על ידי $TRANSLATOR$.י"
-    }
+    },
+    "last_searches": { "message": "חיפושים אחרונים " },
+    "saved_searches": { "message": "חיפושים שמורים " },
+    "everyone": { "message": "כולם", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
+    "topic": { "message": "נושא" },
+    "not_interested": { "message": "לא מעוניין/ת" },
+    "cancel": { "message": "ביטול" },
+    "youre_not_interested": { "message": "אתם לא מעוניינים בנושא זה" },
+    "autoplay_videos": { "message": "התחל סרטונים אוטומטית" },
+    "turn_on_retweets": { "message": "הצג ציוצים מחדש בציר הזמן" },
+    "turn_off_retweets": { "message": "הסתר ציוצים מחדש בציר הזמן " },
+    "you_can_reply": { "message": "(אתם יכולים להגיב)" },
+    "audience": { "message": "קהל" },
+    "who_can_reply": { "message": "מי יכול להגיב" },
+    "people_you_follow": { "message": "אנשים שאתם עוקבים אחריהם " },
+    "people_you_mention": { "message": "אנשים שאתם מאזכרים" },
+    "new_version": { "message": "עודכן לגרסא החדשה" },
+    "display_sensitive_content": { "message": "הצג תוכן שעשוי להיות רגיש" },
+    "is_private": { "message": "פרטי" },
+    "s": { "message": "$NUMBER$שניות", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$חודשים", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$שעות", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$ימים", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
+    "follow_requests": { "message": "בקשות עוקב" },
+    "accept": { "message": "אישור" },
+    "decline": { "message": "סירוב" },
+    "mute_convo": { "message": "השתק התכתבות " },
+    "unmute_convo": { "message": "בטל השתקת התכתבות " },
+    "no_big_font": { "message": "ביטול גופן מוגדל עבור ציוצים קצרים/פופולריים" }
 }

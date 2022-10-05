@@ -849,9 +849,17 @@ setTimeout(async () => {
         // weird bug
         location.reload();
     }
-    document.getElementById('wtf-refresh').addEventListener('click', async () => {
-        renderDiscovery(false);
-    });
+    try {
+        document.getElementById('wtf-refresh').addEventListener('click', async () => {
+            renderDiscovery(false);
+        });
+    } catch(e) {
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+        console.error(e);
+        return;
+    }
     document.getElementById('likes-more').addEventListener('click', async () => {
         if(!likeCursor) return;
         let id = location.pathname.match(/status\/(\d{1,32})/)[1];
