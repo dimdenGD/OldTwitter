@@ -329,7 +329,7 @@ function stringInsert(string, index, value) {
     return string.substr(0, index) + value + string.substr(index);
 }
 function generatePoll(tweet, tweetElement, user) {
-    let pollElement = tweetElement.getElementsByClassName('tweet-poll')[0];
+    let pollElement = tweetElement.getElementsByClassName('tweet-card')[0];
     pollElement.innerHTML = '';
     let poll = tweet.card.binding_values;
     let choices = Object.keys(poll).filter(key => key.endsWith('label')).map((key, i) => ({
@@ -395,17 +395,84 @@ function generateCard(tweet, tweetElement, user) {
         img.height = sizeFunctions[1](vals.promo_image.image_value.width, vals.promo_image.image_value.height)[1];
         img.className = 'tweet-media-element';
         a.append(img);
-        tweetElement.getElementsByClassName('tweet-poll')[0].append(a);
-    } else if(tweet.card.url.startsWith('card://')) {
-        generatePoll(tweet, tweetElement, user);
+        tweetElement.getElementsByClassName('tweet-card')[0].append(a);
     } else if(tweet.card.name === "player") {
         let iframe = document.createElement('iframe');
         iframe.src = tweet.card.binding_values.player_url.string_value;
         iframe.classList.add('tweet-player');
         iframe.width = 450;
         iframe.height = 250;
-        tweetElement.getElementsByClassName('tweet-poll')[0].innerHTML = '';
-        tweetElement.getElementsByClassName('tweet-poll')[0].append(iframe);
+        tweetElement.getElementsByClassName('tweet-card')[0].innerHTML = '';
+        tweetElement.getElementsByClassName('tweet-card')[0].append(iframe);
+    } else if(tweet.card.name === "unified_card") {
+        let uc = JSON.parse(tweet.card.binding_values.unified_card.string_value);
+        for(let cn of uc.components) {
+            let co = uc.component_objects[cn];
+            if(co.type === "media") {
+                let media = uc.media_entities[co.data.id];
+                let video = document.createElement('video');
+                video.className = 'tweet-media-element tweet-media-element-one';
+                let [w, h] = sizeFunctions[1](media.original_info.width, media.original_info.height);
+                video.width = w;
+                video.height = h;
+                video.crossOrigin = 'anonymous';
+                video.loading = 'lazy';
+                video.controls = true;
+                let variants = media.video_info.variants.sort((a, b) => {
+                    if(!b.bitrate) return -1;
+                    return b.bitrate-a.bitrate;
+                });
+                if(typeof(vars.savePreferredQuality) !== 'boolean') {
+                    chrome.storage.sync.set({
+                        savePreferredQuality: true
+                    }, () => {});
+                    vars.savePreferredQuality = true;
+                }
+                if(localStorage.preferredQuality && vars.savePreferredQuality) {
+                    let closestQuality = variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                        return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+                    });
+                    let preferredQualityVariantIndex = variants.findIndex(v => v.url === closestQuality.url);
+                    if(preferredQualityVariantIndex !== -1) {
+                        let preferredQualityVariant = variants[preferredQualityVariantIndex];
+                        variants.splice(preferredQualityVariantIndex, 1);
+                        variants.unshift(preferredQualityVariant);
+                    }
+                }
+                for(let v in variants) {
+                    let source = document.createElement('source');
+                    source.src = variants[v].url;
+                    source.type = variants[v].content_type;
+                    video.append(source);
+                }
+                tweetElement.getElementsByClassName('tweet-card')[0].append(video, document.createElement('br'));
+            } else if(co.type === "app_store_details") {
+                let app = uc.app_store_data[uc.destination_objects[co.data.destination].data.app_id][0];
+                let appElement = document.createElement('div');
+                appElement.classList.add('tweet-app-info');
+                appElement.innerHTML = `
+                    <h3>${escapeHTML(app.title.content)}</h3>
+                    <span>${app.category.content}</span>
+                    <br><br>
+                `;
+                tweetElement.getElementsByClassName('tweet-card')[0].append(appElement);
+            } else if(co.type === "button_group") {
+                let buttonGroup = document.createElement('div');
+                buttonGroup.classList.add('tweet-button-group');
+                for(let b of co.data.buttons) {
+                    let app = uc.app_store_data[uc.destination_objects[b.destination].data.app_id][0];
+                    let button = document.createElement('a');
+                    button.href = `http://play.google.com/store/apps/details?id=${app.id}`;
+                    button.target = '_blank';
+                    button.className = `nice-button tweet-app-button tweet-app-button-${b.style}`
+                    button.innerText = b.action[0].toUpperCase() + b.action.slice(1);
+                    buttonGroup.append(button);
+                }
+                tweetElement.getElementsByClassName('tweet-card')[0].append(buttonGroup);
+            }
+        }
+    } else if(tweet.card.url.startsWith('card://')) {
+        generatePoll(tweet, tweetElement, user);
     }
 }
 let emojiCombination = /(\u00a9|\u00ae|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]{1,2}\u200D(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]{1,2}\u200D{0,1})+)/g;
@@ -716,7 +783,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </div>
                 ` : ``}
             ` : ``}
-            ${t.card ? `<div class="tweet-poll"></div>` : ''}
+            ${t.card ? `<div class="tweet-card"></div>` : ''}
             ${t.quoted_status ? `
             <a class="tweet-body-quote" target="_blank" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                 <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">

@@ -1437,3 +1437,11 @@ input, textarea {
     vertical-align: text-bottom;
     visibility: visible;
 }
+.tweet-app-info > h3 {
+    margin: 0 !important;
+}
+.tweet-app-button {
+    text-align: center;
+    width: 82%;
+    display: inline-block;
+}

@@ -285,5 +285,9 @@
     "people_you_mention": { "message": "तपाईँले उल्लेख गर्ने मान्छे" },
     "new_version": { "message": "नया संस्करण अपडेट गर्न" },
     "display_sensitive_content": { "message": "स्पष्ट सामग्री देखाउन" },
-    "is_private": { "message": "निजी छ" }
+    "is_private": { "message": "निजी छ" },
+    "s": { "message": "$NUMBER$से", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$मि", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$घ", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$दि", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
 }

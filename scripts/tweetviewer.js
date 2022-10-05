@@ -759,7 +759,7 @@ class TweetViewer {
                         </div>
                     ` : ``}
                 ` : ``}
-                ${t.card ? `<div class="tweet-poll"></div>` : ''}
+                ${t.card ? `<div class="tweet-card"></div>` : ''}
                 ${t.quoted_status ? `
                 <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                     <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">

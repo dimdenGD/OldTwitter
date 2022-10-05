@@ -48,7 +48,7 @@ setTimeout(() => {
         } else {
             if (data.lastVersion !== chrome.runtime.getManifest().version) {
                 createModal(`
-                    <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
+                    <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px">
                         <b>Features</b>
                         <ul>
@@ -63,10 +63,11 @@ setTimeout(() => {
                             <li>Follow requests support.</li>
                             <li>You can now mute tweets.</li>
                             <li>Now preferred video volume is saved.</li>
+                            <li>In user timeline, popularity of tweet instead of length decides if there should be big font.</li>
                             <li>You can now hide/show retweets of user in timeline.</li>
-                            <li>You'll now receive changelog modals like these :)</li>
                             <li>Made page unscrollable when any modal is opened.</li>
-                            <li>More space to click to open tweet.</li>
+                            <li>Added unified_card support.</li>
+                            <li>You'll now receive changelog modals like these :)</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
@@ -76,6 +77,7 @@ setTimeout(() => {
                             <li>Fixed bugs with switching account.</li>
                             <li>Fixed bug with header taking a while to load.</li>
                             <li>Fixed Twemojis never appearing on tweet pages.</li>
+                            <li>More space to click to open tweet.</li>
                             <li>Fixed 'followers you follow' appearing and disappearing randomly on navigation.</li>
                             <li>Fixed polls and cards not displaying on pinned tweets.</li>
                             <li>Made notifications say 'favorited' instead of 'liked' (if option to disable this is off).</li>
