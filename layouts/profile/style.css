@@ -948,7 +948,8 @@ a:hover,
     position: sticky;
     bottom: 5px;
     top: 70px;
-    z-index: 20
+    z-index: 20;
+    box-shadow: inset 0px 1px 0px 0px rgb(0 0 0 / 20%);
 }
 
 #profile-avatar {
@@ -999,7 +1000,7 @@ a:hover,
     padding-right: 20px;
     position: relative;
     bottom: 255px;
-    color: var(--default-text-color);
+    color: var(--almost-black);
 }
 
 #profile-username {
@@ -1177,6 +1178,9 @@ a:hover,
 .profile-stat-active {
     text-decoration: none;
     border-bottom: 4px solid var(--link-color)
+}
+.profile-stat-active > .profile-stat-value {
+    color: var(--almost-black)
 }
 
 #nav-profile-avatar {

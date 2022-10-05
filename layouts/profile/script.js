@@ -658,7 +658,7 @@ async function renderProfile() {
                 <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}<br></span>
                 ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span><br>` : ''}
                 <span id="profile-settings-lists-action" style="width: 100%;">${LOC.from_list.message}<br></span>
-                <span id="profile-settings-retweets" style="width: 100%;">${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}<br></span>
+                <span id="profile-settings-retweets" style="width: 100%;" ${pageUser.following ? '' : 'hidden'}>${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}<br></span>
                 <hr>
                 <span id="profile-settings-lists" style="width: 100%;">${LOC.see_lists.message}<br></span>
                 <span id="profile-settings-share" style="width: 100%;">${LOC.share_user.message}<br></span>
@@ -679,16 +679,20 @@ async function renderProfile() {
                 controlFollow.classList.add('follow');
                 controlFollow.innerText = LOC.follow.message;
                 pageUser.following = false;
+                document.getElementById("profile-settings-retweets").hidden = true;
                 document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) - 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = true;
             } else {
                 await API.followUser(pageUser.screen_name);
                 controlFollow.classList.add('following');
                 controlFollow.classList.remove('follow');
-                controlFollow.innerText = pageUser.protected && pageUser.follow_request_sent ? LOC.follow_request_sent.message : LOC.following_btn.message;
+                controlFollow.innerText = pageUser.protected ? LOC.follow_request_sent.message : LOC.following_btn.message;
                 pageUser.following = true;
-                document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
-                document.getElementById('profile-settings-notifications').hidden = false;
+                if(!pageUser.protected) {
+                    document.getElementById('profile-settings-notifications').hidden = false;
+                    document.getElementById("profile-settings-retweets").hidden = false;
+                    document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                }
             }
         });
         document.getElementById('profile-settings-retweets').addEventListener('click', async e => {

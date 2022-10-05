@@ -408,6 +408,13 @@ function generateCard(tweet, tweetElement, user) {
         tweetElement.getElementsByClassName('tweet-poll')[0].append(iframe);
     }
 }
+let emojiCombination = /(\u00a9|\u00ae|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]{1,2}\u200D(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]{1,2}\u200D{0,1})+)/g;
+function matchEmojiHelperCount(str) {
+    let matches = str.matchAll(emojiCombination);
+    let count = 0;
+    for(let m of matches) count += m[2] ? m[2].length : 0;
+    return count;
+}
 
 function luminance(r, g, b) {
     var a = [r, g, b].map(function(v) {

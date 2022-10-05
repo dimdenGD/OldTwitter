@@ -73,7 +73,8 @@ async function renderNotifications(data, append = false) {
                 n.message.entities.forEach(e => {
                     if(!e.ref || !e.ref.user) return;
                     let user = data.globalObjects.users[e.ref.user.id];
-                    notificationHeader = stringInsert(notificationHeader, additionalLength+e.toIndex, '</a>');
+                    let emojiHelpers = matchEmojiHelperCount(notificationHeader);
+                    notificationHeader = stringInsert(notificationHeader, additionalLength+e.toIndex+emojiHelpers, '</a>');
                     notificationHeader = stringInsert(notificationHeader, additionalLength+e.fromIndex, `<a href="/dimdenEFF">`);
                     additionalLength += `<a href="/dimdenEFF"></a>`.length;
                     let mi = 0;
@@ -81,7 +82,7 @@ async function renderNotifications(data, append = false) {
                         if(mi++ !== matches) return _;
                         return `<a href="/${user.screen_name}">${escapeHTML(m)}</a>`;
                     });
-                    additionalLength += newText.length - notificationHeader.length;
+                    additionalLength += newText.length - notificationHeader.length + emojiHelpers;
                     notificationHeader = newText;
                     matches++;
                 });

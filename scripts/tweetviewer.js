@@ -1725,7 +1725,7 @@ class TweetViewer {
         } else {
             timelineContainer.append(tweet);
         }
-        twemoji.parse(tweet);
+        if(vars.enableTwemoji) twemoji.parse(tweet);
         return tweet;
     }
     async popstateChange(that) {
