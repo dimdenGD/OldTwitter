@@ -108,3 +108,4 @@ Nepali - [DimeDead](https://dimedead.neocities.org/)
 Dutch - Puka1611  
 Japanese - [Chazuru](https://twitter.com/AIWMD)  
 Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll)  
+Italian - [krek](https://twitter.com/CactusInc420)  

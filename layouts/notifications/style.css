@@ -868,7 +868,7 @@ a:hover,
 .notification-switch {
     color: var(--darker-gray);
     cursor: pointer;
-    padding-right: 200px
+    padding-right: 100px
 }
 
 .notification-switch:hover,

@@ -958,8 +958,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255"
-                },
-                bigFont: t.retweeted_status.favorite_count > averageLikeCount*1.2 && t.retweeted_status.favorite_count > 3
+                }
             });
         } else {
             if (t.self_thread) {

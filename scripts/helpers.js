@@ -727,7 +727,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
     isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith(LANGUAGE);
     let hasVideo = t.extended_entities && t.extended_entities.media && t.extended_entities.media.some(m => m.type === 'video');
-    if(hasVideo) {
+    if(hasVideo && t.extended_entities.media[0].video_info) {
         t.extended_entities.media[0].video_info.variants = t.extended_entities.media[0].video_info.variants.sort((a, b) => {
             if(!b.bitrate) return -1;
             return b.bitrate-a.bitrate;
