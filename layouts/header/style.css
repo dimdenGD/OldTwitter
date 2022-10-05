@@ -1419,3 +1419,21 @@ input, textarea {
 .tweet-interact-more-menu-pin:before {
     content: "\f003"
 }
+.tweet-translate-after {
+    color: var(--light-gray);
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 1px;
+    visibility: hidden;
+    float: right;
+}
+.tweet-translate-after:hover {
+    visibility: visible;
+}
+.tweet-translate-after::after {
+    content: "\f089";
+    font: 12px RosettaIcons;
+    margin-left: 5px;
+    vertical-align: text-bottom;
+    visibility: visible;
+}

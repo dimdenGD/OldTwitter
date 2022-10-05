@@ -691,13 +691,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <b class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.user.protected ? 'user-protected' : ''}">${escapeHTML(t.user.name)}</b>
                 <span class="tweet-header-handle">@${t.user.screen_name}</span>
             </a>
+            <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
             ${location.pathname.split("?")[0].split("#")[0] === '/i/bookmarks' ? '<span class="tweet-delete-bookmark">&times;</span>' : ''}
             ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
+            ${!options.mainTweet && !isEnglish ? `<span class="tweet-translate-after">${LOC.view_translation.message}</span>` : ''}
         </div>
-        <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
         <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
             <span class="tweet-body-text ${vars.noBigFont || (t.full_text && t.full_text.length > 100) || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/\n/g, '<br>').replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`) : ''}</span>
-            ${!isEnglish ? `
+            ${!isEnglish && options.mainTweet ? `
             <br>
             <span class="tweet-translate">${LOC.view_translation.message}</span>
             ` : ``}
@@ -988,6 +989,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
     const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
+    const tweetTranslateAfter = tweet.getElementsByClassName('tweet-translate-after')[0];
     const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
     const tweetDeleteBookmark = tweet.getElementsByClassName('tweet-delete-bookmark')[0];
 
@@ -1067,9 +1069,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
 
     // Translate
-    if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
+    if(tweetTranslate || tweetTranslateAfter) (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
         let translated = await API.translateTweet(t.id_str);
-        tweetTranslate.hidden = true;
+        (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
         tweetBodyText.innerHTML += `<br>
         <span style="font-size: 12px;color: var(--light-gray);">${LOC.translated_from.message} [${translated.translated_lang}]:</span>
         <br>
