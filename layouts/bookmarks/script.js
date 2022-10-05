@@ -64,7 +64,9 @@ async function renderBookmarks(cursor) {
     }
     for (let i = 0; i < bookmarks.length; i++) {
         let b = bookmarks[i];
-        await appendTweet(b, bookmarksContainer);
+        await appendTweet(b, bookmarksContainer, {
+            bigFont: b.full_text.length < 75
+        });
     }
 }
 let lastScroll = Date.now();

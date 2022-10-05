@@ -239,26 +239,32 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255"
-                }
+                },
+                bigFont: t.retweeted_status.full_text.length < 75
             });
         } else {
             if (t.self_thread) {
                 let selfThreadTweet = timeline.data.find(tweet => tweet.id_str === t.self_thread.id_str);
                 if (selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
                     await appendTweet(selfThreadTweet, timelineContainer, {
-                        selfThreadContinuation: true
+                        selfThreadContinuation: true,
+                        bigFont: t.full_text.length < 75
                     });
                     await appendTweet(t, timelineContainer, {
-                        noTop: true
+                        noTop: true,
+                        bigFont: t.full_text.length < 75
                     });
                     seenThreads.push(selfThreadTweet.id_str);
                 } else {
                     await appendTweet(t, timelineContainer, {
-                        selfThreadButton: true
+                        selfThreadButton: true,
+                        bigFont: t.full_text.length < 75
                     });
                 }
             } else {
-                let obj = {};
+                let obj = {
+                    bigFont: t.full_text.length < 75
+                };
                 if(t.socialContext) {
                     obj.top = {};
                     if(t.socialContext.description) {
@@ -1011,7 +1017,8 @@ setTimeout(async () => {
             });
             tweetObject._ARTIFICIAL = true;
             appendTweet(tweetObject, document.getElementById('timeline'), {
-                prepend: true
+                prepend: true,
+                bigFont: tweetObject.full_text.length < 75
             });
         } catch (e) {
             console.error(e);
@@ -1045,7 +1052,7 @@ setTimeout(async () => {
     // custom events
     document.addEventListener('newTweet', e => {
         let tweet = e.detail;
-        appendTweet(tweet, document.getElementById('timeline'), { prepend: true });
+        appendTweet(tweet, document.getElementById('timeline'), { prepend: true, bigFont: tweet.full_text.length < 75 });
     });
 
     // Run

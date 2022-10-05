@@ -203,7 +203,9 @@ async function renderListTweets(c) {
     let container = document.getElementById('list-tweets');
     for(let i in listTweets) {
         let t = listTweets[i];
-        await appendTweet(t, container);
+        await appendTweet(t, container, {
+            bigFont: t.full_text.length < 75
+        });
     }
     return true;
 }

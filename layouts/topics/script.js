@@ -83,7 +83,9 @@ async function renderTopic(cursorRn) {
 
     let tl = document.getElementById("timeline");
     for(let i in tweets) {
-        await appendTweet(tweets[i], tl);
+        await appendTweet(tweets[i], tl, {
+            bigFont: tweets[i].full_text.length < 75
+        });
     }
 }
 

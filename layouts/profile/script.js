@@ -6,6 +6,7 @@ let timeline = {
     toBeUpdated: 0
 }
 let seenThreads = [];
+let averageLikeCount = 1;
 let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
 let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor;
@@ -55,6 +56,7 @@ let user_handle = location.pathname.slice(1).split("?")[0].split('#')[0];
 user_handle = user_handle.split('/')[0];
 function updateSubpage() {
     previousLastTweet = undefined; stopLoad = false;
+    averageLikeCount = 1;
     user_handle = location.pathname.slice(1).split("?")[0].split('#')[0];
     if(user_handle.split('/').length === 1) {
         subpage = 'profile';
@@ -331,6 +333,7 @@ async function updateTimeline() {
     });
     // first update
     timeline.data = tl;
+    averageLikeCount = Math.round(timeline.data.filter(t => !t.retweeted_status).reduce((a, b) => a + b.favorite_count, 0) / timeline.data.filter(t => !t.retweeted_status).length);
     renderTimeline();
     previousLastTweet = timeline.data[timeline.data.length - 1];
 }
@@ -942,7 +945,8 @@ async function renderTimeline(append = false, sliceAmount = 0) {
             icon: "\uf003",
             color: "var(--link-color)",
             class: 'pinned'
-        }
+        },
+        bigFont: pinnedTweet.favorite_count > averageLikeCount*1.2 && pinnedTweet.favorite_count > 3
     })
     for(let i in data) {
         let t = data[i];
@@ -954,26 +958,32 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255"
-                }
+                },
+                bigFont: t.retweeted_status.favorite_count > averageLikeCount*1.2 && t.retweeted_status.favorite_count > 3
             });
         } else {
             if (t.self_thread) {
                 let selfThreadTweet = timeline.data.find(tweet => tweet.id_str === t.self_thread.id_str);
                 if (selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
                     await appendTweet(selfThreadTweet, timelineContainer, {
-                        selfThreadContinuation: true
+                        selfThreadContinuation: true,
+                        bigFont: selfThreadTweet.favorite_count > averageLikeCount*1.2 && selfThreadTweet.favorite_count > 3
                     });
                     await appendTweet(t, timelineContainer, {
-                        noTop: true
+                        noTop: true,
+                        bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3
                     });
                     seenThreads.push(selfThreadTweet.id_str);
                 } else {
                     await appendTweet(t, timelineContainer, {
-                        selfThreadButton: true
+                        selfThreadButton: true,
+                        bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3
                     });
                 }
             } else {
-                await appendTweet(t, timelineContainer);
+                await appendTweet(t, timelineContainer, {
+                    bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3
+                });
             }
         }
     };
@@ -1236,6 +1246,7 @@ setTimeout(async () => {
             }
             let originalLength = timeline.data.length;
             timeline.data = timeline.data.concat(tl);
+            averageLikeCount = Math.round(timeline.data.filter(t => !t.retweeted_status).reduce((a, b) => a + b.favorite_count, 0) / timeline.data.filter(t => !t.retweeted_status).length);
             if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
             previousLastTweet = timeline.data[timeline.data.length - 1];
             await renderTimeline(true, originalLength);
@@ -1407,9 +1418,9 @@ setTimeout(async () => {
             let tweet = e.detail;
             if(pinnedTweet) {
                 let firstTweet = document.getElementById('timeline').firstChild;
-                appendTweet(tweet, document.getElementById('timeline'), { after: firstTweet, disableAfterReplyCounter: true });
+                appendTweet(tweet, document.getElementById('timeline'), { after: firstTweet, disableAfterReplyCounter: true, bigFont: tweet.favorite_count > averageLikeCount*1.2 && tweet.favorite_count > 3 });
             } else {
-                appendTweet(tweet, document.getElementById('timeline'), { prepend: true });
+                appendTweet(tweet, document.getElementById('timeline'), { prepend: true, bigFont: tweet.favorite_count > averageLikeCount*1.2 && tweet.favorite_count > 3 });
             }
         }
     });

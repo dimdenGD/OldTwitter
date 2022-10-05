@@ -142,7 +142,9 @@ async function renderNotifications(data, append = false) {
             let t = data.globalObjects.tweets[e.content.tweet.id];
             t.user = data.globalObjects.users[t.user_id_str];
             if(!t) continue;
-            let tweet = await appendTweet(t, notificationsContainer);
+            let tweet = await appendTweet(t, notificationsContainer, {
+                bigFont: t.full_text.length < 75
+            });
             if(+entries[i].sortIndex > unreadBefore) {
                 tweet.classList.add('notification-unread');
                 unreadNotifications++;

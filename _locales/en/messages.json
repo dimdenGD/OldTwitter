@@ -184,7 +184,6 @@
     "dark_mode": { "message": "Dark mode" },
     "disable_hotkeys": { "message": "Disable hotkeys" },
     "hotkeys_list": { "message": "See list of hotkeys here" },
-    "no_big_font": { "message": "Disable large font for short tweets." },
     "save_preferred_quality": { "message": "Save preferred video quality. If this is set to true, OldTwitter will save your preferred video quality and use it (or use closest quality to preferred one). If it's off, OldTwitter will select highest quality." },
     "preferred_quality": { "message": "Preferred quality" },
     "default_link_color": { "message": "Default link color" },
@@ -295,5 +294,6 @@
     "accept": { "message": "Accept" },
     "decline": { "message": "Decline" },
     "mute_convo": { "message": "Mute conversation" },
-    "unmute_convo": { "message": "Unmute conversation" }
+    "unmute_convo": { "message": "Unmute conversation" },
+    "no_big_font": { "message": "Disable large font for short/popular tweets." }
 }

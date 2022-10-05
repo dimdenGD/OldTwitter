@@ -186,10 +186,13 @@ async function renderSearch(c) {
                         text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255"
-                    }
+                    },
+                    bigFont: t.retweeted_status.full_text.length < 75
                 });
             } else {
-                await appendTweet(t, searchDiv);
+                await appendTweet(t, searchDiv, {
+                    bigFont: t.full_text.length < 75
+                });
             }
         }
     }
