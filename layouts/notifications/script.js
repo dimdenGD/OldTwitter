@@ -230,4 +230,4 @@ setTimeout(async () => {
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
     setInterval(updateNotifications, 20000);
-}, 250);
+}, 50);

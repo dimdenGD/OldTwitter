@@ -1087,4 +1087,4 @@ setTimeout(async () => {
     if(vars.timelineType !== 'algo') setInterval(updateTimeline, 60000);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
-}, 250);
+}, 50);

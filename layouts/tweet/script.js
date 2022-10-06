@@ -160,12 +160,14 @@ async function updateReplies(id, c) {
             likeCursor = tweetLikers.cursor;
             if(i === 0) {
                 mainTweet = await appendTweet(t.data, tlContainer, {
-                    mainTweet: true
+                    mainTweet: true,
+                    bigFont: true
                 });
             } else {
                 mainTweet = await appendTweet(t.data, tlContainer, {
                     noTop: true,
-                    mainTweet: true
+                    mainTweet: true,
+                    bigFont: true
                 });
             }
             if(t.data.limited_actions !== "non_compliant") appendComposeComponent(tlContainer, t.data);
@@ -976,4 +978,4 @@ setTimeout(async () => {
     setInterval(updateUserData, 60000 * 3);
     setInterval(() => renderDiscovery(false), 60000 * 10);
     setInterval(renderTrends, 60000 * 5);
-}, 250);
+}, 50);

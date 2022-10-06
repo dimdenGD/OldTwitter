@@ -351,4 +351,4 @@ setTimeout(async () => {
     setInterval(updateUserData, 60000 * 3);
     setInterval(() => renderDiscovery(false), 60000 * 15);
     setInterval(renderTrends, 60000 * 5);
-}, 250);
+}, 50);

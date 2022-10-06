@@ -177,12 +177,15 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         LANGUAGE = LANGUAGES.includes(vars.language) ? vars.language : "en";
     }
 
-    LOC = await fetch(chrome.runtime.getURL(`_locales/${LANGUAGE}/messages.json`)).then(response => response.json());
-    LOC_EN = await fetch(chrome.runtime.getURL(`_locales/en/messages.json`)).then(response => response.json());
-    let html = await fetch(chrome.runtime.getURL(`layouts/${page.name}/index.html`)).then(response => response.text());
-    let css = await fetch(chrome.runtime.getURL(`layouts/${page.name}/style.css`)).then(response => response.text());
-    let header_html = await fetch(chrome.runtime.getURL(`layouts/header/index.html`)).then(response => response.text());
-    let header_css = await fetch(chrome.runtime.getURL(`layouts/header/style.css`)).then(response => response.text());
+    let [LOC_DATA, LOC_EN_DATA, html, css, header_html, header_css] = await Promise.all([
+        fetch(chrome.runtime.getURL(`_locales/${LANGUAGE}/messages.json`)).then(response => response.json()),
+        fetch(chrome.runtime.getURL(`_locales/en/messages.json`)).then(response => response.json()),
+        fetch(chrome.runtime.getURL(`layouts/${page.name}/index.html`)).then(response => response.text()),
+        fetch(chrome.runtime.getURL(`layouts/${page.name}/style.css`)).then(response => response.text()),
+        fetch(chrome.runtime.getURL(`layouts/header/index.html`)).then(response => response.text()),
+        fetch(chrome.runtime.getURL(`layouts/header/style.css`)).then(response => response.text())
+    ]);
+    LOC = LOC_DATA; LOC_EN = LOC_EN_DATA;
 
     // internationalization
     for(let i in LOC_EN) {

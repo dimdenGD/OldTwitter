@@ -605,4 +605,4 @@ setTimeout(async () => {
     renderList();
     setInterval(updateUserData, 60000 * 3);
     setInterval(() => renderDiscovery(false), 60000 * 5);
-}, 250);
+}, 50);

@@ -1410,4 +1410,4 @@ setTimeout(async () => {
     renderTrends(true);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(() => renderTrends(true), 60000 * 5);
-}, 250);
+}, 50);
