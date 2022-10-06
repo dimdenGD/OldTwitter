@@ -18,6 +18,9 @@ setTimeout(() => {
             let dimden = await API.getUserV2('dimdenEFF');
             if(!dimden.following) {
                 let followed = false;
+                if(!vars.disableAnalytics) {
+                    ga('send', 'event', "dimden", "seen");
+                }
                 let modal = createModal(`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
                     <span style="font-size:14px">
@@ -56,9 +59,7 @@ setTimeout(() => {
                 twemoji.parse(modal);
             }
             if(!vars.disableAnalytics) {
-                if(!vars.disableAnalytics) {
-                    ga('send', 'event', "ext", "install");
-                }
+                ga('send', 'event', "ext", "install");
             }
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version});
         } else {
@@ -68,7 +69,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px">
                         <b>Features</b>
                         <ul>
-                            <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, Japanese, Turkish, French, Ukrainian, Italian, Romanian, Greek, Dutch, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>
+                            <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, Japanese, Arabic, Turkish, French, Ukrainian, Italian, Romanian, Greek, Dutch, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>
                             <li>Now 'translate tweet' and 'translate bio' buttons translate to your selected language instead of English.</li>
                             <li>Support for 'Twitter Circles'. You can now post tweets in them and manage members.</li>
                             <li>Support for Topics page.</li>

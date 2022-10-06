@@ -213,6 +213,9 @@ setTimeout(async () => {
         let color = profileLinkColor.value;
         if(color.startsWith('#')) color = color.slice(1);
         let tweet;
+        if(!vars.disableAnalytics) {
+            ga('send', 'event', "ext", "change_profile_color");
+        }
         try {
             tweet = await API.postTweet({
                 status: `link_color=${color}`

@@ -266,7 +266,7 @@
     "feedback_thanks": { "message": "Thanks for your feedback!" },
     "liked_by": { "message": "Liked by" },
     "reply": { "message": "Reply" },
-    "language": { "message": "Language", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Язык (Language)" },
+    "language": { "message": "Language", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Lingua (Language)" },
     "translated_by": { "message": "Translated by $TRANSLATOR$.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
     "last_searches": { "message": "Last searches" },
     "saved_searches": { "message": "Saved searches" },
