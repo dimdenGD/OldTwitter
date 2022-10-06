@@ -66,7 +66,7 @@ setTimeout(() => {
             if (data.lastVersion !== chrome.runtime.getManifest().version) {
                 createModal(`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
-                    <span id="changelog" style="font-size:14px">
+                    <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <b>Features</b>
                         <ul>
                             <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, Japanese, Arabic, Turkish, French, Ukrainian, Italian, Romanian, Greek, Dutch, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>

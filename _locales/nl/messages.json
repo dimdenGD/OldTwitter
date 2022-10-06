@@ -1,5 +1,5 @@
 {
-    "ext_description": { "message": "Een nieuwe extensie die Twitter's oude uiterlijk terugbrengt" },
+    "ext_description": { "message": "Een nieuwe extensie die Twitter's oude uiterlijk terugbrengt." },
     "timeline": { "message": "Tijdlijn" },
     "loading": { "message": "Laden" },
     "tweets": { "message": "Tweets" },
