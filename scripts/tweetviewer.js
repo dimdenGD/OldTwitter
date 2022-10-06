@@ -710,21 +710,33 @@ class TweetViewer {
         let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
         let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
         isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith(LANGUAGE);
-        let hasVideo = t.extended_entities && t.extended_entities.media && t.extended_entities.media.some(m => m.type === 'video');
-        if(hasVideo) {
-            t.extended_entities.media[0].video_info.variants = t.extended_entities.media[0].video_info.variants.sort((a, b) => {
-                if(!b.bitrate) return -1;
-                return b.bitrate-a.bitrate;
-            });
-            if(localStorage.preferredQuality && vars.savePreferredQuality) {
-                let closestQuality = t.extended_entities.media[0].video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
-                    return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+        let videos = t.extended_entities && t.extended_entities.media && t.extended_entities.media.filter(m => m.type === 'video');
+        if(!videos || videos.length === 0) {
+            videos = undefined;
+        }
+        if(videos) {
+            for(let v of videos) {
+                if(!v.video_info) continue;
+                v.video_info.variants = v.video_info.variants.sort((a, b) => {
+                    if(!b.bitrate) return -1;
+                    return b.bitrate-a.bitrate;
                 });
-                let preferredQualityVariantIndex = t.extended_entities.media[0].video_info.variants.findIndex(v => v.url === closestQuality.url);
-                if(preferredQualityVariantIndex !== -1) {
-                    let preferredQualityVariant = t.extended_entities.media[0].video_info.variants[preferredQualityVariantIndex];
-                    t.extended_entities.media[0].video_info.variants.splice(preferredQualityVariantIndex, 1);
-                    t.extended_entities.media[0].video_info.variants.unshift(preferredQualityVariant);
+                if(typeof(vars.savePreferredQuality) !== 'boolean') {
+                    chrome.storage.sync.set({
+                        savePreferredQuality: true
+                    }, () => {});
+                    vars.savePreferredQuality = true;
+                }
+                if(localStorage.preferredQuality && vars.savePreferredQuality) {
+                    let closestQuality = v.video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                        return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+                    });
+                    let preferredQualityVariantIndex = v.video_info.variants.findIndex(v => v.url === closestQuality.url);
+                    if(preferredQualityVariantIndex !== -1) {
+                        let preferredQualityVariant = v.video_info.variants[preferredQualityVariantIndex];
+                        v.video_info.variants.splice(preferredQualityVariantIndex, 1);
+                        v.video_info.variants.unshift(preferredQualityVariant);
+                    }
                 }
             }
         }
@@ -747,17 +759,17 @@ class TweetViewer {
                 ` : ``}
                 ${t.extended_entities && t.extended_entities.media ? `
                     <div class="tweet-media">
-                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
+                        ${t.extended_entities.media.map((m, i) => `${i === 2 && t.extended_entities.media.length === 4 ? '<br>' : ''}<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                             ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     </div>
-                    ${hasVideo ? /*html*/`
-                        <div class="tweet-media-controls">
-                            ${t.extended_entities.media[0].ext && t.extended_entities.media[0].ext.r && t.extended_entities.media[0].ext.r.ok ? `<span class="tweet-video-views">${Number(t.extended_entities.media[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload">${LOC.reload.message}</span> •
-                            ${t.extended_entities.media[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
-                        </div>
-                    ` : ``}
+                    ${videos ? /*html*/`
+                    <div class="tweet-media-controls">
+                        ${videos[0].ext && videos[0].ext.r && videos[0].ext.r.ok ? `<span class="tweet-video-views">${Number(videos[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload">${LOC.reload.message}</span> •
+                        ${videos[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
+                    </div>
+                ` : ``}
                 ` : ``}
                 ${t.card ? `<div class="tweet-card"></div>` : ''}
                 ${t.quoted_status ? `
@@ -864,10 +876,10 @@ class TweetViewer {
             </div>
         `;
         // video
-        if(hasVideo) {
-            let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
-            vid.onloadstart = () => {
-                let src = vid.currentSrc;
+        if(videos) {
+            let vids = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO');
+            vids[0].onloadstart = () => {
+                let src = vids[0].currentSrc;
                 Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
                     if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
                 });
@@ -878,7 +890,7 @@ class TweetViewer {
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     `;
-                    let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
+                    let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
                     vid.onloadstart = () => {
                         let src = vid.currentSrc;
                         Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
@@ -891,13 +903,24 @@ class TweetViewer {
                     if(el.className.includes('tweet-video-quality-current')) return;
                     let url = el.getAttribute('data-url');
                     localStorage.preferredQuality = parseInt(el.innerText);
+                    for(let v of videos) { 
+                        let closestQuality = v.video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                            return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+                        });
+                        let preferredQualityVariantIndex = v.video_info.variants.findIndex(v => v.url === closestQuality.url);
+                        if(preferredQualityVariantIndex !== -1) {
+                            let preferredQualityVariant = v.video_info.variants[preferredQualityVariantIndex];
+                            v.video_info.variants.splice(preferredQualityVariantIndex, 1);
+                            v.video_info.variants.unshift(preferredQualityVariant);
+                        }
+                    }
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
                         ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
-                            ${m.video_info.variants.filter(v => v.url === url).map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
+                            ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     `;
-                    let vid = tweet.getElementsByClassName('tweet-media')[0].children[0];
+                    let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
                     vid.onloadstart = () => {
                         let src = vid.currentSrc;
                         Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
@@ -907,18 +930,20 @@ class TweetViewer {
                     }
                 }));
             };
-            if(typeof vars.volume === 'number') {
-                vid.volume = vars.volume;
-            }
-            vid.onvolumechange = () => {
-                chrome.storage.sync.set({
-                    volume: vid.volume
-                }, () => { });
-                let allVids = document.getElementsByTagName('video');
-                for(let i = 0; i < allVids.length; i++) {
-                    allVids[i].volume = vid.volume;
+            for(let vid of vids) {
+                if(typeof vars.volume === 'number') {
+                    vid.volume = vars.volume;
                 }
-            };
+                vid.onvolumechange = () => {
+                    chrome.storage.sync.set({
+                        volume: vid.volume
+                    }, () => { });
+                    let allVids = document.getElementsByTagName('video');
+                    for(let i = 0; i < allVids.length; i++) {
+                        allVids[i].volume = vid.volume;
+                    }
+                };
+            }
         }
 
         let footerFavorites = tweet.getElementsByClassName('tweet-footer-favorites')[0];
