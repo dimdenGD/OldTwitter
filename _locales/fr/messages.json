@@ -184,7 +184,6 @@
     "dark_mode": { "message": "Mode sombre" },
     "disable_hotkeys": { "message": "Désactiver les touches de raccourci" },
     "hotkeys_list": { "message": "Voir la liste de touches de raccourci" },
-    "no_big_font": { "message": "Désactiver la police large pour les tweets courts." },
     "save_preferred_quality": { "message": "Sauvegarder la qualité vidéo préférée. Si cette valeur est définie comme étant vraie, OldTwitter sauvegardera votre qualité vidéo préférée et l'utilisera (ou la qualité la plus proche de celle-ci). Si désactivée, OldTwitter selectionera la qualité la plus haute." },
     "preferred_quality": { "message": "Qualité préférée" },
     "default_link_color": { "message": "Couleur des liens par défaut" },
@@ -290,5 +289,11 @@
     "s": { "message": "$NUMBER$s", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
     "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
     "h": { "message": "$NUMBER$j", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
+    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
+    "follow_requests": { "message": "Suivre les requêtes" },
+    "accept": { "message": "Accepter" },
+    "decline": { "message": "Décliner" },
+    "mute_convo": { "message": "Mettre en sourdine la conversation" },
+    "unmute_convo": { "message": "Arrêter de mettre en sourdine la conversation" },
+    "no_big_font": { "message": "Désactiver la police large pour les tweets courts ou populaires." }
 }

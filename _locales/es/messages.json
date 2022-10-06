@@ -184,7 +184,6 @@
     "dark_mode": { "message": "Modo oscuro" },
     "disable_hotkeys": { "message": "Desactivar atajos" },
     "hotkeys_list": { "message": "Ver lista de atajos aquí" },
-    "no_big_font": { "message": "Desactivar fuentes grandes para tweets cortos." },
     "save_preferred_quality": { "message": "Guardar preferencia de calidad de video. Si ésto está activado, OldTitter guardará tus preferencias de calidad de video y las usará (o al menos la mas cercana). Si está desactivado, OldTwitter seleccionará la mejor calidad." },
     "preferred_quality": { "message": "Calidad Preferida" },
     "default_link_color": { "message": "Color de enlace por defecto" },
@@ -290,5 +289,11 @@
     "s": { "message": "$NUMBER$s", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
     "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
     "h": { "message": "$NUMBER$h", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
+    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
+    "follow_requests": { "message": "Solicitudes de seguimiento" },
+    "accept": { "message": "Aceptar" },
+    "decline": { "message": "Rechazar" },
+    "mute_convo": { "message": "Silenciar conversación" },
+    "unmute_convo": { "message": "No silenciar conversación" },
+    "no_big_font": { "message": "Desactivar fuentes grandes para tweets cortos/populares." }
 }

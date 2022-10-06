@@ -184,7 +184,6 @@
     "dark_mode": { "message": "ダークモード" },
     "disable_hotkeys": { "message": "ホットキーを無効化" },
     "hotkeys_list": { "message": "ホットキーの一覧はこちら" },
-    "no_big_font": { "message": "短いツイートには大きなフォントを無効化します。" },
     "save_preferred_quality": { "message": "好みの映像の品質を保存します。trueに設定するとOldTwitterはお好みの品質を利用します（またはそれに最も近い品質になります）。オフに設定するとOldTwitterは最高画質になります。" },
     "preferred_quality": { "message": "品質優先" },
     "default_link_color": { "message": "標準の色調" },
@@ -289,5 +288,11 @@
     "s": { "message": "$NUMBER$秒", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
     "m": { "message": "$NUMBER$分", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
     "h": { "message": "$NUMBER$時間", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$日", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
+    "d": { "message": "$NUMBER$日", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
+    "follow_requests": { "message": "フォローリクエスト" },
+    "accept": { "message": "承認" },
+    "decline": { "message": "拒否" },
+    "mute_convo": { "message": "この会話をミュート" },
+    "unmute_convo": { "message": "この会話のミュートの解除" },
+    "no_big_font": { "message": "短いツイートや人気のツイートには大きなフォントを表示しないようにする。" }
 }

@@ -182,7 +182,6 @@
     "dark_mode": { "message": "النسق الداكن" },
     "disable_hotkeys": { "message": "تعطيل مفاتيح الاختصار" },
     "hotkeys_list": { "message": "انظر قائمة مفاتيح الاختصار هنا" },
-    "no_big_font": { "message": "تعطيل الخط الكبير للاختصار تغريدات." },
     "save_preferred_quality": { "message": "احفظ جودة الفيديو المفضلة. إذا تم ضبط هذا على صحيح, سيحفظ OldTwitter جودة الفيديو المفضلة لديك ويستخدمها (أو يستخدم الجودة الأقرب إلى الجودة المفضلة). إذا تم إيقاف تشغيله ، فسيختار OldTwitter أعلى جودة." },
     "preferred_quality": { "message": "الجودة المفضلة" },
     "default_link_color": { "message": "لون الارتباط الافتراضي" },
@@ -291,5 +290,8 @@
     "d": { "message": "$NUMBER$ي", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
     "follower_requests": { "message": "طلب متابعة" },
     "accept": { "message": "قبول" },
-    "decline": { "message": "رفض" }
+    "decline": { "message": "رفض" },
+    "mute_convo": { "message": "كتم المحادثة" },
+    "unmute_convo": { "message": "إلغاء كتم المحادثة" },
+    "no_big_font": { "message": "تعطيل الخط الكبير والتغريدات القصيرة / الشائعة." }
 }
