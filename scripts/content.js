@@ -72,14 +72,14 @@ if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/video\/\d+(|\/)$/.test(realPath)) {
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath)) {
     location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "gr", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
     "fr": ["Aurore C.", "https://asuure.com/"],
     "pt_BR": ["dzshn", "https://dzshn.xyz/"],
     "es": ["rogerpb98", "https://twitter.com/anbulansia"],
-    "gr": ["VasilisTheChu", "https://pikachu.systems/"],
+    "el": ["VasilisTheChu", "https://pikachu.systems/"],
     "ro": ["Skylar", "https://143.dust.moe/"],
     "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
     "lv": ["yourfriend", "https://3.141.lv/"],
