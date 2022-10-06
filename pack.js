@@ -44,6 +44,8 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     delete manifest.background.service_worker;
     delete manifest.action;
 
+    let config = fs.readFileSync('../OldTwitterFirefox/scripts/config.js', 'utf8');
+    config = config.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     let content = fs.readFileSync('../OldTwitterFirefox/scripts/content.js', 'utf8');
     content = content.replace("document.open();", "");
     content = content.replace("document.write(html);", `
@@ -120,6 +122,7 @@ chrome.webRequest.onHeadersReceived.addListener(
 
     fs.writeFileSync('../OldTwitterFirefox/manifest.json', JSON.stringify(manifest, null, 2));
     fs.writeFileSync('../OldTwitterFirefox/scripts/content.js', content);
+    fs.writeFileSync('../OldTwitterFirefox/scripts/config.js', config);
     fs.writeFileSync('../OldTwitterFirefox/scripts/background.js', background);
     fs.writeFileSync('../OldTwitterFirefox/layouts/header/style.css', headerStyle);
     fs.unlinkSync('../OldTwitterFirefox/ruleset.json');

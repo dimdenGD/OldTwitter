@@ -1326,7 +1326,7 @@ setTimeout(async () => {
             } catch(e) {
                 return;
             }
-            if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
+            if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/search", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
                 e.preventDefault();
                 mediaToUpload = [];
                 document.getElementById('loading-box').hidden = false;
