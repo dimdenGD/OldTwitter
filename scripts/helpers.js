@@ -872,8 +872,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
                     ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span><br>` : ``}
                 </div>
-                ${options.selfThreadButton && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
-                ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
+                ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
+                ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
             </div>
             <div class="tweet-reply" hidden>
                 <br>
@@ -893,10 +893,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <span class="tweet-quote-char">0/280</span><br>
                 <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
             </div>
-            <div class="tweet-self-thread-div" ${(options.threadContinuation || (options.selfThreadContinuation && t.self_thread.id_str)) ? '' : 'hidden'}>
+            <div class="tweet-self-thread-div" ${(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) ? '' : 'hidden'}>
                 <span class="tweet-self-thread-line"></span>
                 <div class="tweet-self-thread-line-dots"></div>
-                <br>${options.selfThreadContinuation && t.self_thread.id_str && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : `<br>`}
+                <br>${options.selfThreadContinuation && t.self_thread && t.self_thread.id_str && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : `<br>`}
             </div>
         </div>
     `;
