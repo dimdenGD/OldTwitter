@@ -4,6 +4,7 @@ let subpage;
 // Util
 
 function updateSubpage() {
+    lastData = undefined;
     if(location.pathname.includes('notifications/mentions')) {
         subpage = 'mentions';
         document.getElementById('ns-m').classList.add('notification-switch-active');
