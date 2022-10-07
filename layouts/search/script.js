@@ -75,6 +75,7 @@ function renderUserData() {
 
 async function renderSearch(c) {
     updateSavedButton();
+    document.getElementsByTagName('title')[0].innerText = `"${searchParams.q}" - OldTwitter Search`;
     let searchDiv = document.getElementById('timeline');
     let search;
     let currentCursor = cursor;

@@ -98,6 +98,8 @@ setTimeout(() => {
                             <li>Fixed bugs with switching account.</li>
                             <li>Better mutliple videos support.</li>
                             <li>Fixed bug with header taking a while to load.</li>
+                            <li>Fixed pages sometimes never loading and you have to refresh them.</li>
+                            <li>Fixed dark mode sometimes not appearing.</li>
                             <li>Fixed Twemojis never appearing on tweet pages.</li>
                             <li>More space to click to open tweet.</li>
                             <li>Fixed 'followers you follow' appearing and disappearing randomly on navigation.</li>
@@ -621,7 +623,7 @@ setTimeout(async () => {
         console.error(e);
         return;
     }
-    
+
     // Buttons
     document.getElementById('load-more').addEventListener('click', async () => {
         if (loadingNewTweets || timeline.data.length === 0) return;

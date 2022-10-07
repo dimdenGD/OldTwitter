@@ -48,6 +48,8 @@ async function renderTopic(cursorRn) {
     let [topic] = await Promise.all([
         API.topicLandingPage(topicId, cursorRn)
     ]);
+
+    document.getElementsByTagName('title')[0].innerText = `"${topic.header.topic.name}" Topic - OldTwitter`;
     document.getElementById("topic-name").innerText = topic.header.topic.name;
     document.getElementById("topic-description").innerText = topic.header.topic.description;
     if(topic.header.topic.not_interested) {

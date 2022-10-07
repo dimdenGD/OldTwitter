@@ -158,6 +158,7 @@ async function updateReplies(id, c) {
         if(t.type === 'mainTweet') {
             mainTweetLikers = tweetLikers.list;
             likeCursor = tweetLikers.cursor;
+            document.getElementsByTagName('title')[0].innerText = `${t.data.user.name} on Twitter: "${t.data.full_text.slice(0, 100)}"`;
             if(i === 0) {
                 mainTweet = await appendTweet(t.data, tlContainer, {
                     mainTweet: true,
