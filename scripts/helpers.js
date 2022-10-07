@@ -766,7 +766,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <span class="tweet-header-handle">@${t.user.screen_name}</span>
             </a>
             <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
-            ${location.pathname.split("?")[0].split("#")[0] === '/i/bookmarks' ? '<span class="tweet-delete-bookmark">&times;</span>' : ''}
+            ${location.pathname.split("?")[0].split("#")[0] === '/i/bookmarks' ? `<span class="tweet-delete-bookmark${!isEnglish ? ' tweet-delete-bookmark-lower' : ''}">&times;</span>` : ''}
             ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
             ${!options.mainTweet && !isEnglish ? `<span class="tweet-translate-after">${`${t.user.name} ${t.user.screen_name}`.length < 42 ? LOC.view_translation.message : ''}</span>` : ''}
         </div>
