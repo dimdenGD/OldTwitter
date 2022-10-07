@@ -893,7 +893,6 @@ a:hover,
     text-decoration: underline
 }
 .notification-feedback {
-    float: right;
     cursor: pointer;
     font-size: 12px;
     color: var(--default-text-color);

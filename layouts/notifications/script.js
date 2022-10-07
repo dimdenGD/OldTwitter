@@ -52,7 +52,10 @@ async function renderNotifications(data, append = false) {
         if(e.content.notification) {
             let n = data.globalObjects.notifications[e.content.notification.id];
             if(!n) continue;
-            if(e.feedbackInfo) n.feedback = data.timeline.responseObjects.feedbackActions[e.feedbackInfo.feedbackKeys[0]];
+            if(e.feedbackInfo) {
+                n.feedback = data.timeline.responseObjects.feedbackActions[e.feedbackInfo.feedbackKeys[0]];
+                n.feedback.metadata = n.feedbackInfo.feedbackMetadata;
+            }
             let notificationDiv = document.createElement('div');
             notificationDiv.className = 'notification';
             if(+entries[i].sortIndex > unreadBefore) {
@@ -109,9 +112,8 @@ async function renderNotifications(data, append = false) {
             notificationDiv.innerHTML = /*html*/`
                 <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
                 <div class="notification-header">
-                    ${notificationHeader}
+                    ${notificationHeader} ${n.feedback ? `<span class="notification-feedback">[${n.feedback.prompt}]</span>` : ''}
                 </div>
-                ${n.feedback ? `<span class="notification-feedback">[${n.feedback.prompt}]</span>` : ''}
                 <div class="notification-text">${escapeHTML(replyTweet.full_text.replace(/^(@[\w+]{1,15}\b\s)((@[\w+]{1,15}\b\s)+)/g, '$1'))}</div>
                 <div class="notification-avatars">
                     ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
@@ -124,12 +126,14 @@ async function renderNotifications(data, append = false) {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "content-type": "application/x-www-form-urlencoded",
                             "x-twitter-auth-type": "OAuth2Session",
-                            "x-twitter-client-language": "en",
+                            "x-twitter-client-language": LANGUAGE || navigator.language,
                             "x-twitter-active-user": "yes"
                         },
                         method: 'post',
-                        credentials: 'include'
+                        credentials: 'include',
+                        body: `feedback_type=${n.feedback.feedbackType}&feedback_metadata=${n.feedback.metadata}&undo=false`
                     }).then(i => i.text()).then(i => {
                         notificationDiv.remove();
                         alert(n.feedback.confirmation);
