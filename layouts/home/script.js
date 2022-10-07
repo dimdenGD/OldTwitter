@@ -63,13 +63,13 @@ setTimeout(() => {
             }
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version});
         } else {
-            if (data.lastVersion !== chrome.runtime.getManifest().version) {
+            if (!data.lastVersion || data.lastVersion.split('.').slice(0, -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, -1).join('.')) {
                 createModal(`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <b>Features</b>
                         <ul>
-                            <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, Japanese, Arabic, Turkish, French, Ukrainian, Italian, Romanian, Greek, Dutch, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>
+                            <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, Japanese, Arabic, Turkish, French, Ukrainian, Thai, Italian, Romanian, Greek, Dutch, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>
                             <li>Now 'translate tweet' and 'translate bio' buttons translate to your selected language instead of English.</li>
                             <li>Support for 'Twitter Circles'. You can now post tweets in them and manage members.</li>
                             <li>Support for Topics page.</li>

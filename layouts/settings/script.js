@@ -98,8 +98,6 @@ setTimeout(async () => {
     let customCSSSave = document.getElementById('custom-css-save');
     let customCSSVariablesSave = document.getElementById('custom-css-variables-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
-    let preferredQuality = document.getElementById('preferred-quality');
-    let preferredQualityInput = document.getElementById('preferred-quality-input');
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
     let autoplayVideos = document.getElementById('autoplay-videos');
@@ -289,8 +287,6 @@ setTimeout(async () => {
     }
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
-    preferredQuality.hidden = !savePreferredQuality.checked;
-    preferredQualityInput.value = localStorage.preferredQuality ? localStorage.preferredQuality + 'p' : 'highest';
     language.value = vars.language;
 
     // Run
