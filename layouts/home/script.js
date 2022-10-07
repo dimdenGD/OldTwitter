@@ -487,11 +487,7 @@ setTimeout(async () => {
             }
         });
     }
-    // Buttons
-    if(!document.getElementById('new-tweets')) {
-        // weird bug
-        location.reload();
-    }
+
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
     let lastTweetDate = 0;
@@ -605,13 +601,28 @@ setTimeout(async () => {
             activeTweet.classList.add('tweet-active');
         }
     });
-    document.getElementById('new-tweets').addEventListener('click', () => {
-        timeline.toBeUpdated = 0;
-        timeline.data = timeline.dataToUpdate;
-        timeline.dataToUpdate = [];
-        renderNewTweetsButton();
-        renderTimeline();
-    });
+
+    // weird bug
+    if(!document.getElementById('new-tweets')) {
+        location.reload();
+    }
+    try {
+        document.getElementById('new-tweets').addEventListener('click', () => {
+            timeline.toBeUpdated = 0;
+            timeline.data = timeline.dataToUpdate;
+            timeline.dataToUpdate = [];
+            renderNewTweetsButton();
+            renderTimeline();
+        });
+    } catch(e) {
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+        console.error(e);
+        return;
+    }
+    
+    // Buttons
     document.getElementById('load-more').addEventListener('click', async () => {
         if (loadingNewTweets || timeline.data.length === 0) return;
         loadingNewTweets = true;

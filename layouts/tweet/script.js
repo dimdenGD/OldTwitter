@@ -846,9 +846,8 @@ setTimeout(async () => {
             }
         });
     }
-    // Buttons
+    // weird bug
     if(!document.getElementById('wtf-refresh')) {
-        // weird bug
         location.reload();
     }
     try {
@@ -862,6 +861,7 @@ setTimeout(async () => {
         console.error(e);
         return;
     }
+    // Buttons
     document.getElementById('likes-more').addEventListener('click', async () => {
         if(!likeCursor) return;
         let id = location.pathname.match(/status\/(\d{1,32})/)[1];

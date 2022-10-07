@@ -289,9 +289,22 @@ setTimeout(async () => {
             }, 250);
         }
     }, { passive: true });
-    document.getElementById('wtf-refresh').addEventListener('click', async () => {
-        renderDiscovery(false);
-    });
+
+    // weird bug
+    if(!document.getElementById('wtf-refresh')) {
+        location.reload();
+    }
+    try {
+        document.getElementById('wtf-refresh').addEventListener('click', async () => {
+            renderDiscovery(false);
+        });
+    } catch(e) {
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+        console.error(e);
+        return;
+    }
     document.getElementById('topic-not-interested-btn').addEventListener('click', async () => {
         try {
             await API.topicNotInterested(topicId);
