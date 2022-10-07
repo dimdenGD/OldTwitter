@@ -1544,6 +1544,13 @@ API.tweetDetail = id => {
                 }
                 tweet.card.binding_values = newBindingValues;
             }
+            if(tweet.quoted_status_id_str) {
+                tweet.quoted_status = tweetData.quoted_status_result.result;
+                let userData = tweet.quoted_status.core.user_results.result;
+                userData.legacy.id_str = userData.rest_id;
+                tweet.quoted_status.legacy.user = userData.legacy;
+                tweet.quoted_status = tweet.quoted_status.legacy;
+            }
             tweet.user = tweetData.core.user_results.result;
             tweet.user.legacy.id_str = tweet.user.rest_id;
             tweet.user = tweet.user.legacy;

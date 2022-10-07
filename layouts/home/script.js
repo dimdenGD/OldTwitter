@@ -103,7 +103,7 @@ setTimeout(() => {
                             <li>Fixed Twemojis never appearing on tweet pages.</li>
                             <li>More space to click to open tweet.</li>
                             <li>Fixed 'followers you follow' appearing and disappearing randomly on navigation.</li>
-                            <li>Fixed polls and cards not displaying on pinned tweets.</li>
+                            <li>Fixed quoted tweets, polls and cards not displaying on pinned tweets.</li>
                             <li>Made notifications say 'favorited' instead of 'liked' (if option to disable this is off).</li>
                             <li>Fixed text overflow in notifications page and added more icons.</li>
                         </ul>
