@@ -245,6 +245,7 @@ span.tweet-body-text {
 .tweet-body-text-quote {
     display: flow-root;
     color: var(--almost-black);
+    min-width: 490px;
 }
 .tweet-body-text-quote {
     overflow-x: hidden;
