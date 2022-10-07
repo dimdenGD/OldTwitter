@@ -494,6 +494,9 @@ span.tweet-body-text {
     display: flow-root;
     color: var(--almost-black);
 }
+.tweet-body {
+    min-width: 490px;
+}
 .tweet-body-text-quote {
     overflow-x: hidden;
 }
