@@ -86,6 +86,7 @@ setTimeout(() => {
                             <li>In user timeline, popularity of tweet instead of length decides if there should be big font.</li>
                             <li>You can now hide/show retweets of user in timeline.</li>
                             <li>Made page unscrollable when any modal is opened.</li>
+                            <li>You can now block people from tweet menu.</li>
                             <li>Added unified_card support.</li>
                             <li>You'll now receive changelog modals like these :)</li>
                         </ul>

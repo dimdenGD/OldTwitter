@@ -862,13 +862,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ` : ``}
                     ${t.user.id_str !== user.id_str && !options.mainTweet ? `
                     <hr>
-                    <span class="tweet-interact-more-menu-follow">${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
+                    <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
+                    <span class="tweet-interact-more-menu-block">${t.user.blocking ? LOC.unblock_user.message : LOC.block_user.message} @${t.user.screen_name}</span><br>
                     ` : ''}
-                    ${!location.pathname.startsWith('/i/bookmarks') ? `<span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>` : ''}
+                    ${!location.pathname.startsWith('/i/bookmarks') ? `<span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span><br>` : ''}
+                    <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span><br>
                     <hr>
                     ${t.feedback ? t.feedback.map((f, i) => `<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span><br>`).join("\n") : ''}
                     <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span><br>
-                    <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span><br>
                     ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
                     ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span><br>` : ``}
                 </div>
@@ -1125,6 +1126,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
     const tweetInteractMoreMenuPin = tweet.getElementsByClassName('tweet-interact-more-menu-pin')[0];
     const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
+    const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
     const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
     const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
 
@@ -1683,6 +1685,24 @@ async function appendTweet(t, timelineContainer, options = {}) {
             await API.followUser(t.user.screen_name);
             t.user.following = true;
             tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+        }
+        chrome.storage.local.set({tweetReplies: {}}, () => {});
+    });
+    if(tweetInteractMoreMenuBlock) tweetInteractMoreMenuBlock.addEventListener('click', async () => {
+        if (t.user.blocking) {
+            await API.unblockUser(t.user.id_str);
+            t.user.blocking = false;
+            tweetInteractMoreMenuBlock.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
+            tweetInteractMoreMenuFollow.hidden = false;
+        } else {
+            let c = confirm(`${LOC.block_sure.message} @${t.user.screen_name}?`);
+            if (!c) return;
+            await API.blockUser(t.user.id_str);
+            t.user.blocking = true;
+            tweetInteractMoreMenuBlock.innerText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+            tweetInteractMoreMenuFollow.hidden = true;
+            t.user.following = false;
+            tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
         }
         chrome.storage.local.set({tweetReplies: {}}, () => {});
     });

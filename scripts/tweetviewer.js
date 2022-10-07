@@ -842,9 +842,11 @@ class TweetViewer {
                         ` : ``}
                         ${t.user.id_str !== user.id_str && !options.mainTweet ? `
                         <hr>
-                        <span class="tweet-interact-more-menu-follow">${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
+                        <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
+                        <span class="tweet-interact-more-menu-block">${t.user.blocking ? LOC.unblock_user.message : LOC.block_user.message} @${t.user.screen_name}</span><br>
                         ` : ''}
-                        <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>
+                        <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span><br>
+                        <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span><br>
                         <hr>
                         <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span><br>
                         ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
@@ -1082,10 +1084,12 @@ class TweetViewer {
         const tweetInteractMoreMenuShare = tweet.getElementsByClassName('tweet-interact-more-menu-share')[0];
         const tweetInteractMoreMenuAnalytics = tweet.getElementsByClassName('tweet-interact-more-menu-analytics')[0];
         const tweetInteractMoreMenuRefresh = tweet.getElementsByClassName('tweet-interact-more-menu-refresh')[0];
+        const tweetInteractMoreMenuMute = tweet.getElementsByClassName('tweet-interact-more-menu-mute')[0];
         const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
         const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
         const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
+        const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
     
         if(tweetBodyQuote) {
@@ -1601,6 +1605,24 @@ class TweetViewer {
                 tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
             }
         });
+        if(tweetInteractMoreMenuBlock) tweetInteractMoreMenuBlock.addEventListener('click', async () => {
+            if (t.user.blocking) {
+                await API.unblockUser(t.user.id_str);
+                t.user.blocking = false;
+                tweetInteractMoreMenuBlock.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
+                tweetInteractMoreMenuFollow.hidden = false;
+            } else {
+                let c = confirm(`${LOC.block_sure.message} @${t.user.screen_name}?`);
+                if (!c) return;
+                await API.blockUser(t.user.id_str);
+                t.user.blocking = true;
+                tweetInteractMoreMenuBlock.innerText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+                tweetInteractMoreMenuFollow.hidden = true;
+                t.user.following = false;
+                tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+            }
+            chrome.storage.local.set({tweetReplies: {}}, () => {});
+        });
         tweetInteractMoreMenuCopy.addEventListener('click', () => {
             navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
         });
@@ -1645,6 +1667,18 @@ class TweetViewer {
                 }
             });
         }
+        tweetInteractMoreMenuMute.addEventListener('click', async () => {
+            if(t.conversation_muted) {
+                await API.unmuteTweet(t.id_str);
+                t.conversation_muted = false;
+                tweetInteractMoreMenuMute.innerText = LOC.mute_convo.message;
+            } else {
+                await API.muteTweet(t.id_str);
+                t.conversation_muted = true;
+                tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
+            }
+            chrome.storage.local.set({tweetReplies: {}}, () => {});
+        });
         tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
             let tweetData;
             try {

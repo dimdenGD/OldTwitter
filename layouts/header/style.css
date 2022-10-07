@@ -1,5 +1,5 @@
 :root {
-    --link-color: #3300FF;
+    --link-color: #1da1f2;
     --font: Arial, sans-serif;
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
@@ -1418,6 +1418,9 @@ input, textarea {
 }
 .tweet-interact-more-menu-pin:before {
     content: "\f003"
+}
+.tweet-interact-more-menu-block:before {
+    content: "\f065"
 }
 .tweet-translate-after {
     color: var(--light-gray);
