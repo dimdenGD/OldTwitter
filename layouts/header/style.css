@@ -1,5 +1,5 @@
 :root {
-    --link-color: #1da1f2;
+    --link-color: #4595B5;
     --font: Arial, sans-serif;
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
@@ -363,7 +363,7 @@ input, textarea {
     bottom: 112px;
 }
 .navbar-new-tweet-media:before {
-    content: "\f159";
+    content: "\f110";
     font-family: RosettaIcons;
     color: var(--link-color);
     font-size: 20px;
@@ -1447,4 +1447,7 @@ input, textarea {
     text-align: center;
     width: 82%;
     display: inline-block;
+}
+.compact-trend {
+    margin-bottom: 3px;
 }

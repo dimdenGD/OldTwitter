@@ -264,6 +264,8 @@ setTimeout(async () => {
     if(vars.linkColor) {
         linkColor.value = vars.linkColor;
         root.style.setProperty('--link-color', vars.linkColor);
+    } else {
+        linkColor.value = '#4595B5';
     }
     if(vars.font) {
         fontElement.value = vars.font;
