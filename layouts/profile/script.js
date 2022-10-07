@@ -881,10 +881,12 @@ async function renderProfile() {
         if(user.id_str === pageUser.id_str) {
             birth.classList.add('profile-additional-birth-me');
         }
-        if(pageUser.birthdate.year) {
+        if(pageUser.birthdate.year && typeof pageUser.birthdate.month === 'number') {
             birth.innerText = `${LOC.born.message} ${months[pageUser.birthdate.month-1].replace("$NUMBER$", pageUser.birthdate.day)}, ${pageUser.birthdate.year}`;
-        } else {
+        } else if(typeof pageUser.birthdate.month === 'number') {
             birth.innerText = `${LOC.born.message} ${months[pageUser.birthdate.month-1].replace("$NUMBER$", pageUser.birthdate.day)}`;
+        } else if(pageUser.birthdate.year) {
+            birth.innerText = `${LOC.born.message} ${pageUser.birthdate.year}`;
         }
         let date = new Date();
         if(pageUser.birthdate.month-1 === date.getMonth() && pageUser.birthdate.day === date.getDate()) {

@@ -1497,6 +1497,19 @@ setTimeout(async () => {
             switchDarkMode(true);
         }
     }
+    if(vars.darkMode) {
+        let bg = getComputedStyle(document.querySelector(':root')).getPropertyValue('--background-color').trim();
+        if(bg === '') {
+            while(bg !== 'white' && bg !== '#1b2836') {
+                await sleep(50);
+                bg = getComputedStyle(document.querySelector(':root')).getPropertyValue('--background-color').trim();
+                if(bg === 'white') {
+                    isDarkModeEnabled = true;
+                    switchDarkMode(true);
+                }
+            }
+        }
+    }
 
     setTimeout(() => {
         if(!headerGotUser) {
