@@ -1143,13 +1143,29 @@ setTimeout(async () => {
             }
         });
     }
-    // Buttons
+
+    // weird bug
     if(!document.getElementById('new-tweets')) {
-        // weird bug
         location.reload();
     }
-    let banner = document.getElementById('profile-banner');
+    try {
+        document.getElementById('new-tweets').addEventListener('click', () => {
+            timeline.toBeUpdated = 0;
+            timeline.data = timeline.dataToUpdate;
+            timeline.dataToUpdate = [];
+            renderNewTweetsButton();
+            renderTimeline();
+        });
+    } catch(e) {
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+        console.error(e);
+        return;
+    }
 
+    // mouse
+    let banner = document.getElementById('profile-banner');
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
         // find active tweet by scroll amount
@@ -1238,21 +1254,8 @@ setTimeout(async () => {
             }
         }
     });
-    try {
-        document.getElementById('new-tweets').addEventListener('click', () => {
-            timeline.toBeUpdated = 0;
-            timeline.data = timeline.dataToUpdate;
-            timeline.dataToUpdate = [];
-            renderNewTweetsButton();
-            renderTimeline();
-        });
-    } catch(e) {
-        setTimeout(() => {
-            location.reload();
-        }, 50);
-        console.error(e);
-        return;
-    }
+
+    // buttons
     document.getElementById('tweet-to').addEventListener('click', () => {
         document.getElementById('navbar-tweet-button').click();
         setTimeout(() => {

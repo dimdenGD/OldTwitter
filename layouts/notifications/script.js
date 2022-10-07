@@ -186,13 +186,24 @@ setTimeout(async () => {
     if(!vars) {
         await loadVars();
     }
+
+    // weird bug
     if(!document.getElementById('wtf-refresh')) {
-        // weird bug
         location.reload();
     }
-    document.getElementById('wtf-refresh').addEventListener('click', async () => {
-        renderDiscovery(false);
-    });
+    try {
+        document.getElementById('wtf-refresh').addEventListener('click', async () => {
+            renderDiscovery(false);
+        });
+    } catch(e) {
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+        console.error(e);
+        return;
+    }
+
+    // buttons
     document.getElementById('notifications-more').addEventListener('click', async () => {
         if(!lastCursor) return;
         updateNotifications(true);

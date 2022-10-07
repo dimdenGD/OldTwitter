@@ -1280,6 +1280,7 @@ let userDataFunction = async user => {
         });
     });
 
+    // user previews
     let userPreviewTimeouts = [];
     let leavePreviewTimeout;
     document.addEventListener('mouseover', e => {
@@ -1306,34 +1307,44 @@ let userDataFunction = async user => {
             if(username === pageUser.screen_name) return;
         }
         userPreviewTimeouts.push(setTimeout(async () => {
-            let user = await API.getUser(username, false);
             let userPreview = document.createElement('div');
             userPreview.className = 'user-preview';
+
+            let leaveFunction = () => {
+                leavePreviewTimeout = setTimeout(() => {
+                    userPreview.remove();
+                    el.removeEventListener('mouseleave', leaveFunction);
+                }, 500);
+            }
+            userPreview.addEventListener('mouseleave', leaveFunction);
+            el.addEventListener('mouseleave', leaveFunction);
+
+            let user = await API.getUser(username, false);
             userPreview.innerHTML = `
-                <img class="preview-user-banner" height="100" width="300" src="${user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png'}">
-                <div class="preview-user-data">
-                    <a class="preview-user-avatar-link" href="https://twitter.com/${user.screen_name}">
-                        <img class="preview-user-avatar" width="50" height="50" src="${user.profile_image_url_https.replace('_normal.', '_400x400.')}">
+            <img class="preview-user-banner" height="100" width="300" src="${user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png'}">
+            <div class="preview-user-data">
+                <a class="preview-user-avatar-link" href="https://twitter.com/${user.screen_name}">
+                    <img class="preview-user-avatar" width="50" height="50" src="${user.profile_image_url_https.replace('_normal.', '_400x400.')}">
+                </a>
+                <br>
+                <a class="preview-user-info" href="https://twitter.com/${user.screen_name}">
+                    <h1 class="preview-user-name">${escapeHTML(user.name)}</h1>
+                    <h2 class="preview-user-handle">@${user.screen_name}</h2>
+                </a>
+                <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? LOC.following_btn.message : LOC.follow.message}</button>
+                <span class="preview-user-description">${escapeHTML(user.description)}</span>
+                <br>
+                <div class="preview-user-stats">
+                    <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
+                        <h2>${LOC.following.message}</h2>
+                        <h1 class="preview-user-following">${Number(user.friends_count).toLocaleString().replace(/\s/g, ',')}</h1>
                     </a>
-                    <br>
-                    <a class="preview-user-info" href="https://twitter.com/${user.screen_name}">
-                        <h1 class="preview-user-name">${escapeHTML(user.name)}</h1>
-                        <h2 class="preview-user-handle">@${user.screen_name}</h2>
+                    <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/followers">
+                        <h2>${LOC.followers.message}</h2>
+                        <h1 class="preview-user-followers">${Number(user.followers_count).toLocaleString().replace(/\s/g, ',')}</h1>
                     </a>
-                    <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? LOC.following_btn.message : LOC.follow.message}</button>
-                    <span class="preview-user-description">${escapeHTML(user.description)}</span>
-                    <br>
-                    <div class="preview-user-stats">
-                        <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
-                            <h2>${LOC.following.message}</h2>
-                            <h1 class="preview-user-following">${Number(user.friends_count).toLocaleString().replace(/\s/g, ',')}</h1>
-                        </a>
-                        <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/followers">
-                            <h2>${LOC.followers.message}</h2>
-                            <h1 class="preview-user-followers">${Number(user.followers_count).toLocaleString().replace(/\s/g, ',')}</h1>
-                        </a>
-                    </div>
                 </div>
+            </div>
             `;
             const followBtn = userPreview.getElementsByClassName('preview-user-follow')[0];
             followBtn.addEventListener('click', async () => {
@@ -1365,15 +1376,6 @@ let userDataFunction = async user => {
             });
             el.parentElement.append(userPreview);
             if(vars.enableTwemoji) twemoji.parse(userPreview);
-            let leaveFunction = () => {
-                leavePreviewTimeout = setTimeout(() => {
-                    userPreview.remove();
-                    el.removeEventListener('mouseleave', leaveFunction);
-                }, 500);
-            }
-            userPreview.addEventListener('mouseleave', leaveFunction);
-            el.addEventListener('mouseleave', leaveFunction);
-
         }, 700));
     }, { passive: true });
 
