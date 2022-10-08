@@ -241,7 +241,9 @@ setTimeout(async () => {
         if(e.key === "Tab") {
             e.preventDefault();
             e.stopImmediatePropagation();
-            customCSS.value += '    ';
+            let pos = customCSS.selectionStart;
+            customCSS.value = customCSS.value.slice(0, pos) + "    " + customCSS.value.slice(pos);
+            customCSS.selectionStart = customCSS.selectionEnd = pos + 4;
         }
     });
     customCSSSave.addEventListener('click', () => {
