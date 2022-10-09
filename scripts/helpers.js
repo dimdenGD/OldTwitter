@@ -483,6 +483,94 @@ function matchEmojiHelperCount(str) {
     return count;
 }
 
+function createEmojiPicker(container, input, style = {}) {
+    let picker = new EmojiPicker({
+        i18n: {
+            "categories": {
+                "custom": LOC.custom.message,
+                "smileys-emotion": LOC.smileys_emotion.message,
+                "people-body": LOC.people_body.message,
+                "animals-nature": LOC.animals_nature.message,
+                "food-drink": LOC.food_drink.message,
+                "travel-places": LOC.travel_places.message,
+                "activities": LOC.activities.message,
+                "objects": LOC.objects.message,
+                "symbols": LOC.symbols.message,
+                "flags": LOC.flags.message
+            },
+            "categoriesLabel": LOC.categories.message,
+            "emojiUnsupportedMessage": LOC.unsupported_emoji.message,
+            "favoritesLabel": LOC.favorites.message,
+            "loadingMessage": LOC.loading.message,
+            "networkErrorMessage": LOC.cant_load_emoji.message,
+            "regionLabel": LOC.emoji_picker.message,
+            "searchDescription": LOC.emoji_search_description.message,
+            "searchLabel": LOC.search.message,
+            "searchResultsLabel": LOC.search_results.message,
+            "skinToneDescription": "When expanded, press up or down to select and enter to choose.",
+            "skinToneLabel": LOC.skin_tone_label.message.replace("$SKIN_TONE$", "{skinTone}"),
+            "skinTones": [
+                "Default",
+                "Light",
+                "Medium-Light",
+                "Medium",
+                "Medium-Dark",
+                "Dark"
+            ],
+            "skinTonesLabel": LOC.skin_tones_label.message
+        }
+    });
+    for(let i in style) {
+        picker.style[i] = style[i];
+    }
+    picker.className = vars.darkMode ? 'dark' : 'light';
+    picker.addEventListener('emoji-click', e => {
+        let pos = input.selectionStart;
+        let text = input.value;
+        input.value = text.slice(0, pos) + e.detail.unicode + text.slice(pos);
+        input.selectionStart = pos + e.detail.unicode.length;
+    });
+    container.append(picker);
+
+    let observer;
+    if(vars.enableTwemoji) {
+        const style = document.createElement('style');
+        style.textContent = `.twemoji {
+            width: var(--emoji-size);
+            height: var(--emoji-size);
+            pointer-events: none;
+        }`;
+        picker.shadowRoot.appendChild(style);
+
+        observer = new MutationObserver(() => {
+            for (const emoji of picker.shadowRoot.querySelectorAll('.emoji')) {
+                // Avoid infinite loops of MutationObserver
+                if (!emoji.querySelector('.twemoji')) {
+                    // Do not use default 'emoji' class name because it conflicts with emoji-picker-element's
+                    twemoji.parse(emoji, { className: 'twemoji' })
+                }
+            }
+        })
+        observer.observe(picker.shadowRoot, {
+            subtree: true,
+            childList: true
+        });
+    }
+
+    setTimeout(() => {
+        function oc (e) {
+            if (picker.contains(e.target)) return;
+            if(observer) {
+                observer.disconnect();
+            }
+            picker.remove();
+            document.removeEventListener('click', oc);
+        }
+        document.addEventListener('click', oc);
+    }, 100);
+    return picker;
+}
+
 function luminance(r, g, b) {
     var a = [r, g, b].map(function(v) {
       v /= 255;
@@ -878,7 +966,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             <div class="tweet-reply" hidden>
                 <br>
-                <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
+                <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                 <span class="tweet-reply-error" style="color:red"></span>
                 <textarea maxlength="280" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
                 <button class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
@@ -887,7 +975,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             </div>
             <div class="tweet-quote" hidden>
                 <br>
-                <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
+                <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                 <span class="tweet-quote-error" style="color:red"></span>
                 <textarea maxlength="280" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
                 <button class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
@@ -1083,6 +1171,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
     const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
     const tweetReplyUpload = tweet.getElementsByClassName('tweet-reply-upload')[0];
+    const tweetReplyAddEmoji = tweet.getElementsByClassName('tweet-reply-add-emoji')[0];
     const tweetReply = tweet.getElementsByClassName('tweet-reply')[0];
     const tweetReplyButton = tweet.getElementsByClassName('tweet-reply-button')[0];
     const tweetReplyError = tweet.getElementsByClassName('tweet-reply-error')[0];
@@ -1102,6 +1191,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweetQuote = tweet.getElementsByClassName('tweet-quote')[0];
     const tweetQuoteCancel = tweet.getElementsByClassName('tweet-quote-cancel')[0];
     const tweetQuoteUpload = tweet.getElementsByClassName('tweet-quote-upload')[0];
+    const tweetQuoteAddEmoji = tweet.getElementsByClassName('tweet-quote-add-emoji')[0];
     const tweetQuoteButton = tweet.getElementsByClassName('tweet-quote-button')[0];
     const tweetQuoteError = tweet.getElementsByClassName('tweet-quote-error')[0];
     const tweetQuoteText = tweet.getElementsByClassName('tweet-quote-text')[0];
@@ -1239,6 +1329,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         } else {
             a.remove();
         }
+    });
+
+    // Emojis
+    [tweetReplyAddEmoji, tweetQuoteAddEmoji].forEach(e => {
+        e.addEventListener('click', e => {
+            let isReply = e.target.className === 'tweet-reply-add-emoji';
+            createEmojiPicker(isReply ? tweetReply : tweetQuote, isReply ? tweetReplyText : tweetQuoteText, {});
+        });
     });
 
     // Reply

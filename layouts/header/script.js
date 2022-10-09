@@ -788,6 +788,7 @@ let userDataFunction = async user => {
                     </div>
                     <div class="navbar-new-tweet-focused">
                         <span id="navbar-new-tweet-poll-btn"></span>
+                        <span id="navbar-new-tweet-emoji-btn"></span>
                         <div id="navbar-new-tweet-poll" hidden></div>
                         <div class="navbar-new-tweet-media-cc"><div class="navbar-new-tweet-media-c"></div></div>
                         <button class="navbar-new-tweet-button nice-button">${LOC.tweet.message}</button>
@@ -804,8 +805,17 @@ let userDataFunction = async user => {
         const newTweetButton = modal.getElementsByClassName('navbar-new-tweet-button')[0];
         const newTweetUserSearch = modal.getElementsByClassName('navbar-new-tweet-user-search')[0];
         const newTweetPoll = document.getElementById('navbar-new-tweet-poll');
+        const newTweetEmojiBtn = document.getElementById('navbar-new-tweet-emoji-btn');
 
         newTweetText.focus();
+
+        newTweetEmojiBtn.addEventListener('click', () => {
+            let rect = newTweetEmojiBtn.getBoundingClientRect();
+            createEmojiPicker(document.body, newTweetText, {
+                left: rect.x - 320 + 'px',
+                top: rect.y + 'px'
+            });
+        });
 
         let selectedIndex = 0;
         let pollToUpload = undefined;
@@ -822,9 +832,9 @@ let userDataFunction = async user => {
                     <input class="navbar-poll-question" data-variant="3" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
                     <input class="navbar-poll-question" data-variant="4" placeholder="${LOC.variant.message} 4 ${LOC.optional.message}"><br>
                     <hr>
-                    ${LOC.days.message}: <input class="navbar-poll-date" id="navbar-poll-days" type="number" min="0" max="7" value="1"><br>
-                    ${LOC.hours.message}: <input class="navbar-poll-date" id="navbar-poll-hours" type="number" min="0" max="23" value="0"><br>
-                    ${LOC.minutes.message}: <input class="navbar-poll-date" id="navbar-poll-minutes" type="number" min="0" max="59" value="0"><br>
+                    ${LOC.days.message}: <input class="navbar-poll-date" id="navbar-poll-days" type="number" min="0" max="7" value="1">
+                    ${LOC.hours.message}: <input class="navbar-poll-date" id="navbar-poll-hours" type="number" min="0" max="23" value="0">
+                    ${LOC.minutes.message}: <input class="navbar-poll-date" id="navbar-poll-minutes" type="number" min="0" max="59" value="0">
                     <hr>
                     <button class="nice-button" id="navbar-poll-remove">${LOC.remove_poll.message}</button>
                 `;
@@ -1613,7 +1623,7 @@ setTimeout(async () => {
                 }
             }
 
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
 
             if(!e.altKey && !e.ctrlKey && e.keyCode === 70) { // F
                 // focus search bar

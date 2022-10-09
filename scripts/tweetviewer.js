@@ -429,6 +429,7 @@ class TweetViewer {
                     <span class="new-tweet-media"></span>
                 </div>
                 <div class="new-tweet-focused" hidden>
+                    <span class="new-tweet-emojis"></span>
                     <div class="new-tweet-media-cc"><div class="new-tweet-media-c"></div></div>
                     <button class="new-tweet-button nice-button">${LOC.tweet.message}</button>
                     <br><br>
@@ -576,6 +577,12 @@ class TweetViewer {
             } else {
                 charElement.style.color = "";
             }
+        });
+        document.getElementsByClassName('new-tweet-emojis')[0].addEventListener('click', () => {
+            createEmojiPicker(document.getElementsByClassName('new-tweet-view')[0], newTweetText, {
+                marginLeft: '211px',
+                marginTop: '-100px'
+            });
         });
         document.getElementsByClassName('new-tweet-button')[0].addEventListener('click', async () => {
             let tweet = document.getElementsByClassName('new-tweet-text')[0].value;
@@ -855,7 +862,7 @@ class TweetViewer {
                 </div>
                 <div class="tweet-reply" hidden>
                     <br>
-                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
+                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-reply-error" style="color:red"></span>
                     <textarea maxlength="280" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
                     <button class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
@@ -864,7 +871,7 @@ class TweetViewer {
                 </div>
                 <div class="tweet-quote" hidden>
                     <br>
-                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
+                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-quote-error" style="color:red"></span>
                     <textarea maxlength="280" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
                     <button class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
@@ -1047,6 +1054,7 @@ class TweetViewer {
     
         const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
         const tweetReplyUpload = tweet.getElementsByClassName('tweet-reply-upload')[0];
+        const tweetReplyAddEmoji = tweet.getElementsByClassName('tweet-reply-add-emoji')[0];
         const tweetReply = tweet.getElementsByClassName('tweet-reply')[0];
         const tweetReplyButton = tweet.getElementsByClassName('tweet-reply-button')[0];
         const tweetReplyError = tweet.getElementsByClassName('tweet-reply-error')[0];
@@ -1066,6 +1074,7 @@ class TweetViewer {
         const tweetQuote = tweet.getElementsByClassName('tweet-quote')[0];
         const tweetQuoteCancel = tweet.getElementsByClassName('tweet-quote-cancel')[0];
         const tweetQuoteUpload = tweet.getElementsByClassName('tweet-quote-upload')[0];
+        const tweetQuoteAddEmoji = tweet.getElementsByClassName('tweet-quote-add-emoji')[0];
         const tweetQuoteButton = tweet.getElementsByClassName('tweet-quote-button')[0];
         const tweetQuoteError = tweet.getElementsByClassName('tweet-quote-error')[0];
         const tweetQuoteText = tweet.getElementsByClassName('tweet-quote-text')[0];
@@ -1171,7 +1180,15 @@ class TweetViewer {
                 a.rel = 'noopener noreferrer';
             }
         });
-    
+
+        // Emojis
+        [tweetReplyAddEmoji, tweetQuoteAddEmoji].forEach(e => {
+            e.addEventListener('click', e => {
+                let isReply = e.target.className === 'tweet-reply-add-emoji';
+                createEmojiPicker(isReply ? tweetReply : tweetQuote, isReply ? tweetReplyText : tweetQuoteText, {});
+            });
+        });
+        
         // Reply
         tweetReplyCancel.addEventListener('click', () => {
             tweetReply.hidden = true;

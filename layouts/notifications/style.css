@@ -431,14 +431,6 @@ span.tweet-body-text {
     margin-left: 100px
 }
 
-.tweet-reply-cancel:hover,
-.tweet-quote-cancel:hover,
-.tweet-reply-upload:hover,
-.tweet-quote-upload:hover {
-    cursor: pointer;
-    text-decoration: underline
-}
-
 .tweet-media {
     display: block;
     max-width: 500px;

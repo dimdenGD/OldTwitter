@@ -140,7 +140,7 @@ setTimeout(async () => {
                     }
                 }
             }
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
             if(e.keyCode === 83) { // S
                 // next tweet
                 let index = [...tle.children].indexOf(activeTweet);

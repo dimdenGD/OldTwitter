@@ -431,14 +431,6 @@ span.tweet-body-text {
     margin-left: 100px
 }
 
-.tweet-reply-cancel:hover,
-.tweet-quote-cancel:hover,
-.tweet-reply-upload:hover,
-.tweet-quote-upload:hover {
-    cursor: pointer;
-    text-decoration: underline
-}
-
 .tweet-media {
     display: block;
     max-width: 500px;
@@ -832,7 +824,7 @@ a:hover,
 
 #new-tweet-button {
     float: right;
-    left: 35px;
+    left: 57px;
     margin-top: 3px;
     position: relative
 }
@@ -991,6 +983,18 @@ a:hover,
     content: "\f199";
     font: 20px RosettaIcons;
 }
+#new-tweet-emoji-btn {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    bottom: 64px;
+    left: 24px;
+}
+#new-tweet-emoji-btn:before {
+    color: var(--link-color);
+    content: "\f033";
+    font: 20px RosettaIcons;
+}
 .poll-question, .poll-date {
     border: 1px solid var(--border);
     border-radius: 5px;
@@ -1071,7 +1075,4 @@ a:hover,
 .circle-control-btn {
     float: right;
     margin-top: 10px;
-}
-.poll-date {
-    width: 50px;
 }

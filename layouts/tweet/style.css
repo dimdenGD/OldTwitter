@@ -435,14 +435,6 @@ span.tweet-body-text {
     margin-left: 100px
 }
 
-.tweet-reply-cancel:hover,
-.tweet-quote-cancel:hover,
-.tweet-reply-upload:hover,
-.tweet-quote-upload:hover {
-    cursor: pointer;
-    text-decoration: underline
-}
-
 .tweet-media {
     display: block;
     max-width: 500px;
@@ -833,9 +825,17 @@ a:hover,
 
 #new-tweet-button {
     float: right;
-    left: 14px;
+    left: 35px;
     margin-top: 5px;
     position: relative
+}
+#new-tweet-button:before {
+    content: "\f029";
+    font-family: RosettaIcons;
+    color: var(--link-color);
+    font-size: 14px;
+    margin-right: 5px;
+    vertical-align: bottom;
 }
 
 #new-tweet-char {
@@ -1132,4 +1132,16 @@ a:hover,
 
 .tweet-self-thread-continuation .tweet-body {
     margin-bottom: -30px;
+}
+#new-tweet-emojis {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    bottom: 87px;
+    left: 3px;
+}
+#new-tweet-emojis:before {
+    color: var(--link-color);
+    content: "\f033";
+    font: 20px RosettaIcons;
 }

@@ -72,40 +72,11 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <b>Features</b>
                         <ul>
-                            <li>Internationalization support! Added support for Spanish, Russian, Brazillian Portuguese, Japanese, Arabic, Turkish, French, Ukrainian, Thai, Italian, Romanian, Greek, Dutch, Latvian, Tagalog, Hebrew, Nepali. <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales" target="_blank">Help translate OldTwitter to your language.</a></li>
-                            <li>Now 'translate tweet' and 'translate bio' buttons translate to your selected language instead of English.</li>
-                            <li>Support for 'Twitter Circles'. You can now post tweets in them and manage members.</li>
-                            <li>Support for Topics page.</li>
-                            <li>Translations now retain links and formatting.</li>
-                            <li>Extension now supports screens as small as 950 pixels wide.</li>
-                            <li>Added autoplay videos option.</li>
-                            <li>You can now set who can reply to tweet.</li>
-                            <li>Follow requests support.</li>
-                            <li>You can now mute tweets.</li>
-                            <li>Now preferred video volume is saved.</li>
-                            <li>In user timeline, popularity of tweet instead of length decides if there should be big font.</li>
-                            <li>You can now hide/show retweets of user in timeline.</li>
-                            <li>Made page unscrollable when any modal is opened.</li>
-                            <li>You can now block people from tweet menu.</li>
-                            <li>Added unified_card support.</li>
-                            <li>You'll now receive changelog modals like these :)</li>
+                            <li>Added emoji picker.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
-                            <li>Fixed timeline never loading new tweets sometimes.</li>
-                            <li>Fixed 'Load more' buttons never disappearing even if list is over.</li>
-                            <li>Fixed video container not showing full video unless fullscreen.</li>
-                            <li>Fixed bugs with switching account.</li>
-                            <li>Better mutliple videos support.</li>
-                            <li>Fixed bug with header taking a while to load.</li>
-                            <li>Fixed pages sometimes never loading and you have to refresh them.</li>
-                            <li>Fixed dark mode sometimes not appearing.</li>
-                            <li>Fixed Twemojis never appearing on tweet pages.</li>
-                            <li>More space to click to open tweet.</li>
-                            <li>Fixed 'followers you follow' appearing and disappearing randomly on navigation.</li>
-                            <li>Fixed quoted tweets, polls and cards not displaying on pinned tweets.</li>
-                            <li>Made notifications say 'favorited' instead of 'liked' (if option to disable this is off).</li>
-                            <li>Fixed text overflow in notifications page and added more icons.</li>
+                            
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {
@@ -384,7 +355,7 @@ setTimeout(async () => {
                     }
                 }
             }
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
             if(e.keyCode === 83) { // S
                 // next tweet
                 let index = [...tle.children].indexOf(activeTweet);
@@ -677,6 +648,12 @@ setTimeout(async () => {
         document.getElementById('new-tweet-poll').style.width = '0';
         pollToUpload = undefined;
         handleDrop(e, mediaToUpload, document.getElementById('new-tweet-media-c'));
+    });
+    document.getElementById('new-tweet-emoji-btn').addEventListener('click', () => {
+        createEmojiPicker(document.getElementById('new-tweet'), document.getElementById('new-tweet-text'), {
+            marginLeft: '211px',
+            marginTop: '-100px'
+        });
     });
     document.getElementById('new-tweet-poll-btn').addEventListener('click', () => {
         if(document.getElementById('new-tweet-poll').hidden) {
@@ -1054,7 +1031,6 @@ setTimeout(async () => {
                 },
                 "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
             });
-            tweetObject._ARTIFICIAL = true;
             appendTweet(tweetObject, document.getElementById('timeline'), {
                 prepend: true,
                 bigFont: tweetObject.full_text.length < 75

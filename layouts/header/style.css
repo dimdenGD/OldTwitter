@@ -371,11 +371,10 @@ input, textarea {
 .navbar-new-tweet-button {
     float: right;
     margin-top: 5px;
-    left: 14px;
     position: relative;
-    margin-right: -21px;
+    margin-right: -57px;
 }
-.navbar-new-tweet-button:before {
+.navbar-new-tweet-button:before, .new-tweet-button:before {
     content: "\f029";
     font-family: RosettaIcons;
     color: var(--link-color);
@@ -946,6 +945,18 @@ input, textarea {
     content: "\f199";
     font: 20px RosettaIcons;
 }
+#navbar-new-tweet-emoji-btn {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    bottom: 64px;
+    left: 24px;
+}
+#navbar-new-tweet-emoji-btn:before {
+    color: var(--link-color);
+    content: "\f033";
+    font: 20px RosettaIcons;
+}
 .navbar-poll-question, .navbar-poll-date {
     border: 1px solid var(--border);
     border-radius: 5px;
@@ -1183,7 +1194,6 @@ input, textarea {
 
 .new-tweet-button {
     float: right;
-    left: 5px;
     margin-top: 5px;
     position: relative
 }
@@ -1450,4 +1460,35 @@ input, textarea {
 }
 .compact-trend {
     margin-bottom: 3px;
+}
+
+emoji-picker {
+    position: absolute;
+    z-index: 201;
+}
+.poll-date, .navbar-poll-date {
+    width: 50px;
+}
+
+.tweet-reply-cancel:hover,
+.tweet-quote-cancel:hover,
+.tweet-reply-upload:hover,
+.tweet-reply-add-emoji:hover,
+.tweet-quote-add-emoji:hover,
+.tweet-quote-upload:hover {
+    cursor: pointer;
+    text-decoration: underline
+}
+
+.new-tweet-emojis {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    bottom: 87px;
+    left: 3px;
+}
+.new-tweet-emojis:before {
+    color: var(--link-color);
+    content: "\f033";
+    font: 20px RosettaIcons;
 }

@@ -448,6 +448,7 @@ async function appendComposeComponent(container, replyTweet) {
                 <span id="new-tweet-media"></span>
             </div>
             <div id="new-tweet-focused" hidden>
+                <span id="new-tweet-emojis"></span>
                 <div id="new-tweet-media-cc"><div id="new-tweet-media-c"></div></div>
                 <button id="new-tweet-button" class="nice-button">${LOC.tweet.message}</button>
                 <br><br>
@@ -658,6 +659,12 @@ async function appendComposeComponent(container, replyTweet) {
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
         document.getElementById('new-tweet-button').disabled = false;
     });
+    document.getElementById('new-tweet-emojis').addEventListener('click', () => {
+        createEmojiPicker(document.getElementById('new-tweet'), newTweetText, {
+            marginLeft: '211px',
+            marginTop: '-100px'
+        });
+    });
 }
 
 async function appendTombstone(timelineContainer, text) {
@@ -745,7 +752,7 @@ setTimeout(async () => {
                     }
                 }
             }
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
             if(e.keyCode === 83) { // S
                 // next tweet
                 let ch = [...tle.children].filter(i => i.id !== "new-tweet-container");
