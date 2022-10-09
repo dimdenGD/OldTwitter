@@ -1431,7 +1431,7 @@ function switchDarkMode(enabled) {
         root.style.setProperty('--darker-background-color', '#141d26');
         root.style.setProperty('--almost-black', '#d4e3ed');
         root.style.setProperty('--border', 'black');
-        root.style.setProperty('--darker-gray', 'white');
+        root.style.setProperty('--darker-gray', '#c9c9c9');
         root.style.setProperty('--lil-darker-gray', '#8394a1');
         root.style.setProperty('--light-gray', '#8394a1');
         root.style.setProperty('--default-text-color', 'white');

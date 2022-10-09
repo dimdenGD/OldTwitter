@@ -872,7 +872,7 @@ a:hover,
 
 .notification-switch:hover,
 .notification-switch-active {
-    color: var(--default-text-color)
+    color: var(--default-text-color);
 }
 
 .notification-switch::after {
