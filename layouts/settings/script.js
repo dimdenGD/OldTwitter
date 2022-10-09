@@ -54,9 +54,18 @@ setTimeout(async () => {
     if(!vars) {
         await loadVars();
     }
-    document.getElementById('wtf-refresh').addEventListener('click', async () => {
-        renderDiscovery(false);
-    });
+    // weird bug
+    try {
+        document.getElementById('wtf-refresh').addEventListener('click', async () => {
+            renderDiscovery(false);
+        });
+    } catch(e) {
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+        console.error(e);
+        return;
+    }
 
     const fontCheck = new Set([
         // Windows 10

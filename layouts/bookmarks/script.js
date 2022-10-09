@@ -77,6 +77,19 @@ setTimeout(async () => {
     if(!vars) {
         await loadVars();
     }
+
+    // weird bug
+    try {
+        document.getElementById('wtf-refresh').addEventListener('click', async () => {
+            renderDiscovery(false);
+        });
+    } catch(e) {
+        setTimeout(() => {
+            location.reload();
+        }, 50);
+        console.error(e);
+        return;
+    }
     // tweet hotkeys
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');
@@ -282,9 +295,7 @@ setTimeout(async () => {
             });
         });
     });
-    document.getElementById('wtf-refresh').addEventListener('click', async () => {
-        renderDiscovery(false);
-    });
+
     
     // Run
     updateUserData();
