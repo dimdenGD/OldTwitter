@@ -285,7 +285,7 @@ setTimeout(async () => {
     heartsNotStars.checked = !!vars.heartsNotStars;
     linkColorsInTL.checked = !!vars.linkColorsInTL;
     enableTwemoji.checked = !!vars.enableTwemoji;
-    timelineType.value = vars.timelineType;
+    timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
@@ -300,7 +300,7 @@ setTimeout(async () => {
     }
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
-    language.value = vars.language;
+    language.value = vars.language ? vars.language : 'en';
 
     // Run
     updateUserData();
