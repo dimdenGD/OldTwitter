@@ -1327,7 +1327,9 @@ setTimeout(async () => {
         if(el.tagName === "A") {
             let path;
             try {
-                path = new URL(el.href).pathname;
+                let url = new URL(el.href);
+                path = url.pathname;
+                if(url.hostname !== 'twitter.com') return;
             } catch(e) {
                 return;
             }
