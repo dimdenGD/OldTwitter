@@ -25,6 +25,10 @@
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
 
+body {
+    overflow-x: hidden;
+}
+
 ::-webkit-scrollbar {
     width: 6px;
 }

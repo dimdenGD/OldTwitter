@@ -1827,6 +1827,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 console.error(e);
                 return;
             }
+            chrome.storage.local.set({tweetReplies: {}}, () => {});
             if(options.after && !options.disableAfterReplyCounter) {
                 options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
                 options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
@@ -2019,7 +2020,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     body: JSON.stringify({"variables":{"topicId": feedback.richBehavior.markNotInterestedTopic.topicId,"undo":false},"queryId":"OiKldXdrDrSjh36WO9_3Xw"}),
                     credentials: 'include'
                 }).then(i => i.json()).then(() => {});
-                return;
             }
             fetch(`https://twitter.com/i/api/graphql/vfVbgvTPTQ-dF_PQ5lD1WQ/timelinesFeedback`, {
                 method: 'post',
