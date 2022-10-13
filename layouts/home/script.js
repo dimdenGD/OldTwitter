@@ -83,6 +83,7 @@ setTimeout(() => {
                             <li>Fixed bug with external links opening as profile links on profile page.</li>
                             <li>Fixed bug with page becoming unscrollable on tweeting.</li>
                             <li>FIxed bug with quoted tweet not showing in notifications.</li>
+                            <li>Fixed video view count not showing.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {
