@@ -12,6 +12,7 @@ let linkColors = {};
 let circles = [];
 let selectedCircle = undefined;
 let algoCursor;
+
 setTimeout(() => {
     chrome.storage.local.get(['installed', 'lastVersion'], async data => {
         if (!data.installed) {
@@ -84,6 +85,7 @@ setTimeout(() => {
                             <li>Fixed bug with external links opening as profile links on profile page.</li>
                             <li>Fixed bug with page becoming unscrollable on tweeting.</li>
                             <li>FIxed bug with quoted tweet not showing in notifications.</li>
+                            <li>Proper tweet character counting.</li>
                             <li>Fixed video view count not showing.</li>
                         </ul>
                     </span>
@@ -726,6 +728,7 @@ setTimeout(async () => {
     });
     let newTweetUserSearch = document.getElementById("new-tweet-user-search");
     let newTweetText = document.getElementById('new-tweet-text');
+    let newTweetButton = document.getElementById('new-tweet-button');
     let selectedIndex = 0;
     newTweetText.addEventListener('focus', async e => {
         setTimeout(() => {
@@ -750,7 +753,6 @@ setTimeout(async () => {
                 e.stopPropagation();
                 newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${activeSearch.querySelector('.search-result-item-screen-name').innerText.slice(1)} `;
                 if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
-                if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
                 newTweetUserSearch.innerHTML = '';
                 newTweetUserSearch.hidden = true;
             }
@@ -798,7 +800,6 @@ setTimeout(async () => {
                 userElement.addEventListener('click', () => {
                     newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${user.screen_name} `;
                     if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
-                    if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
                     newTweetText.focus();
                     newTweetUserSearch.innerHTML = '';
                     newTweetUserSearch.hidden = true;
@@ -813,21 +814,19 @@ setTimeout(async () => {
             if(e.ctrlKey) document.getElementById('new-tweet-button').click();
         }
         let charElement = document.getElementById('new-tweet-char');
-        charElement.innerText = `${e.target.value.length}/280`;
-        if (e.target.value.length > 265) {
+        // proper domains
+        let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
+        charElement.innerText = `${text.length}/280`;
+        if (text.length > 265) {
             charElement.style.color = "#c26363";
         } else {
             charElement.style.color = "";
         }
-    });
-    document.getElementById('new-tweet-text').addEventListener('keyup', e => {
-        let charElement = document.getElementById('new-tweet-char');
-        charElement.innerText = `${e.target.value.length}/280`;
-        charElement.innerText = `${e.target.value.length}/280`;
-        if (e.target.value.length > 265) {
-            charElement.style.color = "#c26363";
+        if (text.length > 280) {
+            charElement.style.color = "red";
+            newTweetButton.disabled = true;
         } else {
-            charElement.style.color = "";
+            newTweetButton.disabled = false;
         }
     });
     document.getElementById('new-tweet-text').addEventListener('paste', event => {
@@ -948,10 +947,10 @@ setTimeout(async () => {
             modal.querySelector('.circle-search').hidden = false;
         });
     });
-    document.getElementById('new-tweet-button').addEventListener('click', async () => {
+    newTweetButton.addEventListener('click', async () => {
         let tweet = document.getElementById('new-tweet-text').value;
         if (tweet.length === 0 && mediaToUpload.length === 0) return;
-        document.getElementById('new-tweet-button').disabled = true;
+        newTweetButton.disabled = true;
         let uploadedMedia = [];
         for (let i in mediaToUpload) {
             let media = mediaToUpload[i];
@@ -1059,7 +1058,7 @@ setTimeout(async () => {
         document.getElementById('new-tweet-char').hidden = true;
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
-        document.getElementById('new-tweet-button').disabled = false;
+        newTweetButton.disabled = false;
     });
     newTweetText.addEventListener('blur', () => {
         newTweetText.dataset.blurSince = Date.now();

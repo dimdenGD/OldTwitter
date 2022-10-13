@@ -790,7 +790,7 @@ let userDataFunction = async user => {
                 <div class="navbar-new-tweet">
                     <img width="35" height="35" class="navbar-new-tweet-avatar">
                     <span class="navbar-new-tweet-char">0/280</span>
-                    <textarea maxlength="280" class="navbar-new-tweet-text" placeholder="${LOC.whats_happening.message}"></textarea>
+                    <textarea maxlength="1000" class="navbar-new-tweet-text" placeholder="${LOC.whats_happening.message}"></textarea>
                     <div class="navbar-new-tweet-user-search box" hidden></div>
                     <div class="navbar-new-tweet-media-div">
                         <span class="navbar-new-tweet-media"></span>
@@ -886,13 +886,19 @@ let userDataFunction = async user => {
 
         modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = user.profile_image_url_https.replace("_normal", "_bigger");
         function updateCharCount(e) {
-            let char = e.target.value.length;
             let charElement = newTweetChar;
-            charElement.innerText = `${char}/280`;
-            if(char > 265) {
+            let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
+            charElement.innerText = `${text.length}/280`;
+            if (text.length > 265) {
                 charElement.style.color = "#c26363";
             } else {
                 charElement.style.color = "";
+            }
+            if (text.length > 280) {
+                charElement.style.color = "red";
+                newTweetButton.disabled = true;
+            } else {
+                newTweetButton.disabled = false;
             }
         }
         newTweetText.addEventListener('focus', async e => {
