@@ -33,6 +33,7 @@ function createModal(html, className, onclose) {
             document.body.style.overflowY = 'auto';
         }
     }
+    modal.removeModal = removeModal;
     function escapeEvent(e) {
         if(document.querySelector('.viewer-in')) return;
         if(e.key === 'Escape' || (e.altKey && e.keyCode === 78)) {

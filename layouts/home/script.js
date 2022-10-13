@@ -75,11 +75,12 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <b>Features</b>
                         <ul>
-                            <li>Added emoji picker.</li>
+                            <li>Added emoji picker everywhere.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
-                            
+                            <li>Fixed bug with external links opening as profile links on profile page.</li>
+                            <li>Fixed bug with page becoming unscrollable on tweeting.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {

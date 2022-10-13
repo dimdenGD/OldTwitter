@@ -1113,6 +1113,7 @@ let userDataFunction = async user => {
                 }
             }
             modal.remove();
+            modal.removeModal();
         });
     });
 
