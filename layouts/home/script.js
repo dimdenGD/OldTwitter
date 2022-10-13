@@ -76,6 +76,7 @@ setTimeout(() => {
                         <b>Features</b>
                         <ul>
                             <li>Added emoji picker everywhere.</li>
+                            <li>Time and playing state of video is saved on quality change/reload.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
