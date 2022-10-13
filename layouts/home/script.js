@@ -77,6 +77,7 @@ setTimeout(() => {
                         <ul>
                             <li>Added emoji picker everywhere.</li>
                             <li>Time and playing state of video is saved on quality change/reload.</li>
+                            <li>Tweet composer becomes small again after a minute of no focus.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
@@ -1060,9 +1061,24 @@ setTimeout(async () => {
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
         document.getElementById('new-tweet-button').disabled = false;
     });
-    
-    // Update dates every minute
+    newTweetText.addEventListener('blur', () => {
+        newTweetText.dataset.blurSince = Date.now();
+    });
+    newTweetText.addEventListener('focus', () => {
+        delete newTweetText.dataset.blurSince;
+    });
+
+
+    // Update dates every minute & unfocus tweet composer
     setInterval(() => {
+        let newTweetText = document.getElementById('new-tweet-text');
+        if(newTweetText && newTweetText.className && newTweetText.className.includes('new-tweet-text-focused') && newTweetText.dataset.blurSince && Date.now() - (+newTweetText.dataset.blurSince) > 55000) {
+            document.getElementById('new-tweet-focused').hidden = true;
+            document.getElementById('new-tweet-audience').hidden = true;
+            document.getElementById('new-tweet-char').hidden = true;
+            document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
+            document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
+        }
         let tweetDates = Array.from(document.getElementsByClassName('tweet-time'));
         let tweetQuoteDates = Array.from(document.getElementsByClassName('tweet-time-quote'));
         let all = [...tweetDates, ...tweetQuoteDates];
