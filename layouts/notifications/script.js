@@ -146,6 +146,10 @@ async function renderNotifications(data, append = false) {
         } else if(e.content.tweet) {
             let t = data.globalObjects.tweets[e.content.tweet.id];
             t.user = data.globalObjects.users[t.user_id_str];
+            if(t.quoted_status_id_str) {
+                t.quoted_status = data.globalObjects.tweets[t.quoted_status_id_str];
+                t.quoted_status.user = data.globalObjects.users[t.quoted_status.user_id_str];
+            }
             if(!t) continue;
             let tweet = await appendTweet(t, notificationsContainer, {
                 bigFont: t.full_text.length < 75
