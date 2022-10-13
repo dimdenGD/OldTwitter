@@ -548,6 +548,7 @@ let userDataFunction = async user => {
                 <div class="message-new">
                     <div class="message-new-media"></div>
                     <span class="message-new-media-btn"></span>
+                    <span class="message-emoji-btn"></span>
                     <textarea type="text" class="message-new-input" placeholder="${LOC.type_message.message}"></textarea>
                     <button class="nice-button message-new-send">${LOC.send.message}</button>
                 </div>
@@ -573,6 +574,7 @@ let userDataFunction = async user => {
         const newMedia = modal.querySelector('.message-new-media');
         const newMediaButton = modal.querySelector('.message-new-media-btn');
         const newMediaInput = modal.querySelector('.message-new-input');
+        const emojiButton = modal.querySelector('.message-emoji-btn');
         const newSend = modal.querySelector('.message-new-send');
         const newInput = modal.querySelector('.message-new-input');
         const loadMore = modal.querySelector('.load-more');
@@ -705,6 +707,13 @@ let userDataFunction = async user => {
                 }
                 newSend.disabled = false;
             }
+        });
+        emojiButton.addEventListener('click', () => {
+            let rect = emojiButton.getBoundingClientRect();
+            createEmojiPicker(document.body, newInput, {
+                left: rect.x + 'px',
+                top: rect.y + 'px'
+            });
         });
         
 

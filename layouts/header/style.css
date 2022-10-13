@@ -841,12 +841,26 @@ input, textarea {
     scrollbar-width: thin;
     vertical-align: bottom;
 }
+.message-new-input {
+    width: 400px;
+}
 .message-new-media-btn {
     cursor: pointer;
     vertical-align: sub;
 }
 .message-new-media-btn:before {
-    content: "\f159";
+    content: "\f110";
+    font-family: RosettaIcons;
+    color: var(--link-color);
+    font-size: 22px;
+    margin-right: 5px;
+}
+.message-emoji-btn {
+    cursor: pointer;
+    vertical-align: sub;
+}
+.message-emoji-btn:before {
+    content: "\f033";
     font-family: RosettaIcons;
     color: var(--link-color);
     font-size: 22px;
