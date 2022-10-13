@@ -36,6 +36,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         ...manifest.host_permissions,
         "https://dimden.dev/*",
         "https://raw.githubusercontent.com/*",
+        "https://www.google-analytics.com/*",
         "webRequest",
         "webRequestBlocking"
     ];

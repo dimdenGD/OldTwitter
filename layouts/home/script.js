@@ -79,6 +79,7 @@ setTimeout(() => {
                             <li>Added emoji picker everywhere.</li>
                             <li>Time and playing state of video is saved on quality change/reload.</li>
                             <li>Tweet composer becomes small again after a minute of no focus.</li>
+                            <li>You can now click on extension icon in Chrome to open settings.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>

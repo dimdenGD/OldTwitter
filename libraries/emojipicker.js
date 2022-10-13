@@ -1275,24 +1275,6 @@ const EmojiPicker = (() => {
     function add_render_callback(fn) {
         render_callbacks.push(fn);
     }
-    // flush() calls callbacks in this order:
-    // 1. All beforeUpdate callbacks, in order: parents before children
-    // 2. All bind:this callbacks, in reverse order: children before parents.
-    // 3. All afterUpdate callbacks, in order: parents before children. EXCEPT
-    //    for afterUpdates called during the initial onMount, which are called in
-    //    reverse order: children before parents.
-    // Since callbacks might update component values, which could trigger another
-    // call to flush(), the following steps guard against this:
-    // 1. During beforeUpdate, any updated components will be added to the
-    //    dirty_components array and will cause a reentrant call to flush(). Because
-    //    the flush index is kept outside the function, the reentrant call will pick
-    //    up where the earlier call left off and go through all dirty components. The
-    //    current_component value is saved and restored so that the reentrant call will
-    //    not interfere with the "parent" flush() call.
-    // 2. bind:this callbacks cannot trigger new flush() calls.
-    // 3. During afterUpdate, any updated components will NOT have their afterUpdate
-    //    callback called a second time; the seen_callbacks set, outside the flush()
-    //    function, guarantees this behavior.
     const seen_callbacks = new Set();
     let flushidx = 0; // Do *not* move this inside the flush() function
     function flush() {
@@ -3646,7 +3628,7 @@ const EmojiPicker = (() => {
         }
     }
 
-    const DEFAULT_DATA_SOURCE = 'https://cdn.jsdelivr.net/npm/emoji-picker-element-data@^1/en/emojibase/data.json';
+    const DEFAULT_DATA_SOURCE = chrome.runtime.getURL(`libraries/emojidata.json`);
     const DEFAULT_LOCALE = 'en';
 
     var enI18n = {
@@ -3695,89 +3677,94 @@ const EmojiPicker = (() => {
     ];
 
     class PickerElement extends HTMLElement {
-    constructor (props) {
-        super();
-        this.attachShadow({ mode: 'open' });
-        const style = document.createElement('style');
-        style.textContent = ":host{--emoji-size:1.375rem;--emoji-padding:0.5rem;--category-emoji-size:var(--emoji-size);--category-emoji-padding:var(--emoji-padding);--indicator-height:3px;--input-border-radius:0.5rem;--input-border-size:1px;--input-font-size:1rem;--input-line-height:1.5;--input-padding:0.25rem;--num-columns:8;--outline-size:2px;--border-size:1px;--skintone-border-radius:1rem;--category-font-size:1rem;display:flex;width:min-content;height:400px}:host,:host(.light){--background:#fff;--border-color:#e0e0e0;--indicator-color:#385ac1;--input-border-color:#999;--input-font-color:#111;--input-placeholder-color:#999;--outline-color:#999;--category-font-color:#111;--button-active-background:#e6e6e6;--button-hover-background:#d9d9d9}:host(.dark){--background:#222;--border-color:#444;--indicator-color:#5373ec;--input-border-color:#ccc;--input-font-color:#efefef;--input-placeholder-color:#ccc;--outline-color:#fff;--category-font-color:#efefef;--button-active-background:#555555;--button-hover-background:#484848}@media (prefers-color-scheme:dark){:host{--background:#222;--border-color:#444;--indicator-color:#5373ec;--input-border-color:#ccc;--input-font-color:#efefef;--input-placeholder-color:#ccc;--outline-color:#fff;--category-font-color:#efefef;--button-active-background:#555555;--button-hover-background:#484848}}:host([hidden]){display:none}button{margin:0;padding:0;border:0;background:0 0;box-shadow:none;-webkit-tap-highlight-color:transparent}button::-moz-focus-inner{border:0}input{padding:0;margin:0;line-height:1.15;font-family:inherit}input[type=search]{-webkit-appearance:none}:focus{outline:var(--outline-color) solid var(--outline-size);outline-offset:calc(-1*var(--outline-size))}:host([data-js-focus-visible]) :focus:not([data-focus-visible-added]){outline:0}:focus:not(:focus-visible){outline:0}.hide-focus{outline:0}*{box-sizing:border-box}.picker{contain:content;display:flex;flex-direction:column;background:var(--background);border:var(--border-size) solid var(--border-color);width:100%;height:100%;overflow:hidden;--total-emoji-size:calc(var(--emoji-size) + (2 * var(--emoji-padding)));--total-category-emoji-size:calc(var(--category-emoji-size) + (2 * var(--category-emoji-padding)))}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}.hidden{opacity:0;pointer-events:none}.abs-pos{position:absolute;left:0;top:0}.gone{display:none!important}.skintone-button-wrapper,.skintone-list{background:var(--background);z-index:3}.skintone-button-wrapper.expanded{z-index:1}.skintone-list{position:absolute;inset-inline-end:0;top:0;z-index:2;overflow:visible;border-bottom:var(--border-size) solid var(--border-color);border-radius:0 0 var(--skintone-border-radius) var(--skintone-border-radius);will-change:transform;transition:transform .2s ease-in-out;transform-origin:center 0}@media (prefers-reduced-motion:reduce){.skintone-list{transition-duration:.001s}}@supports not (inset-inline-end:0){.skintone-list{right:0}}.skintone-list.no-animate{transition:none}.tabpanel{overflow-y:auto;-webkit-overflow-scrolling:touch;will-change:transform;min-height:0;flex:1;contain:content}.emoji-menu{display:grid;grid-template-columns:repeat(var(--num-columns),var(--total-emoji-size));justify-content:space-around;align-items:flex-start;width:100%}.category{padding:var(--emoji-padding);font-size:var(--category-font-size);color:var(--category-font-color)}.custom-emoji,.emoji,button.emoji{height:var(--total-emoji-size);width:var(--total-emoji-size)}.emoji,button.emoji{font-size:var(--emoji-size);display:flex;align-items:center;justify-content:center;border-radius:100%;line-height:1;overflow:hidden;font-family:var(--font-family);cursor:pointer}@media (hover:hover) and (pointer:fine){.emoji:hover,button.emoji:hover{background:var(--button-hover-background)}}.emoji.active,.emoji:active,button.emoji.active,button.emoji:active{background:var(--button-active-background)}.custom-emoji{padding:var(--emoji-padding);object-fit:contain;pointer-events:none;background-repeat:no-repeat;background-position:center center;background-size:var(--emoji-size) var(--emoji-size)}.nav,.nav-button{align-items:center}.nav{display:grid;justify-content:space-between;contain:content}.nav-button{display:flex;justify-content:center}.nav-emoji{font-size:var(--category-emoji-size);width:var(--total-category-emoji-size);height:var(--total-category-emoji-size)}.indicator-wrapper{display:flex;border-bottom:1px solid var(--border-color)}.indicator{width:calc(100%/var(--num-groups));height:var(--indicator-height);opacity:var(--indicator-opacity);background-color:var(--indicator-color);will-change:transform,opacity;transition:opacity .1s linear,transform .25s ease-in-out}@media (prefers-reduced-motion:reduce){.indicator{will-change:opacity;transition:opacity .1s linear}}.pad-top,input.search{background:var(--background);width:100%}.pad-top{height:var(--emoji-padding);z-index:3}.search-row{display:flex;align-items:center;position:relative;padding-inline-start:var(--emoji-padding);padding-bottom:var(--emoji-padding)}.search-wrapper{flex:1;min-width:0}input.search{padding:var(--input-padding);border-radius:var(--input-border-radius);border:var(--input-border-size) solid var(--input-border-color);color:var(--input-font-color);font-size:var(--input-font-size);line-height:var(--input-line-height)}input.search::placeholder{color:var(--input-placeholder-color)}.favorites{display:flex;flex-direction:row;border-top:var(--border-size) solid var(--border-color);contain:content}.message{padding:var(--emoji-padding)}";
-        this.shadowRoot.appendChild(style);
-        this._ctx = {
-        // Set defaults
-        locale: DEFAULT_LOCALE,
-        dataSource: DEFAULT_DATA_SOURCE,
-        skinToneEmoji: DEFAULT_SKIN_TONE_EMOJI,
-        customCategorySorting: DEFAULT_CATEGORY_SORTING,
-        customEmoji: null,
-        i18n: enI18n,
-        ...props
-        };
-        // Handle properties set before the element was upgraded
-        for (const prop of PROPS) {
-        if (prop !== 'database' && Object.prototype.hasOwnProperty.call(this, prop)) {
-            this._ctx[prop] = this[prop];
-            delete this[prop];
+        constructor (props) {
+            super();
+            this.attachShadow({ mode: 'open' });
+            const style = document.createElement('style');
+            style.textContent = ":host{--emoji-size:1.375rem;--emoji-padding:0.5rem;--category-emoji-size:var(--emoji-size);--category-emoji-padding:var(--emoji-padding);--indicator-height:3px;--input-border-radius:0.5rem;--input-border-size:1px;--input-font-size:1rem;--input-line-height:1.5;--input-padding:0.25rem;--num-columns:8;--outline-size:2px;--border-size:1px;--skintone-border-radius:1rem;--category-font-size:1rem;display:flex;width:min-content;height:400px}:host,:host(.light){--background:#fff;--border-color:#e0e0e0;--indicator-color:#385ac1;--input-border-color:#999;--input-font-color:#111;--input-placeholder-color:#999;--outline-color:#999;--category-font-color:#111;--button-active-background:#e6e6e6;--button-hover-background:#d9d9d9}:host(.dark){--background:#222;--border-color:#444;--indicator-color:#5373ec;--input-border-color:#ccc;--input-font-color:#efefef;--input-placeholder-color:#ccc;--outline-color:#fff;--category-font-color:#efefef;--button-active-background:#555555;--button-hover-background:#484848}@media (prefers-color-scheme:dark){:host{--background:#222;--border-color:#444;--indicator-color:#5373ec;--input-border-color:#ccc;--input-font-color:#efefef;--input-placeholder-color:#ccc;--outline-color:#fff;--category-font-color:#efefef;--button-active-background:#555555;--button-hover-background:#484848}}:host([hidden]){display:none}button{margin:0;padding:0;border:0;background:0 0;box-shadow:none;-webkit-tap-highlight-color:transparent}button::-moz-focus-inner{border:0}input{padding:0;margin:0;line-height:1.15;font-family:inherit}input[type=search]{-webkit-appearance:none}:focus{outline:var(--outline-color) solid var(--outline-size);outline-offset:calc(-1*var(--outline-size))}:host([data-js-focus-visible]) :focus:not([data-focus-visible-added]){outline:0}:focus:not(:focus-visible){outline:0}.hide-focus{outline:0}*{box-sizing:border-box}.picker{contain:content;display:flex;flex-direction:column;background:var(--background);border:var(--border-size) solid var(--border-color);width:100%;height:100%;overflow:hidden;--total-emoji-size:calc(var(--emoji-size) + (2 * var(--emoji-padding)));--total-category-emoji-size:calc(var(--category-emoji-size) + (2 * var(--category-emoji-padding)))}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}.hidden{opacity:0;pointer-events:none}.abs-pos{position:absolute;left:0;top:0}.gone{display:none!important}.skintone-button-wrapper,.skintone-list{background:var(--background);z-index:3}.skintone-button-wrapper.expanded{z-index:1}.skintone-list{position:absolute;inset-inline-end:0;top:0;z-index:2;overflow:visible;border-bottom:var(--border-size) solid var(--border-color);border-radius:0 0 var(--skintone-border-radius) var(--skintone-border-radius);will-change:transform;transition:transform .2s ease-in-out;transform-origin:center 0}@media (prefers-reduced-motion:reduce){.skintone-list{transition-duration:.001s}}@supports not (inset-inline-end:0){.skintone-list{right:0}}.skintone-list.no-animate{transition:none}.tabpanel{overflow-y:auto;-webkit-overflow-scrolling:touch;will-change:transform;min-height:0;flex:1;contain:content}.emoji-menu{display:grid;grid-template-columns:repeat(var(--num-columns),var(--total-emoji-size));justify-content:space-around;align-items:flex-start;width:100%}.category{padding:var(--emoji-padding);font-size:var(--category-font-size);color:var(--category-font-color)}.custom-emoji,.emoji,button.emoji{height:var(--total-emoji-size);width:var(--total-emoji-size)}.emoji,button.emoji{font-size:var(--emoji-size);display:flex;align-items:center;justify-content:center;border-radius:100%;line-height:1;overflow:hidden;font-family:var(--font-family);cursor:pointer}@media (hover:hover) and (pointer:fine){.emoji:hover,button.emoji:hover{background:var(--button-hover-background)}}.emoji.active,.emoji:active,button.emoji.active,button.emoji:active{background:var(--button-active-background)}.custom-emoji{padding:var(--emoji-padding);object-fit:contain;pointer-events:none;background-repeat:no-repeat;background-position:center center;background-size:var(--emoji-size) var(--emoji-size)}.nav,.nav-button{align-items:center}.nav{display:grid;justify-content:space-between;contain:content}.nav-button{display:flex;justify-content:center}.nav-emoji{font-size:var(--category-emoji-size);width:var(--total-category-emoji-size);height:var(--total-category-emoji-size)}.indicator-wrapper{display:flex;border-bottom:1px solid var(--border-color)}.indicator{width:calc(100%/var(--num-groups));height:var(--indicator-height);opacity:var(--indicator-opacity);background-color:var(--indicator-color);will-change:transform,opacity;transition:opacity .1s linear,transform .25s ease-in-out}@media (prefers-reduced-motion:reduce){.indicator{will-change:opacity;transition:opacity .1s linear}}.pad-top,input.search{background:var(--background);width:100%}.pad-top{height:var(--emoji-padding);z-index:3}.search-row{display:flex;align-items:center;position:relative;padding-inline-start:var(--emoji-padding);padding-bottom:var(--emoji-padding)}.search-wrapper{flex:1;min-width:0}input.search{padding:var(--input-padding);border-radius:var(--input-border-radius);border:var(--input-border-size) solid var(--input-border-color);color:var(--input-font-color);font-size:var(--input-font-size);line-height:var(--input-line-height)}input.search::placeholder{color:var(--input-placeholder-color)}.favorites{display:flex;flex-direction:row;border-top:var(--border-size) solid var(--border-color);contain:content}.message{padding:var(--emoji-padding)}";
+            this.shadowRoot.appendChild(style);
+            this._ctx = {
+                // Set defaults
+                locale: DEFAULT_LOCALE,
+                dataSource: DEFAULT_DATA_SOURCE,
+                skinToneEmoji: DEFAULT_SKIN_TONE_EMOJI,
+                customCategorySorting: DEFAULT_CATEGORY_SORTING,
+                customEmoji: null,
+                i18n: enI18n,
+                ...props
+            };
+            // Handle properties set before the element was upgraded
+            for (const prop of PROPS) {
+                if (prop !== 'database' && Object.prototype.hasOwnProperty.call(this, prop)) {
+                    this._ctx[prop] = this[prop];
+                    delete this[prop];
+                }
+            }
+            try {
+                this._dbFlush(); // wait for a flush before creating the db, in case the user calls e.g. a setter or setAttribute
+            } catch (e) {
+                // weird bug on firefox
+                this._ctx.database = new EmojiDatabase({ locale: this._ctx.locale, dataSource: this._ctx.dataSource });
+            }
         }
+
+        connectedCallback () {
+            this._cmp = new Picker({
+            target: this.shadowRoot,
+            props: this._ctx
+            });
         }
-        this._dbFlush(); // wait for a flush before creating the db, in case the user calls e.g. a setter or setAttribute
-    }
 
-    connectedCallback () {
-        this._cmp = new Picker({
-        target: this.shadowRoot,
-        props: this._ctx
-        });
-    }
+        disconnectedCallback () {
+            this._cmp.$destroy();
+            this._cmp = undefined;
 
-    disconnectedCallback () {
-        this._cmp.$destroy();
-        this._cmp = undefined;
-
-        const { database } = this._ctx;
-        if (database) {
-        database.close()
-            // only happens if the database failed to load in the first place, so we don't care)
-            .catch(err => console.error(err));
+            const { database } = this._ctx;
+            if (database) {
+            database.close()
+                // only happens if the database failed to load in the first place, so we don't care)
+                .catch(err => console.error(err));
+            }
         }
-    }
 
-    static get observedAttributes () {
-        return ['locale', 'data-source', 'skin-tone-emoji'] // complex objects aren't supported, also use kebab-case
-    }
-
-    attributeChangedCallback (attrName, oldValue, newValue) {
-        // convert from kebab-case to camelcase
-        // see https://github.com/sveltejs/svelte/issues/3852#issuecomment-665037015
-        this._set(
-        attrName.replace(/-([a-z])/g, (_, up) => up.toUpperCase()),
-        newValue
-        );
-    }
-
-    _set (prop, newValue) {
-        this._ctx[prop] = newValue;
-        if (this._cmp) {
-        this._cmp.$set({ [prop]: newValue });
+        static get observedAttributes () {
+            return ['locale', 'data-source', 'skin-tone-emoji'] // complex objects aren't supported, also use kebab-case
         }
-        if (['locale', 'dataSource'].includes(prop)) {
-        this._dbFlush();
-        }
-    }
 
-    _dbCreate () {
-        const { locale, dataSource, database } = this._ctx;
-        // only create a new database if we really need to
-        if (!database || database.locale !== locale || database.dataSource !== dataSource) {
-        this._set('database', new EmojiDatabase({ locale, dataSource }));
+        attributeChangedCallback (attrName, oldValue, newValue) {
+            // convert from kebab-case to camelcase
+            // see https://github.com/sveltejs/svelte/issues/3852#issuecomment-665037015
+            this._set(
+            attrName.replace(/-([a-z])/g, (_, up) => up.toUpperCase()),
+            newValue
+            );
         }
-    }
 
-    // Update the Database in one microtask if the locale/dataSource change. We do one microtask
-    // so we don't create two Databases if e.g. both the locale and the dataSource change
-    _dbFlush () {
-        Promise.resolve().then(() => (
-        this._dbCreate()
-        ));
-    }
+        _set (prop, newValue) {
+            this._ctx[prop] = newValue;
+            if (this._cmp) {
+                this._cmp.$set({ [prop]: newValue });
+            }
+            if (['locale', 'dataSource'].includes(prop)) {
+                this._dbFlush();
+            }
+        }
+
+        _dbCreate () {
+            const { locale, dataSource, database } = this._ctx;
+            // only create a new database if we really need to
+            if (!database || database.locale !== locale || database.dataSource !== dataSource) {
+                this._set('database', new EmojiDatabase({ locale, dataSource }));
+            }
+        }
+
+        // Update the Database in one microtask if the locale/dataSource change. We do one microtask
+        // so we don't create two Databases if e.g. both the locale and the dataSource change
+        _dbFlush () {
+            Promise.resolve().then(() => (
+                this._dbCreate()
+            ));
+        }
     }
 
     const definitions = {};
