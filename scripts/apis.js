@@ -166,6 +166,9 @@ API.getSettings = () => {
                 credentials: "include"
             }).then(i => i.json()).then(data => {
                 if (data.errors && data.errors[0].code === 32) {
+                    setTimeout(() => {
+                        location.href = "https://mobile.twitter.com/login";
+                    }, 1000);
                     return reject("Not logged in");
                 }
                 if (data.errors && data.errors[0]) {
