@@ -268,7 +268,7 @@
     "liked_by": { "message": "Нравится" },
     "reply": { "message": "Ответ" },
     "language": { "message": "Язык (Language)" },
-    "translated_by": { "message": "Перевод: $TRANSLATOR$." },
+    "translated_by": { "message": "Перевод: $TRANSLATOR$.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
     "everyone": { "message": "Все" },
     "last_searches": { "message": "Последние поиски" },
     "saved_searches": { "message": "Сохранённые поиски" },

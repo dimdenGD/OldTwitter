@@ -872,7 +872,12 @@
         "message": "שפה (Language)"
     },
     "translated_by": {
-        "message": "תורגם על ידי $TRANSLATOR$.י"
+        "message": "תורגם על ידי $TRANSLATOR$.י",
+        "placeholders": {
+            "translator": {
+                "content": "CoolPerson2000"
+            }
+        }
     },
     "last_searches": { "message": "חיפושים אחרונים " },
     "saved_searches": { "message": "חיפושים שמורים " },
