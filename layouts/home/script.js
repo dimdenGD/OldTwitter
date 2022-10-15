@@ -60,7 +60,7 @@ setTimeout(() => {
                 twemoji.parse(modal);
             }
             if(!vars.disableAnalytics) {
-                ga('send', 'event', "ext", "install");
+                ga('send', 'event', "ext", "install", chrome.runtime.getManifest().version);
             }
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version});
         } else {
@@ -69,7 +69,7 @@ setTimeout(() => {
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')
             ) {
                 if(!vars.disableAnalytics) {
-                    ga('send', 'event', "changelog", "seen");
+                    ga('send', 'event', "changelog", "seen", chrome.runtime.getManifest().version);
                 }
                 createModal(`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
@@ -92,7 +92,7 @@ setTimeout(() => {
                     </span>
                 `, 'changelog-modal', () => {
                     if(!vars.disableAnalytics) {
-                        ga('send', 'event', "changelog", "read");
+                        ga('send', 'event', "changelog", "read", chrome.runtime.getManifest().version);
                     }
                 });
                 let changelog = document.getElementById('changelog');

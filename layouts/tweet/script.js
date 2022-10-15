@@ -435,6 +435,11 @@ function renderUserData() {
 }
 async function appendComposeComponent(container, replyTweet) {
     if(!replyTweet) return;
+    if(!user || !user.screen_name) {
+        while(!user || !user.screen_name) {
+            await sleep(50);
+        }
+    }
     tweets.push(['compose', replyTweet]);
     let el = document.createElement('div');
     el.className = 'new-tweet-container';
