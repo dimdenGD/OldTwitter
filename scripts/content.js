@@ -69,10 +69,11 @@ if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/video\/\d+(|\/)$/.test(realPath)) {
     let path = realPath.split("/video/")[0];
     location.href = path;
 }
-if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath)) {
-    location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
-}
-if(/^\/i\/events\/\d{5,32}(\/|)$/.test(realPath)) {
+if(
+    /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath) ||
+    /^\/i\/events\/\d{5,32}(\/|)$/.test(realPath) ||
+    realPath.startsWith('/settings/')
+) {
     location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
 }
 const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th"];
