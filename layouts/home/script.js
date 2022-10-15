@@ -86,6 +86,7 @@ setTimeout(() => {
                             <li>Fixed bug with external links opening as profile links on profile page.</li>
                             <li>Fixed bug with page becoming unscrollable on tweeting.</li>
                             <li>FIxed bug with quoted tweet not showing in notifications.</li>
+                            <li>Improved user previewer.</li>
                             <li>Proper tweet character counting.</li>
                             <li>Fixed video view count not showing.</li>
                         </ul>
@@ -282,7 +283,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                         obj.top.icon = "\uf008";
                         obj.top.color = "#3300FF";
                     } else if(t.socialContext.contextType === "Like") {
-                        obj.top.text = `<a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}">${t.socialContext.text}</a>`;
+                        obj.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(' liked', ' favorited') : t.socialContext.text}</a>`;
                         if(vars.heartsNotStars) {
                             obj.top.icon = "\uf015";
                             obj.top.color = "rgb(249, 24, 128)";
