@@ -600,6 +600,7 @@ let userDataFunction = async user => {
             if(c) {
                 await API.deleteConversation(lastConvo.conversation_id);
                 modal.remove();
+                chrome.storage.local.remove('inboxData');
                 await updateInboxData();
             }
         });
