@@ -30,7 +30,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     manifest.manifest_version = 2;
     manifest.background.scripts = ['scripts/background.js'];
     manifest.web_accessible_resources = manifest.web_accessible_resources[0].resources;
-    manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest' && p !== 'contextMenus' && p !== 'tabs');
+    manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest' && p !== 'contextMenus');
     manifest.permissions = [
         ...manifest.permissions,
         ...manifest.host_permissions,

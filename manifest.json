@@ -11,8 +11,7 @@
   "permissions": [
     "storage",
     "declarativeNetRequest",
-    "contextMenus",
-    "tabs"
+    "contextMenus"
   ],
   "host_permissions": [
     "*://*.twitter.com/*",
