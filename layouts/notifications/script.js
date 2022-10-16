@@ -63,11 +63,19 @@ async function renderNotifications(data, append = false) {
                 notificationDiv.classList.add('notification-unread');
                 unreadNotifications++;
             }
-            let replyTweet = n.template.aggregateUserActionsV1.targetObjects[0] ? data.globalObjects.tweets[n.template.aggregateUserActionsV1.targetObjects[0].tweet.id] : {full_text: ''};
-            let replyUser = replyTweet ? data.globalObjects.users[replyTweet.user_id_str] : undefined;
+            let replyTweet = n.template.aggregateUserActionsV1.targetObjects[0] ? data.globalObjects.tweets[n.template.aggregateUserActionsV1.targetObjects[0].tweet.id] : { full_text: '' };
+            if(replyTweet && replyTweet.user_id_str) {;
+                if(replyTweet.quoted_status_id_str) {
+                    replyTweet = data.globalObjects.tweets[replyTweet.quoted_status_id_str];
+                }
+                let replyUser = replyTweet ? data.globalObjects.users[replyTweet.user_id_str] : undefined;
+                replyUser.id_str = replyTweet.user_id_str;
+                replyTweet.user = replyUser;
+            }
             notificationDiv.addEventListener('click', e => {
-                if(e.target == notificationDiv || e.target.className === 'notification-avatars' && replyUser) {
-                    openInNewTab(`https://twitter.com/${replyUser.screen_name}/status/${replyTweet.id_str}` + (n.icon.id === 'heart_icon' ? '/likes' : n.icon.id === 'retweet_icon' ? '/retweets' : ''));
+                if(e.target == notificationDiv || e.target.className === 'notification-avatars' && replyTweet) {
+                    new TweetViewer(user, replyTweet);
+                    // openInNewTab(`https://twitter.com/${replyUser.screen_name}/status/${replyTweet.id_str}`);
                 }
             });
             let notificationHeader = n.message.text;

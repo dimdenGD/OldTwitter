@@ -502,6 +502,7 @@ let userDataFunction = async user => {
         const messageHeaderBack = modal.querySelector('.message-header-back');
         messageHeaderBack.addEventListener('click', e => {
             modal.remove();
+            chrome.storage.local.remove('inboxData');
             setTimeout(() => {
                 document.getElementById('messages').click();
             }, 20);
@@ -739,11 +740,13 @@ let userDataFunction = async user => {
             unreadMessages.forEach(message => {
                 message.classList.remove('inbox-message-unread');
             });
+            chrome.storage.local.remove('inboxData');
             await updateInboxData();
             modal.remove();
             document.getElementById('messages').click();
         });
         refresh.addEventListener('click', async () => {
+            chrome.storage.local.remove('inboxData');
             await updateInboxData();
             modal.remove();
             document.getElementById('messages').click();
