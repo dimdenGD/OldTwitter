@@ -75,7 +75,14 @@ async function renderNotifications(data, append = false) {
             notificationDiv.addEventListener('click', e => {
                 if(e.target == notificationDiv || e.target.className === 'notification-avatars' && replyTweet) {
                     new TweetViewer(user, replyTweet);
-                    // openInNewTab(`https://twitter.com/${replyUser.screen_name}/status/${replyTweet.id_str}`);
+                }
+            });
+            notificationDiv.addEventListener('mousedown', e => {
+                if(e.button === 1) {
+                    e.preventDefault();
+                    if(e.target == notificationDiv || e.target.className === 'notification-avatars' && replyTweet) {
+                        openInNewTab(`https://twitter.com/${replyTweet.user.screen_name}/status/${replyTweet.id_str}`);
+                    }
                 }
             });
             let notificationHeader = n.message.text;
