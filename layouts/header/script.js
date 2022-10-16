@@ -889,22 +889,6 @@ let userDataFunction = async user => {
         });
 
         modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = user.profile_image_url_https.replace("_normal", "_bigger");
-        function updateCharCount(e) {
-            let charElement = newTweetChar;
-            let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
-            charElement.innerText = `${text.length}/280`;
-            if (text.length > 265) {
-                charElement.style.color = "#c26363";
-            } else {
-                charElement.style.color = "";
-            }
-            if (text.length > 280) {
-                charElement.style.color = "red";
-                newTweetButton.disabled = true;
-            } else {
-                newTweetButton.disabled = false;
-            }
-        }
         newTweetText.addEventListener('focus', async e => {
             setTimeout(() => {
                 if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
@@ -920,10 +904,23 @@ let userDataFunction = async user => {
                 newTweetUserSearch.hidden = true;
             }, 100);
         });
-        newTweetText.addEventListener('keyup', e => {
-            updateCharCount(e);
+        newTweetText.addEventListener('input', e => {
             if(e.key === "Enter" && e.ctrlKey) {
                 newTweetButton.click();
+            }
+            let charElement = newTweetChar;
+            let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
+            charElement.innerText = `${text.length}/280`;
+            if (text.length > 265) {
+                charElement.style.color = "#c26363";
+            } else {
+                charElement.style.color = "";
+            }
+            if (text.length > 280) {
+                charElement.style.color = "red";
+                newTweetButton.disabled = true;
+            } else {
+                newTweetButton.disabled = false;
             }
         });
         newTweetText.addEventListener('keypress', async e => {
@@ -993,7 +990,6 @@ let userDataFunction = async user => {
                 newTweetUserSearch.innerHTML = '';
                 newTweetUserSearch.hidden = true;
             }
-            updateCharCount(e);
         });
         let mediaToUpload = []; 
         newTweet.addEventListener('drop', e => {
