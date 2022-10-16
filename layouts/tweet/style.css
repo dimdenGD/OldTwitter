@@ -848,15 +848,6 @@ a:hover,
     width: 43px
 }
 
-.tweet-reply-char,
-.tweet-quote-char {
-    color: var(--light-gray);
-    font-size: 12px;
-    padding: 3px;
-    position: relative;
-    top: -10px
-}
-
 #new-tweet-button:before,
 .tweet-reply-button:before,
 .tweet-quote-button:before {

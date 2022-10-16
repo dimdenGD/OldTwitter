@@ -1461,3 +1461,12 @@ emoji-picker {
     content: "\f033";
     font: 20px RosettaIcons;
 }
+
+.tweet-reply-char,
+.tweet-quote-char {
+    color: var(--light-gray);
+    font-size: 12px;
+    padding: 3px;
+    position: relative;
+    top: -10px
+}

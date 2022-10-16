@@ -809,15 +809,6 @@ a:hover,
     text-align: center
 }
 
-.tweet-reply-char,
-.tweet-quote-char {
-    color: var(--light-gray);
-    font-size: 12px;
-    padding: 3px;
-    top: -10px;
-    position: relative
-}
-
 #new-tweet-button:before,
 .tweet-reply-button:before,
 .tweet-quote-button:before {

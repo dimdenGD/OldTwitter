@@ -423,7 +423,7 @@ class TweetViewer {
             <div class="new-tweet-view box">
                 <img width="35" height="35" class="tweet-avatar new-tweet-avatar">
                 <span class="new-tweet-char" hidden>0/280</span>
-                <textarea class="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="280"></textarea>
+                <textarea class="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="1000"></textarea>
                 <div class="new-tweet-user-search box" hidden></div>
                 <div class="new-tweet-media-div">
                     <span class="new-tweet-media"></span>
@@ -545,37 +545,24 @@ class TweetViewer {
                 newTweetUserSearch.innerHTML = '';
                 newTweetUserSearch.hidden = true;
             }
-            if (e.key === 'Enter') {
-                if(e.ctrlKey) document.getElementsByClassName('new-tweet-button')[0].click();
-            }
-            let charElement = document.getElementsByClassName('new-tweet-char')[0];
-            charElement.innerText = `${e.target.value.length}/280`;
-            if (e.target.value.length > 265) {
-                charElement.style.color = "#c26363";
-            } else {
-                charElement.style.color = "";
-            }
         });
-        newTweetText.addEventListener('keydown', e => {
+        newTweetText.addEventListener('input', e => {
             if (e.key === 'Enter' && e.ctrlKey) {
                 document.getElementsByClassName('new-tweet-button')[0].click();
             }
             let charElement = document.getElementsByClassName('new-tweet-char')[0];
-            charElement.innerText = `${e.target.value.length}/280`;
-            if (e.target.value.length > 265) {
+            let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
+            charElement.innerText = `${text.length}/280`;
+            if(text.length > 265) {
                 charElement.style.color = "#c26363";
             } else {
                 charElement.style.color = "";
             }
-        });
-        newTweetText.addEventListener('keyup', e => {
-            let charElement = document.getElementsByClassName('new-tweet-char')[0];
-            charElement.innerText = `${e.target.value.length}/280`;
-            charElement.innerText = `${e.target.value.length}/280`;
-            if (e.target.value.length > 265) {
-                charElement.style.color = "#c26363";
+            if (text.length > 280) {
+                charElement.style.color = "red";
+                document.getElementsByClassName('new-tweet-button')[0].disabled = true;
             } else {
-                charElement.style.color = "";
+                document.getElementsByClassName('new-tweet-button')[0].disabled = false;
             }
         });
         document.getElementsByClassName('new-tweet-emojis')[0].addEventListener('click', () => {
@@ -864,7 +851,7 @@ class TweetViewer {
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-reply-error" style="color:red"></span>
-                    <textarea maxlength="280" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
+                    <textarea maxlength="1000" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
                     <button class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
                     <span class="tweet-reply-char">0/280</span><br>
                     <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
@@ -873,7 +860,7 @@ class TweetViewer {
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-quote-error" style="color:red"></span>
-                    <textarea maxlength="280" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
+                    <textarea maxlength="1000" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
                     <button class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
                     <span class="tweet-quote-char">0/280</span><br>
                     <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
@@ -1237,23 +1224,22 @@ class TweetViewer {
                 tweetReplyText.focus();
             })
         });
-        tweetReplyText.addEventListener('keydown', e => {
+        tweetReplyText.addEventListener('input', e => {
             if (e.key === 'Enter' && e.ctrlKey) {
                 tweetReplyButton.click();
             }
-            tweetReplyChar.innerText = `${tweetReplyText.value.length}/280`;
-            if(tweetReplyText.value.length > 265) {
+            let text = tweetReplyText.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
+            tweetReplyChar.innerText = `${text.length}/280`;
+            if(text.length > 265) {
                 tweetReplyChar.style.color = "#c26363";
             } else {
                 tweetReplyChar.style.color = "";
             }
-        });
-        tweetReplyText.addEventListener('keyup', e => {
-            tweetReplyChar.innerText = `${tweetReplyText.value.length}/280`;
-            if(tweetReplyText.value.length > 265) {
-                tweetReplyChar.style.color = "#c26363";
+            if (text.length > 280) {
+                tweetReplyChar.style.color = "red";
+                tweetReplyButton.disabled = true;
             } else {
-                tweetReplyChar.style.color = "";
+                tweetReplyButton.disabled = false;
             }
         });
         tweetReplyButton.addEventListener('click', async () => {
@@ -1470,23 +1456,22 @@ class TweetViewer {
         tweetQuoteUpload.addEventListener('click', () => {
             getMedia(quoteMedia, tweetQuoteMedia);
         });
-        tweetQuoteText.addEventListener('keydown', e => {
+        tweetQuoteText.addEventListener('input', e => {
             if (e.key === 'Enter' && e.ctrlKey) {
                 tweetQuoteButton.click();
             }
-            tweetQuoteChar.innerText = `${tweetQuoteText.value.length}/280`;
-            if(tweetQuoteText.value.length > 265) {
+            let text = tweetQuoteText.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
+            tweetQuoteChar.innerText = `${text.length}/280`;
+            if(text.length > 265) {
                 tweetQuoteChar.style.color = "#c26363";
             } else {
                 tweetQuoteChar.style.color = "";
             }
-        });
-        tweetQuoteText.addEventListener('keyup', e => {
-            tweetQuoteChar.innerText = `${tweetQuoteText.value.length}/280`;
-            if(tweetQuoteText.value.length > 265) {
-                tweetQuoteChar.style.color = "#c26363";
+            if (text.length > 280) {
+                tweetQuoteChar.style.color = "red";
+                tweetQuoteButton.disabled = true;
             } else {
-                tweetQuoteChar.style.color = "";
+                tweetQuoteButton.disabled = false;
             }
         });
         tweetQuoteButton.addEventListener('click', async () => {

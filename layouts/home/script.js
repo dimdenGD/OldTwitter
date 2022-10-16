@@ -816,8 +816,9 @@ setTimeout(async () => {
         if (e.key === 'Enter') {
             if(e.ctrlKey) document.getElementById('new-tweet-button').click();
         }
+    });
+    newTweetText.addEventListener('input', async e => {
         let charElement = document.getElementById('new-tweet-char');
-        // proper domains
         let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
         charElement.innerText = `${text.length}/280`;
         if (text.length > 265) {
@@ -829,6 +830,7 @@ setTimeout(async () => {
             charElement.style.color = "red";
             newTweetButton.disabled = true;
         } else {
+            charElement.style.color = "";
             newTweetButton.disabled = false;
         }
     });
