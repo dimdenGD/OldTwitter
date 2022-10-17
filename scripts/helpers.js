@@ -1392,10 +1392,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetReplyText.focus();
         })
     });
-    tweetReplyText.addEventListener('input', e => {
+    tweetReplyText.addEventListener('keydown', e => {
         if (e.key === 'Enter' && e.ctrlKey) {
             tweetReplyButton.click();
         }
+    });
+    tweetReplyText.addEventListener('input', e => {
         let text = tweetReplyText.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
         tweetReplyChar.innerText = `${text.length}/280`;
         if(text.length > 265) {
@@ -1467,6 +1469,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetReplyError.innerHTML = `${LOC.error_sending_tweet.message}<br>`;
             return;
         }
+        tweetReplyChar.innerText = '0/280';
         tweetReplyText.value = '';
         tweetReply.hidden = true;
         tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
@@ -1635,10 +1638,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
     tweetQuoteUpload.addEventListener('click', () => {
         getMedia(quoteMedia, tweetQuoteMedia);
     });
-    tweetQuoteText.addEventListener('input', e => {
+    tweetQuoteText.addEventListener('keydown', e => {
         if (e.key === 'Enter' && e.ctrlKey) {
             tweetQuoteButton.click();
         }
+    });
+    tweetQuoteText.addEventListener('input', e => {
         let text = tweetQuoteText.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
         tweetQuoteChar.innerText = `${text.length}/280`;
         if(text.length > 265) {
@@ -1711,6 +1716,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             return;
         }
         tweetQuoteText.value = '';
+        tweetQuoteChar.innerText = '0/280';
         tweetQuote.hidden = true;
         tweetData._ARTIFICIAL = true;
         quoteMedia = [];
@@ -1839,10 +1845,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 return;
             }
             chrome.storage.local.set({tweetReplies: {}}, () => {});
-            if(options.after && !options.disableAfterReplyCounter) {
-                options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
-                options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
-            }
             Array.from(document.getElementById('timeline').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                 tweet.remove();
             });
@@ -1854,7 +1856,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     location.href = tweets[0].getElementsByClassName('tweet-time')[0].href;
                 }
             }
-            if(options.after) {
+            if(options.after && !options.disableAfterReplyCounter) {
                 if(options.after.getElementsByClassName('tweet-self-thread-div')[0]) options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
                 if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
                 else options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText = (+options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText - 1).toString();

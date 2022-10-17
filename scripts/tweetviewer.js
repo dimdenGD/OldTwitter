@@ -546,10 +546,12 @@ class TweetViewer {
                 newTweetUserSearch.hidden = true;
             }
         });
-        newTweetText.addEventListener('input', e => {
+        newTweetText.addEventListener('keydown', e => {
             if (e.key === 'Enter' && e.ctrlKey) {
                 document.getElementsByClassName('new-tweet-button')[0].click();
             }
+        });
+        newTweetText.addEventListener('input', e => {
             let charElement = document.getElementsByClassName('new-tweet-char')[0];
             let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
             charElement.innerText = `${text.length}/280`;
@@ -1224,10 +1226,12 @@ class TweetViewer {
                 tweetReplyText.focus();
             })
         });
-        tweetReplyText.addEventListener('input', e => {
+        tweetReplyText.addEventListener('keydown', e => {
             if (e.key === 'Enter' && e.ctrlKey) {
                 tweetReplyButton.click();
             }
+        });
+        tweetReplyText.addEventListener('input', e => {
             let text = tweetReplyText.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
             tweetReplyChar.innerText = `${text.length}/280`;
             if(text.length > 265) {
@@ -1300,6 +1304,7 @@ class TweetViewer {
                 return;
             }
             tweetReplyText.value = '';
+            tweetReplyChar.innerText = '0/280';
             tweetReply.hidden = true;
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
@@ -1456,10 +1461,12 @@ class TweetViewer {
         tweetQuoteUpload.addEventListener('click', () => {
             getMedia(quoteMedia, tweetQuoteMedia);
         });
-        tweetQuoteText.addEventListener('input', e => {
+        tweetQuoteText.addEventListener('keydown', e => {
             if (e.key === 'Enter' && e.ctrlKey) {
                 tweetQuoteButton.click();
             }
+        });
+        tweetQuoteText.addEventListener('input', e => {
             let text = tweetQuoteText.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
             tweetQuoteChar.innerText = `${text.length}/280`;
             if(text.length > 265) {
@@ -1535,6 +1542,7 @@ class TweetViewer {
             tweetQuote.hidden = true;
             tweetData._ARTIFICIAL = true;
             quoteMedia = [];
+            tweetQuoteChar.innerText = '0/280';
             tweetQuoteButton.disabled = false;
             tweetQuoteMedia.innerHTML = '';
             this.appendTweet(tweetData, timelineContainer, { prepend: true });

@@ -560,7 +560,7 @@ setTimeout(async () => {
                 try { id = t.className.split('id-')[1].split(' ')[0] } catch(e) { return };
                 if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
                 else tweetsToLoad[id]++;
-                if(tweetsToLoad[id] === 15) {
+                if(tweetsToLoad[id] === 10) {
                     API.getReplies(id);
                     API.getTweetLikers(id);
                     t.classList.add('tweet-preload');
@@ -814,7 +814,9 @@ setTimeout(async () => {
             newTweetUserSearch.hidden = true;
         }
         if (e.key === 'Enter') {
-            if(e.ctrlKey) document.getElementById('new-tweet-button').click();
+            if(e.ctrlKey) {
+                document.getElementById('new-tweet-button').click();
+            }
         }
     });
     newTweetText.addEventListener('input', async e => {
@@ -1052,6 +1054,7 @@ setTimeout(async () => {
             alert(e);
         }
         document.getElementById('new-tweet-text').value = "";
+        document.getElementById('new-tweet-char').innerText = '0/280';
         document.getElementById('new-tweet-media-c').innerHTML = "";
         mediaToUpload = [];
         pollToUpload = undefined;

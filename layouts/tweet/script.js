@@ -447,7 +447,7 @@ async function appendComposeComponent(container, replyTweet) {
         <div id="new-tweet" class="box">
             <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
             <span id="new-tweet-char" hidden>0/280</span>
-            <textarea id="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="280"></textarea>
+            <textarea id="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="1000"></textarea>
             <div id="new-tweet-user-search" class="box" hidden></div>
             <div id="new-tweet-media-div">
                 <span id="new-tweet-media"></span>
@@ -510,7 +510,6 @@ async function appendComposeComponent(container, replyTweet) {
                 e.stopPropagation();
                 newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${activeSearch.querySelector('.search-result-item-screen-name').innerText.slice(1)} `;
                 if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
-                if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
                 newTweetUserSearch.innerHTML = '';
                 newTweetUserSearch.hidden = true;
             }
@@ -558,7 +557,6 @@ async function appendComposeComponent(container, replyTweet) {
                 userElement.addEventListener('click', () => {
                     newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${user.screen_name} `;
                     if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
-                    if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
                     newTweetText.focus();
                     newTweetUserSearch.innerHTML = '';
                     newTweetUserSearch.hidden = true;
@@ -572,34 +570,21 @@ async function appendComposeComponent(container, replyTweet) {
         if (e.key === 'Enter') {
             if(e.ctrlKey) document.getElementById('new-tweet-button').click();
         }
-        let charElement = document.getElementById('new-tweet-char');
-        charElement.innerText = `${e.target.value.length}/280`;
-        if (e.target.value.length > 265) {
-            charElement.style.color = "#c26363";
-        } else {
-            charElement.style.color = "";
-        }
     });
-    document.getElementById('new-tweet-text').addEventListener('keydown', e => {
-        if (e.key === 'Enter' && e.ctrlKey) {
-            document.getElementById('new-tweet-button').click();
-        }
+    newTweetText.addEventListener('input', async e => {
         let charElement = document.getElementById('new-tweet-char');
-        charElement.innerText = `${e.target.value.length}/280`;
-        if (e.target.value.length > 265) {
+        let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
+        charElement.innerText = `${text.length}/280`;
+        if (text.length > 265) {
             charElement.style.color = "#c26363";
         } else {
             charElement.style.color = "";
         }
-    });
-    document.getElementById('new-tweet-text').addEventListener('keyup', e => {
-        let charElement = document.getElementById('new-tweet-char');
-        charElement.innerText = `${e.target.value.length}/280`;
-        charElement.innerText = `${e.target.value.length}/280`;
-        if (e.target.value.length > 265) {
-            charElement.style.color = "#c26363";
+        if (text.length > 280) {
+            tweetReplyChar.style.color = "red";
+            document.getElementById('new-tweet-button').disabled = true;
         } else {
-            charElement.style.color = "";
+            document.getElementById('new-tweet-button').disabled = false;
         }
     });
     document.getElementById('new-tweet-button').addEventListener('click', async () => {
@@ -660,6 +645,7 @@ async function appendComposeComponent(container, replyTweet) {
         mediaToUpload = [];
         document.getElementById('new-tweet-focused').hidden = true;
         document.getElementById('new-tweet-char').hidden = true;
+        document.getElementById('new-tweet-char').innerText = '0/280';
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
         document.getElementById('new-tweet-button').disabled = false;

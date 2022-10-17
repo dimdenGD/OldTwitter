@@ -904,10 +904,12 @@ let userDataFunction = async user => {
                 newTweetUserSearch.hidden = true;
             }, 100);
         });
-        newTweetText.addEventListener('input', e => {
+        newTweetText.addEventListener('keydown', e => {
             if(e.key === "Enter" && e.ctrlKey) {
                 newTweetButton.click();
             }
+        });
+        newTweetText.addEventListener('input', e => {
             let charElement = newTweetChar;
             let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
             charElement.innerText = `${text.length}/280`;
@@ -931,7 +933,6 @@ let userDataFunction = async user => {
                     e.stopPropagation();
                     newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${activeSearch.querySelector('.search-result-item-screen-name').innerText.slice(1)} `;
                     if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
-                    if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
                     newTweetUserSearch.innerHTML = '';
                     newTweetUserSearch.hidden = true;
                 }
@@ -979,7 +980,6 @@ let userDataFunction = async user => {
                     userElement.addEventListener('click', () => {
                         newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${user.screen_name} `;
                         if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
-                        if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
                         newTweetText.focus();
                         newTweetUserSearch.innerHTML = '';
                         newTweetUserSearch.hidden = true;
