@@ -344,6 +344,7 @@ async function renderFollowing(clear = true, cursor) {
         });
 
         followingList.appendChild(followingElement);
+        if(vars.enableTwemoji) twemoji.parse(followingElement);
     });
     document.getElementById('loading-box').hidden = true;
 }
@@ -391,6 +392,7 @@ async function renderFollowers(clear = true, cursor) {
         });
 
         followingList.appendChild(followingElement);
+        if(vars.enableTwemoji) twemoji.parse(followingElement);
     });
     document.getElementById('loading-box').hidden = true;
 }
@@ -438,6 +440,7 @@ async function renderFollowersYouFollow(clear = true, cursor) {
         });
 
         followingList.appendChild(followingElement);
+        if(vars.enableTwemoji) twemoji.parse(followingElement);
     });
     document.getElementById('loading-box').hidden = true;
 }
@@ -861,6 +864,7 @@ async function renderProfile() {
         location.classList.add('profile-additional-thing', 'profile-additional-location');
         location.innerText = pageUser.location;
         additionalInfo.appendChild(location);
+        if(vars.enableTwemoji) twemoji.parse(location);
     }
     if(pageUser.url) {
         let url = document.createElement('a');

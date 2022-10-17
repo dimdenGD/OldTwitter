@@ -139,6 +139,7 @@ function renderListData(data) {
                         });
 
                         membersContainer.appendChild(followingElement);
+                        if(vars.enableTwemoji) twemoji.parse(followingElement);
                     }
                 }
                 document.getElementById('list-btn-members').addEventListener('click', async () => {
