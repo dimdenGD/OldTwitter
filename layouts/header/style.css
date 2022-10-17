@@ -1470,3 +1470,14 @@ emoji-picker {
     position: relative;
     top: -10px
 }
+.follows-you-label {
+    font-size: 11px;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: var(--darker-gray);
+    background: rgba(0, 0, 0, 0.08);
+    width: fit-content;
+    padding: 3px 7px;
+    border-radius: 5px;
+    margin-bottom: 5px
+}

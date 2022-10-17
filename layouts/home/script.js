@@ -81,6 +81,7 @@ setTimeout(() => {
                             <li>Tweet composer becomes small again after a minute of no focus.</li>
                             <li>You can now click on extension icon in Chrome to open settings.</li>
                             <li>Tweet viewer opens when you click on notification now.</li>
+                            <li>Added 'follows you' label for user lists.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
@@ -809,6 +810,7 @@ setTimeout(async () => {
                     newTweetUserSearch.hidden = true;
                 });
                 newTweetUserSearch.appendChild(userElement);
+                if(vars.enableTwemoji) twemoji.parse(newTweetUserSearch);
             });
         } else {
             newTweetUserSearch.innerHTML = '';
@@ -890,6 +892,7 @@ setTimeout(async () => {
                         <div class="new-message-user-text">
                             <b class="new-message-user-name">${escapeHTML(u.legacy.name)}</b>
                             <span class="new-message-user-screenname">@${u.legacy.screen_name}</span>
+                            ${u.legacy.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
                         </div>
                     </a>
                     <button class="nice-button circle-control-btn">${LOC.remove.message}</button>
@@ -919,6 +922,7 @@ setTimeout(async () => {
                         <div class="new-message-user-text">
                             <b class="new-message-user-name">${escapeHTML(u.legacy.name)}</b>
                             <span class="new-message-user-screenname">@${u.legacy.screen_name}</span>
+                            ${u.legacy.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
                         </div>
                     </a>
                     <button class="nice-button circle-control-btn">${u.is_trusted_friends_list_member ? LOC.remove.message : LOC.add.message}</button>
