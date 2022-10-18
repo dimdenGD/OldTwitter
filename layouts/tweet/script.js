@@ -845,6 +845,13 @@ setTimeout(async () => {
             }
         });
     }
+    if(/^\/i\/web\/status\/(\d{5,32})(|\/)$/.test(realPath)) {
+        let id = realPath.split("/i/web/status/")[1];
+        if (id.endsWith("/")) id = id.slice(0, -1);
+        let tweet = await API.getTweet(id);
+        location.replace(`https://twitter.com/${tweet.user.screen_name}/status/${id}`);
+        return;
+    }
     // weird bug
     if(!document.getElementById('wtf-refresh')) {
         location.reload();

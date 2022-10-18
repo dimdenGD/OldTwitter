@@ -31,7 +31,7 @@ let pages = [
     },
     {
         name: "tweet",
-        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/likes(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets\/with_comments(|\/)$/, /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/retweets(|\/)$/]
+        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}(|\/likes|\/retweets|\/retweets\/with_comments|)$/]
     },
     {
         name: "profile",
@@ -52,29 +52,25 @@ if (realPath.startsWith("/i/user/")) {
         if (user.error) {
             return;
         }
-        location.href = "/" + user.screen_name;
+        location.replace("/" + user.screen_name);
     });
 }
 if(/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
     location.href = `https://twitter.com/${realPath.split("/direct_messages/create/")[1]}#dm`;
 }
 if(/^\/hashtag\/(.*?)/.test(realPath)) {
-    location.href = `https://twitter.com/search?q=%23${encodeURIComponent(realPath.split("/hashtag/")[1])}`;
+    location.replace(`https://twitter.com/search?q=%23${encodeURIComponent(realPath.split("/hashtag/")[1])}`);
 }
-if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/photo\/\d+(|\/)$/.test(realPath)) {
+if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath)) {
     let path = realPath.split("/photo/")[0];
-    location.href = path;
-}
-if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/video\/\d+(|\/)$/.test(realPath)) {
-    let path = realPath.split("/video/")[0];
-    location.href = path;
+    location.replace(path);
 }
 if(
-    /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics(|\/)$/.test(realPath) ||
-    /^\/i\/events\/\d{5,32}(\/|)$/.test(realPath) ||
+    /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath) ||
+    /^\/i\/events\/\d{5,32}$/.test(realPath) ||
     realPath.startsWith('/settings/')
 ) {
-    location.href = location.href.replace('twitter.com', 'mobile.twitter.com');
+    location.replace(location.href.replace('twitter.com', 'mobile.twitter.com'));
 }
 const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th"];
 const TRANSLATORS = {

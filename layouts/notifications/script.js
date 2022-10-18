@@ -122,6 +122,9 @@ async function renderNotifications(data, append = false) {
                 'security_alert_icon': 'ni-alert',
                 'bell_icon': 'ni-bell'
             };
+            if(!iconClasses[n.icon.id]) {
+                console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
+            }
             if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
                 notificationHeader = notificationHeader.replace(' liked ', ' favorited ');
             }
