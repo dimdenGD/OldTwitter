@@ -651,12 +651,18 @@ setTimeout(async () => {
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
-    document.getElementById('new-tweet').addEventListener('click', async () => {
+    let newTweetUserSearch = document.getElementById("new-tweet-user-search");
+    let newTweetText = document.getElementById('new-tweet-text');
+    let newTweetButton = document.getElementById('new-tweet-button');
+    document.getElementById('new-tweet').addEventListener('click', async e => {
         document.getElementById('new-tweet-focused').hidden = false;
         document.getElementById('new-tweet-audience').hidden = false;
         document.getElementById('new-tweet-char').hidden = false;
         document.getElementById('new-tweet-text').classList.add('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
+        if(e.target !== newTweetText) {
+            newTweetText.dataset.blurSince = Date.now();
+        }
     });
     document.getElementById('new-tweet').addEventListener('drop', e => {
         document.getElementById('new-tweet').click();
@@ -733,9 +739,6 @@ setTimeout(async () => {
         pollToUpload = undefined;
         getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
     });
-    let newTweetUserSearch = document.getElementById("new-tweet-user-search");
-    let newTweetText = document.getElementById('new-tweet-text');
-    let newTweetButton = document.getElementById('new-tweet-button');
     let selectedIndex = 0;
     newTweetText.addEventListener('focus', async e => {
         setTimeout(() => {
