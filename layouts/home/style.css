@@ -1067,3 +1067,13 @@ a:hover,
     float: right;
     margin-top: 10px;
 }
+
+/* weird rendering bug */
+.tweet:first-child .tweet-translate-after {
+    margin-right: -20px;
+}
+.tweet:last-child {
+    border-bottom: 1px solid var(--border) !important;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

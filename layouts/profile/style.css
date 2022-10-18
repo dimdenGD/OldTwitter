@@ -1472,3 +1472,8 @@ a:hover,
 #navbar-right {
     margin-right: 25px !important;
 }
+.tweet:last-child {
+    border-bottom: 1px solid var(--border) !important;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

@@ -890,3 +890,13 @@ a:hover,
 .modal .tweet {
     width: 550px;
 }
+.tweet:first-child {
+    border-top: 1px solid var(--border) !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+.tweet:last-child {
+    border-bottom: 1px solid var(--border) !important;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}

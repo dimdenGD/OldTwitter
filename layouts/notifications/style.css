@@ -892,3 +892,13 @@ a:hover,
 .notification-feedback:hover {
     text-decoration: underline;
 }
+#notifications-div > :first-child {
+    border-bottom: 1px solid var(--border) !important;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#notifications-div > :last-child {
+    border-bottom: 1px solid var(--border) !important;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
