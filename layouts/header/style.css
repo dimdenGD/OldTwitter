@@ -1152,7 +1152,7 @@ input, textarea {
     padding-right: 40px;
     resize: none;
     scrollbar-width: thin;
-    width: 450px
+    width: 463px
 }
 
 .new-tweet-text::-webkit-scrollbar {
@@ -1183,7 +1183,7 @@ input, textarea {
     border-right: none !important;
     border-left: none !important;
     padding: 10px;
-    width: 541px;
+    width: 554px;
 }
 
 

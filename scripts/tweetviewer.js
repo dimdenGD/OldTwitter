@@ -431,7 +431,7 @@ class TweetViewer {
                 <div class="new-tweet-focused" hidden>
                     <span class="new-tweet-emojis"></span>
                     <div class="new-tweet-media-cc"><div class="new-tweet-media-c"></div></div>
-                    <button class="new-tweet-button nice-button">${LOC.tweet.message}</button>
+                    <button class="new-tweet-button nice-button" style="margin-right: -32px;">${LOC.tweet.message}</button>
                     <br><br>
                 </div>
             </div>`;
@@ -443,15 +443,26 @@ class TweetViewer {
             document.getElementsByClassName('new-tweet-text')[0].classList.add('new-tweet-text-focused');
             document.getElementsByClassName('new-tweet-media-div')[0].classList.add('new-tweet-media-div-focused');
         });
+
+        let mediaList = document.getElementsByClassName('new-tweet-media-c')[0];
+        const observer = new MutationObserver(() => {
+            if(mediaList.childElementCount == 0) {
+                newTweetButton.style.marginRight = '-32px';
+            } else {
+                newTweetButton.style.marginRight = '';
+            }
+        });
+        observer.observe(mediaList, { childList: true });
         
         document.getElementsByClassName('new-tweet-view')[0].addEventListener('drop', e => {
-            handleDrop(e, this.mediaToUpload, document.getElementsByClassName('new-tweet-media-c')[0]);
+            handleDrop(e, this.mediaToUpload, mediaList);
         });
         document.getElementsByClassName('new-tweet-media-div')[0].addEventListener('click', async () => {
-            getMedia(this.mediaToUpload, document.getElementsByClassName('new-tweet-media-c')[0]);
+            getMedia(this.mediaToUpload, mediaList);
         });
         let newTweetUserSearch = document.getElementsByClassName("new-tweet-user-search")[0];
         let newTweetText = document.getElementsByClassName('new-tweet-text')[0];
+        let newTweetButton = document.getElementsByClassName('new-tweet-button')[0];
         let selectedIndex = 0;
         newTweetText.addEventListener('paste', event => {
             let items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -562,18 +573,19 @@ class TweetViewer {
             }
             if (text.length > 280) {
                 charElement.style.color = "red";
-                document.getElementsByClassName('new-tweet-button')[0].disabled = true;
+                newTweetButton.disabled = true;
             } else {
-                document.getElementsByClassName('new-tweet-button')[0].disabled = false;
+                newTweetButton.disabled = false;
             }
         });
         document.getElementsByClassName('new-tweet-emojis')[0].addEventListener('click', () => {
-            createEmojiPicker(document.getElementsByClassName('new-tweet-view')[0], newTweetText, {
-                marginLeft: '211px',
-                marginTop: '-100px'
+            let rect = document.getElementsByClassName('new-tweet-emojis')[0].getBoundingClientRect();
+            createEmojiPicker(document.body, newTweetText, {
+                left: rect.x - 300 + 'px',
+                top: rect.y + 'px'
             });
         });
-        document.getElementsByClassName('new-tweet-button')[0].addEventListener('click', async () => {
+        newTweetButton.addEventListener('click', async () => {
             let tweet = document.getElementsByClassName('new-tweet-text')[0].value;
             if (tweet.length === 0 && this.mediaToUpload.length === 0) return;
             document.getElementsByClassName('new-tweet-button')[0].disabled = true;
