@@ -1333,6 +1333,7 @@ class TweetViewer {
                 tweetFooterReplies.innerText = parseInt(tweetFooterReplies.innerText) + 1;
             }
             tweetData._ARTIFICIAL = true;
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             if(tweet.getElementsByClassName('tweet-self-thread-div')[0]) tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
             tweetReplyButton.disabled = false;
             tweetReplyMedia.innerHTML = [];
@@ -1409,6 +1410,7 @@ class TweetViewer {
                 }
                 delete t.newTweetId;
             }
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
         if(options.mainTweet) {
             tweetInteractRetweetMenuQuotes.addEventListener('click', async () => {
@@ -1563,6 +1565,7 @@ class TweetViewer {
             tweetQuoteChar.innerText = '0/280';
             tweetQuoteButton.disabled = false;
             tweetQuoteMedia.innerHTML = '';
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             this.appendTweet(tweetData, timelineContainer, { prepend: true });
         });
     
@@ -1614,6 +1617,7 @@ class TweetViewer {
                 }
                 tweetInteractFavorite.classList.add('tweet-interact-favorited');
             }
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
     
         // More
@@ -1641,6 +1645,7 @@ class TweetViewer {
                 t.user.following = true;
                 tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
             }
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
         if(tweetInteractMoreMenuBlock) tweetInteractMoreMenuBlock.addEventListener('click', async () => {
             if (t.user.blocking) {
@@ -1658,7 +1663,7 @@ class TweetViewer {
                 t.user.following = false;
                 tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
             }
-            chrome.storage.local.set({tweetReplies: {}}, () => {});
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
         tweetInteractMoreMenuCopy.addEventListener('click', () => {
             navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
@@ -1702,6 +1707,7 @@ class TweetViewer {
                     if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
                     else options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText = (+options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText - 1).toString();
                 }
+                chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             });
         }
         tweetInteractMoreMenuMute.addEventListener('click', async () => {
@@ -1714,7 +1720,7 @@ class TweetViewer {
                 t.conversation_muted = true;
                 tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
             }
-            chrome.storage.local.set({tweetReplies: {}}, () => {});
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
         tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
             let tweetData;
@@ -1744,6 +1750,7 @@ class TweetViewer {
                 tweetInteractRetweet.innerText = tweetData.retweet_count;
                 tweetInteractReply.innerText = tweetData.reply_count;
             }
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
         let downloading = false;
         if (t.extended_entities && t.extended_entities.media.length === 1) {

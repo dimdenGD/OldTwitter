@@ -1494,6 +1494,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetReplyButton.disabled = false;
         tweetReplyMedia.innerHTML = [];
         replyMedia = [];
+        chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         appendTweet(tweetData, document.getElementById('timeline'), {
             noTop: true,
             after: tweet
@@ -1568,6 +1569,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             delete t.newTweetId;
         }
+        chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });
     if(options.mainTweet) {
         tweetInteractRetweetMenuQuotes.addEventListener('click', async () => {
@@ -1728,6 +1730,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         quoteMedia = [];
         tweetQuoteButton.disabled = false;
         tweetQuoteMedia.innerHTML = '';
+        chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         if(typeof timeline !== 'undefined') timeline.data.unshift(tweetData);
         else appendTweet(tweetData, timelineContainer, { prepend: true });
     });
@@ -1780,6 +1783,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }
+        chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });
 
     // More
@@ -1807,7 +1811,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.user.following = true;
             tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
         }
-        chrome.storage.local.set({tweetReplies: {}}, () => {});
+        chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });
     if(tweetInteractMoreMenuBlock) tweetInteractMoreMenuBlock.addEventListener('click', async () => {
         if (t.user.blocking) {
@@ -1825,7 +1829,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.user.following = false;
             tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
         }
-        chrome.storage.local.set({tweetReplies: {}}, () => {});
+        chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });
     tweetInteractMoreMenuCopy.addEventListener('click', () => {
         navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
@@ -1850,7 +1854,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 console.error(e);
                 return;
             }
-            chrome.storage.local.set({tweetReplies: {}}, () => {});
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             Array.from(document.getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                 tweet.remove();
             });
@@ -1940,6 +1944,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractRetweet.innerText = tweetData.retweet_count;
             tweetInteractReply.innerText = tweetData.reply_count;
         }
+        chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });
     tweetInteractMoreMenuMute.addEventListener('click', async () => {
         if(t.conversation_muted) {
@@ -1951,7 +1956,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.conversation_muted = true;
             tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
         }
-        chrome.storage.local.set({tweetReplies: {}}, () => {});
+        chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });
     let downloading = false;
     if (t.extended_entities && t.extended_entities.media.length === 1) {
