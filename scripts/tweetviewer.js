@@ -1366,6 +1366,7 @@ class TweetViewer {
                 }, { once: true });
             }, 50);
         });
+
         tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
             if (!t.retweeted) {
                 let tweetData;
@@ -1388,6 +1389,11 @@ class TweetViewer {
                 } else {
                     tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
                 }
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'retweet',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             } else {
                 let tweetData;
                 try {
@@ -1409,6 +1415,11 @@ class TweetViewer {
                     tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
                 }
                 delete t.newTweetId;
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'unretweet',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
@@ -1589,6 +1600,11 @@ class TweetViewer {
                     tweetFooterFavorites.innerText = Number(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
                 }
                 tweetInteractFavorite.classList.remove('tweet-interact-favorited');
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'unfavorite',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             } else {
                 API.favoriteTweet({
                     id: t.id_str
@@ -1616,6 +1632,11 @@ class TweetViewer {
                     tweetFooterFavorites.innerText = Number(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
                 }
                 tweetInteractFavorite.classList.add('tweet-interact-favorited');
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'favorite',
+                    tweet: t
+                }});
+                document.dispatchEvent(event);
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
@@ -1640,10 +1661,20 @@ class TweetViewer {
                 await API.unfollowUser(t.user.screen_name);
                 t.user.following = false;
                 tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'unfollow',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             } else {
                 await API.followUser(t.user.screen_name);
                 t.user.following = true;
                 tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'follow',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
@@ -1653,6 +1684,11 @@ class TweetViewer {
                 t.user.blocking = false;
                 tweetInteractMoreMenuBlock.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
                 tweetInteractMoreMenuFollow.hidden = false;
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'unblock',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             } else {
                 let c = confirm(`${LOC.block_sure.message} @${t.user.screen_name}?`);
                 if (!c) return;
@@ -1662,6 +1698,11 @@ class TweetViewer {
                 tweetInteractMoreMenuFollow.hidden = true;
                 t.user.following = false;
                 tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'block',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
@@ -1707,6 +1748,11 @@ class TweetViewer {
                     if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
                     else options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText = (+options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText - 1).toString();
                 }
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'delete',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
                 chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             });
         }
@@ -1715,10 +1761,20 @@ class TweetViewer {
                 await API.unmuteTweet(t.id_str);
                 t.conversation_muted = false;
                 tweetInteractMoreMenuMute.innerText = LOC.mute_convo.message;
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'unmute',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             } else {
                 await API.muteTweet(t.id_str);
                 t.conversation_muted = true;
                 tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
+                let event = new CustomEvent('tweetAction', { detail: {
+                    action: 'mute',
+                    tweet: t
+                } });
+                document.dispatchEvent(event);
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });

@@ -1450,6 +1450,116 @@ let userDataFunction = async user => {
             renderConversation(messageData, convo_id);
         }, 50);
     });
+    document.addEventListener('tweetAction', e => {
+        if(typeof timeline === 'undefined') return;
+        let data = e.detail;
+        let tweet = data.tweet;
+        let tweetData = timeline.data.find(i => i.id_str === tweet.id_str);
+        switch(data.action) {
+            case 'favorite': {
+                if(tweetData && tweetData.renderFavoritesUp) {
+                    tweetData.renderFavoritesUp();
+                }
+                break;
+            }
+            case 'unfavorite': {
+                if(tweetData && tweetData.renderFavoritesDown) {
+                    tweetData.renderFavoritesDown();
+                }
+                break;
+            }
+            case 'retweet': {
+                if(tweetData && tweetData.renderRetweetsUp) {
+                    tweetData.renderRetweetsUp();
+                }
+                break;
+            }
+            case 'unretweet': {
+                if(tweetData && tweetData.renderRetweetsDown) {
+                    tweetData.renderRetweetsDown();
+                }
+                break;
+            }
+            case 'follow': {
+                let user = tweet.user.id_str;
+                let tweetsDataByUser = timeline.data.filter(i => i.user.id_str === user);
+                let tweetsElementsByUser = Array.from(document.getElementsByClassName('tweet')).filter(i => i.dataset.userId === user);
+                let wtfElement = Array.from(document.getElementsByClassName('wtf-user')).filter(i => i.dataset.userId === user)[0];
+                if(wtfElement) {
+                    wtfElement.remove();
+                }
+                tweetsDataByUser.forEach(tweetData => {
+                    tweetData.user.following = true;
+                });
+                tweetsElementsByUser.forEach(tweetElement => {
+                    let followButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-follow')[0];
+                    if(followButton) followButton.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+                });
+                break;
+            }
+            case 'unfollow': {
+                let user = tweet.user.id_str;
+                let tweetsDataByUser = timeline.data.filter(i => i.user.id_str === user);
+                let tweetsElementsByUser = Array.from(document.getElementsByClassName('tweet')).filter(i => i.dataset.userId === user);
+                tweetsDataByUser.forEach(tweetData => {
+                    tweetData.user.following = false;
+                });
+                tweetsElementsByUser.forEach(tweetElement => {
+                    let followButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-follow')[0];
+                    if(followButton) followButton.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                });
+                break;
+            }
+            case 'block': {
+                let user = tweet.user.id_str;
+                let tweetsDataByUser = timeline.data.filter(i => i.user.id_str === user);
+                let tweetsElementsByUser = Array.from(document.getElementsByClassName('tweet')).filter(i => i.dataset.userId === user);
+                let wtfElement = Array.from(document.getElementsByClassName('wtf-user')).filter(i => i.dataset.userId === user)[0];
+                if(wtfElement) {
+                    wtfElement.remove();
+                }
+                tweetsDataByUser.forEach(tweetData => {
+                    tweetData.user.blocking = true;
+                });
+                tweetsElementsByUser.forEach(tweetElement => {
+                    let blockButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-block')[0];
+                    if(blockButton) blockButton.innerText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+                });
+                break;
+            }
+            case 'unblock': {
+                let user = tweet.user.id_str;
+                let tweetsDataByUser = timeline.data.filter(i => i.user.id_str === user);
+                let tweetsElementsByUser = Array.from(document.getElementsByClassName('tweet')).filter(i => i.dataset.userId === user);
+                tweetsDataByUser.forEach(tweetData => {
+                    tweetData.user.blocking = false;
+                });
+                tweetsElementsByUser.forEach(tweetElement => {
+                    let blockButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-block')[0];
+                    if(blockButton) blockButton.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
+                });
+                break;
+            }
+            case 'mute': {
+                tweet.conversation_muted = true;
+                let tweetElement = Array.from(document.getElementsByClassName('tweet')).filter(i => i.dataset.tweetId === tweet.id_str)[0];
+                if(tweetElement) {
+                    let muteButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-mute')[0];
+                    if(muteButton) muteButton.innerText = LOC.unmute_convo.message;
+                }
+                break;
+            }
+            case 'unmute': {
+                tweet.conversation_muted = false;
+                let tweetElement = Array.from(document.getElementsByClassName('tweet')).filter(i => i.dataset.tweetId === tweet.id_str)[0];
+                if(tweetElement) {
+                    let muteButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-mute')[0];
+                    if(muteButton) muteButton.innerText = LOC.mute_convo.message;
+                }
+                break;
+            }
+        }
+    });
 
     // menu
     let userMenu = document.getElementById('navbar-user-menu');

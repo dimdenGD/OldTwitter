@@ -1387,7 +1387,7 @@ setTimeout(async () => {
         });
     }, 60000);
     
-    // custom events
+    // Custom events
     document.addEventListener('newTweet', e => {
         if(pageUser.id_str === user.id_str) {
             let tweet = e.detail;

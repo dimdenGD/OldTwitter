@@ -82,6 +82,7 @@ setTimeout(() => {
                             <li>You can now click on extension icon in Chrome to open settings.</li>
                             <li>Tweet viewer opens when you click on notification now.</li>
                             <li>Added 'follows you' label for user lists.</li>
+                            <li>Made tweet viewer send actions to page to stay synchronized.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
