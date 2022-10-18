@@ -767,26 +767,30 @@ setTimeout(async () => {
     });
     newTweetText.addEventListener('keydown', async e => {
         if(e.key === 'ArrowDown') {
-            if(selectedIndex < newTweetUserSearch.children.length - 1) {
-                selectedIndex++;
-                newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
-                newTweetUserSearch.children[selectedIndex - 1].classList.remove('search-result-item-active');
-            } else {
-                selectedIndex = 0;
-                newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
-                newTweetUserSearch.children[newTweetUserSearch.children.length - 1].classList.remove('search-result-item-active');
+            if(newTweetUserSearch.children.length > 0) {
+                if(selectedIndex < newTweetUserSearch.children.length - 1) {
+                    selectedIndex++;
+                    newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                    newTweetUserSearch.children[selectedIndex - 1].classList.remove('search-result-item-active');
+                } else {
+                    selectedIndex = 0;
+                    newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                    newTweetUserSearch.children[newTweetUserSearch.children.length - 1].classList.remove('search-result-item-active');
+                }
             }
             return;
         }
         if(e.key === 'ArrowUp') {
-            if(selectedIndex > 0) {
-                selectedIndex--;
-                newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
-                newTweetUserSearch.children[selectedIndex + 1].classList.remove('search-result-item-active');
-            } else {
-                selectedIndex = newTweetUserSearch.children.length - 1;
-                newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
-                newTweetUserSearch.children[0].classList.remove('search-result-item-active');
+            if(newTweetUserSearch.children.length > 0) {
+                if(selectedIndex > 0) {
+                    selectedIndex--;
+                    newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                    newTweetUserSearch.children[selectedIndex + 1].classList.remove('search-result-item-active');
+                } else {
+                    selectedIndex = newTweetUserSearch.children.length - 1;
+                    newTweetUserSearch.children[selectedIndex].classList.add('search-result-item-active');
+                    newTweetUserSearch.children[0].classList.remove('search-result-item-active');
+                }
             }
             return;
         }

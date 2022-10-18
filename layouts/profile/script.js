@@ -1249,7 +1249,9 @@ setTimeout(async () => {
             if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
                 if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
                 else if(t.className === 'tweet-body') t = t.parentElement;
-                let id = t.className.split('id-')[1].split(' ')[0];
+                let id = t.className.split('id-')[1];
+                if(!id) return;
+                id = id.split(' ')[0];
                 if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
                 else tweetsToLoad[id]++;
                 if(tweetsToLoad[id] === 15) {
