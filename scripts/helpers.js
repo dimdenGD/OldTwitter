@@ -1851,7 +1851,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 return;
             }
             chrome.storage.local.set({tweetReplies: {}}, () => {});
-            Array.from(document.getElementById('timeline').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
+            Array.from(document.getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
                 tweet.remove();
             });
             if(options.mainTweet) {
