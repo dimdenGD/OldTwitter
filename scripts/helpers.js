@@ -726,6 +726,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
     if(typeof seenThreads !== 'undefined') {
         if(seenThreads.includes(t.id_str)) return;
     }
+    if(t.entities && t.entities.urls) {
+        let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
+        if(webUrl) {
+            t = await API.tweetDetail(t.id_str);
+        }
+    }
     if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
     const tweet = document.createElement('div');
     if(!options.mainTweet && typeof mainTweetLikers !== 'undefined') {

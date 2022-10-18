@@ -4,6 +4,7 @@ setInterval(() => {
     chrome.storage.local.set({userUpdates: {}}, () => {});
     chrome.storage.local.set({peopleRecommendations: {}}, () => {});
     chrome.storage.local.set({tweetReplies: {}}, () => {});
+    chrome.storage.local.set({tweetDetails: {}}, () => {});
     chrome.storage.local.set({tweetLikers: {}}, () => {});
     chrome.storage.local.set({listData: {}}, () => {});
 }, 60000*10);
@@ -52,7 +53,7 @@ API.logout = () => {
             method: 'post',
             body: 'redirectAfterLogout=https%3A%2F%2Ftwitter.com%2Faccount%2Fswitch'
         }).then(i => i.json()).then(data => {
-            chrome.storage.local.remove(["credentials", "inboxData", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
+            chrome.storage.local.remove(["credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
                 if (data.errors && data.errors[0].code === 32) {
                     return reject("Not logged in");
                 }
@@ -118,7 +119,7 @@ API.switchAccount = id => {
             status = i.status;
             return i.text();
         }).then(data => {
-            chrome.storage.local.remove(["credentials", "inboxData", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
+            chrome.storage.local.remove(["credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
                 if(String(status).startsWith("2")) {
                     resolve(data);
                 } else {
@@ -1512,54 +1513,82 @@ API.getTweet = id => {
         });
     });
 }
+
+let loadingDetails = {};
 API.tweetDetail = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://twitter.com/i/api/graphql/8lxrBz5JaVweczpN0RcGXA/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
-            "focalTweetId":id,
-            "with_rux_injections":false,
-            "withCommunity":true,
-            "includePromotedContent": false,
-            "withDownvotePerspective": false,
-            "withReactionsMetadata": true,
-            "withReactionsPerspective": true,
-            "withSuperFollowsTweetFields": false,
-            "withSuperFollowsUserFields": false,
-            "withVoice": true,
-            "withBirdwatchNotes":false
-        }))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.public_token,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
+        chrome.storage.local.get(['tweetDetails'], d => {
+            if(!d.tweetDetails) d.tweetDetails = {};
+            if(d.tweetDetails[id] && Date.now() - d.tweetDetails[id].date < 60000*5) {
+                return resolve(d.tweetDetails[id].data);
             }
-            let tweetData = data.data.threaded_conversation_with_injections.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
-            let tweet = tweetData.legacy;
-            if(tweetData.card) {
-                tweet.card = tweetData.card.legacy;
-                let newBindingValues = {};
-                for(let i of tweet.card.binding_values) {
-                    newBindingValues[i.key] = i.value;
+            if(loadingDetails[id]) {
+                return loadingDetails[id].listeners.push([resolve, reject]);
+            } else {
+                loadingDetails[id] = {
+                    listeners: []
+                };
+            }
+            fetch(`https://twitter.com/i/api/graphql/8lxrBz5JaVweczpN0RcGXA/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
+                "focalTweetId":id,
+                "with_rux_injections":false,
+                "withCommunity":true,
+                "includePromotedContent": false,
+                "withDownvotePerspective": false,
+                "withReactionsMetadata": true,
+                "withReactionsPerspective": true,
+                "withSuperFollowsTweetFields": false,
+                "withSuperFollowsUserFields": false,
+                "withVoice": true,
+                "withBirdwatchNotes":false
+            }))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.public_token,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0]) {
+                    loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
+                    delete loadingDetails[id];
+                    return reject(data.errors[0].message);
                 }
-                tweet.card.binding_values = newBindingValues;
-            }
-            if(tweet.quoted_status_id_str) {
-                tweet.quoted_status = tweetData.quoted_status_result.result;
-                let userData = tweet.quoted_status.core.user_results.result;
-                userData.legacy.id_str = userData.rest_id;
-                tweet.quoted_status.legacy.user = userData.legacy;
-                tweet.quoted_status = tweet.quoted_status.legacy;
-            }
-            tweet.user = tweetData.core.user_results.result;
-            tweet.user.legacy.id_str = tweet.user.rest_id;
-            tweet.user = tweet.user.legacy;
-            resolve(tweet);
-        }).catch(e => {
-            reject(e);
+                let tweetData = data.data.threaded_conversation_with_injections.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
+                let tweet = tweetData.legacy;
+                if(tweetData.card) {
+                    tweet.card = tweetData.card.legacy;
+                    let newBindingValues = {};
+                    for(let i of tweet.card.binding_values) {
+                        newBindingValues[i.key] = i.value;
+                    }
+                    tweet.card.binding_values = newBindingValues;
+                }
+                if(tweet.quoted_status_id_str) {
+                    tweet.quoted_status = tweetData.quoted_status_result.result;
+                    let userData = tweet.quoted_status.core.user_results.result;
+                    userData.legacy.id_str = userData.rest_id;
+                    tweet.quoted_status.legacy.user = userData.legacy;
+                    tweet.quoted_status = tweet.quoted_status.legacy;
+                }
+                tweet.user = tweetData.core.user_results.result;
+                tweet.user.legacy.id_str = tweet.user.rest_id;
+                tweet.user = tweet.user.legacy;
+                resolve(tweet);
+                loadingDetails[id].listeners.forEach(l => l[0](tweet));
+                delete loadingDetails[id];
+
+                chrome.storage.local.get(['tweetDetails'], d => {
+                    if(!d.tweetDetails) d.tweetDetails = {};
+                    d.tweetDetails[id] = {
+                        date: Date.now(),
+                        data: tweet
+                    };
+                    chrome.storage.local.set({tweetDetails: d.tweetDetails}, () => {});
+                });
+            }).catch(e => {
+                reject(e);
+            });
         });
     });
 }
@@ -1747,14 +1776,17 @@ API.getReplies = (id, cursor) => {
                         cursor: newCursor
                     }));
                     delete loadingReplies[id];
-                    d.tweetReplies[id] = {
-                        date: Date.now(),
-                        data: {
-                            list,
-                            cursor: newCursor
-                        }
-                    };
-                    chrome.storage.local.set({tweetReplies: d.tweetReplies}, () => {});
+                    chrome.storage.local.get(['tweetReplies'], d => {
+                        if(!d.tweetReplies) d.tweetReplies = {};
+                        d.tweetReplies[id] = {
+                            date: Date.now(),
+                            data: {
+                                list,
+                                cursor: newCursor
+                            }
+                        };
+                        chrome.storage.local.set({tweetReplies: d.tweetReplies}, () => {});
+                    });
                 }
             }).catch(e => {
                 if(!cursor) {

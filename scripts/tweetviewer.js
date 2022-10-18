@@ -638,6 +638,12 @@ class TweetViewer {
     }
     async appendTweet(t, timelineContainer, options = {}) {
         if(this.seenReplies.includes(t.id_str)) return;
+        if(t.entities && t.entities.urls) {
+            let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
+            if(webUrl) {
+                t = await API.tweetDetail(t.id_str);
+            }
+        }
         this.tweets.push(['tweet', t, options]);
         this.seenReplies.push(t.id_str);
         const tweet = document.createElement('div');

@@ -88,6 +88,7 @@ setTimeout(() => {
                             <li>Fixed bug with external links opening as profile links on profile page.</li>
                             <li>Fixed bug with page becoming unscrollable on tweeting.</li>
                             <li>FIxed bug with quoted tweet not showing in notifications.</li>
+                            <li>Made multiple videos appear on tweet page.</li>
                             <li>Improved user previewer.</li>
                             <li>Made Twemojis appear in more places.</li>
                             <li>Proper tweet character counting.</li>
