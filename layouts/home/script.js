@@ -76,26 +76,13 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <b>Features</b>
                         <ul>
-                            <li>Added emoji picker everywhere.</li>
                             <li>Support for scheduled tweets.</li>
-                            <li>Time and playing state of video is saved on quality change/reload.</li>
-                            <li>Tweet composer becomes small again after a minute of no focus.</li>
-                            <li>You can now click on extension icon in Chrome to open settings.</li>
-                            <li>Tweet viewer opens when you click on notification now.</li>
-                            <li>Added 'follows you' label for user lists.</li>
-                            <li>Made tweet viewer send actions to page to stay synchronized.</li>
+                            <li>Added page for new tweet notifications. You can click on 'New tweet notifications' notification to open it.</li>
                             <li>Made menus look pretty and how they looked in old Twitter.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
-                            <li>Fixed bug with external links opening as profile links on profile page.</li>
-                            <li>Fixed bug with page becoming unscrollable on tweeting.</li>
-                            <li>FIxed bug with quoted tweet not showing in notifications.</li>
-                            <li>Made multiple videos appear on tweet page.</li>
-                            <li>Improved user previewer.</li>
-                            <li>Made Twemojis appear in more places.</li>
-                            <li>Proper tweet character counting.</li>
-                            <li>Fixed video view count not showing.</li>
+                            <li>Fixed bug with opening empty modal when clicking on left side of notification.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {

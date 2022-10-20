@@ -30,6 +30,10 @@ let pages = [
         paths: [/^\/i\/topics\/\d+$/]
     },
     {
+        name: "device_follow",
+        paths: [/^\/i\/timeline$/]
+    },
+    {
         name: "tweet",
         paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}(|\/likes|\/retweets|\/retweets\/with_comments|)$/]
     },

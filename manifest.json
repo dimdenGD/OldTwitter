@@ -1,7 +1,7 @@
 {
   "name": "Old Twitter Layout (2022)",
   "description": "__MSG_ext_description__",
-  "version": "1.6.3.4",
+  "version": "1.6.4",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/OldTwitter",
   "background": {
@@ -121,6 +121,12 @@
     {
       "matches": ["https://twitter.com/i/topics/*", "https://twitter.com/i/topics/*/"],
       "js": ["layouts/topics/script.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://twitter.com/i/timeline", "https://twitter.com/i/timeline/"],
+      "js": ["layouts/device_follow/script.js"],
       "all_frames": true,
       "run_at": "document_idle"
     },

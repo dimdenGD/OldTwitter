@@ -73,8 +73,12 @@ async function renderNotifications(data, append = false) {
                 replyTweet.user = replyUser;
             }
             notificationDiv.addEventListener('click', e => {
-                if(e.target == notificationDiv || e.target.className === 'notification-avatars' && replyTweet && replyTweet.user) {
-                    new TweetViewer(user, replyTweet);
+                if(e.target.closest('.notification')) {
+                    if(n.icon.id === "bell_icon") {
+                        location.href = `https://twitter.com/i/timeline`;
+                    } else if(replyTweet && replyTweet.user) {
+                        new TweetViewer(user, replyTweet);
+                    }
                 }
             });
             notificationDiv.addEventListener('mousedown', e => {

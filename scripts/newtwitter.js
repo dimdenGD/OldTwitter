@@ -8,7 +8,7 @@ setInterval(() => {
     }
     if(
         /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath) ||
-        (realPath.startsWith('/i/') && realPath !== "/i/bookmarks" && !realPath.startsWith('/i/lists/')) ||
+        (realPath.startsWith('/i/') && realPath !== "/i/bookmarks" && realPath !== "/i/timeline" && !realPath.startsWith('/i/lists/')) ||
         realPath === '/explore' ||
         realPath === '/login' ||
         realPath === '/register' ||

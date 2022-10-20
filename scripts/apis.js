@@ -638,7 +638,6 @@ API.getNotifications = (cursor, onlyMentions = false) => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-language": navigator.language ? navigator.language : "en",
                 "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include",
@@ -675,6 +674,45 @@ API.markAsReadNotifications = cursor => {
                 return reject(data.errors[0].message);
             }
             resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getDeviceFollowTweets = (cursor) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/2/notifications/device_follow.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe${cursor ? `&cursor=${cursor}` : ''}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include",
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
+            let tweets = entries.filter(i => i.entryId.startsWith('tweet-')).map(i => data.globalObjects.tweets[i.content.item.content.tweet.id]);
+            for(let i in tweets) {
+                tweets[i].user = data.globalObjects.users[tweets[i].user_id_str];
+                if(tweets[i].quoted_status_id_str) {
+                    tweets[i].quoted_status = data.globalObjects.tweets[tweets[i].quoted_status_id_str];
+                    tweets[i].quoted_status.user = data.globalObjects.users[tweets[i].quoted_status.user_id_str];
+                }
+            }
+            let cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+            if(cursor) {
+                cursor = cursor.content.operation.cursor.value;
+            }
+            resolve({
+                list: tweets,
+                cursor
+            })
         }).catch(e => {
             reject(e);
         });
