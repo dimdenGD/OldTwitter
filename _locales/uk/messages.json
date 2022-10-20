@@ -315,5 +315,16 @@
     "emoji_picker": { "message": "Вибір смайлика" },
     "search_results": { "message": "Результати пошуку" },
     "skin_tone_label": { "message": "Виберіть колір шкіри (зараз: $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
-    "skin_tones_label": { "message": "Кольора шкіри" }
+    "skin_tones_label": { "message": "Кольора шкіри" },
+    "add_media": { "message": "Добавити медіа" },
+    "add_poll": { "message": "Добавити опитування" },
+    "add_location": { "message": "Добавити локацію" },
+    "schedule_tweet": { "message": "Запланувати твіт" },
+    "location": { "message": "Локація" },
+    "scheduled": { "message": "Заплановані" },
+    "drafts": { "message": "Чернетки" },
+    "unsent_tweets": { "message": "Невідправлені твіти" },
+    "unsent": { "message": "Невідправлені" },
+    "will_send": { "message": "Відправиться" },
+    "schedule": { "message": "Запланувати" }
 }

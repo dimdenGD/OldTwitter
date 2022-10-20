@@ -315,5 +315,16 @@
     "emoji_picker": { "message": "Выбор смайла" },
     "search_results": { "message": "Результаты поиска" },
     "skin_tone_label": { "message": "Выберите тон кожи (сейчас: $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
-    "skin_tones_label": { "message": "Тона кожи" }
+    "skin_tones_label": { "message": "Тона кожи" },
+    "add_media": { "message": "Добавить медиа" },
+    "add_poll": { "message": "Добавить опрос" },
+    "add_location": { "message": "Добавить локацию" },
+    "schedule_tweet": { "message": "Запланировать твит" },
+    "location": { "message": "Локация" },
+    "scheduled": { "message": "Запланированные" },
+    "drafts": { "message": "Черновики" },
+    "unsent_tweets": { "message": "Неотправленные твиты" },
+    "unsent": { "message": "Неотправленные" },
+    "will_send": { "message": "Отправится" },
+    "schedule": { "message": "Запланировать" }
 }

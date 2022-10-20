@@ -77,6 +77,7 @@ setTimeout(() => {
                         <b>Features</b>
                         <ul>
                             <li>Added emoji picker everywhere.</li>
+                            <li>Support for scheduled tweets.</li>
                             <li>Time and playing state of video is saved on quality change/reload.</li>
                             <li>Tweet composer becomes small again after a minute of no focus.</li>
                             <li>You can now click on extension icon in Chrome to open settings.</li>
@@ -679,7 +680,62 @@ setTimeout(async () => {
             marginTop: '-100px'
         });
     });
+    let scheduleInput = document.getElementById('new-tweet-schedule-input');
+    let schedule = document.getElementById('new-tweet-schedule');
+    let scheduleTime;
+    document.getElementById('new-tweet-schedule-btn').addEventListener('click', () => {
+        schedule.style.display = schedule.style.display === 'none' ? 'inline-block' : 'none';
+        scheduleInput.value = '';
+        scheduleInput.min = new Date(Date.now() + 60000).toISOString().split('.')[0].split(":").slice(0, -1).join(":");
+        scheduleInput.max = new Date(Date.now() + 17 * 30 * 24 * 60 * 60 * 1000).toISOString().split('.')[0].split(":").slice(0, -1).join(":");
+        if(schedule.style.display === 'inline-block') {
+            newTweetButton.disabled = true;
+            newTweetButton.innerText = LOC.schedule.message;
+            scheduleTime = 'invalid';
+            document.getElementById('new-tweet-audience-input').value = 'everyone';
+            document.getElementById('new-tweet-wcr-input').value = 'everyone';
+            selectedCircle = undefined;
+            document.getElementById('new-tweet-poll').innerHTML = '';
+            document.getElementById('new-tweet-poll').hidden = true;
+            document.getElementById('new-tweet-poll').style.width = '0';
+            pollToUpload = undefined;
+            document.getElementById('new-tweet-audience-input').disabled = true;
+            document.getElementById('new-tweet-wcr-input').disabled = true;
+            document.getElementById('new-tweet-circle-people').hidden = true;
+            document.getElementById('new-tweet-wcr-input').hidden = false;
+            document.getElementById('new-tweet-poll-btn').classList.add('poll-disabled');
+        } else {
+            scheduleTime = undefined;
+            newTweetButton.innerText = LOC.tweet.message;
+            newTweetButton.disabled = false;
+            document.getElementById('new-tweet-audience-input').disabled = false;
+            document.getElementById('new-tweet-wcr-input').disabled = false;
+            document.getElementById('new-tweet-poll-btn').classList.remove('poll-disabled');
+        }
+    });
+    let tweetMediaList = document.getElementById('new-tweet-media-c');
+
+    scheduleInput.addEventListener('input', () => {
+        if(!scheduleInput.value) newTweetButton.disabled = true;
+        let date;
+        try {
+            date = new Date(scheduleInput.value);
+        } catch (e) {
+            scheduleTime = 'invalid';
+            newTweetButton.disabled = true;
+        }
+        let cd = Date.now();
+        let time = date.getTime();
+        if(cd > time || time - cd > 1000 * 60 * 60 * 24 * 30 * 17) { // 17 months
+            scheduleTime = 'invalid';
+            newTweetButton.disabled = true;
+            return;
+        }
+        newTweetButton.disabled = false;
+        scheduleTime = time;
+    });
     document.getElementById('new-tweet-poll-btn').addEventListener('click', () => {
+        if(schedule.style.display === 'inline-block') return;
         if(document.getElementById('new-tweet-poll').hidden) {
             mediaToUpload = [];
             document.getElementById('new-tweet-media-c').innerHTML = '';
@@ -695,8 +751,9 @@ setTimeout(async () => {
                 ${LOC.minutes.message}: <input class="poll-date" id="poll-minutes" type="number" min="0" max="59" value="0">
                 <hr>
                 <button class="nice-button" id="poll-remove">${LOC.remove_poll.message}</button>
+                <br>
             `;
-            document.getElementById('new-tweet-poll').style.width = '400px';
+            document.getElementById('new-tweet-poll').style.width = '350px';
             let pollVariants = Array.from(document.getElementsByClassName('poll-question'));
             pollToUpload = {
                 duration_minutes: 1440,
@@ -738,7 +795,7 @@ setTimeout(async () => {
         document.getElementById('new-tweet-poll').hidden = true;
         document.getElementById('new-tweet-poll').style.width = '0';
         pollToUpload = undefined;
-        getMedia(mediaToUpload, document.getElementById('new-tweet-media-c'));
+        getMedia(mediaToUpload, tweetMediaList);
     });
     let selectedIndex = 0;
     newTweetText.addEventListener('focus', async e => {
@@ -855,7 +912,7 @@ setTimeout(async () => {
             let item = items[index];
             if (item.kind === 'file') {
                 let file = item.getAsFile();
-                handleFiles([file], mediaToUpload, document.getElementById('new-tweet-media-c'));
+                handleFiles([file], mediaToUpload, tweetMediaList);
             }
         }
     });
@@ -1049,23 +1106,54 @@ setTimeout(async () => {
             if(uploadedMedia.length > 0) {
                 variables.media.media_entities = uploadedMedia.map(i => ({media_id: i, tagged_users: []}));
             }
-            let tweetObject = await API.postTweetV2({
-                "variables": variables,
-                "features": {
-                    "dont_mention_me_view_api_enabled": true,
-                    "interactive_text_enabled": true,
-                    "responsive_web_uc_gql_enabled": false,
-                    "vibe_api_enabled": false,
-                    "responsive_web_edit_tweet_api_enabled": false,
-                    "standardized_nudges_misinfo": true,
-                    "responsive_web_enhance_cards_enabled": false
-                },
-                "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
-            });
-            appendTweet(tweetObject, document.getElementById('timeline'), {
-                prepend: true,
-                bigFont: tweetObject.full_text.length < 75
-            });
+            if(typeof scheduleTime === 'number') {
+                let variables2 = {
+                    execute_at: +scheduleTime.toString().slice(0, -3),
+                    post_tweet_request: {
+                        auto_populate_reply_metadata: false,
+                        exclude_reply_user_ids: [],
+                        media_ids: [],
+                        status: tweet
+                    }
+                };
+                if(uploadedMedia.length > 0) {
+                    variables2.post_tweet_request.media_ids = uploadedMedia.map(i => i.media_id);
+                }
+                await API.createScheduledTweet({
+                    variables: variables2,
+                    queryId: "LCVzRQGxOaGnOnYH01NQXg"
+                });
+                scheduleTime = undefined;
+                newTweetButton.innerText = LOC.tweet.message;
+                newTweetButton.disabled = false;
+                document.getElementById('new-tweet-audience-input').disabled = false;
+                document.getElementById('new-tweet-wcr-input').disabled = false;
+                document.getElementById('new-tweet-poll-btn').classList.remove('poll-disabled');
+                schedule.style.display = 'none';
+                scheduleInput.value = '';
+                createModal(`
+                    <span style="color:var(--almost-black);font-size:14px">${LOC.scheduled_success.message}</span><br><br>
+                    <a href="https://mobile.twitter.com/compose/tweet/unsent/scheduled" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
+                `);
+            } else {
+                let tweetObject = await API.postTweetV2({
+                    "variables": variables,
+                    "features": {
+                        "dont_mention_me_view_api_enabled": true,
+                        "interactive_text_enabled": true,
+                        "responsive_web_uc_gql_enabled": false,
+                        "vibe_api_enabled": false,
+                        "responsive_web_edit_tweet_api_enabled": false,
+                        "standardized_nudges_misinfo": true,
+                        "responsive_web_enhance_cards_enabled": false
+                    },
+                    "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
+                });
+                appendTweet(tweetObject, document.getElementById('timeline'), {
+                    prepend: true,
+                    bigFont: tweetObject.full_text.length < 75
+                });
+            }
         } catch (e) {
             console.error(e);
             alert(e);

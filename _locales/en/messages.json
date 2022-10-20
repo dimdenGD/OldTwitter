@@ -317,5 +317,18 @@
     "search_results": { "message": "Search results" },
     "skin_tone_description": { "message": "When expanded, press up or down to select and enter to choose." },
     "skin_tone_label": { "message": "Choose a skin tone (currently $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
-    "skin_tones_label": { "message": "Skin tones" }
+    "skin_tones_label": { "message": "Skin tones" },
+    "add_media": { "message": "Add media" },
+    "add_poll": { "message": "Add poll" },
+    "add_location": { "message": "Add location" },
+    "schedule_tweet": { "message": "Schedule tweet" },
+    "scheduled": { "message": "Scheduled" },
+    "drafts": { "message": "Drafts" },
+    "location": { "message": "Location" },
+    "unsent_tweets": { "message": "Unsent tweets" },
+    "unsent": { "message": "Unsent" },
+    "will_send": { "message": "Will send on" },
+    "schedule": { "message": "Schedule" },
+    "scheduled_success": { "message": "Tweet was scheduled!" },
+    "see_scheduled": { "message": "See scheduled" }
 }

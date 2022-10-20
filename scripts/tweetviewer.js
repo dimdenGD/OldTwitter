@@ -445,14 +445,6 @@ class TweetViewer {
         });
 
         let mediaList = document.getElementsByClassName('new-tweet-media-c')[0];
-        const observer = new MutationObserver(() => {
-            if(mediaList.childElementCount == 0) {
-                newTweetButton.style.marginRight = '-32px';
-            } else {
-                newTweetButton.style.marginRight = '';
-            }
-        });
-        observer.observe(mediaList, { childList: true });
         
         document.getElementsByClassName('new-tweet-view')[0].addEventListener('drop', e => {
             handleDrop(e, this.mediaToUpload, mediaList);
@@ -806,7 +798,7 @@ class TweetViewer {
                 ` : ``}
                 ${t.limited_actions === 'limit_trusted_friends_tweet' && options.mainTweet ? `
                 <div class="tweet-limited">
-                ${LOC.circle_limited_tweet.message}<br>
+                    ${LOC.circle_limited_tweet.message}
                     <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">${LOC.learn_more.message}</a>
                 </div>
                 `.replace('$SCREEN_NAME$', t.user.screen_name) : ''}

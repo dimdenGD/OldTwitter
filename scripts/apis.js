@@ -1513,6 +1513,28 @@ API.getTweet = id => {
         });
     });
 }
+API.createScheduledTweet = data => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/LCVzRQGxOaGnOnYH01NQXg/CreateScheduledTweet`, {
+            method: 'POST',
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json; charset=utf-8"
+            },
+            credentials: "include",
+            body: JSON.stringify(data)
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 
 let loadingDetails = {};
 API.tweetDetail = id => {

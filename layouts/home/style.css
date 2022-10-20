@@ -801,7 +801,7 @@ a:hover,
 
 #new-tweet-button {
     float: right;
-    left: 57px;
+    left: 76px;
     margin-top: 3px;
     position: relative
 }
@@ -958,6 +958,18 @@ a:hover,
     content: "\f033";
     font: 20px RosettaIcons;
 }
+#new-tweet-schedule-btn {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    bottom: 38px;
+    left: 43px;
+}
+#new-tweet-schedule-btn:before {
+    color: var(--link-color);
+    content: "\f203";
+    font: 20px RosettaIcons;
+}
 .poll-question, .poll-date {
     border: 1px solid var(--border);
     border-radius: 5px;
@@ -994,8 +1006,8 @@ a:hover,
     margin-left: 39px;
     margin-bottom: 5px;
 }
-#new-tweet-audience-input, #new-tweet-wcr-input {
-    border-color: var(--border);
+#new-tweet-audience-input, #new-tweet-wcr-input, #new-tweet-schedule-input {
+    border: 1px solid var(--border);
     padding: 1px;
     background-color: var(--input-background);
     color: var(--default-text-color);
@@ -1048,4 +1060,11 @@ a:hover,
     border-bottom: 1px solid var(--border) !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+#new-tweet-schedule {
+    width: fit-content;
+    position: relative;
+}
+.poll-disabled:before {
+    color: gray !important;
 }
