@@ -794,7 +794,7 @@ input, textarea {
     vertical-align: bottom;
 }
 .message-new-input {
-    width: 400px;
+    width: 380px;
 }
 .message-new-media-btn {
     cursor: pointer;
