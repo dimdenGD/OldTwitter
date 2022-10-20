@@ -244,15 +244,19 @@ API.getAlgoTimeline = (cursor, count = 25) => {
                 if(e.feedbackInfo) tweet.feedback = e.feedbackInfo.feedbackKeys.map(f => data.timeline.responseObjects.feedbackActions[f]);
                 if(tweet.retweeted_status_id_str) {
                     tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
-                    tweet.retweeted_status.user = users[tweet.retweeted_status.user_id_str];
-                    tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
-                    tweet.retweeted_status.id_str = tweet.retweeted_status_id_str;
+                    if(tweet.retweeted_status) {
+                        tweet.retweeted_status.user = users[tweet.retweeted_status.user_id_str];
+                        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                        tweet.retweeted_status.id_str = tweet.retweeted_status_id_str;
+                    }
                 }
                 if(tweet.quoted_status_id_str) {
                     tweet.quoted_status = tweets[tweet.quoted_status_id_str];
-                    tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
-                    tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                    tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                    if(tweet.quoted_status) {
+                        tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
+                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                        tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                    }
                 }
                 if(e.content.tweet.socialContext) {
                     if(e.content.tweet.socialContext.topicContext) {
