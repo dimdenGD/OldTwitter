@@ -83,6 +83,7 @@ setTimeout(() => {
                         <b>Fixes</b>
                         <ul>
                             <li>Fixed bug with opening empty modal when clicking on left side of notification.</li>
+                            <li>Fixed algorithmical timeline never loading sometimes.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {

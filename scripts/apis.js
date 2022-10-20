@@ -1764,9 +1764,11 @@ API.getReplies = (id, cursor) => {
                         tweet.user = user;
                         if(tweet.quoted_status_id_str) {
                             tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
-                            tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
-                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                            tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                            if(tweet.quoted_status) {
+                                tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                                tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                            }
                         }
                         list.push({
                             type: tweet.id_str === id ? 'mainTweet' : 'tweet',
@@ -1780,9 +1782,11 @@ API.getReplies = (id, cursor) => {
                             tweet.user = user;
                             if(tweet.quoted_status_id_str) {
                                 tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
-                                tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
-                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                                tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                                if(tweet.quoted_status) {
+                                    tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                                    tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                                    tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                                }
                             }
                             tweet.tombstone = e.content.item.content.tombstone.tombstoneInfo.text;
                             list.push({
@@ -1806,9 +1810,11 @@ API.getReplies = (id, cursor) => {
                             tweet.id_str = t.conversationTweetComponent.tweet.id;
                             if(tweet.quoted_status_id_str) {
                                 tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
-                                tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
-                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                                tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                                if(tweet.quoted_status) {
+                                    tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                                    tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                                    tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                                }
                             }
                             tweet.user = user;
                             threadList.push(tweet);
