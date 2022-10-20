@@ -1487,6 +1487,9 @@ emoji-picker {
 #navbar-user-menu-username {
     color: var(--almost-black);
     font-weight: bolder;
+    max-width: 100px;
+    overflow-x: clip;
+    text-overflow: ellipsis;
 }
 #navbar-user-menu-profile:hover #navbar-user-menu-username {
     color: white;

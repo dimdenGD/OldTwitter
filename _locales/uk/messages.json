@@ -326,5 +326,7 @@
     "unsent_tweets": { "message": "Невідправлені твіти" },
     "unsent": { "message": "Невідправлені" },
     "will_send": { "message": "Відправиться" },
-    "schedule": { "message": "Запланувати" }
+    "schedule": { "message": "Запланувати" },
+    "scheduled_success": { "message": "Твіт було заплановано!" },
+    "see_scheduled": { "message": "Подивитись заплановані" }
 }
