@@ -623,17 +623,17 @@ async function renderProfile() {
         `;
         buttonsElement.innerHTML += /*html*/`
             <span class="profile-additional-thing" id="profile-settings"></span>
-            <div id="profile-settings-div" hidden>
-                <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications ? LOC.stop_notifications.message : LOC.receive_notifications.message}<br></span>
-                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `${LOC.unblock_user.message} @${pageUser.screen_name}` : `${LOC.block_user.message} @${pageUser.screen_name}`}<br></span>
-                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}<br></span>
-                ${pageUser.followed_by ? `<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span><br>` : ''}
-                <span id="profile-settings-lists-action" style="width: 100%;">${LOC.from_list.message}<br></span>
-                <span id="profile-settings-retweets" style="width: 100%;" ${pageUser.following ? '' : 'hidden'}>${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}<br></span>
+            <div id="profile-settings-div" class="dropdown-menu" hidden>
+                <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications ? LOC.stop_notifications.message : LOC.receive_notifications.message}</span>
+                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `${LOC.unblock_user.message} @${pageUser.screen_name}` : `${LOC.block_user.message} @${pageUser.screen_name}`}</span>
+                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}</span>
+                ${pageUser.followed_by ? /*html*/`<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span>` : ''}
+                <span id="profile-settings-lists-action">${LOC.from_list.message}</span>
+                <span id="profile-settings-retweets" ${pageUser.following ? '' : 'hidden'}>${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}</span>
                 <hr>
-                <span id="profile-settings-lists" style="width: 100%;">${LOC.see_lists.message}<br></span>
-                <span id="profile-settings-share" style="width: 100%;">${LOC.share_user.message}<br></span>
-                <span id="profile-settings-copy" style="width: 100%;">${LOC.copy_profile_link.message}<br></span>
+                <span id="profile-settings-lists">${LOC.see_lists.message}</span>
+                <span id="profile-settings-share">${LOC.share_user.message}</span>
+                <span id="profile-settings-copy">${LOC.copy_profile_link.message}</span>
             </div>
         `;
         let messageUser = document.getElementById('message-user');

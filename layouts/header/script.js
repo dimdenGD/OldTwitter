@@ -28,6 +28,7 @@ let userDataFunction = async user => {
     userAvatar.src = user.profile_image_url_https.replace("_normal", "_bigger");
     document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
     document.getElementById('navbar-user-menu-lists').href = `/${user.screen_name}/lists`;
+    document.getElementById('navbar-user-menu-username').innerText = user.name;
 
     let root = document.querySelector(":root");
 
@@ -1598,6 +1599,7 @@ function switchDarkMode(enabled) {
         root.style.setProperty('--more-color', '#a088ff');
         root.style.setProperty('--choice-bg', 'rgb(44 62 71)');
         root.style.setProperty('--list-actions-bg', "#19212b");
+        root.style.setProperty('--menu-bg', "rgba(34,46,60,0.98)");
     } else {
         root.style.setProperty('--background-color', 'white');
         root.style.setProperty('--darker-background-color', '#f5f8fa');
@@ -1613,6 +1615,7 @@ function switchDarkMode(enabled) {
         root.style.setProperty('--more-color', '#30F');
         root.style.setProperty('--choice-bg', 'rgb(207, 217, 222)');
         root.style.setProperty('--list-actions-bg', "#efefef");
+        root.style.setProperty('--menu-bg', "rgba(255,255,255,0.98)");
     }
     updateCustomCSSVariables();
 }

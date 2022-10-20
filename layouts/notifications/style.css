@@ -480,12 +480,10 @@ span.tweet-body-text {
 .tweet-interact-retweet-menu span,
 .tweet-interact-more-menu span {
     cursor: pointer;
-    margin-right: 5px !important
 }
 
 .tweet-interact-retweet-menu span:before,
 .tweet-interact-more-menu span:before {
-    color: var(--light-gray);
     margin-right: 5px !important
 }
 .tweet-media-element-censor {
@@ -540,16 +538,14 @@ a:hover,
 .tweet-interact-reply-clicked:before,
 .tweet-interact-reply:hover:before,
 .tweet-interact-reply:hover,
-.tweet-interact-more:hover:before,
-.tweet-interact-more-menu span:hover {
+.tweet-interact-more:hover:before { 
     color: var(--more-color) !important
 }
 
 .tweet-interact-retweeted,
 .tweet-interact-retweeted:before,
 .tweet-interact-retweet:hover:before,
-.tweet-interact-retweet:hover,
-.tweet-interact-retweet-menu span:hover {
+.tweet-interact-retweet:hover {
     color: #5c913b !important
 }
 
@@ -744,11 +740,6 @@ a:hover,
     font: 12px RosettaIcons;
     margin-right: 5px;
     vertical-align: text-bottom;
-}
-
-.tweet-interact-more-menu hr {
-    border-top: #ccd6dd;
-    margin: 2px
 }
 
 .notification-icon {

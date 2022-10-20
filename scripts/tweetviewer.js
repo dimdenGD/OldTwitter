@@ -835,36 +835,38 @@ class TweetViewer {
                 <div class="tweet-interact">
                     <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
                     <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
-                    <div class="tweet-interact-retweet-menu" hidden>
-                        <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span><br>
-                        <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span><br>
+                    <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
+                        <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span>
+                        <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span>
                         ${options.mainTweet ? `
-                            <span class="tweet-interact-retweet-menu-quotes">See quotes</span><br>
-                            <span class="tweet-interact-retweet-menu-retweeters">See retweeters</span><br>
+                            <span class="tweet-interact-retweet-menu-quotes">See quotes</span>
+                            <span class="tweet-interact-retweet-menu-retweeters">See retweeters</span>
                         ` : ''}
                     </div>
                     <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : t.favorite_count}</span>
                     <span class="tweet-interact-more"></span>
-                    <div class="tweet-interact-more-menu" hidden>
-                        <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span><br>
-                        <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span><br>
-                        <span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span><br>
+                    <div class="tweet-interact-more-menu dropdown-menu" hidden>
+                        <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
+                        <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span>
+                        <span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>
                         ${t.user.id_str === user.id_str ? `
                         <hr>
-                        <span class="tweet-interact-more-menu-analytics">Tweet analytics</span><br>
-                        <span class="tweet-interact-more-menu-delete">Delete tweet</span><br>
+                        <span class="tweet-interact-more-menu-analytics">Tweet analytics</span>
+                        <span class="tweet-interact-more-menu-delete">Delete tweet</span>
                         ` : ``}
+                        <hr>
                         ${t.user.id_str !== user.id_str && !options.mainTweet ? `
-                        <hr>
-                        <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
-                        <span class="tweet-interact-more-menu-block">${t.user.blocking ? LOC.unblock_user.message : LOC.block_user.message} @${t.user.screen_name}</span><br>
+                        <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span>
                         ` : ''}
-                        <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span><br>
-                        <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span><br>
+                        ${t.user.id_str !== user.id_str ? /*html*/`
+                            <span class="tweet-interact-more-menu-block">${t.user.blocking ? LOC.unblock_user.message : LOC.block_user.message} @${t.user.screen_name}</span>
+                        ` : ''}
+                        <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>
+                        <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
                         <hr>
-                        <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span><br>
-                        ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
-                        ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span><br>` : ``}
+                        <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span>
+                        ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
+                        ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span>` : ``}
                     </div>
                 </div>
                 <div class="tweet-reply" hidden>

@@ -941,40 +941,42 @@ async function appendTweet(t, timelineContainer, options = {}) {
             <div class="tweet-interact">
                 <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
                 <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
-                <div class="tweet-interact-retweet-menu" hidden>
-                    <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span><br>
-                    <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span><br>
+                <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
+                    <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span>
+                    <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span>
                     ${options.mainTweet ? `
-                        <span class="tweet-interact-retweet-menu-quotes">${LOC.see_quotes_big.message}</span><br>
-                        <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span><br>
+                        <span class="tweet-interact-retweet-menu-quotes">${LOC.see_quotes_big.message}</span>
+                        <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span>
                     ` : ''}
                 </div>
                 <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : t.favorite_count}</span>
                 <span class="tweet-interact-more"></span>
-                <div class="tweet-interact-more-menu" hidden>
-                    <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span><br>
-                    <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span><br>
-                    <span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span><br>
+                <div class="tweet-interact-more-menu dropdown-menu" hidden>
+                    <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
+                    <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span>
+                    <span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>
                     ${t.user.id_str === user.id_str ? /*html*/`
                     <hr>
-                    <span class="tweet-interact-more-menu-analytics">${LOC.tweet_analytics.message}</span><br>
-                    <span class="tweet-interact-more-menu-delete">${LOC.delete_tweet.message}</span><br>
-                    ${typeof pageUser !== 'undefined' && pageUser.id_str === user.id_str ? /*html*/`<span class="tweet-interact-more-menu-pin">${pinnedTweet && pinnedTweet.id_str === t.id_str ? LOC.unpin_tweet.message :  LOC.pin_tweet.message}</span><br>` : ''}
-                    ` : ``}
-                    ${t.user.id_str !== user.id_str && !options.mainTweet ? `
-                    <hr>
-                    <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span><br>
-                    <span class="tweet-interact-more-menu-block">${t.user.blocking ? LOC.unblock_user.message : LOC.block_user.message} @${t.user.screen_name}</span><br>
+                    <span class="tweet-interact-more-menu-analytics">${LOC.tweet_analytics.message}</span>
+                    <span class="tweet-interact-more-menu-delete">${LOC.delete_tweet.message}</span>
+                    ${typeof pageUser !== 'undefined' && pageUser.id_str === user.id_str ? /*html*/`<span class="tweet-interact-more-menu-pin">${pinnedTweet && pinnedTweet.id_str === t.id_str ? LOC.unpin_tweet.message :  LOC.pin_tweet.message}</span>` : ''}
                     ` : ''}
-                    ${!location.pathname.startsWith('/i/bookmarks') ? `<span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span><br>` : ''}
-                    <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span><br>
                     <hr>
-                    ${t.feedback ? t.feedback.map((f, i) => `<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span><br>`).join("\n") : ''}
-                    <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span><br>
-                    ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span><br>` : ``}
-                    ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span><br>` : ``}
+                    ${t.user.id_str !== user.id_str && !options.mainTweet ? /*html*/`
+                        <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span>
+                    ` : ''}
+                    ${t.user.id_str !== user.id_str ? /*html*/`
+                        <span class="tweet-interact-more-menu-block">${t.user.blocking ? LOC.unblock_user.message : LOC.block_user.message} @${t.user.screen_name}</span>
+                    ` : ''}
+                    ${!location.pathname.startsWith('/i/bookmarks') ? /*html*/`<span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>` : ''}
+                    <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
+                    <hr>
+                    ${t.feedback ? t.feedback.map((f, i) => /*html*/`<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span>`).join("\n") : ''}
+                    <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span>
+                    ${t.extended_entities && t.extended_entities.media.length === 1 ? /*html*/`<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
+                    ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? /*html*/`<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span>` : ``}
                 </div>
-                ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
+                ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? /*html*/`<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
                 ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
             </div>
             <div class="tweet-reply" hidden>
@@ -1852,6 +1854,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.user.blocking = false;
             tweetInteractMoreMenuBlock.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
             tweetInteractMoreMenuFollow.hidden = false;
+            let event = new CustomEvent('tweetAction', { detail: {
+                action: 'unblock',
+                tweet: t
+            } });
+            document.dispatchEvent(event);
         } else {
             let c = confirm(`${LOC.block_sure.message} @${t.user.screen_name}?`);
             if (!c) return;
@@ -1861,6 +1868,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractMoreMenuFollow.hidden = true;
             t.user.following = false;
             tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+            let event = new CustomEvent('tweetAction', { detail: {
+                action: 'block',
+                tweet: t
+            } });
+            document.dispatchEvent(event);
         }
         chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });

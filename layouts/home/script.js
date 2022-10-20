@@ -83,6 +83,7 @@ setTimeout(() => {
                             <li>Tweet viewer opens when you click on notification now.</li>
                             <li>Added 'follows you' label for user lists.</li>
                             <li>Made tweet viewer send actions to page to stay synchronized.</li>
+                            <li>Made menus look pretty and how they looked in old Twitter.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
@@ -320,6 +321,7 @@ function renderNewTweetsButton() {
     }
 }
 
+let activeTweet;
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
@@ -481,7 +483,6 @@ setTimeout(async () => {
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
     let lastTweetDate = 0;
-    let activeTweet;
     let tweetsToLoad = {};
     let lastScroll = Date.now();
     document.addEventListener('scroll', async () => {

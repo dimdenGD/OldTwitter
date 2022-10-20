@@ -321,7 +321,7 @@ API.getMixedTimeline = async () => {
 API.discoverPeople = (cache = true) => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['discoverData'], d => {
-            if(cache && d.discoverData && Date.now() - d.discoverData.date < 60000*5) {
+            if(cache && d.discoverData && Date.now() - d.discoverData.date < 60000*10) {
                 return resolve(d.discoverData.data);
             }
             fetch(`https://twitter.com/i/api/2/people_discovery/modules_urt.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&display_location=connect&client_type=rweb&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
@@ -356,7 +356,7 @@ API.peopleRecommendations = (id, cache = true, by_screen_name = false) => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get([`peopleRecommendations`], d => {
             if(!d.peopleRecommendations) d.peopleRecommendations = {};
-            if(cache && d.peopleRecommendations[`${id}${by_screen_name}`] && Date.now() - d.peopleRecommendations[`${id}${by_screen_name}`].date < 60000*5) {
+            if(cache && d.peopleRecommendations[`${id}${by_screen_name}`] && Date.now() - d.peopleRecommendations[`${id}${by_screen_name}`].date < 60000*7) {
                 return resolve(d.peopleRecommendations[`${id}${by_screen_name}`].data);
             }
             fetch(`https://twitter.com/i/api/1.1/users/recommendations.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&&pc=true&display_location=profile_accounts_sidebar&limit=4&${by_screen_name ? 'screen_name' : 'user_id'}=${id}&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {

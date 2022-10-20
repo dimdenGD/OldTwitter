@@ -331,10 +331,6 @@ body {
 .tweet-translate:hover {
     text-decoration: underline;
 }
-.tweet-interact-more-menu hr {
-    border-top: #ccd6dd;
-    margin: 2px;
-}
 .tweet-header, .tweet-header-quote {
     display: contents;
 }

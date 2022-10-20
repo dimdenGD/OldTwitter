@@ -266,19 +266,6 @@ span.tweet-body-text {
     user-select: none
 }
 
-.tweet-interact span,
-#profile-settings-div span {
-    color: var(--light-gray);
-    font-size: 12px;
-    font-weight: 700;
-    margin-left: 6px;
-    position: relative;
-    top: -2px;
-    text-decoration: none;
-    cursor: pointer;
-    margin-right: 20px
-}
-
 .tweet-interact span:before,
 #profile-settings-div span:before {
     -webkit-font-smoothing: antialiased;
@@ -390,16 +377,6 @@ span.tweet-body-text {
     text-decoration: underline
 }
 
-.tweet-interact-retweet-menu,
-.tweet-interact-more-menu,
-#profile-settings-div {
-    position: absolute;
-    background-color: var(--background-color);
-    border: 1px solid var(--light-gray);
-    border-radius: 5px;
-    z-index: 5
-}
-
 .tweet-interact-more-menu {
     margin-left: 100px
 }
@@ -462,19 +439,6 @@ span.tweet-body-text {
     cursor: pointer
 }
 
-.tweet-interact-retweet-menu span,
-.tweet-interact-more-menu span {
-    margin-right: 5px !important;
-    cursor: pointer
-}
-
-.tweet-interact-retweet-menu span:before,
-.tweet-interact-more-menu span:before,
-#profile-settings-div:before {
-    color: var(--light-gray);
-    margin-right: 5px !important
-}
-
 .tweet-media-element-censor {
     filter: blur(20px);
     -webkit-filter: blur(20px);
@@ -504,7 +468,7 @@ span.tweet-body-text {
 
 #trends {
     margin-top: 10px;
-    padding: 10px
+    padding: 15px
 }
 
 .trend {
@@ -542,16 +506,14 @@ a:hover,
 .tweet-interact-reply-clicked:before,
 .tweet-interact-reply:hover:before,
 .tweet-interact-reply:hover,
-.tweet-interact-more:hover:before,
-.tweet-interact-more-menu span:hover {
+.tweet-interact-more:hover:before {
     color: var(--more-color) !important
 }
 
 .tweet-interact-retweeted,
 .tweet-interact-retweeted:before,
 .tweet-interact-retweet:hover:before,
-.tweet-interact-retweet:hover,
-.tweet-interact-retweet-menu span:hover {
+.tweet-interact-retweet:hover {
     color: #5c913b !important
 }
 
@@ -899,11 +861,6 @@ a:hover,
     vertical-align: text-bottom;
 }
 
-.tweet-interact-more-menu hr {
-    border-top: #ccd6dd;
-    margin: 2px
-}
-
 #profile-banner-div {
     height: fit-content;
     overflow: hidden
@@ -1244,9 +1201,8 @@ a:hover,
 #profile-settings-div {
     margin-top: 30px;
     margin-left: -50px;
-    padding: 3px;
     user-select: none;
-    width: 200px
+    width: 260px;
 }
 
 .profile-settings-notifications:before {
@@ -1280,7 +1236,8 @@ a:hover,
 }
 
 #profile-settings-div span {
-    float: left
+    float: left;
+    width: 220px;
 }
 
 #profile-settings-div span:before {
@@ -1289,9 +1246,19 @@ a:hover,
     display: inline-block
 }
 
-#profile-settings-div span:hover {
-    color: var(--link-color)
+.tweet-interact span {
+    color: var(--light-gray);
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 6px;
+    margin-right: 20px;
+    position: relative;
+    text-decoration: none;
+    top: -2px
 }
+
 
 #profile-settings-div hr {
     float: left;

@@ -741,12 +741,6 @@ a:hover,
     margin-right: 5px;
     vertical-align: text-bottom;
 }
-
-.tweet-interact-more-menu hr {
-    border-top: #ccd6dd;
-    margin: 2px
-}
-
 .ni-favorite:before {
     color: var(--favorite-icon-color);
     content: var(--favorite-icon-content-notif)
