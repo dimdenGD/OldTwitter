@@ -88,6 +88,7 @@ setTimeout(() => {
                             <li>Fixed bug with retweet button being available for private accounts / circle tweets.</li>
                             <li>Fixed 'New tweets' button showing up every time you post new tweet.</li>
                             <li>Fixed 'New tweets' button showing up if you delete first tweet on timeline and when you click on it it duplicates next tweet.</li>
+                            <li>Made user previews not appear far away from cursor.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {

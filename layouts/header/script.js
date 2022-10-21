@@ -1426,7 +1426,22 @@ let userDataFunction = async user => {
             div.addEventListener('mouseleave', leaveFunction);
             el.addEventListener('mouseleave', leaveFunction);
             shadow.appendChild(div);
-            el.parentElement.append(userPreview);
+
+            if(isSticky(el)) {
+                el.parentElement.append(userPreview);
+            } else {
+                let rects = el.getBoundingClientRect();
+                userPreview.style.top = `${rects.top + window.scrollY+ 20}px`;
+                userPreview.style.left = `${rects.left + window.scrollX}px`;
+                let closestTweet = el.closest('.tweet');
+                if(closestTweet) {
+                    let linkColor = closestTweet.style.getPropertyValue('--link-color');
+                    if(linkColor) {
+                        div.style.setProperty('--link-color', linkColor);
+                    }
+                }
+                document.body.append(userPreview);
+            }
             if(vars.enableTwemoji) twemoji.parse(shadow);
         }, 700));
     }, { passive: true });

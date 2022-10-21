@@ -600,15 +600,6 @@ const hex2rgb = (hex) => {
       // return {r, g, b} // return an object
       return [ r, g, b ]
 }
-
-function isProfilePath(path) {
-    path = path.split('?')[0].split('#')[0];
-    if(path.endsWith('/')) path = path.slice(0, -1);
-    if(path.split('/').length > 2) return false;
-    if(['/home', '/notifications', '/messages', '/settings', '/explore', '/login', '/register', '/signin', '/signup', '/logout', '/i', '/old', '/search', '/donate'].includes(path)) return false;
-    return true;
-}
-  
 const colorShade = (col, amt) => {
     col = col.replace(/^#/, '')
     if (col.length === 3) col = col[0] + col[0] + col[1] + col[1] + col[2] + col[2]
@@ -626,6 +617,23 @@ const colorShade = (col, amt) => {
   
     return `#${rr}${gg}${bb}`
 }
+
+function isProfilePath(path) {
+    path = path.split('?')[0].split('#')[0];
+    if(path.endsWith('/')) path = path.slice(0, -1);
+    if(path.split('/').length > 2) return false;
+    if(['/home', '/notifications', '/messages', '/settings', '/explore', '/login', '/register', '/signin', '/signup', '/logout', '/i', '/old', '/search', '/donate'].includes(path)) return false;
+    return true;
+}
+function isSticky(el) {
+    while(el !== document.body.parentElement) {
+        let pos = getComputedStyle(el).position;
+        if(pos === 'sticky' || pos === 'fixed') return true;
+        el = el.parentElement;
+    }
+    return false;
+}
+
 const mediaClasses = [
     undefined,
     'tweet-media-element-one',
