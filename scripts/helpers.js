@@ -1528,7 +1528,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }, { once: true });
         }, 50);
     });
-    t.renderRetweetsUp = () => {
+    t.renderRetweetsUp = (tweetData) => {
         tweetInteractRetweetMenuRetweet.innerText = LOC.unretweet.message;
         tweetInteractRetweet.classList.add('tweet-interact-retweeted');
         t.retweeted = true;
@@ -1540,7 +1540,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
         }
     }
-    t.renderRetweetsDown = () => {
+    t.renderRetweetsDown = (tweetData) => {
         tweetInteractRetweetMenuRetweet.innerText = LOC.retweet.message;
         tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
         t.retweeted = false;
@@ -1554,8 +1554,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     tweetInteractRetweetMenuRetweet.addEventListener('click', async () => {
         if (!t.retweeted) {
-            let c = confirm(LOC.retweet_sure.message);
-            if (!c) return;
             let tweetData;
             try {
                 tweetData = await API.retweetTweet(t.id_str);
@@ -1566,7 +1564,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (!tweetData) {
                 return;
             }
-            t.renderRetweetsUp();
+            t.renderRetweetsUp(tweetData);
         } else {
             let tweetData;
             try {
@@ -1578,7 +1576,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (!tweetData) {
                 return;
             }
-            t.renderRetweetsDown();
+            t.renderRetweetsDown(tweetData);
         }
         chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });

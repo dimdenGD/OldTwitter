@@ -1471,13 +1471,13 @@ let userDataFunction = async user => {
             }
             case 'retweet': {
                 if(tweetData && tweetData.renderRetweetsUp) {
-                    tweetData.renderRetweetsUp();
+                    tweetData.renderRetweetsUp(data.tweetData);
                 }
                 break;
             }
             case 'unretweet': {
                 if(tweetData && tweetData.renderRetweetsDown) {
-                    tweetData.renderRetweetsDown();
+                    tweetData.renderRetweetsDown(data.tweetData);
                 }
                 break;
             }

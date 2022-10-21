@@ -1385,7 +1385,8 @@ class TweetViewer {
                 }
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'retweet',
-                    tweet: t
+                    tweet: t,
+                    tweetData
                 } });
                 document.dispatchEvent(event);
             } else {
@@ -1411,7 +1412,8 @@ class TweetViewer {
                 delete t.newTweetId;
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'unretweet',
-                    tweet: t
+                    tweet: t,
+                    tweetData
                 } });
                 document.dispatchEvent(event);
             }
