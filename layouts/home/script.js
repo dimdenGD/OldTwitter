@@ -86,6 +86,7 @@ setTimeout(() => {
                             <li>Fixed bug with opening empty modal when clicking on left side of notification.</li>
                             <li>Fixed algorithmical timeline never loading sometimes.</li>
                             <li>Fixed bug with retweet button being available for private accounts / circle tweets.</li>
+                            <li>Fixed 'New tweets' button showing up every time you post new tweet.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {
@@ -1140,6 +1141,7 @@ setTimeout(async () => {
                     },
                     "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
                 });
+                timeline.data.unshift(tweetObject);
                 appendTweet(tweetObject, document.getElementById('timeline'), {
                     prepend: true,
                     bigFont: tweetObject.full_text.length < 75
