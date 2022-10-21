@@ -248,7 +248,8 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                 top: {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
-                    color: "#77b255"
+                    color: "#77b255",
+                    class: 'retweet'
                 }
             });
         } else {

@@ -1477,7 +1477,7 @@ let userDataFunction = async user => {
             }
             case 'unretweet': {
                 if(tweetData && tweetData.renderRetweetsDown) {
-                    tweetData.renderRetweetsDown(data.tweetData);
+                    tweetData.renderRetweetsDown();
                 }
                 break;
             }

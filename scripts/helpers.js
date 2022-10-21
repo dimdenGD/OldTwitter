@@ -733,6 +733,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t = await API.tweetDetail(t.id_str);
         }
     }
+    t.options = options;
     if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
     const tweet = document.createElement('div');
     if(!options.mainTweet && typeof mainTweetLikers !== 'undefined') {
@@ -1543,7 +1544,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
         }
     }
-    t.renderRetweetsDown = (tweetData) => {
+    t.renderRetweetsDown = () => {
         tweetInteractRetweetMenuRetweet.innerText = LOC.retweet.message;
         tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
         t.retweeted = false;
@@ -1579,7 +1580,34 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (!tweetData) {
                 return;
             }
-            t.renderRetweetsDown(tweetData);
+            if(t.current_user_retweet) {
+                if(options.top && options.top.icon && options.top.icon === "\uf006") {
+                    tweet.remove();
+                    if(typeof timeline !== 'undefined') {
+                        let index = timeline.data.findIndex((tweet) => tweet.retweeted_status && tweet.retweeted_status.id_str === t.id_str && !tweet.current_user_retweet);
+                        if(index > -1) {
+                            timeline.data.splice(index, 1);
+                            let originalTweet = timeline.data.find((tweet) => tweet.id_str === t.id_str);
+                            if(originalTweet) {
+                                delete originalTweet.current_user_retweet;
+                                originalTweet.renderRetweetsDown();
+                            }
+                        }
+                    }
+                } else {
+                    let retweetedElement = Array.from(document.getElementsByClassName('tweet')).find(te => te.dataset.tweetId === t.id_str && te.getElementsByClassName('retweet')[0]);
+                    if(retweetedElement) {
+                        retweetedElement.remove();
+                    }
+                    if(typeof timeline !== 'undefined') {
+                        let index = timeline.data.findIndex((tweet) => tweet.retweeted_status && tweet.retweeted_status.id_str === t.id_str && !tweet.current_user_retweet);
+                        if(index > -1) {
+                            timeline.data.splice(index, 1);
+                        }
+                    }
+                }
+            }
+            t.renderRetweetsDown();
         }
         chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
     });

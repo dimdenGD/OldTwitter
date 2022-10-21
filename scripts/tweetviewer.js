@@ -648,6 +648,7 @@ class TweetViewer {
                 t = await API.tweetDetail(t.id_str);
             }
         }
+        t.options = options;
         this.tweets.push(['tweet', t, options]);
         this.seenReplies.push(t.id_str);
         const tweet = document.createElement('div');
