@@ -543,6 +543,7 @@ input, textarea {
 }
 .search-results-title {
     color: var(--darker-gray);
+    font-weight: bold;
 }
 #search-results a:hover, .search-result-item-active, .navbar-new-tweet-user-search span:hover {
     background-color: var(--link-color) !important;

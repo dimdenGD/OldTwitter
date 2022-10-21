@@ -785,8 +785,11 @@ a:hover,
 }
 
 .search-switches>hr {
-    border-color: var(--border);
-    border-bottom: none;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    margin-top: 8px;
+    border-bottom: 1px solid var(--border);
 }
 
 .search-switch {
