@@ -85,7 +85,7 @@ setTimeout(() => {
                         <ul>
                             <li>Fixed bug with opening empty modal when clicking on left side of notification.</li>
                             <li>Fixed algorithmical timeline never loading sometimes.</li>
-                            <li>Fixed bug with retweet button being available for private accounts.</li>
+                            <li>Fixed bug with retweet button being available for private accounts / circle tweets.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {
