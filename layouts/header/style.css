@@ -669,7 +669,7 @@ input, textarea {
 }
 .message-element img {
     border-radius: 5px;
-    margin-top: 3px;
+    margin-bottom: 3px;
     vertical-align: middle;
 }
 .message-header-avatar {

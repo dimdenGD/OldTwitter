@@ -301,7 +301,7 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <a href="https://twitter.com/${sender.screen_name}"><img src="${sender.profile_image_url_https.replace("_normal", "_bigger")}" width="32" height="32"></a>
+                    <a href="https://twitter.com/${sender.screen_name}"><img src="${sender.profile_image_url_https.replace("_normal", "_bigger")}" width="26" height="26"></a>
                     <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>')}</span>
                     <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
                 ` : `
@@ -383,8 +383,9 @@ let userDataFunction = async user => {
                     } else {
                         photoElement.height = photo.original_info.height;
                     }
-                    photoElement.addEventListener('click', () => {
+                    photoElement.addEventListener('click', e => {
                         new Viewer(photoElement);
+                        e.target.click();
                     })
                     messageElement.append(document.createElement('br'), photoElement);
                 }
