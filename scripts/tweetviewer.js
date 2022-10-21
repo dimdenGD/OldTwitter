@@ -1743,6 +1743,9 @@ class TweetViewer {
                         tweets[0].click();
                     }
                 }
+                if(typeof timeline !== 'undefined') {
+                    timeline.data = timeline.data.filter(tweet => tweet.id_str !== t.id_str);
+                }
                 if(options.after) {
                     if(options.after.getElementsByClassName('tweet-self-thread-div')[0]) options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
                     if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
