@@ -14,10 +14,10 @@ If you like this extension please consider donating:
   
 ## Screenshots  
 ![Profile](https://lune.dimden.dev/ab9304b8c5.png)  
-![Profile 2](https://lune.dimden.dev/e073d858d4.png)  
+![Profile 2](https://lune.dimden.dev/a198d81e47.png)  
 ![Profile dark mode](https://lune.dimden.dev/8e7afd71fe.png)  
-![Tweet](https://lune.dimden.dev/2381fb0adb.png)  
-![Notifications](https://lune.dimden.dev/079d8c046c.png)  
+![Tweet](https://lune.dimden.dev/9acc5de7ad.png)  
+![Notifications](https://lune.dimden.dev/73938743da.png)  
 ![Search](https://lune.dimden.dev/575b9d30f1.png)  
   
 ## Features

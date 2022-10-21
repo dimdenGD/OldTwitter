@@ -1940,6 +1940,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     location.href = tweets[0].getElementsByClassName('tweet-time')[0].href;
                 }
             }
+            if(typeof timeline !== 'undefined') {
+                timeline.data = timeline.data.filter(tweet => tweet.id_str !== t.id_str);
+            }
             if(options.after && !options.disableAfterReplyCounter) {
                 if(options.after.getElementsByClassName('tweet-self-thread-div')[0]) options.after.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
                 if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
