@@ -1494,3 +1494,9 @@ emoji-picker {
 #navbar-user-menu-profile:hover #navbar-user-menu-username {
     color: white;
 }
+.tweet-interact-retweet-disabled:before,
+.tweet-interact-retweet-disabled:hover,
+.tweet-interact-retweet-disabled:hover:before {
+    color: var(--light-gray) !important;
+    cursor: not-allowed !important;
+}

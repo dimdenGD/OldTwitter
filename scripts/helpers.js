@@ -940,7 +940,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source.split('>')[1].split('<')[0]}</a>
             <div class="tweet-interact">
                 <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
-                <span class="tweet-interact-retweet ${t.retweeted ? 'tweet-interact-retweeted' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
+                <span class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${t.user.protected ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
                 <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
                     <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span>
                     <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span>
@@ -1512,6 +1512,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetQuote.hidden = true;
     });
     tweetInteractRetweet.addEventListener('click', async () => {
+        if(t.user.protected) {
+            return;
+        }
         if (!tweetQuote.hidden) {
             tweetQuote.hidden = true;
             return;
