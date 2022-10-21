@@ -1497,8 +1497,15 @@ let userDataFunction = async user => {
                 });
                 tweetsElementsByUser.forEach(tweetElement => {
                     let followButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-follow')[0];
-                    if(followButton) followButton.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+                    if(followButton) followButton.innerText = `${LOC.unfollow_user.message} @${tweet.user.screen_name}`;
                 });
+                let controlFollow = document.getElementById('control-follow');
+                if(controlFollow) {
+                    controlFollow.classList.remove('follow');
+                    controlFollow.classList.add('following');
+                    controlFollow.innerText = LOC.following.message;
+                    pageUser.following = true;
+                }
                 break;
             }
             case 'unfollow': {
@@ -1508,9 +1515,16 @@ let userDataFunction = async user => {
                 tweetsDataByUser.forEach(tweetData => {
                     tweetData.user.following = false;
                 });
+                let controlFollow = document.getElementById('control-follow');
+                if(controlFollow) {
+                    controlFollow.classList.remove('following');
+                    controlFollow.classList.add('follow');
+                    controlFollow.innerText = LOC.follow.message;
+                    pageUser.following = false;
+                }
                 tweetsElementsByUser.forEach(tweetElement => {
                     let followButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-follow')[0];
-                    if(followButton) followButton.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                    if(followButton) followButton.innerText = `${LOC.follow_user.message} @${tweet.user.screen_name}`;
                 });
                 break;
             }
