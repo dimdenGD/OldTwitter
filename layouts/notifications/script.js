@@ -73,7 +73,7 @@ async function renderNotifications(data, append = false) {
                 replyTweet.user = replyUser;
             }
             notificationDiv.addEventListener('click', e => {
-                if(e.target.closest('.notification')) {
+                if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
                     if(n.icon.id === "bell_icon") {
                         location.href = `https://twitter.com/i/timeline`;
                     } else if(replyTweet && replyTweet.user) {
