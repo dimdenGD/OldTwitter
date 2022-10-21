@@ -741,9 +741,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t = await API.tweetDetail(t.id_str);
         }
     }
-    t.options = options;
     if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
     const tweet = document.createElement('div');
+    t.element = tweet;
+    t.options = options;
+
     if(!options.mainTweet && typeof mainTweetLikers !== 'undefined') {
         tweet.addEventListener('click', async e => {
             if(e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
@@ -1007,9 +1009,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
             </div>
             <div class="tweet-self-thread-div" ${(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) ? '' : 'hidden'}>
-                <span class="tweet-self-thread-line"></span>
-                <div class="tweet-self-thread-line-dots"></div>
-                <br>${options.selfThreadContinuation && t.self_thread && t.self_thread.id_str && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : `<br>`}
+                ${options.selfThreadContinuation && t.self_thread && t.self_thread.id_str && !location.pathname.includes('/status/') ? /*html*/`<br>
+                    <a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">
+                        ${LOC.show_this_thread.message}
+                    </a>
+                    <span class="tweet-self-thread-line" style="margin-left: -108px;margin-top: -5px;"></span>
+                    <div class="tweet-self-thread-line-dots" style="margin-left: -120px;margin-top: -3px;"></div>
+                    ` : `
+                    <span class="tweet-self-thread-line"></span>
+                    <div class="tweet-self-thread-line-dots"></div>
+                `}
             </div>
         </div>
     `;
@@ -2150,6 +2159,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
     if(options.after) {
         options.after.after(tweet);
+    } else if (options.before) {
+        options.before.before(tweet);
     } else if (options.prepend) {
         timelineContainer.prepend(tweet);
     } else {

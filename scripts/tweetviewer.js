@@ -648,10 +648,11 @@ class TweetViewer {
                 t = await API.tweetDetail(t.id_str);
             }
         }
-        t.options = options;
         this.tweets.push(['tweet', t, options]);
         this.seenReplies.push(t.id_str);
         const tweet = document.createElement('div');
+        t.options = options;
+        t.element = tweet;
         if(!options.mainTweet) {
             tweet.addEventListener('click', async e => {
                 if(e.target.className.startsWith('tweet tweet-view tweet-id-') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
@@ -1882,6 +1883,8 @@ class TweetViewer {
     
         if(options.after) {
             options.after.after(tweet);
+        } else if (options.before) {
+            options.before.before(tweet);
         } else if (options.prepend) {
             timelineContainer.prepend(tweet);
         } else {

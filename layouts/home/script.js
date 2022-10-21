@@ -80,6 +80,7 @@ setTimeout(() => {
                             <li>Added page for new tweet notifications. You can click on 'New tweet notifications' notification to open it.</li>
                             <li>Made menus look pretty and how they looked in old Twitter.</li>
                             <li>Removed confirmation popup for retweets.</li>
+                            <li>Improved reverse-chronological timeline.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
@@ -240,6 +241,7 @@ function renderUserData() {
     document.getElementById('loading-box').hidden = true;
 }
 
+let renderLater = {};
 async function renderTimeline(append = false, sliceAmount = 0) {
     let timelineContainer = document.getElementById('timeline');
     if(!append) timelineContainer.innerHTML = '';
@@ -272,6 +274,31 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                         selfThreadButton: true,
                         bigFont: t.full_text.length < 75
                     });
+                    if(renderLater[t.id_str]) {
+                        t.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
+                        await appendTweet(renderLater[t.id_str], timelineContainer, {
+                            noTop: true,
+                            after: t.element
+                        });
+                        delete renderLater[t.id_str];
+                    }
+                }
+            } else if(t.in_reply_to_status_id_str) {
+                let replyTweet = timeline.data.find(tweet => tweet.element && tweet.id_str === t.in_reply_to_status_id_str);
+                if(replyTweet) {
+                    replyTweet.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
+                    await appendTweet(t, timelineContainer, {
+                        noTop: true,
+                        after: replyTweet.element
+                    });
+                } else {
+                    let ct = timeline.data.find(tweet => tweet.id_str === t.in_reply_to_status_id_str);
+                    if(!renderLater[t.in_reply_to_status_id_str] && ct && !ct.in_reply_to_status_id_str) {
+                        renderLater[t.in_reply_to_status_id_str] = t;
+                    } else {
+                        await appendTweet(t, timelineContainer, {});
+                        delete renderLater[t.in_reply_to_status_id_str];
+                    }
                 }
             } else {
                 let obj = {
@@ -301,6 +328,14 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     }
                 }
                 await appendTweet(t, timelineContainer, obj);
+                if(renderLater[t.id_str]) {
+                    t.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
+                    await appendTweet(renderLater[t.id_str], timelineContainer, {
+                        noTop: true,
+                        after: t.element
+                    });
+                    delete renderLater[t.id_str];
+                }
             }
         }
     };
