@@ -81,6 +81,7 @@ setTimeout(() => {
                             <li>Made menus look pretty and how they looked in old Twitter.</li>
                             <li>Removed confirmation popup for retweets.</li>
                             <li>Improved reverse-chronological timeline.</li>
+                            <li>Made Tweet Viewer autoload tweets on scroll end.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>

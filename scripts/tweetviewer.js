@@ -36,6 +36,8 @@ class TweetViewer {
         this.currentLocation = location.pathname;
         this.subpage = undefined;
         this.popstateHelper = undefined;
+        this.scrollHelper = undefined;
+        this.timelineElement = this.container.getElementsByClassName('timeline')[0];
 
         let event = new CustomEvent('clearActiveTweet');
         document.dispatchEvent(event);
@@ -145,7 +147,9 @@ class TweetViewer {
             tl = tlData.value;
             tweetLikers = tweetLikersData.value;
             this.loadingNewTweets = false;
+            document.getElementsByClassName('timeline-more')[0].innerText = LOC.load_more.message;
         } catch(e) {
+            document.getElementsByClassName('timeline-more')[0].innerText = LOC.load_more.message;
             this.loadingNewTweets = false;
             return this.cursor = undefined;
         }
@@ -1919,6 +1923,16 @@ class TweetViewer {
         }
         that.currentLocation = location.pathname;
     }
+    async onScroll(that) {
+        let tl = that.timelineElement;
+        let modal = tl.parentElement;
+        if(modal.scrollTop + 200 > tl.scrollHeight - modal.clientHeight && !that.loadingNewTweets) {
+            let btn = modal.getElementsByClassName('timeline-more')[0];
+            if(btn && that.subpage === 'tweet' && !btn.hidden) {
+                btn.click();
+            }
+        }
+    }
     async appendTombstone(timelineContainer, text) {
         this.tweets.push(['tombstone', text]);
         let tombstone = document.createElement('div');
@@ -1927,9 +1941,10 @@ class TweetViewer {
         timelineContainer.append(tombstone);
     }
     init() {
-        document.getElementsByClassName('timeline-more')[0].addEventListener('click', async () => {
+        document.getElementsByClassName('timeline-more')[0].addEventListener('click', async e => {
             if (!this.cursor || this.loadingNewTweets) return;
             this.loadingNewTweets = true;
+            e.target.innerText = LOC.loading_tweets.message;
             let path = location.pathname;
             if(path.endsWith('/')) path = path.slice(0, -1);
             this.updateReplies(path.split('/').slice(-1)[0], this.cursor);
@@ -1962,10 +1977,13 @@ class TweetViewer {
             this.updateRetweetsWithComments(id);
         }
         this.popstateHelper = () => this.popstateChange(this);
+        this.scrollHelper = () => this.onScroll(this);
         window.addEventListener("popstate", this.popstateHelper);
+        this.timelineElement.parentElement.addEventListener("scroll", this.scrollHelper, { passive: true });
     }
     close() {
         document.removeEventListener('scroll', this.onscroll);
         window.removeEventListener("popstate", this.popstateHelper);
+        this.timelineElement.parentElement.removeEventListener("scroll", this.scrollHelper);
     }
 }
