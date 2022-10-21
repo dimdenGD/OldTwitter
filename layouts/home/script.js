@@ -79,7 +79,7 @@ setTimeout(() => {
                             <li>Support for scheduled tweets.</li>
                             <li>Added page for new tweet notifications. You can click on 'New tweet notifications' notification to open it.</li>
                             <li>Made menus look pretty and how they looked in old Twitter.</li>
-                            <li>Removed confirmation window for retweets.</li>
+                            <li>Removed confirmation popup for retweets.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>

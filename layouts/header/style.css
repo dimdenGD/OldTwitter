@@ -508,19 +508,12 @@ input, textarea {
     margin-bottom: 3px;
     margin-right: 3px;
 }
-#search-results {
-    margin-top: 2px;
-    position: absolute;
-    background: var(--background-color);
-    padding: 5px;
-    border-radius: 5px;
-    font-weight: bold;
-    color: var(--light-gray);
-    border: 1px solid var(--light-gray);
-    min-width: 130px;
-}
+
 .search-result-item {
     display: block;
+}
+.search-result-item-name {
+    font-weight: bold;
 }
 .search-result-item-screen-name {
     font-weight: normal;
@@ -533,16 +526,23 @@ input, textarea {
     margin-left: 5px;
 }
 #search-results {
+    margin-top: 5px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     position: absolute;
-    background-color: var(--background-color);
-    padding: 5px;
-    z-index: 5;
-    color: var(--almost-black);
-}
-#search-results a, .navbar-new-tweet-user-search span {
-    cursor: pointer;
+    background: var(--menu-bg);
     border-radius: 5px;
-    padding: 2px;
+    color: var(--light-gray);
+    min-width: 130px;
+    z-index: 5;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+}
+#search-results a, .navbar-new-tweet-user-search span, .search-results-title {
+    cursor: pointer;
+    padding: 5px 10px;
+}
+.search-results-title {
+    color: var(--darker-gray);
 }
 #search-results a:hover, .search-result-item-active, .navbar-new-tweet-user-search span:hover {
     background-color: var(--link-color) !important;
@@ -563,8 +563,8 @@ input, textarea {
     color: var(--almost-black);
     cursor: pointer;
     position: relative;
-    bottom: 18px;
-    right: 4px;
+    bottom: 20px;
+    right: 6px;
 }
 .inbox-modal {
     max-width: 600px !important;
@@ -1238,6 +1238,7 @@ input, textarea {
     z-index: 5;
     background-color: var(--background-color);
     border: 1px solid var(--border);
+    box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
     border-radius: 5px;
     word-break: normal;
     line-height: normal;
