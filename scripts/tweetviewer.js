@@ -1034,6 +1034,7 @@ class TweetViewer {
             let repliesLink = tweet.getElementsByClassName('tweet-footer-stat-o')[0];
             repliesLink.addEventListener('click', e => {
                 e.preventDefault();
+                if(location.href === `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`) return;
                 history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
