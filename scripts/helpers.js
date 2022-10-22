@@ -1016,7 +1016,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-self-thread-line" style="margin-left: -108px;margin-top: -5px;"></span>
                     <div class="tweet-self-thread-line-dots" style="margin-left: -120px;margin-top: -3px;"></div>
                 ` : /*html*/`
-                    <br><br>
+                    ${location.pathname.includes('/status/') ? `<br><br>` : ''}
                     <span ${location.pathname.includes('/status/') ? `style="margin-top:-10px;" ` : ''}class="tweet-self-thread-line"></span>
                     <div ${location.pathname.includes('/status/') ? `style="margin-top:-8px;" ` : ''}class="tweet-self-thread-line-dots"></div>
                 `}
