@@ -14,7 +14,6 @@ function updateUserData() {
         try {
             profileColor = await fetch(`https://dimden.dev/services/twitter_link_colors/get/${user.screen_name}`).then(res => res.text());
         } catch(e) {};
-        profileColor = 'none';
         if(profileColor) {
             if(profileColor === 'none' && u.profile_link_color && u.profile_link_color.toUpperCase() !== "1DA1F2") {
                 profileColor = '#'+u.profile_link_color;
