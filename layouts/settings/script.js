@@ -14,9 +14,10 @@ function updateUserData() {
         try {
             profileColor = await fetch(`https://dimden.dev/services/twitter_link_colors/get/${user.screen_name}`).then(res => res.text());
         } catch(e) {};
+        profileColor = 'none';
         if(profileColor) {
             if(profileColor === 'none' && u.profile_link_color && u.profile_link_color.toUpperCase() !== "1DA1F2") {
-                profileColor = u.profile_link_color;
+                profileColor = '#'+u.profile_link_color;
             }
             if(profileColor !== 'none') {
                 profileLinkColor.value = `#`+profileColor;
@@ -27,6 +28,16 @@ function updateUserData() {
                     profileColor = colorShade(profileColor, 80).slice(1);
                 }
                 colorPreviewDark.style.color = `#${profileColor}`;
+            } else {
+                let col = `#4595b5`;
+                profileLinkColor.value = col;
+                colorPreviewLight.style.color = col;
+                let rgb = hex2rgb(col);
+                let ratio = contrast(rgb, [27, 40, 54]);
+                if(ratio < 4) {
+                    col = colorShade(col, 80).slice(1);
+                }
+                colorPreviewDark.style.color = col;
             }
         }
     }).catch(e => {
