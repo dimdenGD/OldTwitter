@@ -91,6 +91,8 @@ setTimeout(() => {
                             <li>Fixed 'New tweets' button showing up every time you post new tweet.</li>
                             <li>Fixed 'New tweets' button showing up if you delete first tweet on timeline and when you click on it it duplicates next tweet.</li>
                             <li>Made user previews not appear far away from cursor.</li>
+                            <li>Fixed first tweet translation button being off-element.</li>
+                            <li>Made Twitter profile link color appear in settings page if none set in OldTwitter database.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {
@@ -695,6 +697,13 @@ setTimeout(async () => {
         if(e.target !== newTweetText) {
             newTweetText.dataset.blurSince = Date.now();
         }
+        let firstTweet = document.getElementsByClassName('tweet')[0];
+        if(firstTweet) {
+            let ta = firstTweet.getElementsByClassName('tweet-translate-after')[0];
+            if(ta) {
+                ta.style.marginRight = '0px';
+            }
+        }
     });
     document.getElementById('new-tweet').addEventListener('drop', e => {
         document.getElementById('new-tweet').click();
@@ -1198,6 +1207,13 @@ setTimeout(async () => {
         document.getElementById('new-tweet-poll').style.width = '0';
         document.getElementById('new-tweet-poll').hidden = true;
         document.getElementById('new-tweet-focused').hidden = true;
+        let firstTweet = document.getElementsByClassName('tweet')[0];
+        if(firstTweet) {
+            let ta = firstTweet.getElementsByClassName('tweet-translate-after')[0];
+            if(ta) {
+                ta.style.marginRight = '-20px';
+            }
+        }
         document.getElementById('new-tweet-audience').hidden = true;
         document.getElementById('new-tweet-char').hidden = true;
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
@@ -1217,6 +1233,13 @@ setTimeout(async () => {
         let newTweetText = document.getElementById('new-tweet-text');
         if(newTweetText && newTweetText.className && newTweetText.className.includes('new-tweet-text-focused') && newTweetText.dataset.blurSince && Date.now() - (+newTweetText.dataset.blurSince) > 55000) {
             document.getElementById('new-tweet-focused').hidden = true;
+            let firstTweet = document.getElementsByClassName('tweet')[0];
+            if(firstTweet) {
+                let ta = firstTweet.getElementsByClassName('tweet-translate-after')[0];
+                if(ta) {
+                    ta.style.marginRight = '-20px';
+                }
+            }
             document.getElementById('new-tweet-audience').hidden = true;
             document.getElementById('new-tweet-char').hidden = true;
             document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
