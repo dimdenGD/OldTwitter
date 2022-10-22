@@ -31,7 +31,7 @@ let pages = [
     },
     {
         name: "device_follow",
-        paths: [/^\/i\/timeline$/]
+        paths: ["/i/timeline"]
     },
     {
         name: "tweet",
