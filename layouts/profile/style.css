@@ -1016,6 +1016,9 @@ a:hover,
 .profile-additional-birth:before {
     content: "\f033"
 }
+.profile-additional-professional:before {
+    content: "\f204";
+}
 .profile-additional-birth-today {
     animation: rainbow 5s infinite
 }

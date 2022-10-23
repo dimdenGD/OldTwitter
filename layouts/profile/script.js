@@ -779,6 +779,13 @@ async function renderProfile() {
         if(!url.href.startsWith('https://twitter.com/')) url.target = "_blank";
         additionalInfo.appendChild(url);
     }
+    if(pageUser.professional && pageUser.professional.category && pageUser.professional.category[0]) {
+        let prof = document.createElement('span');
+        prof.classList.add('profile-additional-thing', 'profile-additional-professional');
+        prof.innerText = pageUser.professional.category[0].name;
+        additionalInfo.appendChild(prof);
+        if(vars.enableTwemoji) twemoji.parse(prof);
+    }
     let joined = document.createElement('span');
     joined.classList.add('profile-additional-thing', 'profile-additional-joined');
     joined.innerText = `${LOC.joined.message} ${new Date(pageUser.created_at).toLocaleDateString(LANGUAGE, {month: 'long', year: 'numeric', day: 'numeric'})}`;

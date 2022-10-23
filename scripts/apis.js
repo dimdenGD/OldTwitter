@@ -789,6 +789,7 @@ API.getUser = (val, byId = true) => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -808,7 +809,8 @@ API.getUserV2 = name => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/json"
+                "content-type": "application/json",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
@@ -819,6 +821,9 @@ API.getUserV2 = name => {
             result.legacy.id_str = result.rest_id;
             if(result.legacy_extended_profile.birthdate) {
                 result.legacy.birthdate = result.legacy_extended_profile.birthdate;
+            }
+            if(result.professional) {
+                result.legacy.professional = result.professional;
             }
             resolve(result.legacy);
         }).catch(e => {
