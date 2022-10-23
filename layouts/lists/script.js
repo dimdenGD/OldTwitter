@@ -235,38 +235,7 @@ async function renderListMembers(c) {
     let container = document.getElementById('list-members');
     for(let i in listMembers) {
         let t = listMembers[i];
-        let followingElement = document.createElement('div');
-        followingElement.classList.add('following-item');
-        followingElement.innerHTML = `
-        <div style="height:48px">
-            <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
-                <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${escapeHTML(t.name)}</span><br>
-                    <span class="tweet-header-handle">@${t.screen_name}</span>
-                </div>
-            </a>
-        </div>
-        <div>
-            <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? LOC.following_btn.message: LOC.follow.message}</button>
-        </div>`;
-
-        let followButton = followingElement.querySelector('.following-item-btn');
-        followButton.addEventListener('click', async () => {
-            if (followButton.classList.contains('following')) {
-                await API.unfollowUser(t.screen_name);
-                followButton.classList.remove('following');
-                followButton.classList.add('follow');
-                followButton.innerText = LOC.follow.message;
-            } else {
-                await API.followUser(t.screen_name);
-                followButton.classList.remove('follow');
-                followButton.classList.add('following');
-                followButton.innerText = LOC.following_btn.message;
-            }
-        });
-
-        container.appendChild(followingElement);
+        appendUser(t, container);
     }
     return true;
 }
@@ -293,22 +262,22 @@ async function renderListFollowers(c) {
     for(let i in listFollowers) {
         let t = listFollowers[i];
         let followingElement = document.createElement('div');
-        followingElement.classList.add('following-item');
+        followingElement.classList.add('user-item');
         followingElement.innerHTML = `
         <div style="height:48px">
-            <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
-                <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${escapeHTML(t.name)}</span><br>
+            <a href="https://twitter.com/${t.screen_name}" class="user-item-link">
+                <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
+                <div class="user-item-text">
+                    <span class="tweet-header-name user-item-name">${escapeHTML(t.name)}</span><br>
                     <span class="tweet-header-handle">@${t.screen_name}</span>
                 </div>
             </a>
         </div>
         <div>
-            <button class="following-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? LOC.following.message: LOC.follow.message}</button>
+            <button class="user-item-btn nice-button ${t.following ? 'following' : 'follow'}">${t.following ? LOC.following.message: LOC.follow.message}</button>
         </div>`;
 
-        let followButton = followingElement.querySelector('.following-item-btn');
+        let followButton = followingElement.querySelector('.user-item-btn');
         followButton.addEventListener('click', async () => {
             if (followButton.classList.contains('following')) {
                 await API.unfollowUser(t.screen_name);

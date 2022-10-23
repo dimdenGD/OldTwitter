@@ -128,16 +128,16 @@ body {
     margin-left: 10px;
     margin-right: 10px;
 }
-#device_follow {
+#itl {
     width: 560px;
     margin-bottom: 10px;
     min-height: 700px;
     padding: 10px;
 }
-#device_follow hr {
+#itl hr {
     border-top: var(--border);
 }
-#device_follow h1 {
+#itl h1 {
     margin-bottom: 5px !important;
 }
 .tweet, .notification {
@@ -184,7 +184,7 @@ body {
     padding: 10px;
     width: 250px;
 }
-#wtf h1, #trends h1, #device_follow h1 {
+#wtf h1, #trends h1, #itl h1 {
     margin: 0;
     display: inline-block;
     font-size: 22px;
@@ -978,8 +978,17 @@ a:hover,
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 }
-#timeline > :last-child {
-    border-bottom: 1px solid var(--border) !important;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+#user-list {
+    padding: 10px;
+    border-top: none;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+.tweet:last-child {
+    border-bottom: 1px solid var(--border);
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.user-item-btn {
+    bottom: 47px !important;
 }

@@ -75,7 +75,9 @@ async function renderNotifications(data, append = false) {
             notificationDiv.addEventListener('click', e => {
                 if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
                     if(n.icon.id === "bell_icon") {
-                        location.href = `https://twitter.com/i/timeline`;
+                        location.href = `https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`;
+                    } else if(n.icon.id === "heart_icon") {
+                        location.href = `https://twitter.com/i/timeline?page=likes&nid=${n.id}`;
                     } else if(replyTweet && replyTweet.user) {
                         new TweetViewer(user, replyTweet);
                     }
@@ -84,7 +86,11 @@ async function renderNotifications(data, append = false) {
             notificationDiv.addEventListener('mousedown', e => {
                 if(e.button === 1) {
                     e.preventDefault();
-                    if(e.target == notificationDiv || e.target.className === 'notification-avatars' && replyTweet) {
+                    if(n.icon.id === "bell_icon") {
+                        openInNewTab(`https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`);
+                    } else if(n.icon.id === "heart_icon") {
+                        openInNewTab(`https://twitter.com/i/timeline?page=likes&nid=${n.id}`);
+                    } else if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
                         openInNewTab(`https://twitter.com/${replyTweet.user.screen_name}/status/${replyTweet.id_str}`);
                     }
                 }
@@ -142,6 +148,7 @@ async function renderNotifications(data, append = false) {
                     ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
                 </div>
             `;
+            notificationDiv.dataset.notificationId = n.id;
             if(n.feedback) {
                 let feedbackBtn = notificationDiv.querySelector('.notification-feedback');
                 feedbackBtn.addEventListener('click', () => {

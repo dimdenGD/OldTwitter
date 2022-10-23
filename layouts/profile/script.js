@@ -301,8 +301,8 @@ async function updateTimeline() {
 }
 
 async function renderFollowing(clear = true, cursor) {
-    let followingList = document.getElementById('following-list');
-    if(clear) followingList.innerHTML = `<h1 class="nice-header">${LOC.following.message}</h1>`;
+    let userList = document.getElementById('following-list');
+    if(clear) userList.innerHTML = `<h1 class="nice-header">${LOC.following.message}</h1>`;
     let following = await API.getFollowing(pageUser.id_str, cursor);
     followingCursor = following.cursor;
     following = following.list;
@@ -312,46 +312,13 @@ async function renderFollowing(clear = true, cursor) {
         document.getElementById('following-more').hidden = false;
     }
     following.forEach(u => {
-        let followingElement = document.createElement('div');
-        followingElement.classList.add('following-item');
-        followingElement.innerHTML = `
-        <div>
-            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name ${u.verified ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
-                    <span class="tweet-header-handle">@${u.screen_name}</span>
-                    ${u.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
-                </div>
-            </a>
-        </div>
-        <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
-        </div>`;
-
-        let followButton = followingElement.querySelector('.following-item-btn');
-        followButton.addEventListener('click', async () => {
-            if (followButton.classList.contains('following')) {
-                await API.unfollowUser(u.screen_name);
-                followButton.classList.remove('following');
-                followButton.classList.add('follow');
-                followButton.innerText = LOC.follow.message;
-            } else {
-                await API.followUser(u.screen_name);
-                followButton.classList.remove('follow');
-                followButton.classList.add('following');
-                followButton.innerText = LOC.following_btn.message;
-            }
-        });
-
-        followingList.appendChild(followingElement);
-        if(vars.enableTwemoji) twemoji.parse(followingElement);
+        appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
 }
 async function renderFollowers(clear = true, cursor) {
-    let followingList = document.getElementById('followers-list');
-    if(clear) followingList.innerHTML = '<h1 class="nice-header">Followers</h1>';
+    let userList = document.getElementById('followers-list');
+    if(clear) userList.innerHTML = '<h1 class="nice-header">Followers</h1>';
     let following = await API.getFollowers(pageUser.id_str, cursor);
     followersCursor = following.cursor;
     following = following.list;
@@ -361,46 +328,13 @@ async function renderFollowers(clear = true, cursor) {
         document.getElementById('followers-more').hidden = false;
     }
     following.forEach(u => {
-        let followingElement = document.createElement('div');
-        followingElement.classList.add('following-item');
-        followingElement.innerHTML = `
-        <div>
-            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name ${u.verified ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
-                    <span class="tweet-header-handle">@${u.screen_name}</span>
-                    ${u.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
-                </div>
-            </a>
-        </div>
-        <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
-        </div>`;
-
-        let followButton = followingElement.querySelector('.following-item-btn');
-        followButton.addEventListener('click', async () => {
-            if (followButton.classList.contains('following')) {
-                await API.unfollowUser(u.screen_name);
-                followButton.classList.remove('following');
-                followButton.classList.add('follow');
-                followButton.innerText = LOC.follow.message;
-            } else {
-                await API.followUser(u.screen_name);
-                followButton.classList.remove('follow');
-                followButton.classList.add('following');
-                followButton.innerText = LOC.following_btn.message;
-            }
-        });
-
-        followingList.appendChild(followingElement);
-        if(vars.enableTwemoji) twemoji.parse(followingElement);
+        appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
 }
 async function renderFollowersYouFollow(clear = true, cursor) {
-    let followingList = document.getElementById('followers_you_follow-list');
-    if(clear) followingList.innerHTML = '<h1 class="nice-header">Followers you know</h1>';
+    let userList = document.getElementById('followers_you_follow-list');
+    if(clear) userList.innerHTML = '<h1 class="nice-header">Followers you know</h1>';
     let following = await API.getFollowersYouFollow(pageUser.id_str, cursor);
     followersYouKnowCursor = following.cursor;
     following = following.list;
@@ -410,40 +344,7 @@ async function renderFollowersYouFollow(clear = true, cursor) {
         document.getElementById('followers_you_follow-more').hidden = false;
     }
     following.forEach(u => {
-        let followingElement = document.createElement('div');
-        followingElement.classList.add('following-item');
-        followingElement.innerHTML = `
-        <div>
-            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                <div class="following-item-text">
-                    <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
-                    <span class="tweet-header-handle">@${u.screen_name}</span>
-                    ${u.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
-                </div>
-            </a>
-        </div>
-        <div>
-            <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
-        </div>`;
-
-        let followButton = followingElement.querySelector('.following-item-btn');
-        followButton.addEventListener('click', async () => {
-            if (followButton.classList.contains('following')) {
-                await API.unfollowUser(u.screen_name);
-                followButton.classList.remove('following');
-                followButton.classList.add('follow');
-                followButton.innerText = LOC.follow.message;
-            } else {
-                await API.followUser(u.screen_name);
-                followButton.classList.remove('follow');
-                followButton.classList.add('following');
-                followButton.innerText = LOC.following_btn.message;
-            }
-        });
-
-        followingList.appendChild(followingElement);
-        if(vars.enableTwemoji) twemoji.parse(followingElement);
+        appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
 }

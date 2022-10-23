@@ -1502,3 +1502,25 @@ emoji-picker {
     color: var(--light-gray) !important;
     cursor: not-allowed !important;
 }
+.user-item-btn {
+    float: right;
+    position: relative;
+    bottom: 52px;
+    height: 40px
+}
+
+.user-item-text {
+    width: fit-content;
+    display: inline-block;
+    position: relative;
+    bottom: 14px;
+    margin-left: 8px
+}
+
+.user-item-link:hover {
+    text-decoration: none
+}
+
+.user-item {
+    margin-bottom: 5px
+}

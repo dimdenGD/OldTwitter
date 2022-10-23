@@ -3,6 +3,8 @@ let tlCursor = null;
 let end = false;
 let linkColors = {};
 let activeTweet;
+let subpage = new URLSearchParams(location.search).get('page');
+let nid = new URLSearchParams(location.search).get('nid');
 
 function updateUserData() {
     API.verifyCredentials().then(async u => {
@@ -40,9 +42,10 @@ function renderUserData() {
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
+    document.getElementById('loading-box').hidden = true;
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 }
-async function renderTimeline(cursor) {
+async function renderDeviceNotificationTimeline(cursor) {
     let tl = await API.getDeviceFollowTweets(cursor);
     let container = document.getElementById('timeline');
     if (tl.cursor) {
@@ -62,6 +65,23 @@ async function renderTimeline(cursor) {
         });
     }
 }
+async function renderLikesTimeline() {
+    document.getElementById("itl-header").innerText = LOC.likes.message;
+    document.getElementsByTagName('title')[0].innerText = `${LOC.likes.message} - OldTwitter`;
+    let tl = await API.viewNotification(nid);
+    let tweetContainer = document.getElementById('timeline');
+    let userContainer = document.getElementById('user-list');
+    for(let i in tl) {
+        let d = tl[i];
+        if(d.type === 'tweet') {
+            await appendTweet(d.data, tweetContainer, {
+                bigFont: d.data.full_text.length < 75
+            });
+        } else if(d.type === 'user') {
+            await appendUser(d.data, userContainer);
+        }
+    }
+}
 
 let lastScroll = Date.now();
 let loadingNewTweets = false;
@@ -70,6 +90,10 @@ let lastTweetDate = 0;
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
+    }
+
+    if(!subpage || !['likes', 'device_follow'].includes(subpage) || (subpage === 'likes' && !nid)) {
+        location.href = 'https://twitter.com/home';
     }
 
     // weird bug
@@ -267,23 +291,22 @@ setTimeout(async () => {
         }
 
         // loading new tweets
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
+        if (subpage === 'device_follow' && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
             if (loadingNewTweets) return;
             loadingNewTweets = true;
-            await renderTimeline(tlCursor);
+            await renderDeviceNotificationTimeline(tlCursor);
             setTimeout(() => {
                 loadingNewTweets = false;
             }, 250);
         }
     }, { passive: true });
-
     
     // Run
     updateUserData();
     renderDiscovery();
     renderTrends();
-    renderTimeline();
-    document.getElementById('loading-box').hidden = true;
+    if(subpage === 'device_follow') renderDeviceNotificationTimeline();
+    else if(subpage === 'likes') renderLikesTimeline();
     setInterval(updateUserData, 60000 * 3);
     setInterval(() => renderDiscovery(false), 60000 * 15);
     setInterval(renderTrends, 60000 * 5);

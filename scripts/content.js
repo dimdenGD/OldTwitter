@@ -30,7 +30,7 @@ let pages = [
         paths: [/^\/i\/topics\/\d+$/]
     },
     {
-        name: "device_follow",
+        name: "itl",
         paths: ["/i/timeline"]
     },
     {

@@ -1732,7 +1732,7 @@ setTimeout(async () => {
             });
         }
         let about = document.getElementById('about');
-        if(about && !location.pathname.startsWith('/old/')) {
+        if(about && !location.pathname.startsWith('/old/') && !location.pathname.startsWith('/i/timeline')) {
             let a = document.createElement('a');
             a.href = location.href.replace('twitter.com', 'mobile.twitter.com');
             setInterval(() => {

@@ -722,6 +722,64 @@ API.getDeviceFollowTweets = (cursor) => {
         });
     });
 }
+API.viewNotification = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/2/notifications/view/${id}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include",
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
+            let tl = [];
+            for(let i in entries) {
+                let e = entries[i];
+                if(e.entryId.startsWith('tweet-')) {
+                    let tweet = data.globalObjects.tweets[e.content.item.content.tweet.id];
+                    tweet.user = data.globalObjects.users[tweet.user_id_str];
+                    if(tweet.quoted_status_id_str) {
+                        tweet.quoted_status = data.globalObjects.tweets[tweet.quoted_status_id_str];
+                        if(tweet.quoted_status) {
+                            tweet.quoted_status.user = data.globalObjects.users[tweet.quoted_status.user_id_str];
+                        }
+                    }
+                    tl.push({data: tweet, type: 'tweet'});
+                } else if(e.entryId.startsWith('main-tweet-')) {
+                    let id = e.content.timelineModule.items[0].item.content.tweet.id;
+                    let tweet = data.globalObjects.tweets[id];
+                    tweet.user = data.globalObjects.users[tweet.user_id_str];
+                    if(tweet.quoted_status_id_str) {
+                        tweet.quoted_status = data.globalObjects.tweets[tweet.quoted_status_id_str];
+                        if(tweet.quoted_status) {
+                            tweet.quoted_status.user = data.globalObjects.users[tweet.quoted_status.user_id_str];
+                        }
+                    }
+                    tl.push({data: tweet, type: 'tweet'});
+                } else if(e.entryId.startsWith('user-')) {
+                    let id = e.content.item.content.user.id;
+                    let user = data.globalObjects.users[id];
+                    tl.push({data: user, type: 'user'});
+                } else if(e.entryId.startsWith('main-user-')) {
+                    let id = e.content.timelineModule.items[0].item.content.user.id;
+                    let user = data.globalObjects.users[id];
+                    tl.push({data: user, type: 'user'});
+                }
+            }
+            resolve(tl);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 
 // Profiles
 API.getUser = (val, byId = true) => {

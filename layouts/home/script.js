@@ -83,6 +83,7 @@ setTimeout(() => {
                             <li>Improved reverse-chronological timeline.</li>
                             <li>Made Tweet Viewer autoload tweets on scroll end.</li>
                             <li>Added support for promo_video_convo card.</li>
+                            <li>Support for viewing what tweets were liked.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
