@@ -1349,14 +1349,19 @@ let userDataFunction = async user => {
             let shadow = userPreview.attachShadow({mode: 'closed'});
             userPreview.className = 'user-preview';
 
+            let stopLoad = false;
+
             let leaveFunction = () => {
                 leavePreviewTimeout = setTimeout(() => {
+                    stopLoad = true;
                     userPreview.remove();
                     el.removeEventListener('mouseleave', leaveFunction);
                 }, 500);
             }
+            el.addEventListener('mouseleave', leaveFunction);
 
             let user = await API.getUser(id ? id : username, !!id);
+            if(stopLoad) return;
             let div = document.createElement('div');
             div.innerHTML = /*html*/`
                 <style>:host{font-weight:initial;line-height:initial;text-align:initial;word-spacing:initial}.follows-you-label{font-size:11px;letter-spacing:.02em;text-transform:uppercase;color:var(--darker-gray);background:rgba(0,0,0,0.08);width:fit-content;padding:3px 7px;border-radius:5px;margin-bottom:5px;margin-top:5px;display:block}.preview-user-banner {border-top-left-radius: 5px;border-top-right-radius: 5px;object-fit: cover;}.preview-user-info {left: 10px;position: relative;text-decoration: none !important;}.preview-user-stats {display: inline-flex;padding-bottom: 7px;}.preview-user-avatar {border: 4px solid var(--background-color);border-radius: 7px;margin-left: 7px;margin-top: -32px;}.preview-user-name {color: var(--almost-black);font-size: 20px;margin: 0;position: relative;width: 180px;overflow-x: hidden;}.preview-user-handle {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0;position: relative;width: fit-content;}.preview-user-follow {float: right;bottom: 68px;position: relative;right: 7px;}.preview-user-description {width: 280px;color: var(--darker-gray);font-size: 15px;left: 10px;position: relative;display: block;margin-top: 5px;}.user-stat-div>h2 {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0 10px;text-transform: uppercase;white-space: nowrap;}.user-stat-div>h1 {color: var(--link-color);font-size: 20px;margin: 0 10px }.user-stat-div {text-decoration: none !important;}.nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: linear-gradient(var(--background-color),var(--darker-background-color));background-repeat: no-repeat;border: 1px solid var(--border);border-radius: 4px;color: var(--darker-gray);cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}.nice-button:hover:not([disabled]) {color: var(--almost-black);text-decoration: none;background-color: var(--border);background-image: linear-gradient(var(--background-color),var(--border));border-color: var(--border);}.nice-button:disabled {color: lightgray !important;cursor: not-allowed;}.nice-button:disabled:before {color: lightgray !important;}.emoji {height: 16px;margin-left: 2px;margin-right: 2px;vertical-align: bottom;width: 16px;}a {color: var(--link-color);text-decoration: none }a:hover {text-decoration: underline;}</style>
@@ -1386,6 +1391,7 @@ let userDataFunction = async user => {
                     </div>
                 </div>
             `;
+            div.addEventListener('mouseleave', leaveFunction);
             let links = Array.from(div.querySelector('.preview-user-description').querySelectorAll('a'));
             links.forEach(link => {
                 let realLink = user.entities.description.urls.find(u => u.url === link.href);
@@ -1423,8 +1429,6 @@ let userDataFunction = async user => {
                     wtfFollow.innerText = LOC.following_btn.message;
                 }
             });
-            div.addEventListener('mouseleave', leaveFunction);
-            el.addEventListener('mouseleave', leaveFunction);
             shadow.appendChild(div);
 
             if(isSticky(el)) {
