@@ -1105,12 +1105,6 @@ a:hover,
 .user-stat-div:hover {
     text-decoration: none !important;
 }
-.tweet-tombstone {
-    background-color: var(--background-color);
-    padding: 10px;
-    z-index: 10;
-    border: 1px solid var(--border);
-}
 
 .tweet-self-thread-continuation .tweet-body {
     margin-bottom: -30px;

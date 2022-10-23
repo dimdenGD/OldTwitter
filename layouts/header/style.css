@@ -1524,3 +1524,9 @@ emoji-picker {
 .user-item {
     margin-bottom: 5px
 }
+.tweet-tombstone {
+    background-color: var(--background-color);
+    padding: 10px;
+    z-index: 10;
+    border: 1px solid var(--border);
+}
