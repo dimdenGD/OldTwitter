@@ -386,16 +386,26 @@ function generatePoll(tweet, tweetElement, user) {
 }
 function generateCard(tweet, tweetElement, user) {
     if(!tweet.card) return;
-    if(tweet.card.name === 'promo_image_convo') {
+    if(tweet.card.name === 'promo_image_convo' || tweet.card.name === 'promo_video_convo') {
         let vals = tweet.card.binding_values;
         let a = document.createElement('a');
         a.href = vals.thank_you_url.string_value;
         a.target = '_blank';
         a.title = vals.thank_you_text.string_value;
         let img = document.createElement('img');
-        img.src = vals.promo_image.image_value.url;
-        img.width = sizeFunctions[1](vals.promo_image.image_value.width, vals.promo_image.image_value.height)[0];
-        img.height = sizeFunctions[1](vals.promo_image.image_value.width, vals.promo_image.image_value.height)[1];
+        let imgValue = vals.promo_image;
+        if(!imgValue) {
+            imgValue = vals.cover_promo_image_original;
+        }
+        if(!imgValue) {
+            imgValue = vals.cover_promo_image_large;
+        }
+        if(!imgValue) {
+            return;
+        }
+        img.src = imgValue.image_value.url;
+        img.width = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height)[0];
+        img.height = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height)[1];
         img.className = 'tweet-media-element';
         a.append(img);
         tweetElement.getElementsByClassName('tweet-card')[0].append(a);

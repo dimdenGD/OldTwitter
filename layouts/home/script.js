@@ -82,6 +82,7 @@ setTimeout(() => {
                             <li>Removed confirmation popup for retweets.</li>
                             <li>Improved reverse-chronological timeline.</li>
                             <li>Made Tweet Viewer autoload tweets on scroll end.</li>
+                            <li>Added support for promo_video_convo card.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
