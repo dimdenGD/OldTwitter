@@ -90,7 +90,7 @@
     "name": { "message": "Название" },
     "description": { "message": "Описание" },
     "no_description": { "message": "Нет описания." },
-    "born": { "message": "Народился" },
+    "born": { "message": "Родился" },
     "january": { "message": "$NUMBER$ января", "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.", "placeholders": { "number": { "content": "1" } } },
     "february": { "message": "$NUMBER$ февраля", "placeholders": { "number": { "content": "1" } } },
     "march": { "message": "$NUMBER$ марта", "placeholders": { "number": { "content": "1" } } },
