@@ -755,7 +755,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
     const tweet = document.createElement('div');
     t.element = tweet;
     t.options = options;
-    if(['1584215543531261953', '1584215949062049793', '1584215517069340672'].includes(t.id_str)) console.log(t);
 
     if(!options.mainTweet && typeof mainTweetLikers !== 'undefined') {
         tweet.addEventListener('click', async e => {
