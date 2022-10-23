@@ -297,7 +297,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     });
                 } else {
                     let ct = timeline.data.find(tweet => tweet.id_str === t.in_reply_to_status_id_str);
-                    if(!renderLater[t.in_reply_to_status_id_str] && ct && !ct.in_reply_to_status_id_str) {
+                    if(!renderLater[t.in_reply_to_status_id_str] && ct && !ct.in_reply_to_status_id_str && !timeline.data.some(tweet => tweet.self_thread && tweet.self_thread.id_str === ct.id_str)) {
                         renderLater[t.in_reply_to_status_id_str] = t;
                     } else {
                         await appendTweet(t, timelineContainer, {});
