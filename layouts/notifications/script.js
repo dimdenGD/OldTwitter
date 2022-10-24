@@ -84,6 +84,12 @@ async function renderNotifications(data, append = false) {
                 }
             });
             notificationDiv.addEventListener('mousedown', e => {
+                if(e.target.tagName === 'A') {
+                    let url = new URL(e.target.href);
+                    if(isProfilePath(url.pathname)) {
+                        return;
+                    }
+                };
                 if(e.button === 1) {
                     e.preventDefault();
                     if(n.icon.id === "bell_icon") {
