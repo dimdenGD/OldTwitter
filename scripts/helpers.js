@@ -484,6 +484,28 @@ function generateCard(tweet, tweetElement, user) {
                 tweetElement.getElementsByClassName('tweet-card')[0].append(buttonGroup);
             }
         }
+    } else if(tweet.card.name === "summary" || tweet.card.name === "summary_large_image") {
+        let vals = tweet.card.binding_values;
+        let a = document.createElement('a');
+        let url = vals.card_url.string_value;
+        if(tweet.entities && tweet.entities.urls) {
+            let urlEntity = tweet.entities.urls.find(u => u.url === url);
+            if(urlEntity) {
+                url = urlEntity.expanded_url;
+            }
+        }
+        a.target = '_blank';
+        a.href = url;
+        a.className = 'tweet-card-link box';
+        a.innerHTML = `
+            ${vals.thumbnail_image ? `<img src="${vals.thumbnail_image.image_value.url}" class="tweet-card-link-thumbnail">` : ''}
+            <div class="tweet-card-link-text">
+                ${vals.vanity_url ? `<span class="tweet-card-link-vanity">${vals.vanity_url.string_value}</span><br>` : ''}
+                ${vals.title ? `<h3 class="tweet-card-link-title">${vals.title.string_value}</h3>` : ''}
+                ${vals.description ? `<span class="tweet-card-link-description">${vals.description.string_value}</span>` : ''}
+            </div>
+        `;
+        tweetElement.getElementsByClassName('tweet-card')[0].append(a);
     } else if(tweet.card.url.startsWith('card://')) {
         generatePoll(tweet, tweetElement, user);
     }

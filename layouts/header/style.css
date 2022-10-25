@@ -1530,3 +1530,29 @@ emoji-picker {
     z-index: 10;
     border: 1px solid var(--border);
 }
+.tweet-card-link-thumbnail {
+    max-width: 120px;
+    max-height: 70px;
+    float: left;
+    margin-right: 10px;
+    border-radius: 3px;
+}
+.tweet-card-link {
+    display: block;
+    color: var(--light-gray);
+    padding: 10px;
+    min-height: 70px;
+    max-width: 430px;
+    text-decoration: none !important;
+}
+.tweet-card-link:hover {
+    background-color: var(--darker-background-color);
+}
+.tweet-card-link-title {
+    color: var(--almost-black);
+    font-weight: normal;
+    margin: 0;
+}
+.tweet-card-link-vanity, .tweet-card-link-description {
+    font-size: 14px;
+}

@@ -85,6 +85,7 @@ setTimeout(() => {
                             <li>Added support for promo_video_convo card.</li>
                             <li>Support for viewing what tweets were liked.</li>
                             <li>Added Professional Category to profiles.</li>
+                            <li>Support for URL previews.</li>
                         </ul>
                         <b>Fixes</b>
                         <ul>
