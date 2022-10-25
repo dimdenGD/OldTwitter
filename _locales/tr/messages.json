@@ -183,7 +183,6 @@
     "dark_mode": { "message": "Karanlık mod" },
     "disable_hotkeys": { "message": "Kısayol tuşlarını devre dışı bırak" },
     "hotkeys_list": { "message": "Kısayolları listesine buradan gözat" },
-    "no_big_font": { "message": "Kısa tweetler için büyük fontu devre dışı bırak." },
     "save_preferred_quality": { "message": "Tercih edilen video kalitesini hatırla. Eğer bu seçilirse, OldTwitter tercih edilen video kalitesini hatırlayacak ve kullanacaktır (ya da tercih edilene en yakın olanı seçecektir). Eğer bu kapalıysa, OldTwitter en yüksek kaliteyi seçecektir." },
     "preferred_quality": { "message": "Tercih edilen kalite" },
     "default_link_color": { "message": "Varsayılan bağlantı rengi" },
@@ -282,5 +281,15 @@
     "people_you_mention": { "message": "Bahsettiğiniz kişiler" },
     "new_version": { "message": "Yeni versiyona güncellendi" },
     "display_sensitive_content": { "message": "Hassas olabilecek medyayı göster" },
-    "is_private": { "message": "Gizli" }
+    "is_private": { "message": "Gizli" },
+    "s": { "message": "$NUMBER$s", "description": "'saniye'nin kısaltılmışı, '1s'nin 1 saniye olması gibi", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$dk", "description": "'dakika'nın kısaltılmışı, '1dk'nın 1 dakika olması gibi", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$sa", "description": "'saat'in kısaltılmışı, '1sa'nın 1 saat olması gibi", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$g", "description": "'gün'ün kısaltılmışı, '1g'nin bir gün olması gibi", "placeholders": { "number": { "content": "1" } } },
+    "follow_requests": { "message": "Takip istekleri" },
+    "accept": { "message": "Kabul et" },
+    "decline": { "message": "Reddet" },
+    "mute_convo": { "message": "Konuşmayı sustur" },
+    "unmute_convo": { "message": "Konuşmayı susturmayı geri al" },
+    "no_big_font": { "message": "Kısa/popüler tweetler için büyük fontu devre dışı bırak" }
 }

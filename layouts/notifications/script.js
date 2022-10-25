@@ -84,7 +84,7 @@ async function renderNotifications(data, append = false) {
                 }
             });
             notificationDiv.addEventListener('mousedown', e => {
-                if(e.target.tagName === 'A') {
+                if(e.target.tagName === 'A' || e.target.className === 'notification-avatar-img') {
                     let url = new URL(e.target.href);
                     if(isProfilePath(url.pathname)) {
                         return;
@@ -151,7 +151,7 @@ async function renderNotifications(data, append = false) {
                 </div>
                 <div class="notification-text">${escapeHTML(replyTweet.full_text.replace(/^(@[\w+]{1,15}\b\s)((@[\w+]{1,15}\b\s)+)/g, '$1'))}</div>
                 <div class="notification-avatars">
-                    ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
+                    ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img class="notification-avatar-img" src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
                 </div>
             `;
             notificationDiv.dataset.notificationId = n.id;
