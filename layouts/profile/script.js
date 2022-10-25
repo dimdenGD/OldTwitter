@@ -304,58 +304,82 @@ async function renderFollowing(clear = true, cursor) {
     loadingFollowing = true;
     let userList = document.getElementById('following-list');
     if(clear) userList.innerHTML = `<h1 class="nice-header">${LOC.following.message}</h1>`;
-    let following = await API.getFollowing(pageUser.id_str, cursor);
+    let following;
+    try {
+        following = await API.getFollowing(pageUser.id_str, cursor);
+    } catch(e) {
+        loadingFollowing = false;
+        followingMoreBtn.innerText = LOC.load_more.message;
+        console.error(e);
+        return;
+    }
     followingCursor = following.cursor;
     following = following.list;
     if(following.length === 0) {
-        document.getElementById('following-more').hidden = true;
+        followingMoreBtn.hidden = true;
     } else {
-        document.getElementById('following-more').hidden = false;
+        followingMoreBtn.hidden = false;
     }
     following.forEach(u => {
         appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
     loadingFollowing = false;
-    document.getElementById('following-more').innerText = LOC.load_more.message;
+    followingMoreBtn.innerText = LOC.load_more.message;
 }
 async function renderFollowers(clear = true, cursor) {
     loadingFollowers = true;
     let userList = document.getElementById('followers-list');
     if(clear) userList.innerHTML = '<h1 class="nice-header">Followers</h1>';
-    let following = await API.getFollowers(pageUser.id_str, cursor);
+    let following;
+    try {
+        following = await API.getFollowers(pageUser.id_str, cursor)
+    } catch(e) {
+        loadingFollowers = false;
+        followersMoreBtn.innerText = LOC.load_more.message;
+        console.error(e);
+        return;
+    }
     followersCursor = following.cursor;
     following = following.list;
     if(following.length === 0) {
-        document.getElementById('followers-more').hidden = true;
+        followersMoreBtn.hidden = true;
     } else {
-        document.getElementById('followers-more').hidden = false;
+        followersMoreBtn.hidden = false;
     }
     following.forEach(u => {
         appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
     loadingFollowers = false;
-    document.getElementById('followers-more').innerText = LOC.load_more.message;
+    followersMoreBtn.innerText = LOC.load_more.message;
 }
 async function renderFollowersYouFollow(clear = true, cursor) {
     loadingFollowersYouKnow = true;
     let userList = document.getElementById('followers_you_follow-list');
     if(clear) userList.innerHTML = '<h1 class="nice-header">Followers you know</h1>';
-    let following = await API.getFollowersYouFollow(pageUser.id_str, cursor);
+    let following;
+    try {
+        following = await API.getFollowersYouFollow(pageUser.id_str, cursor);
+    } catch(e) {
+        console.error(e);
+        loadingFollowersYouKnow = false;
+        followersYouFollowMoreBtn.innerText = LOC.load_more.message;
+        return;
+    }
     followersYouKnowCursor = following.cursor;
     following = following.list;
     if(following.length === 0) {
-        document.getElementById('followers_you_follow-more').hidden = true;
+        followersYouFollowMoreBtn.hidden = true;
     } else {
-        document.getElementById('followers_you_follow-more').hidden = false;
+        followersYouFollowMoreBtn.hidden = false;
     }
     following.forEach(u => {
         appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
     loadingFollowersYouKnow = false;
-    document.getElementById('followers_you_follow-more').innerText = LOC.load_more.message;
+    followersYouFollowMoreBtn.innerText = LOC.load_more.message;
 }
 async function renderLists() {
     let lists = pageUser.id_str === user.id_str ? await API.getMyLists() : await API.getUserLists(pageUser.id_str);
@@ -911,7 +935,8 @@ let tweetsToLoad = {};
 let lastScroll = Date.now();
 let loadingFollowing = false;
 let loadingFollowers = false;
-let loadingFollowersYouFollow = false;
+let loadingFollowersYouKnow = false;
+let followingMoreBtn, followersMoreBtn, followersYouFollowMoreBtn;
 
 setTimeout(async () => {
     if(!vars) {
@@ -1129,8 +1154,21 @@ setTimeout(async () => {
         // banner scroll
         banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
     
+        // load more users
         // load more tweets
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+            if(subpage === 'following') {
+                if(!loadingFollowing) followingMoreBtn.click();
+                return;
+            }
+            if(subpage === 'followers') {
+                if(!loadingFollowers) followersMoreBtn.click();
+                return;
+            }
+            if(subpage === 'followers_you_follow') {
+                if(!loadingFollowersYouKnow) followersYouFollowMoreBtn.click();
+                return;
+            }
             if (loadingNewTweets || timeline.data.length === 0 || stopLoad) return;
             loadingNewTweets = true;
             let tl;
@@ -1195,17 +1233,20 @@ setTimeout(async () => {
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
-    document.getElementById('following-more').addEventListener('click', async e => {
+    followingMoreBtn = document.getElementById('following-more');
+    followingMoreBtn.addEventListener('click', async e => {
         if(!followingCursor || loadingFollowing) return;
         e.target.innerText = LOC.loading.message;
         renderFollowing(false, followingCursor);
     });
-    document.getElementById('followers-more').addEventListener('click', async e => {
+    followersMoreBtn = document.getElementById('followers-more');
+    followersMoreBtn.addEventListener('click', async e => {
         if(!followersCursor || loadingFollowers) return;
         e.target.innerText = LOC.loading.message;
         renderFollowers(false, followersCursor);
     });
-    document.getElementById('followers_you_follow-more').addEventListener('click', async e => {
+    followersYouFollowMoreBtn = document.getElementById('followers_you_follow-more');
+    followersYouFollowMoreBtn.addEventListener('click', async e => {
         if(!followersYouKnowCursor || loadingFollowersYouKnow) return;
         e.target.innerText = LOC.loading.message;
         renderFollowersYouFollow(false, followersYouKnowCursor);
