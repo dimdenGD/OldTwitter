@@ -284,5 +284,13 @@ setTimeout(async () => {
     setInterval(updateUserData, 60000 * 3);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
-    setInterval(updateNotifications, 20000);
+    setInterval(() => {
+        let modal = document.querySelector('.modal');
+        if(!modal) {
+            if(document.querySelector('.tweet-reply:not([hidden])') || document.querySelector('.tweet-quote:not([hidden])')) {
+                return;
+            }
+        }
+        updateNotifications();
+    }, 20000);
 }, 50);
