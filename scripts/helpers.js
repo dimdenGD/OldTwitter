@@ -500,9 +500,9 @@ function generateCard(tweet, tweetElement, user) {
         a.innerHTML = `
             ${vals.thumbnail_image ? `<img src="${vals.thumbnail_image.image_value.url}" class="tweet-card-link-thumbnail">` : ''}
             <div class="tweet-card-link-text">
-                ${vals.vanity_url ? `<span class="tweet-card-link-vanity">${vals.vanity_url.string_value}</span><br>` : ''}
-                ${vals.title ? `<h3 class="tweet-card-link-title">${vals.title.string_value}</h3>` : ''}
-                ${vals.description ? `<span class="tweet-card-link-description">${vals.description.string_value}</span>` : ''}
+                ${vals.vanity_url ? `<span class="tweet-card-link-vanity">${escapeHTML(vals.vanity_url.string_value)}</span><br>` : ''}
+                ${vals.title ? `<h3 class="tweet-card-link-title">${escapeHTML(vals.title.string_value)}</h3>` : ''}
+                ${vals.description ? `<span class="tweet-card-link-description">${escapeHTML(vals.description.string_value)}</span>` : ''}
             </div>
         `;
         tweetElement.getElementsByClassName('tweet-card')[0].append(a);

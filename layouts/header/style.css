@@ -677,8 +677,11 @@ input, textarea {
     vertical-align: top;
     margin-top: -2px;
 }
-.message-element a {
-    color: var(--background-color) !important;
+.message-element:not(.message-element-other) a {
+    color: var(--darker-background-color) !important;
+}
+.message-element-other a {
+    color: var(--link-color) !important;
 }
 .message-element a:hover {
     text-decoration: underline;
