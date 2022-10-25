@@ -301,6 +301,7 @@ async function updateTimeline() {
 }
 
 async function renderFollowing(clear = true, cursor) {
+    loadingFollowing = true;
     let userList = document.getElementById('following-list');
     if(clear) userList.innerHTML = `<h1 class="nice-header">${LOC.following.message}</h1>`;
     let following = await API.getFollowing(pageUser.id_str, cursor);
@@ -315,8 +316,11 @@ async function renderFollowing(clear = true, cursor) {
         appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
+    loadingFollowing = false;
+    document.getElementById('following-more').innerText = LOC.load_more.message;
 }
 async function renderFollowers(clear = true, cursor) {
+    loadingFollowers = true;
     let userList = document.getElementById('followers-list');
     if(clear) userList.innerHTML = '<h1 class="nice-header">Followers</h1>';
     let following = await API.getFollowers(pageUser.id_str, cursor);
@@ -331,8 +335,11 @@ async function renderFollowers(clear = true, cursor) {
         appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
+    loadingFollowers = false;
+    document.getElementById('followers-more').innerText = LOC.load_more.message;
 }
 async function renderFollowersYouFollow(clear = true, cursor) {
+    loadingFollowersYouKnow = true;
     let userList = document.getElementById('followers_you_follow-list');
     if(clear) userList.innerHTML = '<h1 class="nice-header">Followers you know</h1>';
     let following = await API.getFollowersYouFollow(pageUser.id_str, cursor);
@@ -347,6 +354,8 @@ async function renderFollowersYouFollow(clear = true, cursor) {
         appendUser(u, userList);
     });
     document.getElementById('loading-box').hidden = true;
+    loadingFollowersYouKnow = false;
+    document.getElementById('followers_you_follow-more').innerText = LOC.load_more.message;
 }
 async function renderLists() {
     let lists = pageUser.id_str === user.id_str ? await API.getMyLists() : await API.getUserLists(pageUser.id_str);
@@ -900,6 +909,9 @@ let lastTweetDate = 0;
 let activeTweet;
 let tweetsToLoad = {};
 let lastScroll = Date.now();
+let loadingFollowing = false;
+let loadingFollowers = false;
+let loadingFollowersYouFollow = false;
 
 setTimeout(async () => {
     if(!vars) {
@@ -1183,16 +1195,19 @@ setTimeout(async () => {
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });
-    document.getElementById('following-more').addEventListener('click', async () => {
-        if(!followingCursor) return;
+    document.getElementById('following-more').addEventListener('click', async e => {
+        if(!followingCursor || loadingFollowing) return;
+        e.target.innerText = LOC.loading.message;
         renderFollowing(false, followingCursor);
     });
-    document.getElementById('followers-more').addEventListener('click', async () => {
-        if(!followersCursor) return;
+    document.getElementById('followers-more').addEventListener('click', async e => {
+        if(!followersCursor || loadingFollowers) return;
+        e.target.innerText = LOC.loading.message;
         renderFollowers(false, followersCursor);
     });
-    document.getElementById('followers_you_follow-more').addEventListener('click', async () => {
-        if(!followersYouKnowCursor) return;
+    document.getElementById('followers_you_follow-more').addEventListener('click', async e => {
+        if(!followersYouKnowCursor || loadingFollowersYouKnow) return;
+        e.target.innerText = LOC.loading.message;
         renderFollowersYouFollow(false, followersYouKnowCursor);
     });
     function updatePath(e) {
@@ -1240,7 +1255,7 @@ setTimeout(async () => {
     document.addEventListener('click', async e => {
         let el = e.target;
         if(!el) return;
-        if(el.tagName !== 'A') el = el.parentElement;
+        if(el.tagName !== 'A') el = el.closest('a');
         if(!el) return;
         if(el.tagName === "A") {
             let path;
@@ -1272,7 +1287,8 @@ setTimeout(async () => {
     });
     window.addEventListener("popstate", async () => {
         let path = location.pathname;
-        if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
+        if(path.endsWith("/")) path = path.substring(0, path.length - 1);
+        if(isProfilePath(path) || (path.split('/').length === 3 && location.pathname.endsWith('/following') || location.pathname.endsWith('/followers') || location.pathname.endsWith('/followers_you_follow') || location.pathname.endsWith('/lists') || location.pathname.endsWith('/media') || location.pathname.endsWith('/likes') || location.pathname.endsWith('/with_replies'))) {
             document.getElementById('loading-box').hidden = false;
             everAddedAdditional = false;
             mediaToUpload = [];

@@ -428,15 +428,7 @@ span.tweet-body-text {
 }
 
 .center-text {
-    background-color: var(--background-color);
-    text-align: center;
-    margin-bottom: 10px;
-    color: var(--light-gray);
-    border: 1px solid var(--border);
-    font-size: 14px;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer
+    padding-left: 100px !important;
 }
 
 .tweet-media-element-censor {
