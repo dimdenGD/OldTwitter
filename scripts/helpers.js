@@ -431,6 +431,10 @@ function generateCard(tweet, tweetElement, user) {
                 video.crossOrigin = 'anonymous';
                 video.loading = 'lazy';
                 video.controls = true;
+                if(!media.video_info) {
+                    console.log(`bug found in ${tweet.id_str}, please report this message to https://github.com/dimdenGD/OldTwitter/issues`, tweet);
+                    continue;
+                };
                 let variants = media.video_info.variants.sort((a, b) => {
                     if(!b.bitrate) return -1;
                     return b.bitrate-a.bitrate;
@@ -465,7 +469,7 @@ function generateCard(tweet, tweetElement, user) {
                 appElement.classList.add('tweet-app-info');
                 appElement.innerHTML = `
                     <h3>${escapeHTML(app.title.content)}</h3>
-                    <span>${app.category.content}</span>
+                    <span>${escapeHTML(app.category.content)}</span>
                     <br><br>
                 `;
                 tweetElement.getElementsByClassName('tweet-card')[0].append(appElement);
