@@ -1467,3 +1467,6 @@ a:hover,
     font-size: 14px;
     line-height: 20px;
 }
+.profile-stat-disabled {
+    cursor: not-allowed;
+}

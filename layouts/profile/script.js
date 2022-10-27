@@ -154,13 +154,13 @@ function updateSelection() {
         document.getElementById('followers_you_follow-more').hidden = true;
         document.getElementById('lists-list').hidden = false;
     }
-    if(subpage !== 'profile') document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
+    document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
     document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
     document.getElementById('profile-stat-followers-link').href = `https://twitter.com/${pageUser.screen_name}/followers`;
-    if(subpage !== 'likes') document.getElementById('profile-stat-favorites-link').href = `https://twitter.com/${pageUser.screen_name}/likes`;
-    if(subpage !== 'profile') document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
-    if(subpage !== 'replies') document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
-    if(subpage !== 'media') document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
+    document.getElementById('profile-stat-favorites-link').href = `https://twitter.com/${pageUser.screen_name}/likes`;
+    document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
+    document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
+    document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
 
     if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) {
         document.getElementById('trends').hidden = true;
@@ -285,7 +285,8 @@ async function updateTimeline() {
         }
     }
     if(tl.error === "Not authorized.") {
-        document.getElementById('timeline').innerHTML = `<div style="margin-top: 10px;color: var(--darker-gray);">${LOC.timeline_not_authorized.message}</div>`;
+        document.getElementById('tweet-nav').hidden = true;
+        document.getElementById('timeline').innerHTML = `<div style="padding: 100px;color: var(--darker-gray);">${LOC.timeline_not_authorized.message}</div>`;
         return document.getElementById('loading-box').hidden = true;
     }
     tl.forEach(t => {
@@ -466,6 +467,10 @@ async function renderProfile() {
     if(vars.heartsNotStars) {
         document.getElementById('profile-stat-text-favorites').innerText = LOC.likes.message;
     }
+    let stats = Array.from(document.getElementsByClassName('profile-stat'));
+    stats.forEach(s => {
+        s.classList.toggle('profile-stat-disabled', pageUser.protected && !pageUser.following);
+    });
 
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
@@ -530,7 +535,7 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
 
-    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0;
+    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || !(subpage === 'profile' || subpage === 'replies');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
     document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
@@ -1286,8 +1291,8 @@ setTimeout(async () => {
         renderFollowersYouFollow(false, followersYouKnowCursor);
     });
     function updatePath(e) {
-        if(e.target.classList.contains('tweet-nav-active') || e.target.classList.contains('profile-stat-active')) {
-            return;
+        if(e.target.closest('.tweet-nav-active') || e.target.classList.contains('profile-stat-active') || e.target.closest('.profile-stat-disabled')) {
+            return e.preventDefault();
         }
         e.preventDefault();
         let el = e.target;
