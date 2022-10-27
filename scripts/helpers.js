@@ -1422,9 +1422,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 media.classList.add('tweet-media-element', 'tweet-media-element-four', 'profile-media-preview');
                 media.src = m.media_url_https;
                 if(m.ext_alt_text) media.alt = m.ext_alt_text;
-                media.addEventListener('click', () => {
-                    let tweet = document.getElementsByClassName('tweet-id-' + t.id_str)[0];
-                    tweet.scrollIntoView({behavior: 'smooth', block: 'center'});
+                media.addEventListener('click', async () => {
+                    if(subpage !== 'profile' && subpage !== 'media') {
+                        document.getElementById('profile-stat-tweets-link').click();
+                        while(!document.getElementsByClassName('tweet-id-' + t.id_str)[0]) await sleep(100);
+                    }
+                    document.getElementsByClassName('tweet-id-' + t.id_str)[0].scrollIntoView({behavior: 'smooth', block: 'center'});
                 });
                 profileMediaDiv.appendChild(media);
             });
