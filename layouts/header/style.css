@@ -25,7 +25,9 @@
     font-family: 'RosettaIcons';
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
 }
-
+h1, h2, h3, h4, h5, h6 {
+    text-rendering: optimizeLegibility;
+}
 body {
     overflow-x: hidden;
 }

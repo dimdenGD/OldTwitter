@@ -330,5 +330,7 @@
     "will_send": { "message": "Will send on" },
     "schedule": { "message": "Schedule" },
     "scheduled_success": { "message": "Tweet was scheduled!" },
-    "see_scheduled": { "message": "See scheduled" }
+    "see_scheduled": { "message": "See scheduled" },
+    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ hasn't tweeted", "placeholders": { "screen_name": { "content": "loading" } } },
+    "when_theyll_tweet": { "message": "When they do, their Tweets will show up here." }
 }

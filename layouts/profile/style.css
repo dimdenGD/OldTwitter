@@ -1445,3 +1445,25 @@ a:hover,
     overflow: hidden;
     white-space: nowrap;
 }
+.profile-stat[hidden], #profile-media-text[hidden] {
+    display: none !important;
+}
+#no-tweets {
+    padding: 50px;
+}
+#no-tweets h3 {
+    font-size: 27px;
+    line-height: 32px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--almost-black);
+    margin: 0;
+}
+#no-tweets > h3 > span {
+    font-weight: normal;
+}
+#no-tweets p {
+    color: var(--darker-gray);
+    font-size: 14px;
+    line-height: 20px;
+}

@@ -47,7 +47,7 @@
                             <span id="profile-stat-followers-value" class="profile-stat-value">0</span>
                         </a>
                         <a class="profile-stat" id="profile-stat-favorites-link">
-                            <span class="profile-stat-text">__MSG_favorites__</span>
+                            <span class="profile-stat-text" id="profile-stat-text-favorites">__MSG_favorites__</span>
                             <span id="profile-stat-favorites-value" class="profile-stat-value">0</span>
                         </a>
                     </div>
@@ -82,7 +82,7 @@
                     </div>
                     <br>
                     <div id="profile-media">
-                        <a id="profile-media-text" class="profile-additional-thing" href="media">__MSG_photos_and_videos__</a>
+                        <a id="profile-media-text" class="profile-additional-thing" href="media" hidden>__MSG_photos_and_videos__</a>
                         <div id="profile-media-div"></div>
                     </div>
                 </div>
@@ -102,6 +102,7 @@
                 </div>
                 <div id="new-tweets" class="center-text" hidden></div>
                 <div id="timeline"></div>
+                <div id="no-tweets" hidden></div>
             </div>
             <div class="cell" id="right-cell">
                 <div id="wtf" class="box">

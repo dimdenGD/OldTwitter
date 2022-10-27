@@ -161,6 +161,19 @@ function updateSelection() {
     if(subpage !== 'profile') document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
     if(subpage !== 'replies') document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
     if(subpage !== 'media') document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
+
+    if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) {
+        document.getElementById('trends').hidden = true;
+        document.getElementById('no-tweets').hidden = false;
+        document.getElementById('no-tweets').innerHTML = `
+            <h3>${LOC.hasnt_tweeted.message.replace('$SCREEN_NAME$', `<span>${pageUser.screen_name}</span>`)}</h3>
+            <p>${LOC.when_theyll_tweet.message}</p>
+        `;
+    } else {
+        document.getElementById('trends').hidden = false;
+        document.getElementById('no-tweets').hidden = true;
+        document.getElementById('no-tweets').innerHTML = ``;
+    }
 }
 
 function updateUserData() {
@@ -450,6 +463,9 @@ async function renderProfile() {
     document.getElementById('nav-profile-name').innerText = pageUser.name;
     document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal.', '_400x400.');;
     document.getElementById('tweet-to').innerText = `${LOC.tweet_to.message} ${pageUser.name}`;
+    if(vars.heartsNotStars) {
+        document.getElementById('profile-stat-text-favorites').innerText = LOC.likes.message;
+    }
 
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
@@ -513,7 +529,25 @@ async function renderProfile() {
     document.getElementById('profile-stat-following-value').innerText = Number(pageUser.friends_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
-    
+
+    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0;
+    document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
+    document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
+    document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
+    document.getElementById('profile-stat-favorites-link').hidden = pageUser.favourites_count === 0;
+    if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) {
+        document.getElementById('trends').hidden = true;
+        document.getElementById('no-tweets').hidden = false;
+        document.getElementById('no-tweets').innerHTML = `
+            <h3>${LOC.hasnt_tweeted.message.replace('$SCREEN_NAME$', `<span>${pageUser.screen_name}</span>`)}</h3>
+            <p>${LOC.when_theyll_tweet.message}</p>
+        `;
+    } else {
+        document.getElementById('trends').hidden = false;
+        document.getElementById('no-tweets').hidden = true;
+        document.getElementById('no-tweets').innerHTML = ``;
+    }
+
     if(pageUser.followed_by) {
         document.getElementById('follows-you').hidden = false;
     } else {
@@ -1343,6 +1377,14 @@ setTimeout(async () => {
             updateTimeline();
             renderDiscovery();
         }
+    });
+    let mediaDiv = document.getElementById('profile-media-div');
+    let mediaText = document.getElementById('profile-media-text');
+    let mediaObserver = new MutationObserver(() => {
+        mediaText.hidden = mediaDiv.childElementCount === 0;
+    })
+    mediaObserver.observe(mediaDiv, {
+        childList: true
     });
     
     // Update dates every minute

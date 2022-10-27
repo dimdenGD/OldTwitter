@@ -944,5 +944,115 @@
     "s": { "message": "$NUMBER$sek", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
     "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
     "h": { "message": "$NUMBER$st", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } }
+    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
+    "emoji": {
+        "message": "Emoji"
+    },
+    "emoji_btn": {
+        "message": "[emoji]"
+    },
+    "add_emoji": {
+        "message": "Pievienojiet emoji"
+    },
+    "custom": {
+        "message": "Pielāgots"
+    },
+    "smileys_emotion": {
+        "message": "Smaidiņi un emoji"
+    },
+    "people_body": {
+        "message": "Cilvēki un ķermenis"
+    },
+    "animals_nature": {
+        "message": "Dzīvnieki un daba"
+    },
+    "food_drink": {
+        "message": "Ēdiens un dzērieni"
+    },
+    "travel_places": {
+        "message": "Ceļojumi un vietas"
+    },
+    "activities": {
+        "message": "Darbības"
+    },
+    "objects": {
+        "message": "Objekti"
+    },
+    "symbols": {
+        "message": "Simboli"
+    },
+    "flags": {
+        "message": "Karogi"
+    },
+    "categories": {
+        "message": "Kategorijas"
+    },
+    "unsupported_emoji": {
+        "message": "Jūsu pārlūkprogramma neatbalsta krāsu emoji."
+    },
+    "cant_load_emoji": {
+        "message": "Nevarēja ielādēt emoji."
+    },
+    "emoji_picker": {
+        "message": "Emoji atlasītājs"
+    },
+    "emoji_search_description": {
+        "message": "Kad ir pieejami meklēšanas rezultāti, nospiediet uz augšu vai uz leju, lai atlasītu, un ievadiet, lai izvēlētos."
+    },
+    "search_results": {
+        "message": "Meklēšanas rezultāti"
+    },
+    "skin_tone_description": {
+        "message": "Kad tas ir izvērsts, nospiediet uz augšu vai uz leju, lai atlasītu, un uzpiedat, lai izvēlētos."
+    },
+    "skin_tone_label": {
+        "message": "Izvēlieties ādas toni (pašlaik $SKIN_TONE$)",
+        "placeholders": {
+        "skin_tone": {
+            "content": "default"
+        }
+        }
+    },
+    "skin_tones_label": {
+        "message": "Ādas toņi"
+    },
+    "add_media": {
+        "message": "Pievienojiet multividi"
+    },
+    "add_poll": {
+        "message": "Pievienot aptauju"
+    },
+    "add_location": {
+        "message": "Pievienot lokāciju"
+    },
+    "schedule_tweet": {
+        "message": "Ieplānot tvītu"
+    },
+    "scheduled": {
+        "message": "Ieplānots"
+    },
+    "drafts": {
+        "message": "Melnraksti"
+    },
+    "location": {
+        "message": "Lokācija"
+    },
+    "unsent_tweets": {
+        "message": "Vel nenosūtītie tvīti"
+    },
+    "unsent": {
+        "message": "Vel nenosūtītie"
+    },
+    "will_send": {
+        "message": "Nosūtīsim"
+    },
+    "schedule": {
+        "message": "Ieplānot"
+    },
+    "scheduled_success": {
+        "message": "Tvīts ieplānots!"
+    },
+    "see_scheduled": {
+        "message": "Skatīt plānoto"
+    }
 }

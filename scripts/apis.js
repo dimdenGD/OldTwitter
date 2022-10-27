@@ -792,7 +792,14 @@ API.getUser = (val, byId = true) => {
                 "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
             },
             credentials: "include"
-        }).then(i => i.json()).then(data => {
+        }).then(i => {
+            if(i.status === 401) {
+                setTimeout(() => {
+                    location.href = `https://mobile.twitter.com/login`;
+                })
+            }
+            return i.json();
+        }).then(data => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
