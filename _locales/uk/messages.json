@@ -328,5 +328,7 @@
     "will_send": { "message": "Відправиться" },
     "schedule": { "message": "Запланувати" },
     "scheduled_success": { "message": "Твіт було заплановано!" },
-    "see_scheduled": { "message": "Подивитись заплановані" }
+    "see_scheduled": { "message": "Подивитись заплановані" },
+    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ ще не твітив(ла)", "placeholders": { "screen_name": { "content": "loading" } } },
+    "when_theyll_tweet": { "message": "Їх твіти появляться тут." }
 }

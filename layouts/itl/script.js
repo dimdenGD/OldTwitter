@@ -104,7 +104,7 @@ setTimeout(async () => {
     } catch(e) {
         setTimeout(() => {
             location.reload();
-        }, 50);
+        }, 200);
         console.error(e);
         return;
     }

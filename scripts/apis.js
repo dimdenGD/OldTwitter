@@ -796,7 +796,7 @@ API.getUser = (val, byId = true) => {
             if(i.status === 401) {
                 setTimeout(() => {
                     location.href = `https://mobile.twitter.com/login`;
-                })
+                }, 50);
             }
             return i.json();
         }).then(data => {
