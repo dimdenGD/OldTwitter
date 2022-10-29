@@ -773,7 +773,7 @@ async function appendUser(u, container) {
             <a href="https://twitter.com/${u.screen_name}" class="user-item-link">
                 <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
-                    <span class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}">${escapeHTML(u.name)}</span><br>
+                    <span class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.verified ? ' user-verified' : ''}">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
                     ${u.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
                 </div>

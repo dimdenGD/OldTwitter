@@ -148,7 +148,7 @@ body {
 }
 
 .tweet,
-.following-item {
+.user-item {
     background-color: var(--background-color);
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
@@ -830,14 +830,14 @@ a:hover,
     display: flow-root
 }
 
-.following-item-btn {
+.user-item-btn {
     bottom: 43px !important;
     float: right;
     height: 40px !important ;
     position: relative
 }
 
-.following-item-text {
+.user-item-text {
     bottom: 11px;
     display: inline-block;
     margin-left: 8px;
@@ -845,13 +845,13 @@ a:hover,
     width: fit-content
 }
 
-.following-item-link:hover {
+.user-item-link:hover {
     text-decoration: none
 }
 
-.following-item-name {
+.user-item-name {
     position: absolute;
-    width: 300px
+    width: 400px
 }
 
 .no-results {
