@@ -55,7 +55,7 @@ async function renderNotifications(data, append = false) {
             if(!n) continue;
             if(e.feedbackInfo) {
                 n.feedback = data.timeline.responseObjects.feedbackActions[e.feedbackInfo.feedbackKeys[0]];
-                n.feedback.metadata = n.feedbackInfo.feedbackMetadata;
+                if(n.feedback) n.feedback.metadata = e.feedbackInfo.feedbackMetadata;
             }
             let notificationDiv = document.createElement('div');
             notificationDiv.className = 'notification';

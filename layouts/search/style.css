@@ -831,9 +831,9 @@ a:hover,
 }
 
 .user-item-btn {
-    bottom: 43px !important;
+    bottom: 46px !important;
     float: right;
-    height: 40px !important ;
+    height: 40px;
     position: relative
 }
 
