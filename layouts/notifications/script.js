@@ -73,7 +73,7 @@ async function renderNotifications(data, append = false) {
                 replyTweet.user = replyUser;
             }
             notificationDiv.addEventListener('click', e => {
-                if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
+                if(e.target.closest('.notification') && e.target.tagName !== 'IMG' && e.target.className !== 'notification-feedback') {
                     if(n.icon.id === "bell_icon") {
                         location.href = `https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`;
                     } else if(n.icon.id === "heart_icon") {
