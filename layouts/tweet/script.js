@@ -944,7 +944,14 @@ setTimeout(async () => {
         cursor = undefined;
         seenReplies = [];
         mainTweetLikers = [];
-        let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+        let id = location.pathname.match(/status\/(\d{1,32})/);
+        if(!id) {
+            setTimeout(() => {
+                location.reload();
+            }, 25);
+            return;
+        }
+        id = id[1];
         let restored = await restorePageData();
         if(subpage === 'tweet' && !restored) {
             updateReplies(id);
