@@ -131,7 +131,7 @@ body {
 #itl {
     width: 560px;
     margin-bottom: 10px;
-    min-height: 700px;
+    min-height: 800px;
     padding: 10px;
 }
 #itl hr {
@@ -371,7 +371,7 @@ body {
     margin-bottom: 5px;
 }
 .wtf-header {
-    display: flow-root;
+    display: flow-root !important;
 }
 #color-preview {
     margin-top: 15px;
