@@ -330,5 +330,6 @@
     "scheduled_success": { "message": "Твит запланирован!" },
     "see_scheduled": { "message": "Посмотреть запланированные" },
     "hasnt_tweeted": { "message": "@$SCREEN_NAME$ ещё не твитил(-а)", "placeholders": { "screen_name": { "content": "loading" } } },
-    "when_theyll_tweet": { "message": "Их твиты появятся тут." }
+    "when_theyll_tweet": { "message": "Их твиты появятся тут." },
+    "thank_you2": { "message": "Спасибо за использование OldTwitter! На разработку ушло много времени, вы можете поддержать меня подпиской или <a target='_blank' href='https://dimden.dev/donate/'>донатом</a>. Я буду очень благодарен." }
 }

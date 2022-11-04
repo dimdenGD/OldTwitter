@@ -1470,3 +1470,6 @@ a:hover,
 .profile-stat-disabled {
     cursor: not-allowed;
 }
+.dropdown-menu > span[hidden] {
+    display: none !important;
+}

@@ -330,5 +330,6 @@
     "will_send": { "message": "Enviar en" },
     "schedule": { "message": "Programar" },
     "scheduled_success": { "message": "¡Tweet programado!" },
-    "see_scheduled": { "message": "Ver programados" }
+    "see_scheduled": { "message": "Ver programados" },
+    "thank_you2": { "message": "¡Gracias por usar OldTwitter! Codificarlo tomó mucho tiempo y esfuerzo, puedes apoyarme siguiéndome o <a target='_blank' href='https://dimden.dev/donate/'>donando</a>. Le estaría muy agradecido." }
 }

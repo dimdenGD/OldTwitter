@@ -13,57 +13,69 @@ let circles = [];
 let selectedCircle = undefined;
 let algoCursor;
 
-setTimeout(() => {
-    chrome.storage.local.get(['installed', 'lastVersion'], async data => {
-        if (!data.installed) {
-            let dimden = await API.getUserV2('dimdenEFF');
-            if(!dimden.following) {
-                let followed = false;
+async function createShamelessPlug(firstTime = true) {
+    let dimden = await API.getUserV2('dimdenEFF');
+    if(!dimden.following) {
+        let followed = false;
+        if(!vars.disableAnalytics) {
+            ga('send', 'event', "dimden", "seen");
+        }
+        let modal = createModal(`
+            <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
+            <span style="font-size:14px">
+                ${firstTime ? LOC.thank_you.message : LOC.thank_you2.message}<br><br>
+                <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
+                <div class="dimden">
+                    <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
+                    <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
+                        <b class="tweet-header-name">${dimden.name}</b>
+                        <span class="tweet-header-handle">@${dimden.screen_name}</span>
+                    </a><br>
+                    <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
+                </div>
+            </span>
+        `, 'shameless-plug', () => {
+            if(!followed) {
                 if(!vars.disableAnalytics) {
-                    ga('send', 'event', "dimden", "seen");
+                    ga('send', 'event', "dimden", "dismiss");
                 }
-                let modal = createModal(`
-                    <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
-                    <span style="font-size:14px">
-                        ${LOC.thank_you.message}<br><br>
-                        <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
-                        <div class="dimden">
-                            <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                            <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
-                                <b class="tweet-header-name">${dimden.name}</b>
-                                <span class="tweet-header-handle">@${dimden.screen_name}</span>
-                            </a><br>
-                            <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
-                        </div>
-                    </span>
-                `, 'shameless-plug', () => {
-                    if(!followed) {
-                        if(!vars.disableAnalytics) {
-                            ga('send', 'event', "dimden", "dismiss");
-                        }
-                    }
-                });
-                let followButton = modal.querySelector('.follow');
-                followButton.addEventListener('click', () => {
-                    if(!vars.disableAnalytics) {
-                        ga('send', 'event', "dimden", "follow");
-                    }
-                    followed = true;
-                    API.followUser('dimdenEFF').then(() => {
-                        alert(LOC.thank_you_follow.message);
-                        modal.remove();
-                    }).catch(e => {
-                        console.error(e);
-                        location.href = 'https://twitter.com/dimdenEFF';
-                    });
-                });
-                twemoji.parse(modal);
             }
+        });
+        let followButton = modal.querySelector('.follow');
+        followButton.addEventListener('click', () => {
+            if(!vars.disableAnalytics) {
+                ga('send', 'event', "dimden", "follow");
+            }
+            followed = true;
+            API.followUser('dimdenEFF').then(() => {
+                alert(LOC.thank_you_follow.message);
+                modal.remove();
+            }).catch(e => {
+                console.error(e);
+                location.href = 'https://twitter.com/dimdenEFF';
+            });
+        });
+        twemoji.parse(modal);
+    }
+}
+
+setTimeout(() => {
+    chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug'], async data => {
+        if (!data.installed) {
+            createShamelessPlug();
             if(!vars.disableAnalytics) {
                 ga('send', 'event', "ext", "install", chrome.runtime.getManifest().version);
             }
-            chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version});
+            chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
         } else {
+            if(!data.nextPlug) {
+                chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
+            } else {
+                if(data.nextPlug < Date.now()) {
+                    createShamelessPlug(false);
+                    chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
+                }
+            }
             if (
                 !data.lastVersion || 
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')

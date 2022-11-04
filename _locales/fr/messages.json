@@ -330,5 +330,6 @@
     "will_send": { "message": "Sera envoyé le" },
     "schedule": { "message": "Schedule" },
     "scheduled_success": { "message": "Le tweet a été programmé pour être envoyé" },
-    "see_scheduled": { "message": "Voir les tweets programmés" }
+    "see_scheduled": { "message": "Voir les tweets programmés" },
+    "thank_you2": { "message": "Merci d'utiliser OldTwitter ! Il a fallu beaucoup de temps et d'efforts pour le coder, vous pouvez me soutenir en me suivant ou en <a target='_blank' href='https://dimden.dev/donate/'>en faisant un don</a>. Je serais très reconnaissant." }
 }

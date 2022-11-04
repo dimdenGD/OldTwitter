@@ -332,5 +332,6 @@
     "scheduled_success": { "message": "Tweet was scheduled!" },
     "see_scheduled": { "message": "See scheduled" },
     "hasnt_tweeted": { "message": "@$SCREEN_NAME$ hasn't tweeted", "placeholders": { "screen_name": { "content": "loading" } } },
-    "when_theyll_tweet": { "message": "When they do, their Tweets will show up here." }
+    "when_theyll_tweet": { "message": "When they do, their Tweets will show up here." },
+    "thank_you2": { "message": "Thank you for using OldTwitter! It took lot of time and effort coding it, you can support me by following me or <a target='_blank' href='https://dimden.dev/donate/'>donating</a>. I would be very thankful." }
 }

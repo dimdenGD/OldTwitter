@@ -594,6 +594,9 @@ async function renderProfile() {
             <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>${LOC.unblock.message}</button>
             <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user"></a>
         `;
+        if(!pageUser.following) {
+            pageUser.want_retweets = true;
+        }
         buttonsElement.innerHTML += /*html*/`
             <span class="profile-additional-thing" id="profile-settings"></span>
             <div id="profile-settings-div" class="dropdown-menu" hidden>
