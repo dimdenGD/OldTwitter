@@ -1185,6 +1185,9 @@ API.getFavorites = (id, cursor) => {
             }
             resolve({
                 tl: data.data.user.result.timeline_v2.timeline.instructions[0].entries.filter(e => e.entryId.startsWith('tweet-')).map(e => {
+                    if(!e.content.itemContent.tweet_results.result.legacy) {
+                        e.content.itemContent.tweet_results.result = e.content.itemContent.tweet_results.result.tweet;
+                    }
                     let tweet = e.content.itemContent.tweet_results.result.legacy;
                     let user = e.content.itemContent.tweet_results.result.core.user_results.result;
                     user.legacy.id_str = user.rest_id;
