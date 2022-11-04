@@ -62,20 +62,12 @@ async function createShamelessPlug(firstTime = true) {
 setTimeout(() => {
     chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug'], async data => {
         if (!data.installed) {
-            createShamelessPlug();
+            createShamelessPlug(true);
             if(!vars.disableAnalytics) {
                 ga('send', 'event', "ext", "install", chrome.runtime.getManifest().version);
             }
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
         } else {
-            if(!data.nextPlug) {
-                chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
-            } else {
-                if(data.nextPlug < Date.now()) {
-                    createShamelessPlug(false);
-                    chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
-                }
-            }
             if (
                 !data.lastVersion || 
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')
@@ -126,6 +118,15 @@ setTimeout(() => {
                     });
                 }
                 chrome.storage.local.set({lastVersion: chrome.runtime.getManifest().version});
+            } else {
+                if(!data.nextPlug) {
+                    chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
+                } else {
+                    if(data.nextPlug < Date.now()) {
+                        createShamelessPlug(false);
+                        chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
+                    }
+                }
             }
         }
     });
