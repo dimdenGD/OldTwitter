@@ -642,6 +642,7 @@ class TweetViewer {
             document.getElementsByClassName('new-tweet-text')[0].classList.remove('new-tweet-text-focused');
             document.getElementsByClassName('new-tweet-media-div')[0].classList.remove('new-tweet-media-div-focused');
             document.getElementsByClassName('new-tweet-button')[0].disabled = false;
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
     }
     async appendTweet(t, timelineContainer, options = {}) {
