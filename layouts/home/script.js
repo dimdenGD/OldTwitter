@@ -329,7 +329,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     if(t.socialContext.description) {
                         obj.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.id}">${t.socialContext.name}</a>`;
                         obj.top.icon = "\uf008";
-                        obj.top.color = "#3300FF";
+                        obj.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
                     } else if(t.socialContext.contextType === "Like") {
                         obj.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(' liked', ' favorited') : t.socialContext.text}</a>`;
                         if(vars.heartsNotStars) {
@@ -342,7 +342,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     } else if(t.socialContext.contextType === "Follow") {
                         obj.top.text = t.socialContext.text;
                         obj.top.icon = "\uf002";
-                        obj.top.color = "#3300FF";
+                        obj.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
                     } else {
                         console.log(t.socialContext);
                     }

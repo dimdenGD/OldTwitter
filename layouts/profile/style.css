@@ -355,12 +355,6 @@ span.tweet-body-text {
     font-size: 13px
 }
 
-.tweet-top-icon {
-    font-family: RosettaIcons;
-    margin-right: 10px;
-    vertical-align: text-bottom
-}
-
 .tweet-top-icon,
 .tweet-top-text {
     display: inline-block;

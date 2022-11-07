@@ -1598,7 +1598,9 @@ emoji-picker {
     overflow: hidden;
     vertical-align: middle;
 }
-.tweet-top-text {
-    overflow: hidden;
-    max-width: 500px;
+
+.tweet-top-icon {
+    font-family: RosettaIcons;
+    margin-right: 10px;
+    vertical-align: text-bottom;
 }

@@ -638,12 +638,6 @@ span.tweet-body-text {
     margin-left: 35px
 }
 
-.tweet-top-icon {
-    font-family: RosettaIcons;
-    margin-right: 10px;
-    vertical-align: text-bottom
-}
-
 .tweet-top-icon,
 .tweet-top-text {
     color: var(--light-gray);
