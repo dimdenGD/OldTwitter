@@ -238,12 +238,4 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     icon.rel = "icon";
     icon.id = "site-icon";
     document.head.appendChild(icon);
-
-    setInterval(() => {
-        let donateButton = document.getElementById('donate-button');
-        donateButton.style.color = "var(--link-color)";
-        setTimeout(() => {
-            donateButton.style.color = "";
-        }, 2000);
-    }, 10000);
 })();

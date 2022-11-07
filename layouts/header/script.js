@@ -1745,6 +1745,9 @@ setTimeout(async () => {
             a.style.color = 'var(--light-gray)';
             about.appendChild(a);
         }
+        if(Math.random() > 0.99) {
+            document.getElementById('donate-button').innerHTML += ' <span style="vertical-align: middle;">🥺</span>';
+        }
     }, 500);
 
     let root = document.querySelector(":root");

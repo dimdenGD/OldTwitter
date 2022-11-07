@@ -319,9 +319,6 @@ body {
     width: 26px !important;
     height: 26px !important;
 }
-#donate-button {
-    transition: 1s;
-}
 .tweet-translate {
     color: var(--link-color);
     font-size: 13px;

@@ -917,10 +917,6 @@ a:hover,
     width: fit-content
 }
 
-#donate-button {
-    transition: 1s
-}
-
 .tweet-translate {
     color: var(--light-gray);
     cursor: pointer;

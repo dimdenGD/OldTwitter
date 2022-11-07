@@ -725,10 +725,6 @@ a:hover,
     width: 26px !important
 }
 
-#donate-button {
-    transition: 1s
-}
-
 .tweet-translate {
     color: var(--light-gray);
     cursor: pointer;
@@ -894,7 +890,7 @@ a:hover,
     color: var(--darker-gray);
     margin-top: 4px;
 }
-.tweet:last-child {
+.tweet:last-child, .user-item:last-child {
     border-bottom: 1px solid var(--border) !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;

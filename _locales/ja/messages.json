@@ -329,5 +329,8 @@
     "will_send": { "message": "送信先" },
     "schedule": { "message": "予約" },
     "scheduled_success": { "message": "ツイートが予約されました" },
-    "see_scheduled": { "message": "予約の参照" }
+    "see_scheduled": { "message": "予約の参照" },
+    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ さんはツイートしていません。", "placeholders": { "screen_name": { "content": "loading" } } },
+    "when_theyll_tweet": { "message": "実行した場合このツイートはここに表示されます。" },
+    "thank_you2": { "message": "OldTwitterを使ってくれてありがとうございます! 製作には時間がかかりましたが、フォローや<a target='_blank' href='https://dimden.dev/donate/>寄付</a>で応援していただけると非常に嬉しいです！" }
 }

@@ -83,13 +83,16 @@
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/notifications", "https://twitter.com/notifications/mentions", "https://twitter.com/notifications/", "https://twitter.com/notifications/mentions/"],
+      "matches": [
+        "https://twitter.com/notifications", "https://twitter.com/notifications/", "https://twitter.com/notifications?*", "https://twitter.com/notifications/?*", 
+        "https://twitter.com/notifications/mentions", "https://twitter.com/notifications/mentions?*", "https://twitter.com/notifications/mentions/", "https://twitter.com/notifications/mentions/?*"
+      ],
       "js": ["layouts/notifications/script.js"],
       "all_frames": true,
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/old/settings", "https://twitter.com/old/settings/"],
+      "matches": ["https://twitter.com/old/settings", "https://twitter.com/old/settings/", "https://twitter.com/old/settings?*", "https://twitter.com/old/settings/?*"],
       "js": ["layouts/settings/script.js", "libraries/viewer.min.js"],
       "all_frames": true,
       "run_at": "document_idle"
@@ -101,31 +104,40 @@
       "all_frames": true
     },
     {
-      "matches": ["https://twitter.com/*/status/*", "https://twitter.com/*/status/*?*", "https://twitter.com/*/status/*/", "https://twitter.com/*/status/*/likes", "https://twitter.com/*/status/*/likes/", "https://twitter.com/*/status/*/retweets", "https://twitter.com/*/status/*/retweets/with_comments"],
+      "matches": [
+        "https://twitter.com/*/status/*", "https://twitter.com/*/status/*?*", "https://twitter.com/*/status/*/", "https://twitter.com/*/status/*/?*",
+        "https://twitter.com/*/status/*/likes", "https://twitter.com/*/status/*/likes/", "https://twitter.com/*/status/*/likes?*", "https://twitter.com/*/status/*/likes/?*",
+        "https://twitter.com/*/status/*/retweets", "https://twitter.com/*/status/*/retweets/", "https://twitter.com/*/status/*/retweets?*", "https://twitter.com/*/status/*/retweets/?*",
+        "https://twitter.com/*/status/*/retweets/with_comments", "https://twitter.com/*/status/*/retweets/with_comments/", "https://twitter.com/*/status/*/retweets/with_comments?*", "https://twitter.com/*/status/*/retweets/with_comments/?*"
+      ],
       "js": ["layouts/tweet/script.js"],
       "run_at": "document_idle",
       "all_frames": true
     },
     {
-      "matches": ["https://twitter.com/i/lists/*", "https://twitter.com/i/lists/*/", "https://twitter.com/i/lists/*/members", "https://twitter.com/i/lists/*/members/", "https://twitter.com/i/lists/*/followers", "https://twitter.com/i/lists/*/followers/"],
+      "matches": [
+        "https://twitter.com/i/lists/*", "https://twitter.com/i/lists/*/", "https://twitter.com/i/lists/*?*", "https://twitter.com/i/lists/*/?*",
+        "https://twitter.com/i/lists/*/members", "https://twitter.com/i/lists/*/members/", "https://twitter.com/i/lists/*/members?*", "https://twitter.com/i/lists/*/members/?*",
+        "https://twitter.com/i/lists/*/followers", "https://twitter.com/i/lists/*/followers/", "https://twitter.com/i/lists/*/followers?*", "https://twitter.com/i/lists/*/followers/?*"
+      ],
       "js": ["layouts/lists/script.js"],
       "all_frames": true,
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/i/bookmarks", "https://twitter.com/i/bookmarks/"],
+      "matches": ["https://twitter.com/i/bookmarks", "https://twitter.com/i/bookmarks/", "https://twitter.com/i/bookmarks?*", "https://twitter.com/i/bookmarks/?*"],
       "js": ["layouts/bookmarks/script.js"],
       "all_frames": true,
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/i/topics/*", "https://twitter.com/i/topics/*/"],
+      "matches": ["https://twitter.com/i/topics/*", "https://twitter.com/i/topics/*/", "https://twitter.com/i/topics/*?*", "https://twitter.com/i/topics/*/?*"],
       "js": ["layouts/topics/script.js"],
       "all_frames": true,
       "run_at": "document_idle"
     },
     {
-      "matches": ["https://twitter.com/i/timeline", "https://twitter.com/i/timeline?*"],
+      "matches": ["https://twitter.com/i/timeline", "https://twitter.com/i/timeline?*", "https://twitter.com/i/timeline/", "https://twitter.com/i/timeline/?*"],
       "js": ["layouts/itl/script.js"],
       "all_frames": true,
       "run_at": "document_idle"
