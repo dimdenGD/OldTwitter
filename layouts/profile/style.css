@@ -902,7 +902,8 @@ a:hover,
     line-height: 1;
     word-wrap: break-word;
     margin: 0;
-    text-rendering: optimizeLegibility
+    text-rendering: optimizeLegibility;
+    overflow: hidden;
 }
 
 .piu-a {
@@ -951,7 +952,8 @@ a:hover,
     font-weight: 400;
     line-height: 20px;
     margin-bottom: 10px;
-    word-wrap: break-word
+    word-wrap: break-word;
+    overflow: hidden;
 }
 
 #tweet-nav[hidden] {
@@ -1277,7 +1279,8 @@ a:hover,
     border: 1px solid var(--border);
     border-radius: 5px;
     background: var(--background-color);
-    font-size: 14px
+    font-size: 14px;
+    overflow: hidden;
 }
 
 #tweet-to:hover {
