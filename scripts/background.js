@@ -4,6 +4,10 @@ chrome.contextMenus.create({
     contexts: ['action']
 });
 
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.runtime.setUninstallURL('https://dimden.dev/ot/uninstall.html');
+});
+
 chrome.contextMenus.onClicked.addListener(info => {
     if (info.menuItemId === 'open_settings') {
         chrome.tabs.create({
