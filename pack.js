@@ -68,6 +68,9 @@ document.documentElement.innerHTML = html;`);
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background.js', 'utf8');
     background = background.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     background = `
+chrome.runtime.onInstalled.addListener(() => {
+    chrome.runtime.setUninstallURL('https://dimden.dev/ot/uninstall.html');
+});
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
         return {
