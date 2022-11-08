@@ -286,8 +286,9 @@ async function updateTimeline() {
     }
     if(tl.error === "Not authorized.") {
         document.getElementById('tweet-nav').hidden = true;
-        document.getElementById('timeline').innerHTML = `<div style="padding: 100px;color: var(--darker-gray);">${LOC.timeline_not_authorized.message}</div>`;
-        return document.getElementById('loading-box').hidden = true;
+        document.getElementById('loading-box').hidden = true;
+        document.getElementById('timeline').innerHTML = pageUser.statuses_count === 0 ? '' : `<div style="padding: 100px;color: var(--darker-gray);">${LOC.timeline_not_authorized.message}</div>`;
+        return;
     }
     tl.forEach(t => {
         let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
@@ -540,15 +541,23 @@ async function renderProfile() {
     document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
     document.getElementById('profile-stat-favorites-link').hidden = pageUser.favourites_count === 0;
-    if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) {
+
+    if((pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) || (pageUser.protected && !pageUser.following)) {
         document.getElementById('trends').hidden = true;
+        setTimeout(() => {
+            let list = document.getElementById('wtf-list');
+            while(list.childElementCount > 3) list.removeChild(list.lastChild);
+        }, 500);
+    } else {
+        document.getElementById('trends').hidden = false;   
+    }
+    if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) {
         document.getElementById('no-tweets').hidden = false;
         document.getElementById('no-tweets').innerHTML = `
             <h3>${LOC.hasnt_tweeted.message.replace('$SCREEN_NAME$', `<span>${pageUser.screen_name}</span>`)}</h3>
             <p>${LOC.when_theyll_tweet.message}</p>
         `;
     } else {
-        document.getElementById('trends').hidden = false;
         document.getElementById('no-tweets').hidden = true;
         document.getElementById('no-tweets').innerHTML = ``;
     }
@@ -1315,8 +1324,7 @@ setTimeout(async () => {
         followersCursor = undefined;
         followingCursor = undefined;
         followersYouKnowCursor = undefined;
-        if(subpage !== 'following' && subpage !== 'followers' && subpage !== 'followers_you_follow' && subpage !== 'lists') updateTimeline();
-        else if(subpage === 'following') {
+        if(subpage === 'following') {
             renderFollowing();
         } else if(subpage === 'followers') {
             renderFollowers();
@@ -1324,6 +1332,8 @@ setTimeout(async () => {
             renderFollowersYouFollow();
         } else if(subpage === 'lists') {
             renderLists();
+        } else {
+            updateTimeline();
         }
     }
     document.getElementById('tweet-nav-tweets').addEventListener('click', updatePath);
@@ -1381,6 +1391,7 @@ setTimeout(async () => {
             document.getElementById('profile-friends-div').innerHTML = '';
             updateSubpage();
             updateSelection();
+            document.getElementById('timeline').innerHTML = '';
             await updateUserData();
             updateTimeline();
             renderDiscovery();
