@@ -1191,6 +1191,7 @@ class TweetViewer {
         }
         let links = Array.from(tweetBodyText.getElementsByTagName('a')).filter(a => a.href.startsWith('https://t.co/'));
         links.forEach(a => {
+            if(a.href.endsWith('.') || a.href.endsWith(';') || a.href.endsWith('?')) a.href = a.href.slice(0, -1);
             let link = t.entities.urls.find(u => u.url === a.href);
             if (link) {
                 a.innerText = link.display_url;
