@@ -1094,7 +1094,7 @@ input, textarea {
 }
 .tweet-viewer {
     width: 580px;
-    max-height: 100%;
+    max-height: unset !important;
 }
 .new-tweet-avatar {
     vertical-align: top

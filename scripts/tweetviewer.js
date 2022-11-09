@@ -38,6 +38,7 @@ class TweetViewer {
         this.popstateHelper = undefined;
         this.scrollHelper = undefined;
         this.timelineElement = this.container.getElementsByClassName('timeline')[0];
+        this.moreBtn = this.container.getElementsByClassName('timeline-more')[0];
 
         let event = new CustomEvent('clearActiveTweet');
         document.dispatchEvent(event);
@@ -1926,12 +1927,9 @@ class TweetViewer {
         that.currentLocation = location.pathname;
     }
     async onScroll(that) {
-        let tl = that.timelineElement;
-        let modal = tl.parentElement;
-        if(modal.scrollTop + 200 > tl.scrollHeight - modal.clientHeight && !that.loadingNewTweets) {
-            let btn = modal.getElementsByClassName('timeline-more')[0];
-            if(btn && that.subpage === 'tweet' && !btn.hidden) {
-                btn.click();
+        if(this.container.scrollTop + 200 > this.container.scrollHeight - this.container.clientHeight && !that.loadingNewTweets) {
+            if(this.moreBtn && that.subpage === 'tweet' && !this.moreBtn.hidden) {
+                this.moreBtn.click();
             }
         }
     }
@@ -1981,11 +1979,11 @@ class TweetViewer {
         this.popstateHelper = () => this.popstateChange(this);
         this.scrollHelper = () => this.onScroll(this);
         window.addEventListener("popstate", this.popstateHelper);
-        this.timelineElement.parentElement.addEventListener("scroll", this.scrollHelper, { passive: true });
+        this.container.addEventListener("scroll", this.scrollHelper, { passive: true });
     }
     close() {
         document.removeEventListener('scroll', this.onscroll);
         window.removeEventListener("popstate", this.popstateHelper);
-        this.timelineElement.parentElement.removeEventListener("scroll", this.scrollHelper);
+        this.container.removeEventListener("scroll", this.scrollHelper);
     }
 }
