@@ -115,7 +115,7 @@ async function renderNotifications(data, append = false) {
                     let mi = 0;
                     let newText = notificationHeader.replace(aRegex, (_, m) => {
                         if(mi++ !== matches) return _;
-                        return `<a href="/${user.screen_name}">${escapeHTML(m)}</a>`;
+                        return `<a href="/${user.screen_name}"${user.verified ? 'class="user-verified"' : ''}>${escapeHTML(m)}</a>`;
                     });
                     additionalLength += newText.length - notificationHeader.length + emojiHelpers;
                     notificationHeader = newText;

@@ -922,7 +922,7 @@ setTimeout(async () => {
                 if(index === 0) userElement.classList.add('search-result-item-active');
                 userElement.innerHTML = `
                     <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
-                    <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${user.name}</span>
+                    <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${user.name}</span>
                     <span class="search-result-item-screen-name">@${user.screen_name}</span>
                 `;
                 userElement.addEventListener('click', () => {

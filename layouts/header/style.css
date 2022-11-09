@@ -1596,7 +1596,7 @@ emoji-picker {
     max-width: 300px;
     display: inline-block;
     overflow: hidden;
-    vertical-align: middle;
+    vertical-align: bottom;
 }
 
 .tweet-top-icon {

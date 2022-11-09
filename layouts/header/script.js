@@ -149,7 +149,7 @@ let userDataFunction = async user => {
                         <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
                             <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                             <div class="following-item-text">
-                                <span class="tweet-header-name following-item-name ${u.verified ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
+                                <span class="tweet-header-name following-item-name ${u.verified || u.id_str === '1123203847776763904' ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
                                 <span class="tweet-header-handle">@${u.screen_name}</span>
                             </div>
                         </a>
@@ -976,7 +976,7 @@ let userDataFunction = async user => {
                     if(index === 0) userElement.classList.add('search-result-item-active');
                     userElement.innerHTML = `
                         <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
-                        <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
+                        <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                         <span class="search-result-item-screen-name">@${user.screen_name}</span>
                     `;
                     userElement.addEventListener('click', () => {
@@ -1285,7 +1285,7 @@ let userDataFunction = async user => {
             userElement.className = 'search-result-item';
             userElement.innerHTML = `
                 <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
-                <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${user.name}</span>
+                <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${user.name}</span>
                 <span class="search-result-item-screen-name">@${user.screen_name}</span>
             `;
             searchResults.appendChild(userElement);
