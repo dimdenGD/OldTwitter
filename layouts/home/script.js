@@ -78,30 +78,20 @@ setTimeout(() => {
                 createModal(`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
-                        <b>Features</b>
                         <ul>
-                            <li>Support for scheduled tweets.</li>
-                            <li>Added page for new tweet notifications. You can click on 'New tweet notifications' notification to open it.</li>
-                            <li>Made menus look pretty and how they looked in old Twitter.</li>
-                            <li>Removed confirmation popup for retweets.</li>
-                            <li>Improved reverse-chronological timeline.</li>
-                            <li>Made Tweet Viewer autoload tweets on scroll end.</li>
-                            <li>Added support for promo_video_convo card.</li>
-                            <li>Support for viewing what tweets were liked.</li>
-                            <li>Added Professional Category to profiles.</li>
-                            <li>Support for URL previews.</li>
+                            <li>Made notification page show red dot when unfocused too.</li>
+                            <li>Fixed some links disappearing from tweet.</li>
+                            <li>Fixed text overflows in lot of places.</li>
+                            <li>Now you can scroll TweetViewer at any mouse position.</li>
+                            <li>Some fixes regarding protected accounts.</li>
+                            <li>Added feedback page for uninstalls.</li>
+                            <li>Lot of style fixes.</li>
+                            <li>More translated text.</li>
+                            <li>Fixed favorite tweets not loading sometimes.</li>
+                            <li>Fixes regarding clicking on notifications.</li>
+                            <li>Made clicking on media in profile switch subpage to tweet if not on it.</li>
                         </ul>
-                        <b>Fixes</b>
-                        <ul>
-                            <li>Fixed bug with opening empty modal when clicking on left side of notification.</li>
-                            <li>Fixed algorithmical timeline never loading sometimes.</li>
-                            <li>Fixed bug with retweet button being available for private accounts / circle tweets.</li>
-                            <li>Fixed 'New tweets' button showing up every time you post new tweet.</li>
-                            <li>Fixed 'New tweets' button showing up if you delete first tweet on timeline and when you click on it it duplicates next tweet.</li>
-                            <li>Made user previews not appear far away from cursor.</li>
-                            <li>Fixed first tweet translation button being off-element.</li>
-                            <li>Made Twitter profile link color appear in settings page if none set in OldTwitter database.</li>
-                        </ul>
+                        <p>Found some bug? Report it here: <a href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>
                 `, 'changelog-modal', () => {
                     if(!vars.disableAnalytics) {

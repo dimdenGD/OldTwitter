@@ -198,7 +198,11 @@ async function renderNotifications(data, append = false) {
     if(unreadNotifications > 0) {
         setTimeout(() => {
             API.markAsReadNotifications(cursor);
-            notificationBus.postMessage({type: 'markAsRead', cursor});
+            if(!windowFocused) {
+                document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32_notification.png`);
+            } else {
+                notificationBus.postMessage({type: 'markAsRead', cursor});
+            }
         }, 1000);
     }
 }
@@ -221,6 +225,8 @@ async function updateNotifications(append = false) {
     document.getElementById('loading-box').hidden = true;
 }
 
+let windowFocused = document.hidden;
+
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
@@ -241,6 +247,14 @@ setTimeout(async () => {
         console.error(e);
         return;
     }
+
+    windowFocused = document.hidden;
+    onVisibilityChange(vis => {
+        windowFocused = vis;
+        if(vis) {
+            document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32.png`);
+        }
+    });
 
     // buttons
     document.getElementById('notifications-more').addEventListener('click', async () => {
