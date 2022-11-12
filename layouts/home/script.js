@@ -89,6 +89,7 @@ setTimeout(() => {
                             <li>More translated text.</li>
                             <li>Fixed favorite tweets not loading sometimes.</li>
                             <li>Fixes regarding clicking on notifications.</li>
+                            <li>Quote tweets show real links now.</li>
                             <li>Made clicking on media in profile switch subpage to tweet if not on it.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>

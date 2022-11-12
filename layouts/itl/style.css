@@ -975,7 +975,7 @@ a:hover,
     border-top-left-radius: 0;
     border-top-right-radius: 0;
 }
-.tweet:last-child {
+.tweet:not(.tweet-view):last-child {
     border-bottom: 1px solid var(--border);
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;

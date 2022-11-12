@@ -1047,7 +1047,7 @@ a:hover,
 .tweet:first-child .tweet-translate-after {
     margin-right: -20px;
 }
-.tweet:last-child {
+.tweet:not(.tweet-view):last-child {
     border-bottom: 1px solid var(--border) !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;

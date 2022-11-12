@@ -1070,6 +1070,7 @@ class TweetViewer {
         const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
+        const tweetBodyQuoteText = tweet.getElementsByClassName('tweet-body-text-quote')[0];
     
         const tweetReplyCancel = tweet.getElementsByClassName('tweet-reply-cancel')[0];
         const tweetReplyUpload = tweet.getElementsByClassName('tweet-reply-upload')[0];
@@ -1120,6 +1121,12 @@ class TweetViewer {
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
     
+            // Quote body
+        if(t.quoted_status && t.quoted_status.entities && t.quoted_status.entities.urls) {
+            for(let u of t.quoted_status.entities.urls) {
+                tweetBodyQuoteText.innerHTML = tweetBodyQuoteText.innerHTML.replace(new RegExp(u.url, "g"), escapeHTML(u.display_url));
+            }
+        }
         if(tweetBodyQuote) {
             tweetBodyQuote.addEventListener('click', e => {
                 e.preventDefault();

@@ -252,6 +252,7 @@ setTimeout(async () => {
     onVisibilityChange(vis => {
         windowFocused = vis;
         if(vis) {
+            notificationBus.postMessage({type: 'markAsRead', cursor});
             document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32.png`);
         }
     });
