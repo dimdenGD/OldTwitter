@@ -69,6 +69,9 @@ if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath))
     let path = realPath.split("/photo/")[0];
     location.replace(path);
 }
+if(realPath === '/messages') {
+    location.replace('/home#dm');
+}
 if(
     /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath) ||
     /^\/i\/events\/\d{5,32}$/.test(realPath) ||

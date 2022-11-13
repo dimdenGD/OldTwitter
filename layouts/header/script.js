@@ -568,7 +568,11 @@ let userDataFunction = async user => {
                 <br><br><br><br><br>
                 <div class="new-message-results"></div>
             </div>
-        `, "inbox-modal");
+        `, "inbox-modal", () => {
+            if(location.hash === '#dm') {
+                location.hash = "";
+            }
+        });
         modal.querySelector('.modal-close').hidden = true;
         const inboxList = modal.querySelector('.inbox-list');
         const readAll = modal.querySelector('.inbox-readall');
