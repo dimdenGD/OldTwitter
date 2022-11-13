@@ -951,6 +951,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
         }
     };
     document.getElementById('loading-box').hidden = true;
+    loadingNewTweets = false;
     return true;
 }
 function renderNewTweetsButton() {
@@ -979,7 +980,7 @@ document.addEventListener('findActiveTweet', () => {
         activeTweet.classList.add('tweet-active');
     }
 });
-let loadingNewTweets = false;
+let loadingNewTweets = true;
 let lastTweetDate = 0;
 let activeTweet;
 let tweetsToLoad = {};
