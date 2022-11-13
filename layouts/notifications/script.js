@@ -45,7 +45,7 @@ async function renderNotifications(data, append = false) {
     if(!append) notificationsContainer.innerHTML = '';
     let unreadBefore = +data.timeline.instructions.find(i => i.markEntriesUnreadGreaterThanSortIndex).markEntriesUnreadGreaterThanSortIndex.sortIndex;
     let unreadNotifications = 0;
-    let errors = false;
+    let errorMsg = undefined;
     for(let i in entries) {
         if(i === 0) continue;
         let e = entries[i];
@@ -197,16 +197,23 @@ async function renderNotifications(data, append = false) {
                 }
             }
         } catch(e) {
-            errors = true;
+            errorMsg = e;
             console.error(e);
         }
     }
-    if(errors) {
-        createModal(`<span id="changelog" style="font-size:14px;color:var(--default-text-color)">
-            <h2 style="margin-top: 0">Something went wrong</h2>
-            Some notifications couldn't be loaded due to errors.<br>
-            Please press F12 and go to Console tab to see the errors. Send screenshot of errors to <a href="https://github.com/dimdenGD/OldTwitter/issues" target="_blank">issue tracker</a> or <a target="_blank" href="mailto:admin@dimden.dev">my email</a>.
-        </span>`)
+    if(errorMsg) {
+        createModal(`
+            <div style="max-width:700px">
+                <span style="font-size:14px;color:var(--default-text-color)">
+                    <h2 style="margin-top: 0">${LOC.something_went_wrong.message}</h2>
+                    ${LOC.notifications_error.message}<br>
+                    ${LOC.notifications_error_instructions.message.replace('$AT1$', "<a target='_blank' href='https://github.com/dimden/OldTwitter/issues'>").replace(/\$AT2\$/g, '</a>').replace("$AT3$", "<a target='_blank' href='mailto:admin@dimden.dev'>")}
+                </span>
+                <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.2)">
+                    ${escapeHTML(errorMsg.stack ? errorMsg.stack : String(errorMsg))}
+                </div>
+            </div>
+        `)
     }
     if(unreadNotifications > 0) {
         setTimeout(() => {

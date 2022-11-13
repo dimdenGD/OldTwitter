@@ -331,5 +331,15 @@
     "see_scheduled": { "message": "Посмотреть запланированные" },
     "hasnt_tweeted": { "message": "@$SCREEN_NAME$ ещё не твитил(-а)", "placeholders": { "screen_name": { "content": "loading" } } },
     "when_theyll_tweet": { "message": "Их твиты появятся тут." },
-    "thank_you2": { "message": "Спасибо за использование OldTwitter! На разработку ушло много времени, вы можете поддержать меня подпиской или <a target='_blank' href='https://dimden.dev/donate/'>донатом</a>. Я буду очень благодарен." }
+    "thank_you2": { "message": "Спасибо за использование OldTwitter! На разработку ушло много времени, вы можете поддержать меня подпиской или <a target='_blank' href='https://dimden.dev/donate/'>донатом</a>. Я буду очень благодарен." },
+    "something_went_wrong": { "message": "Что-то пошло не так" },
+    "notifications_error": { "message": "Некоторые уведомления не смогли быть показаны из-за ошибок." },
+    "notifications_error_instructions": {
+        "message": "Пожалуйста скопируйте текст ниже и отправьте его в $AT1$трекер ошибок$AT2$ или на $AT3$мою почту$AT2$. Спасибо.",
+        "placeholders": {
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimden/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+        }
+    }
 }

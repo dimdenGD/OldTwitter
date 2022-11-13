@@ -23,7 +23,7 @@ async function createShamelessPlug(firstTime = true) {
         let modal = createModal(`
             <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
             <span style="font-size:14px">
-                ${firstTime ? LOC.thank_you.message : LOC.thank_you2.message}<br><br>
+                ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
                 <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
                 <div class="dimden">
                     <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
@@ -92,7 +92,7 @@ setTimeout(() => {
                             <li>Quote tweets show real links now.</li>
                             <li>Made clicking on media in profile switch subpage to tweet if not on it.</li>
                         </ul>
-                        <p>Found some bug? Report it here: <a href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
+                        <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>
                 `, 'changelog-modal', () => {
                     if(!vars.disableAnalytics) {
