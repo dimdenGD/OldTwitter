@@ -91,7 +91,7 @@ setTimeout(() => {
                             <li>Fixes regarding clicking on notifications.</li>
                             <li>Quote tweets show real links now.</li>
                             <li>Made clicking on media in profile switch subpage to tweet if not on it.</li>
-                            <li>Support for /messages page.</li>
+                            <li>Support for /messages and /intent/tweet pages.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>
@@ -1272,7 +1272,21 @@ setTimeout(async () => {
         setTimeout(() => {
             document.getElementById('messages').click();
         }, 1000);
+    } else if(location.hash.startsWith("#?")) {
+        try {
+            let params = Object.fromEntries(new URLSearchParams(location.hash.slice(1)));
+            if(params.text) setTimeout(() => {
+                location.hash = '';
+                document.getElementById('navbar-tweet-button').click();
+                setTimeout(() => {
+                    document.getElementsByClassName('navbar-new-tweet-text')[0].value = `${params.text}${params.url ? '\n' + params.url : ''}`.trim();
+                }, 10);
+            }, 1000);
+        } catch(e) {
+            console.error(e);
+        }
     }
+    
 
     // Run
     updateUserData();
