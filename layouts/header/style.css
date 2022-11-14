@@ -680,6 +680,13 @@ input, textarea {
     vertical-align: top;
     margin-top: -2px;
 }
+.message-header-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 400px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
 .message-element:not(.message-element-other) a {
     color: var(--darker-background-color) !important;
 }
