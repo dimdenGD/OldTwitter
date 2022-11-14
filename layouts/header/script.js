@@ -132,7 +132,6 @@ let userDataFunction = async user => {
         let followRequests = document.getElementById('navbar-user-menu-requests');
         let followRequestsCount = document.getElementById('follow-request-count');
         followRequests.style.display = 'flex';
-        document.getElementById('navbar-user-menu-requests-br').hidden = false;
 
         async function updateFollowRequests() {
             let list = document.querySelector('.follow-requests-list');

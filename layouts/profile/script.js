@@ -470,7 +470,7 @@ async function renderProfile() {
     }
     let stats = Array.from(document.getElementsByClassName('profile-stat'));
     stats.forEach(s => {
-        s.classList.toggle('profile-stat-disabled', pageUser.protected && !pageUser.following);
+        s.classList.toggle('profile-stat-disabled', pageUser.protected && !pageUser.following && pageUser.id_str !== user.id_str);
     });
 
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
@@ -542,7 +542,7 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
     document.getElementById('profile-stat-favorites-link').hidden = pageUser.favourites_count === 0;
 
-    if((pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) || (pageUser.protected && !pageUser.following)) {
+    if((pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) || (pageUser.protected && !pageUser.following && pageUser.id_str !== user.id_str)) {
         document.getElementById('trends').hidden = true;
         setTimeout(() => {
             let list = document.getElementById('wtf-list');
