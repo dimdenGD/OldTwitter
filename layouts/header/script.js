@@ -1150,6 +1150,7 @@ let userDataFunction = async user => {
         await new Promise(resolve => chrome.storage.local.get(['lastSearches'], data => {
             lastSearches = data.lastSearches;
             if(!lastSearches) lastSearches = [];
+            else lastSearches = lastSearches.filter(i => i);
             resolve(1);
         }));
         if(savedSearches.length === 0) {

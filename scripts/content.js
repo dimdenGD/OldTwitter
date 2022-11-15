@@ -78,7 +78,8 @@ if(realPath === '/intent/tweet') {
 if(
     /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath) ||
     /^\/i\/events\/\d{5,32}$/.test(realPath) ||
-    realPath.startsWith('/settings/')
+    realPath.startsWith('/settings/') ||
+    realPath.startsWith('/i/flow/')
 ) {
     location.replace(location.href.replace('twitter.com', 'mobile.twitter.com'));
 }
