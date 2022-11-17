@@ -113,6 +113,8 @@ setTimeout(async () => {
     let enableTwemoji = document.getElementById('enable-twemoji');
     let timelineType = document.getElementById('tl-type');
     let darkMode = document.getElementById('dark-mode');
+    let darkModeText = document.getElementById('dark-mode-text');
+    let timeMode = document.getElementById('time-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
     let colorPreviewDark = document.getElementById('color-preview-dark');
     let colorPreviewLight = document.getElementById('color-preview-light');
@@ -218,6 +220,29 @@ setTimeout(async () => {
             darkMode: darkMode.checked
         }, () => { });
     });
+    if(vars.timeMode) {
+        darkMode.disabled = true;
+        darkModeText.style.color = 'var(--darker-gray)';
+    }
+    timeMode.addEventListener('change', () => {
+        if(timeMode.checked) {
+            darkMode.disabled = true;
+            darkModeText.style.color = 'var(--darker-gray)';
+            let dark = isDark();
+            themeBus.postMessage(dark);
+            isDarkModeEnabled = dark;
+            switchDarkMode(dark);
+        } else {
+            darkMode.disabled = false;
+            darkModeText.style.color = 'unset';
+            themeBus.postMessage(darkMode.checked);
+            isDarkModeEnabled = darkMode.checked;
+            switchDarkMode(darkMode.checked);
+        }
+        chrome.storage.sync.set({
+            timeMode: timeMode.checked
+        }, () => { });
+    });
     profileLinkColor.addEventListener('change', () => {
         let previewColor = profileLinkColor.value;
         colorPreviewLight.style.color = `${previewColor}`;
@@ -303,6 +328,7 @@ setTimeout(async () => {
     timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
+    timeMode.checked = !!vars.timeMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
     autoplayVideos.checked = !!vars.autoplayVideos;

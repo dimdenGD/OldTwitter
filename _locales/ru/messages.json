@@ -343,5 +343,6 @@
         }
     },
     "initialization": { "message": "Инициализация..." },
-    "converting": { "message": "Конвертация..." }
+    "converting": { "message": "Конвертация..." },
+    "time_mode": { "message": "Включать тёмную тему между 19:00-09:00" }
 }

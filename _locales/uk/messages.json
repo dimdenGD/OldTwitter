@@ -343,5 +343,6 @@
         }
     },
     "initialization": { "message": "Ініціалізація..." },
-    "converting": { "message": "Конвертація..." }
+    "converting": { "message": "Конвертація..." },
+    "time_mode": { "message": "Включати тему тему між 19:00-09:00" }
 }

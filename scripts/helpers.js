@@ -370,6 +370,11 @@ function onVisibilityChange(callback) {
     window.onpageshow = window.onfocus = focused;
     window.onpagehide = window.onblur = unfocused;
 };
+function isDark() {
+    let date = new Date();
+    let hours = date.getHours();
+    return hours <= 9 || hours >= 19;
+}
 function escapeHTML(unsafe) {
     return unsafe
          .replace(/</g, "&lt;")
@@ -611,7 +616,7 @@ function createEmojiPicker(container, input, style = {}) {
     for(let i in style) {
         picker.style[i] = style[i];
     }
-    picker.className = vars.darkMode ? 'dark' : 'light';
+    picker.className = isDarkModeEnabled ? 'dark' : 'light';
     picker.addEventListener('emoji-click', e => {
         let pos = input.selectionStart;
         let text = input.value;

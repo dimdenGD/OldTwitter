@@ -354,5 +354,6 @@
         }
     },
     "initialization": { "message": "Initialization..." },
-    "converting": { "message": "Converting..." }
+    "converting": { "message": "Converting..." },
+    "time_mode": { "message": "Enable dark mode between 19:00-09:00" }
 }

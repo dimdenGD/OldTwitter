@@ -4,7 +4,7 @@ let inboxData = [];
 let followRequestsData = [];
 let customSet = false;
 let menuFn;
-let isDarkModeEnabled = typeof vars !== 'undefined' ? vars.darkMode : false;
+let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 const notificationBus = new BroadcastChannel('notification_bus');
 notificationBus.onmessage = function (e) {
     if(e.data.type === 'markAsRead') {
@@ -1692,15 +1692,24 @@ async function updateCustomCSSVariables() {
     }
 }
 
+setInterval(() => {
+    if(!vars.timeMode) return;
+    let dark = isDark();
+    if(dark !== isDarkModeEnabled) {
+        isDarkModeEnabled = dark;
+        switchDarkMode(dark);
+    }
+}, 60000);
+
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
-        if(vars.darkMode) {
+        if(vars.darkMode || (vars.timeMode && isDark())) {
             isDarkModeEnabled = true;
             switchDarkMode(true);
         }
     }
-    if(vars.darkMode) {
+    if(vars.darkMode || (vars.timeMode && isDark())) {
         let bg = getComputedStyle(document.querySelector(':root')).getPropertyValue('--background-color').trim();
         if(bg === '') {
             while(bg !== 'white' && bg !== '#1b2836') {
@@ -1866,7 +1875,7 @@ setTimeout(async () => {
         // }
     }
 
-    switchDarkMode(vars.darkMode);
+    switchDarkMode(vars.darkMode || (vars.timeMode && isDark()));
     updateCustomCSS();
     
     window.addEventListener('resize', () => {
