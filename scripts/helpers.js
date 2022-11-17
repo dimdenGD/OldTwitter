@@ -441,9 +441,10 @@ function generatePoll(tweet, tweetElement, user) {
 function generateCard(tweet, tweetElement, user) {
     if(!tweet.card) return;
     if(tweet.card.name === 'promo_image_convo' || tweet.card.name === 'promo_video_convo') {
+        console.log(tweet);
         let vals = tweet.card.binding_values;
         let a = document.createElement('a');
-        a.href = vals.thank_you_url.string_value;
+        a.href = vals.thank_you_url ? vals.thank_you_url.string_value : "#";
         a.target = '_blank';
         a.title = vals.thank_you_text.string_value;
         let img = document.createElement('img');
