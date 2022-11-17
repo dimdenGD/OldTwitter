@@ -773,7 +773,7 @@ class TweetViewer {
                 ` : ``}
                 ${t.extended_entities && t.extended_entities.media ? `
                     <div class="tweet-media">
-                        ${t.extended_entities.media.map((m, i) => `${i === 2 && t.extended_entities.media.length === 4 ? '<br>' : ''}<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
+                        ${t.extended_entities.media.map((m, i) => `${i === 2 && t.extended_entities.media.length === 4 ? '<br>' : ''}<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element${m.type === 'animated_gif' ? ' tweet-media-gif' : ''} ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                             ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
@@ -866,7 +866,8 @@ class TweetViewer {
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
                         <hr>
                         <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span>
-                        ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span>` : ``}
+                        ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? /*html*/`<span class="tweet-interact-more-menu-download-gif" data-gifno="1">${LOC.download_gif.message}</span>` : ``}
+                        ${t.extended_entities && t.extended_entities.media.length > 1 ? t.extended_entities.media.filter(m => m.type === 'animated_gif').map((m, i) => /*html*/`<span class="tweet-interact-more-menu-download-gif" data-gifno="${i+1}">${LOC.download_gif.message} (#${i+1})</span>`).join('\n') : ''}
                         ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
                     </div>
                 </div>
@@ -1116,7 +1117,7 @@ class TweetViewer {
         const tweetInteractMoreMenuRefresh = tweet.getElementsByClassName('tweet-interact-more-menu-refresh')[0];
         const tweetInteractMoreMenuMute = tweet.getElementsByClassName('tweet-interact-more-menu-mute')[0];
         const tweetInteractMoreMenuDownload = tweet.getElementsByClassName('tweet-interact-more-menu-download')[0];
-        const tweetInteractMoreMenuDownloadGif = tweet.getElementsByClassName('tweet-interact-more-menu-download-gif')[0];
+        const tweetInteractMoreMenuDownloadGifs = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-download-gif'));
         const tweetInteractMoreMenuDelete = tweet.getElementsByClassName('tweet-interact-more-menu-delete')[0];
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
@@ -1848,61 +1849,63 @@ class TweetViewer {
                     console.error(e);
                 });
             });
-            if (t.extended_entities.media[0].type === 'animated_gif') {
-                tweetInteractMoreMenuDownloadGif.addEventListener('click', () => {
-                    if (downloading) return;
-                    downloading = true;
-                    let video = tweet.getElementsByClassName('tweet-media-element')[0];
-                    let canvas = document.createElement('canvas');
-                    canvas.width = video.videoWidth;
-                    canvas.height = video.videoHeight;
-                    let ctx = canvas.getContext('2d');
-                    if (video.duration > 10 && !confirm(LOC.long_vid.message)) {
-                        return downloading = false;
-                    }
-                    let mde = tweet.getElementsByClassName('tweet-media-data')[0];
-                    mde.innerText = LOC.initialization.message;
-                    let gif = new GIF({
-                        workers: 2,
-                        quality: 10,
-                        debug: true
-                    });
-                    video.currentTime = 0;
-                    video.loop = false;
-                    let isFirst = true;
-                    let interval = setInterval(async () => {
-                        if(isFirst) {
-                            video.currentTime = 0;
-                            isFirst = false;
-                            await sleep(5);
-                        }
-                        mde.innerText = `${LOC.initialization.message} (${Math.round(video.currentTime/video.duration*100|0)}%)`;
-                        if (video.currentTime+0.1 >= video.duration) {
-                            clearInterval(interval);
-                            gif.on('working', (frame, frames) => {
-                                mde.innerText = `${LOC.converting.message} (${frame}/${frames})`;
-                            });
-                            gif.on('finished', blob => {
-                                mde.innerText = '';
-                                let a = document.createElement('a');
-                                a.href = URL.createObjectURL(blob);
-                                a.download = `${t.id_str}.gif`;
-                                document.body.append(a);
-                                a.click();
-                                a.remove();
-                                downloading = false;
-                                video.loop = true;
-                                video.play();
-                            });
-                            gif.render();
-                            return;
-                        }
-                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                        let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                        gif.addFrame(imgData, { delay: 100 });
-                    }, 100);
+        }
+        if (t.extended_entities && t.extended_entities.media.some(m => m.type === 'animated_gif')) {
+            tweetInteractMoreMenuDownloadGifs.forEach(dgb => dgb.addEventListener('click', e => {
+                if (downloading) return;
+                downloading = true;
+                let n = parseInt(e.target.dataset.gifno)-1;
+                let videos = Array.from(tweet.getElementsByClassName('tweet-media-gif'));
+                let video = videos[n];
+                let canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                let ctx = canvas.getContext('2d');
+                if (video.duration > 10 && !confirm(LOC.long_vid.message)) {
+                    return downloading = false;
+                }
+                let mde = tweet.getElementsByClassName('tweet-media-data')[0];
+                mde.innerText = LOC.initialization.message;
+                let gif = new GIF({
+                    workers: 4,
+                    quality: 15,
+                    debug: true
                 });
-            }
+                video.currentTime = 0;
+                video.loop = false;
+                let isFirst = true;
+                let interval = setInterval(async () => {
+                    if(isFirst) {
+                        video.currentTime = 0;
+                        isFirst = false;
+                        await sleep(5);
+                    }
+                    mde.innerText = `${LOC.initialization.message} (${Math.round(video.currentTime/video.duration*100|0)}%)`;
+                    if (video.currentTime+0.1 >= video.duration) {
+                        clearInterval(interval);
+                        gif.on('working', (frame, frames) => {
+                            mde.innerText = `${LOC.converting.message} (${frame}/${frames})`;
+                        });
+                        gif.on('finished', blob => {
+                            mde.innerText = '';
+                            let a = document.createElement('a');
+                            a.href = URL.createObjectURL(blob);
+                            a.download = `${t.id_str}.gif`;
+                            document.body.append(a);
+                            a.click();
+                            a.remove();
+                            downloading = false;
+                            video.loop = true;
+                            video.play();
+                        });
+                        gif.render();
+                        return;
+                    }
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    gif.addFrame(imgData, { delay: 100 });
+                }, 100);
+            }));
         }
     
         if(options.after) {
