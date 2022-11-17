@@ -1257,7 +1257,7 @@ input, textarea {
     word-break: normal;
     line-height: normal;
 }
-.tweet-media-controls {
+.tweet-media-controls, .tweet-media-data {
     color: var(--lil-darker-gray);
     font-size: 12px;
     margin-top: 5px;

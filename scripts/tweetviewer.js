@@ -779,11 +779,12 @@ class TweetViewer {
                         </video>` : ''}`).join('\n')}
                     </div>
                     ${videos ? /*html*/`
-                    <div class="tweet-media-controls">
-                        ${videos[0].ext && videos[0].ext.mediaStats && videos[0].ext.mediaStats.r && videos[0].ext.mediaStats.r.ok ? `<span class="tweet-video-views">${Number(videos[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload">${LOC.reload.message}</span> •
-                        ${videos[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
-                    </div>
-                ` : ``}
+                        <div class="tweet-media-controls">
+                            ${videos[0].ext && videos[0].ext.mediaStats && videos[0].ext.mediaStats.r && videos[0].ext.mediaStats.r.ok ? `<span class="tweet-video-views">${Number(videos[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload">${LOC.reload.message}</span> •
+                            ${videos[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
+                        </div>
+                    ` : ``}
+                    <span class="tweet-media-data"></span>
                 ` : ``}
                 ${t.card ? `<div class="tweet-card"></div>` : ''}
                 ${t.quoted_status ? `
@@ -865,8 +866,8 @@ class TweetViewer {
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
                         <hr>
                         <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span>
-                        ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
                         ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? `<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span>` : ``}
+                        ${t.extended_entities && t.extended_entities.media.length === 1 ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
                     </div>
                 </div>
                 <div class="tweet-reply" hidden>
@@ -1859,9 +1860,12 @@ class TweetViewer {
                     if (video.duration > 10 && !confirm(LOC.long_vid.message)) {
                         return downloading = false;
                     }
+                    let mde = tweet.getElementsByClassName('tweet-media-data')[0];
+                    mde.innerText = LOC.initialization.message;
                     let gif = new GIF({
                         workers: 2,
-                        quality: 10
+                        quality: 10,
+                        debug: true
                     });
                     video.currentTime = 0;
                     video.loop = false;
@@ -1872,9 +1876,14 @@ class TweetViewer {
                             isFirst = false;
                             await sleep(5);
                         }
+                        mde.innerText = `${LOC.initialization.message} (${Math.round(video.currentTime/video.duration*100|0)}%)`;
                         if (video.currentTime+0.1 >= video.duration) {
                             clearInterval(interval);
+                            gif.on('working', (frame, frames) => {
+                                mde.innerText = `${LOC.converting.message} (${frame}/${frames})`;
+                            });
                             gif.on('finished', blob => {
+                                mde.innerText = '';
                                 let a = document.createElement('a');
                                 a.href = URL.createObjectURL(blob);
                                 a.download = `${t.id_str}.gif`;

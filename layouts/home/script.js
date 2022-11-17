@@ -79,6 +79,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>GIF converter improvements</li>
                             <li>Made notification page show red dot when unfocused too.</li>
                             <li>Fixed some links disappearing from tweet.</li>
                             <li>Fixed text overflows in lot of places.</li>

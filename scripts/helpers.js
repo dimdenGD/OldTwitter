@@ -1025,6 +1025,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ${videos[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
                     </div>
                 ` : ``}
+                <span class="tweet-media-data"></span>
             ` : ``}
             ${t.card ? `<div class="tweet-card"></div>` : ''}
             ${t.quoted_status ? `
@@ -1108,8 +1109,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <hr>
                     ${t.feedback ? t.feedback.map((f, i) => /*html*/`<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span>`).join("\n") : ''}
                     <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span>
-                    ${t.extended_entities && t.extended_entities.media.length === 1 ? /*html*/`<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
                     ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? /*html*/`<span class="tweet-interact-more-menu-download-gif">${LOC.download_gif.message}</span>` : ``}
+                    ${t.extended_entities && t.extended_entities.media.length === 1 ? /*html*/`<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
                 </div>
                 ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? /*html*/`<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
                 ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
@@ -2221,9 +2222,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 if (video.duration > 10 && !confirm(LOC.long_vid.message)) {
                     return downloading = false;
                 }
+                let mde = tweet.getElementsByClassName('tweet-media-data')[0];
+                mde.innerText = LOC.initialization.message;
                 let gif = new GIF({
-                    workers: 2,
-                    quality: 10
+                    workers: 4,
+                    quality: 15,
+                    debug: true
                 });
                 video.currentTime = 0;
                 video.loop = false;
@@ -2234,9 +2238,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         isFirst = false;
                         await sleep(5);
                     }
+                    mde.innerText = `${LOC.initialization.message} (${Math.round(video.currentTime/video.duration*100|0)}%)`;
                     if (video.currentTime+0.1 >= video.duration) {
                         clearInterval(interval);
+                        gif.on('working', (frame, frames) => {
+                            mde.innerText = `${LOC.converting.message} (${frame}/${frames})`;
+                        });
                         gif.on('finished', blob => {
+                            mde.innerText = '';
                             let a = document.createElement('a');
                             a.href = URL.createObjectURL(blob);
                             a.download = `${t.id_str}.gif`;

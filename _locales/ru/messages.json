@@ -341,5 +341,7 @@
             "at2": { "content": "</a>" },
             "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
         }
-    }
+    },
+    "initialization": { "message": "Инициализация..." },
+    "converting": { "message": "Конвертация..." }
 }
