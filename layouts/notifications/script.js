@@ -160,7 +160,7 @@ async function renderNotifications(data, append = false) {
                 if(n.feedback) {
                     let feedbackBtn = notificationDiv.querySelector('.notification-feedback');
                     feedbackBtn.addEventListener('click', () => {
-                        fetch(n.feedback.feedbackUrl, {
+                        fetch('/i/api/2/notifications/feedback.json?' + n.feedback.feedbackUrl.split('?').slice(1).join('?'), {
                             headers: {
                                 "authorization": OLDTWITTER_CONFIG.public_token,
                                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
