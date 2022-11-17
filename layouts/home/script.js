@@ -66,7 +66,7 @@ setTimeout(() => {
             if(!vars.disableAnalytics) {
                 ga('send', 'event', "ext", "install", chrome.runtime.getManifest().version);
             }
-            chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
+            chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 20});
         } else {
             if (
                 !data.lastVersion || 
@@ -114,11 +114,11 @@ setTimeout(() => {
                 chrome.storage.local.set({lastVersion: chrome.runtime.getManifest().version});
             } else {
                 if(!data.nextPlug) {
-                    chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
+                    chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 20});
                 } else {
                     if(data.nextPlug < Date.now()) {
                         createShamelessPlug(false);
-                        chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 31});
+                        chrome.storage.local.set({nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 20});
                     }
                 }
             }
