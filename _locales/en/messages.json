@@ -345,10 +345,11 @@
     },
     "something_went_wrong": { "message": "Something went wrong" },
     "notifications_error": { "message": "Some notifications couldn't be loaded due to errors." },
-    "notifications_error_instructions": {
+    "tweet_error": { "message": "Some tweets couldn't be loaded due to errors." },
+    "error_instructions": {
         "message": "Please copy text below and send it to $AT1$issue tracker$AT2$ or $AT3$my email$AT2$. Thank you!",
         "placeholders": {
-            "at1": { "content": "<a target='_blank' href='https://github.com/dimden/OldTwitter/issues'>" },
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
             "at2": { "content": "</a>" },
             "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
         }

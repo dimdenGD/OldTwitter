@@ -207,10 +207,10 @@ async function renderNotifications(data, append = false) {
                 <span style="font-size:14px;color:var(--default-text-color)">
                     <h2 style="margin-top: 0">${LOC.something_went_wrong.message}</h2>
                     ${LOC.notifications_error.message}<br>
-                    ${LOC.notifications_error_instructions.message.replace('$AT1$', "<a target='_blank' href='https://github.com/dimden/OldTwitter/issues'>").replace(/\$AT2\$/g, '</a>').replace("$AT3$", "<a target='_blank' href='mailto:admin@dimden.dev'>")}
+                    ${LOC.error_instructions.message.replace('$AT1$', "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>").replace(/\$AT2\$/g, '</a>').replace("$AT3$", "<a target='_blank' href='mailto:admin@dimden.dev'>")}
                 </span>
                 <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.2)">
-                    ${escapeHTML(errorMsg.stack ? errorMsg.stack : String(errorMsg))}
+                    ${escapeHTML(errorMsg.stack ? errorMsg.stack : String(errorMsg))} (OldTwitter v${chrome.runtime.getManifest().version})
                 </div>
             </div>
         `)

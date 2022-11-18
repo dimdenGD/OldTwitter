@@ -334,10 +334,11 @@
     "thank_you2": { "message": "Спасибо за использование OldTwitter! На разработку ушло много времени, вы можете поддержать меня подпиской или <a target='_blank' href='https://dimden.dev/donate/'>донатом</a>. Я буду очень благодарен." },
     "something_went_wrong": { "message": "Что-то пошло не так" },
     "notifications_error": { "message": "Некоторые уведомления не смогли быть показаны из-за ошибок." },
-    "notifications_error_instructions": {
+    "tweet_error": { "message": "Некоторые твиты не смогли быть показаны из-за ошибок." },
+    "error_instructions": {
         "message": "Пожалуйста скопируйте текст ниже и отправьте его в $AT1$трекер ошибок$AT2$ или на $AT3$мою почту$AT2$. Спасибо.",
         "placeholders": {
-            "at1": { "content": "<a target='_blank' href='https://github.com/dimden/OldTwitter/issues'>" },
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
             "at2": { "content": "</a>" },
             "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
         }
