@@ -1,5 +1,6 @@
 /*
 This script generates Firefox version of the extension and packs Chrome and Firefox versions to zip files.
+Node.js v16.6.1 recommended.
 */
 
 const fsp = require('fs').promises;

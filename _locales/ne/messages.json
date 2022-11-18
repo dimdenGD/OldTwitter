@@ -329,5 +329,19 @@
     "will_send": { "message": "पठइन बल" },
     "schedule": { "message": "सच गरन" },
     "scheduled_success": { "message": "टवट सच भय!" },
-    "see_scheduled": { "message": "सच भक हरन" }
+    "see_scheduled": { "message": "सच भक हरन" },
+    "something_went_wrong": { "message": "केहि गलत भयो" },
+    "notifications_error": { "message": "कुनै नोटिफिकेषनहरू लोड गरन सकिएन।" },
+    "tweet_error": { "message": "कुनै ट्वीट्हरू लोड गरन सकिएन ।" },
+    "error_instructions": {
+        "message": "तलको पाठ कापी गरेर $AT1$लाई पठाउनु, समस्या पछ्याउने $AT2$ कि $AT3$ मेरो इमेल $AT2$ । धन्यवाद!",
+        "placeholders": {
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+        }
+    },
+    "initialization": { "message": "सुरु" },
+    "converting": { "message": "परिवर्तन हुँदैन" },
+    "time_mode": { "message": "अँध्यारो मोड 19:00-09:00 भित्र" }
 }

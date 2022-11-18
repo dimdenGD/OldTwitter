@@ -974,5 +974,25 @@
     "will_send": { "message": "Θα σταλεί" },
     "schedule": { "message": "Πρόγραμμα" },
     "scheduled_success": { "message": "Το tweet ήταν προγραμματισμένο!" },
-    "see_scheduled": { "message": "Δείτε προγραμματισμένα" }
+    "see_scheduled": { "message": "Δείτε προγραμματισμένα" },
+    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ δεν έχει κάνει tweet", "placeholders": { "screen_name": { "content": "loading" } } },
+    "when_theyll_tweet": { "message": "Όταν κάνουν, τα Tweets τους θα εμφανίζονται εδώ." },
+    "thank_you2": {
+        "message": "Σας ευχαριστούμε που χρησιμοποιείτε το OldTwitter! Χρειάστηκε πολύς χρόνος και προσπάθεια για την κωδικοποίησή του, μπορείτε να με υποστηρίξετε ακολουθώντας με ή $AT1$κάνοντας δωρεά.$AT2$. Θα ήμουν πολύ ευγνώμων.",
+        "placeholders": { "at1": { "content": "<a target='_blank' href='https://dimden.dev/donate/'>" }, "at2": { "content": "</a>" } }
+    },
+    "something_went_wrong": { "message": "Κάτι δεν πήγαινε καλά" },
+    "notifications_error": { "message": "Δεν ήταν δυνατή η φόρτωση ορισμένων ειδοποιήσεων λόγω σφαλμάτων." },
+    "tweet_error": { "message": "Δεν ήταν δυνατή η φόρτωση ορισμένων tweets λόγω σφαλμάτων." },
+    "error_instructions": {
+        "message": "Αντιγράψτε το παρακάτω κείμενο και στείλτε το στο $AT1$Github$AT2$ ή $AT3$στο email μου$AT2$. Ευχαριστώ!",
+        "placeholders": {
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+        }
+    },
+    "initialization": { "message": "Εκκίνηση" },
+    "converting": { "message": "Μετατροπή" },
+    "time_mode": { "message": "Ενεργοποιήστε τη σκοτεινή λειτουργία μεταξύ 19:00-09:00" }
   }

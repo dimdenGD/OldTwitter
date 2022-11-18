@@ -334,5 +334,19 @@
     "will_send": { "message": "Irá enviar em" },
     "hasnt_tweeted": { "message": "@$SCREEN_NAME$ não tweetou", "placeholders": { "screen_name": { "content": "carregando" } } },
     "when_theyll_tweet": { "message": "Quando o usuário tweetar, seus tweets irão aparecer aqui." },
-    "thank_you2": { "message": "Obrigado por usar OldTwitter! Foi muito trabalho e tempo para programar-lo, você pode me ajudar com isso e outros projetos me seguindo ou <a target='_blank' href='https://dimden.dev/donate/'>doando</a>. Ficarei muito agradecido." }
+    "thank_you2": { "message": "Obrigado por usar OldTwitter! Foi muito trabalho e tempo para programar-lo, você pode me ajudar com isso e outros projetos me seguindo ou <a target='_blank' href='https://dimden.dev/donate/'>doando</a>. Ficarei muito agradecido." },
+    "something_went_wrong": { "message": "Alguma coisa deu errado" },
+    "notifications_error": { "message": "Algumas notificações falharam a carregar." },
+    "tweet_error": { "message": "Alguns tweets falharam a carregar." },
+    "error_instructions": {
+        "message": "Por favor copie o texto abaixo e envie-o para a $AT1$página no Github$AT2$ ou para $AT3$meu email$AT2$. Muito obrigado!",
+        "placeholders": {
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+        }
+    },
+    "initialization": { "message": "Inicializando" },
+    "converting": { "message": "Convertendo" },
+    "time_mode": { "message": "Ativar tema escuro entre as 19h e 9h" }
 }

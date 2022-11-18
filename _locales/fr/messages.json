@@ -331,5 +331,19 @@
     "schedule": { "message": "Schedule" },
     "scheduled_success": { "message": "Le tweet a été programmé pour être envoyé" },
     "see_scheduled": { "message": "Voir les tweets programmés" },
-    "thank_you2": { "message": "Merci d'utiliser OldTwitter ! Il a fallu beaucoup de temps et d'efforts pour le coder, vous pouvez me soutenir en me suivant ou en <a target='_blank' href='https://dimden.dev/donate/'>en faisant un don</a>. Je serais très reconnaissant." }
+    "thank_you2": { "message": "Merci d'utiliser OldTwitter ! Il a fallu beaucoup de temps et d'efforts pour le coder, vous pouvez me soutenir en me suivant ou en <a target='_blank' href='https://dimden.dev/donate/'>en faisant un don</a>. Je serais très reconnaissant." },
+    "something_went_wrong": { "message": "Une erreur s'est produite" },
+    "notifications_error": { "message": "Des notifications n'ont pas pu être chargées." },
+    "tweet_error": { "message": "Des tweets n'ont pas pu être chargées." },
+    "error_instructions": {
+        "message": "Veuillez copier le texte ci-dessous et l'envoyer via le $AT1$reporteur de problèmes$AT2$ ou à mon $AT3$adresse email$AT2$. Merci!",
+        "placeholders": {
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+        }
+    },
+    "initialization": { "message": "Initialisation" },
+    "converting": { "message": "Conversion" },
+    "time_mode": { "message": "Activer le mode sombre entre 19:00 et 09:00" }
 }
