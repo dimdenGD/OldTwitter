@@ -226,7 +226,11 @@ setTimeout(async () => {
     }
     timeMode.addEventListener('change', () => {
         if(timeMode.checked) {
+            darkMode.checked = false;
             darkMode.disabled = true;
+            chrome.storage.sync.set({
+                darkMode: false
+            }, () => { });
             darkModeText.style.color = 'var(--darker-gray)';
             let dark = isDark();
             themeBus.postMessage(dark);
