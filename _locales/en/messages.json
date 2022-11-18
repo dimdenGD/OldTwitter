@@ -354,7 +354,7 @@
             "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
         }
     },
-    "initialization": { "message": "Initialization..." },
-    "converting": { "message": "Converting..." },
+    "initialization": { "message": "Initialization" },
+    "converting": { "message": "Converting" },
     "time_mode": { "message": "Enable dark mode between 19:00-09:00" }
 }

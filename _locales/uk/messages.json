@@ -336,14 +336,14 @@
     "notifications_error": { "message": "Деякі сповіщені не змогли бути показані із-за помилок." },
     "tweet_error": { "message": "Деякі твіти не змогли бути показані із-за помилок." },
     "error_instructions": {
-        "message": "Будьласка скопіюйте текст знизу і відправте його в $AT1$трекер помилок$AT2$ або на $AT3$мою пошту$AT2$. Дякую.",
+        "message": "Будь ласка скопіюйте текст знизу і відправте його в $AT1$трекер помилок$AT2$ або на $AT3$мою пошту$AT2$. Дякую.",
         "placeholders": {
             "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
             "at2": { "content": "</a>" },
             "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
         }
     },
-    "initialization": { "message": "Ініціалізація..." },
-    "converting": { "message": "Конвертація..." },
+    "initialization": { "message": "Ініціалізація" },
+    "converting": { "message": "Конвертація" },
     "time_mode": { "message": "Включати тему тему між 19:00-09:00" }
 }

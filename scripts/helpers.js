@@ -2235,7 +2235,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return downloading = false;
                 }
                 let mde = tweet.getElementsByClassName('tweet-media-data')[0];
-                mde.innerText = LOC.initialization.message;
+                mde.innerText = LOC.initialization.message + '...';
                 let gif = new GIF({
                     workers: 4,
                     quality: 15,
@@ -2250,11 +2250,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         isFirst = false;
                         await sleep(5);
                     }
-                    mde.innerText = `${LOC.initialization.message} (${Math.round(video.currentTime/video.duration*100|0)}%)`;
+                    mde.innerText = `${LOC.initialization.message}... (${Math.round(video.currentTime/video.duration*100|0)}%)`;
                     if (video.currentTime+0.1 >= video.duration) {
                         clearInterval(interval);
                         gif.on('working', (frame, frames) => {
-                            mde.innerText = `${LOC.converting.message} (${frame}/${frames})`;
+                            mde.innerText = `${LOC.converting.message}... (${frame}/${frames})`;
                         });
                         gif.on('finished', blob => {
                             mde.innerText = '';

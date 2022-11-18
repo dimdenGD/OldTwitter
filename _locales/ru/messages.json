@@ -343,7 +343,7 @@
             "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
         }
     },
-    "initialization": { "message": "Инициализация..." },
-    "converting": { "message": "Конвертация..." },
+    "initialization": { "message": "Инициализация" },
+    "converting": { "message": "Конвертация" },
     "time_mode": { "message": "Включать тёмную тему между 19:00-09:00" }
 }

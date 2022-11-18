@@ -81,6 +81,7 @@ setTimeout(() => {
                         <ul>
                             <li>GIF converter improvements</li>
                             <li>Added setting to enable dark mode between 19:00-09:00.</li>
+                            <li>Fixed notifications feedback.</li>
                             <li>Made notification page show red dot when unfocused too.</li>
                             <li>Fixed some links disappearing from tweet.</li>
                             <li>Fixed text overflows in lot of places.</li>
