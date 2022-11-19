@@ -124,6 +124,7 @@ setTimeout(async () => {
     let customCSSSave = document.getElementById('custom-css-save');
     let customCSSVariablesSave = document.getElementById('custom-css-variables-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
+    let showOriginalImages = document.getElementById('show-original-images');
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
     let autoplayVideos = document.getElementById('autoplay-videos');
@@ -188,7 +189,11 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             savePreferredQuality: savePreferredQuality.checked
         }, () => { });
-        preferredQuality.hidden = !savePreferredQuality.checked;
+    });
+    showOriginalImages.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showOriginalImages: showOriginalImages.checked
+        }, () => { });
     });
     noBigFont.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -345,6 +350,7 @@ setTimeout(async () => {
     }
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
+    showOriginalImages.checked = !!vars.showOriginalImages;
     language.value = vars.language ? vars.language : 'en';
 
     // Run

@@ -143,11 +143,13 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     // default variables
     if(typeof(vars.linkColorsInTL) !== 'boolean') {
+        vars.linkColorsInTL = true;
         chrome.storage.sync.set({
             linkColorsInTL: true
         }, () => {});
     }
     if(typeof(vars.enableTwemoji) !== 'boolean') {
+        vars.enableTwemoji = true;
         chrome.storage.sync.set({
             enableTwemoji: true
         }, () => {});
@@ -159,22 +161,32 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         } else {
             type = 'chrono';
         }
+        vars.timelineType = type;
         chrome.storage.sync.set({
             timelineType: type
         }, () => {});
     }
     if(typeof(vars.showTopicTweets) !== 'boolean') {
+        vars.showTopicTweets = true;
         chrome.storage.sync.set({
             showTopicTweets: true
         }, () => {});
     }
     if(typeof(vars.savePreferredQuality) !== 'boolean') {
+        vars.savePreferredQuality = true;
         chrome.storage.sync.set({
             savePreferredQuality: true
         }, () => {});
     }
+    if(typeof(vars.showOriginalImages) !== 'boolean') {
+        vars.showOriginalImages = true;
+        chrome.storage.sync.set({
+            showOriginalImages: true
+        }, () => {});
+    }
     if(!vars.displaySensitiveContentMoved) {
         API.getSettings().then(settings => {
+            vars.displaySensitiveContent = settings.display_sensitive_media;
             chrome.storage.sync.set({
                 displaySensitiveContentMoved: true,
                 displaySensitiveContent: settings.display_sensitive_media

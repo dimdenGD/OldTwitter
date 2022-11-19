@@ -356,5 +356,6 @@
     },
     "initialization": { "message": "Initialization" },
     "converting": { "message": "Converting" },
-    "time_mode": { "message": "Enable dark mode between 19:00-09:00" }
+    "time_mode": { "message": "Enable dark mode between 19:00-09:00" },
+    "show_original_images": { "message": "Always show original quality images" }
 }

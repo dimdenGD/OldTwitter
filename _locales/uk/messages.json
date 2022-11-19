@@ -345,5 +345,6 @@
     },
     "initialization": { "message": "Ініціалізація" },
     "converting": { "message": "Конвертація" },
-    "time_mode": { "message": "Включати темну тему між 19:00-09:00" }
+    "time_mode": { "message": "Включати темну тему між 19:00-09:00" },
+    "show_original_images": { "message": "Завжди показувати картинки з оригінальною якістю" }
 }
