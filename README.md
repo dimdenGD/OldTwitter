@@ -97,7 +97,7 @@ These will work when reply/quote/new tweet modal is focused.
 `ALT+F` - remove first uploaded media.   
 
 ## Translations
-[Help to translate this extension to your language.](https://github.com/dimdenGD/OldTwitter/tree/master/_locales)  
+[Help to translate this extension to your language.](https://github.com/dimdenGD/OldTwitter/tree/master/_locales#readme)  
   
 English - [dimden](https://dimden.dev/)  
 Russian - [dimden](https://dimden.dev/)  

@@ -2337,7 +2337,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ${LOC.error_instructions.message.replace('$AT1$', "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>").replace(/\$AT2\$/g, '</a>').replace("$AT3$", "<a target='_blank' href='mailto:admin@dimden.dev'>")}
                     </span>
                     <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">
-                        ${escapeHTML(e.stack ? e.stack : String(e))} (OldTwitter v${chrome.runtime.getManifest().version})
+                        ${escapeHTML(e.stack ? e.stack : String(e))} at ${t.id_str} (OldTwitter v${chrome.runtime.getManifest().version})
                     </div>
                 </div>
             `);
