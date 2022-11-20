@@ -279,7 +279,12 @@ async function updateTimeline() {
     } else {
         try {
             tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
-        } catch(e) {}
+        } catch(e) {
+            document.getElementById('tweet-nav').hidden = true;
+            document.getElementById('loading-box').hidden = true;
+            document.getElementById('timeline').innerHTML = `<div style="padding: 100px;color: var(--darker-gray);">${escapeHTML(e)}</div>`;
+            return;
+        }
         if(subpage === 'media') {
             tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
         }
