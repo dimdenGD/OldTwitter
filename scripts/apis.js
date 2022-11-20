@@ -1692,6 +1692,9 @@ API.tweetDetail = id => {
                     return reject(data.errors[0].message);
                 }
                 let tweetData = data.data.threaded_conversation_with_injections.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
+                if(!tweetData.legacy) {
+                    tweetData = tweetData.tweet;
+                }
                 let tweet = tweetData.legacy;
                 if(tweetData.card) {
                     tweet.card = tweetData.card.legacy;
