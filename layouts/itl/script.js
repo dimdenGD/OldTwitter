@@ -49,7 +49,7 @@ async function renderDeviceNotificationTimeline(cursor) {
     let tl = await API.getDeviceFollowTweets(cursor);
     let container = document.getElementById('timeline');
     if (tl.cursor) {
-        tlCursor = tlCursor.cursor;
+        tlCursor = tl.cursor;
     } else {
         end = true;
     }
