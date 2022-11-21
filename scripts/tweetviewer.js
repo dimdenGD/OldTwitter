@@ -241,7 +241,7 @@ class TweetViewer {
         if(!c) {
             likeDiv.innerHTML = '';
             let tweetData = await API.getTweet(id);
-            let tweet = await appendTweet(tweetData, likeDiv, {
+            let tweet = await this.appendTweet(tweetData, likeDiv, {
                 mainTweet: true
             });
             tweet.style.borderBottom = '1px solid var(--border)';
