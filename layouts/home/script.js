@@ -84,6 +84,7 @@ setTimeout(() => {
                             <li>Added setting to only show original quality images.</li>
                             <li>Fixed notifications feedback.</li>
                             <li>Fixed tweet likers.</li>
+                            <li>Fixed hashtags.</li>
                             <li>Fixed new tweet notifications page.</li>
                             <li>Made notification page show red dot when unfocused too.</li>
                             <li>Fixed some links disappearing from tweet.</li>
