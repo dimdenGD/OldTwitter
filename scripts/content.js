@@ -63,7 +63,8 @@ if(/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
     location.href = `https://twitter.com/${realPath.split("/direct_messages/create/")[1]}#dm`;
 }
 if(/^\/hashtag\/(.*?)/.test(realPath)) {
-    location.replace(`https://twitter.com/search?q=%23${encodeURIComponent(realPath.split("/hashtag/")[1])}`);
+    let hashtag = realPath.split("/hashtag/").slice(1).join("/hashtag/");
+    location.replace(`https://twitter.com/search?q=%23${hashtag}`);
 }
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath)) {
     let path = realPath.split("/photo/")[0];
