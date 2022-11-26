@@ -36,6 +36,7 @@ function renderUserData() {
 let lastFirstCursor = undefined;
 let lastCursor = undefined;
 let aRegex = /<a[^>]*>([\s\S]*?)<\/a>/g;
+let firstRender = true;
 async function renderNotifications(data, append = false) {
     let notificationsContainer = document.getElementById('notifications-div');
     let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
@@ -218,7 +219,8 @@ async function renderNotifications(data, append = false) {
     if(unreadNotifications > 0) {
         setTimeout(() => {
             API.markAsReadNotifications(cursor);
-            if(!windowFocused) {
+            if(!windowFocused || firstRender) {
+                firstRender = false;
                 document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32_notification.png`);
             } else {
                 notificationBus.postMessage({type: 'markAsRead', cursor});
