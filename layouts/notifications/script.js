@@ -157,6 +157,12 @@ async function renderNotifications(data, append = false) {
                         ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img class="notification-avatar-img" src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
                     </div>
                 `;
+                let notifText = notificationDiv.querySelector('.notification-text');
+                if(replyTweet.entities && replyTweet.entities.urls) {
+                    for(let url of replyTweet.entities.urls) {
+                        notifText.innerText = notifText.innerText.replace(new RegExp(url.url, "g"), url.display_url);
+                    }
+                }
                 notificationDiv.dataset.notificationId = n.id;
                 if(n.feedback) {
                     let feedbackBtn = notificationDiv.querySelector('.notification-feedback');
