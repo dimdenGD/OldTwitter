@@ -60,9 +60,21 @@ async function renderDeviceNotificationTimeline(cursor) {
     }
     for (let i = 0; i < tl.length; i++) {
         let t = tl[i];
-        await appendTweet(t, container, {
-            bigFont: t.full_text.length < 75
-        });
+        if (t.retweeted_status) {
+            await appendTweet(t.retweeted_status, container, {
+                bigFont: false,
+                top: {
+                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    icon: "\uf006",
+                    color: "#77b255",
+                    class: 'retweet'
+                }
+            });
+        } else {
+            await appendTweet(t, container, {
+                bigFont: t.full_text.length < 75
+            });
+        }
     }
 }
 async function renderLikesTimeline() {

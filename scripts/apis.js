@@ -706,7 +706,11 @@ API.getDeviceFollowTweets = (cursor) => {
                 tweets[i].user = data.globalObjects.users[tweets[i].user_id_str];
                 if(tweets[i].quoted_status_id_str) {
                     tweets[i].quoted_status = data.globalObjects.tweets[tweets[i].quoted_status_id_str];
-                    tweets[i].quoted_status.user = data.globalObjects.users[tweets[i].quoted_status.user_id_str];
+                    if(tweets[i].quoted_status) tweets[i].quoted_status.user = data.globalObjects.users[tweets[i].quoted_status.user_id_str];
+                }
+                if(tweets[i].retweeted_status_id_str) {
+                    tweets[i].retweeted_status = data.globalObjects.tweets[tweets[i].retweeted_status_id_str];
+                    if(tweets[i].retweeted_status) tweets[i].retweeted_status.user = data.globalObjects.users[tweets[i].retweeted_status.user_id_str];
                 }
             }
             let cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
