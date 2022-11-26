@@ -722,7 +722,13 @@ class TweetViewer {
         }
         t.full_text = t.full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
         let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
-        let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
+        let isEnglish
+        try { 
+            isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
+        } catch(e) {
+            isEnglish = {languages:[{language:LANGUAGE, percentage:100}]};
+            console.error(e);
+        }
         isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith(LANGUAGE);
         let videos = t.extended_entities && t.extended_entities.media && t.extended_entities.media.filter(m => m.type === 'video');
         if(!videos || videos.length === 0) {
