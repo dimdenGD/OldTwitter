@@ -719,7 +719,7 @@ let userDataFunction = async user => {
             let rect = emojiButton.getBoundingClientRect();
             createEmojiPicker(document.body, newInput, {
                 left: rect.x + 'px',
-                top: rect.y + 'px'
+                top: rect.y-300 + 'px'
             });
         });
         
