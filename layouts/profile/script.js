@@ -818,6 +818,11 @@ async function renderProfile() {
                 });
             }
         });
+        document.getElementById('profile-settings-lists').addEventListener('mousedown', e => {
+            if(e.button === 1) {
+                openInNewTab(`https://twitter.com/${pageUser.screen_name}/lists`);
+            }
+        });
         document.getElementById('profile-settings-lists').addEventListener('click', async () => {
             // document.getElementById('loading-box').hidden = false;
             history.pushState({}, null, `https://twitter.com/${pageUser.screen_name}/lists`);
