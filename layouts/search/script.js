@@ -141,7 +141,7 @@ async function renderSearch(c) {
                 renderSearch();
             });
         } else {
-            document.getElementById('search-more').hidden = true;
+            if(document.getElementById('search-more')) document.getElementById('search-more').hidden = true;
         }
         return document.getElementById('loading-box').hidden = true;
     }

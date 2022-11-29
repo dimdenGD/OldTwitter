@@ -377,7 +377,7 @@ async function renderFollowers(clear = true, cursor) {
 async function renderFollowersYouFollow(clear = true, cursor) {
     loadingFollowersYouKnow = true;
     let userList = document.getElementById('followers_you_follow-list');
-    if(clear) userList.innerHTML = '<h1 class="nice-header">Followers you know</h1>';
+    if(clear) userList.innerHTML = `<h1 class="nice-header">${LOC.followers_you_know.message}</h1>`;
     let following;
     try {
         following = await API.getFollowersYouFollow(pageUser.id_str, cursor);
