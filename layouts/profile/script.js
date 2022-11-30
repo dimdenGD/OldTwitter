@@ -225,8 +225,9 @@ function updateUserData() {
         document.dispatchEvent(event2);
 
         pageUser = pageUserData;
+        let r = document.querySelector(':root');
+        r.style.setProperty('--link-color', vars && vars.linkColor ? vars.linkColor : '#4595B5');
         if(customColor && customColor !== 'none') {
-            let r = document.querySelector(':root');
             let rgb = hex2rgb(customColor);
             let ratio = contrast(rgb, [27, 40, 54]);
             if(ratio < 4 && isDarkModeEnabled && customColor !== '000000') {
@@ -234,7 +235,6 @@ function updateUserData() {
             }
             r.style.setProperty('--link-color', `#`+customColor);
         } else {
-            let r = document.querySelector(':root');
             let rgb = hex2rgb(oldUser.profile_link_color);
             let ratio = contrast(rgb, [27, 40, 54]);
             if(ratio < 4 && isDarkModeEnabled && customColor !== '000000') {
