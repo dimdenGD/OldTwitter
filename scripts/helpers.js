@@ -1352,6 +1352,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
         const tweetTranslateAfter = tweet.getElementsByClassName('tweet-translate-after')[0];
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
+        const tweetMediaQuote = tweet.getElementsByClassName('tweet-media-quote')[0];
         const tweetBodyQuoteText = tweet.getElementsByClassName('tweet-body-text-quote')[0];
         const tweetDeleteBookmark = tweet.getElementsByClassName('tweet-delete-bookmark')[0];
 
@@ -1407,6 +1408,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
 
         // Quote body
+        if(tweetMediaQuote) tweetMediaQuote.addEventListener('click', e => {
+            if(e && e.target && e.target.tagName === "VIDEO") {
+                e.preventDefault();
+                if(e.target.paused) {
+                    e.target.play();
+                } else {
+                    e.target.pause();
+                }
+            }
+        })
         if(t.quoted_status && t.quoted_status.entities && t.quoted_status.entities.urls) {
             for(let u of t.quoted_status.entities.urls) {
                 tweetBodyQuoteText.innerHTML = tweetBodyQuoteText.innerHTML.replace(new RegExp(u.url, "g"), escapeHTML(u.display_url));
