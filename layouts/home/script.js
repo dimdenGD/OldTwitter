@@ -79,6 +79,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>Added pitch-black mode.</li>
                             <li>GIF converter improvements.</li>
                             <li>Added setting to enable dark mode between 19:00-09:00.</li>
                             <li>Added setting to only show original quality images.</li>

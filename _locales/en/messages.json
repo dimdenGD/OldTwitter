@@ -357,5 +357,6 @@
     "initialization": { "message": "Initialization" },
     "converting": { "message": "Converting" },
     "time_mode": { "message": "Enable dark mode between 19:00-09:00" },
-    "show_original_images": { "message": "Always show original quality images" }
+    "show_original_images": { "message": "Always show original quality images" },
+    "pitch_black_mode": { "message": "Pitch black mode (only when dark mode is enabled)" }
 }

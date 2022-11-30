@@ -113,6 +113,7 @@ setTimeout(async () => {
     let enableTwemoji = document.getElementById('enable-twemoji');
     let timelineType = document.getElementById('tl-type');
     let darkMode = document.getElementById('dark-mode');
+    let pitchBlackMode = document.getElementById('pitch-black-mode');
     let darkModeText = document.getElementById('dark-mode-text');
     let timeMode = document.getElementById('time-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
@@ -218,36 +219,42 @@ setTimeout(async () => {
         });
     });
     darkMode.addEventListener('change', () => {
-        themeBus.postMessage(darkMode.checked);
+        themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
         isDarkModeEnabled = darkMode.checked;
         switchDarkMode(isDarkModeEnabled);
         chrome.storage.sync.set({
-            darkMode: darkMode.checked
+            darkMode: isDarkModeEnabled
         }, () => { });
     });
-    if(vars.timeMode) {
-        darkMode.disabled = true;
-        darkModeText.style.color = 'var(--darker-gray)';
-    }
+    pitchBlackMode.addEventListener('change', () => {
+        vars.pitchBlack = pitchBlackMode.checked;
+        chrome.storage.sync.set({
+            pitchBlack: pitchBlackMode.checked
+        }, () => {});
+        themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
+        switchDarkMode(isDarkModeEnabled);
+    });
     timeMode.addEventListener('change', () => {
         if(timeMode.checked) {
-            darkMode.checked = false;
             darkMode.disabled = true;
             chrome.storage.sync.set({
                 darkMode: false
             }, () => { });
             darkModeText.style.color = 'var(--darker-gray)';
             let dark = isDark();
-            themeBus.postMessage(dark);
+            darkMode.checked = dark;
+            themeBus.postMessage([dark, pitchBlackMode.checked]);
             isDarkModeEnabled = dark;
             switchDarkMode(dark);
         } else {
+            darkMode.checked = false;
             darkMode.disabled = false;
             darkModeText.style.color = 'unset';
-            themeBus.postMessage(darkMode.checked);
-            isDarkModeEnabled = darkMode.checked;
-            switchDarkMode(darkMode.checked);
+            themeBus.postMessage([false, pitchBlackMode.checked]);
+            isDarkModeEnabled = false;
+            switchDarkMode(false);
         }
+        vars.timeMode = timeMode.checked;
         chrome.storage.sync.set({
             timeMode: timeMode.checked
         }, () => { });
@@ -337,6 +344,7 @@ setTimeout(async () => {
     timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
+    pitchBlackMode.checked = !!vars.pitchBlack;
     timeMode.checked = !!vars.timeMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
@@ -352,6 +360,11 @@ setTimeout(async () => {
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
     language.value = vars.language ? vars.language : 'en';
+    if(vars.timeMode) {
+        darkMode.disabled = true;
+        darkMode.checked = isDark();
+        darkModeText.style.color = 'var(--darker-gray)';
+    }
 
     // Run
     updateUserData();

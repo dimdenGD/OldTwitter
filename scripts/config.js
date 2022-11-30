@@ -15,7 +15,7 @@ async function loadVars() {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
         'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
         'noBigFont', 'language', 'autoplayVideos', 'displaySensitiveContent', 'displaySensitiveContentMoved', 'volume', 'disableAnalytics', 'timeMode',
-        'showOriginalImages'], data => {
+        'showOriginalImages', 'pitchBlack'], data => {
             resolve(data);
         });
     });

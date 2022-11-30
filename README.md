@@ -109,10 +109,10 @@ Greek - [VasilisTheChu](https://pikachu.systems/)
 Romanian - [Skylar](https://143.dust.moe/)  
 Tagalog - [Eurasian](https://twitter.com/NotPROxV)  
 Latvian - [yourfriend](https://3.141.lv/)  
-Hebrew - ugh, qqqq  
+Hebrew - "ugh", qqqq  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
-Japanese - [Chazuru](https://twitter.com/AIWMD)  
+Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://github.com/Nyankodasu)  
 Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll)  
 Italian - [krek](https://twitter.com/CactusInc420)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
