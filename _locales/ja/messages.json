@@ -104,7 +104,7 @@
     "november": { "message": "11月 $NUMBER$日", "placeholders": { "number": { "content": "1" } } },
     "december": { "message": "12月 $NUMBER$日", "placeholders": { "number": { "content": "1" } } },
     "tweet_to": { "message": "ツイート先", "example": "->Tweet to<- @CoolPerson2000" },
-    "translated_from": { "message": "翻訳言語", "example": "->Translated from<- Japanese" },
+    "translated_from": { "message": "翻訳元の言語", "example": "->Translated from<- Japanese" },
     "translate_bio": { "message": "伝記を翻訳" },
     "edit_profile": { "message": "プロフィールの編集" },
     "follow_request_sent": { "message": "フォローリクエストの送信" },
@@ -332,5 +332,20 @@
     "see_scheduled": { "message": "予約の参照" },
     "hasnt_tweeted": { "message": "@$SCREEN_NAME$ さんはツイートしていません。", "placeholders": { "screen_name": { "content": "loading" } } },
     "when_theyll_tweet": { "message": "実行した場合このツイートはここに表示されます。" },
-    "thank_you2": { "message": "OldTwitterを使ってくれてありがとうございます! 製作には時間がかかりましたが、フォローや<a target='_blank' href='https://dimden.dev/donate/>寄付</a>で応援していただけると非常に嬉しいです！" }
+    "thank_you2": { "message": "OldTwitterを使ってくれてありがとうございます! 製作には時間がかかりましたが、フォローや<a target='_blank' href='https://dimden.dev/donate/>寄付</a>で応援していただけると非常に嬉しいです！" },
+    "something_went_wrong": { "message": "エラーが発生しました。やりなおしてください。" },
+    "notifications_error": { "message": "エラーが発生したため、一部の通知を読み込めませんでした。" },
+    "tweet_error": { "message": "エラーが発生したため、一部のツイートを読み込めませんでした。" },
+    "error_instructions": {
+        "message": "下のテキストをコピーして次の連絡先へ送信してください $AT1$GitHubの問題追跡システム$AT2$ または $AT3$私のメールアドレス$AT2$. よろしくお願いします!",
+        "placeholders": {
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+        }
+    },
+    "initialization": { "message": "初期化" },
+    "converting": { "message": "変換" },
+    "time_mode": { "message": " 19:00-09:00 の間にダークモードを有効化する" },
+    "show_original_images": { "message": "常に元の画質の画像を表示する" }
 }
