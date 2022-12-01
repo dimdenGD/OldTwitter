@@ -80,6 +80,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added pitch-black mode.</li>
+                            <li>Added Korean translation.</li>
                             <li>GIF converter improvements.</li>
                             <li>Added setting to enable dark mode between 19:00-09:00.</li>
                             <li>Added setting to only show original quality images.</li>

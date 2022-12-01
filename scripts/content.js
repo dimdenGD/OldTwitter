@@ -84,7 +84,7 @@ if(
 ) {
     location.replace(location.href.replace('twitter.com', 'mobile.twitter.com'));
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -102,7 +102,8 @@ const TRANSLATORS = {
     "tr": ["KayrabCebll", "https://steamcommunity.com/id/KayrabCebll"],
     "it": ["krek", "https://twitter.com/CactusInc420"],
     "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
-    "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"]
+    "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
+    "ko": ["Nyankodasu", "https://mobile.twitter.com/Nyankodasu1234"]
 };
 let LOC = {};
 let LOC_EN = {};

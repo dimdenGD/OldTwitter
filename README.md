@@ -112,7 +112,8 @@ Latvian - [yourfriend](https://3.141.lv/)
 Hebrew - "ugh", qqqq  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
-Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://github.com/Nyankodasu)  
+Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234)  
+Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234)  
 Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll)  
 Italian - [krek](https://twitter.com/CactusInc420)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
