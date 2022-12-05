@@ -450,6 +450,15 @@ class TweetViewer {
         });
 
         let mediaList = document.getElementsByClassName('new-tweet-media-c')[0];
+
+        let mediaObserver = new MutationObserver(async () => {
+            if(mediaList.children.length > 0) {
+                newTweetButton.style.marginRight = '4px';
+            } else {
+                newTweetButton.style.marginRight = '-32px';
+            }
+        });
+        mediaObserver.observe(mediaList, {childList: true});
         
         document.getElementsByClassName('new-tweet-view')[0].addEventListener('drop', e => {
             handleDrop(e, this.mediaToUpload, mediaList);
