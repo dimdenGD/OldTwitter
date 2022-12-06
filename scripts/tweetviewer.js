@@ -1201,7 +1201,9 @@ class TweetViewer {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
-                    new Viewer(tweetMedia);
+                    new Viewer(tweetMedia, {
+                        transition: false
+                    });
                     e.target.click();
                 }
             });

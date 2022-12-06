@@ -384,7 +384,9 @@ let userDataFunction = async user => {
                         photoElement.height = photo.original_info.height;
                     }
                     photoElement.addEventListener('click', e => {
-                        new Viewer(photoElement);
+                        new Viewer(photoElement, {
+                            transition: false
+                        });
                         e.target.click();
                     })
                     messageElement.append(document.createElement('br'), photoElement);

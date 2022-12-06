@@ -155,7 +155,9 @@ function handleFiles(files, mediaArray, mediaContainer) {
                     div.append(img, progress, remove);
                     if (!file.type.includes('video')) {
                         img.addEventListener('click', () => {
-                            new Viewer(mediaContainer);
+                            new Viewer(mediaContainer, {
+                                transition: false
+                            });
                         });
                         div.append(alt);
                     }
@@ -263,7 +265,9 @@ function getDMMedia(mediaArray, mediaContainer, modalElement) {
                         div.append(img, progress, remove);
                         if (!file.type.includes('video')) {
                             img.addEventListener('click', () => {
-                                new Viewer(mediaContainer);
+                                new Viewer(mediaContainer, {
+                                    transition: false
+                                });
                             });
                         }
                         mediaContainer.append(div);
@@ -1492,7 +1496,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
-                    new Viewer(tweetMedia);
+                    new Viewer(tweetMedia, {
+                        transition: false
+                    });
                     e.target.click();
                 }
             });
