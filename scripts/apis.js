@@ -238,6 +238,7 @@ API.getAlgoTimeline = (cursor, count = 25) => {
                 if(!e || !e.content || !e.content.tweet) continue;
                 if(e.content.tweet.promotedMetadata) continue;
                 let tweet = tweets[e.content.tweet.id];
+                if(!tweet) continue;
                 let user = users[tweet.user_id_str];
                 tweet.user = user;
                 tweet.id_str = e.content.tweet.id;

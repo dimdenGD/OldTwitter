@@ -175,9 +175,9 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }, () => {});
     }
     if(typeof(vars.savePreferredQuality) !== 'boolean') {
-        vars.savePreferredQuality = true;
+        vars.savePreferredQuality = false;
         chrome.storage.sync.set({
-            savePreferredQuality: true
+            savePreferredQuality: false
         }, () => {});
     }
     if(typeof(vars.showOriginalImages) !== 'boolean') {
