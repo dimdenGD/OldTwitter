@@ -1469,3 +1469,29 @@ emoji-picker {
 .dropdown-menu > span[hidden] {
     display: none !important;
 }
+#tweet-nav-more {
+    float: right;
+    cursor: pointer;
+    margin-left: auto;
+    order: 2;
+}
+#tweet-nav-more:before {
+    content: "\f150";
+    color: var(--light-gray);
+    font-family: RosettaIcons;
+}
+#tweet-nav-more-menu {
+    position: absolute;
+    margin-left: 433px;
+    margin-top: 37px;
+}
+#tweet-nav-more-menu > label {
+    font-size: 13px;
+    color: var(--almost-black);
+    cursor: pointer;
+}
+#tweet-nav-more-menu-hr {
+    vertical-align: middle;
+    margin-right: -5px;
+    cursor: pointer;
+}

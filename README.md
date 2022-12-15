@@ -27,6 +27,7 @@ If you like this extension please consider donating:
 - You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
 - Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change default link color and font
 - Ability to show custom user link colors in timeline
+- Translate tweets without having to open them  
 - Dark mode support
 - Removes all ads
 - Easy download of videos and GIFs

@@ -1286,7 +1286,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             const span = document.createElement("span");
             span.classList.add("tweet-top-text");
             span.innerHTML = options.top.text;
-            if(options.top.class) span.classList.add(options.top.class);
+            if(options.top.class) {
+                span.classList.add(options.top.class);
+                tweet.classList.add(`tweet-top-${options.top.class}`);
+            }
             tweet.querySelector('.tweet-top').append(icon, span);
         }
         if(options.mainTweet) {
