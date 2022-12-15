@@ -797,13 +797,25 @@ async function renderDiscovery(cache = true) {
             const followBtn = udiv.querySelector('.discover-follow-btn');
             followBtn.addEventListener('click', async () => {
                 if (followBtn.className.includes('following')) {
-                    await API.unfollowUser(userData.screen_name);
+                    try {
+                        await API.unfollowUser(userData.screen_name);
+                    } catch(e) {
+                        console.error(e);
+                        alert(e);
+                        return;
+                    }
                     followBtn.classList.remove('following');
                     followBtn.classList.add('follow');
                     followBtn.innerText = LOC.follow.message;
                     userData.following = false;
                 } else {
-                    await API.followUser(userData.screen_name);
+                    try {
+                        await API.followUser(userData.screen_name);
+                    } catch(e) {
+                        console.error(e);
+                        alert(e);
+                        return;
+                    }
                     followBtn.classList.add('following');
                     followBtn.classList.remove('follow');
                     followBtn.innerText = LOC.following_btn.message;
@@ -846,12 +858,24 @@ async function appendUser(u, container) {
     let followButton = userElement.querySelector('.user-item-btn');
     followButton.addEventListener('click', async () => {
         if (followButton.classList.contains('following')) {
-            await API.unfollowUser(u.screen_name);
+            try {
+                await API.unfollowUser(u.screen_name);
+            } catch(e) {
+                console.error(e);
+                alert(e);
+                return;
+            }
             followButton.classList.remove('following');
             followButton.classList.add('follow');
             followButton.innerText = LOC.follow.message;
         } else {
-            await API.followUser(u.screen_name);
+            try {
+                await API.followUser(u.screen_name);
+            } catch(e) {
+                console.error(e);
+                alert(e);
+                return;
+            }
             followButton.classList.remove('follow');
             followButton.classList.add('following');
             followButton.innerText = LOC.following_btn.message;
@@ -1338,13 +1362,25 @@ async function appendTweet(t, timelineContainer, options = {}) {
             const tweetFollow = tweet.getElementsByClassName('tweet-header-follow')[0];
             tweetFollow.addEventListener('click', async () => {
                 if(t.user.following) {
-                    await API.unfollowUser(t.user.screen_name);
+                    try {
+                        await API.unfollowUser(t.user.screen_name);
+                    } catch(e) {
+                        console.error(e);
+                        alert(e);
+                        return;
+                    }
                     tweetFollow.innerText = LOC.follow.message;
                     tweetFollow.classList.remove('following');
                     tweetFollow.classList.add('follow');
                     t.user.following = false;
                 } else {
-                    await API.followUser(t.user.screen_name);
+                    try {
+                        await API.followUser(t.user.screen_name);
+                    } catch(e) {
+                        console.error(e);
+                        alert(e);
+                        return;
+                    }
                     tweetFollow.innerText = LOC.unfollow.message;
                     tweetFollow.classList.remove('follow');
                     tweetFollow.classList.add('following');
@@ -2045,7 +2081,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         if(tweetInteractMoreMenuFollow) tweetInteractMoreMenuFollow.addEventListener('click', async () => {
             if (t.user.following) {
-                await API.unfollowUser(t.user.screen_name);
+                try {
+                    await API.unfollowUser(t.user.screen_name);
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    return;
+                }
                 t.user.following = false;
                 tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
                 let event = new CustomEvent('tweetAction', { detail: {
@@ -2054,7 +2096,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 } });
                 document.dispatchEvent(event);
             } else {
-                await API.followUser(t.user.screen_name);
+                try {
+                    await API.followUser(t.user.screen_name);
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    return;
+                }
                 t.user.following = true;
                 tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
                 let event = new CustomEvent('tweetAction', { detail: {

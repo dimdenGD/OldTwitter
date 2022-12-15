@@ -616,12 +616,12 @@ async function renderProfile() {
             <div id="profile-settings-div" class="dropdown-menu" hidden>
                 <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications ? LOC.stop_notifications.message : LOC.receive_notifications.message}</span>
                 <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `${LOC.unblock_user.message} @${pageUser.screen_name}` : `${LOC.block_user.message} @${pageUser.screen_name}`}</span>
-                <span ${pageUser.blocking ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}</span>
+                <span ${pageUser.blocking || (pageUser.protected && !pageUser.following) ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}</span>
                 ${pageUser.followed_by ? /*html*/`<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span>` : ''}
-                <span id="profile-settings-lists-action">${LOC.from_list.message}</span>
+                <span id="profile-settings-lists-action" ${pageUser.blocking || (pageUser.protected && !pageUser.following) ? 'hidden' : ''}>${LOC.from_list.message}</span>
                 <span id="profile-settings-retweets" ${pageUser.following ? '' : 'hidden'}>${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}</span>
                 <hr>
-                <span id="profile-settings-lists">${LOC.see_lists.message}</span>
+                <span id="profile-settings-lists" ${pageUser.protected && !pageUser.following ? 'hidden' : ''}>${LOC.see_lists.message}</span>
                 <span id="profile-settings-share">${LOC.share_user.message}</span>
                 <span id="profile-settings-copy">${LOC.copy_profile_link.message}</span>
             </div>
@@ -635,7 +635,13 @@ async function renderProfile() {
         let controlFollow = document.getElementById('control-follow');
         controlFollow.addEventListener('click', async () => {
             if (controlFollow.className.includes('following')) {
-                pageUser.protected && pageUser.follow_request_sent ? await API.cancelFollow(pageUser.screen_name) : await API.unfollowUser(pageUser.screen_name);
+                try {
+                    pageUser.protected && pageUser.follow_request_sent ? await API.cancelFollow(pageUser.screen_name) : await API.unfollowUser(pageUser.screen_name);
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    return;
+                }
                 controlFollow.classList.remove('following');
                 controlFollow.classList.add('follow');
                 controlFollow.innerText = LOC.follow.message;
@@ -644,7 +650,13 @@ async function renderProfile() {
                 document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) - 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = true;
             } else {
-                await API.followUser(pageUser.screen_name);
+                try {
+                    await API.followUser(pageUser.screen_name);
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    return;
+                }
                 controlFollow.classList.add('following');
                 controlFollow.classList.remove('follow');
                 controlFollow.innerText = pageUser.protected ? LOC.follow_request_sent.message : LOC.following_btn.message;
