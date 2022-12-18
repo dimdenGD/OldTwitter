@@ -852,11 +852,11 @@ class TweetViewer {
                     <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
                     <span class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet' ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
                     <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
-                        <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span>
+                        <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? LOC.unretweet.message : LOC.retweet.message}</span>
                         <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span>
                         ${options.mainTweet ? `
-                            <span class="tweet-interact-retweet-menu-quotes">See quotes</span>
-                            <span class="tweet-interact-retweet-menu-retweeters">See retweeters</span>
+                            <span class="tweet-interact-retweet-menu-quotes">${LOC.see_quotes_big.message}</span>
+                            <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span>
                         ` : ''}
                     </div>
                     <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : t.favorite_count}</span>
@@ -867,8 +867,8 @@ class TweetViewer {
                         <span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>
                         ${t.user.id_str === user.id_str ? `
                         <hr>
-                        <span class="tweet-interact-more-menu-analytics">Tweet analytics</span>
-                        <span class="tweet-interact-more-menu-delete">Delete tweet</span>
+                        <span class="tweet-interact-more-menu-analytics">${LOC.tweet_analytics.message}</span>
+                        <span class="tweet-interact-more-menu-delete">${LOC.delete_tweet.message}</span>
                         ` : ``}
                         <hr>
                         ${t.user.id_str !== user.id_str && !options.mainTweet ? `

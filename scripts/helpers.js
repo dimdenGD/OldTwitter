@@ -1121,7 +1121,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : t.reply_count}</span>
                     <span class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet' ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : t.retweet_count}</span>
                     <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
-                        <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? 'Unretweet' : 'Retweet'}</span>
+                        <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? LOC.unretweet.message : LOC.retweet.message}</span>
                         <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span>
                         ${options.mainTweet ? `
                             <span class="tweet-interact-retweet-menu-quotes">${LOC.see_quotes_big.message}</span>
