@@ -130,6 +130,7 @@ setTimeout(async () => {
     let language = document.getElementById('language');
     let autoplayVideos = document.getElementById('autoplay-videos');
     let displaySensitiveContent = document.getElementById('display-sensitive-content');
+    let seeTweetViews = document.getElementById('see-tweet-views');
 
     let root = document.querySelector(":root");
 
@@ -209,6 +210,11 @@ setTimeout(async () => {
     displaySensitiveContent.addEventListener('change', () => {
         chrome.storage.sync.set({
             displaySensitiveContent: displaySensitiveContent.checked
+        }, () => { });
+    });
+    seeTweetViews.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            seeTweetViews: seeTweetViews.checked
         }, () => { });
     });
     language.addEventListener('change', () => {
@@ -350,6 +356,7 @@ setTimeout(async () => {
     noBigFont.checked = !!vars.noBigFont;
     autoplayVideos.checked = !!vars.autoplayVideos;
     displaySensitiveContent.checked = !!vars.displaySensitiveContent;
+    seeTweetViews.checked = !!vars.seeTweetViews;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

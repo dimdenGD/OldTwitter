@@ -181,9 +181,9 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }, () => {});
     }
     if(typeof(vars.showOriginalImages) !== 'boolean') {
-        vars.showOriginalImages = true;
+        vars.showOriginalImages = false;
         chrome.storage.sync.set({
-            showOriginalImages: true
+            showOriginalImages: false
         }, () => {});
     }
     if(!vars.displaySensitiveContentMoved) {

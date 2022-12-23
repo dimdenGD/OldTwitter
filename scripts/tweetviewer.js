@@ -860,6 +860,7 @@ class TweetViewer {
                         ` : ''}
                     </div>
                     <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : t.favorite_count}</span>
+                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${t.ext.views.r.ok.count}</span>` : ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
