@@ -366,9 +366,15 @@ async function renderTimeline(append = false, sliceAmount = 0) {
 }
 function renderNewTweetsButton() {
     if (timeline.toBeUpdated > 0) {
+        document.getElementById("new-tweets-bug-fix").innerHTML = `
+            .tweet:first-child .tweet-translate-after {
+                margin-right: 0 !important;
+            }
+        `;
         document.getElementById('new-tweets').hidden = false;
         document.getElementById('new-tweets').innerText = `${LOC.see_new_tweets.message}`;
     } else {
+        document.getElementById("new-tweets-bug-fix").innerHTML = ``;
         document.getElementById('new-tweets').hidden = true;
     }
 }
