@@ -1613,9 +1613,6 @@ emoji-picker {
     margin-right: 10px;
     vertical-align: text-bottom;
 }
-.tweet-interact-views {
-
-}
 .tweet-interact-views:before {
     content: "\f200";
 }
