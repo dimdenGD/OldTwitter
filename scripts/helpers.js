@@ -109,9 +109,9 @@ function handleFiles(files, mediaArray, mediaContainer) {
         reader.onload = () => {
             base64Data.push(reader.result);
             if (base64Data.length === media.length) {
-                mediaContainer.innerHTML = '';
-                while (mediaArray.length > 0) {
+                while (mediaArray.length >= 4) {
                     mediaArray.pop();
+                    mediaContainer.lastChild.remove();
                 }
                 base64Data.forEach(data => {
                     let div = document.createElement('div');
