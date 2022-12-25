@@ -1541,6 +1541,8 @@ emoji-picker {
     background-color: var(--background-color);
     padding: 10px;
     z-index: 10;
+    color: var(--almost-black);
+    position: relative;
     border: 1px solid var(--border);
 }
 .tweet-card-link-thumbnail {
