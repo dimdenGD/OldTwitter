@@ -180,6 +180,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             savePreferredQuality: false
         }, () => {});
     }
+    if(typeof(vars.font) !== 'string') {
+        vars.font = 'Arial';
+        chrome.storage.sync.set({
+            font: 'Arial'
+        }, () => {});
+    }
     if(typeof(vars.showOriginalImages) !== 'boolean') {
         vars.showOriginalImages = false;
         chrome.storage.sync.set({
