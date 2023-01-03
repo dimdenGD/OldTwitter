@@ -523,7 +523,7 @@ setTimeout(async () => {
                         updateSubpage();
                         cursor = undefined;
                         renderSearch();
-                        modal.remove();
+                        modal.querySelector('.modal-close').click();
                     }
                 });
                 return;
