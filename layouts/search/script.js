@@ -483,10 +483,10 @@ setTimeout(async () => {
                         <span class="example">${LOC.min_retweets_example.message}</span>
                         <br><br>
                         <h3 class="nice-subheader">${LOC.dates.message}</h3><br>
-                        ${LOC.since.message}:
+                        <span style="color:var(--almost-black)">${LOC.since.message}:</span>
                         <input type="date" id="sai-after" class="search-advanced-input"><br>
                         <br>
-                        ${LOC.until.message}:
+                        <span style="color:var(--almost-black)">${LOC.until.message}:</span>
                         <input type="date" id="sai-before" class="search-advanced-input"><br>
                         <br>
                         <button class="nice-button">${LOC.search.message}</button>
