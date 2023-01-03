@@ -907,7 +907,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         t.element = tweet;
         t.options = options;
 
-        if(!options.mainTweet && typeof mainTweetLikers !== 'undefined') {
+        if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments")) {
             tweet.addEventListener('click', async e => {
                 if(e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
                     document.getElementById('loading-box').hidden = false;
