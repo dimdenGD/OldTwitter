@@ -1941,6 +1941,9 @@ class TweetViewer {
     async popstateChange(that) {
         that.savePageData(that.currentLocation);
         that.updateSubpage();
+        if(location.pathname.includes("retweets/with_comments") && that.subpage === 'retweets_with_comments') {
+            return document.querySelector('.modal-close').click();
+        }
         that.mediaToUpload = [];
         that.linkColors = {};
         that.cursor = undefined;
