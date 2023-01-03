@@ -1316,6 +1316,21 @@ let userDataFunction = async user => {
             }
         });
     });
+    searchIcon.addEventListener('mousedown', e => {
+        if(e.button === 1) {
+            e.preventDefault();
+            lastSearches.push(searchInput.value);
+            if(lastSearches.length > 5) {
+                lastSearches.shift();
+            }
+            lastSearches = [...new Set(lastSearches)];
+            chrome.storage.local.set({
+                lastSearches
+            }, () => {
+                openInNewTab(`/search?q=${encodeURIComponent(searchInput.value)}`);
+            });
+        }
+    });
 
     // user previews
     let userPreviewTimeouts = [];
