@@ -1432,6 +1432,7 @@ setTimeout(async () => {
         }
     });
     window.addEventListener("popstate", async () => {
+        if(document.querySelector('.tweet-viewer')) return;
         let path = location.pathname;
         if(path.endsWith("/")) path = path.substring(0, path.length - 1);
         if(isProfilePath(path) || (path.split('/').length === 3 && location.pathname.endsWith('/following') || location.pathname.endsWith('/followers') || location.pathname.endsWith('/followers_you_follow') || location.pathname.endsWith('/lists') || location.pathname.endsWith('/media') || location.pathname.endsWith('/likes') || location.pathname.endsWith('/with_replies'))) {
