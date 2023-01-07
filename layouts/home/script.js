@@ -79,6 +79,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>Lot of fixes related to search and quote tweets, much less buggy now.</li>
                             <li>Added pitch-black mode.</li>
                             <li>Added Korean translation.</li>
                             <li>GIF converter improvements.</li>
@@ -86,23 +87,6 @@ setTimeout(() => {
                             <li>You can now hide retweets from user timeline.</li>
                             <li>Added setting to enable dark mode between 19:00-09:00.</li>
                             <li>Added setting to only show original quality images.</li>
-                            <li>Fixed notifications feedback.</li>
-                            <li>Fixed tweet likers.</li>
-                            <li>Fixed hashtags.</li>
-                            <li>Fixed new tweet notifications page.</li>
-                            <li>Made notification page show red dot when unfocused too.</li>
-                            <li>Fixed some links disappearing from tweet.</li>
-                            <li>Fixed text overflows in lot of places.</li>
-                            <li>Now you can scroll TweetViewer at any mouse position.</li>
-                            <li>Some fixes regarding protected accounts.</li>
-                            <li>Added feedback page for uninstalls.</li>
-                            <li>Lot of style fixes.</li>
-                            <li>More translated text.</li>
-                            <li>Fixed favorite tweets not loading sometimes.</li>
-                            <li>Fixes regarding clicking on notifications.</li>
-                            <li>Quote tweets show real links now.</li>
-                            <li>Made clicking on media in profile switch subpage to tweet if not on it.</li>
-                            <li>Support for /messages and /intent/tweet pages.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>
