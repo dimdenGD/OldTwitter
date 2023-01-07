@@ -98,7 +98,10 @@ class TweetViewer {
                     }
                 }, 100);
             }
-            return true;
+            if(this.subpage === 'retweets_with_comments' && this.retweetCommentsCursor) {
+                this.container.getElementsByClassName('retweets_with_comments-more')[0].hidden = false;
+            }
+            return this.pageData[path];
         } else {
             this.tweets = [];
             this.seenReplies = [];
@@ -1941,7 +1944,7 @@ class TweetViewer {
     async popstateChange(that) {
         that.savePageData(that.currentLocation);
         that.updateSubpage();
-        if(location.pathname.includes("retweets/with_comments") && that.subpage === 'retweets_with_comments') {
+        if(location.pathname.includes("retweets/with_comments") && that.subpage === 'retweets_with_comments' && document.getElementById("this-is-tweet-page")) {
             return document.querySelector('.modal-close').click();
         }
         that.mediaToUpload = [];
@@ -1956,14 +1959,18 @@ class TweetViewer {
             return that.container.getElementsByClassName('modal-close')[0].click();
         }
         let restored = await that.restorePageData();
-        if(that.subpage === 'tweet' && !restored) {
-            that.updateReplies(id);
-        } else if(that.subpage === 'likes') {
-            that.updateLikes(id);
-        } else if(that.subpage === 'retweets') {
-            that.updateRetweets(id);
-        } else if(that.subpage === 'retweets_with_comments') {
-            that.updateRetweetsWithComments(id);
+        if(!restored) {
+            if(that.subpage === 'tweet') {
+                that.updateReplies(id);
+            } else if(that.subpage === 'likes') {
+                that.updateLikes(id);
+            } else if(that.subpage === 'retweets') {
+                that.updateRetweets(id);
+            } else if(that.subpage === 'retweets_with_comments') {
+                that.updateRetweetsWithComments(id);
+            }
+        } else {
+            this.container.scrollTop = restored.scrollY;
         }
         that.currentLocation = location.pathname;
     }
