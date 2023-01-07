@@ -320,16 +320,14 @@ setTimeout(async () => {
     }
     // weird bug
     if(!document.getElementById('wtf-refresh')) {
-        location.reload();
+        return setTimeout(() => location.reload(), 500);
     }
     try {
         document.getElementById('wtf-refresh').addEventListener('click', async () => {
             renderDiscovery(false);
         });
     } catch(e) {
-        setTimeout(() => {
-            location.reload();
-        }, 50);
+        setTimeout(() => location.reload(), 500);
         console.error(e);
         return;
     }

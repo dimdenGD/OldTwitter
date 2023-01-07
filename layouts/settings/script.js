@@ -75,9 +75,7 @@ setTimeout(async () => {
             renderDiscovery(false);
         });
     } catch(e) {
-        setTimeout(() => {
-            location.reload();
-        }, 50);
+        setTimeout(() => location.reload(), 500);
         console.error(e);
         return;
     }
