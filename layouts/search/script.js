@@ -3,6 +3,7 @@ let cursor;
 let linkColors = {};
 let searchParams = {}, searchSettings = {};
 let saved;
+let lastSearch = '';
 
 // Util
 
@@ -73,7 +74,10 @@ function renderUserData() {
     document.getElementById('wtf-viewall').href = `https://mobile.twitter.com/i/connect_people?user_id=${user.id_str}`;
 }
 
-async function renderSearch(c) {
+async function renderSearch(c, force = false) {
+    let newSearch = searchParams.q+searchSettings.type+searchSettings.followedPeople+searchSettings.nearYou;
+    if(newSearch === lastSearch && !force) return;
+    lastSearch = newSearch;
     updateSavedButton();
     document.getElementsByTagName('title')[0].innerText = `"${searchParams.q}" - OldTwitter Search`;
     let searchDiv = document.getElementById('timeline');
@@ -229,6 +233,7 @@ setTimeout(async () => {
     }
     
     window.addEventListener("popstate", async () => {
+        if(document.querySelector('.tweet-viewer')) return;
         cursor = undefined;
         updateSubpage();
         renderSearch();
@@ -267,7 +272,7 @@ setTimeout(async () => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
             if (loadingNewTweets || !cursor) return;
             loadingNewTweets = true;
-            await renderSearch(cursor);
+            await renderSearch(cursor, true);
             setTimeout(() => {
                 setTimeout(() => {
                     loadingNewTweets = false;
