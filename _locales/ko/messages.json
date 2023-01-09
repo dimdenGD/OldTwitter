@@ -352,6 +352,7 @@
     "converting": { "message": "변환 중" },
     "time_mode": { "message": " 19:00-09:00 다크 모드를 이 시간대에 활성화하다" },
     "show_original_images": { "message": "항상 원래 화질의 화상을 표시하다" },
-    "pitch_black_mode": { "message": "더욱 검게 하다(다크 모드가 활성화된 경우에만 해당)" },
-    "hide_retweets": { "message": "리트윗은 표시하지 않는다" }
+    "pitch_black_mode": { "message": "더 검게 만들기(다크 모드가 유효할 때만)" },
+    "hide_retweets": { "message": "리트윗은 표시하지 않는다" },
+    "see_tweet_views": { "message": "트윗의 표시 횟수를 표시하다" }
 }
