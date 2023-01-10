@@ -1193,13 +1193,16 @@ API.getFavorites = (id, cursor) => {
                     if(!e.content.itemContent.tweet_results.result.legacy) {
                         e.content.itemContent.tweet_results.result = e.content.itemContent.tweet_results.result.tweet;
                     }
+                    if(!e.content.itemContent.tweet_results.result) {
+                        return;
+                    }
                     let tweet = e.content.itemContent.tweet_results.result.legacy;
                     let user = e.content.itemContent.tweet_results.result.core.user_results.result;
                     user.legacy.id_str = user.rest_id;
                     user = user.legacy;
                     tweet.user = user;
                     return tweet;
-                }),
+                }).filter(e => e),
                 cursor: data.data.user.result.timeline_v2.timeline.instructions[0].entries.find(e => e.entryId.startsWith('cursor-bottom')).content.value
             });
         }).catch(e => {
