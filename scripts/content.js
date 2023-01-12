@@ -59,6 +59,15 @@ if (realPath.startsWith("/i/user/")) {
         location.replace("/" + user.screen_name);
     });
 }
+if (realPath === '/intent/user') {
+    let id = location.search.split('user_id=')[1];
+    API.getUser(id, true).then(user => {
+        if (user.error) {
+            return;
+        }
+        location.replace("/" + user.screen_name);
+    });
+}
 if(/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
     location.href = `https://twitter.com/${realPath.split("/direct_messages/create/")[1]}#dm`;
 }
