@@ -757,7 +757,9 @@ async function renderTrends(compact = false) {
     let trends = (await API.getTrends()).modules;
     let trendsContainer = document.getElementById('trends-list');
     trendsContainer.innerHTML = '';
-    trends.forEach(({ trend }) => {
+    let max = 7;
+    if(innerHeight < 650) max = 3;
+    trends.slice(0, max).forEach(({ trend }) => {
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend' + (compact ? ' compact-trend' : '');
         trendDiv.innerHTML = compact ? `<a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a>` : `
@@ -775,7 +777,8 @@ async function renderDiscovery(cache = true) {
     try {
         let usersData = discover.globalObjects.users;
         let max = 7;
-        if(innerHeight < 650) max = 5;
+        if(innerHeight < 700) max = 6;
+        if(innerHeight < 650) max = 3;
         let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, max); // why is it so deep
         usersSuggestions.forEach(userId => {
             let userData = usersData[userId];
