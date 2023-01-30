@@ -902,6 +902,29 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 t = await API.tweetDetail(t.id_str);
             }
         }
+        if(t.socialContext) {
+            options.top = {};
+            if(t.socialContext.description) {
+                options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.id}">${t.socialContext.name}</a>`;
+                options.top.icon = "\uf008";
+                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
+            } else if(t.socialContext.contextType === "Like") {
+                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(' liked', ' favorited') : t.socialContext.text}</a>`;
+                if(vars.heartsNotStars) {
+                    options.top.icon = "\uf015";
+                    options.top.color = "rgb(249, 24, 128)";
+                } else {
+                    options.top.icon = "\uf001";
+                    options.top.color = "#ffac33";
+                }
+            } else if(t.socialContext.contextType === "Follow") {
+                options.top.text = t.socialContext.text;
+                options.top.icon = "\uf002";
+                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
+            } else {
+                console.log(t.socialContext);
+            }
+        }
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
         const tweet = document.createElement('div');
         t.element = tweet;

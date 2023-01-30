@@ -80,6 +80,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Lot of fixes related to search and quote tweets, much less buggy now.</li>
+                            <li>Fixed social context not showing up sometimes.</li>
                             <li>Added pitch-black mode.</li>
                             <li>Added Korean translation.</li>
                             <li>GIF converter improvements.</li>
@@ -311,29 +312,6 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                 let obj = {
                     bigFont: t.full_text.length < 75
                 };
-                if(t.socialContext) {
-                    obj.top = {};
-                    if(t.socialContext.description) {
-                        obj.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.id}">${t.socialContext.name}</a>`;
-                        obj.top.icon = "\uf008";
-                        obj.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
-                    } else if(t.socialContext.contextType === "Like") {
-                        obj.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(' liked', ' favorited') : t.socialContext.text}</a>`;
-                        if(vars.heartsNotStars) {
-                            obj.top.icon = "\uf015";
-                            obj.top.color = "rgb(249, 24, 128)";
-                        } else {
-                            obj.top.icon = "\uf001";
-                            obj.top.color = "#ffac33";
-                        }
-                    } else if(t.socialContext.contextType === "Follow") {
-                        obj.top.text = t.socialContext.text;
-                        obj.top.icon = "\uf002";
-                        obj.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
-                    } else {
-                        console.log(t.socialContext);
-                    }
-                }
                 await appendTweet(t, timelineContainer, obj);
                 if(renderLater[t.id_str]) {
                     t.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
