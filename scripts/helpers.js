@@ -2380,7 +2380,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             let feedback = t.feedback[feedbackButton.dataset.index];
             if (!feedback) return;
             feedbackButton.addEventListener('click', () => {
-                chrome.storage.local.remove("algoTimeline");
+                chrome.storage.local.remove(["algoTimeline"], () => {});
                 if(feedback.richBehavior && feedback.richBehavior.markNotInterestedTopic) {
                     fetch(`https://twitter.com/i/api/graphql/OiKldXdrDrSjh36WO9_3Xw/TopicNotInterested`, {
                         method: 'post',
