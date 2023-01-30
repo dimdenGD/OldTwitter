@@ -1411,7 +1411,9 @@ setTimeout(async () => {
                 return;
             }
             if(/^\/[A-z-0-9-_]{1,15}$/.test(path) && ["/home", "/", "/notifications", "/messages", "/settings", "/search", "/explore", "/login", "/register", "/logout"].indexOf(path) === -1) {
+                if(document.querySelector(".modal")) return;
                 e.preventDefault();
+                window.scrollTo(0, 0);
                 mediaToUpload = [];
                 document.getElementById('loading-box').hidden = false;
                 everAddedAdditional = false;
