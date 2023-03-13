@@ -80,14 +80,6 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Lot of fixes related to search and quote tweets, much less buggy now.</li>
-                            <li>Fixed social context not showing up sometimes.</li>
-                            <li>Added pitch-black mode.</li>
-                            <li>Added Korean translation.</li>
-                            <li>GIF converter improvements.</li>
-                            <li>Added setting to see tweet views.</li>
-                            <li>You can now hide retweets from user timeline.</li>
-                            <li>Added setting to enable dark mode between 19:00-09:00.</li>
-                            <li>Added setting to only show original quality images.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>
