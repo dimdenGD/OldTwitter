@@ -79,7 +79,8 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added History page (available in user menu) that shows last 100 tweets you clicked on.</li>
+                        <li>Added History page (available in user menu) that shows last 100 tweets you clicked on.</li>
+                        <li>Now reply, retweet, like and view counts on tweets are formatted.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>

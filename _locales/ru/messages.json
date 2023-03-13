@@ -349,5 +349,6 @@
     "show_original_images": { "message": "Всегда показывать картинки с оригинальным качеством" },
     "pitch_black_mode": { "message": "Режим полной темноты (только когда включена тёмная тема)" },
     "hide_retweets": { "message": "Скрыть ретвиты" },
-    "see_tweet_views": { "message": "Видеть количество просмотров на твитах" }
+    "see_tweet_views": { "message": "Видеть количество просмотров на твитах" },
+    "history": { "message": "История" }
 }
