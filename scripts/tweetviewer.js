@@ -43,6 +43,16 @@ class TweetViewer {
         let event = new CustomEvent('clearActiveTweet');
         document.dispatchEvent(event);
 
+        chrome.storage.sync.get(['viewedtweets'], (result) => {
+            if(!result.viewedtweets) result.viewedtweets = [];
+            result.viewedtweets.unshift(this.id);
+            result.viewedtweets = [...new Set(result.viewedtweets)];
+            while(result.viewedtweets.length >= 100) {
+                result.viewedtweets.pop();
+            }
+            chrome.storage.sync.set({ viewedtweets: result.viewedtweets });
+        });
+
         this.init();
     }
     async savePageData(path) {

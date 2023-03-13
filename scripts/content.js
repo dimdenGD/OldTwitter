@@ -30,6 +30,10 @@ let pages = [
         paths: [/^\/i\/topics\/\d+$/]
     },
     {
+        name: "history",
+        paths: ["/old/history"]
+    },
+    {
         name: "itl",
         paths: ["/i/timeline"]
     },

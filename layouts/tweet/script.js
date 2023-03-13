@@ -970,6 +970,15 @@ setTimeout(async () => {
     updateUserData();
     updateSubpage();
     let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+    chrome.storage.sync.get(['viewedtweets'], (result) => {
+        if(!result.viewedtweets) result.viewedtweets = [];
+        result.viewedtweets.unshift(id);
+        result.viewedtweets = [...new Set(result.viewedtweets)];
+        while(result.viewedtweets.length >= 100) {
+            result.viewedtweets.pop();
+        }
+        chrome.storage.sync.set({ viewedtweets: result.viewedtweets });
+    });
     if(subpage === 'tweet') {
         try {
             await updateReplies(id);

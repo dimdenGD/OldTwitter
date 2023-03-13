@@ -1,4 +1,4 @@
-# OldTwitter (2022)
+# OldTwitter (2023)
 Browser extension to return old Twitter layout from 2015.  
 This extension doesn't add any CSS on top of original Twitter. It's fully original client that replaces Twitter, making it much faster than alternatives.  
   
@@ -28,6 +28,7 @@ If you like this extension please consider donating:
 - Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change default link color and font
 - Ability to show custom user link colors in timeline
 - Translate tweets without having to open them  
+- History for tweets you clicked on  
 - Dark mode support
 - Removes all ads
 - Easy download of videos and GIFs

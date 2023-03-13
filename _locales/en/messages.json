@@ -360,5 +360,6 @@
     "show_original_images": { "message": "Always show original quality images" },
     "pitch_black_mode": { "message": "Pitch black mode (only when dark mode is enabled)" },
     "hide_retweets": { "message": "Hide retweets" },
-    "see_tweet_views": { "message": "See tweets view count" }
+    "see_tweet_views": { "message": "See tweets view count" },
+    "history": { "message": "History" }
 }

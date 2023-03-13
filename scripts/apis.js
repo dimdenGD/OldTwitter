@@ -1658,7 +1658,6 @@ API.createScheduledTweet = data => {
         });
     });
 }
-
 let loadingDetails = {};
 API.tweetDetail = id => {
     return new Promise((resolve, reject) => {
@@ -2201,6 +2200,29 @@ API.unmuteTweet = id => {
             credentials: "include",
             method: 'post',
             body: `tweet_id=${id}`
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getTweets = ids => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/statuses/lookup.json?id=${ids.join(',')}&include_entities=true&include_ext_alt_text=true&include_card_uri=true&tweet_mode=extended&include_reply_count=true&ext=views%2CmediaStats`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include"
         }).then(i => i.json()).then(data => {
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
