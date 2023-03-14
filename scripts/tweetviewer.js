@@ -272,39 +272,7 @@ class TweetViewer {
         }
     
         for(let i in tweetLikers) {
-            let u = tweetLikers[i];
-            let likeElement = document.createElement('div');
-            likeElement.classList.add('following-item');
-            likeElement.innerHTML = `
-            <div>
-                <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                    <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
-                    <div class="following-item-text">
-                        <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
-                        <span class="tweet-header-handle">@${u.screen_name}</span>
-                    </div>
-                </a>
-            </div>
-            <div>
-                <button class="following-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
-            </div>`;
-    
-            let followButton = likeElement.querySelector('.following-item-btn');
-            followButton.addEventListener('click', async () => {
-                if (followButton.classList.contains('following')) {
-                    await API.unfollowUser(u.screen_name);
-                    followButton.classList.remove('following');
-                    followButton.classList.add('follow');
-                    followButton.innerText = LOC.follow.message;
-                } else {
-                    await API.followUser(u.screen_name);
-                    followButton.classList.remove('follow');
-                    followButton.classList.add('following');
-                    followButton.innerText = LOC.following_btn.message;
-                }
-            });
-    
-            likeDiv.appendChild(likeElement);
+            appendUser(tweetLikers[i], likeDiv);
         }
     }
     async updateRetweets(id, c) {

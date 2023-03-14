@@ -1798,7 +1798,7 @@ API.getReplies = (id, cursor) => {
         chrome.storage.local.get(['tweetReplies'], d => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
-                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000 && false) {
                     return resolve(d.tweetReplies[id].data);
                 }
                 if(loadingReplies[id]) {
@@ -1839,6 +1839,7 @@ API.getReplies = (id, cursor) => {
                 let list = [];
                 for (let i = 0; i < entries.length; i++) {
                     let e = entries[i];
+                    console.log(e.entryId);
                     if (e.entryId.startsWith('tweet-')) {
                         let tweet = tweetData[e.content.item.content.tweet.id];
                         if(!tweet) continue;
@@ -1913,6 +1914,15 @@ API.getReplies = (id, cursor) => {
                                 data: threadList
                             });
                         }
+                    } else if(e.entryId.startsWith('cursor-showmorethreadsprompt')) {
+                        list.push({
+                            type: 'showMore',
+                            data: {
+                                cursor: e.content.itemContent.value,
+                                labelText: e.content.itemContent.displayTreatment.labelText,
+                                actionText: e.content.itemContent.displayTreatment.actionText
+                            }
+                        });
                     }
                 }
                 let newCursor;
