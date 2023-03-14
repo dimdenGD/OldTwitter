@@ -881,6 +881,7 @@ emoji-picker {
 
 #profile-avatar {
     border: 5px solid var(--background-color);
+    background-color: var(--background-color);
     border-radius: 12px;
     box-shadow: 0 1px 1px rgb(136 153 166 / 15%);
     user-select: none;
