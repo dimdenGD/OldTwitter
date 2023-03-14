@@ -254,6 +254,7 @@ async function updateLikes(id, c) {
         document.getElementById('likes-more').hidden = false;
     }
     document.getElementById('loading-box').hidden = true;
+    loadingNewTweets = false;
 }
 async function updateRetweets(id, c) {
     let tweetRetweeters;
@@ -895,11 +896,17 @@ setTimeout(async () => {
     
         // loading new tweets
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
-            if (!cursor || loadingNewTweets) return;
-            loadingNewTweets = true;
-            let path = location.pathname;
-            if(path.endsWith('/')) path = path.slice(0, -1);
-            updateReplies(path.split('/').slice(-1)[0], cursor);
+            if (loadingNewTweets) return;
+            if(cursor) {
+                loadingNewTweets = true;
+                let path = location.pathname;
+                if(path.endsWith('/')) path = path.slice(0, -1);
+                updateReplies(path.split('/').slice(-1)[0], cursor);
+            } else if(likeCursor) {
+                loadingNewTweets = true;
+                let likesMoreButton = document.getElementById('likes-more');
+                if(likesMoreButton && !likesMoreButton.hidden) likesMoreButton.click();
+            }
         }
     }, { passive: true });    
     
