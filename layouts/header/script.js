@@ -1386,7 +1386,36 @@ let userDataFunction = async user => {
             if(stopLoad) return;
             let div = document.createElement('div');
             div.innerHTML = /*html*/`
-                <style>:host{font-weight:initial;line-height:initial;text-align:initial;word-spacing:initial}.follows-you-label{font-size:11px;letter-spacing:.02em;text-transform:uppercase;color:var(--darker-gray);background:rgba(0,0,0,0.08);width:fit-content;padding:3px 7px;border-radius:5px;margin-bottom:5px;margin-top:5px;display:block}.preview-user-banner {border-top-left-radius: 5px;border-top-right-radius: 5px;object-fit: cover;}.preview-user-info {left: 10px;position: relative;text-decoration: none !important;}.preview-user-stats {display: inline-flex;padding-bottom: 7px;}.preview-user-avatar {border: 4px solid var(--background-color);border-radius: 7px;margin-left: 7px;margin-top: -32px;}.preview-user-name {color: var(--almost-black);font-size: 20px;margin: 0;position: relative;width: 180px;overflow-x: hidden;}.preview-user-handle {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0;position: relative;width: fit-content;}.preview-user-follow {float: right;bottom: 68px;position: relative;right: 7px;}.preview-user-description {width: 280px;color: var(--darker-gray);font-size: 15px;left: 10px;position: relative;display: block;margin-top: 5px;overflow: hidden;}.user-stat-div>h2 {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0 10px;text-transform: uppercase;white-space: nowrap;}.user-stat-div>h1 {color: var(--link-color);font-size: 20px;margin: 0 10px }.user-stat-div {text-decoration: none !important;}.nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: linear-gradient(var(--background-color),var(--darker-background-color));background-repeat: no-repeat;border: 1px solid var(--border);border-radius: 4px;color: var(--darker-gray);cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}.nice-button:hover:not([disabled]) {color: var(--almost-black);text-decoration: none;background-color: var(--border);background-image: linear-gradient(var(--background-color),var(--border));border-color: var(--border);}.nice-button:disabled {color: lightgray !important;cursor: not-allowed;}.nice-button:disabled:before {color: lightgray !important;}.emoji {height: 16px;margin-left: 2px;margin-right: 2px;vertical-align: bottom;width: 16px;}a {color: var(--link-color);text-decoration: none }a:hover {text-decoration: underline;}</style>
+                <style>
+                    :host{font-weight:initial;line-height:initial;text-align:initial;word-spacing:initial}
+                    .follows-you-label{font-size:11px;letter-spacing:.02em;text-transform:uppercase;color:var(--darker-gray);background:rgba(0,0,0,0.08);width:fit-content;padding:3px 7px;border-radius:5px;margin-bottom:5px;margin-top:5px;display:block}
+                    .preview-user-banner {border-top-left-radius: 5px;border-top-right-radius: 5px;object-fit: cover;}
+                    .preview-user-info {left: 10px;position: relative;text-decoration: none !important;}
+                    .preview-user-stats {display: inline-flex;padding-bottom: 7px;}
+                    .preview-user-avatar {border: 4px solid var(--background-color);border-radius: 7px;margin-left: 7px;margin-top: -32px;}
+                    .preview-user-name {color: var(--almost-black);font-size: 20px;margin: 0;position: relative;width: 180px;overflow-x: hidden;}
+                    .preview-user-handle {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0;position: relative;width: fit-content;}
+                    .preview-user-follow {float: right;bottom: 68px;position: relative;right: 7px;}
+                    .preview-user-description {width: 280px;color: var(--darker-gray);font-size: 15px;left: 10px;position: relative;display: block;margin-top: 5px;overflow: hidden;}
+                    .user-stat-div>h2 {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0 10px;text-transform: uppercase;white-space: nowrap;}
+                    .user-stat-div>h1 {color: var(--link-color);font-size: 20px;margin: 0 10px }
+                    .user-stat-div {text-decoration: none !important;}
+                    .nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: linear-gradient(var(--background-color),var(--darker-background-color));background-repeat: no-repeat;border: 1px solid var(--border);border-radius: 4px;color: var(--darker-gray);cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}
+                    .nice-button:hover:not([disabled]) {color: var(--almost-black);text-decoration: none;background-color: var(--border);background-image: linear-gradient(var(--background-color),var(--border));border-color: var(--border);}
+                    .nice-button:disabled {color: lightgray !important;cursor: not-allowed;}
+                    .nice-button:disabled:before {color: lightgray !important;}
+                    .emoji {height: 16px;margin-left: 2px;margin-right: 2px;vertical-align: bottom;width: 16px;}
+                    a {color: var(--link-color);text-decoration: none }
+                    a:hover {text-decoration: underline;}
+                    .profile-additional-thing{font-size:14px;color: var(--darker-gray);font-weight:400;line-height:20px;left: 10px;position: relative;display: block;overflow: hidden;}
+                    .profile-additional-thing::before{margin-right:5px;vertical-align:sub;color:var(--light-gray);display:inline-block;width:20px;text-align:center;font: 18px 'RosettaIcons'}
+                    .profile-additional-location::before{content:"\\f031"}
+                    .profile-additional-joined::before{content:"\\f177"}
+                    .profile-additional-birth::before{content:"\\f033"}
+                    .profile-additional-professional::before{content:"\\f204"}
+                    .profile-additional-url::before{content:"\\f098"}
+                    .preview-user-additional-info{margin-top:10px}
+                </style>
                 <img class="preview-user-banner" height="100" width="300" src="${user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png'}">
                 <div class="preview-user-data">
                     <a class="preview-user-avatar-link" href="https://twitter.com/${user.screen_name}">
@@ -1400,6 +1429,9 @@ let userDataFunction = async user => {
                     </a>
                     <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? LOC.following_btn.message : LOC.follow.message}</button>
                     <span class="preview-user-description">${escapeHTML(user.description).replace(/\n/g, '<br>').replace(/((http|https):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`)}</span>
+                    <div class="preview-user-additional-info">
+                        <span class="profile-additional-thing profile-additional-joined">${LOC.joined.message} ${new Date(user.created_at).toLocaleDateString(LANGUAGE, {month: 'long', year: 'numeric', day: 'numeric'})}</span>
+                    </div>
                     <br>
                     <div class="preview-user-stats">
                         <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
@@ -1413,6 +1445,30 @@ let userDataFunction = async user => {
                     </div>
                 </div>
             `;
+            let additionalInfoElement = div.querySelector('.preview-user-additional-info');
+            if(user.location) {
+                let location = document.createElement('span');
+                location.classList.add('profile-additional-thing', 'profile-additional-location');
+                location.innerText = user.location.replace(/\n\n\n\n/g, "\n");
+                additionalInfoElement.prepend(location);
+                if(vars.enableTwemoji) twemoji.parse(location);
+            }
+            if(user.professional && user.professional.category && user.professional.category[0]) {
+                let prof = document.createElement('span');
+                prof.classList.add('profile-additional-thing', 'profile-additional-professional');
+                prof.innerText = user.professional.category[0].name;
+                additionalInfoElement.prepend(prof);
+                if(vars.enableTwemoji) twemoji.parse(prof);
+            }
+            if(user.url) {
+                let url = document.createElement('a');
+                url.classList.add('profile-additional-thing', 'profile-additional-url');
+                let realUrl = user.entities.url.urls[0];
+                url.innerText = realUrl.display_url;
+                url.href = realUrl.expanded_url;
+                if(!url.href.startsWith('https://twitter.com/')) url.target = "_blank";
+                additionalInfoElement.prepend(url);
+            }
             div.addEventListener('mouseleave', leaveFunction);
             let links = Array.from(div.querySelector('.preview-user-description').querySelectorAll('a'));
             links.forEach(link => {

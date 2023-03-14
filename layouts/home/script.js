@@ -83,6 +83,7 @@ setTimeout(() => {
                             <li>Added tweet autotranslation! You can now set specific users in their profile menu to Autotranslate and all their tweets will get autotranslated.</li>
                             <li>Now reply, retweet, like and view counts on tweets are formatted.</li>
                             <li>Made user mentions in DMs actually clickable.</li>
+                            <li>Made user previews show more info.</li>
                             <li>Fixed new likes notification (opens the tweet when needed now).</li>
                             <li>Likes page for tweets will now autoload users and will also have 'Follows You' badge.</li>
                             <li>Made pinned tweets always have small font.</li>
