@@ -82,6 +82,7 @@ setTimeout(() => {
                             <li>Added History page (available in user menu) that shows last 100 tweets you clicked on.</li>
                             <li>Added tweet autotranslation! You can now set specific users in their profile menu to Autotranslate and all their tweets will get autotranslated.</li>
                             <li>Now reply, retweet, like and view counts on tweets are formatted.</li>
+                            <li>Made user mentions in DMs actually clickable.</li>
                             <li>Fixed new likes notification (opens the tweet when needed now).</li>
                             <li>Made pinned tweets always have small font.</li>
                         </ul>
