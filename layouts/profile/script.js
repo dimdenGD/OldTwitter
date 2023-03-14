@@ -968,7 +968,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
             color: "var(--link-color)",
             class: 'pinned'
         },
-        bigFont: pinnedTweet.favorite_count > averageLikeCount*1.2 && pinnedTweet.favorite_count > 3
+        bigFont: false
     })
     for(let i in data) {
         let t = data[i];

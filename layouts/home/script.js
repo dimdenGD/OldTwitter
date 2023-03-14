@@ -83,6 +83,7 @@ setTimeout(() => {
                             <li>Added tweet autotranslation! You can now set specific users in their profile menu to Autotranslate and all their tweets will get autotranslated.</li>
                             <li>Now reply, retweet, like and view counts on tweets are formatted.</li>
                             <li>Fixed new likes notification (opens the tweet when needed now).</li>
+                            <li>Made pinned tweets always have small font.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>
