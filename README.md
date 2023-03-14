@@ -29,6 +29,7 @@ If you like this extension please consider donating:
 - Ability to show custom user link colors in timeline
 - Translate tweets without having to open them  
 - History for tweets you clicked on  
+- Set users to autotranslate their tweets  
 - Dark mode support
 - Removes all ads
 - Easy download of videos and GIFs

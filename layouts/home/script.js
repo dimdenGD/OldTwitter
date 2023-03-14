@@ -80,6 +80,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                         <li>Added History page (available in user menu) that shows last 100 tweets you clicked on.</li>
+                        <li>Added tweet autotranslation! You can now set specific users in their profile menu to Autotranslate and all their tweets will get autotranslated.</li>
                         <li>Now reply, retweet, like and view counts on tweets are formatted.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>

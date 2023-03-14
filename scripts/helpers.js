@@ -729,6 +729,16 @@ function isSticky(el) {
     }
     return false;
 }
+function onVisible(element, callback) {
+    new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if(entry.intersectionRatio > 0) {
+          callback(element);
+          observer.disconnect();
+        }
+      });
+    }).observe(element);
+}
 
 const mediaClasses = [
     undefined,
@@ -1526,10 +1536,21 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 currentLocation = location.pathname;
             });
         }
+        if(tweetTranslate || tweetTranslateAfter) if(vars.autotranslateProfiles.includes(t.user.id_str)) {
+            onVisible(tweet, () => {
+                if(!t.translated) {
+                    if(tweetTranslate) tweetTranslate.click();
+                    else if(tweetTranslateAfter) tweetTranslateAfter.click();
+                }
+            })
+        }
 
         // Translate
+        t.translated = false;
         if(tweetTranslate || tweetTranslateAfter) (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
+            if(t.translated) return;
             let translated = await API.translateTweet(t.id_str);
+            t.translated = true;
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
             tweetBodyText.innerHTML += `<br>
             <span style="font-size: 12px;color: var(--light-gray);">${LOC.translated_from.message} [${translated.translated_lang}]:</span>

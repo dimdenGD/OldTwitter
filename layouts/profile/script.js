@@ -457,6 +457,7 @@ async function renderLists() {
 
 let months = [];
 let everAddedAdditional = false;
+let toAutotranslate = false;
 async function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     let attempts = 0;
@@ -467,6 +468,15 @@ async function renderProfile() {
             document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal.', '_400x400.');
         }, 500);
     });
+    let autotranslateProfiles = await new Promise(resolve => {
+        chrome.storage.sync.get(['autotranslateProfiles'], data => {
+            resolve(data.autotranslateProfiles);
+        });
+    });
+    if(!autotranslateProfiles) {
+        autotranslateProfiles = [];
+    }
+    toAutotranslate = autotranslateProfiles.includes(pageUser.id_str);
     document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal.', '_400x400.');
     document.getElementById('nav-profile-avatar').src = pageUser.profile_image_url_https.replace('_normal.', '_bigger.');
     document.getElementById('profile-name').innerText = pageUser.name;
@@ -622,6 +632,7 @@ async function renderProfile() {
                 <span ${pageUser.blocking || (pageUser.protected && !pageUser.following) ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}</span>
                 ${pageUser.followed_by ? /*html*/`<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span>` : ''}
                 <span id="profile-settings-lists-action" ${pageUser.blocking || (pageUser.protected && !pageUser.following) ? 'hidden' : ''}>${LOC.from_list.message}</span>
+                <span id="profile-settings-autotranslate">${toAutotranslate ? LOC.dont_autotranslate.message : LOC.autotranslate_tweets.message}</span>
                 <span id="profile-settings-retweets" ${pageUser.following ? '' : 'hidden'}>${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}</span>
                 <hr>
                 <span id="profile-settings-lists" ${pageUser.protected && !pageUser.following ? 'hidden' : ''}>${LOC.see_lists.message}</span>
@@ -756,6 +767,29 @@ async function renderProfile() {
                 document.getElementById("profile-settings-mute").hidden = false;
                 document.getElementById('message-user').hidden = !pageUser.can_dm;
             }
+        });
+        document.getElementById('profile-settings-autotranslate').addEventListener('click', async () => {
+            let autotranslateProfiles = await new Promise(resolve => {
+                chrome.storage.sync.get(['autotranslateProfiles'], data => {
+                    resolve(data.autotranslateProfiles);
+                });
+            });
+            if(!autotranslateProfiles) {
+                autotranslateProfiles = [];
+            }
+            if(autotranslateProfiles.includes(pageUser.id_str)) {
+                autotranslateProfiles.splice(autotranslateProfiles.indexOf(pageUser.id_str), 1);
+                document.getElementById('profile-settings-autotranslate').innerText = LOC.dont_autotranslate.message;
+                toAutotranslate = false;
+            } else {
+                autotranslateProfiles.push(pageUser.id_str);
+                document.getElementById('profile-settings-autotranslate').innerText = LOC.autotranslate_tweets.message;
+                toAutotranslate = true;
+            }
+            chrome.storage.sync.set({ autotranslateProfiles });
+            setTimeout(() => {
+                location.reload();
+            }, 100)
         });
         document.getElementById('profile-settings-mute').addEventListener('click', async () => {
             if(pageUser.muting) {

@@ -1224,6 +1224,9 @@ emoji-picker {
 #profile-settings-share:before {
     content: "\f185"
 }
+#profile-settings-autotranslate:before {
+    content: "\f089";
+}
 
 #profile-settings-div span {
     float: left;

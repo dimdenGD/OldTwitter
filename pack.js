@@ -48,6 +48,10 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
 
     let config = fs.readFileSync('../OldTwitterFirefox/scripts/config.js', 'utf8');
     config = config.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
+    let helpers = fs.readFileSync('../OldTwitterFirefox/scripts/helpers.js', 'utf8');
+    helpers = helpers.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
+    let tweetviewer = fs.readFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', 'utf8');
+    tweetviewer = tweetviewer.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     let content = fs.readFileSync('../OldTwitterFirefox/scripts/content.js', 'utf8');
     content = content.replace("document.open();", "");
     content = content.replace("document.write(html);", `
@@ -127,6 +131,8 @@ chrome.webRequest.onHeadersReceived.addListener(
 
     fs.writeFileSync('../OldTwitterFirefox/manifest.json', JSON.stringify(manifest, null, 2));
     fs.writeFileSync('../OldTwitterFirefox/scripts/content.js', content);
+    fs.writeFileSync('../OldTwitterFirefox/scripts/helpers.js', helpers);
+    fs.writeFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', tweetviewer);
     fs.writeFileSync('../OldTwitterFirefox/scripts/config.js', config);
     fs.writeFileSync('../OldTwitterFirefox/scripts/background.js', background);
     fs.writeFileSync('../OldTwitterFirefox/layouts/header/style.css', headerStyle);

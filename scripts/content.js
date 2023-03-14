@@ -205,6 +205,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             showOriginalImages: false
         }, () => {});
     }
+    if(typeof(vars.autotranslateProfiles) !== 'object') {
+        vars.autotranslateProfiles = [];
+        chrome.storage.sync.set({
+            autotranslateProfiles: []
+        }, () => {});
+    }
     if(!vars.displaySensitiveContentMoved) {
         API.getSettings().then(settings => {
             vars.displaySensitiveContent = settings.display_sensitive_media;
