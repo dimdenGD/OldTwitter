@@ -80,7 +80,11 @@ async function renderNotifications(data, append = false) {
                         if(n.icon.id === "bell_icon") {
                             location.href = `https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`;
                         } else if(n.icon.id === "heart_icon") {
-                            location.href = `https://twitter.com/i/timeline?page=likes&nid=${n.id}`;
+                            if(notificationHeader.includes('Tweets')) {
+                                location.href = `https://twitter.com/i/timeline?page=likes&nid=${n.id}`;
+                            } else {
+                                new TweetViewer(user, replyTweet);
+                            }
                         } else if(replyTweet && replyTweet.user) {
                             new TweetViewer(user, replyTweet);
                         }
