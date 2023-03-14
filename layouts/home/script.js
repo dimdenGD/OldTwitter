@@ -88,6 +88,7 @@ setTimeout(() => {
                             <li>Fixed new likes notification (opens the tweet when needed now).</li>
                             <li>Likes page for tweets will now autoload users and will also have 'Follows You' badge.</li>
                             <li>Made pinned tweets always have small font.</li>
+                            <li>And other small fixes.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>

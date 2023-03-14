@@ -1282,7 +1282,7 @@ input, textarea {
     margin-bottom: 5px;
 }
 .message-element .emoji {
-    vertical-align: text-bottom;
+    vertical-align: middle;
 }
 .changelog-modal {
     max-width: 800px;

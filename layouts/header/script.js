@@ -44,7 +44,7 @@ function switchRoundAvatars(enabled) {
             #navbar-user-avatar,
             .tweet-footer-favorites-img,
             #list-avatar,
-            .message-element img,
+            .message-element > a > img,
             .notification-avatar-img,
             #nav-profile-avatar {
                 border-radius: 50% !important;
