@@ -84,6 +84,7 @@ setTimeout(() => {
                             <li>Now reply, retweet, like and view counts on tweets are formatted.</li>
                             <li>Made user mentions in DMs actually clickable.</li>
                             <li>Fixed new likes notification (opens the tweet when needed now).</li>
+                            <li>Likes page for tweets will now autoload users and will also have 'Follows You' badge.</li>
                             <li>Made pinned tweets always have small font.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>

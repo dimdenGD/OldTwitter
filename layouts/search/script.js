@@ -136,7 +136,7 @@ async function renderSearch(c, force = false) {
         if(!currentCursor) {
             searchDiv.innerHTML = `<div class="no-results">
                 <br><br>
-                ${LOC.no_results.message}<br><br>
+                <span style="color:var(--default-text-color)">${LOC.no_results.message}</span><br><br>
                 <button class="nice-button">${LOC.try_again.message}</button>
             </div>`;
             cursor = undefined;

@@ -846,7 +846,8 @@ a:hover,
 
 .no-results {
     text-align: center;
-    width: 500px;
+    width: 600px;
+    height: 1000px;
 }
 
 .example {
