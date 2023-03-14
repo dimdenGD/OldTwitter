@@ -1228,6 +1228,7 @@ setTimeout(async () => {
 
     // mouse
     let banner = document.getElementById('profile-banner');
+    let navProfileInfo = document.getElementById('nav-profile-info');
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
         // find active tweet by scroll amount
@@ -1257,6 +1258,17 @@ setTimeout(async () => {
                     }
                 }
                 activeTweet = newActiveTweet;
+            }
+        }
+
+        // make user nav appear
+        if(window.scrollY >= 600) {
+            if(!navProfileInfo.style.opacity) {
+                navProfileInfo.style.opacity = 1;
+            }
+        } else {
+            if(navProfileInfo.style.opacity) {
+                navProfileInfo.style.opacity = '';
             }
         }
         

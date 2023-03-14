@@ -1126,7 +1126,9 @@ emoji-picker {
     height: 39px;
     overflow: hidden;
     width: 200px;
-    display: flex
+    display: flex;
+    opacity: 0;
+    transition: 0.35s;
 }
 
 #nav-profile-info-text {

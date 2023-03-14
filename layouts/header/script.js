@@ -21,6 +21,41 @@ themeBus.onmessage = function (e) {
     vars.pitchBlack = e.data[1];
     switchDarkMode(isDarkModeEnabled);
 }
+const roundAvatarBus = new BroadcastChannel('round_avatar_bus');
+roundAvatarBus.onmessage = function (e) {
+    switchRoundAvatars(e.data);
+}
+
+let roundAvatarsEnabled = false;
+function switchRoundAvatars(enabled) {
+    roundAvatarsEnabled = enabled;
+    if(enabled) {
+        let style = document.createElement('style');
+        style.id = 'round-avatars';
+        style.innerHTML = `
+            .navbar-user-account-avatar,
+            .search-result-item-avatar,
+            .inbox-message-avatar,
+            .message-header-avatar,
+            #user-avatar,
+            .tweet-avatar,
+            .tweet-avatar-quote,
+            #profile-avatar,
+            #navbar-user-avatar,
+            .tweet-footer-favorites-img,
+            #list-avatar,
+            .message-element img,
+            .notification-avatar-img,
+            #nav-profile-avatar {
+                border-radius: 50% !important;
+            }
+        `;
+        document.head.appendChild(style);
+    } else {
+        let style = document.getElementById('round-avatars');
+        if(style) style.remove();
+    }
+}
 
 let userDataFunction = async user => {
     if(headerGotUser || Object.keys(user).length === 0) return;
@@ -43,6 +78,10 @@ let userDataFunction = async user => {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
         root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');
         root.style.setProperty('--favorite-icon-color', 'rgb(249, 24, 128)');
+    }
+
+    if(vars.roundAvatars) {
+        switchRoundAvatars(true);
     }
 
     // util
@@ -1415,6 +1454,7 @@ let userDataFunction = async user => {
                     .profile-additional-professional::before{content:"\\f204"}
                     .profile-additional-url::before{content:"\\f098"}
                     .preview-user-additional-info{margin-top:10px}
+                    ${roundAvatarsEnabled ? '.preview-user-avatar {border-radius: 50%!important;}' : ''}
                 </style>
                 <img class="preview-user-banner" height="100" width="300" src="${user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png'}">
                 <div class="preview-user-data">
@@ -1882,6 +1922,7 @@ setTimeout(async () => {
     // custom css
     document.addEventListener('customCSS', updateCustomCSS);
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
+    document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
 
     // hotkeys
     if(!vars.disableHotkeys) {

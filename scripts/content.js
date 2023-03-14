@@ -205,6 +205,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             showOriginalImages: false
         }, () => {});
     }
+    if(typeof(vars.roundAvatars) !== 'boolean') {
+        vars.roundAvatars = false;
+        chrome.storage.sync.set({
+            roundAvatars: false
+        }, () => {});
+    }
     if(typeof(vars.autotranslateProfiles) !== 'object') {
         vars.autotranslateProfiles = [];
         chrome.storage.sync.set({

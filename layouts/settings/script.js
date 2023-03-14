@@ -123,6 +123,7 @@ setTimeout(async () => {
     let customCSSSave = document.getElementById('custom-css-save');
     let customCSSVariablesSave = document.getElementById('custom-css-variables-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
+    let roundAvatars = document.getElementById('round-avatars');
     let showOriginalImages = document.getElementById('show-original-images');
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
@@ -202,6 +203,14 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             showOriginalImages: showOriginalImages.checked
         }, () => { });
+    });
+    roundAvatars.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            roundAvatars: roundAvatars.checked
+        }, () => {
+            switchRoundAvatars(roundAvatars.checked);
+            roundAvatarBus.postMessage(roundAvatars.checked);
+        });
     });
     noBigFont.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -372,6 +381,7 @@ setTimeout(async () => {
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
+    roundAvatars.checked = !!vars.roundAvatars;
     language.value = vars.language ? vars.language : 'en';
     if(vars.timeMode) {
         darkMode.disabled = true;
