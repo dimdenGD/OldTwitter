@@ -211,6 +211,21 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             roundAvatars: false
         }, () => {});
     }
+    
+    if(typeof(vars.darkMode) !== 'boolean') {
+        let bg = document.body.style.backgroundColor;
+        let isDark = bg === 'rgb(21, 32, 43)' || bg === 'rgb(0, 0, 0)';
+        vars.darkMode = isDark;
+        chrome.storage.sync.set({
+            darkMode: isDark
+        }, () => {});
+        let pitchBlack = bg === 'rgb(0, 0, 0)';
+        vars.pitchBlack = pitchBlack;
+        chrome.storage.sync.set({
+            pitchBlack: pitchBlack
+        }, () => {});
+    }
+
     if(typeof(vars.autotranslateProfiles) !== 'object') {
         vars.autotranslateProfiles = [];
         chrome.storage.sync.set({
