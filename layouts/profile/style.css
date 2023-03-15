@@ -589,7 +589,7 @@ a:hover,
 .tweet-self-thread-line {
     position: absolute;
     width: 2px;
-    height: 52px;
+    height: 20px;
     background-color: var(--border);
     margin-left: -34px;
     z-index: 1
