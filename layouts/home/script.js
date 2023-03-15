@@ -264,7 +264,8 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     icon: "\uf006",
                     color: "#77b255",
                     class: 'retweet'
-                }
+                },
+                translate: vars.autotranslateProfiles.includes(t.user.id_str)
             });
         } else {
             if (t.self_thread) {

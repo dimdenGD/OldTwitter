@@ -1538,7 +1538,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 currentLocation = location.pathname;
             });
         }
-        if(tweetTranslate || tweetTranslateAfter) if(vars.autotranslateProfiles.includes(t.user.id_str)) {
+        if(tweetTranslate || tweetTranslateAfter) if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate)) {
             onVisible(tweet, () => {
                 if(!t.translated) {
                     if(tweetTranslate) tweetTranslate.click();
