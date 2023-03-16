@@ -364,5 +364,6 @@
     "history": { "message": "History" },
     "autotranslate_tweets": { "message": "Autotranslate tweets" },
     "dont_autotranslate": { "message": "Don't autotranslate tweets" },
-    "round_avatars": { "message": "Round avatars" }
+    "round_avatars": { "message": "Round avatars" },
+    "search_user_tweets": { "message": "Search user tweets" }
 }

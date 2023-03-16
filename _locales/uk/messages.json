@@ -353,5 +353,6 @@
     "history": { "message": "Історія" },
     "autotranslate_tweets": { "message": "Перекладати твіти автоматично" },
     "dont_autotranslate": { "message": "Не перекладати твіти автоматично" },
-    "round_avatars": { "message": "Круглі аватарки" }
+    "round_avatars": { "message": "Круглі аватарки" },
+    "search_user_tweets": { "message": "Пошук твітів користувача" }
 }

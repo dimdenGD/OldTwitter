@@ -1488,13 +1488,16 @@ emoji-picker {
 }
 #tweet-nav-more-menu {
     position: absolute;
-    margin-left: 433px;
+    margin-left: 375px;
     margin-top: 37px;
+    height: 57px;
+    padding: 10px;
 }
 #tweet-nav-more-menu > label {
     font-size: 13px;
     color: var(--almost-black);
     cursor: pointer;
+    padding-top: 10px;
 }
 #tweet-nav-more-menu-hr {
     vertical-align: middle;

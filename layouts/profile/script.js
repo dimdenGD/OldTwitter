@@ -1497,6 +1497,17 @@ setTimeout(async () => {
             renderDiscovery();
         }
     });
+
+    document.getElementById('user-search-input').addEventListener('keydown', e => {
+        if(e.key === 'Enter') {
+            document.getElementById('user-search-icon').click();
+        }
+    });
+    document.getElementById('user-search-icon').addEventListener("click", () => {
+        document.getElementById('search-input').value = document.getElementById('user-search-input').value + ` from:${pageUser.screen_name}`;
+        document.getElementById('search-icon').click();
+    })
+
     let mediaDiv = document.getElementById('profile-media-div');
     let mediaText = document.getElementById('profile-media-text');
     let mediaObserver = new MutationObserver(() => {

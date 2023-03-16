@@ -189,7 +189,7 @@ input, textarea {
     margin-right: 15px;
 }
 
-#search-input {
+#search-input, #user-search-input {
     display: block;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -205,8 +205,12 @@ input, textarea {
     transition: all .2s ease-in-out;
     font-family: var(--font);
 }
+#user-search {
+    padding: 0;
+    padding-bottom: 6px;
+}
 
-#search-input:focus {
+#search-input:focus, #user-search-input:focus {
     outline: none;
     color: var(--almost-black);
     text-shadow: none;
@@ -214,7 +218,7 @@ input, textarea {
     box-shadow: none;
 }
 
-#search-icon {
+#search-icon, #user-search-icon {
     border: none;
     background: none;
     float: right;
@@ -224,12 +228,18 @@ input, textarea {
     cursor: pointer;
 }
 
-#search-icon:before {
+#search-icon:before, #user-search-icon:before {
     content: "\f058";
     vertical-align: sub;
     font-family: RosettaIcons;
     font-size: 13px;
     color: var(--darker-gray);
+}
+#user-search-icon {
+    bottom: 34px;
+    left: 4px;
+    right: 0;
+    padding-top: 4px;
 }
 
 #navbar-user {
