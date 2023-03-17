@@ -1720,6 +1720,9 @@ let userDataFunction = async user => {
     // menu
     let userMenu = document.getElementById('navbar-user-menu');
     userAvatar.addEventListener('click', () => {
+        if(!userMenu.hidden) {
+            return userMenu.hidden = true;
+        }
         userMenu.hidden = false;
         setTimeout(() => {
             document.body.addEventListener('click', e => {
