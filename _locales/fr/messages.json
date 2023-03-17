@@ -346,7 +346,7 @@
     "initialization": { "message": "Initialisation" },
     "converting": { "message": "Conversion" },
     "time_mode": { "message": "Activer le mode sombre entre 19:00 et 09:00" },
-        "show_original_images": { "message": "Toujours afficher les images avec leur qualité d'origine" },
+    "show_original_images": { "message": "Toujours afficher les images avec leur qualité d'origine" },
     "pitch_black_mode": { "message": "Thème sombre OLED (seulement lorsque le thème sombre est activé)" },
     "hide_retweets": { "message": "Cacher les retweets" },
     "see_tweet_views": { "message": "Voir le nombre de vues d'un tweet" },
