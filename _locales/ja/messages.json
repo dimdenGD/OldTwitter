@@ -351,5 +351,10 @@
     "time_mode": { "message": "19時-9時の間にダークモードを有効化する" },
     "show_original_images": { "message": "常に元の画質の画像を表示する" },
     "hide_retweets": { "message": "リツイートは表示しない" },
-    "see_tweet_views": { "message": "ツイートの表示回数を表示" }
+    "see_tweet_views": { "message": "ツイートの表示回数を表示" },
+    "history": { "message": "履歴" },
+    "autotranslate_tweets": { "message": "ツイートを自動で翻訳する" },
+    "dont_autotranslate": { "message": "ツイートを自動で翻訳しない" },
+    "round_avatars": { "message": "丸いアイコン" },
+    "search_user_tweets": { "message": "ユーザーのツイートを検索する" }
 }

@@ -333,5 +333,28 @@
     "see_scheduled": { "message": "Vezi postările programate" },
     "hasnt_tweeted": { "message": "@$SCREEN_NAME$ nu a dat niciun tweet", "placeholders": { "screen_name": { "content": "loading" } } },
     "when_theyll_tweet": { "message": "Când o vor face, Tweeturile lor vor apărea aici." },
-    "thank_you2": { "message": "Vă mulțumim că ați folosit OldTwitter! Mi-a luat mult timp și efort să îl codific, mă puteți susține urmărindu-mă sau <a target='_blank' href='https://dimden.dev/donate/'>donând</a>. Aș fi foarte recunoscător." }
+    "thank_you2": { "message": "Vă mulțumim că ați folosit OldTwitter! Mi-a luat mult timp și efort să îl codific, mă puteți susține urmărindu-mă sau <a target='_blank' href='https://dimden.dev/donate/'>donând</a>. Aș fi foarte recunoscător." },
+    "something_went_wrong": { "message": "Ceva nu a mers bine" },
+    "notifications_error": { "message": "Unele notificări nu au putut fi încărcate din cauza unor erori." },
+    "tweet_error": { "message": "Unele tweet-uri nu au putut fi încărcate din cauza unor erori." },
+    "error_instructions": {
+        "message": "Vă rugăm să copiați textul de mai jos și să îl trimiteți la $AT1$issue tracker$AT2$ sau la $AT3$adresa mea de email$AT2$. Vă mulțumim!",
+        "placeholders": {
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+        }
+    },
+    "initialization": { "message": "Inițializare" },
+    "converting": { "message": "În curs de conversie" },
+    "time_mode": { "message": "Activați modul întunecat între orele 19:00-09:00" },
+    "show_original_images": { "message": "Afișați întotdeauna imagini originale de calitate" },
+    "pitch_black_mode": { "message": "Mod Amoled (numai atunci când este activat modul întunecat)" },
+    "hide_retweets": { "message": "Ascundeți retweet-urile" },
+    "see_tweet_views": { "message": "Vezi numărul de vizualizări ale tweet-urilor" },
+    "history": { "message": "Istorie" },
+    "autotranslate_tweets": { "message": "Translatați automat tweet-urile" },
+    "dont_autotranslate": { "message": "Nu traduceți automat tweet-urile" },
+    "round_avatars": { "message": "Avataruri rotunde" },
+    "search_user_tweets": { "message": "Căutați tweet-uri ale utilizatorilor" }
 }

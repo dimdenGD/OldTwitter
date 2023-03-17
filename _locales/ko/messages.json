@@ -354,5 +354,10 @@
     "show_original_images": { "message": "항상 원래 화질의 화상을 표시하다" },
     "pitch_black_mode": { "message": "더 검게 만들기(다크 모드가 유효할 때만)" },
     "hide_retweets": { "message": "리트윗은 표시하지 않는다" },
-    "see_tweet_views": { "message": "트윗의 표시 횟수를 표시하다" }
+    "see_tweet_views": { "message": "트윗의 표시 횟수를 표시하다" },
+    "history": { "message": "이력" },
+    "autotranslate_tweets": { "message": "트윗을 자동으로 번역하다" },
+    "dont_autotranslate": { "message": "트윗을 자동으로 번역하지 않음" },
+    "round_avatars": { "message": "둥근 아이콘" },
+    "search_user_tweets": { "message": "사용자의 트윗을 검색하다" }
 }

@@ -1044,7 +1044,7 @@ a:hover,
 }
 
 /* weird rendering bug */
-.tweet:first-child .tweet-translate-after {
+.tweet:first-child:not(.tweet-top-retweet) .tweet-translate-after {
     margin-right: -20px;
 }
 .tweet:not(.tweet-view):last-child {

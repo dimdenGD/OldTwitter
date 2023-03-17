@@ -994,5 +994,14 @@
     },
     "initialization": { "message": "Εκκίνηση" },
     "converting": { "message": "Μετατροπή" },
-    "time_mode": { "message": "Ενεργοποιήστε τη σκοτεινή λειτουργία μεταξύ 19:00-09:00" }
+    "time_mode": { "message": "Ενεργοποιήστε τη σκοτεινή λειτουργία μεταξύ 19:00-09:00" },
+    "show_original_images": { "message": "Εμφάνιση πάντα πρωτότυπης ποιότητας εικόνων" },
+    "pitch_black_mode": { "message": "Λειτουργία Pitch black (μόνο όταν είναι ενεργοποιημένη η σκοτεινή λειτουργία)" },
+    "hide_retweets": { "message": "Απόκρυψη retweets" },
+    "see_tweet_views": { "message": "Δείτε αριθμό προβολών tweets" },
+    "history": { "message": "Ιστορικό" },
+    "autotranslate_tweets": { "message": "Αυτόματη μετάφραση tweets" },
+    "dont_autotranslate": { "message": "Μην μεταφράζετε αυτόματα tweets" },
+    "round_avatars": { "message": "Στρογγυλά avatars" },
+    "search_user_tweets": { "message": "Αναζήτηση tweets χρηστών" }
   }

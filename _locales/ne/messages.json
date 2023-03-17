@@ -343,5 +343,14 @@
     },
     "initialization": { "message": "सुरु" },
     "converting": { "message": "परिवर्तन हुँदैन" },
-    "time_mode": { "message": "अँध्यारो मोड 19:00-09:00 भित्र" }
+    "time_mode": { "message": "अँध्यारो मोड 19:00-09:00 भित्र" },
+    "show_original_images": { "message": "सधैं मौलिक गुणको फोटोहरू देखाउन" },
+    "pitch_black_mode": { "message": "सबै कालो मोड (कालो मोड लाउँदा मात्रै)" },
+    "hide_retweets": { "message": "रिट्वीवहरू छेक्न" },
+    "see_tweet_views": { "message": "ट्वीटको सबै हेराईहरू देखाउन" },
+    "history": { "message": "इतिहास" },
+    "autotranslate_tweets": { "message": "ट्वीट्हरूलाई आफै अनुवाद गर्न" },
+    "dont_autotranslate": { "message": "ट्वीट्हरूलाई आफै अनुवाद नगर्न" },
+    "round_avatars": { "message": "गोलो अवतारहरू" },
+    "search_user_tweets": { "message": "यो मान्छेको ट्वीटहरू खोज्न" }
 }

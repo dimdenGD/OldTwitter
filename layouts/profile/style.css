@@ -1497,7 +1497,9 @@ emoji-picker {
     font-size: 13px;
     color: var(--almost-black);
     cursor: pointer;
-    padding-top: 10px;
+    padding: 0;
+    padding-left: 12px;
+    display: inline;
 }
 #tweet-nav-more-menu-hr {
     vertical-align: middle;
