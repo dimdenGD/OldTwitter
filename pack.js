@@ -70,62 +70,8 @@ document.documentElement.innerHTML = html;`);
     content = content.replace("document.close();", "");
     content = content.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
 
-    let background = fs.readFileSync('../OldTwitterFirefox/scripts/background.js', 'utf8');
-    background = background.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
-    background = `
-chrome.runtime.onInstalled.addListener(() => {
-    chrome.runtime.setUninstallURL('https://dimden.dev/ot/uninstall.html');
-});
-chrome.webRequest.onBeforeRequest.addListener(
-    function(details) {
-        return {
-            cancel: !details.url.includes("mobile.twitter.com") && (details.url.includes("twitter.com/manifest.json") || details.url.includes("abs.twimg.com/responsive-web/client-web/"))
-        };
-    }, {
-        urls: ["*://twitter.com/*"]
-    },
-    ["blocking"]
-);
-chrome.webRequest.onBeforeSendHeaders.addListener(
-    function(details) {
-        if(!details.requestHeaders.find(h => h.name.toLowerCase() === 'origin')) details.requestHeaders.push({
-            name: "Origin",
-            value: "https://twitter.com"
-        });
-        return {
-            requestHeaders: details.requestHeaders
-        };
-    }, {
-        urls: ["*://*.twimg.com/*", "*://twimg.com/*"]
-    },
-    ["blocking", "requestHeaders"]
-);
-chrome.webRequest.onHeadersReceived.addListener(
-    function(details) {
-        for (let i = 0; i < details.responseHeaders.length; ++i) {
-            if (details.responseHeaders[i].name.toLowerCase() === 'content-security-policy') {
-                details.responseHeaders.splice(i, 1);
-                break;
-            }
-        }
-        if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.requestHeaders.push({
-            name: "access-control-allow-origin",
-            value: "*"
-        });
-        if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-headers')) details.requestHeaders.push({
-            name: "access-control-allow-headers",
-            value: "*"
-        });
-        return {
-            responseHeaders: details.responseHeaders
-        };
-    }, {
-        urls: ["*://twitter.com/*", "*://*.twitter.com/*", "*://*.twimg.com/*", "*://twimg.com/*"]
-    },
-    ["blocking", "responseHeaders"]
-);
-    `;
-
+    let background = fs.readFileSync('../OldTwitterFirefox/scripts/background_v2.js', 'utf8');
+    
     let headerStyle = fs.readFileSync('../OldTwitterFirefox/layouts/header/style.css', 'utf8');
     headerStyle = headerStyle.replace("chrome-extension", "moz-extension");
 
@@ -139,6 +85,8 @@ chrome.webRequest.onHeadersReceived.addListener(
     fs.unlinkSync('../OldTwitterFirefox/ruleset.json');
     fs.unlinkSync('../OldTwitterFirefox/pack.js');
     fs.unlinkSync('../OldTwitterTempChrome/pack.js');
+    fs.unlinkSync('../OldTwitterTempChrome/scripts/background_v2.js');
+    fs.unlinkSync('../OldTwitterFirefox/scripts/background_v2.js');
     fs.unlinkSync('../OldTwitterFirefox/.gitignore');
     fs.unlinkSync('../OldTwitterTempChrome/.gitignore');
 

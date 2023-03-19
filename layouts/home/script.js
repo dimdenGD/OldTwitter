@@ -88,6 +88,7 @@ setTimeout(() => {
                             <li>Made user mentions in DMs actually clickable.</li>
                             <li>Fixed Share with Twitter widget on sites sometimes not working.</li>
                             <li>Fixed new likes notification (opens the tweet when needed now).</li>
+                            <li>Extension should be more faster and stable on Firefox now.</li>
                             <li>Likes page for tweets will now autoload users and will also have 'Follows You' badge.</li>
                             <li>Made pinned tweets always have small font.</li>
                             <li>And other small fixes.</li>
