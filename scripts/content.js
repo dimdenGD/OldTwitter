@@ -89,6 +89,9 @@ if(realPath === '/messages') {
 if(realPath === '/intent/tweet') {
     location.replace('/home#' + location.search);
 }
+if(realPath === '/share') {
+    location.replace('/home#' + location.search);
+}
 if(
     /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath) ||
     /^\/i\/events\/\d{5,32}$/.test(realPath) ||
