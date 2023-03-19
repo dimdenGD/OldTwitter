@@ -1260,7 +1260,7 @@ setTimeout(async () => {
                 location.hash = '';
                 document.getElementById('navbar-tweet-button').click();
                 setTimeout(() => {
-                    document.getElementsByClassName('navbar-new-tweet-text')[0].value = `${params.text}${params.url ? '\n' + params.url : ''}`.trim();
+                    document.getElementsByClassName('navbar-new-tweet-text')[0].value = `${params.text}${params.url ? '\n\n' + params.url : ''}`.trim();
                 }, 10);
             }, 1000);
         } catch(e) {
