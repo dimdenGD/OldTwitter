@@ -641,7 +641,9 @@ class TweetViewer {
         if(t.entities && t.entities.urls) {
             let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
             if(webUrl) {
-                t = await API.tweetDetail(t.id_str);
+                try {
+                    t = await API.tweetDetail(t.id_str);
+                } catch(e) {}
             }
         }
         this.tweets.push(['tweet', t, options]);
