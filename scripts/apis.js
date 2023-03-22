@@ -1713,6 +1713,7 @@ API.tweetDetail = id => {
                 }
                 if(tweet.quoted_status_id_str) {
                     tweet.quoted_status = tweetData.quoted_status_result.result;
+                    if(!tweet.quoted_status.core) tweet.quoted_status = tweet.quoted_status.tweet;
                     let userData = tweet.quoted_status.core.user_results.result;
                     userData.legacy.id_str = userData.rest_id;
                     tweet.quoted_status.legacy.user = userData.legacy;
