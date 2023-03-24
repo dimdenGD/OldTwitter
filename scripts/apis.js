@@ -242,6 +242,7 @@ API.getAlgoTimeline = (cursor, count = 25) => {
                 let user = users[tweet.user_id_str];
                 tweet.user = user;
                 tweet.id_str = e.content.tweet.id;
+                if(tweet.source && tweet.source.includes('Twitter for Advertisers')) continue;
                 if(e.feedbackInfo) tweet.feedback = e.feedbackInfo.feedbackKeys.map(f => data.timeline.responseObjects.feedbackActions[f]);
                 if(tweet.retweeted_status_id_str) {
                     tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
@@ -2314,6 +2315,7 @@ API.searchV2 = (obj, cursor) => {
                         let tweet = tweets[e.content.item.content.tweet.id];
                         let user = users[tweet.user_id_str];
                         user.id_str = tweet.user_id_str;
+                        if(tweet && tweet.source && tweet.source.includes('Twitter for Advertisers')) return;
                         if(tweet.quoted_status_id_str) {
                             tweet.quoted_status = tweets[tweet.quoted_status_id_str];
                             if(tweet.quoted_status) {
@@ -2338,7 +2340,7 @@ API.searchV2 = (obj, cursor) => {
                     } else {
                         return e;
                     }
-                }),
+                }).filter(e => e),
                 cursor
             });
         }).catch(e => {
