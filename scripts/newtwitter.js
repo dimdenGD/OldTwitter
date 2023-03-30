@@ -41,7 +41,7 @@ setTimeout(() => {
             if(head) {
                 clearInterval(i);
                 let span = document.createElement('span');
-                span.innerHTML = `OldTwitter relies on internal APIs that only work when you're logged in.<br>Please log in on this page and change URL from "mobile.twitter.com" to "twitter.com" to see old Twitter layout.`;
+                span.innerHTML = `OldTwitter relies on internal APIs that only work when you're logged in.<br>Please log in on this page and then change URL from "mobile.twitter.com" to "twitter.com" to see old Twitter layout.`;
                 span.style.cssText = `display: block;margin: 0.5em 0px;color: #fbfeff;font-family: TwitterChirp;background: rgb(0 161 255 / 10%);padding: 8px;border-radius: 5px;`;
                 head.after(span);
             }

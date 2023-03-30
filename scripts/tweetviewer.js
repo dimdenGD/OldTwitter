@@ -111,11 +111,13 @@ class TweetViewer {
             if(this.subpage === 'retweets_with_comments' && this.retweetCommentsCursor) {
                 this.container.getElementsByClassName('retweets_with_comments-more')[0].hidden = false;
             }
+            this.loadingNewTweets = false;
             return this.pageData[path];
         } else {
             this.tweets = [];
             this.seenReplies = [];
         }
+        this.loadingNewTweets = false;
         return false;
     }
     updateSubpage() {

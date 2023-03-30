@@ -59,11 +59,13 @@ async function restorePageData() {
         } else {
             document.getElementById('loading-box').hidden = true;
         }
+        loadingNewTweets = false;
         return true;
     } else {
         tweets = [];
         seenReplies = [];
     }
+    loadingNewTweets = false;
     return false;
 }
 
