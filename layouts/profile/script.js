@@ -1316,11 +1316,6 @@ setTimeout(async () => {
             if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
             previousLastTweet = timeline.data[timeline.data.length - 1];
             await renderTimeline(true, originalLength);
-            setTimeout(() => {
-                setTimeout(() => {
-                    loadingNewTweets = false;
-                });
-            }, 200);
         }
     }, { passive: true });
     document.addEventListener('mousemove', e => {

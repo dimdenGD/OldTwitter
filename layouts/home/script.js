@@ -92,6 +92,7 @@ setTimeout(() => {
                             <li>Likes page for tweets will now autoload users and will also have 'Follows You' badge.</li>
                             <li>Made pinned tweets always have small font.</li>
                             <li>Fixed tweets sometimes stopping loading after clicking on other tweet and coming back.</li>
+                            <li>Fixed profile tweets stopping loading sometimes for no reason.</li>
                             <li>And other small fixes.</li>
                         </ul>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
