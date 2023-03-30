@@ -69,7 +69,14 @@ async function renderNotifications(data, append = false) {
                 let replyTweet = n.template.aggregateUserActionsV1.targetObjects[0] ? data.globalObjects.tweets[n.template.aggregateUserActionsV1.targetObjects[0].tweet.id] : { full_text: '' };
                 if(replyTweet && replyTweet.user_id_str) {;
                     if(replyTweet.quoted_status_id_str) {
-                        replyTweet = data.globalObjects.tweets[replyTweet.quoted_status_id_str];
+                        replyTweet.quoted_status = data.globalObjects.tweets[replyTweet.quoted_status_id_str];
+                        replyTweet.quoted_status.user = data.globalObjects.users[replyTweet.quoted_status.user_id_str];
+                        replyTweet.quoted_status.user.id_str = replyTweet.quoted_status.user_id_str;
+                    }
+                    if(replyTweet.retweeted_status_id_str) {
+                        replyTweet.retweeted_status = data.globalObjects.tweets[replyTweet.retweeted_status_id_str];
+                        replyTweet.retweeted_status.user = data.globalObjects.users[replyTweet.retweeted_status.user_id_str];
+                        replyTweet.retweeted_status.user.id_str = replyTweet.retweeted_status.user_id_str;
                     }
                     let replyUser = replyTweet ? data.globalObjects.users[replyTweet.user_id_str] : undefined;
                     replyUser.id_str = replyTweet.user_id_str;
@@ -83,10 +90,10 @@ async function renderNotifications(data, append = false) {
                             if(notificationHeader.includes('Tweets')) {
                                 location.href = `https://twitter.com/i/timeline?page=likes&nid=${n.id}`;
                             } else {
-                                new TweetViewer(user, replyTweet);
+                                new TweetViewer(user, replyTweet.retweeted_status ? replyTweet.retweeted_status : replyTweet);
                             }
                         } else if(replyTweet && replyTweet.user) {
-                            new TweetViewer(user, replyTweet);
+                            new TweetViewer(user, replyTweet.retweeted_status ? replyTweet.retweeted_status : replyTweet);
                         }
                     }
                 });
@@ -104,7 +111,11 @@ async function renderNotifications(data, append = false) {
                         } else if(n.icon.id === "heart_icon") {
                             openInNewTab(`https://twitter.com/i/timeline?page=likes&nid=${n.id}`);
                         } else if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
-                            openInNewTab(`https://twitter.com/${replyTweet.user.screen_name}/status/${replyTweet.id_str}`);
+                            if(replyTweet.retweeted_status) {
+                                openInNewTab(`https://twitter.com/${replyTweet.retweeted_status.user.screen_name}/status/${replyTweet.retweeted_status.id_str}`);
+                            } else {
+                                openInNewTab(`https://twitter.com/${replyTweet.user.screen_name}/status/${replyTweet.id_str}`);
+                            }
                         }
                     }
                 });
