@@ -1803,7 +1803,7 @@ API.getReplies = (id, cursor) => {
         chrome.storage.local.get(['tweetReplies'], d => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
-                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000 && false) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
                     return resolve(d.tweetReplies[id].data);
                 }
                 if(loadingReplies[id]) {
