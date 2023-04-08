@@ -1955,7 +1955,7 @@ class TweetViewer {
         that.currentLocation = location.pathname;
     }
     async onScroll(that) {
-        if(this.container.scrollTop + 200 > this.container.scrollHeight - this.container.clientHeight && !that.loadingNewTweets) {
+        if(this.container.scrollTop + 300 > this.container.scrollHeight - this.container.clientHeight && !that.loadingNewTweets) {
             if(this.moreBtn && that.subpage === 'tweet' && !this.moreBtn.hidden) {
                 this.moreBtn.click();
             }

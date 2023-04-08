@@ -50,7 +50,7 @@ let pages = [
 
 let realPath = location.pathname.split('?')[0].split('#')[0];
 if (realPath.endsWith("/")) {
-    realPath = realPath.slice(0, -1);
+    location.replace(realPath.slice(0, -1));
 }
 
 if (realPath.startsWith("/i/user/")) {
