@@ -1426,7 +1426,7 @@ let userDataFunction = async user => {
             let div = document.createElement('div');
             div.innerHTML = /*html*/`
                 <style>
-                    :host{font-weight:initial;line-height:initial;text-align:initial;word-spacing:initial}
+                    :host{font-weight:initial;line-height:initial;text-align:initial;word-spacing:initial;white-space:initial}
                     .follows-you-label{font-size:11px;letter-spacing:.02em;text-transform:uppercase;color:var(--darker-gray);background:rgba(0,0,0,0.08);width:fit-content;padding:3px 7px;border-radius:5px;margin-bottom:5px;margin-top:5px;display:block}
                     .preview-user-banner {border-top-left-radius: 5px;border-top-right-radius: 5px;object-fit: cover;}
                     .preview-user-info {left: 10px;position: relative;text-decoration: none !important;}

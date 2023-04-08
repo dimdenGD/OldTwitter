@@ -897,7 +897,7 @@ setTimeout(async () => {
         }
     
         // loading new tweets
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 400) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 700) {
             if (loadingNewTweets) return;
             if(cursor) {
                 loadingNewTweets = true;
