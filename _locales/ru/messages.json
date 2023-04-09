@@ -354,5 +354,6 @@
     "autotranslate_tweets": { "message": "Переводить твиты автоматически" },
     "dont_autotranslate": { "message": "Не переводить твиты автоматически" },
     "round_avatars": { "message": "Круглые аватарки" },
-    "search_user_tweets": { "message": "Поиск твитов пользователя" }
+    "search_user_tweets": { "message": "Поиск твитов пользователя" },
+    "no_tl_tweets": { "message": "Вы ни на кого не подписаны так что никаких твитов не было найдено! Поменяйте тип ленты на 'Алгоритмическую' в <a href='https://twitter.com/old/settings'>настройках расширения</a>." }
 }

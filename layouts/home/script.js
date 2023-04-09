@@ -160,6 +160,10 @@ async function updateTimeline() {
             seenTweets.push(t.id_str);
         }
     }
+    if(!user.friends_count && tl.length === 0 && vars.timelineType === 'chrono') {
+        document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.no_tl_tweets.message}</span>`;
+        return;
+    }
     if(!vars.showTopicTweets) {
         tl = tl.filter(t => !t.socialContext || !t.socialContext.description);
     }
