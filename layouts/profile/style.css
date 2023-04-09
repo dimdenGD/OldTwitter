@@ -135,12 +135,12 @@ body {
 }
 
 .tweet:hover {
-    background-color: var(--darker-background-color)
+    background-color: var(--dark-background-color)
 }
 .tweet:hover .tweet-interact-reply[data-val="0"],
 .tweet:hover .tweet-interact-retweet[data-val="0"],
 .tweet:hover .tweet-interact-favorite[data-val="0"] {
-    color: var(--darker-background-color);
+    color: var(--dark-background-color);
 }
 
 .tweet-avatar-link {
@@ -607,7 +607,7 @@ a:hover,
 }
 
 .tweet:hover .tweet-self-thread-line-dots {
-    border: 2px var(--darker-background-color) solid !important
+    border: 2px var(--dark-background-color) solid !important
 }
 
 .user-verified::after {
@@ -680,7 +680,7 @@ emoji-picker {
     margin-bottom: 0 !important;
     padding: 10px;
     color: var(--darker-gray);
-    background-color: var(--darker-background-color)
+    background-color: var(--dark-background-color)
 }
 
 #new-tweet-avatar {

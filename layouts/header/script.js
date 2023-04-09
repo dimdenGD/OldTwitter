@@ -1748,6 +1748,7 @@ function switchDarkMode(enabled) {
             // Pitch black theme
             theme = `
                 --background-color: #000000;
+                --dark-background-color: #000000;
                 --darker-background-color: #000000;
                 --almost-black: #d4e3ed;
                 --border: #222222;
@@ -1767,6 +1768,7 @@ function switchDarkMode(enabled) {
             // Dark theme
             theme = `
                 --background-color: #1b2836;
+                --dark-background-color: #171f2a;
                 --darker-background-color: #141d26;
                 --almost-black: #d4e3ed;
                 --border: #2c3c52;
@@ -1775,7 +1777,7 @@ function switchDarkMode(enabled) {
                 --light-gray: #8394a1;
                 --default-text-color: white;
                 --new-tweet-over: rgba(27, 40, 54, 0.92);
-                --input-background: #131c24;
+                --input-background: #15202a;
                 --active-message: #141d26;
                 --more-color: #a088ff;
                 --choice-bg: rgb(44 62 71);
@@ -1787,6 +1789,7 @@ function switchDarkMode(enabled) {
         // Light theme
         theme = `
             --background-color: white;
+            --dark-background-color: #f5f8fa;
             --darker-background-color: #f5f8fa;
             --almost-black: #292f33;
             --border: #e1e8ed;

@@ -151,7 +151,7 @@ body {
 .tweet:hover,
 .notification:hover,
 .notification-unread {
-    background-color: var(--darker-background-color)
+    background-color: var(--dark-background-color)
 }
 
 .tweet-interact-reply[data-val="0"],
@@ -163,13 +163,13 @@ body {
 .tweet:hover .tweet-interact-reply[data-val="0"],
 .tweet:hover .tweet-interact-retweet[data-val="0"],
 .tweet:hover .tweet-interact-favorite[data-val="0"] {
-    color: var(--darker-background-color);
+    color: var(--dark-background-color);
 }
 
 .notification-unread .tweet-interact-reply[data-val="0"],
 .notification-unread .tweet-interact-retweet[data-val="0"],
 .notification-unread .tweet-interact-favorite[data-val="0"] {
-    color: var(--darker-background-color);
+    color: var(--dark-background-color);
 }
 
 
@@ -652,7 +652,7 @@ a:hover,
 
 .tweet:hover .tweet-self-thread-line-dots,
 .notification-unread .tweet-self-thread-line-dots {
-    border: 2px var(--darker-background-color) solid !important
+    border: 2px var(--dark-background-color) solid !important
 }
 
 .user-verified::after {

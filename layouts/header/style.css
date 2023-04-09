@@ -6,6 +6,7 @@
     --favorite-icon-color: #ffac33;
     --video-cover: contain;
     --background-color: white;
+    --dark-background-color: #f5f8fa;
     --darker-background-color: #f5f8fa;
     --almost-black: #292f33;
     --border: #e1e8ed;
@@ -696,7 +697,7 @@ input, textarea {
     margin-bottom: 5px;
 }
 .message-element:not(.message-element-other) a {
-    color: var(--darker-background-color) !important;
+    color: var(--dark-background-color) !important;
 }
 .message-element-other a {
     color: var(--link-color) !important;
@@ -1235,7 +1236,7 @@ input, textarea {
 }
 
 .tweet:hover .tweet-view-self-thread-line-dots {
-    border: 2px var(--darker-background-color) solid !important
+    border: 2px var(--dark-background-color) solid !important
 }
 .cool-header {
     color: var(--darker-gray);

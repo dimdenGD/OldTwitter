@@ -164,7 +164,7 @@ body {
 }
 
 .tweet:not(.tweet-main):hover {
-    background-color: var(--darker-background-color);
+    background-color: var(--dark-background-color);
     cursor: pointer
 }
 .tweet:not(.tweet-main) .tweet-interact-reply[data-val="0"],
@@ -176,7 +176,7 @@ body {
 .tweet:not(.tweet-main):hover .tweet-interact-reply[data-val="0"],
 .tweet:not(.tweet-main):hover .tweet-interact-retweet[data-val="0"],
 .tweet:not(.tweet-main):hover .tweet-interact-favorite[data-val="0"] {
-    color: var(--darker-background-color);
+    color: var(--dark-background-color);
 }
 
 .tweet-avatar-link {
@@ -676,7 +676,7 @@ a:hover,
 }
 
 .tweet:hover .tweet-self-thread-line-dots {
-    border: 2px var(--darker-background-color) solid !important
+    border: 2px var(--dark-background-color) solid !important
 }
 
 .user-verified::after {
@@ -745,7 +745,7 @@ a:hover,
 }
 
 #new-tweets {
-    background-color: var(--darker-background-color);
+    background-color: var(--dark-background-color);
     border-bottom: none !important;
     border-radius: 0 !important;
     color: var(--darker-gray);
