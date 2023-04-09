@@ -616,6 +616,9 @@ a:hover,
     font-family: RosettaIcons;
     margin-left: 5px
 }
+.user-verified-green::after {
+    color: #82ff9d !important;
+}
 
 .user-protected::after {
     content: "\f096";
