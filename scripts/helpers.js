@@ -1317,6 +1317,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         allVids[i].volume = vid.volume;
                     }
                 };
+                vid.addEventListener('mousedown', e => {
+                    if(e.button === 1) {
+                        e.preventDefault();
+                        window.open(vid.currentSrc, '_blank');
+                    }
+                });
             }
         }
 
