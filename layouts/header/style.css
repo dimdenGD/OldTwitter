@@ -1628,3 +1628,11 @@ emoji-picker {
 .tweet-interact-views:before {
     content: "\f200";
 }
+.user-verified-dimden::after {
+    background-color: #64ff7d !important;
+    content: "DEV" !important;
+    color: black !important;
+    font-family: var(--font) !important;
+    padding: 0 5px;
+    border-radius: 50px;
+}
