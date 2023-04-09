@@ -958,6 +958,57 @@ API.getUserTweets = (id, max_id, replies = false) => {
         });
     });
 }
+API.getUserMediaTweets = (id, cursor) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/qJPOeW9Q8icdlpfnPhsqJQ/UserMedia?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":20,"cursor":cursor,"includePromotedContent":false,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withClientEventToken":false,"withBirdwatchNotes":false,"withVoice":true,"withV2Timeline":true}))}&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_richtext_consumption_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let entries = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
+            let tweets = entries.filter(i => i.entryId.startsWith('tweet-')).map(t => {
+                let o = t.content.itemContent.tweet_results.result;
+                o.legacy.user = o.core.user_results.result.legacy;
+                o.legacy.user.id_str = o.core.user_results.result.legacy.rest_id;
+                if(o.views && o.views.count) {
+                    if(!o.legacy.ext) o.legacy.ext = {};
+                    if(!o.legacy.ext.views) o.legacy.ext.views = {
+                        r: {
+                            ok: {
+                                count: +o.views.count
+                            }
+                        }
+                    };
+                }
+                
+
+                return o.legacy;
+            });
+            let cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+            if(cursor) {
+                cursor = cursor.content.value;
+            }
+
+            resolve({
+                tweets,
+                cursor
+            })
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 API.friendsFollowing = (val, by_id = true) => {
     return new Promise((resolve, reject) => {
         fetch(`https://twitter.com/i/api/1.1/friends/following/list.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cursor=-1&${by_id ? `user_id=${val}` : `screen_name=${val}`}&count=10&with_total_count=true`, {

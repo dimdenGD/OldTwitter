@@ -9,7 +9,7 @@ let seenThreads = [];
 let averageLikeCount = 1;
 let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
-let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor;
+let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor, mediaCursor;
 
 // Util
 
@@ -281,16 +281,22 @@ async function updateTimeline() {
         favoritesCursor = data.cursor;
     } else {
         try {
-            tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
+            if(subpage === 'media') {
+                tl = await API.getUserMediaTweets(pageUser.id_str);
+                mediaCursor = tl.cursor;
+                tl = tl.tweets;
+            } else {
+                tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
+            }
         } catch(e) {
             document.getElementById('tweet-nav').hidden = true;
             document.getElementById('loading-box').hidden = true;
             document.getElementById('timeline').innerHTML = `<div style="padding: 100px;color: var(--darker-gray);">${escapeHTML(e)}</div>`;
             return;
         }
-        if(subpage === 'media') {
-            tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
-        }
+        // if(subpage === 'media') {
+        //     tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
+        // }
     }
     if(tl.error === "Not authorized.") {
         document.getElementById('tweet-nav').hidden = true;
@@ -1275,8 +1281,7 @@ setTimeout(async () => {
         // banner scroll
         banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
     
-        // load more users
-        // load more tweets
+        // load more stuff
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
             if(subpage === 'following') {
                 if(!loadingFollowing) followingMoreBtn.click();
@@ -1299,10 +1304,13 @@ setTimeout(async () => {
                     tl = data.tl;
                     favoritesCursor = data.cursor;
                 } else {
-                    tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
-                    tl = tl.slice(1);
                     if(subpage === 'media') {
-                        tl = tl.filter(t => t.extended_entities && t.extended_entities.media && t.extended_entities.media.length > 0 && !t.retweeted_status);
+                        tl = await API.getUserMediaTweets(pageUser.id_str, mediaCursor);
+                        mediaCursor = tl.cursor;
+                        tl = tl.tweets;
+                    } else {
+                        tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
+                        tl = tl.slice(1);
                     }
                 }
             } catch (e) {
@@ -1416,6 +1424,7 @@ setTimeout(async () => {
         followersCursor = undefined;
         followingCursor = undefined;
         followersYouKnowCursor = undefined;
+        mediaCursor = undefined;
         if(subpage === 'following') {
             renderFollowing();
         } else if(subpage === 'followers') {
