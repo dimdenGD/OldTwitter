@@ -89,6 +89,7 @@ setTimeout(() => {
                             <li>Made user media request actual endpoint instead of clientside filtering.</li>
                             <li>Fixed tweets not being cached.</li>
                             <li>Made middle click on video open it in new tab.</li>
+                            <li>Tweet translations are now cached.</li>
                             <li>Fixed Share with Twitter widget on sites sometimes not working.</li>
                             <li>Fixed new likes notification (opens the tweet when needed now).</li>
                             <li>Extension should be more faster and stable on Firefox now.</li>

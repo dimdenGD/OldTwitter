@@ -9,6 +9,12 @@ setInterval(() => {
     chrome.storage.local.set({listData: {}}, () => {});
 }, 60000*10);
 
+setInterval(() => {
+    // on first minute of hour
+    if(new Date().getMinutes() !== 0) return;
+    chrome.storage.local.set({translations: {}}, () => {});
+}, 60000);
+
 // Account
 API.verifyCredentials = () => {
     return new Promise((resolve, reject) => {
@@ -560,27 +566,42 @@ API.uploadMedia = (data) => {
 // Translations
 API.translateTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
+        chrome.storage.local.get([`translations`], d => {
+            if(!d.translations) d.translations = {};
+            if(d.translations[id] && Date.now() - d.translations[id].date < 60000*60*4) {
+                console.log(d.translations[id]);
+                return resolve(d.translations[id].data);
             }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            resolve({
-                translated_lang: data.localizedSourceLanguage,
-                text: data.translation
+            fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                    "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0].code === 32) {
+                    return reject("Not logged in");
+                }
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve({
+                    translated_lang: data.localizedSourceLanguage,
+                    text: data.translation
+                });
+                d.translations[id] = {
+                    date: Date.now(),
+                    data: {
+                        translated_lang: data.localizedSourceLanguage,
+                        text: data.translation
+                    }
+                };
+                chrome.storage.local.set({translations: d.translations}, () => {});
+            }).catch(e => {
+                reject(e);
             });
-        }).catch(e => {
-            reject(e);
         });
     });
 }
