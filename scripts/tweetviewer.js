@@ -27,6 +27,8 @@ class TweetViewer {
         this.tweets = [];
         this.cursor = undefined;
         this.mediaToUpload = [];
+        this.excludeUserMentions = [];
+        this.users = {};
         this.linkColors = {};
         this.likeCursor = undefined;
         this.retweetCursor = undefined;
@@ -161,6 +163,9 @@ class TweetViewer {
                 return console.error(tlData.reason);
             }
             tl = tlData.value;
+            for(let u in tl.users) {
+                this.users[u] = tl.users[u];
+            }
             tweetLikers = tweetLikersData.value;
             this.loadingNewTweets = false;
             document.getElementsByClassName('timeline-more')[0].innerText = LOC.load_more.message;
@@ -307,6 +312,7 @@ class TweetViewer {
                 history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets/with_comments`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
+                this.excludeUserMentions = [];
                 this.linkColors = {};
                 this.cursor = undefined;
                 this.seenReplies = [];
@@ -383,6 +389,7 @@ class TweetViewer {
                 history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
+                this.excludeUserMentions = [];
                 this.linkColors = {};
                 this.cursor = undefined;
                 this.seenReplies = [];
@@ -405,6 +412,14 @@ class TweetViewer {
     async appendComposeComponent(container, replyTweet) {
         if(!replyTweet) return;
         this.tweets.push(['compose', replyTweet]);
+
+        let mentions = replyTweet.full_text.match(/^((?<!\w)@([\w+]{1,15})\s)+/g);
+        if(mentions) {
+            mentions = mentions[0].match(/@([\w+]{1,15})/g).map(m => m.slice(1).trim());
+        } else {
+            mentions = [];
+        }
+
         let el = document.createElement('div');
         el.className = 'new-tweet-container';
         el.innerHTML = /*html*/`
@@ -413,11 +428,12 @@ class TweetViewer {
                 <span class="new-tweet-char" hidden>0/280</span>
                 <textarea class="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="1000"></textarea>
                 <div class="new-tweet-user-search box" hidden></div>
-                <div class="new-tweet-media-div">
+                <div class="new-tweet-media-div" title="${LOC.add_media.message}">
                     <span class="new-tweet-media"></span>
                 </div>
                 <div class="new-tweet-focused" hidden>
-                    <span class="new-tweet-emojis"></span>
+                    <span class="new-tweet-emojis" title="${LOC.emoji.message}"></span>
+                    ${mentions.length > 0 ? /*html*/`<span class="new-tweet-mentions" title="${LOC.mentions.message}"></span>` : ''}
                     <div class="new-tweet-media-cc"><div class="new-tweet-media-c"></div></div>
                     <button class="new-tweet-button nice-button" style="margin-right: -32px;">${LOC.tweet.message}</button>
                     <br><br>
@@ -431,6 +447,40 @@ class TweetViewer {
             document.getElementsByClassName('new-tweet-text')[0].classList.add('new-tweet-text-focused');
             document.getElementsByClassName('new-tweet-media-div')[0].classList.add('new-tweet-media-div-focused');
         });
+        if(mentions.length > 0) {
+            document.getElementsByClassName('new-tweet-button')[0].style = 'margin-right: -50px;';
+            document.getElementsByClassName("new-tweet-mentions")[0].addEventListener('click', async () => {
+                let modal = createModal(/*html*/`
+                    <div id="new-tweet-mentions-modal" style="color:white">
+                        <h3 class="nice-header">Replying to</h3>
+                        <div class="new-tweet-mentions-modal-item">
+                            <input type="checkbox" id="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}" checked disabled>
+                            <label for="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}">@${replyTweet.user.screen_name} (${replyTweet.user.name})</label>
+                        </div>
+                        ${mentions.map(m => {
+                            let u = Object.values(this.users).find(u => u.screen_name === m);
+                            if(!u) return '';
+                            return /*html*/`
+                            <div class="new-tweet-mentions-modal-item">
+                                <input type="checkbox" data-user-id="${u.id_str}" id="new-tweet-mentions-modal-item-${m}"${this.excludeUserMentions.includes(u.id_str) ? '' : ' checked'}>
+                                <label for="new-tweet-mentions-modal-item-${m}">@${m} (${u.name})</label>
+                            </div>
+                        `}).join('\n')}
+                        <br>
+                        <button class="nice-button" id="new-tweet-mentions-modal-button">Save</button>
+                    </div>
+                `);
+                document.getElementById('new-tweet-mentions-modal-button').addEventListener('click', () => {
+                    let excluded = [];
+                    document.querySelectorAll('#new-tweet-mentions-modal input[type="checkbox"]').forEach(c => {
+                        if(!c.checked) excluded.push(c.dataset.userId);
+                    });
+                    this.excludeUserMentions = excluded;
+                    console.log(this.excludeUserMentions);
+                    modal.removeModal();
+                });
+            });
+        }
 
         let mediaList = document.getElementsByClassName('new-tweet-media-c')[0];
 
@@ -438,7 +488,7 @@ class TweetViewer {
             if(mediaList.children.length > 0) {
                 newTweetButton.style.marginRight = '4px';
             } else {
-                newTweetButton.style.marginRight = '-32px';
+                newTweetButton.style.marginRight = mentions.length > 0 ? '-50px' : '-32px';
             }
         });
         mediaObserver.observe(mediaList, {childList: true});
@@ -614,6 +664,7 @@ class TweetViewer {
                 include_ext_alt_text: true,
                 include_reply_count: true
             };
+            if(this.excludeUserMentions.length > 0) tweetObject.exclude_reply_user_ids = this.excludeUserMentions.join(',');
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
             }
@@ -630,6 +681,7 @@ class TweetViewer {
             document.getElementsByClassName('new-tweet-text')[0].value = "";
             document.getElementsByClassName('new-tweet-media-c')[0].innerHTML = "";
             this.mediaToUpload = [];
+            this.excludeUserMentions = [];
             document.getElementsByClassName('new-tweet-focused')[0].hidden = true;
             document.getElementsByClassName('new-tweet-char')[0].hidden = true;
             document.getElementsByClassName('new-tweet-text')[0].classList.remove('new-tweet-text-focused');
@@ -660,6 +712,7 @@ class TweetViewer {
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     this.updateSubpage();
                     this.mediaToUpload = [];
+                    this.excludeUserMentions = [];
                     this.linkColors = {};
                     this.cursor = undefined;
                     this.seenReplies = [];
@@ -714,8 +767,9 @@ class TweetViewer {
                 }
             }
         }
-        t.full_text = t.full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
-        let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
+        let full_text = t.full_text ? t.full_text : '';
+        full_text = full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
+        let textWithoutLinks = full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
         let isEnglish
         try { 
             isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
@@ -755,7 +809,7 @@ class TweetViewer {
             }
         }
         if(t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) {
-            t.full_text = "";
+            full_text = "";
         }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
@@ -769,7 +823,7 @@ class TweetViewer {
             </div>
             <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
-                <span class="tweet-body-text ${vars.noBigFont || (t.full_text && t.full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>') : ''}</span>
+                <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${full_text ? escapeHTML(full_text).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>') : ''}</span>
                 ${!isEnglish ? `
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
@@ -816,7 +870,7 @@ class TweetViewer {
                 `.replace('$SCREEN_NAME$', t.user.screen_name) : ''}
                 ${t.tombstone ? `<div class="tweet-warning">${t.tombstone}</div>` : ''}
                 ${((t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) || t.withheld_scope) ? `<div class="tweet-warning">This Tweet has been withheld in response to a report from the copyright holder. <a href="https://help.twitter.com/en/rules-and-policies/copyright-policy" target="_blank">Learn more.</a></div>` : ''}
-                ${t.conversation_control ? `<div class="tweet-warning">${LOC.limited_tweet.message}${t.conversation_control.policy && (t.user.id_str === user.id_str || (t.conversation_control.policy.toLowerCase() === 'community' && (t.user.followed_by || (t.full_text && t.full_text.includes(`@${user.screen_name}`)))) || (t.conversation_control.policy.toLowerCase() === 'by_invitation' && t.full_text && t.full_text.includes(`@${user.screen_name}`))) ? ' ' + LOC.you_can_reply.message : ''}.</div>` : ''}
+                ${t.conversation_control ? `<div class="tweet-warning">${LOC.limited_tweet.message}${t.conversation_control.policy && (t.user.id_str === user.id_str || (t.conversation_control.policy.toLowerCase() === 'community' && (t.user.followed_by || (full_text && full_text.includes(`@${user.screen_name}`)))) || (t.conversation_control.policy.toLowerCase() === 'by_invitation' && full_text && full_text.includes(`@${user.screen_name}`))) ? ' ' + LOC.you_can_reply.message : ''}.</div>` : ''}
                 ${options.mainTweet ? /*html*/`
                 <div class="tweet-footer">
                     <div class="tweet-footer-stats">
@@ -1018,6 +1072,7 @@ class TweetViewer {
                 history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
+                this.excludeUserMentions = [];
                 this.linkColors = {};
                 this.cursor = undefined;
                 this.seenReplies = [];
@@ -1032,6 +1087,7 @@ class TweetViewer {
                 history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
+                this.excludeUserMentions = [];
                 this.linkColors = {};
                 this.cursor = undefined;
                 this.seenReplies = [];
@@ -1047,6 +1103,7 @@ class TweetViewer {
                 history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
+                this.excludeUserMentions = [];
                 this.linkColors = {};
                 this.cursor = undefined;
                 this.seenReplies = [];
@@ -1140,6 +1197,7 @@ class TweetViewer {
                 history.pushState({}, null, `https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
+                this.excludeUserMentions = [];
                 this.linkColors = {};
                 this.cursor = undefined;
                 this.seenReplies = [];
@@ -1453,6 +1511,7 @@ class TweetViewer {
                 history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
+                this.excludeUserMentions = [];
                 this.linkColors = {};
                 this.cursor = undefined;
                 this.seenReplies = [];
@@ -1473,6 +1532,7 @@ class TweetViewer {
                 history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
+                this.excludeUserMentions = [];
                 this.linkColors = {};
                 this.cursor = undefined;
                 this.seenReplies = [];
@@ -1934,6 +1994,7 @@ class TweetViewer {
             return document.querySelector('.modal-close').click();
         }
         that.mediaToUpload = [];
+        that.excludeUserMentions = [];
         that.linkColors = {};
         that.cursor = undefined;
         that.seenReplies = [];

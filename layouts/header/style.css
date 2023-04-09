@@ -1,5 +1,5 @@
 :root {
-    --link-color: #4595B5;
+    --link-color: #00BBFA;
     --font: Arial, sans-serif;
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
@@ -500,8 +500,6 @@ input, textarea {
     font-size: 18px;
     color: var(--darker-gray);
     font-weight: 300;
-}
-.nice-header {
     margin-bottom: 10px;
 }
 .navbar-user-account {
@@ -1436,6 +1434,18 @@ emoji-picker {
 .new-tweet-emojis:before {
     color: var(--link-color);
     content: "\f033";
+    font: 20px RosettaIcons;
+}
+.new-tweet-mentions {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    bottom: 61px;
+    left: 22px;
+}
+.new-tweet-mentions:before {
+    color: var(--link-color);
+    content: "\f050";
     font: 20px RosettaIcons;
 }
 

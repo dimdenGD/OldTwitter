@@ -79,6 +79,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>Added support for unmentioning.</li>
                             <li>Made user media request actual endpoint instead of clientside filtering (faster and better).</li>
                             <li>Fixed tweets and trends not being cached.</li>
                             <li>Made middle click on video open it in new tab.</li>

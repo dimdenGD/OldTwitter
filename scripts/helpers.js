@@ -1042,8 +1042,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }
             }
         }
-        if(location.pathname.includes('/status/')) t.full_text = t.full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
-        let textWithoutLinks = t.full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
+        let full_text = t.full_text ? t.full_text : '';
+        if(location.pathname.includes('/status/')) full_text = full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
+        let textWithoutLinks = full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
         let isEnglish
         try { 
             isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
@@ -1082,11 +1083,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }
             }
         }
-        if(t.full_text.includes("Learn more")) {
+        if(full_text.includes("Learn more")) {
             console.log(t);
         }
         if(t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) {
-            t.full_text = "";
+            full_text = "";
         }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
@@ -1102,7 +1103,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ${!options.mainTweet && !isEnglish ? `<span class="tweet-translate-after">${`${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 ? LOC.view_translation.message : ''}</span>` : ''}
             </div>
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
-                <span class="tweet-body-text ${vars.noBigFont || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.full_text ? escapeHTML(t.full_text).replace(/((http|https):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>') : ''}</span>
+                <span class="tweet-body-text ${vars.noBigFont || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${full_text ? escapeHTML(full_text).replace(/((http|https):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>') : ''}</span>
                 ${!isEnglish && options.mainTweet ? `
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
@@ -1149,7 +1150,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 `.replace('$SCREEN_NAME$', t.user.screen_name) : ''}
                 ${t.tombstone ? `<div class="tweet-warning">${t.tombstone}</div>` : ''}
                 ${((t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) || t.withheld_scope) ? `<div class="tweet-warning">This Tweet has been withheld in response to a report from the copyright holder. <a href="https://help.twitter.com/en/rules-and-policies/copyright-policy" target="_blank">Learn more.</a></div>` : ''}
-                ${t.conversation_control ? `<div class="tweet-warning">${LOC.limited_tweet.message}${t.conversation_control.policy && (t.user.id_str === user.id_str || (t.conversation_control.policy.toLowerCase() === 'community' && (t.user.followed_by || (t.full_text && t.full_text.includes(`@${user.screen_name}`)))) || (t.conversation_control.policy.toLowerCase() === 'by_invitation' && t.full_text && t.full_text.includes(`@${user.screen_name}`))) ? ' ' + LOC.you_can_reply.message : ''}.</div>` : ''}
+                ${t.conversation_control ? `<div class="tweet-warning">${LOC.limited_tweet.message}${t.conversation_control.policy && (t.user.id_str === user.id_str || (t.conversation_control.policy.toLowerCase() === 'community' && (t.user.followed_by || (full_text && full_text.includes(`@${user.screen_name}`)))) || (t.conversation_control.policy.toLowerCase() === 'by_invitation' && full_text && full_text.includes(`@${user.screen_name}`))) ? ' ' + LOC.you_can_reply.message : ''}.</div>` : ''}
                 ${options.mainTweet ? /*html*/`
                 <div class="tweet-footer">
                     <div class="tweet-footer-stats">

@@ -926,7 +926,8 @@ a:hover,
 
 .tweet-self-thread-div {
     bottom: 35px;
-    position: relative
+    position: relative;
+    width: 0;
 }
 
 .tweet-date {
@@ -1109,6 +1110,18 @@ a:hover,
 #new-tweet-emojis:before {
     color: var(--link-color);
     content: "\f033";
+    font: 20px RosettaIcons;
+}
+#new-tweet-mentions {
+    float: right;
+    cursor: pointer;
+    position: relative;
+    bottom: 61px;
+    left: 22px;
+}
+#new-tweet-mentions:before {
+    color: var(--link-color);
+    content: "\f050";
     font: 20px RosettaIcons;
 }
 .tweet:first-child {

@@ -2048,12 +2048,14 @@ API.getReplies = (id, cursor) => {
                 } catch(e) {}
                 resolve({
                     list,
-                    cursor: newCursor
+                    cursor: newCursor,
+                    users: userData
                 });
                 if(!cursor) {
                     loadingReplies[id].listeners.forEach(l => l[0]({
                         list,
-                        cursor: newCursor
+                        cursor: newCursor,
+                        users: userData
                     }));
                     delete loadingReplies[id];
                     chrome.storage.local.get(['tweetReplies'], d => {
@@ -2062,7 +2064,8 @@ API.getReplies = (id, cursor) => {
                             date: Date.now(),
                             data: {
                                 list,
-                                cursor: newCursor
+                                cursor: newCursor,
+                                users: userData
                             }
                         };
                         chrome.storage.local.set({tweetReplies: d.tweetReplies}, () => {});

@@ -424,7 +424,7 @@ async function renderLists() {
                     ${LOC.name.message}:<br><input maxlength="25" type="text" id="list-name-input"><br><br>
                     ${LOC.description.message}:<br><textarea maxlength="100" type="text" id="list-description-input"></textarea><br>
                     <br>
-                    Is private: <input type="checkbox" style="width: 15px;" id="list-private-input"><br>
+                    ${LOC.is_private.message}: <input type="checkbox" style="width: 15px;" id="list-private-input"><br>
                     <br>
                     <button class="nice-button" id="list-btn-create">${LOC.create.message}</button> 
                 </div>

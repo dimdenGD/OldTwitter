@@ -7,6 +7,8 @@ let mainTweetLikers = [];
 let pageData = {};
 let tweets = [];
 let currentLocation = location.pathname;
+let users = {};
+let excludeUserMentions = [];
 
 // Util
 
@@ -83,6 +85,7 @@ function updateSubpage() {
     let likesMore = document.getElementById('likes-more');
     tlDiv.hidden = true; rtDiv.hidden = true; rtwDiv.hidden = true; likesDiv.hidden = true;
     rtMore.hidden = true; rtwMore.hidden = true; likesMore.hidden = true;
+    mediaToUpload = [];
 
     if(path.split('/').length === 3) {
         subpage = 'tweet';
@@ -132,6 +135,9 @@ async function updateReplies(id, c) {
         loadingNewTweets = false;
         return cursor = undefined;
     }
+    for(let u in tl.users) {
+        users[u] = tl.users[u];
+    };
 
     if(vars.linkColorsInTL) {
         let tlUsers = [];
@@ -283,19 +289,6 @@ async function updateRetweets(id, c) {
         h1.innerHTML = `${LOC.retweeted_by.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
-        // h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
-        //     e.preventDefault();
-        //     history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets/with_comments`);
-        //     this.updateSubpage();
-        //     this.mediaToUpload = [];
-        //     this.linkColors = {};
-        //     this.cursor = undefined;
-        //     this.seenReplies = [];
-        //     this.mainTweetLikers = [];
-        //     let tid = location.pathname.match(/status\/(\d{1,32})/)[1];
-        //     this.updateRetweetsWithComments(tid);
-        //     this.currentLocation = location.pathname;
-        // });
     }
     if(!retweetCursor || tweetRetweeters.length === 0) {
         document.getElementById('retweets-more').hidden = true;
@@ -359,20 +352,6 @@ async function updateRetweetsWithComments(id, c) {
         h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
-        // h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
-        //     e.preventDefault();
-        //     let t = await API.getTweet(id);
-        //     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${id}/retweets`);
-        //     this.updateSubpage();
-        //     this.mediaToUpload = [];
-        //     this.linkColors = {};
-        //     this.cursor = undefined;
-        //     this.seenReplies = [];
-        //     this.mainTweetLikers = [];
-        //     let tid = location.pathname.match(/status\/(\d{1,32})/)[1];
-        //     this.updateRetweets(tid);
-        //     this.currentLocation = location.pathname;
-        // });
     }
     if(!retweetCommentsCursor || tweetRetweeters.length === 0) {
         document.getElementById('retweets_with_comments-more').hidden = true;
@@ -426,17 +405,26 @@ async function appendComposeComponent(container, replyTweet) {
     tweets.push(['compose', replyTweet]);
     let el = document.createElement('div');
     el.className = 'new-tweet-container';
+
+    let mentions = replyTweet.full_text.match(/^((?<!\w)@([\w+]{1,15})\s)+/g);
+    if(mentions) {
+        mentions = mentions[0].match(/@([\w+]{1,15})/g).map(m => m.slice(1).trim());
+    } else {
+        mentions = [];
+    }
+
     el.innerHTML = /*html*/`
         <div id="new-tweet" class="box">
             <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
             <span id="new-tweet-char" hidden>0/280</span>
             <textarea id="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="1000"></textarea>
             <div id="new-tweet-user-search" class="box" hidden></div>
-            <div id="new-tweet-media-div">
+            <div id="new-tweet-media-div" title="${LOC.add_media.message}">
                 <span id="new-tweet-media"></span>
             </div>
             <div id="new-tweet-focused" hidden>
-                <span id="new-tweet-emojis"></span>
+                <span id="new-tweet-emojis" title="${LOC.emoji.message}"></span>
+                ${mentions.length > 0 ? /*html*/`<span id="new-tweet-mentions" title="${LOC.mentions.message}"></span>` : ''}
                 <div id="new-tweet-media-cc"><div id="new-tweet-media-c"></div></div>
                 <button id="new-tweet-button" class="nice-button">${LOC.tweet.message}</button>
                 <br><br>
@@ -450,6 +438,39 @@ async function appendComposeComponent(container, replyTweet) {
         document.getElementById('new-tweet-text').classList.add('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
     });
+    if(mentions.length > 0) {
+        document.getElementById('new-tweet-button').style = 'left: 53px';
+        document.getElementById("new-tweet-mentions").addEventListener('click', async () => {
+            let modal = createModal(/*html*/`
+                <div id="new-tweet-mentions-modal" style="color:white">
+                    <h3 class="nice-header">Replying to</h3>
+                    <div class="new-tweet-mentions-modal-item">
+                        <input type="checkbox" id="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}" checked disabled>
+                        <label for="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}">@${replyTweet.user.screen_name} (${replyTweet.user.name})</label>
+                    </div>
+                    ${mentions.map(m => {
+                        let u = Object.values(users).find(u => u.screen_name === m);
+                        if(!u) return '';
+                        return /*html*/`
+                        <div class="new-tweet-mentions-modal-item">
+                            <input type="checkbox" data-user-id="${u.id_str}" id="new-tweet-mentions-modal-item-${m}"${excludeUserMentions.includes(u.id_str) ? '' : ' checked'}>
+                            <label for="new-tweet-mentions-modal-item-${m}">@${m} (${u.name})</label>
+                        </div>
+                    `}).join('\n')}
+                    <br>
+                    <button class="nice-button" id="new-tweet-mentions-modal-button">Save</button>
+                </div>
+            `);
+            document.getElementById('new-tweet-mentions-modal-button').addEventListener('click', () => {
+                let excluded = [];
+                document.querySelectorAll('#new-tweet-mentions-modal input[type="checkbox"]').forEach(c => {
+                    if(!c.checked) excluded.push(c.dataset.userId);
+                });
+                excludeUserMentions = excluded;
+                modal.removeModal();
+            });
+        });
+    }
     
     document.getElementById('new-tweet').addEventListener('drop', e => {
         handleDrop(e, mediaToUpload, document.getElementById('new-tweet-media-c'));
@@ -610,6 +631,9 @@ async function appendComposeComponent(container, replyTweet) {
             include_ext_alt_text: true,
             include_reply_count: true
         };
+        if(excludeUserMentions) {
+            tweetObject.exclude_reply_user_ids = excludeUserMentions.join(',');
+        }
         if (uploadedMedia.length > 0) {
             tweetObject.media_ids = uploadedMedia.join(',');
         }
@@ -626,6 +650,7 @@ async function appendComposeComponent(container, replyTweet) {
         document.getElementById('new-tweet-text').value = "";
         document.getElementById('new-tweet-media-c').innerHTML = "";
         mediaToUpload = [];
+        excludeUserMentions = [];
         document.getElementById('new-tweet-focused').hidden = true;
         document.getElementById('new-tweet-char').hidden = true;
         document.getElementById('new-tweet-char').innerText = '0/280';
@@ -928,6 +953,7 @@ setTimeout(async () => {
         savePageData(currentLocation);
         updateSubpage();
         mediaToUpload = [];
+        excludeUserMentions = [];
         linkColors = {};
         cursor = undefined;
         seenReplies = [];
