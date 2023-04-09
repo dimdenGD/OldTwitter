@@ -94,6 +94,7 @@ document.documentElement.innerHTML = html;`);
     for (let layout of layouts) {
         let script = fs.readFileSync(`../OldTwitterFirefox/layouts/${layout}/script.js`, 'utf8');
         script = script.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
+        script = script.replace("https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf", "https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/");
         fs.writeFileSync(`../OldTwitterFirefox/layouts/${layout}/script.js`, script);
     }
 

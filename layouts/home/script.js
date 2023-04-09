@@ -79,27 +79,14 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added History page (available in user menu) that shows last 100 tweets you clicked on.</li>
-                            <li>Added tweet autotranslation! You can now set specific users in their profile menu to Autotranslate and all their tweets will get autotranslated.</li>
-                            <li>Now reply, retweet, like and view counts on tweets are formatted.</li>
-                            <li>Added user tweet search.</li>
-                            <li>Added round avatars option in settings.</li>
-                            <li>Made user previews show more info.</li>
-                            <li>Made user mentions in DMs actually clickable.</li>
-                            <li>Made user media request actual endpoint instead of clientside filtering.</li>
-                            <li>Fixed tweets not being cached.</li>
+                            <li>Made user media request actual endpoint instead of clientside filtering (faster and better).</li>
+                            <li>Fixed tweets and trends not being cached.</li>
                             <li>Made middle click on video open it in new tab.</li>
                             <li>Added support for hashflags.</li>
                             <li>Tweet translations are now cached.</li>
-                            <li>Fixed Share with Twitter widget on sites sometimes not working.</li>
-                            <li>Fixed new likes notification (opens the tweet when needed now).</li>
-                            <li>Extension should be more faster and stable on Firefox now.</li>
-                            <li>Likes page for tweets will now autoload users and will also have 'Follows You' badge.</li>
-                            <li>Made pinned tweets always have small font.</li>
-                            <li>Fixed tweets sometimes stopping loading after clicking on other tweet and coming back.</li>
-                            <li>Fixed profile tweets stopping loading sometimes for no reason.</li>
-                            <li>And other small fixes.</li>
+                            <li>Other small fixes and minor style changes.</li>
                         </ul>
+                        <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>
                 `, 'changelog-modal', () => {
