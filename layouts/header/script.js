@@ -1769,7 +1769,7 @@ function switchDarkMode(enabled) {
                 --background-color: #1b2836;
                 --darker-background-color: #141d26;
                 --almost-black: #d4e3ed;
-                --border: black;
+                --border: #2c3c52;
                 --darker-gray: #c9c9c9;
                 --lil-darker-gray: #8394a1;
                 --light-gray: #8394a1;

@@ -764,16 +764,24 @@ const quoteSizeFunctions = [
 ];
 
 async function renderTrends(compact = false) {
-    let trends = (await API.getTrends()).modules;
+    let [trendsData, hashflags] = await Promise.allSettled([API.getTrends(), API.getHashflags()]);
+    let trends = trendsData.value.modules;
+    hashflags = hashflags.value ? hashflags.value : [];
     let trendsContainer = document.getElementById('trends-list');
     trendsContainer.innerHTML = '';
     let max = 7;
     if(innerHeight < 650) max = 3;
     trends.slice(0, max).forEach(({ trend }) => {
+        let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === trend.name.slice(1).toLowerCase());
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend' + (compact ? ' compact-trend' : '');
         trendDiv.innerHTML = compact ? `<a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a>` : `
-            <b><a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a></b><br>
+            <b>
+                <a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">
+                    ${escapeHTML(trend.name)}
+                    ${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag" width="16" height="16">` : ''}
+                </a>
+            </b><br>
             <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description) : ''}</span>
         `;
         trendsContainer.append(trendDiv);

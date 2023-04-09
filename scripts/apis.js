@@ -7,12 +7,14 @@ setInterval(() => {
     chrome.storage.local.set({tweetDetails: {}}, () => {});
     chrome.storage.local.set({tweetLikers: {}}, () => {});
     chrome.storage.local.set({listData: {}}, () => {});
+    chrome.storage.local.set({trends: {}}, () => {});
 }, 60000*10);
 
 setInterval(() => {
     // on first minute of hour
     if(new Date().getMinutes() !== 0) return;
     chrome.storage.local.set({translations: {}}, () => {});
+    chrome.storage.local.set({hashflags: {}}, () => {});
 }, 60000);
 
 // Account
@@ -405,22 +407,60 @@ API.peopleRecommendations = (id, cache = true, by_screen_name = false) => {
 }
 API.getTrends = () => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/trends/plus.json?max_trends=8`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
-            },
-            credentials: "include",
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
+        chrome.storage.local.get(['trends'], d => {
+            if(d.trends && Date.now() - d.trends.date < 60000*10) {
+                return resolve(d.trends.data);
             }
-            resolve(data);
-        }).catch(e => {
-            reject(e);
+            fetch(`https://api.twitter.com/1.1/trends/plus.json?max_trends=8`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.oauth_key,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+                },
+                credentials: "include",
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data);
+                chrome.storage.local.set({trends: {
+                    date: Date.now(),
+                    data
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
+        });
+    });
+}
+API.getHashflags = () => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(['hashflags'], d => {
+            if(d.hashflags && Date.now() - d.hashflags.date < 60000*60*4) {
+                return resolve(d.hashflags.data);
+            }
+            fetch(`https://twitter.com/i/api/1.1/hashflags.json`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.public_token,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                credentials: "include",
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0]) {
+                    return reject(data.errors[0].message);
+                }
+                resolve(data);
+                chrome.storage.local.set({hashflags: {
+                    date: Date.now(),
+                    data
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
         });
     });
 }
