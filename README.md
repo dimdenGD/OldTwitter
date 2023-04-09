@@ -121,3 +121,4 @@ Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll)
 Italian - [krek](https://twitter.com/CactusInc420)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
 Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)  
+Polish - lele  

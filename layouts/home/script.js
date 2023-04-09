@@ -80,10 +80,11 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added support for unmentioning.</li>
+                            <li>Added Polish translation.</li>
+                            <li>Added support for hashflags.</li>
                             <li>Made user media request actual endpoint instead of clientside filtering (faster and better).</li>
                             <li>Fixed tweets and trends not being cached.</li>
                             <li>Made middle click on video open it in new tab.</li>
-                            <li>Added support for hashflags.</li>
                             <li>Tweet translations are now cached.</li>
                             <li>Other small fixes and minor style changes.</li>
                         </ul>
