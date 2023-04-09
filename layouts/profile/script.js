@@ -560,13 +560,13 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
 
-    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || !(subpage === 'profile' || subpage === 'replies');
+    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
     document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
     document.getElementById('profile-stat-favorites-link').hidden = pageUser.favourites_count === 0;
 
-    if((pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) || (pageUser.protected && !pageUser.following && pageUser.id_str !== user.id_str)) {
+    if((pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies' || subpage === 'media')) || (pageUser.protected && !pageUser.following && pageUser.id_str !== user.id_str)) {
         document.getElementById('trends').hidden = true;
         setTimeout(() => {
             let list = document.getElementById('wtf-list');
@@ -575,7 +575,7 @@ async function renderProfile() {
     } else {
         document.getElementById('trends').hidden = false;   
     }
-    if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) {
+    if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies' || subpage === 'media')) {
         document.getElementById('no-tweets').hidden = false;
         document.getElementById('no-tweets').innerHTML = `
             <h3>${LOC.hasnt_tweeted.message.replace('$SCREEN_NAME$', `<span>${pageUser.screen_name}</span>`)}</h3>
