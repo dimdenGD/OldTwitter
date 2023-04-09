@@ -82,6 +82,7 @@ setTimeout(() => {
                             <li>Added support for unmentioning.</li>
                             <li>Added Polish translation.</li>
                             <li>Added support for hashflags.</li>
+                            <li>Now quoted tweets open in tweet viewer on click.</li>
                             <li>Made user media request actual endpoint instead of clientside filtering (faster and better).</li>
                             <li>Fixed tweets and trends not being cached.</li>
                             <li>Made middle click on video open it in new tab.</li>

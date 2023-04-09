@@ -1529,31 +1529,38 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetBodyQuoteText.innerHTML = tweetBodyQuoteText.innerHTML.replace(new RegExp(u.url, "g"), escapeHTML(u.display_url));
             }
         }
-        if(tweetBodyQuote && typeof mainTweetLikers !== 'undefined') {
-            tweetBodyQuote.addEventListener('click', e => {
-                e.preventDefault();
-                document.getElementById('loading-box').hidden = false;
-                history.pushState({}, null, `https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`);
-                updateSubpage();
-                mediaToUpload = [];
-                linkColors = {};
-                cursor = undefined;
-                seenReplies = [];
-                mainTweetLikers = [];
-                let id = location.pathname.match(/status\/(\d{1,32})/)[1];
-                if(subpage === 'tweet') {
-                    updateReplies(id);
-                } else if(subpage === 'likes') {
-                    updateLikes(id);
-                } else if(subpage === 'retweets') {
-                    updateRetweets(id);
-                } else if(subpage === 'retweets_with_comments') {
-                    updateRetweetsWithComments(id);
-                }
-                renderDiscovery();
-                renderTrends();
-                currentLocation = location.pathname;
-            });
+        if(tweetBodyQuote) {
+            if(typeof mainTweetLikers !== 'undefined') {
+                tweetBodyQuote.addEventListener('click', e => {
+                    e.preventDefault();
+                    document.getElementById('loading-box').hidden = false;
+                    history.pushState({}, null, `https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`);
+                    updateSubpage();
+                    mediaToUpload = [];
+                    linkColors = {};
+                    cursor = undefined;
+                    seenReplies = [];
+                    mainTweetLikers = [];
+                    let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+                    if(subpage === 'tweet') {
+                        updateReplies(id);
+                    } else if(subpage === 'likes') {
+                        updateLikes(id);
+                    } else if(subpage === 'retweets') {
+                        updateRetweets(id);
+                    } else if(subpage === 'retweets_with_comments') {
+                        updateRetweetsWithComments(id);
+                    }
+                    renderDiscovery();
+                    renderTrends();
+                    currentLocation = location.pathname;
+                });
+            } else {
+                tweetBodyQuote.addEventListener('click', e => {
+                    e.preventDefault();
+                    new TweetViewer(user, t.quoted_status);
+                });
+            }
         }
         if(tweetTranslate || tweetTranslateAfter) if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate)) {
             onVisible(tweet, () => {
