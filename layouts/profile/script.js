@@ -499,7 +499,7 @@ async function renderProfile() {
 
     if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
         document.getElementById('profile-name').classList.add('user-verified');
-        document.getElementById('profile-name').classList.add('user-verified-green');
+        if(pageUser.id_str === '1123203847776763904') document.getElementById('profile-name').classList.add('user-verified-green');
     } else {
         document.getElementById('profile-name').classList.remove('user-verified');
     }
@@ -919,6 +919,15 @@ async function renderProfile() {
         location.innerText = pageUser.location.replace(/\n\n\n\n/g, "\n");
         additionalInfo.appendChild(location);
         if(vars.enableTwemoji) twemoji.parse(location);
+    }
+    if(pageUser.affiliates_highlighted_label) {
+        let aff = document.createElement('span');
+        aff.classList.add('profile-additional-thing', 'profile-additional-affiliates');
+        aff.innerHTML = `
+            <img style="display: inline-block;vertical-align: top;image-rendering: pixelated;" src="${pageUser.affiliates_highlighted_label.badge.url}" width="20" height="20"> 
+            <a style="color:var(--almost-black)!important" href="${pageUser.affiliates_highlighted_label.url ? pageUser.affiliates_highlighted_label.url.url : '#'}">${pageUser.affiliates_highlighted_label.description}</a>
+        `;
+        additionalInfo.appendChild(aff);
     }
     if(pageUser.url) {
         let url = document.createElement('a');

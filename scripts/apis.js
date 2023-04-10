@@ -902,6 +902,9 @@ API.getUserV2 = name => {
             if(result.professional) {
                 result.legacy.professional = result.professional;
             }
+            if(result.affiliates_highlighted_label && result.affiliates_highlighted_label.label) {
+                result.legacy.affiliates_highlighted_label = result.affiliates_highlighted_label.label;
+            }
             resolve(result.legacy);
         }).catch(e => {
             reject(e);
