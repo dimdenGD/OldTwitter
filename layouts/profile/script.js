@@ -970,7 +970,9 @@ async function renderProfile() {
         additionalInfo.appendChild(birth);
     }
 
-    document.getElementById('loading-box').hidden = true;
+    setTimeout(() => {
+        document.getElementById('loading-box').hidden = true;
+    }, 10);
 };
 
 async function renderTimeline(append = false, sliceAmount = 0) {
@@ -1444,6 +1446,7 @@ setTimeout(async () => {
         } else if(subpage === 'lists') {
             renderLists();
         } else {
+            loadingNewTweets = true;
             updateTimeline();
         }
     }
@@ -1475,6 +1478,7 @@ setTimeout(async () => {
                 e.preventDefault();
                 window.scrollTo(0, 0);
                 mediaToUpload = [];
+                loadingNewTweets = true;
                 document.getElementById('loading-box').hidden = false;
                 everAddedAdditional = false;
                 document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.loading_tweets.message}</span>`;
@@ -1498,6 +1502,7 @@ setTimeout(async () => {
         if(isProfilePath(path) || (path.split('/').length === 3 && location.pathname.endsWith('/following') || location.pathname.endsWith('/followers') || location.pathname.endsWith('/followers_you_follow') || location.pathname.endsWith('/lists') || location.pathname.endsWith('/media') || location.pathname.endsWith('/likes') || location.pathname.endsWith('/with_replies'))) {
             document.getElementById('loading-box').hidden = false;
             everAddedAdditional = false;
+            loadingNewTweets = true;
             mediaToUpload = [];
             document.getElementById('profile-media-div').innerHTML = '';
             document.getElementById('tweet-to-bg').hidden = true;

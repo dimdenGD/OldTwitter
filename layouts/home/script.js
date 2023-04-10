@@ -83,10 +83,12 @@ setTimeout(() => {
                             <li>Added Polish translation.</li>
                             <li>Added support for hashflags.</li>
                             <li>Now quoted tweets open in tweet viewer on click.</li>
+                            <li>Added affiliate badges.</li>
                             <li>Made user media request actual endpoint instead of clientside filtering (faster and better).</li>
                             <li>Fixed tweets and trends not being cached.</li>
                             <li>Made middle click on video open it in new tab.</li>
                             <li>Tweet translations are now cached.</li>
+                            <li>Fixed persons tweets being laoded if you scroll during profile load.</li>
                             <li>Other small fixes and minor style changes.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
