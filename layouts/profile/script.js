@@ -502,6 +502,7 @@ async function renderProfile() {
         if(pageUser.id_str === '1123203847776763904') document.getElementById('profile-name').classList.add('user-verified-green');
     } else {
         document.getElementById('profile-name').classList.remove('user-verified');
+        document.getElementById('profile-name').classList.remove('user-verified-green');
     }
     if(pageUser.protected) {
         document.getElementById('profile-name').classList.add('user-protected');
