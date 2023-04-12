@@ -54,13 +54,40 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     tweetviewer = tweetviewer.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     let content = fs.readFileSync('../OldTwitterFirefox/scripts/content.js', 'utf8');
     content = content.replace("document.open();", "");
+    content = content.replace("_firefox = false", "_firefox = true");
     content = content.replace("document.write(html);", `
 if(document.body) {
+    if(typeof(vars.darkMode) !== 'boolean') {
+        let bg = document.body.style.backgroundColor;
+        let isDark = bg === 'rgb(21, 32, 43)' || bg === 'rgb(0, 0, 0)';
+        vars.darkMode = isDark;
+        chrome.storage.sync.set({
+            darkMode: isDark
+        }, () => {});
+        let pitchBlack = bg === 'rgb(0, 0, 0)';
+        vars.pitchBlack = pitchBlack;
+        chrome.storage.sync.set({
+            pitchBlack: pitchBlack
+        }, () => {});
+    }
     document.body.remove();
 } else {
     let removeInt = setInterval(() => {
         let body = document.querySelector('body[style^="background"]');
         if(body) {
+            if(typeof(vars.darkMode) !== 'boolean') {
+                let bg = body.style.backgroundColor;
+                let isDark = bg === 'rgb(21, 32, 43)' || bg === 'rgb(0, 0, 0)';
+                vars.darkMode = isDark;
+                chrome.storage.sync.set({
+                    darkMode: isDark
+                }, () => {});
+                let pitchBlack = bg === 'rgb(0, 0, 0)';
+                vars.pitchBlack = pitchBlack;
+                chrome.storage.sync.set({
+                    pitchBlack: pitchBlack
+                }, () => {});
+            }
             clearInterval(removeInt);
             body.remove();
         };

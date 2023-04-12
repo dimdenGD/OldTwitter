@@ -48,8 +48,9 @@ let pages = [
     },
 ];
 
+let _firefox = false;
 let realPath = location.pathname.split('?')[0].split('#')[0];
-if (realPath.endsWith("/")) {
+if (realPath.endsWith("/") && realPath !== "/") {
     location.replace(realPath.slice(0, -1));
 }
 
@@ -213,7 +214,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }, () => {});
     }
     
-    if(typeof(vars.darkMode) !== 'boolean') {
+    if(typeof(vars.darkMode) !== 'boolean' && !_firefox && document.body) {
         let bg = document.body.style.backgroundColor;
         let isDark = bg === 'rgb(21, 32, 43)' || bg === 'rgb(0, 0, 0)';
         vars.darkMode = isDark;

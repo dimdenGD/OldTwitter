@@ -1825,7 +1825,15 @@ async function updateCustomCSS() {
     customCSS = document.createElement('style');
     customCSS.id = 'oldtwitter-custom-css';
     customCSS.innerHTML = data.customCSS;
-    document.head.appendChild(customCSS);
+    if(document.head) document.head.appendChild(customCSS);
+    else {
+        let int = setInterval(() => {
+            if(document.head) {
+                clearInterval(int);
+                document.head.appendChild(customCSS);
+            }
+        }, 100);
+    }
 }
 async function updateCustomCSSVariables() {
     let root = document.querySelector(":root");
