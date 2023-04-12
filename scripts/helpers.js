@@ -1517,13 +1517,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(tweetMediaQuote) tweetMediaQuote.addEventListener('click', e => {
             if(e && e.target && e.target.tagName === "VIDEO") {
                 e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
                 if(e.target.paused) {
                     e.target.play();
                 } else {
                     e.target.pause();
                 }
             }
-        })
+        });
         if(t.quoted_status && t.quoted_status.entities && t.quoted_status.entities.urls) {
             for(let u of t.quoted_status.entities.urls) {
                 tweetBodyQuoteText.innerHTML = tweetBodyQuoteText.innerHTML.replace(new RegExp(u.url, "g"), escapeHTML(u.display_url));
