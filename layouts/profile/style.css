@@ -617,7 +617,7 @@ a:hover,
     margin-left: 5px
 }
 .user-verified-green::after {
-    color: #82ff9d !important;
+    color: var(--link-color) !important;
 }
 
 .user-protected::after {

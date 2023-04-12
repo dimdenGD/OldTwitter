@@ -139,7 +139,7 @@ input, textarea {
 }
 
 #navbar a:hover {
-    color: #55acee;
+    color: var(--link-color);
 }
 
 #navbar-links a {
@@ -151,27 +151,31 @@ input, textarea {
 }
 
 #navbar-links a:hover {
-    border-bottom: 3px solid #55acee;
+    border-bottom: 3px solid var(--link-color);
     transition: 0.1s;
 }
 
 .menu-active {
-    border-bottom: 3px solid #55acee !important;
+    border-bottom: 3px solid var(--link-color) !important;
 }
 
 .menu-active:before {
-    color: #55acee !important;
+    color: var(--link-color) !important;
 }
 
 .nav-count {
-    background: #55acee;
+    background: var(--link-color);
     color: var(--background-color);
-    border-radius: 25px;
-    padding: 3px 7px;
-    margin-left: 3px;
+    border-radius: 8px;
+    border: 1px solid var(--background-color);
+    padding: 3px 5px;
+    position: absolute;
+    font-size: 10px;
+    margin-left: -18px;
+    margin-top: -4px;
 }
 #follow-request-count {
-    background: #55acee !important;
+    background: var(--link-color) !important;
     color: var(--background-color);
     border-radius: 25px;
     padding: 2px 7px 5px 7px;
@@ -1648,4 +1652,9 @@ emoji-picker {
     font-size: 12px;
     vertical-align: middle;
     border-radius: 50px;
+}
+@media screen and (max-width: 780px) {
+    #search-input {
+        width: 124px;
+    }
 }

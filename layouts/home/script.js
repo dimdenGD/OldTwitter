@@ -89,7 +89,7 @@ setTimeout(() => {
                             <li>Made middle click on video open it in new tab.</li>
                             <li>Tweet translations are now cached.</li>
                             <li>Fixed persons tweets being laoded if you scroll during profile load.</li>
-                            <li>Other small fixes and minor style changes.</li>
+                            <li>Other small fixes and style changes.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>

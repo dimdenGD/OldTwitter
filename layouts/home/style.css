@@ -571,6 +571,15 @@ a:hover,
         display: none;
     }
 }
+@media screen and (max-width: 880px) {
+    #left-cell {
+        display: none;
+    }
+    #center-cell {
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
 
 .wtf-user {
     display: inline-block;

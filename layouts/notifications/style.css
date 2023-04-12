@@ -548,34 +548,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
-@media screen and (max-width: 1075px) {
-    .notification-switch {
-        padding-right: 100px !important;
-    }
-    #notification-switches {
-        width: 200px !important;
-    }
-}
-@media screen and (max-width: 966px) {
-    #about {
-        display: none;
-    }
-}
-
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px
@@ -885,4 +857,66 @@ a:hover,
     border-bottom: 1px solid var(--border) !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+@media screen and (max-width: 1195px) {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+}
+@media screen and (max-width: 1073px) {
+    #wtf {
+        display: none;
+    }
+}
+@media screen and (max-width: 1075px) {
+    .notification-switch {
+        padding-right: 100px;
+    }
+    #notification-switches {
+        width: 200px;
+    }
+}
+@media screen and (max-width: 966px) {
+    #about {
+        display: none;
+    }
+}
+@media screen and (max-width: 850px) {
+    #trends {
+        display: none;
+    }
+    #center-cell {
+        margin-top: 10px;
+    }
+    .cell {
+        display: unset;
+    }
+    #content {
+        display: unset;
+    }
+    #notification-switches {
+        width: 540px !important;
+        margin: 0 auto;
+        position: relative;
+        top: 57px;
+    }
+    #notifications-div {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 70px;
+    }
+    #left-cell {
+        top: unset;
+        position: unset;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .notification-switch {
+        padding-right: 400px;
+    }
 }

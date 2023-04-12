@@ -141,7 +141,7 @@ body {
 #retweets_with_comments,
 #likes {
     margin-bottom: 10px;
-    width: 560px
+    width: 590px
 }
 
 #retweets,
@@ -600,6 +600,15 @@ a:hover,
         display: none;
     }
 }
+@media screen and (max-width: 872px) {
+    #left-cell {
+        display: none;
+    }
+    #center-cell {
+        margin: 0 auto;
+        margin-top: 55px;
+    }
+}
 
 .wtf-user {
     display: inline-block;
@@ -767,7 +776,7 @@ a:hover,
     padding-right: 40px;
     resize: none;
     scrollbar-width: thin;
-    width: 450px
+    width: 480px
 }
 
 #new-tweet-text::-webkit-scrollbar {
@@ -788,7 +797,7 @@ a:hover,
     border-radius: 0 !important;
     border-top: none !important;
     padding: 10px;
-    width: 538px
+    width: 568px
 }
 
 #new-tweet-container {
