@@ -366,5 +366,6 @@
     "dont_autotranslate": { "message": "Don't autotranslate tweets" },
     "round_avatars": { "message": "Round avatars" },
     "search_user_tweets": { "message": "Search user tweets" },
-    "no_tl_tweets": { "message": "You're not following anyone so there's no tweets found! Change your timeline type to 'Algorithmical' in <a href='https://twitter.com/old/settings'>OldTwitter settings</a>." }
+    "no_tl_tweets": { "message": "You're not following anyone so there's no tweets found! Change your timeline type to 'Algorithmical' in <a href='https://twitter.com/old/settings'>OldTwitter settings</a>." },
+    "replying_to": { "message": "Replying to", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" }
 }

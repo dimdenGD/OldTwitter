@@ -442,8 +442,8 @@ async function appendComposeComponent(container, replyTweet) {
         document.getElementById('new-tweet-button').style = 'left: 53px';
         document.getElementById("new-tweet-mentions").addEventListener('click', async () => {
             let modal = createModal(/*html*/`
-                <div id="new-tweet-mentions-modal" style="color:white">
-                    <h3 class="nice-header">Replying to</h3>
+                <div id="new-tweet-mentions-modal" style="color:var(--almost-black)">
+                    <h3 class="nice-header">${LOC.replying_to.message}</h3>
                     <div class="new-tweet-mentions-modal-item">
                         <input type="checkbox" id="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}" checked disabled>
                         <label for="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}">@${replyTweet.user.screen_name} (${replyTweet.user.name})</label>
