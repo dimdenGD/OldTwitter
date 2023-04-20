@@ -90,6 +90,10 @@ if(realPath === '/messages') {
 if(realPath === '/intent/tweet' || realPath === '/share') {
     location.replace('/home#' + location.search);
 }
+if(realPath === '/intent/follow') {
+    let screen_name = location.search.split('screen_name=')[1].split('&')[0];
+    location.replace(`/${screen_name}`);
+}
 if(
     /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath) ||
     /^\/i\/events\/\d{5,32}$/.test(realPath) ||
