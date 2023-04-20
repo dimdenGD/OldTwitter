@@ -1624,6 +1624,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 tweetBodyQuote.addEventListener('click', e => {
                     e.preventDefault();
+                    if(e.target.className && e.target.className.includes('tweet-media-element')) {
+                        new Viewer(e.target, {
+                            transition: false
+                        });
+                        e.target.click();
+                        return;
+                    }
                     new TweetViewer(user, t.quoted_status);
                 });
             }

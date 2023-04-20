@@ -587,6 +587,8 @@ setTimeout(async () => {
     document.addEventListener('mousemove', e => {
         if(Date.now() - lastScroll > 10) {
             let t = e.target;
+            let c = t.className;
+            if(c.baseVal) return;
             if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
                 if(t.className.includes('tweet-view')) return;
                 if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;

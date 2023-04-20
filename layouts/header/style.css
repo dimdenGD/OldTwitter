@@ -1596,6 +1596,7 @@ emoji-picker {
 }
 .tweet-card-link-vanity, .tweet-card-link-description {
     font-size: 14px;
+    overflow-wrap: break-word;
 }
 #donate-button {
     animation: donate 5s infinite alternate, vibrate 10s infinite linear;
