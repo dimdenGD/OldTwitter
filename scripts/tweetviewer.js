@@ -830,10 +830,59 @@ class TweetViewer {
                 ` : ``}
                 ${t.extended_entities && t.extended_entities.media ? `
                     <div class="tweet-media">
-                        ${t.extended_entities.media.map((m, i) => `${i === 2 && t.extended_entities.media.length === 4 ? '<br>' : ''}<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https + (vars.showOriginalImages && m.media_url_https.endsWith('.jpg') ? '?name=orig' : '')}"` : ''} class="tweet-media-element${m.type === 'animated_gif' ? ' tweet-media-gif' : ''} ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
-                            ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                            ${LOC.unsupported_video.message}
-                        </video>` : ''}`).join('\n')}
+                    ${t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'video' ? `
+                            <div class="tweet-media-video-overlay">
+                                <svg viewBox="0 0 24 24" class="tweet-media-video-overlay-play">
+                                    <g>
+                                        <path class="svg-play-path" d="M8 5v14l11-7z"></path>
+                                        <path d="M0 0h24v24H0z" fill="none"></path>
+                                    </g>
+                                </svg>
+                            </div>
+                        ` : ''}
+                        ${t.extended_entities.media.map((m, i) => `${i === 2 && t.extended_entities.media.length >= 4 ? '<br>' : ''}
+                            ${m.type === 'photo' ? `
+                                <img 
+                                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
+                                    crossorigin="anonymous"
+                                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
+                                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                                    loading="lazy"
+                                    src="${m.media_url_https + (vars.showOriginalImages && m.media_url_https.endsWith('.jpg') ? '?name=orig' : '')}"
+                                    class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}"
+                                >
+                            ` : ''}
+                            ${m.type === 'animated_gif' ? `
+                                <video
+                                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
+                                    crossorigin="anonymous"
+                                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
+                                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                                    loop
+                                    autoplay
+                                    muted
+                                    class="tweet-media-element tweet-media-gif ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}"
+                                >
+                                    ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
+                                    ${LOC.unsupported_video.message}
+                                </video>
+                            ` : ''}
+                            ${m.type === 'video' ? `
+                                <video
+                                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
+                                    crossorigin="anonymous"
+                                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
+                                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                                    preload="none"
+                                    ${t.extended_entities.media.length > 1 ? 'controls' : ''}
+                                    poster="${m.media_url_https}"
+                                    class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}"
+                                >
+                                    ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
+                                    ${LOC.unsupported_video.message}
+                                </video>
+                            ` : ''}
+                        `).join('\n')}
                     </div>
                     ${videos ? /*html*/`
                         <div class="tweet-media-controls">
@@ -955,6 +1004,15 @@ class TweetViewer {
             </div>
         `;
         // video
+        let vidOverlay = tweet.getElementsByClassName('tweet-media-video-overlay')[0];
+        if(vidOverlay) {
+            vidOverlay.addEventListener('click', () => {
+                let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
+                vid.play();
+                vid.controls = true;
+                vidOverlay.style.display = 'none';
+            });
+        }
         if(videos) {
             let vids = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO');
             vids[0].onloadstart = () => {
@@ -1010,6 +1068,12 @@ class TweetViewer {
                             else el.classList.remove('tweet-video-quality-current');
                         });
                     }
+                    vid.addEventListener('mousedown', e => {
+                        if(e.button === 1) {
+                            e.preventDefault();
+                            window.open(vid.currentSrc, '_blank');
+                        }
+                    });
                 }));
             };
             for(let vid of vids) {
