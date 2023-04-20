@@ -777,10 +777,10 @@ setTimeout(async () => {
             document.getElementById('new-tweet-media-c').innerHTML = '';
             document.getElementById('new-tweet-poll').hidden = false;
             document.getElementById('new-tweet-poll').innerHTML = `
-                <input class="poll-question" data-variant="1" placeholder="${LOC.variant.message} 1"><br>
-                <input class="poll-question" data-variant="2" placeholder="${LOC.variant.message} 2"><br>
-                <input class="poll-question" data-variant="3" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
-                <input class="poll-question" data-variant="4" placeholder="${LOC.variant.message} 4 ${LOC.optional.message}"><br>
+                <input maxlength="25" class="poll-question" data-variant="1" placeholder="${LOC.variant.message} 1"><br>
+                <input maxlength="25" class="poll-question" data-variant="2" placeholder="${LOC.variant.message} 2"><br>
+                <input maxlength="25" class="poll-question" data-variant="3" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
+                <input maxlength="25" class="poll-question" data-variant="4" placeholder="${LOC.variant.message} 4 ${LOC.optional.message}"><br>
                 <hr>
                 ${LOC.days.message}: <input class="poll-date" id="poll-days" type="number" min="0" max="7" value="1">
                 ${LOC.hours.message}: <input class="poll-date" id="poll-hours" type="number" min="0" max="23" value="0">
