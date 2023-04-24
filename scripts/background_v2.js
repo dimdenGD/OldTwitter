@@ -4,7 +4,9 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
         return {
-            cancel: (details.originUrl && !details.originUrl.includes("mobile.twitter.com")) && (details.url.includes("twitter.com/manifest.json") || details.url.includes("abs.twimg.com/responsive-web/client-web/"))
+            cancel:
+                (details.originUrl && !details.originUrl.includes("mobile.twitter.com") && !details.originUrl.includes("newtwitter=true")) && 
+                (details.url.includes("twitter.com/manifest.json") || details.url.includes("abs.twimg.com/responsive-web/client-web/") || details.url.includes("/sw.js"))
         };
     }, {
         urls: ["*://*.twitter.com/*", "*://*.twimg.com/*"]

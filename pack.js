@@ -54,13 +54,14 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     delete manifest.action;
     manifest.content_scripts = [
         {
-          "matches": ["https://mobile.twitter.com/*", "https://twitter.com/*?newtwitter=true"],
+          "matches": ["https://mobile.twitter.com/*", "https://twitter.com/*?*newtwitter=true*"],
           "js": ["scripts/newtwitter.js"],
           "all_frames": true,
           "run_at": "document_end"
         },
         {
           "matches": ["https://twitter.com/*"],
+          "exclude_matches": ["https://twitter.com/*?*newtwitter=true*"],
           "js": ["scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/injection.js", "libraries/twemoji.min.js", "libraries/custom-elements.min.js", "libraries/emojipicker.js"],
           "all_frames": true,
           "run_at": "document_start"

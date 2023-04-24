@@ -33,5 +33,14 @@
             "urlFilter": "*://*.twitter.com/manifest.json",
             "resourceTypes": ["main_frame", "sub_frame", "script", "xmlhttprequest", "other"]
         }
+    },
+    {
+        "id": 4,
+        "priority": 1,
+        "action": { "type": "block" },
+        "condition": {
+            "urlFilter": "*://twitter.com/sw.js",
+            "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
+        }
     }
 ]
