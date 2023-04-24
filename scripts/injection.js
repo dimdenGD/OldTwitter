@@ -329,7 +329,8 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             "layouts/header/script.js",
             `layouts/${page.name}/script.js`,
             "scripts/tweetviewer.js",
-            "libraries/gif.js"
+            "libraries/gif.js",
+            "libraries/viewer.min.js"
         ]
     });
 })();
