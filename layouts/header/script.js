@@ -133,7 +133,7 @@ let userDataFunction = async user => {
                     window.location.reload();
                 } catch(e) {
                     if((typeof(e) === 'string' && e.includes('User not found.')) || e.errors[0].code === 50) {
-                        window.location = 'https://mobile.twitter.com/account/switch';
+                        window.location = 'https://twitter.com/account/switch?newtwitter=true';
                     } else {
                         alert(e);
                     }
@@ -1908,9 +1908,17 @@ setTimeout(async () => {
         let about = document.getElementById('about');
         if(about && !location.pathname.startsWith('/old/') && !location.pathname.startsWith('/i/timeline')) {
             let a = document.createElement('a');
-            a.href = location.href.replace('twitter.com', 'mobile.twitter.com');
+            let hrefUrl = new URL(location.href);
+            let searchParams = new URLSearchParams(hrefUrl.search);
+            searchParams.set('newtwitter', 'true');
+            hrefUrl.search = searchParams.toString();
+            a.href = hrefUrl.toString();
             setInterval(() => {
-                a.href = location.href.replace('twitter.com', 'mobile.twitter.com');
+                let hrefUrl = new URL(location.href);
+                let searchParams = new URLSearchParams(hrefUrl.search);
+                searchParams.set('newtwitter', 'true');
+                hrefUrl.search = searchParams.toString();
+                a.href = hrefUrl.toString();
             }, 500);
             a.innerText = `[${LOC.open_newtwitter.message}]`;
             a.addEventListener('click', e => {

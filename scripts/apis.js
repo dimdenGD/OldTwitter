@@ -176,7 +176,7 @@ API.getSettings = () => {
             }).then(i => i.json()).then(data => {
                 if (data.errors && data.errors[0].code === 32) {
                     setTimeout(() => {
-                        location.href = "https://mobile.twitter.com/login";
+                        location.href = "https://twitter.com/i/flow/login?newtwitter=true";
                     }, 1000);
                     return reject("Not logged in");
                 }
@@ -865,7 +865,7 @@ API.getUser = (val, byId = true) => {
         }).then(i => {
             if(i.status === 401) {
                 setTimeout(() => {
-                    location.href = `https://mobile.twitter.com/login`;
+                    location.href = `https://twitter.com/i/flow/login?newtwitter=true`;
                 }, 50);
             }
             return i.json();

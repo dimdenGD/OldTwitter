@@ -41,7 +41,7 @@ function updateUserData() {
         }
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://mobile.twitter.com/login";
+            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
@@ -58,7 +58,7 @@ function renderUserData() {
     document.getElementById('user-followers').innerText = user.followers_count;
     document.getElementById('user-banner').src = user.profile_banner_url;
     document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
-    document.getElementById('wtf-viewall').href = `https://mobile.twitter.com/i/connect_people?user_id=${user.id_str}`;
+    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
@@ -297,9 +297,6 @@ setTimeout(async () => {
         let color = profileLinkColor.value;
         if(color.startsWith('#')) color = color.slice(1);
         let tweet;
-        if(!vars.disableAnalytics) {
-            ga('send', 'event', "ext", "change_profile_color");
-        }
         try {
             tweet = await API.postTweet({
                 status: `link_color=${color}`

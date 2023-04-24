@@ -1,3 +1,5 @@
+window.stop();
+
 let pages = [
     {
         name: "home",
@@ -138,6 +140,13 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     if (!page) return;
     while(!vars) {
         await new Promise(r => setTimeout(r, 10));
+    }
+
+    if(!document.head) {
+        document.children[0].appendChild(document.createElement("head"));
+    }
+    if(!document.body) {
+        document.children[0].appendChild(document.createElement("body"));
     }
 
     // disable twitters service worker
@@ -286,9 +295,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }
     }
 
-    document.open();
-    document.write(html);
-    document.close();
+    document.documentElement.innerHTML = html;
     document.getElementsByTagName('header')[0].innerHTML = header_html;
     if (page.activeMenu) {
         let el = document.getElementById(page.activeMenu);
@@ -311,4 +318,17 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     icon.rel = "icon";
     icon.id = "site-icon";
     document.head.appendChild(icon);
+
+    chrome.runtime.sendMessage({
+        action: "inject",
+        data: [
+            "libraries/twemoji.min.js",
+            "libraries/custom-elements.min.js",
+            "libraries/emojipicker.js",
+            "layouts/header/script.js",
+            `layouts/${page.name}/script.js`,
+            "scripts/tweetviewer.js",
+            "libraries/gif.js"
+        ]
+    });
 })();

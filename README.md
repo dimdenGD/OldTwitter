@@ -65,7 +65,7 @@ You had algorithmical timeline enabled. By default OldTwitter turns on reverse c
 *Fun fact: algo timeline is around 5 times slower than reverse chronological one*  
 
 #### How do I visit original Twitter client after installing extension?
-Go to [mobile.twitter.com](https://mobile.twitter.com).
+You need to add `?newtwitter=true` to end of your current URL. There's also a "Open this page in new Twitter" button on all pages on bottom right.  
   
 ## Hotkeys
 You can disable all hotkeys in settings.  

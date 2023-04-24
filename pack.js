@@ -24,6 +24,13 @@ async function copyDir(src, dest) {
 }
 console.log("Copying...");
 copyDir('./', '../OldTwitterFirefox').then(async () => {
+    if(fs.existsSync('../OldTwitterTempChrome')) {
+        fs.rmdirSync('../OldTwitterTempChrome', { recursive: true });
+    }
+    if(fs.existsSync('../OldTwitterTempFirefox')) {
+        fs.rmdirSync('../OldTwitterFirefox', { recursive: true });
+    }
+
     await copyDir('./', '../OldTwitterTempChrome');
     console.log("Copied!");
     console.log("Patching...");
@@ -31,7 +38,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     manifest.manifest_version = 2;
     manifest.background.scripts = ['scripts/background.js'];
     manifest.web_accessible_resources = manifest.web_accessible_resources[0].resources;
-    manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest' && p !== 'contextMenus');
+    manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest' && p !== 'contextMenus' && p !== 'scripting');
     manifest.permissions = [
         ...manifest.permissions,
         ...manifest.host_permissions,
@@ -45,6 +52,139 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     delete manifest.declarative_net_request;
     delete manifest.background.service_worker;
     delete manifest.action;
+    manifest.content_scripts = [
+        {
+          "matches": ["https://mobile.twitter.com/*", "https://twitter.com/*?newtwitter=true"],
+          "js": ["scripts/newtwitter.js"],
+          "all_frames": true,
+          "run_at": "document_end"
+        },
+        {
+          "matches": ["https://twitter.com/*"],
+          "js": ["scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/injection.js", "libraries/twemoji.min.js", "libraries/custom-elements.min.js", "libraries/emojipicker.js"],
+          "all_frames": true,
+          "run_at": "document_start"
+        },
+        {
+          "matches": ["https://twitter.com/*"],
+          "js": ["layouts/header/script.js", "scripts/tweetviewer.js", "libraries/gif.js", "libraries/viewer.min.js"],
+          "css": ["libraries/viewer.min.css"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": ["https://twitter.com/home", "https://twitter.com/home?*", "https://twitter.com/", "https://twitter.com/?*", "https://twitter.com/home/", "https://twitter.com/home/?*"],
+          "js": ["layouts/home/script.js"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": [
+            "https://twitter.com/notifications", "https://twitter.com/notifications/", "https://twitter.com/notifications?*", "https://twitter.com/notifications/?*", 
+            "https://twitter.com/notifications/mentions", "https://twitter.com/notifications/mentions?*", "https://twitter.com/notifications/mentions/", "https://twitter.com/notifications/mentions/?*"
+          ],
+          "js": ["layouts/notifications/script.js"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": ["https://twitter.com/old/settings", "https://twitter.com/old/settings/", "https://twitter.com/old/settings?*", "https://twitter.com/old/settings/?*"],
+          "js": ["layouts/settings/script.js", "libraries/viewer.min.js"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": ["https://twitter.com/search", "https://twitter.com/search?*", "https://twitter.com/search/", "https://twitter.com/search/?*"],
+          "js": ["layouts/search/script.js"],
+          "run_at": "document_idle",
+          "all_frames": true
+        },
+        {
+          "matches": [
+            "https://twitter.com/*/status/*", "https://twitter.com/*/status/*?*", "https://twitter.com/*/status/*/", "https://twitter.com/*/status/*/?*",
+            "https://twitter.com/*/status/*/likes", "https://twitter.com/*/status/*/likes/", "https://twitter.com/*/status/*/likes?*", "https://twitter.com/*/status/*/likes/?*",
+            "https://twitter.com/*/status/*/retweets", "https://twitter.com/*/status/*/retweets/", "https://twitter.com/*/status/*/retweets?*", "https://twitter.com/*/status/*/retweets/?*",
+            "https://twitter.com/*/status/*/retweets/with_comments", "https://twitter.com/*/status/*/retweets/with_comments/", "https://twitter.com/*/status/*/retweets/with_comments?*", "https://twitter.com/*/status/*/retweets/with_comments/?*"
+          ],
+          "js": ["layouts/tweet/script.js"],
+          "run_at": "document_idle",
+          "all_frames": true
+        },
+        {
+          "matches": [
+            "https://twitter.com/i/lists/*", "https://twitter.com/i/lists/*/", "https://twitter.com/i/lists/*?*", "https://twitter.com/i/lists/*/?*",
+            "https://twitter.com/i/lists/*/members", "https://twitter.com/i/lists/*/members/", "https://twitter.com/i/lists/*/members?*", "https://twitter.com/i/lists/*/members/?*",
+            "https://twitter.com/i/lists/*/followers", "https://twitter.com/i/lists/*/followers/", "https://twitter.com/i/lists/*/followers?*", "https://twitter.com/i/lists/*/followers/?*"
+          ],
+          "js": ["layouts/lists/script.js"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": ["https://twitter.com/i/bookmarks", "https://twitter.com/i/bookmarks/", "https://twitter.com/i/bookmarks?*", "https://twitter.com/i/bookmarks/?*"],
+          "js": ["layouts/bookmarks/script.js"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": ["https://twitter.com/i/topics/*", "https://twitter.com/i/topics/*/", "https://twitter.com/i/topics/*?*", "https://twitter.com/i/topics/*/?*"],
+          "js": ["layouts/topics/script.js"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": ["https://twitter.com/old/history", "https://twitter.com/old/history/", "https://twitter.com/old/history?*", "https://twitter.com/old/history/?*"],
+          "js": ["layouts/history/script.js"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": ["https://twitter.com/i/timeline", "https://twitter.com/i/timeline?*", "https://twitter.com/i/timeline/", "https://twitter.com/i/timeline/?*"],
+          "js": ["layouts/itl/script.js"],
+          "all_frames": true,
+          "run_at": "document_idle"
+        },
+        {
+          "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/with_replies/", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers", "https://twitter.com/*/followers_you_follow", "https://twitter.com/*/followers_you_follow/", "https://twitter.com/*/media/", "https://twitter.com/*/likes/", "https://twitter.com/*/following/", "https://twitter.com/*/followers/"],
+          "exclude_matches": [
+            "https://twitter.com/",
+            "https://twitter.com/home",
+            "https://twitter.com/notifications",
+            "https://twitter.com/notifications/",
+            "https://twitter.com/messages",
+            "https://twitter.com/messages/",
+            "https://twitter.com/settings",
+            "https://twitter.com/settings/",
+            "https://twitter.com/explore",
+            "https://twitter.com/explore/",
+            "https://twitter.com/old/*",
+            "https://twitter.com/login",
+            "https://twitter.com/login/",
+            "https://twitter.com/register",
+            "https://twitter.com/register/",
+            "https://twitter.com/signin",
+            "https://twitter.com/signin/",
+            "https://twitter.com/signup",
+            "https://twitter.com/signup/",
+            "https://twitter.com/logout",
+            "https://twitter.com/logout/",
+            "https://twitter.com/i/*",
+            "https://twitter.com/*/status/*",
+            "https://twitter.com/*/status/*/",
+            "https://twitter.com/search?*",
+            "https://twitter.com/search",
+            "https://twitter.com/search/",
+            "https://twitter.com/search/?*",
+            "https://twitter.com/tos",
+            "https://twitter.com/privacy",
+            "https://twitter.com/*/tos",
+            "https://twitter.com/*/privacy"
+          ],
+          "js": ["layouts/profile/script.js"],
+          "run_at": "document_idle",
+          "all_frames": true
+        }
+    ];
 
     let config = fs.readFileSync('../OldTwitterFirefox/scripts/config.js', 'utf8');
     config = config.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
@@ -52,10 +192,11 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     helpers = helpers.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     let tweetviewer = fs.readFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', 'utf8');
     tweetviewer = tweetviewer.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
-    let content = fs.readFileSync('../OldTwitterFirefox/scripts/content.js', 'utf8');
-    content = content.replace("document.open();", "");
+    let content = fs.readFileSync('../OldTwitterFirefox/scripts/injection.js', 'utf8');
     content = content.replace("_firefox = false", "_firefox = true");
-    content = content.replace("document.write(html);", `
+    content = content.replace("window.stop();", "");
+    content = content.replace(/chrome.runtime.sendMessage\(\{.+?\}\)/gs, "");
+    content = content.replace("document.documentElement.innerHTML = html;", `
 if(document.body) {
     if(typeof(vars.darkMode) !== 'boolean') {
         let bg = document.body.style.backgroundColor;
@@ -94,7 +235,6 @@ if(document.body) {
     }, 50);
 };
 document.documentElement.innerHTML = html;`);
-    content = content.replace("document.close();", "");
     content = content.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
 
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background_v2.js', 'utf8');
@@ -103,7 +243,7 @@ document.documentElement.innerHTML = html;`);
     headerStyle = headerStyle.replace("chrome-extension", "moz-extension");
 
     fs.writeFileSync('../OldTwitterFirefox/manifest.json', JSON.stringify(manifest, null, 2));
-    fs.writeFileSync('../OldTwitterFirefox/scripts/content.js', content);
+    fs.writeFileSync('../OldTwitterFirefox/scripts/injection.js', content);
     fs.writeFileSync('../OldTwitterFirefox/scripts/helpers.js', helpers);
     fs.writeFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', tweetviewer);
     fs.writeFileSync('../OldTwitterFirefox/scripts/config.js', config);

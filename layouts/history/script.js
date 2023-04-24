@@ -11,7 +11,7 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://mobile.twitter.com/login";
+            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
@@ -36,7 +36,7 @@ function renderUserData() {
     document.getElementById('user-followers').innerText = Number(user.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('user-banner').src = user.profile_banner_url;
     document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
-    document.getElementById('wtf-viewall').href = `https://mobile.twitter.com/i/connect_people?user_id=${user.id_str}`;
+    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 

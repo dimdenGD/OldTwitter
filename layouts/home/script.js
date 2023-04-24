@@ -17,9 +17,6 @@ async function createShamelessPlug(firstTime = true) {
     let dimden = await API.getUserV2('dimdenEFF');
     if(!dimden.following) {
         let followed = false;
-        if(!vars.disableAnalytics) {
-            ga('send', 'event', "dimden", "seen");
-        }
         let modal = createModal(`
             <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
             <span style="font-size:14px;color:var(--default-text-color)">
@@ -34,18 +31,9 @@ async function createShamelessPlug(firstTime = true) {
                     <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
                 </div>
             </span>
-        `, 'shameless-plug', () => {
-            if(!followed) {
-                if(!vars.disableAnalytics) {
-                    ga('send', 'event', "dimden", "dismiss");
-                }
-            }
-        });
+        `, 'shameless-plug', () => {});
         let followButton = modal.querySelector('.follow');
         followButton.addEventListener('click', () => {
-            if(!vars.disableAnalytics) {
-                ga('send', 'event', "dimden", "follow");
-            }
             followed = true;
             API.followUser('dimdenEFF').then(() => {
                 alert(LOC.thank_you_follow.message);
@@ -63,43 +51,26 @@ setTimeout(() => {
     chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug'], async data => {
         if (!data.installed) {
             createShamelessPlug(true);
-            if(!vars.disableAnalytics) {
-                ga('send', 'event', "ext", "install", chrome.runtime.getManifest().version);
-            }
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 20});
         } else {
             if (
                 !data.lastVersion || 
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')
             ) {
-                if(!vars.disableAnalytics) {
-                    ga('send', 'event', "changelog", "seen", chrome.runtime.getManifest().version);
-                }
                 createModal(`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added support for unmentioning.</li>
-                            <li>Added Polish translation.</li>
-                            <li>Added support for hashflags.</li>
-                            <li>Now quoted tweets open in tweet viewer on click.</li>
-                            <li>Added affiliate badges.</li>
-                            <li>Made user media request actual endpoint instead of clientside filtering (faster and better).</li>
-                            <li>Fixed tweets and trends not being cached.</li>
-                            <li>Made middle click on video open it in new tab.</li>
-                            <li>Tweet translations are now cached.</li>
-                            <li>Fixed persons tweets being laoded if you scroll during profile load.</li>
-                            <li>Fixed endless refreshes on Firefox in some cases.</li>
-                            <li>Other small fixes and style changes.</li>
+                            <li>Improved extension injector for Chrome a lot - faster and less buggy.</li>
+                            <li>Since mobile.twitter.com now just redirects back to twitter.com, added new way to view normal Twitter.</li>
+                            <li>Improved video player (bug with videos not loading should occur less now).</li>
+                            <li>Removed all analytics from extension.</li>
+                            <li>Fixed bug with unmentioning on light mode.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
                     </span>
-                `, 'changelog-modal', () => {
-                    if(!vars.disableAnalytics) {
-                        ga('send', 'event', "changelog", "read", chrome.runtime.getManifest().version);
-                    }
-                });
+                `, 'changelog-modal', () => {});
                 let changelog = document.getElementById('changelog');
                 let text = changelog.innerText;
                 let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
@@ -132,7 +103,7 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://mobile.twitter.com/login";
+            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
@@ -247,7 +218,7 @@ function renderUserData() {
     document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
-    document.getElementById('wtf-viewall').href = `https://mobile.twitter.com/i/connect_people?user_id=${user.id_str}`;
+    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('new-tweet-avatar').src = user.profile_image_url_https.replace("_normal", "_bigger");
@@ -1169,7 +1140,7 @@ setTimeout(async () => {
                 scheduleInput.value = '';
                 createModal(`
                     <span style="color:var(--almost-black);font-size:14px">${LOC.scheduled_success.message}</span><br><br>
-                    <a href="https://mobile.twitter.com/compose/tweet/unsent/scheduled" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
+                    <a href="https://twitter.com/compose/tweet/unsent/scheduled?newtwitter=true" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
                 `);
             } else {
                 let tweetObject = await API.postTweetV2({

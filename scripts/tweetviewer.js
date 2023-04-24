@@ -1866,7 +1866,7 @@ class TweetViewer {
         });
         if (t.user.id_str === user.id_str) {
             tweetInteractMoreMenuAnalytics.addEventListener('click', () => {
-                openInNewTab(`https://mobile.twitter.com/dimdenEFF/status/${t.id_str}/analytics`);
+                openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}/analytics?newtwitter=true`);
             });
             tweetInteractMoreMenuDelete.addEventListener('click', async () => {
                 let sure = confirm(LOC.delete_sure.message);

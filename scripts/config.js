@@ -13,40 +13,15 @@ let vars;
 async function loadVars() { 
     vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
-        'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
-        'noBigFont', 'language', 'autoplayVideos', 'displaySensitiveContent', 'displaySensitiveContentMoved', 'volume', 'disableAnalytics', 'timeMode',
-        'showOriginalImages', 'pitchBlack', 'seeTweetViews', 'autotranslateProfiles', 'roundAvatars'], data => {
+            'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
+            'noBigFont', 'language', 'autoplayVideos', 'displaySensitiveContent', 'displaySensitiveContentMoved', 'volume', 'timeMode',
+            'showOriginalImages', 'pitchBlack', 'seeTweetViews', 'autotranslateProfiles', 'roundAvatars'
+        ], data => {
             resolve(data);
         });
     });
-    if(!vars.disableAnalytics) {
-        ga('send', 'pageview');
-    }
 };
 loadVars();
-
-// analytics
-window.ga = window.ga || function () {
-    (ga.q=ga.q||[]).push(arguments)
-};
-ga.l =+ new Date;
-ga('create', 'UA-137155489-7', 'auto');
-let ps = history.pushState;
-history.pushState = (...args) => {
-    if(!vars.disableAnalytics) {
-        setTimeout(() => {
-            ga('send', 'pageview');
-        }, 10);
-    }
-    return ps.apply(history, args);
-};
-window.addEventListener('popstate', () => {
-    if(!vars.disableAnalytics) {
-        setTimeout(() => {
-            ga('send', 'pageview');
-        }, 10);
-    }
-});
 
 // updating csrf
 setInterval(() => {

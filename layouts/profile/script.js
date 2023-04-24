@@ -264,7 +264,7 @@ function updateUserData() {
         resolve(u);
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://mobile.twitter.com/login";
+            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
         }
         console.error(e);
         reject(e);
@@ -621,7 +621,7 @@ async function renderProfile() {
 
     let buttonsElement = document.getElementById('profile-nav-buttons');
     if(pageUser.id_str === user.id_str) {
-        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://mobile.twitter.com/settings/profile">${LOC.edit_profile.message}</a>`;
+        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>`;
     } else {
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`

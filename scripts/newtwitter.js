@@ -1,7 +1,16 @@
 let r = document.createElement('a');
-r.href = location.href.replace('mobile.twitter.com', 'twitter.com');
+let hrefUrl = new URL(location.href);
+let searchParams = new URLSearchParams(hrefUrl.search);
+searchParams.delete('newtwitter')
+hrefUrl.search = searchParams.toString();
+r.href = hrefUrl.toString();
 setInterval(() => {
-    r.href = location.href.replace('mobile.twitter.com', 'twitter.com');
+    let hrefUrl = new URL(location.href);
+    let searchParams = new URLSearchParams(hrefUrl.search);
+    searchParams.delete('newtwitter')
+    hrefUrl.search = searchParams.toString();
+    r.href = hrefUrl.toString();
+
     let realPath = location.pathname.split('?')[0].split('#')[0];
     if (realPath.endsWith("/")) {
         realPath = realPath.slice(0, -1);
