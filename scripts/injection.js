@@ -1,5 +1,3 @@
-window.stop();
-
 let pages = [
     {
         name: "home",
@@ -138,6 +136,9 @@ if(!LANGUAGES.includes(LANGUAGE)) {
 let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
 (async () => {
     if (!page) return;
+
+    window.stop();
+
     while(!vars) {
         await new Promise(r => setTimeout(r, 10));
     }

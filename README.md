@@ -21,20 +21,21 @@ If you like this extension please consider donating:
 ![Search](https://lune.dimden.dev/575b9d30f1.png)  
   
 ## Features
-- Almost all of Twitter functionality is implemented
-- Both reverse chronological and algorithmical timelines support. And exclusive: Reverse chronological timeline with friends likes and follows (basically mix of both chrono and algo timelines)
-- Custom profile link colors supported
-- You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
-- Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change default link color and font
-- Ability to show custom user link colors in timeline
+- Almost all of Twitter functionality is implemented  
+- Both reverse chronological and algorithmical timelines support. And exclusive: Reverse chronological timeline with friends likes and follows (basically mix of both chrono and algo timelines)  
+- Custom profile link colors supported  
+- You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)  
+- Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change default link color and font  
+- Ability to show custom user link colors in timeline  
+- Removes all analytics and tracking from Twitter  
 - Translate tweets without having to open them  
 - History for tweets you clicked on  
 - Set users to autotranslate their tweets  
-- Dark mode support
-- Removes all ads
-- Easy download of videos and GIFs
-- Lot of hotkeys
-- Custom CSS support
+- Dark mode support  
+- Removes all ads  
+- Easy download of videos and GIFs  
+- Lot of hotkeys  
+- Custom CSS support  
   
 ## Manual installation
 - Go to [Releases page](https://github.com/dimdenGD/OldTwitter/releases/)  
