@@ -309,6 +309,24 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }
     }
 
+    let body = document.querySelector('body[style^="background"]');
+    if(body) {
+        body.remove();
+    } else {
+        let cleared = false;
+        let removeInt = setInterval(() => {
+            let body = document.querySelector('body[style^="background"]');
+            if(body) {
+                clearInterval(removeInt);
+                cleared = true;
+                body.remove();
+            };
+        }, 25);
+        setTimeout(() => {
+            if(!cleared) clearInterval(removeInt);
+        }, 5000);
+    };
+
     document.documentElement.innerHTML = html;
 
     observer.disconnect();
