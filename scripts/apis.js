@@ -609,7 +609,6 @@ API.translateTweet = id => {
         chrome.storage.local.get([`translations`], d => {
             if(!d.translations) d.translations = {};
             if(d.translations[id] && Date.now() - d.translations[id].date < 60000*60*4) {
-                console.log(d.translations[id]);
                 return resolve(d.translations[id].data);
             }
             fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
@@ -1965,7 +1964,6 @@ API.getReplies = (id, cursor) => {
                 let list = [];
                 for (let i = 0; i < entries.length; i++) {
                     let e = entries[i];
-                    console.log(e.entryId);
                     if (e.entryId.startsWith('tweet-')) {
                         let tweet = tweetData[e.content.item.content.tweet.id];
                         if(!tweet) continue;

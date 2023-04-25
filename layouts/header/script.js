@@ -13,6 +13,9 @@ notificationBus.onmessage = function (e) {
 
         notifElement.hidden = true;
         icon.href = chrome.runtime.getURL(`images/logo32.png`);
+        if(document.title.startsWith("(")) {
+            document.title = document.title.split(') ').slice(1).join(') ');
+        }
     }
 };
 const themeBus = new BroadcastChannel('theme_bus');
@@ -117,6 +120,20 @@ let userDataFunction = async user => {
             notifElement.hidden = true;
         }
         icon.href = total > 0 ? chrome.runtime.getURL(`images/logo32_notification.png`) : chrome.runtime.getURL(`images/logo32.png`);
+        if(total > 0) {
+            let newTitle = document.title;
+            if(document.title.startsWith('(')) {
+                newTitle = document.title.split(') ')[1];
+            }
+            newTitle = `(${total}) ${newTitle}`;
+            if(document.title !== newTitle) {
+                document.title = newTitle;
+            }
+        } else {
+            if(document.title.startsWith('(')) {
+                document.title = document.title.split(') ').slice(1).join(') ');
+            }
+        }
     }
     async function updateAccounts() {
         let accounts = (await API.getAccounts()).users;

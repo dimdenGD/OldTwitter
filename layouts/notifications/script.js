@@ -243,6 +243,14 @@ async function renderNotifications(data, append = false) {
             if(!windowFocused || firstRender) {
                 firstRender = false;
                 document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32_notification.png`);
+                let newTitle = document.title;
+                if(document.title.startsWith('(')) {
+                    newTitle = document.title.split(') ')[1];
+                }
+                newTitle = `(${unreadNotifications}) ${newTitle}`;
+                if(document.title !== newTitle) {
+                    document.title = newTitle;
+                }
             } else {
                 notificationBus.postMessage({type: 'markAsRead', cursor});
             }

@@ -143,13 +143,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         await new Promise(r => setTimeout(r, 10));
     }
 
-    if(!document.head) {
-        document.children[0].appendChild(document.createElement("head"));
-    }
-    if(!document.body) {
-        document.children[0].appendChild(document.createElement("body"));
-    }
-
     // disable twitters service worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(registrations => {
@@ -297,6 +290,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     }
 
     document.documentElement.innerHTML = html;
+
     document.getElementsByTagName('header')[0].innerHTML = header_html;
     if (page.activeMenu) {
         let el = document.getElementById(page.activeMenu);
