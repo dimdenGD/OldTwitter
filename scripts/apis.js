@@ -1321,9 +1321,11 @@ API.getFavorites = (id, cursor) => {
                     tweet.user = user;
                     if(tweet.quoted_status_id_str) {
                         let qr = e.content.itemContent.tweet_results.result.quoted_status_result.result;
-                        tweet.quoted_status = qr.legacy;
-                        tweet.quoted_status.user = qr.core.user_results.result.legacy;
-                        tweet.quoted_status.user.id_str = qr.core.user_results.result.rest_id;
+                        if(qr.legacy) { 
+                            tweet.quoted_status = qr.legacy;
+                            tweet.quoted_status.user = qr.core.user_results.result.legacy;
+                            tweet.quoted_status.user.id_str = qr.core.user_results.result.rest_id;
+                        }
                     }
                     return tweet;
                 }).filter(e => e),
