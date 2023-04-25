@@ -22,15 +22,16 @@ async function copyDir(src, dest) {
         }
     }
 }
+
+if(fs.existsSync('../OldTwitterTempChrome')) {
+  fs.rmdirSync('../OldTwitterTempChrome', { recursive: true });
+}
+if(fs.existsSync('../OldTwitterFirefox')) {
+  fs.rmdirSync('../OldTwitterFirefox', { recursive: true });
+}
+
 console.log("Copying...");
 copyDir('./', '../OldTwitterFirefox').then(async () => {
-    if(fs.existsSync('../OldTwitterTempChrome')) {
-        fs.rmdirSync('../OldTwitterTempChrome', { recursive: true });
-    }
-    if(fs.existsSync('../OldTwitterTempFirefox')) {
-        fs.rmdirSync('../OldTwitterFirefox', { recursive: true });
-    }
-
     await copyDir('./', '../OldTwitterTempChrome');
     console.log("Copied!");
     console.log("Patching...");

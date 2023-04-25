@@ -65,6 +65,7 @@ setTimeout(() => {
                             <li>Since mobile.twitter.com now just redirects back to twitter.com, added new way to view normal Twitter.</li>
                             <li>Improved video player (bug with videos not loading should occur less now).</li>
                             <li>Removed all analytics from extension.</li>
+                            <li>Fixed new bookmarks not appearing in bookmarks page.</li>
                             <li>Fixed bug with unmentioning on light mode.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
