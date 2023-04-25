@@ -48,7 +48,6 @@ let pages = [
     },
 ];
 
-let _firefox = false;
 let realPath = location.pathname.split('?')[0].split('#')[0];
 if (realPath.endsWith("/") && realPath !== "/") {
     location.replace(realPath.slice(0, -1));
@@ -137,7 +136,28 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 (async () => {
     if (!page) return;
 
-    window.stop();
+    // block all twitters scripts
+    function blockScriptElements(element) {
+        if (element.tagName === 'SCRIPT') {
+            element.remove();
+        }
+    }
+    
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    blockScriptElements(node);
+                    node.querySelectorAll('script').forEach(blockScriptElements);
+                }
+            });
+        }
+        });
+    });
+    
+    // Start observing the page for changes
+    observer.observe(document.documentElement, { childList: true, subtree: true });
 
     while(!vars) {
         await new Promise(r => setTimeout(r, 10));
@@ -221,7 +241,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }, () => {});
     }
     
-    if(typeof(vars.darkMode) !== 'boolean' && !_firefox && document.body) {
+    if(typeof(vars.darkMode) !== 'boolean' && document.body) {
         let bg = document.body.style.backgroundColor;
         let isDark = bg === 'rgb(21, 32, 43)' || bg === 'rgb(0, 0, 0)';
         vars.darkMode = isDark;
@@ -290,6 +310,8 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     }
 
     document.documentElement.innerHTML = html;
+
+    observer.disconnect();
 
     document.getElementsByTagName('header')[0].innerHTML = header_html;
     if (page.activeMenu) {

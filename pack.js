@@ -194,48 +194,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     let tweetviewer = fs.readFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', 'utf8');
     tweetviewer = tweetviewer.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     let content = fs.readFileSync('../OldTwitterFirefox/scripts/injection.js', 'utf8');
-    content = content.replace("_firefox = false", "_firefox = true");
-    content = content.replace("window.stop();", "");
     content = content.replace(/chrome.runtime.sendMessage\(\{.+?\}\)/gs, "");
-    content = content.replace("document.documentElement.innerHTML = html;", `
-if(document.body) {
-    if(typeof(vars.darkMode) !== 'boolean') {
-        let bg = document.body.style.backgroundColor;
-        let isDark = bg === 'rgb(21, 32, 43)' || bg === 'rgb(0, 0, 0)';
-        vars.darkMode = isDark;
-        chrome.storage.sync.set({
-            darkMode: isDark
-        }, () => {});
-        let pitchBlack = bg === 'rgb(0, 0, 0)';
-        vars.pitchBlack = pitchBlack;
-        chrome.storage.sync.set({
-            pitchBlack: pitchBlack
-        }, () => {});
-    }
-    document.body.remove();
-} else {
-    let removeInt = setInterval(() => {
-        let body = document.querySelector('body[style^="background"]');
-        if(body) {
-            if(typeof(vars.darkMode) !== 'boolean') {
-                let bg = body.style.backgroundColor;
-                let isDark = bg === 'rgb(21, 32, 43)' || bg === 'rgb(0, 0, 0)';
-                vars.darkMode = isDark;
-                chrome.storage.sync.set({
-                    darkMode: isDark
-                }, () => {});
-                let pitchBlack = bg === 'rgb(0, 0, 0)';
-                vars.pitchBlack = pitchBlack;
-                chrome.storage.sync.set({
-                    pitchBlack: pitchBlack
-                }, () => {});
-            }
-            clearInterval(removeInt);
-            body.remove();
-        };
-    }, 50);
-};
-document.documentElement.innerHTML = html;`);
     content = content.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
 
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background_v2.js', 'utf8');

@@ -61,7 +61,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Improved extension injector for Chrome a lot - faster and less buggy.</li>
+                            <li>Improved extension injector.</li>
                             <li>Since mobile.twitter.com now just redirects back to twitter.com, added new way to view normal Twitter.</li>
                             <li>Improved video player (bug with videos not loading should occur less now).</li>
                             <li>Removed all analytics from extension.</li>
