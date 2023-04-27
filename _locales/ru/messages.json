@@ -356,5 +356,7 @@
     "round_avatars": { "message": "Круглые аватарки" },
     "search_user_tweets": { "message": "Поиск твитов пользователя" },
     "no_tl_tweets": { "message": "Вы ни на кого не подписаны так что никаких твитов не было найдено! Поменяйте тип ленты на 'Алгоритмическую' в <a href='https://twitter.com/old/settings'>настройках расширения</a>." },
-    "replying_to": { "message": "Упоминания", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" }
+    "replying_to": { "message": "Упоминания", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "Отображение" },
+    "twitter_blue_checkmarks": { "message": "Показывать галочки Twitter Blue" }
 }

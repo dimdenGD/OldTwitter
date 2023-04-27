@@ -211,7 +211,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         if(typeof(vars.chronologicalTL) === 'boolean') {
             type = vars.chronologicalTL ? 'chrono' : 'algo';
         } else {
-            type = 'chrono';
+            type = 'chrono-social';
         }
         vars.timelineType = type;
         chrome.storage.sync.set({

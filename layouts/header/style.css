@@ -1644,6 +1644,24 @@ emoji-picker {
 .tweet-interact-views:before {
     content: "\f200";
 }
+.user-verified::after {
+    content: "\f099";
+    color: #ee55a1;
+    font-family: RosettaIcons;
+    margin-left: 5px
+}
+.user-verified-blue::after {
+    color: #55acee !important;
+}
+.user-verified-gray::after {
+    color: #657480 !important;
+}
+.user-verified-yellow::after {
+    color: #e5bc24 !important;
+}
+.user-verified-green::after {
+    color: var(--link-color) !important;
+}
 .user-verified-dimden::after {
     background-color: #82ff9d !important;
     content: "DEV" !important;
@@ -1654,6 +1672,13 @@ emoji-picker {
     vertical-align: middle;
     border-radius: 50px;
 }
+.user-protected::after {
+    content: "\f096";
+    color: #ddd22b;
+    font-family: RosettaIcons;
+    margin-left: 5px;
+}
+
 @media screen and (max-width: 780px) {
     #search-input {
         width: 124px;

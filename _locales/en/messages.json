@@ -181,7 +181,7 @@
     "refresh_tabs": { "message": "Refresh tabs to apply settings" },
     "chrono": { "message": "Reverse chronological (fast)" },
     "chrono_social": { "message": "Reverse chronological with friends likes" },
-    "algo": { "message": "Algorithmical" },
+    "algo": { "message": "Algorithmical (\"For You\")" },
     "timeline_type": { "message": "Timeline type" },
     "show_topic_tweets": { "message": "Show topic tweets (algo only)" },
     "show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline" },
@@ -281,7 +281,7 @@
     "not_interested": { "message": "Not interested" },
     "cancel": { "message": "Cancel" },
     "youre_not_interested": { "message": "You're not interested in this topic." },
-    "autoplay_videos": { "message": "Autoplay videos." },
+    "autoplay_videos": { "message": "Autoplay videos" },
     "turn_on_retweets": { "message": "Show retweets in timeline" },
     "turn_off_retweets": { "message": "Hide retweets in timeline" },
     "you_can_reply": { "message": "(you can reply)" },
@@ -301,7 +301,7 @@
     "decline": { "message": "Decline" },
     "mute_convo": { "message": "Mute conversation" },
     "unmute_convo": { "message": "Unmute conversation" },
-    "no_big_font": { "message": "Disable large font for short/popular tweets." },
+    "no_big_font": { "message": "Disable large font for short/popular tweets" },
     "emoji": { "message": "Emoji" },
     "emoji_btn": { "message": "[emoji]" },
     "add_emoji": { "message": "Add emoji" },
@@ -367,5 +367,7 @@
     "round_avatars": { "message": "Round avatars" },
     "search_user_tweets": { "message": "Search user tweets" },
     "no_tl_tweets": { "message": "You're not following anyone so there's no tweets found! Change your timeline type to 'Algorithmical' in <a href='https://twitter.com/old/settings'>OldTwitter settings</a>." },
-    "replying_to": { "message": "Replying to", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" }
+    "replying_to": { "message": "Replying to", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "Display", "description": "Used for display settings (fonts, colors, style, etc)" },
+    "twitter_blue_checkmarks": { "message": "Show Twitter Blue checkmarks" }
 }

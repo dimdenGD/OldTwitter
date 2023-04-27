@@ -497,22 +497,19 @@ async function renderProfile() {
         s.classList.toggle('profile-stat-disabled', pageUser.protected && !pageUser.following && pageUser.id_str !== user.id_str);
     });
 
-    if(pageUser.verified || pageUser.id_str === '1123203847776763904') {
-        document.getElementById('profile-name').classList.add('user-verified');
+    document.getElementById('profile-name').className = "";
+    if(pageUser.verified || pageUser.verified_type || pageUser.id_str === '1123203847776763904') {
+        if(!(!vars.twitterBlueCheckmarks && pageUser.verified_type === "Blue")) document.getElementById('profile-name').classList.add('user-verified');
         if(pageUser.id_str === '1123203847776763904') document.getElementById('profile-name').classList.add('user-verified-green');
-    } else {
-        document.getElementById('profile-name').classList.remove('user-verified');
-        document.getElementById('profile-name').classList.remove('user-verified-green');
+        if(vars.twitterBlueCheckmarks && pageUser.verified_type === "Blue") document.getElementById('profile-name').classList.add('user-verified-blue');
+        if(pageUser.verified_type === "Government") document.getElementById('profile-name').classList.add('user-verified-gray');
+        if(pageUser.verified_type === "Business") document.getElementById('profile-name').classList.add('user-verified-yellow');
     }
     if(pageUser.protected) {
         document.getElementById('profile-name').classList.add('user-protected');
-    } else {
-        document.getElementById('profile-name').classList.remove('user-protected');
     }
     if(pageUser.muting) {
         document.getElementById('profile-name').classList.add('user-muted');
-    } else {
-        document.getElementById('profile-name').classList.remove('user-muted');
     }
     document.getElementById('profile-username').innerText = `@${pageUser.screen_name}`;
     document.getElementById('nav-profile-username').innerText = `@${pageUser.screen_name}`;

@@ -130,6 +130,7 @@ setTimeout(async () => {
     let autoplayVideos = document.getElementById('autoplay-videos');
     let displaySensitiveContent = document.getElementById('display-sensitive-content');
     let seeTweetViews = document.getElementById('see-tweet-views');
+    let twitterBlueCheckmarks = document.getElementById('twitter-blue-checkmarks');
 
     let root = document.querySelector(":root");
     {
@@ -230,6 +231,11 @@ setTimeout(async () => {
     seeTweetViews.addEventListener('change', () => {
         chrome.storage.sync.set({
             seeTweetViews: seeTweetViews.checked
+        }, () => { });
+    });
+    twitterBlueCheckmarks.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            twitterBlueCheckmarks: twitterBlueCheckmarks.checked
         }, () => { });
     });
     language.addEventListener('change', () => {
@@ -369,6 +375,7 @@ setTimeout(async () => {
     autoplayVideos.checked = !!vars.autoplayVideos;
     displaySensitiveContent.checked = !!vars.displaySensitiveContent;
     seeTweetViews.checked = !!vars.seeTweetViews;
+    twitterBlueCheckmarks.checked = !!vars.twitterBlueCheckmarks;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

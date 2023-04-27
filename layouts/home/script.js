@@ -64,6 +64,7 @@ setTimeout(() => {
                             <li>Improved extension injector.</li>
                             <li>Since mobile.twitter.com now just redirects back to twitter.com, added new way to view normal Twitter.</li>
                             <li>Improved video player (bug with videos not loading should occur less now).</li>
+                            <li>Fixed verification checkmarks, there's now option to see Twitter Blue checkmark in <a target="_blank" href="/old/settings">extension settings</a>.</li>
                             <li>Removed all analytics from extension.</li>
                             <li>Fixed new bookmarks not appearing in bookmarks page.</li>
                             <li>Fixed bug with unmentioning on light mode.</li>

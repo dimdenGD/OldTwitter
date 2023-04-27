@@ -356,5 +356,7 @@
     "round_avatars": { "message": "Круглі аватарки" },
     "search_user_tweets": { "message": "Пошук твітів користувача" },
     "no_tl_tweets": { "message": "Ви ні на кого не підписані так що ніяких твітів не було знайдено! Змініть тип стрічки на 'Алгорітмічну' в <a href='https://twitter.com/old/settings'>налаштуваннях розширення</a>." },
-    "replying_to": { "message": "Згадування", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" }
+    "replying_to": { "message": "Згадування", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "Вигляд" },
+    "twitter_blue_checkmarks": { "message": "Показувати галочки Twitter Blue" }
 }

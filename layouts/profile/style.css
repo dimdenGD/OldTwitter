@@ -610,16 +610,6 @@ a:hover,
     border: 2px var(--dark-background-color) solid !important
 }
 
-.user-verified::after {
-    content: "\f099";
-    color: #55acee;
-    font-family: RosettaIcons;
-    margin-left: 5px
-}
-.user-verified-green::after {
-    color: var(--link-color) !important;
-}
-
 .user-protected::after {
     content: "\f096";
     color: #ddd22b;

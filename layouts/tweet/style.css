@@ -688,20 +688,6 @@ a:hover,
     border: 2px var(--dark-background-color) solid !important
 }
 
-.user-verified::after {
-    color: #55acee;
-    content: "\f099";
-    font-family: RosettaIcons;
-    margin-left: 5px
-}
-
-.user-protected::after {
-    color: #ddd22b;
-    content: "\f096";
-    font-family: RosettaIcons;
-    margin-left: 5px
-}
-
 #about {
     color: var(--light-gray);
     font-size: 12px;

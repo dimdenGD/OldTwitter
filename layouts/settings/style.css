@@ -264,19 +264,6 @@ body {
     margin-right: 7px;
     vertical-align: text-bottom;
 }
-
-.user-verified::after {
-    content: "\f099";
-    color: #55acee;
-    font-family: RosettaIcons;
-    margin-left: 5px;
-}
-.user-protected::after {
-    content: "\f096";
-    color: #ddd22b;
-    font-family: RosettaIcons;
-    margin-left: 5px;
-}
 #about {
     margin-top: 5px;
     padding: 10px 3px;
