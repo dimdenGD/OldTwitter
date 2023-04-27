@@ -336,6 +336,7 @@ let userDataFunction = async user => {
                 realConvo.last_read_event_id = lastConvo.max_entry_id;
             }
         }
+        window.history.pushState(null, document.title, window.location.href)
         let messageBox = modal.querySelector('.messages-list');
         if(!lastConvo.entries) {
             modal.getElementsByClassName('messages-load-more')[0].hidden = true;
@@ -1731,6 +1732,14 @@ let userDataFunction = async user => {
                 }
                 break;
             }
+        }
+    });
+    window.addEventListener("popstate", e => {
+        if(document.querySelector('.message-leave')) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            document.querySelector(".message-header-back").click();
         }
     });
 
