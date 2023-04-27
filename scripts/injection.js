@@ -139,20 +139,28 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     // block all twitters scripts
     function blockScriptElements(element) {
         if (element.tagName === 'SCRIPT') {
+            element.type = 'javascript/blocked';
+            const beforeScriptExecuteListener = function (event) {
+                if(element.getAttribute('type') === 'javascript/blocked') {
+                    event.preventDefault();
+                }
+                element.removeEventListener('beforescriptexecute', beforeScriptExecuteListener);
+            }
+            element.addEventListener('beforescriptexecute', beforeScriptExecuteListener);
             element.remove();
         }
     }
     
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            mutation.addedNodes.forEach((node) => {
-                if (node.nodeType === Node.ELEMENT_NODE) {
-                    blockScriptElements(node);
-                    node.querySelectorAll('script').forEach(blockScriptElements);
-                }
-            });
-        }
+            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        blockScriptElements(node);
+                        node.querySelectorAll('script').forEach(blockScriptElements);
+                    }
+                });
+            }
         });
     });
     
