@@ -228,6 +228,7 @@ function updateUserData() {
         document.dispatchEvent(event2);
 
         pageUser = pageUserData;
+        pageUser.protected = oldUser.protected;
         let r = document.querySelector(':root');
         r.style.setProperty('--link-color', vars && vars.linkColor ? vars.linkColor : '#4595B5');
         if(customColor && customColor !== 'none') {
