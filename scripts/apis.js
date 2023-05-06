@@ -1792,7 +1792,7 @@ API.tweetDetail = id => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['tweetDetails'], d => {
             if(!d.tweetDetails) d.tweetDetails = {};
-            if(d.tweetDetails[id] && Date.now() - d.tweetDetails[id].date < 60000*5) {
+            if(d.tweetDetails[id] && Date.now() - d.tweetDetails[id].date < 60000*5 && false) {
                 return resolve(d.tweetDetails[id].data);
             }
             if(loadingDetails[id]) {
@@ -1802,19 +1802,16 @@ API.tweetDetail = id => {
                     listeners: []
                 };
             }
-            fetch(`https://twitter.com/i/api/graphql/8lxrBz5JaVweczpN0RcGXA/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
+            fetch(`https://twitter.com/i/api/graphql/KwGBbJZc6DBx8EKmyQSP7g/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
                 "focalTweetId":id,
                 "with_rux_injections":false,
+                "includePromotedContent":false,
                 "withCommunity":true,
-                "includePromotedContent": false,
-                "withDownvotePerspective": false,
-                "withReactionsMetadata": true,
-                "withReactionsPerspective": true,
-                "withSuperFollowsTweetFields": false,
-                "withSuperFollowsUserFields": false,
-                "withVoice": true,
-                "withBirdwatchNotes":false
-            }))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true,"view_counts_everywhere_api_enabled":true,"view_counts_public_visibility_enabled":true}))}`, {
+                "withQuickPromoteEligibilityTweetFields":true,
+                "withBirdwatchNotes":true,
+                "withVoice":true,
+                "withV2Timeline":true
+            }))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                 headers: {
                     "authorization": OLDTWITTER_CONFIG.public_token,
                     "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1827,7 +1824,7 @@ API.tweetDetail = id => {
                     delete loadingDetails[id];
                     return reject(data.errors[0].message);
                 }
-                let tweetData = data.data.threaded_conversation_with_injections.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
+                let tweetData = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
                 if(!tweetData.legacy) {
                     tweetData = tweetData.tweet;
                 }
@@ -1847,6 +1844,13 @@ API.tweetDetail = id => {
                     userData.legacy.id_str = userData.rest_id;
                     tweet.quoted_status.legacy.user = userData.legacy;
                     tweet.quoted_status = tweet.quoted_status.legacy;
+                }
+                if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
+                    tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
+                }
+                if(tweetData.views && tweetData.views.count) {
+                    if(!tweet.ext) tweet.ext = {};
+                    tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
                 }
                 tweet.user = tweetData.core.user_results.result;
                 tweet.user.legacy.id_str = tweet.user.rest_id;
@@ -1925,10 +1929,10 @@ API.getReplies = (id, cursor) => {
         if(cursor) {
             cursor = cursor.replace(/\+/g, '%2B');
         }
-        chrome.storage.local.get(['tweetReplies'], d => {
+        chrome.storage.local.get(['tweetReplies'], async d => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
-                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000 && false) {
                     return resolve(d.tweetReplies[id].data);
                 }
                 if(loadingReplies[id]) {
@@ -1939,7 +1943,7 @@ API.getReplies = (id, cursor) => {
                     };
                 }
             }
-            fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=30&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
+            fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=30&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2CnoteTweet`, {
                 headers: {
                     "authorization": OLDTWITTER_CONFIG.oauth_key,
                     "x-csrf-token": OLDTWITTER_CONFIG.csrf,

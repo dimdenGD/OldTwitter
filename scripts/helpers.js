@@ -933,7 +933,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
             if(webUrl) {
                 try {
+                    let source = t.source;
                     t = await API.tweetDetail(t.id_str);
+                    t.source = source;
                 } catch(e) {}
             }
         }
