@@ -74,6 +74,8 @@ body {
     bottom: 47px;
     width: 195px;
     overflow-x: hidden;
+    overflow-y: hidden;
+    white-space: nowrap;
     color: var(--almost-black);
 }
 #user-handle {

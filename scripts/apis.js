@@ -1792,7 +1792,7 @@ API.tweetDetail = id => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['tweetDetails'], d => {
             if(!d.tweetDetails) d.tweetDetails = {};
-            if(d.tweetDetails[id] && Date.now() - d.tweetDetails[id].date < 60000*5 && false) {
+            if(d.tweetDetails[id] && Date.now() - d.tweetDetails[id].date < 60000*5) {
                 return resolve(d.tweetDetails[id].data);
             }
             if(loadingDetails[id]) {
@@ -1932,7 +1932,7 @@ API.getReplies = (id, cursor) => {
         chrome.storage.local.get(['tweetReplies'], async d => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
-                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000 && false) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
                     return resolve(d.tweetReplies[id].data);
                 }
                 if(loadingReplies[id]) {
