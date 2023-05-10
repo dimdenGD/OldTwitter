@@ -87,6 +87,11 @@ let userDataFunction = async user => {
         switchRoundAvatars(true);
     }
 
+    if(vars.disableHotkeys) {
+        document.getElementById('navbar-tweet-button').title = '';
+        document.getElementById('search').title = '';
+    }
+
     // util
     let firstTime = false;
     async function updateUnread() {
@@ -1290,7 +1295,7 @@ let userDataFunction = async user => {
     searchInput.addEventListener('blur', () => {
         setTimeout(() => {
             searchResults.hidden = true;
-        }, 100);
+        }, 150);
     });
     searchInput.addEventListener('keyup', async (e) => {
         let query = searchInput.value;
@@ -1754,9 +1759,9 @@ let userDataFunction = async user => {
             document.body.addEventListener('click', e => {
                 setTimeout(() => {
                     userMenu.hidden = true;
-                }, 50);
+                }, 70);
             }, { once: true });
-        }, 50);
+        }, 70);
     });
     updateUnread();
     updateAccounts();

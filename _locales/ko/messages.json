@@ -359,5 +359,15 @@
     "autotranslate_tweets": { "message": "트윗을 자동으로 번역하다" },
     "dont_autotranslate": { "message": "트윗을 자동으로 번역하지 않음" },
     "round_avatars": { "message": "둥근 아이콘" },
-    "search_user_tweets": { "message": "사용자의 트윗을 검색하다" }
+    "search_user_tweets": { "message": "사용자의 트윗을 검색하다" },
+    "no_tl_tweets": { "message": "당신은 아무도 팔로우하지 않기 때문에 타임라인 트윗은 없습니다.타임라인 유형을 '알고리즘'으로 변경해주세요' in <a href='https://twitter.com/old/settings'>OldTwitter settings</a>." },
+    "replying_to": { "message": "회신처", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "디스플레이", "description": "Used for display settings (fonts, colors, style, etc)" },
+    "twitter_blue_checkmarks": { "message": "Twitter Blue 인증마크를 표시하다" },
+    "retweet_hotkey_warn": { "message": "당신은 리트윗 버튼인 T버튼를 눌렀습니다.이 트윗을 정말 리트윗하시겠습니까?확인을 누르면 이 경고는 더 이상 표시되지 않습니다" },
+    "reply_btn": { "message": "회신", "description": "Used for reply button." },
+    "retweet_btn": { "message": "리트윗 / 인용 리트윗", "description": "Used for retweet menu button." },
+    "like_btn": { "message": "좋아요 / 좋아요 취소", "description": "Used for like button." },
+    "favorite_btn": { "message": "즐겨찾기 / 즐겨찾기 취소", "description": "Used for favorite button." },
+    "views_count": { "message": "표시 횟수", "description": "Used for views count." }
 }

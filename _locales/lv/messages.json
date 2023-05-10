@@ -1054,5 +1054,44 @@
     },
     "see_scheduled": {
         "message": "Skatīt plānoto"
-    }
+    },
+    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ nav twītojis", "placeholders": { "screen_name": { "content": "loading" } } },
+    "when_theyll_tweet": { "message": "Kad viņi, viņu Twīti parādīsies šeit." },
+    "thank_you2": {
+        "message": "Paldies ka izmantojat OldTwitter! Paņēma ļoti daudz laika un darba lai to programmētu, tu vari man followot vai $AT1$dāvināt$AT2$. Es būtu ļoti pateicīgs.",
+        "placeholders": { "at1": { "content": "<a target='_blank' href='https://dimden.dev/donate/'>" }, "at2": { "content": "</a>" } }
+    },
+    "something_went_wrong": { "message": "Kautkas nogājā greizi" },
+    "notifications_error": { "message": "Dažas notifikācijas nevarēja būt ielādētas." },
+    "tweet_error": { "message": "Daži twīti nevarēja būt ielādēti." },
+    "error_instructions": {
+        "message": "Kopē tekstu zem un sūti to uz $AT1$problēmu sekotāju$AT2$ vai $AT3$manu e-mailu$AT2$. Paldies!",
+        "placeholders": {
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+        }
+    },
+    "initialization": { "message": "Iesākums" },
+    "converting": { "message": "Pārveido" },
+    "time_mode": { "message": "Ieslēdz nakts režīmu laikos 19:00-09:00" },
+    "show_original_images": { "message": "Vienmēr rādit oriģinālas kvalitātes bildes (varētu būt lēni uz sliktiem datoriem)" },
+    "pitch_black_mode": { "message": "Nakts-tumšs režims (tikai kad nakts režīmns ir ieslēgts)" },
+    "hide_retweets": { "message": "Slēpt retwītus" },
+    "see_tweet_views": { "message": "Redzēt twītu skatijumu skaitu" },
+    "history": { "message": "Vēsture" },
+    "autotranslate_tweets": { "message": "Automātiksi pārtulkot twītus" },
+    "dont_autotranslate": { "message": "Neautomātiski pārtulkot twītus" },
+    "round_avatars": { "message": "Apaļi avatāri" },
+    "search_user_tweets": { "message": "Meklēt lietotāja twītus" },
+    "no_tl_tweets": { "message": "Tu nevienam nesako, tapēc nevarēju atrast twītus. Maini savu skata veido uz 'Algorithmical' <a href='https://twitter.com/old/settings'>OldTwitter iestatījumos</a>." },
+    "replying_to": { "message": "Atbildu", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "Izskats", "description": "Used for display settings (fonts, colors, style, etc)" },
+    "twitter_blue_checkmarks": { "message": "Rādit 'Twitter Blue' zīmes" },
+    "retweet_hotkey_warn": { "message": "Tiko uzpiedi T pogu, kas ir izmantota retwītošanai. Vai tu gribi retwītot? Ja tu uzpiedi 'confirm' tad šis vairāk nerādīsies." },
+    "reply_btn": { "message": "Atbildēt", "description": "Used for reply button." },
+    "retweet_btn": { "message": "Retwīts / Citāta twīts", "description": "Used for retweet menu button." },
+    "like_btn": { "message": "Laiks / Atlaikot", "description": "Used for like button." },
+    "favorite_btn": { "message": "Favorīts / Atfavorītot", "description": "Used for favorite button." },
+    "views_count": { "message": "Skatijumi", "description": "Used for views count." }
 }

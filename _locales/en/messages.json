@@ -370,5 +370,10 @@
     "replying_to": { "message": "Replying to", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Display", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Show Twitter Blue checkmarks" },
-    "retweet_hotkey_warn": { "message": "You've just pressed T key which is hotkey for retweeting. Do you want to retweet this tweet? If you'll press confirm you won't be shown this warn again." }
+    "retweet_hotkey_warn": { "message": "You've just pressed T key which is hotkey for retweeting. Do you want to retweet this tweet? If you'll press confirm you won't be shown this warn again." },
+    "reply_btn": { "message": "Reply", "description": "Used for reply button." },
+    "retweet_btn": { "message": "Retweet / Quote tweet", "description": "Used for retweet menu button." },
+    "like_btn": { "message": "Like / Unlike", "description": "Used for like button." },
+    "favorite_btn": { "message": "Favorite / Unfavorite", "description": "Used for favorite button." },
+    "views_count": { "message": "Views", "description": "Used for views count." }
 }

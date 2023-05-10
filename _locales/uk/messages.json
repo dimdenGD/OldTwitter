@@ -358,5 +358,11 @@
     "no_tl_tweets": { "message": "Ви ні на кого не підписані так що ніяких твітів не було знайдено! Змініть тип стрічки на 'Алгорітмічну' в <a href='https://twitter.com/old/settings'>налаштуваннях розширення</a>." },
     "replying_to": { "message": "Згадування", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Вигляд" },
-    "twitter_blue_checkmarks": { "message": "Показувати галочки Twitter Blue" }
+    "twitter_blue_checkmarks": { "message": "Показувати галочки Twitter Blue" },
+    "retweet_hotkey_warn": { "message": "Ви тільки що натиснули T (українська Е) на клавіатурі, це гаряча клавиша для ретвітів. Ви хочете ретвітнути цей твіт? Якщо ви натиснете 'так' це повідомлення не буде більше показуватись." },
+    "reply_btn": { "message": "Відповісти", "description": "Used for reply button." },
+    "retweet_btn": { "message": "Ретвітнути / Цитувати", "description": "Used for retweet menu button." },
+    "like_btn": { "message": "Лайк / Прибрати лайк", "description": "Used for like button." },
+    "favorite_btn": { "message": "В улюблене / Видалити з улюбленого", "description": "Used for favorite button." },
+    "views_count": { "message": "Перегляди", "description": "Used for views button." }
 }

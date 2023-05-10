@@ -354,5 +354,15 @@
     "autotranslate_tweets": { "message": "Traduire les messages automatiquement" },
     "dont_autotranslate": { "message": "Ne pas traduire les messages automatiquemnt" },
     "round_avatars": { "message": "Photos de profil avec contour arrondi" },
-    "search_user_tweets": { "message": "Rechercher les tweets" }
+    "search_user_tweets": { "message": "Rechercher les tweets" },
+    "no_tl_tweets": { "message": "Aucun tweet ne peut apparaître puisque vous ne suivez personne. Vous pouvez changer votre type de chronologie en 'Algorithmique' dans <a href='https://twitter.com/old/settings'>OldTwitter settings</a>" },
+    "replying_to": { "message": "Répond à", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "Affichage", "description": "Used for display settings (fonts, colors, style, etc)" },
+    "twitter_blue_checkmarks": { "message": "Faire apparaître la vérification Twitter Blue" },
+    "retweet_hotkey_warn": { "message": "T est la touche de raccourci pour retweeter. Voulez-vous vraiment retweeter ce tweet? Vous ne verrez plus ce message si vous confirmez." },
+    "reply_btn": { "message": "Répondre", "description": "Used for reply button." },
+    "retweet_btn": { "message": "Retweeter / Citer", "description": "Used for retweet menu button." },
+    "like_btn": { "message": "Aimer / Ne plus aimer", "description": "Used for like button." },
+    "favorite_btn": { "message": "Mettre en favori / Ne plus mettre en favori", "description": "Used for favorite button." },
+    "views_count": { "message": "Vue(s)", "description": "Used for views count." }
 }

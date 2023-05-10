@@ -1158,6 +1158,19 @@ setTimeout(async () => {
             } else if(e.keyCode === 84) { // T
                 // retweet
                 if(!activeTweet) return;
+                let hasRetweetedWithHotkeyBefore = await new Promise(resolve => {
+                    chrome.storage.local.get(['hasRetweetedWithHotkey'], data => {
+                        resolve(data.hasRetweetedWithHotkey);
+                    });
+                });
+                if(!hasRetweetedWithHotkeyBefore) {
+                    let c = confirm(LOC.retweet_hotkey_warn.message);
+                    if(c) {
+                        chrome.storage.local.set({hasRetweetedWithHotkey: true}, () => {});
+                    } else {
+                        return;
+                    }
+                }
                 let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
                 tweetRetweetButton.click();
             } else if(e.keyCode === 82) { // R

@@ -356,5 +356,15 @@
     "autotranslate_tweets": { "message": "Translatați automat tweet-urile" },
     "dont_autotranslate": { "message": "Nu traduceți automat tweet-urile" },
     "round_avatars": { "message": "Avataruri rotunde" },
-    "search_user_tweets": { "message": "Căutați tweet-uri ale utilizatorilor" }
+    "search_user_tweets": { "message": "Căutați tweet-uri ale utilizatorilor" },
+    "no_tl_tweets": { "message": "Nu urmărești pe nimeni, deci nu a fost găsit nici un tweet! Schimbați tipul de cronologie la \"Algorithmic\" în <a href='https://twitter.com/old/settings'>setari OldTwitter</a>." },
+    "replying_to": { "message": "Raspunde la", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "Afișaj", "description": "Used for display settings (fonts, colors, style, etc)" },
+    "twitter_blue_checkmarks": { "message": "Afișați marcajele Twitter Blue" },
+    "retweet_hotkey_warn": { "message": "Ați apăsat tocmai tasta T, care este scurtătura pentru retweet. Doriți să retweet-uiți acest tweet? Dacă confirmați, nu veți mai primi avertizare acesta din nou." },
+    "reply_btn": { "message": "Răspunde", "description": "Used for reply button." },
+    "retweet_btn": { "message": "Retweet / Citați tweetul", "description": "Used for retweet menu button." },
+    "like_btn": { "message": "Apreciați / Dezapreciați", "description": "Used for like button." },
+    "favorite_btn": { "message": "Favorit / Desfavorit", "description": "Used for favorite button." },
+    "views_count": { "message": "Vizualizări", "description": "Used for views count." }
 }

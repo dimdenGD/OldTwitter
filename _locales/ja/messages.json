@@ -356,5 +356,15 @@
     "autotranslate_tweets": { "message": "ツイートを自動で翻訳する" },
     "dont_autotranslate": { "message": "ツイートを自動で翻訳しない" },
     "round_avatars": { "message": "丸いアイコン" },
-    "search_user_tweets": { "message": "ユーザーのツイートを検索する" }
+    "search_user_tweets": { "message": "ユーザーのツイートを検索する" },
+    "no_tl_tweets": { "message": "あなたは誰もフォローしていないので、タイムラインのツイートはありません。タイムラインのタイプを「アルゴリズム」に変更してください' in <a href='https://twitter.com/old/settings'>OldTwitter settings</a>." },
+    "replying_to": { "message": "返信先", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "ディスプレイ", "description": "Used for display settings (fonts, colors, style, etc)" },
+    "twitter_blue_checkmarks": { "message": "Twitter Blueの認証マークを表示する" },
+    "retweet_hotkey_warn": { "message": "あなたはリツイートのボタンであるTキーを押しました。このツイートを本当にリツイートしますか？確認を押すとこの警告は表示されなくなります" },
+    "reply_btn": { "message": "返信", "description": "Used for reply button." },
+    "retweet_btn": { "message": "リツイート / 引用リツイート", "description": "Used for retweet menu button." },
+    "like_btn": { "message": "いいね / いいね取り消し", "description": "Used for like button." },
+    "favorite_btn": { "message": "お気に入り / お気に入りを取り消し", "description": "Used for favorite button." },
+    "views_count": { "message": "表示回数", "description": "Used for views count." }
 }

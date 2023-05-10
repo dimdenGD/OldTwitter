@@ -949,8 +949,8 @@ class TweetViewer {
                 ` : ''}
                 <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source ? t.source.split('>')[1].split('<')[0] : 'Unknown'}</a>
                 <div class="tweet-interact">
-                    <span class="tweet-interact-reply" data-val="${t.reply_count}">${options.mainTweet ? '' : Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</span>
-                    <span class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</span>
+                    <span class="tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</span>
+                    <span title="${LOC.retweet_btn.message}" class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</span>
                     <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
                         <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? LOC.unretweet.message : LOC.retweet.message}</span>
                         <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span>
@@ -959,8 +959,8 @@ class TweetViewer {
                             <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span>
                         ` : ''}
                     </div>
-                    <span class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</span>
-                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${Number(t.ext.views.r.ok.count).toLocaleString().replace(/\s/g, ',')}</span>` : ''}
+                    <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</span>
+                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${Number(t.ext.views.r.ok.count).toLocaleString().replace(/\s/g, ',')}</span>` : ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
@@ -989,19 +989,19 @@ class TweetViewer {
                 </div>
                 <div class="tweet-reply" hidden>
                     <br>
-                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
+                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+R"' : ''} class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-reply-error" style="color:red"></span>
                     <textarea maxlength="1000" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
-                    <button class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
+                    <button title="CTRL+ENTER" class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
                     <span class="tweet-reply-char">0/280</span><br>
                     <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
                 </div>
                 <div class="tweet-quote" hidden>
                     <br>
-                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
+                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+Q"' : ''} class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-quote-error" style="color:red"></span>
                     <textarea maxlength="1000" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
-                    <button class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
+                    <button title="CTRL+ENTER" class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
                     <span class="tweet-quote-char">0/280</span><br>
                     <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
                 </div>

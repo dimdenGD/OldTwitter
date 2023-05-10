@@ -403,7 +403,6 @@ setTimeout(async () => {
             } else if(e.keyCode === 84) { // T
                 // retweet
                 if(!activeTweet) return;
-                let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
                 let hasRetweetedWithHotkeyBefore = await new Promise(resolve => {
                     chrome.storage.local.get(['hasRetweetedWithHotkey'], data => {
                         resolve(data.hasRetweetedWithHotkey);
@@ -417,6 +416,7 @@ setTimeout(async () => {
                         return;
                     }
                 }
+                let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
                 tweetRetweetButton.click();
             } else if(e.keyCode === 82) { // R
                 // open reply box
