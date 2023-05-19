@@ -74,7 +74,7 @@
     "mentions": { "message": "Упоминания" },
     "tweeted_like": { "message": "твитнул то что вам может понравится", "example": "CoolPerson2000 ->tweeted something you might like<-" },
     "favorites": { "message": "Понравившееся" },
-    "follows_you": { "message": "Подписан на вас" },
+    "follows_you": { "message": "Подписаны на вас" },
     "tweet_to_user": { "message": "Твитнуть пользователю" },
     "followers_you_know": { "message": "подписчиков которых вы знаете", "example": "123 ->followers you know<-" },
     "photos_and_videos": { "message": "Фото и видео" },
@@ -364,5 +364,8 @@
     "retweet_btn": { "message": "Ретвитнуть / Цитировать", "description": "Used for retweet menu button." },
     "like_btn": { "message": "Лайк / Убрать лайк", "description": "Used for like button." },
     "favorite_btn": { "message": "В любимое / Убрать из любимого", "description": "Used for favorite button." },
-    "views_count": { "message": "Просмотры", "description": "Used for views button." }
+    "views_count": { "message": "Просмотры", "description": "Used for views button." },
+    "developer_mode": { "message": "Режим разработчика" },
+    "copy_user_id": { "message": "Копировать ID пользователя" },
+    "copy_tweet_id": { "message": "Копировать ID твита" }
 }

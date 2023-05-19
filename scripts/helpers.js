@@ -1280,6 +1280,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? /*html*/`<span class="tweet-interact-more-menu-download-gif" data-gifno="1">${LOC.download_gif.message}</span>` : ``}
                         ${t.extended_entities && t.extended_entities.media.length > 1 ? t.extended_entities.media.filter(m => m.type === 'animated_gif').map((m, i) => /*html*/`<span class="tweet-interact-more-menu-download-gif" data-gifno="${i+1}">${LOC.download_gif.message} (#${i+1})</span>`).join('\n') : ''}
                         ${t.extended_entities && t.extended_entities.media.length === 1 ? /*html*/`<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
+                        ${vars.developerMode ? `
+                        <hr>
+                        <span class="tweet-interact-more-menu-copy-user-id">${LOC.copy_user_id.message}</span>
+                        <span class="tweet-interact-more-menu-copy-tweet-id">${LOC.copy_tweet_id.message}</span>
+                        ` : ''}
                     </div>
                     ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? /*html*/`<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
                     ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
@@ -1584,6 +1589,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
         const tweetInteractMoreMenu = tweet.getElementsByClassName('tweet-interact-more-menu')[0];
         const tweetInteractMoreMenuCopy = tweet.getElementsByClassName('tweet-interact-more-menu-copy')[0];
+        const tweetInteractMoreMenuCopyTweetId = tweet.getElementsByClassName('tweet-interact-more-menu-copy-tweet-id')[0];
+        const tweetInteractMoreMenuCopyUserId = tweet.getElementsByClassName('tweet-interact-more-menu-copy-user-id')[0];
         const tweetInteractMoreMenuEmbed = tweet.getElementsByClassName('tweet-interact-more-menu-embed')[0];
         const tweetInteractMoreMenuShare = tweet.getElementsByClassName('tweet-interact-more-menu-share')[0];
         const tweetInteractMoreMenuAnalytics = tweet.getElementsByClassName('tweet-interact-more-menu-analytics')[0];
@@ -2321,6 +2328,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         tweetInteractMoreMenuCopy.addEventListener('click', () => {
             navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+        });
+        if(tweetInteractMoreMenuCopyTweetId) tweetInteractMoreMenuCopyTweetId.addEventListener('click', () => {
+            navigator.clipboard.writeText(t.id_str);
+        });
+        if(tweetInteractMoreMenuCopyUserId) tweetInteractMoreMenuCopyUserId.addEventListener('click', () => {
+            navigator.clipboard.writeText(t.user.id_str);
         });
         tweetInteractMoreMenuShare.addEventListener('click', () => {
             navigator.share({ url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}` });

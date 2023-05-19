@@ -653,6 +653,7 @@ async function renderProfile() {
                 <span id="profile-settings-lists" ${pageUser.protected && !pageUser.following ? 'hidden' : ''}>${LOC.see_lists.message}</span>
                 <span id="profile-settings-share">${LOC.share_user.message}</span>
                 <span id="profile-settings-copy">${LOC.copy_profile_link.message}</span>
+                ${vars.developerMode ? /*html*/`<span id="profile-settings-copy-id">${LOC.copy_user_id.message}</span>` : ''}
             </div>
         `;
         let messageUser = document.getElementById('message-user');
@@ -905,6 +906,9 @@ async function renderProfile() {
         });
         document.getElementById('profile-settings-copy').addEventListener('click', async () => {
             navigator.clipboard.writeText(`https://twitter.com/${pageUser.screen_name}`);
+        });
+        if(document.getElementById('profile-settings-copy-id')) document.getElementById('profile-settings-copy-id').addEventListener('click', async () => {
+            navigator.clipboard.writeText(pageUser.id_str);
         });
     }
 

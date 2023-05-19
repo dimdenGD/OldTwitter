@@ -74,7 +74,7 @@
     "mentions": { "message": "Згадування" },
     "tweeted_like": { "message": "твітнув(ла) те що вам може сподобатись", "example": "CoolPerson2000 ->tweeted something you might like<-" },
     "favorites": { "message": "Вподобання" },
-    "follows_you": { "message": "Підписаний(на) на вас" },
+    "follows_you": { "message": "Підписані на вас" },
     "tweet_to_user": { "message": "Твітнути" },
     "followers_you_know": { "message": "підписників яких ви знаєте", "example": "123 ->followers you know<-" },
     "photos_and_videos": { "message": "Фото і відео" },
@@ -364,5 +364,8 @@
     "retweet_btn": { "message": "Ретвітнути / Цитувати", "description": "Used for retweet menu button." },
     "like_btn": { "message": "Лайк / Прибрати лайк", "description": "Used for like button." },
     "favorite_btn": { "message": "В улюблене / Видалити з улюбленого", "description": "Used for favorite button." },
-    "views_count": { "message": "Перегляди", "description": "Used for views button." }
+    "views_count": { "message": "Перегляди", "description": "Used for views button." },
+    "developer_mode": { "message": "Режим розробника" },
+    "copy_user_id": { "message": "Копіювати ID користувача" },
+    "copy_tweet_id": { "message": "Копіювати ID твіта" }
 }

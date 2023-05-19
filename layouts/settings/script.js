@@ -139,6 +139,7 @@ setTimeout(async () => {
     let displaySensitiveContent = document.getElementById('display-sensitive-content');
     let seeTweetViews = document.getElementById('see-tweet-views');
     let twitterBlueCheckmarks = document.getElementById('twitter-blue-checkmarks');
+    let developerMode = document.getElementById('developer-mode');
 
     let root = document.querySelector(":root");
     {
@@ -244,6 +245,11 @@ setTimeout(async () => {
     twitterBlueCheckmarks.addEventListener('change', () => {
         chrome.storage.sync.set({
             twitterBlueCheckmarks: twitterBlueCheckmarks.checked
+        }, () => { });
+    });
+    developerMode.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            developerMode: developerMode.checked
         }, () => { });
     });
     language.addEventListener('change', () => {
@@ -384,6 +390,7 @@ setTimeout(async () => {
     displaySensitiveContent.checked = !!vars.displaySensitiveContent;
     seeTweetViews.checked = !!vars.seeTweetViews;
     twitterBlueCheckmarks.checked = !!vars.twitterBlueCheckmarks;
+    developerMode.checked = !!vars.developerMode;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

@@ -304,6 +304,35 @@ let userDataFunction = async user => {
             }
         });
     }
+
+    // unfollows
+    if(user.followers_count > 0 && user.followers_count < 50000 && false) {
+        chrome.storage.local.get(['unfollows'], async d => {
+            let res = d.unfollows;
+            if(!res) res = {};
+            if(!res[user.id_str]) res[user.id_str] = {
+                followers: [],
+                unfollows: [],
+                lastUpdate: 0
+            };
+            let data = res[user.id_str];
+
+            if(Date.now() - data.lastUpdate > 1000 * 60 * 60 * 3) {
+                let cursor = "-1";
+                let followers = [];
+
+                while(cursor !== "0") {
+                    let data = await API.getFollowersIds(cursor);
+                    cursor = data.next_cursor_str;
+                    followers = followers.concat(data.ids);
+                }
+
+                let unfollows = data.followers.filter(f => !followers.includes(f));
+                data.followers = followers;
+
+            }
+        });
+    }
     
     // messages
     let cursor;

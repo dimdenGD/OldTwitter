@@ -1,7 +1,4 @@
-/*
-This script generates Firefox version of the extension and packs Chrome and Firefox versions to zip files.
-Node.js v16.6.1 recommended.
-*/
+// This script generates Firefox version of the extension and packs Chrome and Firefox versions to zip files.
 
 const fsp = require('fs').promises;
 const fs = require('fs');
@@ -24,10 +21,10 @@ async function copyDir(src, dest) {
 }
 
 if(fs.existsSync('../OldTwitterTempChrome')) {
-  fs.rmdirSync('../OldTwitterTempChrome', { recursive: true });
+  fs.rmSync('../OldTwitterTempChrome', { recursive: true });
 }
 if(fs.existsSync('../OldTwitterFirefox')) {
-  fs.rmdirSync('../OldTwitterFirefox', { recursive: true });
+  fs.rmSync('../OldTwitterFirefox', { recursive: true });
 }
 
 console.log("Copying...");
@@ -252,7 +249,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     }
     console.log("Zipped!");
     console.log("Deleting temporary folders...");
-    fs.rmdirSync('../OldTwitterTempChrome', { recursive: true });
-    fs.rmdirSync('../OldTwitterFirefox', { recursive: true });
+    fs.rmSync('../OldTwitterTempChrome', { recursive: true });
+    fs.rmSync('../OldTwitterFirefox', { recursive: true });
     console.log("Deleted!");
 });

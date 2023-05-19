@@ -375,5 +375,8 @@
     "retweet_btn": { "message": "Retweet / Quote tweet", "description": "Used for retweet menu button." },
     "like_btn": { "message": "Like / Unlike", "description": "Used for like button." },
     "favorite_btn": { "message": "Favorite / Unfavorite", "description": "Used for favorite button." },
-    "views_count": { "message": "Views", "description": "Used for views count." }
+    "views_count": { "message": "Views", "description": "Used for views count." },
+    "developer_mode": { "message": "Developer mode" },
+    "copy_user_id": { "message": "Copy user ID" },
+    "copy_tweet_id": { "message": "Copy tweet ID" }
 }

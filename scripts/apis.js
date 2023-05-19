@@ -1343,7 +1343,7 @@ API.getFollowing = (id, cursor) => {
     return new Promise((resolve, reject) => {
         let obj = {
             "userId": id,
-            "count": 50,
+            "count": 100,
             "includePromotedContent": false,
             "withSuperFollowsUserFields": true,
             "withDownvotePerspective": false,
@@ -1393,11 +1393,51 @@ API.getFollowing = (id, cursor) => {
         });
     });
 }
-API.getFollowers = (id, cursor) => {
+API.getFollowersIds = (cursor = -1, count = 5000) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/followers/ids.json?cursor=${cursor}&stringify_ids=true&count=${count}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.lookupUsers = ids => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/users/lookup.json?user_id=${ids.join(",")}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getFollowers = (id, cursor, count = 100) => {
     return new Promise((resolve, reject) => {
         let obj = {
             "userId": id,
-            "count": 50,
+            "count": count,
             "includePromotedContent": false,
             "withSuperFollowsUserFields": true,
             "withDownvotePerspective": false,
