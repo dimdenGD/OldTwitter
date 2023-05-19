@@ -269,7 +269,7 @@
     "retweet": { "message": "Retwitear" },,
     "delete_sure": { "message": "¿Estás seguro de que quieres eliminar este tweet?" },
     "long_vid": { "message": "Este video dura más de 10 segundos. ¿Estás seguro que quieres convertirlo? podría demorarse" },
-    "feedback_thanks": { "message": "¡Gracias por tus comentario!" },
+    "feedback_thanks": { "message": "¡Agradecemos su opinión!" },
     "liked_by": { "message": "Le gusta a" },
     "reply": { "message": "Responder" },
     "language": { "message": "Idioma (Language)", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Язык (Language)" },
