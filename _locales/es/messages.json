@@ -41,7 +41,7 @@
     "open_newtwitter": { "message": "Abrir esta página en el diseño actual de Twitter" },
     "last_version": { "message": "Última versión" },
     "thank_you": {
-        "message": "Thank you for installing OldTwitter!! I hope you'll like it. Check $AT1$extension settings$AT2$!",
+        "message": "T¡Gracias por instalar OldTwitter! Espero que te guste. ¡Echa un vistazo a los $AT1$los ajustes de la extensión$AT2$!",
         "placeholders": {
             "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
             "at2": { "content": "</a>" }
@@ -367,12 +367,12 @@
     "round_avatars": { "message": "Ver los avatares en circular" },
     "search_user_tweets": { "message": "Buscar tweets de usuarios" },
     "no_tl_tweets": { "message": "¡No estás siguiendo a nadie por lo que no se han encontrado tweets! Cambie su tipo de línea de tiempo a 'Algoritmo' en los<a href='https://twitter.com/old/settings'>Ajustes de OldTwitter.</a>." }
-	"display": { "message": "Apariencia general", "description": "Used for display settings (fonts, colors, style, etc)" },
-	"twitter_blue_checkmarks": { "message": "Mostrar la marca de verificación de Twitter Blue" },
-	"retweet_hotkey_warn": { "message": "Acabas de presionar la tecla 'T', que es la tecla de acceso rápido para retwittear. ¿Quieres retwittear este tweet? Si presionas 'confirmar' ya no se volverá a mostrar este aviso.." },
-	"reply_btn": { "message": "Responder", "description": "Used for reply button." },
+    "display": { "message": "Apariencia general", "description": "Used for display settings (fonts, colors, style, etc)" },
+    "twitter_blue_checkmarks": { "message": "Mostrar la marca de verificación de Twitter Blue" },
+    "retweet_hotkey_warn": { "message": "Acabas de presionar la tecla 'T', que es la tecla de acceso rápido para retwittear. ¿Quieres retwittear este tweet? Si presionas 'confirmar' ya no se volverá a mostrar este aviso.." },
+    "reply_btn": { "message": "Responder", "description": "Used for reply button." },
     "retweet_btn": { "message": "Retwittear / Citar Tweet", "description": "Used for retweet menu button." },
-	"like_btn": { "message": "Me gusta / Cancelar Me Gusta", "description": "Used for like button." },
-	"favorite_btn": { "message": "Favorito / Cancelar Favorito", "description": "Used for favorite button." },
-	"views_count": { "message": "Visualizaciones", "description": "Used for views count." }
+    "like_btn": { "message": "Me gusta / Cancelar Me Gusta", "description": "Used for like button." },
+    "favorite_btn": { "message": "Favorito / Cancelar Favorito", "description": "Used for favorite button." },
+    "views_count": { "message": "Visualizaciones", "description": "Used for views count." }
 }
