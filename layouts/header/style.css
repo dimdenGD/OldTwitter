@@ -1726,3 +1726,7 @@ emoji-picker {
     fill: white;
     transition: 0.2s;
 }
+.user-item-additional {
+    color: var(--light-gray);
+    font-size: 14px;
+}

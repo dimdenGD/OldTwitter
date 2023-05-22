@@ -740,6 +740,48 @@ function onVisible(element, callback) {
       });
     }).observe(element);
 }
+function updateUnfollows(res) {
+    return new Promise(async (resolve, reject) => {
+        let data = res[user.id_str];
+        let cursor = "-1";
+        let followers = [], following = [];
+    
+        data.lastUpdate = Date.now();
+        chrome.storage.local.set({unfollows: res});
+    
+        while(cursor !== "0") {
+            let data = await API.getFollowersIds(cursor);
+            cursor = data.next_cursor_str;
+            followers = followers.concat(data.ids);
+        }
+        cursor = "-1";
+        while(cursor !== "0") {
+            let data = await API.getFollowingIds(cursor);
+            cursor = data.next_cursor_str;
+            following = following.concat(data.ids);
+        }
+    
+        let unfollowers = data.followers.filter(f => !followers.includes(f));
+        data.followers = followers;
+        if(unfollowers.length > 0 && unfollowers.length < 100) {
+            unfollowers = unfollowers.map(u => [u, Date.now()]);
+            data.unfollowers = data.unfollowers.concat(unfollowers);
+            if(data.unfollowers.length > 100) {
+                data.unfollowers = data.unfollowers.slice(data.unfollowers.length - 100);
+            }
+        }
+        let unfollowings = data.following.filter(f => !following.includes(f));
+        data.following = following;
+        if(unfollowings.length > 0 && unfollowings.length < 100) {
+            unfollowings = unfollowings.map(u => [u, Date.now()]);
+            data.unfollowings = data.unfollowings.concat(unfollowings);
+            if(data.unfollowings.length > 100) {
+                data.unfollowings = data.unfollowings.slice(data.unfollowings.length - 100);
+            }
+        }
+        chrome.storage.local.set({unfollows: res}, () => resolve(res));
+    });
+}
 
 const mediaClasses = [
     undefined,
@@ -864,7 +906,7 @@ async function renderDiscovery(cache = true) {
     }
 }
 
-async function appendUser(u, container) {
+async function appendUser(u, container, label) {
     let userElement = document.createElement('div');
     userElement.classList.add('user-item');
     if(vars.twitterBlueCheckmarks && u.ext && u.ext.isBlueVerified && u.ext.isBlueVerified.r && u.ext.isBlueVerified.r.ok) {
@@ -881,6 +923,7 @@ async function appendUser(u, container) {
                     <span${u.id_str === '1123203847776763904' ? ' title="Old Twitter Layout extension developer"' : ''} class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1123203847776763904' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
                     ${u.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
+                    ${label ? `<br><span class="user-item-additional">${escapeHTML(label)}</span>` : ''}
                 </div>
             </a>
         </div>

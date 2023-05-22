@@ -34,13 +34,18 @@ function renderUserData() {
     }
     document.getElementById('user-following').innerText = Number(user.friends_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('user-followers').innerText = Number(user.followers_count).toLocaleString().replace(/\s/g, ',');
-    document.getElementById('user-banner').src = user.profile_banner_url;
+    document.getElementById('user-tweets-div').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
+    document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
+    document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
     document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
+
+    document.getElementById('loading-box').hidden = true;
 }
 function renderHistory() {
     let tle = document.getElementById('timeline');

@@ -306,31 +306,37 @@ let userDataFunction = async user => {
     }
 
     // unfollows
-    if(user.followers_count > 0 && user.followers_count < 50000 && false) {
+    if(user.followers_count > 0 && user.followers_count < 50000) {
         chrome.storage.local.get(['unfollows'], async d => {
             let res = d.unfollows;
             if(!res) res = {};
             if(!res[user.id_str]) res[user.id_str] = {
                 followers: [],
-                unfollows: [],
+                following: [],
+                unfollowers: [],
+                unfollowings: [],
                 lastUpdate: 0
             };
-            let data = res[user.id_str];
 
-            if(Date.now() - data.lastUpdate > 1000 * 60 * 60 * 3) {
-                let cursor = "-1";
-                let followers = [];
-
-                while(cursor !== "0") {
-                    let data = await API.getFollowersIds(cursor);
-                    cursor = data.next_cursor_str;
-                    followers = followers.concat(data.ids);
-                }
-
-                let unfollows = data.followers.filter(f => !followers.includes(f));
-                data.followers = followers;
-
+            if(Date.now() - res[user.id_str].lastUpdate > 1000 * 60 * 60) {
+                updateUnfollows(res);
             }
+            setInterval(() => {
+                chrome.storage.local.get(['unfollows'], async d => {
+                    let res = d.unfollows;
+                    if(!res) res = {};
+                    if(!res[user.id_str]) res[user.id_str] = {
+                        followers: [],
+                        following: [],
+                        unfollowers: [],
+                        unfollowings: [],
+                        lastUpdate: 0
+                    };
+                    if(Date.now() - res[user.id_str].lastUpdate > 1000 * 60 * 60) {
+                        updateUnfollows(res);
+                    }
+                });
+            }, 1000 * 60 * 10);
         });
     }
     
@@ -828,7 +834,6 @@ let userDataFunction = async user => {
             renderInboxMessages(moreInbox, inboxList);
         });
         loadMoreMessages.addEventListener('click', async () => {
-            console.log(lastConvo);
             let moreMessages = await API.getConversation(lastConvo.conversation_id, lastConvo.min_entry_id);
             renderConversation(moreMessages, lastConvo.conversation_id, false);
         });

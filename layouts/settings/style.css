@@ -381,3 +381,6 @@ select {
     background-color: var(--input-background);
     border-color: var(--border);
 }
+.user-stat-div:hover {
+    text-decoration: none !important;
+}

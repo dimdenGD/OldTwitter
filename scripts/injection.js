@@ -46,6 +46,14 @@ let pages = [
         paths: [/^\/[A-z-0-9-_]{1,15}(\/with_replies|\/media|\/likes|\/following|\/followers|\/followers_you_follow|\/lists|)$/g],
         exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"],
     },
+    {
+        name: "unfollowers",
+        paths: ["/old/unfollowers"]
+    },
+    {
+        name: "unfollowings",
+        paths: ["/old/unfollowings"]
+    }
 ];
 
 let realPath = location.pathname.split('?')[0].split('#')[0];

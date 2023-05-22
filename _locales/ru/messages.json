@@ -367,5 +367,10 @@
     "views_count": { "message": "Просмотры", "description": "Used for views button." },
     "developer_mode": { "message": "Режим разработчика" },
     "copy_user_id": { "message": "Копировать ID пользователя" },
-    "copy_tweet_id": { "message": "Копировать ID твита" }
+    "copy_tweet_id": { "message": "Копировать ID твита" },
+    "unfollowers": { "message": "Отписавшиеся" },
+    "unfollowings": { "message": "Отписки" },
+    "no_unfollowers": { "message": "От вас ещё не отписывались!" },
+    "no_unfollowings": { "message": "Вы ещё не отписывались!" },
+    "recent_unfollow_update": { "message": "Отписки были обновлены менее чем 15 минут назад." }
 }

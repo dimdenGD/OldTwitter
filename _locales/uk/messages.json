@@ -367,5 +367,10 @@
     "views_count": { "message": "Перегляди", "description": "Used for views button." },
     "developer_mode": { "message": "Режим розробника" },
     "copy_user_id": { "message": "Копіювати ID користувача" },
-    "copy_tweet_id": { "message": "Копіювати ID твіта" }
+    "copy_tweet_id": { "message": "Копіювати ID твіта" },
+    "unfollowers": { "message": "Відписники" },
+    "unfollowings": { "message": "Відписки" },
+    "no_unfollowers": { "message": "У вас ще нема відписок." },
+    "no_unfollowings": { "message": "Ви не відписувались." },
+    "recent_unfollow_update": { "message": "Дані про відписки були оновлені менше ніж 15 хвилин назад." }
 }

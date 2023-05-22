@@ -61,6 +61,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>Added ability to see who unfollows you.</li>
                             <li>Added developer mode for copying IDs.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
@@ -68,7 +69,7 @@ setTimeout(() => {
                     </span>
                 `, 'changelog-modal', () => {});
                 let changelog = document.getElementById('changelog');
-                let text = changelog.innerText;
+                let text = changelog.innerText;f
                 let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
                 if(!lang.startsWith('en')) {
                     changelog.innerHTML += `<span class="tweet-translate">${LOC.view_translation.message}</span>`;

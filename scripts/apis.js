@@ -1393,6 +1393,26 @@ API.getFollowing = (id, cursor) => {
         });
     });
 }
+API.getFollowingIds = (cursor = -1, count = 5000) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/friends/ids.json?cursor=${cursor}&stringify_ids=true&count=${count}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 API.getFollowersIds = (cursor = -1, count = 5000) => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/followers/ids.json?cursor=${cursor}&stringify_ids=true&count=${count}`, {

@@ -378,5 +378,10 @@
     "views_count": { "message": "Views", "description": "Used for views count." },
     "developer_mode": { "message": "Developer mode" },
     "copy_user_id": { "message": "Copy user ID" },
-    "copy_tweet_id": { "message": "Copy tweet ID" }
+    "copy_tweet_id": { "message": "Copy tweet ID" },
+    "unfollowers": { "message": "Unfollowers" },
+    "unfollowings": { "message": "Unfollowings" },
+    "no_unfollowers": { "message": "You don't have any unfollowers yet!" },
+    "no_unfollowings": { "message": "You didn't unfollow anyone yet!" },
+    "recent_unfollow_update": { "message": "Unfollows were updated less than 15 minutes ago." }
 }

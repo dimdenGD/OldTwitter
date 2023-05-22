@@ -899,7 +899,9 @@ emoji-picker {
 
 .piu-a {
     color: var(--light-gray);
-    text-decoration: none
+}
+.pin-a {
+    text-decoration: none !important;
 }
 .translate-bio {
     font-size: 12px;

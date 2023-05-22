@@ -342,7 +342,16 @@ async function updateTimeline() {
 async function renderFollowing(clear = true, cursor) {
     loadingFollowing = true;
     let userList = document.getElementById('following-list');
-    if(clear) userList.innerHTML = `<h1 class="nice-header">${LOC.following.message}</h1>`;
+    if(clear) {
+        if(pageUser.id_str === user.id_str) {
+            userList.innerHTML = `
+                <h1 class="nice-header">${LOC.following.message}</h1>
+                <a href="/old/unfollowings" style="float: right;font-size: 14px;">${LOC.unfollowings.message}</a>
+            `;
+        } else {
+            userList.innerHTML = `<h1 class="nice-header">${LOC.following.message}</h1>`;
+        }
+    }
     let following;
     try {
         following = await API.getFollowing(pageUser.id_str, cursor);
@@ -369,7 +378,16 @@ async function renderFollowing(clear = true, cursor) {
 async function renderFollowers(clear = true, cursor) {
     loadingFollowers = true;
     let userList = document.getElementById('followers-list');
-    if(clear) userList.innerHTML = '<h1 class="nice-header">Followers</h1>';
+    if(clear) {
+        if(pageUser.id_str === user.id_str) {
+            userList.innerHTML = `
+                <h1 class="nice-header">${LOC.followers.message}</h1>
+                <a href="/old/unfollowers" style="float: right;font-size: 14px;">${LOC.unfollowers.message}</a>
+            `;
+        } else {
+            userList.innerHTML = `<h1 class="nice-header">${LOC.followers.message}</h1>`;
+        }
+    }
     let following;
     try {
         following = await API.getFollowers(pageUser.id_str, cursor)
