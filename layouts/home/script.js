@@ -69,7 +69,7 @@ setTimeout(() => {
                     </span>
                 `, 'changelog-modal', () => {});
                 let changelog = document.getElementById('changelog');
-                let text = changelog.innerText;f
+                let text = changelog.innerText;
                 let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
                 if(!lang.startsWith('en')) {
                     changelog.innerHTML += `<span class="tweet-translate">${LOC.view_translation.message}</span>`;
