@@ -3,6 +3,7 @@ let bookmarkCursor = null;
 let end = false;
 let linkColors = {};
 let activeTweet;
+let unfollowersPage = location.pathname.includes('/followers');
 
 function updateUserData() {
     API.verifyCredentials().then(async u => {
@@ -66,15 +67,25 @@ function renderUnfollows() {
             document.getElementById('update-btn').title = '';
         }
 
-        let unfollows = res[user.id_str].unfollowers.sort((a, b) => b[1] - a[1]);
+        let unfollows = res[user.id_str][unfollowersPage ? 'unfollowers' : 'unfollowings'].sort((a, b) => b[1] - a[1]);
         let timeline = document.getElementById('timeline');
         timeline.innerHTML = '';
 
         if(unfollows.length === 0) {
-            return timeline.innerHTML = `<span style="color:var(--light-gray)">${LOC.no_unfollowers.message}</span>`;
+            return timeline.innerHTML = `<span style="color:var(--light-gray)">${unfollowersPage ? LOC.no_unfollowers.message : LOC.no_unfollowings.message}</span>`;
         }
 
-        let userData = await API.lookupUsers(unfollows.map(u => u[0]));
+        let userData;
+        try {
+            userData = await API.lookupUsers(unfollows.map(u => u[0]));
+        } catch(e) {
+            console.error(e);
+            if(String(e).includes('No user matches for specified terms.')) {
+                return timeline.innerHTML = `<span style="color:var(--light-gray)">${LOC.deleted_accounts.message}</span>`;
+            } else {
+                return timeline.innerHTML = `<span style="color:#ff4545">${escapeHTML(String(e))}</span>`;
+            }
+        }
 
         for(let i = 0; i < unfollows.length; i++) {
             let user = userData.find(u => u.id_str === unfollows[i][0]);
@@ -84,7 +95,6 @@ function renderUnfollows() {
         }
     });
 }
-
 
 setTimeout(async () => {
     if(!vars) {
@@ -101,6 +111,7 @@ setTimeout(async () => {
         return;
     }
 
+    document.getElementById('utitle').innerText = unfollowersPage ? LOC.unfollowers.message : LOC.unfollowings.message;
     document.getElementById('update-btn').addEventListener('click', async () => {
         chrome.storage.local.get(['unfollows'], async d => {
             let res = d.unfollows;

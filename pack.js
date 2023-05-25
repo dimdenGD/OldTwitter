@@ -138,14 +138,8 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
           "run_at": "document_idle"
         },
         {
-          "matches": ["https://twitter.com/old/unfollowers", "https://twitter.com/old/unfollowers/", "https://twitter.com/old/unfollowers?*", "https://twitter.com/old/unfollowers/?*"],
+          "matches": ["https://twitter.com/old/unfollows/*", "https://twitter.com/old/unfollows/*/", "https://twitter.com/old/unfollows/*?*", "https://twitter.com/old/unfollows/*/?*"],
           "js": ["layouts/unfollowers/script.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/old/unfollowings", "https://twitter.com/old/unfollowings/", "https://twitter.com/old/unfollowings?*", "https://twitter.com/old/unfollowings/?*"],
-          "js": ["layouts/unfollowings/script.js"],
           "all_frames": true,
           "run_at": "document_idle"
         },

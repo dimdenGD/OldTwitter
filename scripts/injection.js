@@ -47,12 +47,8 @@ let pages = [
         exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"],
     },
     {
-        name: "unfollowers",
-        paths: ["/old/unfollowers"]
-    },
-    {
-        name: "unfollowings",
-        paths: ["/old/unfollowings"]
+        name: "unfollows",
+        paths: ["/old/unfollows/followers", "/old/unfollows/following"]
     }
 ];
 
