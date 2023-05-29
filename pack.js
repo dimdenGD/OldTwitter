@@ -139,7 +139,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         },
         {
           "matches": ["https://twitter.com/old/unfollows/*", "https://twitter.com/old/unfollows/*/", "https://twitter.com/old/unfollows/*?*", "https://twitter.com/old/unfollows/*/?*"],
-          "js": ["layouts/unfollowers/script.js"],
+          "js": ["layouts/unfollows/script.js"],
           "all_frames": true,
           "run_at": "document_idle"
         },
