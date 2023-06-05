@@ -1480,6 +1480,7 @@ setTimeout(async () => {
         followingCursor = undefined;
         followersYouKnowCursor = undefined;
         mediaCursor = undefined;
+        if(window.scrollY > 400) window.scrollTo(0, 400);
         if(subpage === 'following') {
             renderFollowing();
         } else if(subpage === 'followers') {
