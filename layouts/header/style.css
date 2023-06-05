@@ -1386,6 +1386,9 @@ input, textarea {
 .tweet-interact-more-menu-block:before {
     content: "\f065"
 }
+.tweet-interact-more-menu-newtwitter:before {
+    content: "\f179"
+}
 .tweet-translate-after {
     color: var(--light-gray);
     cursor: pointer;

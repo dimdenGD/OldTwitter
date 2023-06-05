@@ -385,5 +385,6 @@
     "no_unfollowers": { "message": "You don't have any unfollowers yet!" },
     "no_unfollowings": { "message": "You didn't unfollow anyone yet!" },
     "recent_unfollow_update": { "message": "Unfollows were updated less than 15 minutes ago." },
-    "deleted_accounts": { "message": "Seems like everyone in this list deleted their account." }
+    "deleted_accounts": { "message": "Seems like everyone in this list deleted their account." },
+    "open_tweet_newtwitter": { "message": "Open tweet in new Twitter" }
 }

@@ -374,5 +374,6 @@
     "no_unfollowers": { "message": "От вас ещё не отписывались!" },
     "no_unfollowings": { "message": "Вы ещё не отписывались!" },
     "recent_unfollow_update": { "message": "Отписки были обновлены менее чем 15 минут назад." },
-    "deleted_accounts": { "message": "Все в этом списке удалили свой аккаунт." }
+    "deleted_accounts": { "message": "Все в этом списке удалили свой аккаунт." },
+    "open_tweet_newtwitter": { "message": "Открыть в новом Твиттере" }
 }
