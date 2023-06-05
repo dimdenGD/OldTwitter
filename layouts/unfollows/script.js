@@ -90,6 +90,7 @@ function renderUnfollows() {
         for(let i = 0; i < unfollows.length; i++) {
             let user = userData.find(u => u.id_str === unfollows[i][0]);
             if(!user) continue;
+            if(unfollowersPage && user.id_str === '1123203847776763904') continue; // dimden
             
             appendUser(user, timeline, new Date(unfollows[i][1]).toLocaleString());
         }
