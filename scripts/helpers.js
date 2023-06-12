@@ -742,10 +742,15 @@ const getLinkColors = ids => {
                 }
                 for(let id of ids) {
                     if(typeof linkColors[id] === "undefined") {
-                        linkColors[id] = false;
+                        linkColors[id] = 0;
                     }
                 }
-                chrome.storage.local.set({linkColors}, () => {});
+                let keys = Object.keys(linkColors);
+                if(keys.length > 20000) {
+                    chrome.storage.local.set({linkColors: {}}, () => {});
+                } else {
+                    chrome.storage.local.set({linkColors}, () => {});
+                }
                 return resolve(fetched);
             } catch(e) {
                 return resolve(fetched);

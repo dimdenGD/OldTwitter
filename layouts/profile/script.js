@@ -236,7 +236,7 @@ function updateUserData() {
             let color = data[0];
             if(color) color = color.color;
 
-            if(color) {
+            if(color && color !== 'none') {
                 let rgb = hex2rgb(color);
                 let ratio = contrast(rgb, [27, 40, 54]);
                 if(ratio < 4 && isDarkModeEnabled && color !== '000000') {
@@ -245,7 +245,7 @@ function updateUserData() {
                 r.style.setProperty('--link-color', `#`+color);
             }
             fetch("https://dimden.dev/services/twitter_link_colors/v2/get/"+pageUserData.id_str).then(r => r.text()).then(data => {
-                if(data !== color) {
+                if(data !== color && data !== 'none') {
                     chrome.storage.local.get(["linkColors"], async lc => {
                         let linkColors = lc.linkColors || {};
                         linkColors[pageUserData.id_str] = data;
