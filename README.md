@@ -29,7 +29,6 @@ If you like this extension please consider donating:
 - Track your unfollowers for free  
 - Removes all ads  
 - Easy download of videos and GIFs  
-- History for tweets you clicked on  
 - Translate tweets without having to open them  
 - Set users to autotranslate their tweets  
 - Dark mode support  

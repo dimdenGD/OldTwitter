@@ -49,13 +49,15 @@ function renderUserData() {
 }
 function renderHistory() {
     let tle = document.getElementById('timeline');
-    tle.innerHTML = '';
+    tle.innerHTML = 'Unfortunately Twitter deprecated v1.1 API, so this feature is no longer available.';
     chrome.storage.sync.get(['viewedtweets'], async (result) => {
         if(!result.viewedtweets) return;
         let tweetids = result.viewedtweets;
         let tweets = await API.getTweets(tweetids);
+        if(tweets.length > 0 ) tle.innerHTML = '';
         for(let id of tweetids) {
             let tweet = tweets.find(t => t.id_str === id);
+            if(!tweet) continue;
             await appendTweet(tweet, tle, {
                 bigFont: tweet.full_text.length < 75
             });

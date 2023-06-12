@@ -2419,6 +2419,8 @@ API.unmuteTweet = id => {
         });
     });
 }
+
+// Deprecated...
 API.getTweets = ids => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/statuses/lookup.json?id=${ids.join(',')}&include_entities=true&include_ext_alt_text=true&include_card_uri=true&tweet_mode=extended&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
