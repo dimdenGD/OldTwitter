@@ -179,17 +179,17 @@ class TweetViewer {
             let tlUsers = [];
             for(let i in tl.list) {
                 let t = tl.list[i];
-                if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.screen_name)) tlUsers.push(t.data.user.screen_name); }
+                if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.id_str)) tlUsers.push(t.data.user.id_str); }
                 else if(t.type === 'conversation') {
                     for(let j in t.data) {
-                        tlUsers.push(t.data[j].user.screen_name);
+                        tlUsers.push(t.data[j].user.id_str);
                     }
                 }
             }
             tlUsers = tlUsers.filter(i => !this.linkColors[i]);
-            let linkData = await fetch(`https://dimden.dev/services/twitter_link_colors/get_multiple/${tlUsers.join(',')}`).then(res => res.json()).catch(console.error);
+            let linkData = await getLinkColors(tlUsers);
             if(linkData) for(let i in linkData) {
-                this.linkColors[linkData[i].username] = linkData[i].color;
+                this.linkColors[linkData[i].id] = linkData[i].color;
             }
         }
     
@@ -757,18 +757,18 @@ class TweetViewer {
         if (options.threadContinuation) tweet.classList.add('tweet-self-thread-continuation');
         if (options.noTop) tweet.classList.add('tweet-no-top');
         if(vars.linkColorsInTL) {
-            if(this.linkColors[t.user.screen_name]) {
-                let rgb = hex2rgb(this.linkColors[t.user.screen_name]);
+            if(this.linkColors[t.user.id_str]) {
+                let rgb = hex2rgb(this.linkColors[t.user.id_str]);
                 let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4 && isDarkModeEnabled && this.linkColors[t.user.screen_name] !== '000000') {
-                    this.linkColors[t.user.screen_name] = colorShade(this.linkColors[t.user.screen_name], 80).slice(1);
+                if(ratio < 4 && isDarkModeEnabled && this.linkColors[t.user.id_str] !== '000000') {
+                    this.linkColors[t.user.id_str] = colorShade(this.linkColors[t.user.id_str], 80).slice(1);
                 }
-                tweet.style.setProperty('--link-color', '#'+this.linkColors[t.user.screen_name]);
+                tweet.style.setProperty('--link-color', '#'+this.linkColors[t.user.id_str]);
             } else {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                     let rgb = hex2rgb(t.user.profile_link_color);
                     let ratio = contrast(rgb, [27, 40, 54]);
-                    if(ratio < 4 && isDarkModeEnabled && this.linkColors[t.user.screen_name] !== '000000') {
+                    if(ratio < 4 && isDarkModeEnabled && this.linkColors[t.user.id_str] !== '000000') {
                         t.user.profile_link_color = colorShade(t.user.profile_link_color, 80).slice(1);
                     }
                     tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);

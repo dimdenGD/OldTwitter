@@ -151,9 +151,9 @@ async function updateReplies(id, c) {
             }
         }
         tlUsers = tlUsers.filter(i => !linkColors[i]);
-        let linkData = await fetch(`https://dimden.dev/services/twitter_link_colors/get_multiple/${tlUsers.join(',')}`).then(res => res.json()).catch(console.error);
+        let linkData = await getLinkColors(tlUsers);
         if(linkData) for(let i in linkData) {
-            linkColors[linkData[i].username] = linkData[i].color;
+            linkColors[linkData[i].id] = linkData[i].color;
         }
     }
 

@@ -182,9 +182,8 @@ function updateSelection() {
 function updateUserData() {
     return new Promise(async (resolve, reject) => {
         document.getElementsByTagName('title')[0].innerText = `${user_handle} - OldTwitter`;
-        let [pageUserData, customColor, followersYouFollowData, oldUser, u] = await Promise.allSettled([
+        let [pageUserData, followersYouFollowData, oldUser, u] = await Promise.allSettled([
             API.getUserV2(user_handle),
-            fetch(`https://dimden.dev/services/twitter_link_colors/get/${user_handle}`).then(res => res.text()),
             API.friendsFollowing(user_handle, false),
             API.getUser(user_handle, false),
             API.verifyCredentials()
@@ -214,15 +213,10 @@ function updateUserData() {
             return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         }
         pageUserData = pageUserData.value;
-        customColor = customColor.value;
         followersYouFollowData = followersYouFollowData.value;
         oldUser = oldUser.value;
         u = u.value;
         user = u;
-        if(customColor && customColor !== 'none') {
-            user.profile_link_color = customColor;
-        }
-
         userDataFunction(u);
         const event2 = new CustomEvent('updatePageUserData', { detail: oldUser });
         document.dispatchEvent(event2);
@@ -231,21 +225,37 @@ function updateUserData() {
         pageUser.protected = oldUser.protected;
         let r = document.querySelector(':root');
         r.style.setProperty('--link-color', vars && vars.linkColor ? vars.linkColor : '#4595B5');
-        if(customColor && customColor !== 'none') {
-            let rgb = hex2rgb(customColor);
-            let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4 && isDarkModeEnabled && customColor !== '000000') {
-                customColor = colorShade(customColor, 80).slice(1);
-            }
-            r.style.setProperty('--link-color', `#`+customColor);
-        } else {
-            let rgb = hex2rgb(oldUser.profile_link_color);
-            let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4 && isDarkModeEnabled && customColor !== '000000') {
-                oldUser.profile_link_color = colorShade(oldUser.profile_link_color, 80).slice(1);
-            }
-            if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
+        let rgb = hex2rgb(oldUser.profile_link_color);
+        let ratio = contrast(rgb, [27, 40, 54]);
+        if(ratio < 4 && isDarkModeEnabled && oldUser.profile_link_color !== '000000') {
+            oldUser.profile_link_color = colorShade(oldUser.profile_link_color, 80).slice(1);
         }
+        if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
+
+        getLinkColors(pageUserData.id_str).then(data => {
+            let color = data[0];
+            if(color) color = color.color;
+
+            if(color) {
+                let rgb = hex2rgb(color);
+                let ratio = contrast(rgb, [27, 40, 54]);
+                if(ratio < 4 && isDarkModeEnabled && color !== '000000') {
+                    color = colorShade(color, 80).slice(1);
+                }
+                r.style.setProperty('--link-color', `#`+color);
+            }
+            fetch("https://dimden.dev/services/twitter_link_colors/v2/get/"+pageUserData.id_str).then(r => r.text()).then(data => {
+                if(data !== color) {
+                    chrome.storage.local.get(["linkColors"], async lc => {
+                        let linkColors = lc.linkColors || {};
+                        linkColors[pageUserData.id_str] = data;
+                        chrome.storage.local.set({ linkColors });
+                    });
+                    r.style.setProperty('--link-color', `#`+data);
+                }
+            });
+        });
+
         if(pageUser.id_str !== user.id_str) {
             followersYouFollow = followersYouFollowData;
             document.getElementById('profile-friends-text').style.display = 'unset';

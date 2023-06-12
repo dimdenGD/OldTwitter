@@ -54,7 +54,7 @@ function renderHistory() {
         if(!result.viewedtweets) return;
         let tweetids = result.viewedtweets;
         let tweets = await API.getTweets(tweetids);
-        if(tweets.length > 0 ) tle.innerHTML = '';
+        if(tweets.length > 0) tle.innerHTML = '';
         for(let id of tweetids) {
             let tweet = tweets.find(t => t.id_str === id);
             if(!tweet) continue;
