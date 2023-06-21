@@ -2029,7 +2029,20 @@ API.getReplies = (id, cursor) => {
                 }
                 let tweetData = data.globalObjects.tweets;
                 let userData = data.globalObjects.users;
-                let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
+                let ae = data.timeline.instructions.find(i => i.addEntries);
+                if(!ae) {
+                    let out = {
+                        list: [],
+                        cursor: null,
+                        users: userData
+                    };
+                    if(!cursor) {
+                        loadingReplies[id].listeners.forEach(l => l[0](out));
+                        delete loadingReplies[id];
+                    }
+                    return resolve(out);
+                }
+                let entries = ae.addEntries.entries;
                 let list = [];
                 for (let i = 0; i < entries.length; i++) {
                     let e = entries[i];
