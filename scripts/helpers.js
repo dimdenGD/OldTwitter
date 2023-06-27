@@ -1010,6 +1010,10 @@ async function appendUser(u, container, label) {
 
 let lastTweetErrorDate = 0;
 async function appendTweet(t, timelineContainer, options = {}) {
+    if(!t) {
+        console.warn('Tweet is undefined', t, timelineContainer, options);
+        return;
+    }
     try {
         if(typeof seenReplies !== 'undefined') {
             if(seenReplies.includes(t.id_str)) return;
