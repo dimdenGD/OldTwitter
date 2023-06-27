@@ -291,8 +291,11 @@ setTimeout(async () => {
                     }
                     if(newActiveTweet) {
                         let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
+                        let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
                         if(newVideo && !newVideo.ended) {
                             newVideo.play();
+                        } else if(newVideoOverlay && !newVideoOverlay.style.display) {
+                            newVideoOverlay.click();
                         }
                     }
                 }

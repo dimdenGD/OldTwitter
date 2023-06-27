@@ -65,6 +65,7 @@ setTimeout(() => {
                             <li>Fixed setting custom link color, and some other bugs related to it.</li>
                             <li>Added caching for custom link colors.</li>
                             <li>Fixed some annoying profile page bugs.</li>
+                            <li>Fixed autoplay.</li>
                             <li>Removed History page unfortunately due to v1.1 API deprecation.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
@@ -522,8 +523,11 @@ setTimeout(async () => {
                     }
                     if(newActiveTweet) {
                         let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
+                        let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
                         if(newVideo && !newVideo.ended) {
                             newVideo.play();
+                        } else if(newVideoOverlay && !newVideoOverlay.style.display) {
+                            newVideoOverlay.click();
                         }
                     }
                 }
