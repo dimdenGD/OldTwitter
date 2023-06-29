@@ -1931,7 +1931,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         tweetReply.addEventListener('paste', event => {
             let items = (event.clipboardData || event.originalEvent.clipboardData).items;
-            for (index in items) {
+            for (let index in items) {
                 let item = items[index];
                 if (item.kind === 'file') {
                     let file = item.getAsFile();
@@ -2231,7 +2231,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         tweetQuote.addEventListener('paste', event => {
             let items = (event.clipboardData || event.originalEvent.clipboardData).items;
-            for (index in items) {
+            for (let index in items) {
                 let item = items[index];
                 if (item.kind === 'file') {
                     let file = item.getAsFile();
