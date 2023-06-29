@@ -225,24 +225,16 @@ function updateUserData() {
         pageUser.protected = oldUser.protected;
         let r = document.querySelector(':root');
         r.style.setProperty('--link-color', vars && vars.linkColor ? vars.linkColor : '#4595B5');
-        let rgb = hex2rgb(oldUser.profile_link_color);
-        let ratio = contrast(rgb, [27, 40, 54]);
-        if(ratio < 4 && isDarkModeEnabled && oldUser.profile_link_color !== '000000') {
-            oldUser.profile_link_color = colorShade(oldUser.profile_link_color, 80).slice(1);
-        }
-        if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', `#`+oldUser.profile_link_color);
+        let sc = makeSeeableColor(oldUser.profile_link_color);
+        if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', sc);
 
         getLinkColors(pageUserData.id_str).then(data => {
             let color = data[0];
             if(color) color = color.color;
 
             if(color && color !== 'none') {
-                let rgb = hex2rgb(color);
-                let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4 && isDarkModeEnabled && color !== '000000') {
-                    color = colorShade(color, 80).slice(1);
-                }
-                r.style.setProperty('--link-color', `#`+color);
+                let sc = makeSeeableColor(color);
+                r.style.setProperty('--link-color', sc);
             }
             fetch("https://dimden.dev/services/twitter_link_colors/v2/get/"+pageUserData.id_str).then(r => r.text()).then(data => {
                 if(data !== color && data !== 'none') {
@@ -251,7 +243,8 @@ function updateUserData() {
                         linkColors[pageUserData.id_str] = data;
                         chrome.storage.local.set({ linkColors });
                     });
-                    r.style.setProperty('--link-color', `#`+data);
+                    let sc = makeSeeableColor(data);
+                    r.style.setProperty('--link-color', sc);
                 }
             });
         });

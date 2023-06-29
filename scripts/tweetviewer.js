@@ -758,20 +758,12 @@ class TweetViewer {
         if (options.noTop) tweet.classList.add('tweet-no-top');
         if(vars.linkColorsInTL) {
             if(this.linkColors[t.user.id_str]) {
-                let rgb = hex2rgb(this.linkColors[t.user.id_str]);
-                let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4 && isDarkModeEnabled && this.linkColors[t.user.id_str] !== '000000') {
-                    this.linkColors[t.user.id_str] = colorShade(this.linkColors[t.user.id_str], 80).slice(1);
-                }
-                tweet.style.setProperty('--link-color', '#'+this.linkColors[t.user.id_str]);
+                let sc = makeSeeableColor(this.linkColors[t.user.id_str]);
+                tweet.style.setProperty('--link-color', sc);
             } else {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
-                    let rgb = hex2rgb(t.user.profile_link_color);
-                    let ratio = contrast(rgb, [27, 40, 54]);
-                    if(ratio < 4 && isDarkModeEnabled && this.linkColors[t.user.id_str] !== '000000') {
-                        t.user.profile_link_color = colorShade(t.user.profile_link_color, 80).slice(1);
-                    }
-                    tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);
+                    let sc = makeSeeableColor(t.user.profile_link_color);
+                    tweet.style.setProperty('--link-color', sc);
                 }
             }
         }

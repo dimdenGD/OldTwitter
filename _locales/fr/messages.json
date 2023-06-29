@@ -193,8 +193,8 @@
     "color_years_ago": { "message": "Si vous avez déjà défini la couleur des liens de Twitter lorsque cette option existait encore, elle remplacera votre ancienne couleur." },
     "sync": { "message": "Synchronisation" },
     "profile_link_color": { "message": "Couleur des lien de profil" },
-    "light_mode_link": { "message": "Lien du mode clair" },
-    "dark_mode_link": { "message": "Lien du mode sombre" },
+    "light_mode_link": { "message": "Lien en mode clair" },
+    "dark_mode_link": { "message": "Lien en mode sombre" },
     "custom_css": { "message": "CSS personnalisée" },
     "css_var_override": { "message": "Remplace les variables CSS par défaut. Format: <code>--some-variable: property</code>. Séparez-les par une fin de ligne." },
     "css_var_list": { "message": "Voir une liste des variables CSS par défaut." },
@@ -364,5 +364,16 @@
     "retweet_btn": { "message": "Retweeter / Citer", "description": "Used for retweet menu button." },
     "like_btn": { "message": "Aimer / Ne plus aimer", "description": "Used for like button." },
     "favorite_btn": { "message": "Mettre en favori / Ne plus mettre en favori", "description": "Used for favorite button." },
-    "views_count": { "message": "Vue(s)", "description": "Used for views count." }
+    "views_count": { "message": "Vue(s)", "description": "Used for views count." },
+    "developer_mode": { "message": "Mode développeur" },
+    "copy_user_id": { "message": "Copier l'identifiant de l'utilisateur" },
+    "copy_tweet_id": { "message": "Copier l'identifiant du tweet" },
+    "unfollowers": { "message": "Non-abonné(s)" },
+    "unfollowings": { "message": "Non-abonnement(s)" },
+    "no_unfollowers": { "message": "Vous n'avez aucun non-abonné." },
+    "no_unfollowings": { "message": "Vous n'avez aucun non-abonnement." },
+    "recent_unfollow_update": { "message": "Les non-abonnements ont été mis-à-jour il y a moins de 15 minutes." },
+    "deleted_accounts": { "message": "Tous les utilisateurs dans cette liste ont supprimés leur compte." },
+    "open_tweet_newtwitter": { "message": "Ouvrir ce tweet avec la nouvelle apparence de Twitter" },
+    "black_mode_link": { "message": "Lien en mode OLED" }
 }

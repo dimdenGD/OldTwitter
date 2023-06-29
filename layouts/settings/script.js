@@ -9,6 +9,7 @@ function updateUserData() {
         let profileLinkColor = document.getElementById('profile-link-color');
         let colorPreviewDark = document.getElementById('color-preview-dark');
         let colorPreviewLight = document.getElementById('color-preview-light');
+        let colorPreviewBlack = document.getElementById('color-preview-black');
 
         let profileColor;
         try {
@@ -20,23 +21,27 @@ function updateUserData() {
             }
             if(profileColor !== 'none') {
                 profileLinkColor.value = `#`+profileColor;
-                colorPreviewLight.style.color = `#${profileColor}`;
-                let rgb = hex2rgb(profileColor);
-                let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4) {
-                    profileColor = colorShade(profileColor, 80).slice(1);
-                }
-                colorPreviewDark.style.color = `#${profileColor}`;
+        
+                let lightColor = makeSeeableColor(profileColor, "#ffffff");
+                colorPreviewLight.style.color = lightColor;
+                
+                let darkColor = makeSeeableColor(profileColor, "#1b2836");
+                colorPreviewDark.style.color = darkColor;
+
+                let blackColor = makeSeeableColor(profileColor, "#000000");
+                colorPreviewBlack.style.color = blackColor;
             } else {
                 let col = `#4595b5`;
                 profileLinkColor.value = col;
-                colorPreviewLight.style.color = col;
-                let rgb = hex2rgb(col);
-                let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4) {
-                    col = colorShade(col, 80).slice(1);
-                }
-                colorPreviewDark.style.color = col;
+
+                let lightColor = makeSeeableColor(col, "#ffffff");
+                colorPreviewLight.style.color = lightColor;
+
+                let darkColor = makeSeeableColor(col, "#1b2836");
+                colorPreviewDark.style.color = darkColor;
+
+                let blackColor = makeSeeableColor(col, "#000000");
+                colorPreviewBlack.style.color = blackColor;
             }
         }
     }).catch(e => {
@@ -130,6 +135,7 @@ setTimeout(async () => {
     let showTopicTweets = document.getElementById('show-topic-tweets');
     let colorPreviewDark = document.getElementById('color-preview-dark');
     let colorPreviewLight = document.getElementById('color-preview-light');
+    let colorPreviewBlack = document.getElementById('color-preview-black');
     let disableHotkeys = document.getElementById('disable-hotkeys');
     let customCSS = document.getElementById('custom-css');
     let customCSSVariables = document.getElementById('custom-css-variables');
@@ -307,15 +313,15 @@ setTimeout(async () => {
     });
     profileLinkColor.addEventListener('change', () => {
         let previewColor = profileLinkColor.value;
-        colorPreviewLight.style.color = `${previewColor}`;
-        if(previewColor !== "#000000") {
-            let rgb = hex2rgb(previewColor);
-            let ratio = contrast(rgb, [27, 40, 54]);
-            if(ratio < 4) {
-                previewColor = colorShade(previewColor, 80);
-            }
-        }
-        colorPreviewDark.style.color = `${previewColor}`;
+        
+        let lightColor = makeSeeableColor(previewColor, "#ffffff");
+        colorPreviewLight.style.color = lightColor;
+        
+        let darkColor = makeSeeableColor(previewColor, "#1b2836");
+        colorPreviewDark.style.color = darkColor;
+
+        let blackColor = makeSeeableColor(previewColor, "#000000");
+        colorPreviewBlack.style.color = blackColor;
     });
     sync.addEventListener('click', async () => {
         sync.disabled = true;

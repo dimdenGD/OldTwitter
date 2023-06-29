@@ -61,12 +61,8 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Fixed CSRF errors when switching accounts.</li>
-                            <li>Fixed setting custom link color, and some other bugs related to it.</li>
-                            <li>Added caching for custom link colors.</li>
-                            <li>Fixed some annoying profile page bugs.</li>
+                            <li>Improved profile link contrast to work with all background colors.</li>
                             <li>Fixed autoplay.</li>
-                            <li>Removed History page unfortunately due to v1.1 API deprecation.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>

@@ -671,47 +671,108 @@ function createEmojiPicker(container, input, style = {}) {
     return picker;
 }
 
+const RED = 0.2126;
+const GREEN = 0.7152;
+const BLUE = 0.0722;
+
+const GAMMA = 2.4;
+
 function luminance(r, g, b) {
-    var a = [r, g, b].map(function(v) {
-      v /= 255;
-      return v <= 0.03928 ?
-        v / 12.92 :
-        Math.pow((v + 0.055) / 1.055, 2.4);
+    const a = [r, g, b].map(v => {
+        v /= 255;
+        return v <= 0.03928
+            ? v / 12.92
+            : Math.pow((v + 0.055) / 1.055, GAMMA);
     });
-    return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
+    return a[0] * RED + a[1] * GREEN + a[2] * BLUE;
 }
+
 function contrast(rgb1, rgb2) {
-    var lum1 = luminance(rgb1[0], rgb1[1], rgb1[2]);
-    var lum2 = luminance(rgb2[0], rgb2[1], rgb2[2]);
-    var brightest = Math.max(lum1, lum2);
-    var darkest = Math.min(lum1, lum2);
-    return (brightest + 0.05) /
-      (darkest + 0.05);
+    const lum1 = luminance(...rgb1);
+    const lum2 = luminance(...rgb2);
+    const brightest = Math.max(lum1, lum2);
+    const darkest = Math.min(lum1, lum2);
+    return (brightest + 0.05) / (darkest + 0.05);
 }
-const hex2rgb = (hex) => {
-      if(!hex.startsWith('#')) hex = `#${hex}`;
-      const r = parseInt(hex.slice(1, 3), 16)
-      const g = parseInt(hex.slice(3, 5), 16)
-      const b = parseInt(hex.slice(5, 7), 16)
-      // return {r, g, b} // return an object
-      return [ r, g, b ]
+function hex2rgb(hex) {
+    if(!hex.startsWith('#')) hex = `#${hex}`;
+    const r = parseInt(hex.slice(1, 3), 16)
+    const g = parseInt(hex.slice(3, 5), 16)
+    const b = parseInt(hex.slice(5, 7), 16)
+    return [r, g, b];
 }
-const colorShade = (col, amt) => {
-    col = col.replace(/^#/, '')
-    if (col.length === 3) col = col[0] + col[0] + col[1] + col[1] + col[2] + col[2]
-  
-    let [r, g, b] = col.match(/.{2}/g);
-    ([r, g, b] = [parseInt(r, 16) + amt, parseInt(g, 16) + amt, parseInt(b, 16) + amt])
-  
-    r = Math.max(Math.min(255, r), 0).toString(16)
-    g = Math.max(Math.min(255, g), 0).toString(16)
-    b = Math.max(Math.min(255, b), 0).toString(16)
-  
-    const rr = (r.length < 2 ? '0' : '') + r
-    const gg = (g.length < 2 ? '0' : '') + g
-    const bb = (b.length < 2 ? '0' : '') + b
-  
-    return `#${rr}${gg}${bb}`
+function rgb2hex(r, g, b) {
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    let max = Math.max(r, g, b);
+    let min = Math.min(r, g, b);
+    let d = max - min;
+    let h;
+    if (d === 0) h = 0;
+    else if (max === r) h = ((((g - b) / d) % 6)+6)%6;
+    else if (max === g) h = (b - r) / d + 2;
+    else if (max === b) h = (r - g) / d + 4;
+    let l = (min + max) / 2;
+    let s = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+    return [h * 60, s, l];
+}
+
+function hslToRgb(h, s, l) {
+    let c = (1 - Math.abs(2 * l - 1)) * s;
+    let hp = h / 60.0;
+    let x = c * (1 - Math.abs((hp % 2) - 1));
+    let rgb1;
+    if (isNaN(h)) rgb1 = [0, 0, 0];
+    else if (hp <= 1) rgb1 = [c, x, 0];
+    else if (hp <= 2) rgb1 = [x, c, 0];
+    else if (hp <= 3) rgb1 = [0, c, x];
+    else if (hp <= 4) rgb1 = [0, x, c];
+    else if (hp <= 5) rgb1 = [x, 0, c];
+    else if (hp <= 6) rgb1 = [c, 0, x];
+    let m = l - c * 0.5;
+    return [
+        Math.round(255 * (rgb1[0] + m)),
+        Math.round(255 * (rgb1[1] + m)),
+        Math.round(255 * (rgb1[2] + m))
+    ];
+}
+function getBackgroundColor() {
+    let root = document.documentElement;
+    let bg_color = getComputedStyle(root).getPropertyValue('--background-color');
+    if(bg_color === 'white') {
+        bg_color = '#ffffff';
+    } else if(bg_color === 'black') {
+        bg_color = '#000000';
+    } else if(bg_color.startsWith('rgb(')) {
+        let rgb = bg_color.slice(4, -1).split(',').map(v => parseInt(v));
+        bg_color = rgb2hex(...rgb);
+    }
+    if(!bg_color) bg_color = '#ffffff';
+    return bg_color;
+}
+function makeSeeableColor(color, bg_color = getBackgroundColor()) {
+    let bg_rgb = hex2rgb(bg_color);
+    let rgb = hex2rgb(color);
+    let c = contrast(bg_rgb, rgb);
+    let hsl = rgbToHsl(...rgb);
+    let bg_hsl = rgbToHsl(...bg_rgb);
+    if(c < 4.5) {
+        if(bg_hsl[2] > 0.7) {
+            if(hsl[2] > 0.7) {
+                hsl[2] = 0.4;
+                if(hsl[1] >= 0.1) hsl[1] -= 0.1;
+            }
+        }
+        if(bg_hsl[2] < 0.4) {
+            if(hsl[2] < 0.45) {
+                hsl[2] = 0.6;
+                if(hsl[1] >= 0.1) hsl[1] -= 0.1;
+            }
+        }
+    }
+    return rgb2hex(...hslToRgb(...hsl));
 }
 
 const getLinkColors = ids => {
@@ -1138,20 +1199,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if (options.noTop) tweet.classList.add('tweet-no-top');
         if(vars.linkColorsInTL && typeof linkColors !== 'undefined') {
             if(linkColors[t.user.id_str]) {
-                let rgb = hex2rgb(linkColors[t.user.id_str]);
-                let ratio = contrast(rgb, [27, 40, 54]);
-                if(ratio < 4 && isDarkModeEnabled && linkColors[t.user.id_str] !== '000000') {
-                    linkColors[t.user.id_str] = colorShade(linkColors[t.user.id_str], 80).slice(1);
-                }
-                tweet.style.setProperty('--link-color', '#'+linkColors[t.user.id_str]);
+                let sc = makeSeeableColor(linkColors[t.user.id_str]);
+                tweet.style.setProperty('--link-color', sc);
             } else {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
-                    let rgb = hex2rgb(t.user.profile_link_color);
-                    let ratio = contrast(rgb, [27, 40, 54]);
-                    if(ratio < 4 && isDarkModeEnabled && linkColors[t.user.id_str] !== '000000') {
-                        t.user.profile_link_color = colorShade(t.user.profile_link_color, 80).slice(1);
-                    }
-                    tweet.style.setProperty('--link-color', '#'+t.user.profile_link_color);
+                    let sc = makeSeeableColor(t.user.profile_link_color);
+                    tweet.style.setProperty('--link-color', sc);
                 }
             }
         }

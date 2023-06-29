@@ -368,12 +368,12 @@
     "developer_mode": { "message": "Режим разработчика" },
     "copy_user_id": { "message": "Копировать ID пользователя" },
     "copy_tweet_id": { "message": "Копировать ID твита" },
-    "unfollows": { "message": "Отписки" },
     "unfollowers": { "message": "Отписавшиеся" },
     "unfollowings": { "message": "Отписки" },
     "no_unfollowers": { "message": "От вас ещё не отписывались!" },
     "no_unfollowings": { "message": "Вы ещё не отписывались!" },
     "recent_unfollow_update": { "message": "Отписки были обновлены менее чем 15 минут назад." },
     "deleted_accounts": { "message": "Все в этом списке удалили свой аккаунт." },
-    "open_tweet_newtwitter": { "message": "Открыть в новом Твиттере" }
+    "open_tweet_newtwitter": { "message": "Открыть в новом Твиттере" },
+    "black_mode_link": { "message": "Ссылка в чёрной теме" }
 }

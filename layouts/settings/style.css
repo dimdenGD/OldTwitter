@@ -364,16 +364,20 @@ body {
     margin-top: 15px;
 }
 #color-preview div {
-    padding: 10px;
-    display: inline;
+    padding: 10px 15px;
+    display: inline-block;
     width: fit-content;
     border: 1px solid black;
+    margin-bottom: 10px;
 }
 #color-preview-light {
     background-color: white;
 }
 #color-preview-dark {
     background-color: #1b2836;
+}
+#color-preview-black {
+    background-color: black;
 }
 
 select {
