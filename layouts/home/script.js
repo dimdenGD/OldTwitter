@@ -63,8 +63,9 @@ setTimeout(() => {
                         <ul>
                             <li>Improved profile link contrast to work with all background colors.</li>
                             <li>Fixed managing members of Twitter Circle.</li>
+                            <li>Fixed video autoplay.</li>
                             <li>Fixed not being able to paste images for quote tweets.</li>
-                            <li>Fixed autoplay.</li>
+                            <li>Fixed "People and body" category in emoji picker on Firefox.</li>
                             <li>Fixed profile previews and registration dates not showing up on Brazillian Portuguese.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
