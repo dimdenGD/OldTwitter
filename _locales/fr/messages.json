@@ -376,5 +376,7 @@
     "deleted_accounts": { "message": "Tous les utilisateurs dans cette liste ont supprimés leur compte." },
     "open_tweet_newtwitter": { "message": "Ouvrir ce tweet avec la nouvelle apparence de Twitter" },
     "black_mode_link": { "message": "Lien en mode OLED" },
-    "custom_mode_link": { "message": "Lien en mode personnalisé" }
+    "custom_mode_link": { "message": "Lien en mode personnalisé" },
+    "tweet_verb": { "message": "Tweeter", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
+    "do_you_want_to_tweet": { "message": "Voulez-vous tweeter \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  }
 }

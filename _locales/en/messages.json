@@ -388,5 +388,6 @@
     "open_tweet_newtwitter": { "message": "Open tweet in new Twitter" },
     "black_mode_link": { "message": "Black mode link" },
     "custom_mode_link": { "message": "Custom mode link" },
-    "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" }
+    "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
+    "do_you_want_to_tweet": { "message": "Do you want to tweet \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } }
 }

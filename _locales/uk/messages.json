@@ -376,5 +376,6 @@
     "deleted_accounts": { "message": "Всі в цьому списку видалили свій аккаунт." },
     "open_tweet_newtwitter": { "message": "Відкрити в новому інтерфейсі" },
     "black_mode_link": { "message": "Посилання в чорній темі" },
-    "tweet_verb": { "message": "Твітнути", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" }
+    "tweet_verb": { "message": "Твітнути", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
+    "do_you_want_to_tweet": { "message": "Ви хочете твітнути \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  }
 }

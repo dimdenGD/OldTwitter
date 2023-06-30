@@ -486,6 +486,47 @@ function generateCard(tweet, tweetElement, user) {
             let button = document.createElement('button');
             button.className = `nice-button tweet-app-button`;
             button.innerText = `${LOC.tweet_verb.message} ${b[0].string_value}`;
+            button.addEventListener('click', async () => {
+                let modal = createModal(`
+                    <p style="color:var(--almost-black);margin-top:)">${LOC.do_you_want_to_tweet.message.replace("$TWEET_TEXT$", b[1].string_value)}</p>
+                    <button class="nice-button">${LOC.tweet_verb.message}</button>
+                `);
+                modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
+                    modal.removeModal();
+                    try {
+                        await API.postTweetV2({
+                            "variables": {
+                                "tweet_text": b[1].string_value,
+                                "media": {
+                                    "media_entities": [],
+                                    "possibly_sensitive": false
+                                },
+                                "withDownvotePerspective": false,
+                                "withReactionsMetadata": false,
+                                "withReactionsPerspective": false,
+                                "withSuperFollowsTweetFields": true,
+                                "withSuperFollowsUserFields": true,
+                                "semantic_annotation_ids": [],
+                                "dark_request": false,
+                                "card_uri": tweet.card.url,
+                            },
+                            "features": {
+                                "dont_mention_me_view_api_enabled": true,
+                                "interactive_text_enabled": true,
+                                "responsive_web_uc_gql_enabled": false,
+                                "vibe_api_enabled": false,
+                                "responsive_web_edit_tweet_api_enabled": false,
+                                "standardized_nudges_misinfo": true,
+                                "responsive_web_enhance_cards_enabled": false
+                            },
+                            "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
+                        });
+                    } catch(e) {
+                        console.error(e);
+                        alert(String(e));
+                    }
+                });
+            });
             buttonGroup.append(button);
         }
         a.append(img);

@@ -884,8 +884,8 @@ const EmojiDatabase = (() => {
           return emoji
         }
         // if inside a Firefox content script, need to clone the emoji object to prevent Firefox from complaining about cross-origin object
-        if(window.wrappedJSObject) {
-            emoji = structuredClone(emoji);
+        if (typeof wrappedJSObject !== 'undefined') {
+          emoji = structuredClone(emoji)
         }
         delete emoji.tokens;
         if (emoji.skinTones) {
