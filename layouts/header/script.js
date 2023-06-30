@@ -1963,7 +1963,15 @@ setTimeout(async () => {
                 version.innerText += ` (${LOC.last_version.message}: ${res.version})`;
                 if(TRANSLATORS[LANGUAGE]) {
                     let translated_by = document.createElement('span');
-                    translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
+                    if(typeof TRANSLATORS[LANGUAGE][0] === 'object') {
+                        let as = [];
+                        for(let translator of TRANSLATORS[LANGUAGE]) {
+                            as.push(`<a${translator[1] ? ` target="_blank" href="${translator[1]}"` : ''}>${translator[0]}</a>`);
+                        }
+                        translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
+                    } else {
+                        translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
+                    }
                     document.getElementById('about').children[0].append(translated_by);
                 } else {
                     document.getElementById('about').children[0].append(document.createElement('br'));

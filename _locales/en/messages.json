@@ -386,5 +386,6 @@
     "recent_unfollow_update": { "message": "Unfollows were updated less than 15 minutes ago." },
     "deleted_accounts": { "message": "Seems like everyone in this list deleted their account." },
     "open_tweet_newtwitter": { "message": "Open tweet in new Twitter" },
-    "black_mode_link": { "message": "Black mode link" }
+    "black_mode_link": { "message": "Black mode link" },
+    "custom_mode_link": { "message": "Custom mode link" }
 }

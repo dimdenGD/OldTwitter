@@ -1309,6 +1309,12 @@ API.getFavorites = (id, cursor) => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
+            if(!data.data.user.result.timeline_v2.timeline.instructions[0]) {
+                return resolve({
+                    tl: [],
+                    cursor: null
+                })
+            }
             resolve({
                 tl: data.data.user.result.timeline_v2.timeline.instructions[0].entries.filter(e => e.entryId.startsWith('tweet-') && e.content.itemContent.tweet_results.result).map(e => {
                     if(!e.content.itemContent.tweet_results.result.legacy) {
@@ -3385,7 +3391,7 @@ API.getCircles = () => {
 }
 API.getCircleMembers = (id, cursor = null) => {
     return new Promise((resolve, reject) => {
-        let variables = {"trustedFriendsId":"1565979811046211584","cursor":cursor, count: 150};
+        let variables = {"trustedFriendsId":id,"cursor":cursor, count: 150};
         let features = {"responsive_web_graphql_timeline_navigation_enabled":false};
         fetch(`https://twitter.com/i/api/graphql/i3_opgZeSaeWbfyFQjZ5Sw/TrustedFriendsMembersQuery?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`, {
             headers: {

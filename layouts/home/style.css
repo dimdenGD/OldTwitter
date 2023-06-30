@@ -1006,6 +1006,7 @@ a:hover,
 }
 #new-tweet-circle-people {
     font-size: 12px;
+    color: var(--almost-black);
 }
 .circle-menu-selector {
     display: inline-flex;

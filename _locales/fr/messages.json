@@ -375,5 +375,6 @@
     "recent_unfollow_update": { "message": "Les non-abonnements ont été mis-à-jour il y a moins de 15 minutes." },
     "deleted_accounts": { "message": "Tous les utilisateurs dans cette liste ont supprimés leur compte." },
     "open_tweet_newtwitter": { "message": "Ouvrir ce tweet avec la nouvelle apparence de Twitter" },
-    "black_mode_link": { "message": "Lien en mode OLED" }
+    "black_mode_link": { "message": "Lien en mode OLED" },
+    "custom_mode_link": { "message": "Lien en mode personnalisé" }
 }

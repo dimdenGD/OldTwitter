@@ -62,6 +62,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Improved profile link contrast to work with all background colors.</li>
+                            <li>Fixed managing members of Twitter Circle.</li>
                             <li>Fixed not being able to paste images for quote tweets.</li>
                             <li>Fixed autoplay.</li>
                         </ul>
@@ -960,7 +961,7 @@ setTimeout(async () => {
                 </div>
                 <br>
                 <input type="text" class="circle-user-search" placeholder="${LOC.search_people.message}" style="width: 448px;margin-top:5px;display:none">
-                <hr>
+                <hr style="border-color:var(--border);border-bottom:none">
             </div>
             <br><br><br><br><br>
             <div class="circle-members" style="margin-top: -33px;"></div>

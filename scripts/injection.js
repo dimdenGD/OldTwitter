@@ -110,21 +110,30 @@ const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
     "fr": ["Aurore C.", "https://asuure.com/"],
-    "pt_BR": ["dzshn", "https://dzshn.xyz/"],
-    "es": ["rogerpb98", "https://twitter.com/anbulansia"],
+    "pt_BR": [
+        ["dzshn", "https://dzshn.xyz/"],
+        ["kigi", "https://twitter.com/kigidere"]
+    ],
+    "es": [
+        ["rogerpb98", "https://twitter.com/anbulansia"],
+        ["gaelcoral", "https://github.com/gaelcoral"]
+    ],
     "el": ["VasilisTheChu", "https://pikachu.systems/"],
-    "ro": ["Skylar", "https://143.dust.moe/"],
+    "ro": ["Skyrina", "https://skyrina.dev/"],
     "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
     "lv": ["yourfriend", "https://3.141.lv/"],
     "he": ["ugh"],
     "ne": ["DimeDead", "https://dimedead.neocities.org/"],
     "nl": ["Puka1611"],
-    "ja": ["Chazuru", "https://twitter.com/AIWMD"],
+    "ja": [
+        ["Chazuru", "https://twitter.com/AIWMD"],
+        ["Nyankodasu", "https://github.com/Nyankodasu"]
+    ],
     "tr": ["KayrabCebll", "https://steamcommunity.com/id/KayrabCebll"],
     "it": ["krek", "https://twitter.com/CactusInc420"],
     "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
-    "ko": ["Nyankodasu", "https://twitter.com/Nyankodasu1234"],
+    "ko": ["Nyankodasu", "https://github.com/Nyankodasu"],
     "pl": ["lele"]
 };
 let LOC = {};
