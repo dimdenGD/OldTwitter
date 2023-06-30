@@ -980,7 +980,7 @@ async function renderProfile() {
     }
     let joined = document.createElement('span');
     joined.classList.add('profile-additional-thing', 'profile-additional-joined');
-    joined.innerText = `${LOC.joined.message} ${new Date(pageUser.created_at).toLocaleDateString(LANGUAGE, {month: 'long', year: 'numeric', day: 'numeric'})}`;
+    joined.innerText = `${LOC.joined.message} ${new Date(pageUser.created_at).toLocaleDateString(LANGUAGE.replace("_", "-"), {month: 'long', year: 'numeric', day: 'numeric'})}`;
     additionalInfo.appendChild(joined);
     if(pageUser.birthdate) {
         let birth = document.createElement('span');

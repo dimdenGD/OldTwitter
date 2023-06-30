@@ -1527,7 +1527,7 @@ let userDataFunction = async user => {
                     <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? LOC.following_btn.message : LOC.follow.message}</button>
                     <span class="preview-user-description">${escapeHTML(user.description).replace(/\n/g, '<br>').replace(/((http|https):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`)}</span>
                     <div class="preview-user-additional-info">
-                        <span class="profile-additional-thing profile-additional-joined">${LOC.joined.message} ${new Date(user.created_at).toLocaleDateString(LANGUAGE, {month: 'long', year: 'numeric', day: 'numeric'})}</span>
+                        <span class="profile-additional-thing profile-additional-joined">${LOC.joined.message} ${new Date(user.created_at).toLocaleDateString(LANGUAGE.replace("_", "-"), {month: 'long', year: 'numeric', day: 'numeric'})}</span>
                     </div>
                     <br>
                     <div class="preview-user-stats">

@@ -65,6 +65,7 @@ setTimeout(() => {
                             <li>Fixed managing members of Twitter Circle.</li>
                             <li>Fixed not being able to paste images for quote tweets.</li>
                             <li>Fixed autoplay.</li>
+                            <li>Fixed profile previews and registration dates not showing up on Brazillian Portuguese.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
