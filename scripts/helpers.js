@@ -488,7 +488,7 @@ function generateCard(tweet, tweetElement, user) {
             button.innerText = `${LOC.tweet_verb.message} ${b[0].string_value}`;
             button.addEventListener('click', async () => {
                 let modal = createModal(`
-                    <p style="color:var(--almost-black);margin-top:)">${LOC.do_you_want_to_tweet.message.replace("$TWEET_TEXT$", b[1].string_value)}</p>
+                    <p style="color:var(--almost-black);margin-top:0">${LOC.do_you_want_to_tweet.message.replace("$TWEET_TEXT$", b[1].string_value)}</p>
                     <button class="nice-button">${LOC.tweet_verb.message}</button>
                 `);
                 modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
@@ -1006,8 +1006,8 @@ async function renderDiscovery(cache = true) {
     discoverContainer.innerHTML = '';
     try {
         let usersData = discover.globalObjects.users;
-        let max = 7;
-        if(innerHeight < 700) max = 6;
+        let max = 6;
+        if(innerHeight < 700) max = 5;
         if(innerHeight < 650) max = 3;
         let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, max); // why is it so deep
         usersSuggestions.forEach(userId => {

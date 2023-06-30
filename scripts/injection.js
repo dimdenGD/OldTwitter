@@ -115,8 +115,9 @@ const TRANSLATORS = {
         ["kigi", "https://twitter.com/kigidere"]
     ],
     "es": [
-        ["rogerpb98", "https://twitter.com/anbulansia"],
-        ["gaelcoral", "https://github.com/gaelcoral"]
+        ["Ruchi", "https://twitter.com/anbulansia"],
+        ["gaelcoral", "https://github.com/gaelcoral"],
+        ["hue", "https://twitter.com/huey1116"]
     ],
     "el": ["VasilisTheChu", "https://pikachu.systems/"],
     "ro": ["Skyrina", "https://skyrina.dev/"],

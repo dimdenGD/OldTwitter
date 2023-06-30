@@ -374,5 +374,19 @@
     "retweet_btn": { "message": "Retwittear / Citar Tweet", "description": "Used for retweet menu button." },
     "like_btn": { "message": "Me gusta / Cancelar Me Gusta", "description": "Used for like button." },
     "favorite_btn": { "message": "Favorito / Cancelar Favorito", "description": "Used for favorite button." },
-    "views_count": { "message": "Visualizaciones", "description": "Used for views count." }
+    "views_count": { "message": "Visualizaciones", "description": "Used for views count." },
+    "developer_mode": { "message": "Modo de desarrollador" },
+    "copy_user_id": { "message": "Copiar ID de usuario" },
+    "copy_tweet_id": { "message": "Copiar ID de tweet" },
+    "unfollowers": { "message": "Exseguidores" },
+    "unfollowings": { "message": "Dejado de seguir" },
+    "no_unfollowers": { "message": "Nadie ha dejado de seguirte!" },
+    "no_unfollowings": { "message": "Aún no has dejado de seguir a nadie!" },
+    "recent_unfollow_update": { "message": "Exseguidores actualizados hace menos de 15 minutos." },
+    "deleted_accounts": { "message": "Parece que todos en esta lista eliminaron su cuenta." },
+    "open_tweet_newtwitter": { "message": "Abrir este tweet en el diseño actual de Twitter" },
+    "black_mode_link": { "message": "Enlace modo oscuro" },
+    "custom_mode_link": { "message": "Enlace modo personalizado" },
+    "tweet_verb": { "message": "Twittear", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
+    "do_you_want_to_tweet": { "message": "Quieres twittear \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } }
 }

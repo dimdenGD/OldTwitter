@@ -388,5 +388,6 @@
     "open_tweet_newtwitter": { "message": "Otwórz tweet w nowym Twitterze" },
     "black_mode_link": { "message": "Link na czarnym motywie" },
     "custom_mode_link": { "message": "Link na własnym motywie" },
-    "tweet_verb": { "message": "Tweetnij", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" }
+    "tweet_verb": { "message": "Tweetnij", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
+    "do_you_want_to_tweet": { "message": "Czy na pewno chcesz tweetnąć \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } }
 }

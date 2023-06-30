@@ -8,7 +8,6 @@
     "followers": { "message": "Seguidores", "description": "Try to keep this word equal or less than 9 characters" },
     "trends": { "message": "Trends" },
     "tweet": { "message": "Tweet" },
-    "tweet_verb": { "message": "Tweetar", "description": "'to tweet' as opposed to noun form" },
     "load_more": { "message": "Ver mais" },
     "who_to_follow": { "message": "Quem seguir", "description": "Max 19 characters, you can use word 'People' if no space" },
     "refresh": { "message": "Atualizar" },
@@ -379,5 +378,7 @@
     "deleted_accounts": { "message": "Parece que todos nessa lista deletaram suas contas." },
     "open_tweet_newtwitter": { "message": "Abrir tweet em novo Twitter" },
     "black_mode_link": { "message": "Link modo escuro" },
-    "custom_mode_link": { "message": "Link modo personalizado" }
+    "custom_mode_link": { "message": "Link modo personalizado" },
+    "tweet_verb": { "message": "Tweetar", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
+    "do_you_want_to_tweet": { "message": "Você quer tweetar \"$TWEET_TEXT$\"?" }
 }
