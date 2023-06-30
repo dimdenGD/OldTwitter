@@ -375,5 +375,6 @@
     "recent_unfollow_update": { "message": "Дані про відписки були оновлені менше ніж 15 хвилин назад." },
     "deleted_accounts": { "message": "Всі в цьому списку видалили свій аккаунт." },
     "open_tweet_newtwitter": { "message": "Відкрити в новому інтерфейсі" },
-    "black_mode_link": { "message": "Посилання в чорній темі" }
+    "black_mode_link": { "message": "Посилання в чорній темі" },
+    "tweet_verb": { "message": "Твітнути", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" }
 }

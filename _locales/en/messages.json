@@ -387,5 +387,6 @@
     "deleted_accounts": { "message": "Seems like everyone in this list deleted their account." },
     "open_tweet_newtwitter": { "message": "Open tweet in new Twitter" },
     "black_mode_link": { "message": "Black mode link" },
-    "custom_mode_link": { "message": "Custom mode link" }
+    "custom_mode_link": { "message": "Custom mode link" },
+    "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" }
 }

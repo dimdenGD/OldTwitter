@@ -467,8 +467,30 @@ function generateCard(tweet, tweetElement, user) {
         img.width = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height)[0];
         img.height = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height)[1];
         img.className = 'tweet-media-element';
+        let ctas = [];
+        if(vals.cta_one) {
+            ctas.push([vals.cta_one, vals.cta_one_tweet]);
+        }
+        if(vals.cta_two) {
+            ctas.push([vals.cta_two, vals.cta_two_tweet]);
+        }
+        if(vals.cta_three) {
+            ctas.push([vals.cta_three, vals.cta_three_tweet]);
+        }
+        if(vals.cta_four) {
+            ctas.push([vals.cta_four, vals.cta_four_tweet]);
+        }
+        let buttonGroup = document.createElement('div');
+        buttonGroup.classList.add('tweet-button-group');
+        for(let b of ctas) {
+            let button = document.createElement('button');
+            button.className = `nice-button tweet-app-button`;
+            button.innerText = `${LOC.tweet_verb.message} ${b[0].string_value}`;
+            buttonGroup.append(button);
+        }
         a.append(img);
         tweetElement.getElementsByClassName('tweet-card')[0].append(a);
+        tweetElement.getElementsByClassName('tweet-card')[0].append(buttonGroup);
     } else if(tweet.card.name === "player") {
         let iframe = document.createElement('iframe');
         iframe.src = tweet.card.binding_values.player_url.string_value;

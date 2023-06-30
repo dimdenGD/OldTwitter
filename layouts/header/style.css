@@ -1410,9 +1410,13 @@ input, textarea {
 .tweet-app-info > h3 {
     margin: 0 !important;
 }
+.tweet-button-group {
+    padding: 5px;
+}
 .tweet-app-button {
     text-align: center;
-    width: 82%;
+    width: 100%;
+    margin-bottom: 5px;
     display: inline-block;
 }
 .compact-trend {

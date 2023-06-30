@@ -387,5 +387,6 @@
     "deleted_accounts": { "message": "Wygląda na to, że wszyscy na tej liście usuneli swoje konta." },
     "open_tweet_newtwitter": { "message": "Otwórz tweet w nowym Twitterze" },
     "black_mode_link": { "message": "Link na czarnym motywie" },
-    "custom_mode_link": { "message": "Link na własnym motywie" }
+    "custom_mode_link": { "message": "Link na własnym motywie" },
+    "tweet_verb": { "message": "Tweetnij", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" }
 }
