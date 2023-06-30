@@ -883,6 +883,7 @@ const EmojiDatabase = (() => {
         if (!emoji) {
           return emoji
         }
+        emoji = structuredClone(emoji); // stop Firefox from complaining
         delete emoji.tokens;
         if (emoji.skinTones) {
           const len = emoji.skinTones.length;
