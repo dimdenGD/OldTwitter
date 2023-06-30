@@ -516,10 +516,10 @@ async function renderProfile() {
     toAutotranslate = autotranslateProfiles.includes(pageUser.id_str);
     document.getElementById('profile-avatar').src = pageUser.profile_image_url_https.replace('_normal.', '_400x400.');
     document.getElementById('nav-profile-avatar').src = pageUser.profile_image_url_https.replace('_normal.', '_bigger.');
-    document.getElementById('profile-name').innerText = pageUser.name;
-    document.getElementById('nav-profile-name').innerText = pageUser.name;
+    document.getElementById('profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
+    document.getElementById('nav-profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
     document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal.', '_400x400.');;
-    document.getElementById('tweet-to').innerText = `${LOC.tweet_to.message} ${pageUser.name}`;
+    document.getElementById('tweet-to').innerText = `${LOC.tweet_to.message} ${pageUser.name.replace(/\n/g, ' ')}`;
     if(vars.heartsNotStars) {
         document.getElementById('profile-stat-text-favorites').innerText = LOC.likes.message;
     }
