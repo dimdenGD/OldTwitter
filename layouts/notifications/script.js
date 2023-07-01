@@ -240,7 +240,7 @@ async function renderNotifications(data, append = false) {
     if(unreadNotifications > 0) {
         setTimeout(() => {
             API.markAsReadNotifications(cursor);
-            if(!windowFocused || firstRender) {
+            if(windowFocused) {
                 firstRender = false;
                 document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32_notification.png`);
                 let newTitle = document.title;
@@ -251,10 +251,9 @@ async function renderNotifications(data, append = false) {
                 if(document.title !== newTitle) {
                     document.title = newTitle;
                 }
-            } else {
                 notificationBus.postMessage({type: 'markAsRead', cursor});
             }
-        }, 1000);
+        }, 500);
     }
 }
 let lastData;
