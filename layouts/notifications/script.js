@@ -263,7 +263,7 @@ async function updateNotifications(append = false) {
     try {
         data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
     } catch(e) {
-        await sleep(1000);
+        await sleep(2500);
         try {
             data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
         } catch(e) {

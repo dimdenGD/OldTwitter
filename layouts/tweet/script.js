@@ -143,10 +143,10 @@ async function updateReplies(id, c) {
         let tlUsers = [];
         for(let i in tl.list) {
             let t = tl.list[i];
-            if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.screen_name)) tlUsers.push(t.data.user.screen_name); }
+            if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.id_str)) tlUsers.push(t.data.user.id_str); }
             else if(t.type === 'conversation') {
                 for(let j in t.data) {
-                    tlUsers.push(t.data[j].user.screen_name);
+                    tlUsers.push(t.data[j].user.id_str);
                 }
             }
         }
