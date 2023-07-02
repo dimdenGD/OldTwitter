@@ -2277,13 +2277,13 @@ API.getRepliesV2 = (id, cursor) => {
         chrome.storage.local.get(['tweetReplies'], d => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
-                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000*5) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
                     return resolve(d.tweetReplies[id].data);
                 }
-                if(loadingDetails[id]) {
-                    return loadingDetails[id].listeners.push([resolve, reject]);
+                if(loadingReplies[id]) {
+                    return loadingReplies[id].listeners.push([resolve, reject]);
                 } else {
-                    loadingDetails[id] = {
+                    loadingReplies[id] = {
                         listeners: []
                     };
                 }
@@ -2470,12 +2470,14 @@ API.getRepliesV2 = (id, cursor) => {
                 let newCursor;
                 try {
                     newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.itemContent.value;
-                } catch(e) {}
+                } catch(e) {};
+
                 resolve({
                     list,
                     cursor: newCursor,
                     users
                 });
+
                 if(!cursor) {
                     loadingReplies[id].listeners.forEach(l => l[0]({
                         list,
@@ -2815,6 +2817,84 @@ API.search = query => {
     });
 }
 API.searchV2 = (obj, cursor) => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/2/search/adaptive.json?${cursor ? `cursor=${cursor}&` : ''}${obj.tweet_search_mode ? `tweet_search_mode=${obj.tweet_search_mode}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=${obj.q}${obj.social_filter ? `&social_filter=${obj.social_filter}`:''}${obj.result_filter ? `&result_filter=${obj.result_filter}`:''}&count=50&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/x-www-form-urlencoded",
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+            },
+            credentials: "include",
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let tweets = data.globalObjects.tweets;
+            let users = data.globalObjects.users;
+            let entries = data.timeline.instructions.find(i => i.addEntries);
+            if(!entries) return resolve({
+                list: [],
+                cursor: undefined
+            });
+            entries = entries.addEntries.entries;
+            let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('user-') || e.entryId.startsWith('tweet-'));
+            let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
+            if(!cursor) {
+                let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace.includes('sq-cursor-bottom') || i.replaceEntry.entryIdToReplace.includes('cursor-bottom')));
+                if(entries) {
+                    cursor = entries.replaceEntry.entry.content.operation.cursor.value;
+                }
+            } else {
+                cursor = cursor.content.operation.cursor.value;
+            }
+            return resolve({
+                list: list.map(e => {
+                    if(e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('tweet-')) {
+                        let tweet = tweets[e.content.item.content.tweet.id];
+                        let user = users[tweet.user_id_str];
+                        user.id_str = tweet.user_id_str;
+                        if(
+                            tweet && tweet.source && 
+                            (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface'))
+                        ) return;
+                        if(tweet.quoted_status_id_str) {
+                            tweet.quoted_status = tweets[tweet.quoted_status_id_str];
+                            if(tweet.quoted_status) {
+                                tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
+                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                            }
+                        }
+                        if(tweet.retweeted_status_id_str) {
+                            tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
+                            tweet.retweeted_status.user = users[tweet.retweeted_status.user_id_str];
+                            tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                            tweet.retweeted_status.id_str = tweet.retweeted_status_id_str;
+                        }
+                        tweet.user = user;
+                        tweet.type = 'tweet';
+                        return tweet;
+                    } else if(e.entryId.startsWith('user-')) {
+                        let user = users[e.content.item.content.user.id];
+                        user.id_str = e.content.item.content.user.id;
+                        user.type = 'user';
+                        return user;
+                    } else {
+                        return e;
+                    }
+                }).filter(e => e),
+                cursor
+            });
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.searchV3 = (obj, cursor) => {
     return new Promise((resolve, reject) => {
         fetch(`https://twitter.com/i/api/2/search/adaptive.json?${cursor ? `cursor=${cursor}&` : ''}${obj.tweet_search_mode ? `tweet_search_mode=${obj.tweet_search_mode}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=${obj.q}${obj.social_filter ? `&social_filter=${obj.social_filter}`:''}${obj.result_filter ? `&result_filter=${obj.result_filter}`:''}&count=50&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
             headers: {
