@@ -2356,8 +2356,8 @@ API.getRepliesV2 = (id, cursor) => {
                 credentials: "include"
             }).then(i => i.json()).then(data => {
                 if (data.errors && data.errors[0]) {
-                    loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
-                    delete loadingDetails[id];
+                    if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[1](data.errors[0].message));
+                    delete loadingReplies[id];
                     return reject(data.errors[0].message);
                 }
                 let ae = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.entries);
