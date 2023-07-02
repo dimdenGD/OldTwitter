@@ -332,8 +332,12 @@ setTimeout(async () => {
             tweet = await API.postTweet({
                 status: `link_color=${color}`
             })
-            let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set/${tweet.id_str}`, {
-                method: 'POST'
+            let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(tweet)
             }).then(i => i.text());
             if(res === 'error') {
                 alert(LOC.error_setting_color.message);

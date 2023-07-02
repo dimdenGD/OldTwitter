@@ -203,7 +203,8 @@ API.getTimeline = (max_id) => {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en",
+                "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220811153004 web/"
             },
             credentials: "include"
         }).then(response => response.json()).then(data => {
@@ -2750,7 +2751,8 @@ API.getUserUpdates = cursor => {
                     "authorization": OLDTWITTER_CONFIG.oauth_key,
                     "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                     "x-twitter-auth-type": "OAuth2Session",
-                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220811153004 web/"
                 },
                 credentials: "include",
             }).then(i => i.json()).then(data => {
