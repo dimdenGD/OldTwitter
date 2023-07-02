@@ -2,9 +2,9 @@ name: Build Extension
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "patch-1" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "patch-1" ] 
 
 jobs:
   build:
