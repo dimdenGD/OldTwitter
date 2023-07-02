@@ -980,29 +980,6 @@ API.cancelFollow = screen_name => {
         });
     });
 }
-API.getUserTweetsV2 = id => {
-    return new Promise((resolve, reject) => {
-        fetch(`https://twitter.com/i/api/graphql/3ywp9kIIW-VQOssauKmLiQ/UserTweets?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":1,"includePromotedContent":false,"withQuickPromoteEligibilityTweetFields":true,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true,"withVoice":true,"withV2Timeline":true}))}&features=${encodeURIComponent(JSON.stringify({"dont_mention_me_view_api_enabled":true,"interactive_text_enabled":true,"responsive_web_uc_gql_enabled":false,"vibe_tweet_context_enabled":false,"responsive_web_edit_tweet_api_enabled":false,"standardized_nudges_misinfo":false,"responsive_web_enhance_cards_enabled":false,"view_counts_everywhere_api_enabled":true,"view_counts_public_visibility_enabled":true}))}`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/json"
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0].code === 32) {
-                return reject("Not logged in");
-            }
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            resolve(data);
-        }).catch(e => {
-            reject(e);
-        });
-    });
-}
 API.getUserTweets = (id, max_id, replies = false) => {
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=100&exclude_replies=${!replies}&include_my_retweet=1&include_rts=1&user_id=${id}${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-12&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
@@ -1020,6 +997,74 @@ API.getUserTweets = (id, max_id, replies = false) => {
                 return reject(data.errors[0].message);
             }
             resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.getUserTweetsV2 = (id, cursor, replies = false) => {
+    return new Promise((resolve, reject) => {
+        let variables = {"userId":id,"count":100,"includePromotedContent":false,"withQuickPromoteEligibilityTweetFields":false,"withVoice":true,"withV2Timeline":true};
+        let features = {"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false};
+        let fieldToggles = {"withArticleRichContentState":false};
+        if(cursor) {
+            variables.cursor = cursor;
+        }
+        let api = "QqZBEqganhHwmU9QscmIug/UserTweets";
+        if(replies) {
+            api = "wxoVeDnl0mP7VLhe6mTOdg/UserTweetsAndReplies";
+        }
+        
+        fetch(`https://twitter.com/i/api/graphql/${api}?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}&fieldToggles=${encodeURIComponent(JSON.stringify(fieldToggles))}`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session"
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0].code === 32) {
+                return reject("Not logged in");
+            }
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            let instructions = data.data.user.result.timeline_v2.timeline.instructions;
+            let entries = instructions.find(e => e.type === "TimelineAddEntries");
+            if(!entries) {
+                return reject("Nothing here");
+            }
+            entries = entries.entries;
+            let tweets = [];
+            for(let entry of entries) {
+                if(entry.entryId.startsWith("tweet-")) {
+                    let tweet = entry.content.itemContent.tweet_results.result.legacy;
+                    tweet.user = entry.content.itemContent.tweet_results.result.core.user_results.result.legacy;
+                    tweet.user.id_str = tweet.user_id_str;
+                    tweet.ext = {};
+                    tweets.push(tweet);
+                } else if(entry.entryId.startsWith("profile-conversation-")) {
+                    let items = entry.content.items;
+                    for(let i = 0; i < items.length; i++) {
+                        let item = items[i];
+                        console.log(item);
+                        let result = item.item.itemContent.tweet_results.result;
+                        if(item.entryId.includes("-tweet-")) {
+                            let tweet = result.legacy;
+                            tweet.user = result.core.user_results.result.legacy;
+                            tweet.user.id_str = tweet.user_id_str;
+                            tweet.ext = {};
+                            if(i !== items.length - 1) tweet.threadContinuation = true;
+                            if(i !== 0) tweet.noTop = true;
+                            tweets.push(tweet);
+                        }
+                    }
+                }
+            }
+            resolve({
+                tweets,
+                cursor: entries.find(e => e.entryId.startsWith("sq-cursor-bottom-") || e.entryId.startsWith("cursor-bottom-")).content.value
+            });
         }).catch(e => {
             reject(e);
         });

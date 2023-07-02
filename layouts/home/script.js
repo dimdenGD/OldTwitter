@@ -61,6 +61,8 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li><b>Fixed looking at profile tweets.</b></li>
+                            <li>Fixed setting profile link color.</li>
                             <li>Added support for <a href="https://twitter.com/dimdenEFF/status/1674813715307286529" target="_blank">silly tweets with buttons</a>.</li>
                             <li>Improved profile link contrast to work with all background colors.</li>
                             <li>Fixed managing members of Twitter Circle.</li>

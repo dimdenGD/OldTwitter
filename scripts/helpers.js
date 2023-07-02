@@ -1256,6 +1256,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 activeTweet = tweet;
             }
         } catch(e) {}
+        if(t.threadContinuation) {
+            options.threadContinuation = true;
+        }
+        if(t.noTop) {
+            options.noTop = true;
+        }
         if (options.threadContinuation) tweet.classList.add('tweet-self-thread-continuation');
         if (options.selfThreadContinuation) tweet.classList.add('tweet-self-thread-continuation');
 

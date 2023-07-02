@@ -9,7 +9,7 @@ let seenThreads = [];
 let averageLikeCount = 1;
 let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
-let favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor, mediaCursor;
+let tweetsCursor, favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor, mediaCursor;
 
 // Util
 
@@ -299,12 +299,15 @@ async function updateTimeline() {
                 mediaCursor = tl.cursor;
                 tl = tl.tweets;
             } else {
-                tl = await API.getUserTweets(pageUser.id_str, undefined, subpage !== 'profile');
+                tl = await API.getUserTweetsV2(pageUser.id_str, undefined, subpage !== 'profile');
+                tweetsCursor = tl.cursor;
+                tl = tl.tweets;
             }
         } catch(e) {
+            console.error(e);
             document.getElementById('tweet-nav').hidden = true;
             document.getElementById('loading-box').hidden = true;
-            document.getElementById('timeline').innerHTML = `<div style="padding: 100px;color: var(--darker-gray);">${escapeHTML(e)}</div>`;
+            document.getElementById('timeline').innerHTML = `<div style="padding: 100px;color: var(--darker-gray);">${escapeHTML(String(e))}</div>`;
             return;
         }
         // if(subpage === 'media') {
@@ -1370,8 +1373,9 @@ setTimeout(async () => {
                         mediaCursor = tl.cursor;
                         tl = tl.tweets;
                     } else {
-                        tl = await API.getUserTweets(pageUser.id_str, timeline.data[timeline.data.length - 1].id_str, subpage !== 'profile');
-                        tl = tl.slice(1);
+                        tl = await API.getUserTweetsV2(pageUser.id_str, tweetsCursor, subpage !== 'profile');
+                        tweetsCursor = tl.cursor;
+                        tl = tl.tweets;
                     }
                 }
             } catch (e) {
@@ -1481,6 +1485,7 @@ setTimeout(async () => {
         }
         seenThreads = [];
         pinnedTweet = undefined;
+        tweetsCursor = undefined;
         favoritesCursor = undefined;
         followersCursor = undefined;
         followingCursor = undefined;
