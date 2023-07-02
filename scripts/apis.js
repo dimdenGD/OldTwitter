@@ -1038,22 +1038,69 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
             let tweets = [];
             for(let entry of entries) {
                 if(entry.entryId.startsWith("tweet-")) {
-                    let tweet = entry.content.itemContent.tweet_results.result.legacy;
-                    tweet.user = entry.content.itemContent.tweet_results.result.core.user_results.result.legacy;
+                    let result = entry.content.itemContent.tweet_results.result;
+                    if(!result) {
+                        continue;
+                    }
+                    console.log(result);
+                    let tweet = result.legacy;
+                    if(tweet.retweeted_status_result) {
+                        let result = tweet.retweeted_status_result.result;
+                        tweet.retweeted_status = result.legacy;
+                        tweet.retweeted_status.user = result.core.user_results.result.legacy;
+                        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                        tweet.retweeted_status.ext = {};
+                        if(result.views) {
+                            tweet.retweeted_status.ext.views = {r: {ok: true, count: +result.views.count}};
+                        }
+                    }
+                    if(tweet.quoted_status_result) {
+                        let result = tweet.quoted_status_result.result;
+                        tweet.quoted_status = result.legacy;
+                        tweet.quoted_status.user = result.core.user_results.result.legacy;
+                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                        tweet.quoted_status.ext = {};
+                        if(result.views) {
+                            tweet.quoted_status.ext.views = {r: {ok: true, count: +result.views.count}};
+                        }
+                    }
+                    tweet.user = result.core.user_results.result.legacy;
                     tweet.user.id_str = tweet.user_id_str;
                     tweet.ext = {};
-                    tweets.push(tweet);
+                    if(result.views) {
+                        tweet.ext.views = {r: {ok: true, count: +result.views.count}};
+                    }
                 } else if(entry.entryId.startsWith("profile-conversation-")) {
                     let items = entry.content.items;
                     for(let i = 0; i < items.length; i++) {
                         let item = items[i];
-                        console.log(item);
                         let result = item.item.itemContent.tweet_results.result;
                         if(item.entryId.includes("-tweet-")) {
                             let tweet = result.legacy;
                             tweet.user = result.core.user_results.result.legacy;
                             tweet.user.id_str = tweet.user_id_str;
+                            if(tweet.retweeted_status_result) {
+                                tweet.retweeted_status = tweet.retweeted_status_result.legacy;
+                                tweet.retweeted_status.user = tweet.retweeted_status_result.core.user_results.result.legacy;
+                                tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                                tweet.retweeted_status.ext = {};
+                                if(tweet.retweeted_status_result.views) {
+                                    tweet.ext.views = {r: {ok: true, count: +tweet.retweeted_status_result.views.count}};
+                                }
+                            }
+                            if(tweet.quoted_status_result) {
+                                tweet.quoted_status = tweet.quoted_status_result.legacy;
+                                tweet.quoted_status.user = tweet.quoted_status_result.core.user_results.result.legacy;
+                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                                tweet.quoted_status.ext = {};
+                                if(tweet.quoted_status_result.views) {
+                                    tweet.ext.views = {r: {ok: true, count: +tweet.quoted_status_result.views.count}};
+                                }
+                            }
                             tweet.ext = {};
+                            if(result.views) {
+                                tweet.ext.views = {r: {ok: true, count: +result.views.count}};
+                            }
                             if(i !== items.length - 1) tweet.threadContinuation = true;
                             if(i !== 0) tweet.noTop = true;
                             tweets.push(tweet);
