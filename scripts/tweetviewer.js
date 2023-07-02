@@ -157,7 +157,7 @@ class TweetViewer {
         if(!c) document.getElementsByClassName('timeline')[0].innerHTML = '';
         let tl, tweetLikers;
         try {
-            let [tlData, tweetLikersData] = await Promise.allSettled([API.getReplies(id, c), API.getTweetLikers(id)]);
+            let [tlData, tweetLikersData] = await Promise.allSettled([API.getRepliesV2(id, c), API.getTweetLikers(id)]);
             if(!tlData.value) {
                 this.cursor = undefined;
                 return console.error(tlData.reason);
@@ -692,16 +692,16 @@ class TweetViewer {
     }
     async appendTweet(t, timelineContainer, options = {}) {
         if(this.seenReplies.includes(t.id_str)) return;
-        if(t.entities && t.entities.urls) {
-            let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
-            if(webUrl) {
-                try {
-                    let source = t.source;
-                    t = await API.tweetDetail(t.id_str);
-                    t.source = source;
-                } catch(e) {}
-            }
-        }
+        // if(t.entities && t.entities.urls) {
+            // let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
+            // if(webUrl) {
+            //     try {
+            //         let source = t.source;
+            //         t = await API.tweetDetail(t.id_str);
+            //         t.source = source;
+            //     } catch(e) {}
+            // }
+        // }
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
         }

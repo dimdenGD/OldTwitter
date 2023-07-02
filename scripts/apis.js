@@ -2222,6 +2222,230 @@ API.getReplies = (id, cursor) => {
         });
     });
 }
+API.getRepliesV2 = (id, cursor) => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(['tweetReplies'], d => {
+            if(!d.tweetReplies) d.tweetReplies = {};
+            if(!cursor) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000*5) {
+                    return resolve(d.tweetReplies[id].data);
+                }
+                if(loadingDetails[id]) {
+                    return loadingDetails[id].listeners.push([resolve, reject]);
+                } else {
+                    loadingDetails[id] = {
+                        listeners: []
+                    };
+                }
+            }
+            fetch(`https://twitter.com/i/api/graphql/KwGBbJZc6DBx8EKmyQSP7g/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
+                "focalTweetId":id,
+                "with_rux_injections":false,
+                "includePromotedContent":false,
+                "withCommunity":true,
+                "withQuickPromoteEligibilityTweetFields":true,
+                "withBirdwatchNotes":true,
+                "withVoice":true,
+                "withV2Timeline":true,
+                "cursor":cursor
+            }))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.public_token,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                },
+                credentials: "include"
+            }).then(i => i.json()).then(data => {
+                if (data.errors && data.errors[0]) {
+                    loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
+                    delete loadingDetails[id];
+                    return reject(data.errors[0].message);
+                }
+                let ae = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.entries);
+                if(!ae) {
+                    let out = {
+                        list: [],
+                        cursor: null,
+                        users: {}
+                    };
+                    if(!cursor) {
+                        if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[0](out));
+                        delete loadingReplies[id];
+                    }
+                    return resolve(out);
+                }
+                let entries = ae.entries;
+                let list = [];
+                let users = {};
+                for (let i = 0; i < entries.length; i++) {
+                    let e = entries[i];
+                    if (e.entryId.startsWith('tweet-')) {
+                        let tweetData = e.content.itemContent.tweet_results.result;
+                        if(!tweetData) continue;
+                        let tweet = tweetData.legacy;
+                        let user = tweetData.core.user_results.result.legacy;
+                        tweet.user = user;
+                        tweet.user.id_str = tweet.user_id_str;
+                        users[tweet.user_id_str] = tweet.user;
+                        if(tweetData.card) {
+                            tweet.card = tweetData.card.legacy;
+                            let newBindingValues = {};
+                            for(let i of tweet.card.binding_values) {
+                                newBindingValues[i.key] = i.value;
+                            }
+                            tweet.card.binding_values = newBindingValues;
+                        }
+                        if(tweet.quoted_status_id_str) {
+                            tweet.quoted_status = tweetData.quoted_status_result.result;
+                            if(!tweet.quoted_status.core) tweet.quoted_status = tweet.quoted_status.tweet;
+                            let userData = tweet.quoted_status.core.user_results.result;
+                            userData.legacy.id_str = userData.rest_id;
+                            tweet.quoted_status.legacy.user = userData.legacy;
+                            tweet.quoted_status = tweet.quoted_status.legacy;
+                        }
+                        if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
+                            tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
+                        }
+                        if(tweetData.views && tweetData.views.count) {
+                            if(!tweet.ext) tweet.ext = {};
+                            tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
+                        }
+                        tweet.user = tweetData.core.user_results.result;
+                        tweet.user.legacy.id_str = tweet.user.rest_id;
+                        tweet.user = tweet.user.legacy;
+
+                        list.push({
+                            type: tweet.id_str === id ? 'mainTweet' : 'tweet',
+                            data: tweet
+                        });
+                    } else if (e.entryId.startsWith('tombstone-')) {
+                        if(e.content.item.content.tombstone.tweet) {
+                            let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
+                            let user = userData[tweet.user_id_str];
+                            tweet.id_str = e.content.item.content.tombstone.tweet.id;
+                            tweet.user = user;
+                            if(tweet.quoted_status_id_str) {
+                                tweet.quoted_status = tweetData[tweet.quoted_status_id_str];
+                                if(tweet.quoted_status) {
+                                    tweet.quoted_status.user = userData[tweet.quoted_status.user_id_str];
+                                    tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                                    tweet.quoted_status.id_str = tweet.quoted_status_id_str;
+                                }
+                            }
+                            tweet.tombstone = e.content.item.content.tombstone.tombstoneInfo.text;
+                            list.push({
+                                type: tweet.id_str === id ? 'mainTweet' : 'tweet',
+                                data: tweet
+                            });
+                        } else {
+                            list.push({
+                                type: 'tombstone',
+                                data: e.content.item.content.tombstone.tombstoneInfo.text
+                            });
+                        }
+                    } else if(e.entryId.startsWith('conversationthread-')) {
+                        let thread = e.content.items;
+                        let threadList = [];
+                        for (let j = 0; j < thread.length; j++) {
+                            if(thread[j].entryId.includes("-tweetcomposer-")) {
+                                continue;
+                            }
+                            if(thread[j].entryId.includes("cursor-showmore")) {
+                                continue; // TODO: Implement
+                            }
+                            let tweetData = thread[j].item.itemContent.tweet_results.result;
+                            if(!tweetData) continue;
+                            let tweet = tweetData.legacy;
+                            let user = tweetData.core.user_results.result.legacy;
+                            tweet.user = user;
+                            tweet.user.id_str = tweet.user_id_str;
+                            users[tweet.user_id_str] = tweet.user;
+                            if(tweetData.card) {
+                                tweet.card = tweetData.card.legacy;
+                                let newBindingValues = {};
+                                for(let i of tweet.card.binding_values) {
+                                    newBindingValues[i.key] = i.value;
+                                }
+                                tweet.card.binding_values = newBindingValues;
+                            }
+                            if(tweet.quoted_status_id_str) {
+                                tweet.quoted_status = tweetData.quoted_status_result.result;
+                                if(!tweet.quoted_status.core) tweet.quoted_status = tweet.quoted_status.tweet;
+                                let userData = tweet.quoted_status.core.user_results.result;
+                                userData.legacy.id_str = userData.rest_id;
+                                tweet.quoted_status.legacy.user = userData.legacy;
+                                tweet.quoted_status = tweet.quoted_status.legacy;
+                            }
+                            if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
+                                tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
+                            }
+                            if(tweetData.views && tweetData.views.count) {
+                                if(!tweet.ext) tweet.ext = {};
+                                tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
+                            }
+                            tweet.user = tweetData.core.user_results.result;
+                            tweet.user.legacy.id_str = tweet.user.rest_id;
+                            tweet.user = tweet.user.legacy;
+                            
+                            threadList.push(tweet);
+                        }
+                        if(threadList.length === 1) {
+                            list.push({
+                                type: threadList[0].id_str === id ? 'mainTweet' : 'tweet',
+                                data: threadList[0]
+                            });
+                        } else {
+                            list.push({
+                                type: 'conversation',
+                                data: threadList
+                            });
+                        }
+                    } else if(e.entryId.startsWith('cursor-showmorethreadsprompt')) {
+                        list.push({
+                            type: 'showMore',
+                            data: {
+                                cursor: e.content.itemContent.value,
+                                labelText: e.content.itemContent.displayTreatment.labelText,
+                                actionText: e.content.itemContent.displayTreatment.actionText
+                            }
+                        });
+                    }
+                }
+                let newCursor;
+                try {
+                    newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.itemContent.value;
+                } catch(e) {}
+                resolve({
+                    list,
+                    cursor: newCursor,
+                    users
+                });
+                if(!cursor) {
+                    loadingReplies[id].listeners.forEach(l => l[0]({
+                        list,
+                        cursor: newCursor,
+                        users
+                    }));
+                    delete loadingReplies[id];
+                    chrome.storage.local.get(['tweetReplies'], d => {
+                        if(!d.tweetReplies) d.tweetReplies = {};
+                        d.tweetReplies[id] = {
+                            date: Date.now(),
+                            data: {
+                                list,
+                                cursor: newCursor,
+                                users
+                            }
+                        };
+                        chrome.storage.local.set({tweetReplies: d.tweetReplies}, () => {});
+                    });
+                }
+            }).catch(e => {
+                reject(e);
+            });
+        });
+    });
+}
 let loadingLikers = {};
 API.getTweetLikers = (id, cursor) => {
     return new Promise((resolve, reject) => {

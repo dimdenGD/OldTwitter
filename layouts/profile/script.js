@@ -1403,7 +1403,7 @@ setTimeout(async () => {
                 if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
                 else tweetsToLoad[id]++;
                 if(tweetsToLoad[id] === 15) {
-                    API.getReplies(id);
+                    API.getRepliesV2(id);
                     API.getTweetLikers(id);
                     t.classList.add('tweet-preload');
                     console.log(`Preloading ${id}`);

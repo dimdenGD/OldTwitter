@@ -120,7 +120,7 @@ async function updateReplies(id, c) {
     if(!c) document.getElementById('timeline').innerHTML = '';
     let tl, tweetLikers;
     try {
-        let [tlData, tweetLikersData] = await Promise.allSettled([API.getReplies(id, c), API.getTweetLikers(id)]);
+        let [tlData, tweetLikersData] = await Promise.allSettled([API.getRepliesV2(id, c), API.getTweetLikers(id)]);
         if(!tlData.value) {
             cursor = undefined;
             console.error(tlData.reason);

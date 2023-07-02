@@ -61,6 +61,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li><b>Fixed seeing tweets and their replies!</b></li>
                             <li><b>Fixed looking at profile tweets.</b></li>
                             <li>Fixed setting profile link color.</li>
                             <li>Added support for <a href="https://twitter.com/dimdenEFF/status/1674813715307286529" target="_blank">silly tweets with buttons</a>.</li>
@@ -589,7 +590,7 @@ setTimeout(async () => {
                 if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
                 else tweetsToLoad[id]++;
                 if(tweetsToLoad[id] === 10) {
-                    API.getReplies(id);
+                    API.getRepliesV2(id);
                     API.getTweetLikers(id);
                     t.classList.add('tweet-preload');
                     console.log(`Preloading ${id}`);
