@@ -139,6 +139,7 @@ async function updateReplies(id, c) {
         users[u] = tl.users[u];
     };
 
+    // balls
     if(vars.linkColorsInTL) {
         let tlUsers = [];
         for(let i in tl.list) {
