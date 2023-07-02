@@ -38,6 +38,7 @@ If you like this extension please consider donating:
   
 ## Manual installation
 For beta version:  
+- You need Github account, please register if you haven't first!  
 - Go to [Actions page](https://github.com/dimdenGD/OldTwitter/actions)  
 - Click on latest workflow run (first from top)  
 - Download `OldTwitterChrome` if you're on Chromium based browsers and `OldTwitterFirefox` if you're on Firefox  
