@@ -1039,7 +1039,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
             for(let entry of entries) {
                 if(entry.entryId.startsWith("tweet-")) {
                     let result = entry.content.itemContent.tweet_results.result;
-                    if(!result) {
+                    if(!result || !result.legacy) {
                         continue;
                     }
                     let tweet = result.legacy;
@@ -1075,6 +1075,9 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     for(let i = 0; i < items.length; i++) {
                         let item = items[i];
                         let result = item.item.itemContent.tweet_results.result;
+                        if(!result || !result.legacy) {
+                            continue;
+                        }
                         if(item.entryId.includes("-tweet-")) {
                             let tweet = result.legacy;
                             tweet.user = result.core.user_results.result.legacy;
