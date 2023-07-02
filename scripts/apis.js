@@ -1039,6 +1039,13 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
             for(let entry of entries) {
                 if(entry.entryId.startsWith("tweet-")) {
                     let result = entry.content.itemContent.tweet_results.result;
+                    if(result.limitedActionResults) {
+                        let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                        if(limitation) {
+                            result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                        }
+                        result = result.tweet;
+                    }
                     if(!result || !result.legacy) {
                         console.log("Bug: Tweet result is missing", entry);
                         continue;
@@ -1046,6 +1053,13 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     let tweet = result.legacy;
                     if(tweet.retweeted_status_result) {
                         let result = tweet.retweeted_status_result.result;
+                        if(result.limitedActionResults) {
+                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                            if(limitation) {
+                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                            }
+                            result = result.tweet;
+                        }
                         tweet.retweeted_status = result.legacy;
                         tweet.retweeted_status.user = result.core.user_results.result.legacy;
                         tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
@@ -1056,6 +1070,13 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
+                        if(result.limitedActionResults) {
+                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                            if(limitation) {
+                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                            }
+                            result = result.tweet;
+                        }
                         tweet.quoted_status = result.legacy;
                         tweet.quoted_status.user = result.core.user_results.result.legacy;
                         tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
@@ -1076,6 +1097,13 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     for(let i = 0; i < items.length; i++) {
                         let item = items[i];
                         let result = item.item.itemContent.tweet_results.result;
+                        if(result.limitedActionResults) {
+                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                            if(limitation) {
+                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                            }
+                            result = result.tweet;
+                        }
                         if(!result || !result.legacy) {
                             console.log("Bug: Tweet result is missing", item);
                             continue;
@@ -1085,21 +1113,37 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                             tweet.user = result.core.user_results.result.legacy;
                             tweet.user.id_str = tweet.user_id_str;
                             if(tweet.retweeted_status_result) {
-                                tweet.retweeted_status = tweet.retweeted_status_result.legacy;
-                                tweet.retweeted_status.user = tweet.retweeted_status_result.core.user_results.result.legacy;
+                                let result = tweet.retweeted_status_result.result;
+                                if(result.limitedActionResults) {
+                                    let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                                    if(limitation) {
+                                        result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                    }
+                                    result = result.tweet;
+                                }
+                                tweet.retweeted_status = result.legacy;
+                                tweet.retweeted_status.user = result.core.user_results.result.legacy;
                                 tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
                                 tweet.retweeted_status.ext = {};
-                                if(tweet.retweeted_status_result.views) {
-                                    tweet.ext.views = {r: {ok: true, count: +tweet.retweeted_status_result.views.count}};
+                                if(result.views) {
+                                    tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                                 }
                             }
                             if(tweet.quoted_status_result) {
-                                tweet.quoted_status = tweet.quoted_status_result.legacy;
-                                tweet.quoted_status.user = tweet.quoted_status_result.core.user_results.result.legacy;
+                                let result = tweet.quoted_status_result.result;
+                                if(result.limitedActionResults) {
+                                    let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                                    if(limitation) {
+                                        result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                    }
+                                    result = result.tweet;
+                                }
+                                tweet.quoted_status = result.legacy;
+                                tweet.quoted_status.user = result.core.user_results.result.legacy;
                                 tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
                                 tweet.quoted_status.ext = {};
-                                if(tweet.quoted_status_result.views) {
-                                    tweet.ext.views = {r: {ok: true, count: +tweet.quoted_status_result.views.count}};
+                                if(result.views) {
+                                    tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                                 }
                             }
                             tweet.ext = {};
@@ -2337,6 +2381,7 @@ API.getRepliesV2 = (id, cursor) => {
                     if (e.entryId.startsWith('tweet-')) {
                         let tweetData = e.content.itemContent.tweet_results.result;
                         if(!tweetData) continue;
+                        if(!tweetData.legacy) tweetData = tweetData.tweet;
                         let tweet = tweetData.legacy;
                         let user = tweetData.core.user_results.result.legacy;
                         tweet.user = user;
@@ -2413,6 +2458,7 @@ API.getRepliesV2 = (id, cursor) => {
                             }
                             let tweetData = thread[j].item.itemContent.tweet_results.result;
                             if(!tweetData) continue;
+                            if(!tweetData.legacy) tweetData = tweetData.tweet;
                             let tweet = tweetData.legacy;
                             let user = tweetData.core.user_results.result.legacy;
                             tweet.user = user;
