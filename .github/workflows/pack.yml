@@ -24,8 +24,13 @@ jobs:
       - name: Pack extension
         run: node pack.js
         
-      - name: Upload build artifact
+      - name: Upload for Firefox
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: test
-          path: D:\a\
+          name: OldTwitterFirefox
+          path: D:\a\OldTwitter\OldTwitterFirefox.zip
+      - name: Upload for Chromium
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: OldTwitterChrome
+          path: D:\a\OldTwitter\OldTwitterChrome.zip
