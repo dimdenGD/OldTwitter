@@ -1040,6 +1040,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                 if(entry.entryId.startsWith("tweet-")) {
                     let result = entry.content.itemContent.tweet_results.result;
                     if(!result || !result.legacy) {
+                        console.log("Bug: Tweet result is missing", entry);
                         continue;
                     }
                     let tweet = result.legacy;
@@ -1076,6 +1077,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         let item = items[i];
                         let result = item.item.itemContent.tweet_results.result;
                         if(!result || !result.legacy) {
+                            console.log("Bug: Tweet result is missing", item);
                             continue;
                         }
                         if(item.entryId.includes("-tweet-")) {
