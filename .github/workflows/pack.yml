@@ -2,9 +2,9 @@ name: Pack Extension
 
 on:
   push:
-    branches: [ "master", "patch-1" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "master", "patch-1" ] 
+    branches: [ "master" ] 
 
 jobs:
   build:
