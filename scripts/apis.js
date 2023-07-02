@@ -1042,7 +1042,6 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     if(!result) {
                         continue;
                     }
-                    console.log(result);
                     let tweet = result.legacy;
                     if(tweet.retweeted_status_result) {
                         let result = tweet.retweeted_status_result.result;
@@ -1051,7 +1050,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
                         tweet.retweeted_status.ext = {};
                         if(result.views) {
-                            tweet.retweeted_status.ext.views = {r: {ok: true, count: +result.views.count}};
+                            tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                         }
                     }
                     if(tweet.quoted_status_result) {
@@ -1061,15 +1060,16 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
                         tweet.quoted_status.ext = {};
                         if(result.views) {
-                            tweet.quoted_status.ext.views = {r: {ok: true, count: +result.views.count}};
+                            tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                         }
                     }
                     tweet.user = result.core.user_results.result.legacy;
                     tweet.user.id_str = tweet.user_id_str;
                     tweet.ext = {};
                     if(result.views) {
-                        tweet.ext.views = {r: {ok: true, count: +result.views.count}};
+                        tweet.ext.views = {r: {ok: {count: +result.views.count}}};
                     }
+                    tweets.push(tweet);
                 } else if(entry.entryId.startsWith("profile-conversation-")) {
                     let items = entry.content.items;
                     for(let i = 0; i < items.length; i++) {
@@ -2011,6 +2011,9 @@ API.tweetDetail = id => {
                     if(!tweet.ext) tweet.ext = {};
                     tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
                 }
+                if(tweetData.source) {
+                    tweet.source = tweetData.source;
+                }
                 tweet.user = tweetData.core.user_results.result;
                 tweet.user.legacy.id_str = tweet.user.rest_id;
                 tweet.user = tweet.user.legacy;
@@ -2357,6 +2360,9 @@ API.getRepliesV2 = (id, cursor) => {
                             if(!tweet.ext) tweet.ext = {};
                             tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
                         }
+                        if(tweetData.source) {
+                            tweet.source = tweetData.source;
+                        }
                         tweet.user = tweetData.core.user_results.result;
                         tweet.user.legacy.id_str = tweet.user.rest_id;
                         tweet.user = tweet.user.legacy;
@@ -2429,6 +2435,9 @@ API.getRepliesV2 = (id, cursor) => {
                             if(tweetData.views && tweetData.views.count) {
                                 if(!tweet.ext) tweet.ext = {};
                                 tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
+                            }
+                            if(tweetData.source) {
+                                tweet.source = tweetData.source;
                             }
                             tweet.user = tweetData.core.user_results.result;
                             tweet.user.legacy.id_str = tweet.user.rest_id;
