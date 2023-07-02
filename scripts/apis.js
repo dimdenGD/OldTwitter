@@ -2028,7 +2028,7 @@ API.tweetDetail = id => {
                 credentials: "include"
             }).then(i => i.json()).then(data => {
                 if (data.errors && data.errors[0]) {
-                    loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
+                    if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
                     delete loadingDetails[id];
                     return reject(data.errors[0].message);
                 }
@@ -2067,7 +2067,7 @@ API.tweetDetail = id => {
                 tweet.user.legacy.id_str = tweet.user.rest_id;
                 tweet.user = tweet.user.legacy;
                 resolve(tweet);
-                loadingDetails[id].listeners.forEach(l => l[0](tweet));
+                if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[0](tweet));
                 delete loadingDetails[id];
 
                 chrome.storage.local.get(['tweetDetails'], d => {
