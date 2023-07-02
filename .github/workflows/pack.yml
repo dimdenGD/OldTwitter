@@ -1,0 +1,31 @@
+name: Build Extension
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Source Tree
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.2
+        
+      - name: Setup NPM packages
+        run: npm i ndm-zip
+        
+      - name: Pack extension
+        run: node pack.js
+        
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v3.1.2
+        with:
+          name: test
+          path: .
