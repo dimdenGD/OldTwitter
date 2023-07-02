@@ -20,7 +20,7 @@ function updateUserData() {
                 profileColor = '#'+u.profile_link_color;
             }
             if(profileColor !== 'none') {
-                profileLinkColor.value = `#`+profileColor;
+                profileLinkColor.value = profileColor;
         
                 let lightColor = makeSeeableColor(profileColor, "#ffffff");
                 colorPreviewLight.style.color = lightColor;
