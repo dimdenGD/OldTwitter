@@ -77,6 +77,7 @@ function renderUserData() {
 async function renderSearch(c, force = false) {
     let newSearch = searchParams.q+searchSettings.type+searchSettings.followedPeople+searchSettings.nearYou;
     if(newSearch === lastSearch && !force) return;
+    window.scrollTo(0, 0);
     lastSearch = newSearch;
     updateSavedButton();
     document.getElementsByTagName('title')[0].innerText = `"${searchParams.q}" - OldTwitter Search`;
@@ -85,12 +86,22 @@ async function renderSearch(c, force = false) {
     let currentCursor = cursor;
     try {
         let searchData;
+        const products = {
+            popular: "Top",
+            live: "Latest",
+            user: "People",
+            image: "Photos",
+            video: "Videos"
+        }
         try {
-            searchData = await API.searchV2({
-                q: encodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : ''),
-                tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
-                social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
-                result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
+            searchData = await API.searchV3({
+                rawQuery: encodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : '') + (searchSettings.followedPeople ? ' filter:follows' : ''),
+                count: 50,
+                // tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
+                // social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
+                querySource: 'typed_query',
+                product: products[searchSettings.type],
+                // result_filter: searchSettings.type === 'user' ? 'user' : searchSettings.type === 'image' ? 'image' : searchSettings.type === 'video' ? 'video' : '',
             }, cursor);
         } catch(e) {
             console.error(e);

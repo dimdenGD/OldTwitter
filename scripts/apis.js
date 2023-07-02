@@ -2947,15 +2947,15 @@ API.searchV2 = (obj, cursor) => {
 }
 API.searchV3 = (obj, cursor) => {
     return new Promise((resolve, reject) => {
-        fetch(`https://twitter.com/i/api/2/search/adaptive.json?${cursor ? `cursor=${cursor}&` : ''}${obj.tweet_search_mode ? `tweet_search_mode=${obj.tweet_search_mode}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=${obj.q}${obj.social_filter ? `&social_filter=${obj.social_filter}`:''}${obj.result_filter ? `&result_filter=${obj.result_filter}`:''}&count=50&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+        if(cursor) obj.cursor = cursor;
+        fetch(`https://twitter.com/i/api/graphql/nK1dw4oV3k4w5TdtcAdSww/SearchTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded",
-                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+                "content-type": "application/json"
             },
-            credentials: "include",
+            credentials: "include"
         }).then(i => i.json()).then(data => {
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
@@ -2963,63 +2963,90 @@ API.searchV3 = (obj, cursor) => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
-            let tweets = data.globalObjects.tweets;
-            let users = data.globalObjects.users;
-            let entries = data.timeline.instructions.find(i => i.addEntries);
-            if(!entries) return resolve({
-                list: [],
-                cursor: undefined
-            });
-            entries = entries.addEntries.entries;
-            let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('user-') || e.entryId.startsWith('tweet-'));
-            let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
-            if(!cursor) {
-                let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace.includes('sq-cursor-bottom') || i.replaceEntry.entryIdToReplace.includes('cursor-bottom')));
-                if(entries) {
-                    cursor = entries.replaceEntry.entry.content.operation.cursor.value;
-                }
-            } else {
-                cursor = cursor.content.operation.cursor.value;
+
+            let instructions = data.data.search_by_raw_query.search_timeline.timeline.instructions;
+            let entries = instructions.find(i => i.entries);
+            if(!entries) {
+                return resolve([]);
             }
-            return resolve({
-                list: list.map(e => {
-                    if(e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('tweet-')) {
-                        let tweet = tweets[e.content.item.content.tweet.id];
-                        let user = users[tweet.user_id_str];
-                        user.id_str = tweet.user_id_str;
-                        if(
-                            tweet && tweet.source && 
-                            (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface'))
-                        ) return;
-                        if(tweet.quoted_status_id_str) {
-                            tweet.quoted_status = tweets[tweet.quoted_status_id_str];
-                            if(tweet.quoted_status) {
-                                tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
-                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                            }
-                        }
-                        if(tweet.retweeted_status_id_str) {
-                            tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
-                            tweet.retweeted_status.user = users[tweet.retweeted_status.user_id_str];
-                            tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
-                            tweet.retweeted_status.id_str = tweet.retweeted_status_id_str;
-                        }
-                        tweet.user = user;
-                        tweet.type = 'tweet';
-                        return tweet;
-                    } else if(e.entryId.startsWith('user-')) {
-                        let user = users[e.content.item.content.user.id];
-                        user.id_str = e.content.item.content.user.id;
-                        user.type = 'user';
-                        return user;
-                    } else {
-                        return e;
+            entries = entries.entries;
+            let res = [];
+            for(let entry of entries) {
+                if(entry.entryId.startsWith('sq-I-t-') || entry.entryId.startsWith('tweet-')) {
+                    let result = entry.content.itemContent.tweet_results.result;
+                    if(!result || !result.legacy) {
+                        console.log("Bug: no tweet", entry);
+                        continue;
                     }
-                }).filter(e => e),
-                cursor
-            });
-        }).catch(e => {
-            reject(e);
+                    let tweet = result.legacy;
+                    if(tweet.retweeted_status_result) {
+                        let result = tweet.retweeted_status_result.result;
+                        if(result.limitedActionResults) {
+                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                            if(limitation) {
+                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                            }
+                            result = result.tweet;
+                        }
+                        tweet.retweeted_status = result.legacy;
+                        tweet.retweeted_status.user = result.core.user_results.result.legacy;
+                        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                        tweet.retweeted_status.ext = {};
+                        if(result.views) {
+                            tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                        }
+                    }
+                    if(tweet.quoted_status_result) {
+                        let result = tweet.quoted_status_result.result;
+                        if(result.limitedActionResults) {
+                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                            if(limitation) {
+                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                            }
+                            result = result.tweet;
+                        }
+                        tweet.quoted_status = result.legacy;
+                        tweet.quoted_status.user = result.core.user_results.result.legacy;
+                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                        tweet.quoted_status.ext = {};
+                        if(result.views) {
+                            tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                        }
+                    }
+                    tweet.user = result.core.user_results.result.legacy;
+                    tweet.user.id_str = tweet.user_id_str;
+                    tweet.ext = {};
+                    if(result.views) {
+                        tweet.ext.views = {r: {ok: {count: +result.views.count}}};
+                    }
+                    tweet.type = 'tweet';
+                    res.push(tweet);
+                } else if(entry.entryId.startsWith('sq-I-u-') || entry.entryId.startsWith("user-")) {
+                    let result = entry.content.itemContent.user_results.result;
+                    if(!result || !result.legacy) {
+                        console.log("Bug: no user", entry);
+                        continue;
+                    }
+                    let user = result.legacy;
+                    user.id_str = result.rest_id;
+                    user.type = 'user';
+                    user.socialContext = entry.content.itemContent.socialContext;
+                    res.push(user);
+                }
+            }
+            let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom-') || e.entryId.startsWith('cursor-bottom-'));
+            if(cursor) {
+                cursor = cursor.content.value;
+            } else {
+                cursor = instructions.find(e => e.entry_id_to_replace && (e.entry_id_to_replace.startsWith('sq-cursor-bottom-') || e.entry_id_to_replace.startsWith('cursor-bottom-')));
+                if(cursor) {
+                    cursor = cursor.entry.content.value;
+                } else {
+                    cursor = null;
+                }
+            }
+
+            resolve({list: res, cursor});
         });
     });
 }

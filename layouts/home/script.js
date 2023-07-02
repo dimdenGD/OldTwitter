@@ -63,6 +63,7 @@ setTimeout(() => {
                         <ul>
                             <li><b>Fixed seeing tweets and their replies!</b></li>
                             <li><b>Fixed looking at profile tweets.</b></li>
+                            <li><b>Fixed search.</b></li>
                             <li><b>Fixed setting profile link color.</b></li>
                             <li>Added support for <a href="https://twitter.com/dimdenEFF/status/1674813715307286529" target="_blank">silly tweets with buttons</a>.</li>
                             <li>Improved profile link contrast to work with all background colors.</li>
