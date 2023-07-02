@@ -670,7 +670,7 @@ async function appendTombstone(timelineContainer, text) {
     tweets.push(['tombstone', text]);
     let tombstone = document.createElement('div');
     tombstone.className = 'tweet-tombstone';
-    tombstone.innerText = text;
+    tombstone.innerHTML = text;
     timelineContainer.append(tombstone);
 }
 

@@ -2458,6 +2458,18 @@ API.getRepliesV2 = (id, cursor) => {
                             }
                             let tweetData = thread[j].item.itemContent.tweet_results.result;
                             if(!tweetData) continue;
+                            if(tweetData.tombstone) {
+                                let text = tweetData.tombstone.text.text;
+                                if(tweetData.tombstone.text.entities && tweetData.tombstone.text.entities.length > 0) {
+                                    let en = tweetData.tombstone.text.entities[0];
+                                    text = text.slice(0, en.fromIndex) + `<a href="${en.ref.url}" target="_blank">` + text.slice(en.fromIndex, en.toIndex) + "</a>" + text.slice(en.toIndex);
+                                }
+                                list.push({
+                                    type: 'tombstone',
+                                    data: text
+                                });
+                                continue;
+                            }
                             if(!tweetData.legacy) tweetData = tweetData.tweet;
                             let tweet = tweetData.legacy;
                             let user = tweetData.core.user_results.result.legacy;
