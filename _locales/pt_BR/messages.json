@@ -380,5 +380,5 @@
     "black_mode_link": { "message": "Link modo escuro" },
     "custom_mode_link": { "message": "Link modo personalizado" },
     "tweet_verb": { "message": "Tweetar", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "Você quer tweetar \"$TWEET_TEXT$\"?" }
+    "do_you_want_to_tweet": { "message": "Você quer tweetar \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } }
 }
