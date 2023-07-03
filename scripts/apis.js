@@ -1085,6 +1085,15 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                             tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                         }
                     }
+                    if(result.card && result.card.legacy) {
+                        tweet.card = result.card.legacy;
+                        let bvo = {};
+                        for(let i = 0; i < tweet.card.binding_values.length; i++) {
+                            let bv = tweet.card.binding_values[i];
+                            bvo[bv.key] = bv.value;
+                        }
+                        tweet.card.binding_values = bvo;
+                    }
                     tweet.user = result.core.user_results.result.legacy;
                     tweet.user.id_str = tweet.user_id_str;
                     tweet.ext = {};
@@ -1145,6 +1154,15 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                                 if(result.views) {
                                     tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                                 }
+                            }
+                            if(result.card && result.card.legacy) {
+                                tweet.card = result.card.legacy;
+                                let bvo = {};
+                                for(let i = 0; i < tweet.card.binding_values.length; i++) {
+                                    let bv = tweet.card.binding_values[i];
+                                    bvo[bv.key] = bv.value;
+                                }
+                                tweet.card.binding_values = bvo;
                             }
                             tweet.ext = {};
                             if(result.views) {
