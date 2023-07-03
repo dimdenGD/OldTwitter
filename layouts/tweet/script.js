@@ -202,8 +202,7 @@ async function updateReplies(id, c) {
             let div = document.createElement('div');
             div.className = 'show-more';
             div.innerHTML = `
-                <div class="show-more-label">${t.data.labelText}</div>
-                <button class="show-more-button">${t.data.actionText}</button>
+                <button class="show-more-button center-text">${t.data.actionText}</button>
             `;
             div.querySelector('.show-more-button').addEventListener('click', () => {
                 div.remove();

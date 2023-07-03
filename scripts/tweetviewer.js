@@ -236,6 +236,17 @@ class TweetViewer {
                 }
             } else if(t.type === 'tombstone') {
                 this.appendTombstone(tlContainer, t.data);
+            } else if(t.type === 'showMore') {
+                let div = document.createElement('div');
+                div.className = 'show-more';
+                div.innerHTML = `
+                    <button class="show-more-button center-text">${t.data.actionText}</button>
+                `;
+                div.querySelector('.show-more-button').addEventListener('click', () => {
+                    div.remove();
+                    this.updateReplies(id, t.data.cursor);
+                });
+                tlContainer.appendChild(div);
             }
         }
         if(mainTweet) mainTweet.scrollIntoView();

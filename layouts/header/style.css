@@ -1737,3 +1737,10 @@ emoji-picker {
     color: var(--light-gray);
     font-size: 14px;
 }
+.show-more-button {
+    width: 100%;
+    padding-left: 10px !important;
+}
+.timeline-more {
+    padding-left: 10px !important;
+}
