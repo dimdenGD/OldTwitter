@@ -2396,7 +2396,6 @@ API.getRepliesV2 = (id, cursor) => {
                 let users = {};
                 for (let i = 0; i < entries.length; i++) {
                     let e = entries[i];
-                    console.log(e);
                     if (e.entryId.startsWith('tweet-')) {
                         let tweetData = e.content.itemContent.tweet_results.result;
                         if(!tweetData) continue;
@@ -2554,7 +2553,6 @@ API.getRepliesV2 = (id, cursor) => {
                     newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.itemContent.value;
                 } catch(e) {};
 
-                console.log(list);
                 resolve({
                     list,
                     cursor: newCursor,
