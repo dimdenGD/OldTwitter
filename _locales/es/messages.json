@@ -182,7 +182,7 @@
     "chrono": { "message": "Revertir cronologicamente (es más rapido)" },
     "chrono_social": { "message": "Revertir cronologicamente con favoritos de amigos" },
     "algo": { "message": "Por algoritmo" },
-    "timeline_type": { "message": "Tipo de Cronología" },
+    "timeline_type": { "message": "Tipo de cronología" },
     "show_topic_tweets": { "message": "Mostrar tweets relacionados (solo algo)" },
     "show_colors_in_timeline": { "message": "Mostrar enlaces con colores personalizados de los usuarios en Inicio" },
     "enable_twemoji": { "message": "Activar Twemoji" },
