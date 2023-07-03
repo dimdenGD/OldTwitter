@@ -77,7 +77,6 @@ function renderUserData() {
 async function renderSearch(c, force = false) {
     let newSearch = searchParams.q+searchSettings.type+searchSettings.followedPeople+searchSettings.nearYou;
     if(newSearch === lastSearch && !force) return;
-    window.scrollTo(0, 0);
     lastSearch = newSearch;
     updateSavedButton();
     document.getElementsByTagName('title')[0].innerText = `"${searchParams.q}" - OldTwitter Search`;
@@ -127,6 +126,7 @@ async function renderSearch(c, force = false) {
         return document.getElementById('loading-box').hidden = true;
     }
     if(!c) {
+        window.scrollTo(0, 0);
         searchDiv.innerHTML = '';
     }
     if(vars.linkColorsInTL) {
