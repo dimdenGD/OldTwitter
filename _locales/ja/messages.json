@@ -48,6 +48,7 @@
     "unfollow_user": { "message": "フォロー解除", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "フォローして下さりありがとうございます" },
     "loading_tweets": { "message": "ツイートをロード中" },
+    "user_protected" : { "message": "このアカウントのツイートは保護されています。", "description": "確認済みのフォロワーのみが@%sのツイートと完全なプロフィールにアクセスできます。", "follow_message": "「フォロー」ボタンをクリックしてフォローリクエストを送信してください。"},
     "retweeted": { "message": "リツイート済み", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "新たなツイートを見る" },
     "must2variants": { "message": "少なくとも2つの投票の選択肢が必要です。" },

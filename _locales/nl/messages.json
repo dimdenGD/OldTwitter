@@ -48,6 +48,7 @@
     "unfollow_user": { "message": "Verwijderen", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Bedankt dat je me volgt!!" },
     "loading_tweets": { "message": "Tweets aan het laden..." },
+    "user_protected" : { "message": "De tweets van dit account zijn beschermd.", "description": "Alleen bevestigde volgers hebben toegang tot de tweets en het volledige profiel van @%s.", "follow_message": "Klik op de knop \"Volgen\" om een volgverzoek te sturen."},
     "retweeted": { "message": "heeft geretweet", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "Bekijk nieuwe tweets" },
     "must2variants": { "message": "U heeft minstens 2 poll varianten nodig" },

@@ -46,7 +46,7 @@
             "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
             "at2": { "content": "</a>" }
         }
-     },
+    },
     "follow_mb": { "message": "Follow me maybe?" },
     "follow": { "message": "Follow" },
     "unfollow": { "message": "Unfollow" },
@@ -54,6 +54,7 @@
     "unfollow_user": { "message": "Unfollow", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Thank you for following me!!" },
     "loading_tweets": { "message": "Loading tweets..." },
+    "user_protected" : { "message": "This account's Tweets are protected.", "description": "Only confirmed followers have access to @%s's Tweets and complete profile.", "follow_message": "Click the \"Follow\" button to send a follow request."},
     "retweeted": { "message": "retweeted", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "See new tweets" },
     "must2variants": { "message": "You must have at least 2 poll variants." },

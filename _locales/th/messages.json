@@ -47,6 +47,7 @@
     "unfollow_user": { "message": "เลิกติดตาม", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "ขอบคุณที่ติดตามฉัน!!" },
     "loading_tweets": { "message": "กำลังโหลดทวิต..." },
+    "user_protected" : { "message": "ทวีตของบัญชีนี้ถูกป้องกัน", "description": "เฉพาะผู้ติดตามที่ได้รับการยืนยันเท่านั้นที่สามารถเข้าถึงทวีตและโปรไฟล์เต็มของ @%s", "follow_message": "คลิกที่ปุ่ม \"ติดตาม\" เพื่อส่งคำขอติดตาม"},
     "retweeted": { "message": "รีทวิต", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "เเสดงทวิตใหม่" },
     "must2variants": { "message": "คุณต้องมีอย่างน้อย 2 ตัวเลือกในโพล" },

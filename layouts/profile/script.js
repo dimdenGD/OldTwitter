@@ -214,7 +214,7 @@ function updateUserData() {
             return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         }
         pageUserData = pageUserData.value;
-        if (pageUserData.protected) {
+        if (pageUserData.protected && !pageUserData.following) {
             user_protected = true;
         } else {
             user_protected = false;
@@ -315,9 +315,7 @@ async function updateTimeline() {
                     tl = tl.tweets;
                 }
             } else {
-                document.getElementById(
-                    "timeline"
-                ).innerHTML = `<div style="padding: 50px;color: var(--darker-gray);"><h2> This account's Tweets are protected. </h2> <p> Only confirmed followers have access to @${pageUser.screen_name}'s Tweets and complete profile. <br/> Click the "Follow" button to send a follow request.</p></div>`;
+                document.getElementById("timeline").innerHTML = `<div style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p href="https://twitter.com/${pageUser.screen_name}">${LOC.user_protected.description.replace("%s", pageUser.screen_name)}<br>${LOC.user_protected.follow_message}</p></div>`;
                 return;
             }
         } catch(e) {
@@ -608,7 +606,7 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
 
-    document.getElementById('tweet-nav').hidden = pageUser.statuskes_count === 0 || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
+    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
     document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
