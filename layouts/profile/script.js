@@ -317,7 +317,7 @@ async function updateTimeline() {
             } else {
                 document.getElementById(
                     "timeline"
-                ).innerHTML = `<div style="padding: 50px;color: var(--darker-gray);"><h1> Tweets are protected </h1> <p> This account's Tweets are protected. Only confirmed followers have access to @${pageUser.screen_name}'s Tweets and complete profile. <br/> Click the "Follow" button to send a follow request.</p></div>`;
+                ).innerHTML = `<div style="padding: 50px;color: var(--darker-gray);"><h2> This account's Tweets are protected. </h2> <p> Only confirmed followers have access to @${pageUser.screen_name}'s Tweets and complete profile. <br/> Click the "Follow" button to send a follow request.</p></div>`;
                 return;
             }
         } catch(e) {
@@ -1397,7 +1397,7 @@ setTimeout(async () => {
                 } else {
                     document.getElementById(
                         "timeline"
-                    ).innerHTML = `<div style="padding: 50px;color: var(--darker-gray);"><h1> Tweets are protected </h1> <p> This account's Tweets are protected. Only confirmed followers have access to @${pageUser.screen_name}'s Tweets and complete profile. <br/> Click the "Follow" button to send a follow request.</p></div>`;
+                    ).innerHTML = `<div style="padding: 50px;color: var(--darker-gray);"><h1> This account's Tweets are protected. </h1> <p> Only confirmed followers have access to @${pageUser.screen_name}'s Tweets and complete profile. <br/> Click the "Follow" button to send a follow request.</p></div>`;
                     return;
                 }
             } catch (e) {
