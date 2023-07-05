@@ -48,7 +48,6 @@
     "unfollow_user": { "message": "언팔로우", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "팔로우 해주셔서 감사합니다!" },
     "loading_tweets": { "message": "트윗을 로드하는 중..." },
-    "user_protected" : { "message": "이 계정의 트윗은 보호됩니다.", "description": "확인된 팔로워만 @%s의 트윗과 전체 프로필에 액세스할 수 있습니다.", "follow_message": "팔로우 요청을 보내려면 \"팔로우\" 버튼을 클릭하세요."},
     "retweeted": { "message": "리트윗 완료", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "새로운 트윗을 보다" },
     "must2variants": { "message": "적어도 두 개의 투표 선택지를 설정해 주세요." },

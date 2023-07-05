@@ -141,7 +141,6 @@
     "loading_tweets": {
         "message": "טוען ציוצים "
     },
-    "user_protected" : { "message": "הציוצים של חשבון זה מוגנים.", "description": "רק נוהלי המעקב המאומתים יש להם גישה לציוצים של @%s ולפרופיל המלא.", "follow_message": "לחץ על הכפתור \"עקוב\" כדי לשלוח בקשת עקיבה."},
     "retweeted": {
         "example": "CoolPerson2000 ->retweeted<-",
         "message": "צויץ מחדש"

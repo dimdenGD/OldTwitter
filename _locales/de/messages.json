@@ -48,7 +48,6 @@
     "unfollow_user": { "message": "Entfolge", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Danke dafür, dass du mir folgst!!" },
     "loading_tweets": { "message": "Tweets laden..." },
-    "user_protected" : { "message": "Die Tweets dieses Kontos sind geschützt.", "description": "Nur bestätigte Follower haben Zugriff auf die Tweets und das vollständige Profil von @%s.", "follow_message": "Klicken Sie auf die Schaltfläche \"Folgen\", um eine Folgeanfrage zu senden."},
     "retweeted": { "message": "hat retweetet", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "Sehe neue tweets" },
     "must2variants": { "message": "Du muss am mindestens 2 Umfrageoptionen haben." },

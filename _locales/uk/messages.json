@@ -48,7 +48,6 @@
     "unfollow_user": { "message": "Відписатись від", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Дякую за підписку!!" },
     "loading_tweets": { "message": "Завантаження твітів..." },
-    "user_protected" : { "message": "Твіти цього облікового запису захищені.", "description": "Лише підтверджені підписники мають доступ до твітів та повного профілю @%s.", "follow_message": "Натисніть кнопку \"Стежити\", щоб надіслати запит на стеження."},
     "retweeted": { "message": "ретвітнув(ла)", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "Показати нові твіти" },
     "must2variants": { "message": "Потрібно хоча б 2 варіанта." },

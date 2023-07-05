@@ -47,7 +47,9 @@
     "unfollow_user": { "message": "الغاء المتابعة", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "شكرا لك لمتابعتي!!" },
     "loading_tweets": { "message": "جارٍ تحميل تويتر..." },
-    "user_protected" : { "message": "هذه التغريدات محمية.", "description": "يتمتع المتابعون المؤكدون فقط بالوصول إلى تغريدات @%s والملف الشخصي الكامل.", "follow_message": "انقر على زر \"متابعة\" لإرسال طلب المتابعة."},
+    "user_protected" : {
+        "message": "هذه التغريدات محمية",
+        "description": "يمكن للمتابعين المعتدمين فقط مشاهدة تغريدات @%s لطلب حق الوصول انقر على متابعة  "},
     "retweeted": { "message": "أعاد تغريد", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "انظر تويت جديدة" },
     "must2variants": { "message": "يجب أن يكون لديك متغيران على الأقل للاستطلاع." },

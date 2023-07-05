@@ -47,7 +47,6 @@
     "unfollow_user": { "message": "नपछ्याउनु", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "मलाई पछ्याउनुभकोलाई धन्यवाद!!" },
     "loading_tweets": { "message": "ट्वीटहरू लोड गर्दैछ" },
-    "user_protected" : { "message": "यस खाताका ट्विटहरू सुरक्षित छन्।", "description": "केवल पुष्टि गरिएका फलोअरहरूले मात्र @%s का ट्विटहरू र पूर्ण प्रोफाइलमा पहुँच प्राप्त गर्न सक्छन्।", "follow_message": "फलो अनुरोध पठाउनको लागि \"फलो\" बटनमा क्लिक गर्नुहोस्।"},
     "retweeted": { "message": "रिट्वीट गर्नुभयो", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "नया ट्वीट देख्न" },
     "must2variants": { "message": "एक भन्दा बढी फरक मतदान हुनुपर्छ।" },

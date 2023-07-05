@@ -315,7 +315,16 @@ async function updateTimeline() {
                     tl = tl.tweets;
                 }
             } else {
-                document.getElementById("timeline").innerHTML = `<div style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p href="https://twitter.com/${pageUser.screen_name}">${LOC.user_protected.description.replace("%s", pageUser.screen_name)}<br>${LOC.user_protected.follow_message}</p></div>`;
+                document.getElementById(
+                    "timeline"
+                ).innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${
+                    LOC.user_protected.message
+                }</h2><p href="https://twitter.com/${
+                    pageUser.screen_name
+                }">${LOC.user_protected.description.replace(
+                    "%s",
+                    pageUser.screen_name
+                )}`;
                 return;
             }
         } catch(e) {

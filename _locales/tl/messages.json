@@ -48,7 +48,6 @@
     "unfollow_user": { "message": "I-unfollow si", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Salamat sa follow!!" },
     "loading_tweets": { "message": "Loading mga tweet..." },
-    "user_protected" : { "message": "Bu hesabın Tweetleri korumalıdır.", "description": "Sadece onaylanmış takipçiler @%s'in Tweetlerine ve tam profiline erişim sağlayabilir.", "follow_message": "Takip isteği göndermek için \"Takip Et\" düğmesine tıklayın."},
     "retweeted": { "message": "Ni-retweet", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "Ipakita ang bagong mga tweet" },
     "must2variants": { "message": "Kailangan mo ng di bababa sa 2 variant ng poll." },
