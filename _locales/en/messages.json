@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Thank you for installing OldTwitter!! I hope you'll like it. Check $AT1$extension settings$AT2$!",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+                "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -54,7 +54,7 @@
     "unfollow_user": { "message": "Unfollow", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Thank you for following me!!" },
     "loading_tweets": { "message": "Loading tweets..." },
-    "user_protected" : { "message": "This account's Tweets are protected.", "description": "Only confirmed followers have access to @%s's Tweets and complete profile.", "follow_message": "Click the \"Follow\" button to send a follow request."},
+    "user_protected" : { "message": "This account's Tweets are protected.", "description": "Only confirmed followers have access to @%s's Tweets and complete profile. Click the \"Follow\" button to send a follow request." },
     "retweeted": { "message": "retweeted", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "See new tweets" },
     "must2variants": { "message": "You must have at least 2 poll variants." },
