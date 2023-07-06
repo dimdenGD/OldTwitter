@@ -129,4 +129,5 @@ Italian - [krek](https://twitter.com/CactusInc420)
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
 Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)  
 Polish - lele  
-Vietnamese - [btmxh](https://github.com/btmxh)
+Vietnamese - [btmxh](https://github.com/btmxh)  
+Chinese - [am1006](https://github.com/am1006)  
