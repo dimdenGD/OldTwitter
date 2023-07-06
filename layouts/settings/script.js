@@ -334,8 +334,16 @@ setTimeout(async () => {
         colorPreviewBlack.style.color = blackColor;
     });
     copyLinksAs.addEventListener('change', () => {
+        let val = copyLinksAs.value;
+        if(val === 'custom') {
+            val = prompt(LOC.copy_tweet_links_as.message);
+            if(!val) {
+                return;
+            }
+        }
+            
         chrome.storage.sync.set({
-            copyLinksAs: copyLinksAs.value
+            copyLinksAs: val
         }, () => { });
     });
     sync.addEventListener('click', async () => {
@@ -434,7 +442,7 @@ setTimeout(async () => {
     showOriginalImages.checked = !!vars.showOriginalImages;
     roundAvatars.checked = !!vars.roundAvatars;
     language.value = vars.language ? vars.language : 'en';
-    copyLinksAs.value = vars.copyLinksAs ? vars.copyLinksAs : 'twitter.com';
+    copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
     if(vars.timeMode) {
         darkMode.disabled = true;
         darkMode.checked = isDark();
