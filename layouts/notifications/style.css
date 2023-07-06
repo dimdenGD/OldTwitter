@@ -763,6 +763,10 @@ a:hover,
     color: #9900ff;
     content: "\f000";
 }
+.ni-list:before {
+    color: #00aced;
+    content: "\f012"
+}
 
 .notification-avatar {
     display: inline-block;

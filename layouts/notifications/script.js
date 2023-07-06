@@ -82,6 +82,7 @@ async function renderNotifications(data, append = false) {
                     replyUser.id_str = replyTweet.user_id_str;
                     replyTweet.user = replyUser;
                 }
+                let E = e;
                 notificationDiv.addEventListener('click', e => {
                     if(e.target.closest('.notification') && e.target.tagName !== 'IMG' && e.target.tagName !== 'A' && e.target.className !== 'notification-feedback') {
                         if(n.icon.id === "bell_icon") {
@@ -92,6 +93,8 @@ async function renderNotifications(data, append = false) {
                             } else {
                                 new TweetViewer(user, replyTweet.retweeted_status ? replyTweet.retweeted_status : replyTweet);
                             }
+                        } else if(n.icon.id === "list_icon") {
+                            location.href = E.content.notification.url.url;
                         } else if(replyTweet && replyTweet.user) {
                             new TweetViewer(user, replyTweet.retweeted_status ? replyTweet.retweeted_status : replyTweet);
                         }
@@ -110,6 +113,8 @@ async function renderNotifications(data, append = false) {
                             openInNewTab(`https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`);
                         } else if(n.icon.id === "heart_icon") {
                             openInNewTab(`https://twitter.com/i/timeline?page=likes&nid=${n.id}`);
+                        } else if(n.icon.id === "list_icon") {
+                            openInNewTab(E.content.notification.url.url);
                         } else if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
                             if(replyTweet.retweeted_status) {
                                 openInNewTab(`https://twitter.com/${replyTweet.retweeted_status.user.screen_name}/status/${replyTweet.retweeted_status.id_str}`);
@@ -154,7 +159,8 @@ async function renderNotifications(data, append = false) {
                     'lightning_bolt_icon': 'ni-bolt',
                     'bird_icon': 'ni-twitter',
                     'security_alert_icon': 'ni-alert',
-                    'bell_icon': 'ni-bell'
+                    'bell_icon': 'ni-bell',
+                    'list_icon': 'ni-list'
                 };
                 if(!iconClasses[n.icon.id]) {
                     console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
