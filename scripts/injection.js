@@ -183,10 +183,9 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     // Start observing the page for changes
     observer.observe(document.documentElement, { childList: true, subtree: true });
 
-    while(!vars) {
-        await new Promise(r => setTimeout(r, 10));
+    if(!vars) {
+        await varsPromise;
     }
-
     // disable twitters service worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(registrations => {

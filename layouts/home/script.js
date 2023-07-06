@@ -65,6 +65,7 @@ setTimeout(() => {
                             <li>Fixed retweets not showing up properly in Lists.</li>
                             <li>Added Chinese and Vietnamese translation.</li>
                             <li>Fixed unable to unmention people if they were mentioned manually.</li>
+                            <li>Fixed some tweets not being viewable.</li>
                             <li>Fixed tweet view count not showing up in Lists.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>

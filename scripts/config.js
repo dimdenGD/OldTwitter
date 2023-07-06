@@ -10,6 +10,7 @@ const OLDTWITTER_CONFIG = {
 
 // variables
 let vars;
+let varsResolve, varsPromise = new Promise(resolve => varsResolve = resolve);
 async function loadVars() { 
     vars = await new Promise(resolve => {
         chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
@@ -19,6 +20,7 @@ async function loadVars() {
             'developerMode'
         ], data => {
             resolve(data);
+            varsResolve(data);
         });
     });
 };
