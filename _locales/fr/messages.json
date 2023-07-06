@@ -48,7 +48,6 @@
     "unfollow_user": { "message": "Ne plus suivre", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Merci de m'avoir suivi!!" },
     "loading_tweets": { "message": "Chargement des tweets..." },
-    "user_protected" : { "message": "Ces Tweets sont protégés.", "description": "Seuls les abonnés approuvés peuvent voir les Tweets de @%s Pour demander l'accès, cliquez sur Suivre."},
     "retweeted": { "message": "a retweeté", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "Voir de nouveaux tweets" },
     "must2variants": { "message": "Vous devez avoir au moins 2 choix dans le sondage." },
@@ -379,5 +378,7 @@
     "black_mode_link": { "message": "Lien en mode OLED" },
     "custom_mode_link": { "message": "Lien en mode personnalisé" },
     "tweet_verb": { "message": "Tweeter", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "Voulez-vous tweeter \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  }
+    "do_you_want_to_tweet": { "message": "Voulez-vous tweeter \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  },
+    "user_protected" : { "message": "Ces Tweets sont protégés."},
+    "follow_to_see": { "message": "Seuls les abonnés approuvés peuvent voir les Tweets de @%s Pour demander l'accès, cliquez sur Suivre."}
 }

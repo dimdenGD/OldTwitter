@@ -54,7 +54,6 @@
     "unfollow_user": { "message": "Unfollow", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Thank you for following me!!" },
     "loading_tweets": { "message": "Loading tweets..." },
-    "user_protected" : { "message": "This account's Tweets are protected.", "description": "Only confirmed followers have access to @%s's Tweets and complete profile. Click the \"Follow\" button to send a follow request." },
     "retweeted": { "message": "retweeted", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "See new tweets" },
     "must2variants": { "message": "You must have at least 2 poll variants." },
@@ -390,5 +389,7 @@
     "black_mode_link": { "message": "Black mode link" },
     "custom_mode_link": { "message": "Custom mode link" },
     "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "Do you want to tweet \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } }
+    "do_you_want_to_tweet": { "message": "Do you want to tweet \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
+    "user_protected" : { "message": "This account's Tweets are protected." },
+    "follow_to_see": { "message": "Only confirmed followers have access to @%s's Tweets and complete profile. Click the \"Follow\" button to send a follow request."}
 }
