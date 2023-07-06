@@ -135,7 +135,8 @@ const TRANSLATORS = {
     "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
     "ko": ["Nyankodasu", "https://github.com/Nyankodasu"],
-    "pl": ["lele"]
+    "pl": ["lele"],
+    "vi": ["btmxh", "https://github.com/btmxh"],
 };
 let LOC = {};
 let LOC_EN = {};
