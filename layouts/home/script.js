@@ -61,17 +61,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li><b>Fixed seeing tweets and their replies!</b></li>
-                            <li><b>Fixed looking at profile tweets.</b></li>
-                            <li><b>Fixed search.</b></li>
-                            <li><b>Fixed setting profile link color.</b></li>
-                            <li>Added support for <a href="https://twitter.com/dimdenEFF/status/1674813715307286529" target="_blank">silly tweets with buttons</a>.</li>
-                            <li>Improved profile link contrast to work with all background colors.</li>
-                            <li>Fixed managing members of Twitter Circle.</li>
-                            <li>Fixed video autoplay.</li>
-                            <li>Fixed not being able to paste images for quote tweets.</li>
-                            <li>Fixed "People and body" category in emoji picker on Firefox.</li>
-                            <li>Fixed profile previews and registration dates not showing up on Brazillian Portuguese.</li>
+                            <li>Fixed unable to unmention people if they were mentioned manually.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
