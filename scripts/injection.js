@@ -116,7 +116,7 @@ const TRANSLATORS = {
     ],
     "es": [
         ["Ruchi", "https://twitter.com/anbulansia"],
-        ["gaelcoral", "https://github.com/gaelcoral"],
+        ["gaelcoral", "https://twitter.com/gaelcoral"],
         ["hue", "https://twitter.com/huey1116"]
     ],
     "el": ["VasilisTheChu", "https://pikachu.systems/"],
