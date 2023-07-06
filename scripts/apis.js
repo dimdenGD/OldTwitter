@@ -1022,7 +1022,16 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                 "x-twitter-auth-type": "OAuth2Session"
             },
             credentials: "include"
-        }).then(i => i.json()).then(data => {
+        }).then(i => i.text()).then(data => {
+            try {
+                data = JSON.parse(data);
+            } catch(e) {
+                if(String(data).toLowerCase().includes('rate') && String(e).includes("SyntaxError")) {
+                    return reject("Rate limited");
+                } else {
+                    return reject(e);
+                }
+            }
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -2181,7 +2190,16 @@ API.getReplies = (id, cursor) => {
                     "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                 },
                 credentials: "include"
-            }).then(i => i.json()).then(data => {
+            }).then(i => i.text()).then(data => {
+                try {
+                    data = JSON.parse(data);
+                } catch(e) {
+                    if(String(data).toLowerCase().includes('rate') && String(e).includes("SyntaxError")) {
+                        return reject("Rate limited");
+                    } else {
+                        return reject(e);
+                    }
+                }
                 if (data.errors && data.errors[0].code === 32) {
                     if(!cursor) {
                         loadingReplies[id].listeners.forEach(l => l[1]('Not logged in'));
