@@ -3480,9 +3480,9 @@ API.deleteBookmark = id => {
 // Lists
 API.getListTweets = (id, cursor) => {
     return new Promise((resolve, reject) => {
-        let obj = {"listId":id,"count":20,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true};
+        let obj = {"listId":id,"count":40};
         if(cursor) obj.cursor = cursor;
-        fetch(`https://twitter.com/i/api/graphql/smHg9uz3WcyX_meRwh4g7A/ListLatestTweetsTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+        fetch(`https://twitter.com/i/api/graphql/2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
             headers: {
                 "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3508,6 +3508,26 @@ API.getListTweets = (id, cursor) => {
                     if(!res.core) return;
                     tweet.user = res.core.user_results.result.legacy;
                     tweet.user.id_str = tweet.user_id_str;
+                    if(tweet.retweeted_status_result) {
+                        let result = tweet.retweeted_status_result.result;
+                        if(result.limitedActionResults) {
+                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                            if(limitation) {
+                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                            }
+                            result = result.tweet;
+                        }
+                        tweet.retweeted_status = result.legacy;
+                        tweet.retweeted_status.user = result.core.user_results.result.legacy;
+                        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                        tweet.retweeted_status.ext = {};
+                        if(result.views) {
+                            tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                        }
+                    }
+                    if(res.views) {
+                        tweet.ext = {views: {r: {ok: {count: +res.views.count}}}};
+                    }
                     return tweet;
                 }).filter(i => !!i),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value

@@ -207,9 +207,23 @@ async function renderListTweets(c) {
     let container = document.getElementById('list-tweets');
     for(let i in listTweets) {
         let t = listTweets[i];
-        await appendTweet(t, container, {
-            bigFont: t.full_text.length < 75
-        });
+        console.log(t);
+        if(t.retweeted_status) {
+            await appendTweet(t.retweeted_status, container, {
+                top: {
+                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    icon: "\uf006",
+                    color: "#77b255",
+                    class: 'retweet'
+                },
+                translate: vars.autotranslateProfiles.includes(t.user.id_str)
+            });
+        } else {
+            await appendTweet(t, container, {
+                bigFont: t.full_text.length < 75,
+                translate: vars.autotranslateProfiles.includes(t.user.id_str)
+            });
+        }
     }
     return true;
 }
