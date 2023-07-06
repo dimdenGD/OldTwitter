@@ -1077,6 +1077,9 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                             tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                         }
                     }
+                    if(result.quoted_status_result) {
+                        tweet.quoted_status_result = result.quoted_status_result;
+                    }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
                         if(result.limitedActionResults) {
@@ -1146,6 +1149,9 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                                 if(result.views) {
                                     tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                                 }
+                            }
+                            if(result.quoted_status_result) {
+                                tweet.quoted_status_result = result.quoted_status_result;
                             }
                             if(tweet.quoted_status_result) {
                                 let result = tweet.quoted_status_result.result;
@@ -3044,6 +3050,9 @@ API.searchV3 = (obj, cursor) => {
                             tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                         }
                     }
+                    if(result.quoted_status_result) {
+                        tweet.quoted_status_result = result.quoted_status_result;
+                    }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
                         if(result.limitedActionResults) {
@@ -3523,6 +3532,26 @@ API.getListTweets = (id, cursor) => {
                         tweet.retweeted_status.ext = {};
                         if(result.views) {
                             tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                        }
+                    }
+                    if(res.quoted_status_result) {
+                        tweet.quoted_status_result = res.quoted_status_result;
+                    }
+                    if(tweet.quoted_status_result) {
+                        let result = tweet.quoted_status_result.result;
+                        if(result.limitedActionResults) {
+                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                            if(limitation) {
+                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                            }
+                            result = result.tweet;
+                        }
+                        tweet.quoted_status = result.legacy;
+                        tweet.quoted_status.user = result.core.user_results.result.legacy;
+                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                        tweet.quoted_status.ext = {};
+                        if(result.views) {
+                            tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                         }
                     }
                     if(res.views) {

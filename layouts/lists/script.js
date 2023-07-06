@@ -207,7 +207,6 @@ async function renderListTweets(c) {
     let container = document.getElementById('list-tweets');
     for(let i in listTweets) {
         let t = listTweets[i];
-        console.log(t);
         if(t.retweeted_status) {
             await appendTweet(t.retweeted_status, container, {
                 top: {
