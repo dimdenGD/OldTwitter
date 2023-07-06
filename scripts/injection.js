@@ -240,6 +240,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             enableTwemoji: true
         }, () => {});
     }
+    if(typeof(vars.copyLinksAs) !== 'string') {
+        vars.copyLinksAs = 'twitter.com';
+        chrome.storage.sync.set({
+            copyLinksAs: 'twitter.com'
+        }, () => {});
+    }
     if(typeof(vars.timelineType) !== 'string') {
         let type;
         if(typeof(vars.chronologicalTL) === 'boolean') {

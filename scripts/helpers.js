@@ -2543,7 +2543,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
         tweetInteractMoreMenuCopy.addEventListener('click', () => {
-            navigator.clipboard.writeText(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+            navigator.clipboard.writeText(`https://${vars.copyLinksAs}/${t.user.screen_name}/status/${t.id_str}`);
         });
         if(tweetInteractMoreMenuCopyTweetId) tweetInteractMoreMenuCopyTweetId.addEventListener('click', () => {
             navigator.clipboard.writeText(t.id_str);

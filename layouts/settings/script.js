@@ -160,6 +160,7 @@ setTimeout(async () => {
     let seeTweetViews = document.getElementById('see-tweet-views');
     let twitterBlueCheckmarks = document.getElementById('twitter-blue-checkmarks');
     let developerMode = document.getElementById('developer-mode');
+    let copyLinksAs = document.getElementById('copy-links-as');
 
     let root = document.querySelector(":root");
     {
@@ -332,6 +333,11 @@ setTimeout(async () => {
         let blackColor = makeSeeableColor(previewColor, "#000000");
         colorPreviewBlack.style.color = blackColor;
     });
+    copyLinksAs.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            copyLinksAs: copyLinksAs.value
+        }, () => { });
+    });
     sync.addEventListener('click', async () => {
         sync.disabled = true;
         let color = profileLinkColor.value;
@@ -428,6 +434,7 @@ setTimeout(async () => {
     showOriginalImages.checked = !!vars.showOriginalImages;
     roundAvatars.checked = !!vars.roundAvatars;
     language.value = vars.language ? vars.language : 'en';
+    copyLinksAs.value = vars.copyLinksAs ? vars.copyLinksAs : 'twitter.com';
     if(vars.timeMode) {
         darkMode.disabled = true;
         darkMode.checked = isDark();

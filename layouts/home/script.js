@@ -62,6 +62,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Fixed quote tweets not showing up on profile, search and list tweets.</li>
+                            <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
                             <li>Added Chinese and Vietnamese translation.</li>
                             <li>Fixed unable to unmention people if they were mentioned manually.</li>
