@@ -43,10 +43,10 @@
     "thank_you": {
         "message": "Thank you for installing OldTwitter!! I hope you'll like it. Check $AT1$extension settings$AT2$!",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+                "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
             "at2": { "content": "</a>" }
         }
-     },
+    },
     "follow_mb": { "message": "Follow me maybe?" },
     "follow": { "message": "Follow" },
     "unfollow": { "message": "Unfollow" },
@@ -389,5 +389,7 @@
     "black_mode_link": { "message": "Black mode link" },
     "custom_mode_link": { "message": "Custom mode link" },
     "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "Do you want to tweet \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } }
+    "do_you_want_to_tweet": { "message": "Do you want to tweet \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
+    "user_protected" : { "message": "This account's Tweets are protected." },
+    "follow_to_see": { "message": "Only confirmed followers have access to @%s's Tweets and complete profile. Click the \"Follow\" button to send a follow request."}
 }

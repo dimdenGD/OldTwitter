@@ -328,5 +328,7 @@
     "will_send": { "message": "سوف ترسل في" },
     "schedule": { "message": "الجدول" },
     "scheduled_success": { "message": "سقسقة مجدولة!" },
-    "see_scheduled": { "message": "أُنظُر الجدولة" }
+    "see_scheduled": { "message": "أُنظُر الجدولة" },
+    "user_protected" : { "message": "هذه التغريدات محمية" },
+    "follow_to_see": { "message": "يمكن للمتابعين المعتدمين فقط مشاهدة تغريدات @%s لطلب حق الوصول انقر على متابعة" }
 }

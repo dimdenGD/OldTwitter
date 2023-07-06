@@ -16,6 +16,7 @@ let tweetsCursor, favoritesCursor, followingCursor, followersCursor, followersYo
 let subpage;
 let user_handle = location.pathname.slice(1).split("?")[0].split('#')[0];
 user_handle = user_handle.split('/')[0];
+let user_protected = false;
 function updateSubpage() {
     previousLastTweet = undefined; stopLoad = false;
     averageLikeCount = 1;
@@ -156,7 +157,7 @@ function updateSelection() {
         document.getElementById('followers_you_follow-list').hidden = true;
         document.getElementById('followers_you_follow-more').hidden = true;
         document.getElementById('lists-list').hidden = false;
-    }
+    } 
     document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
     document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
     document.getElementById('profile-stat-followers-link').href = `https://twitter.com/${pageUser.screen_name}/followers`;
@@ -213,6 +214,11 @@ function updateUserData() {
             return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         }
         pageUserData = pageUserData.value;
+        if (pageUserData.protected && !pageUserData.following) {
+            user_protected = true;
+        } else {
+            user_protected = false;
+        }
         followersYouFollowData = followersYouFollowData.value;
         oldUser = oldUser.value;
         u = u.value;
@@ -294,19 +300,26 @@ async function updateTimeline() {
         favoritesCursor = data.cursor;
     } else {
         try {
-            if(subpage === 'media') {
-                tl = await API.getUserMediaTweets(pageUser.id_str);
-                mediaCursor = tl.cursor;
-                tl = tl.tweets;
+            if (!user_protected) {
+                if (subpage === "media") {
+                    tl = await API.getUserMediaTweets(pageUser.id_str);
+                    mediaCursor = tl.cursor;
+                    tl = tl.tweets;
+                } else {
+                    tl = await API.getUserTweetsV2(
+                        pageUser.id_str,
+                        undefined,
+                        subpage !== "profile"
+                    );
+                    tweetsCursor = tl.cursor;
+                    tl = tl.tweets;
+                }
             } else {
-                tl = await API.getUserTweetsV2(pageUser.id_str, undefined, subpage !== 'profile');
-                tweetsCursor = tl.cursor;
-                tl = tl.tweets;
+                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("%s",pageUser.screen_name)}</p></div>`;
+                return;
             }
         } catch(e) {
             console.error(e);
-            document.getElementById('tweet-nav').hidden = true;
-            document.getElementById('loading-box').hidden = true;
             document.getElementById('timeline').innerHTML = `<div style="padding: 100px;color: var(--darker-gray);">${escapeHTML(String(e))}</div>`;
             return;
         }
@@ -593,7 +606,7 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
 
-    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
+    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
     document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
@@ -1363,20 +1376,25 @@ setTimeout(async () => {
             loadingNewTweets = true;
             let tl;
             try {
-                if(subpage === "likes") {
-                    let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
-                    tl = data.tl;
-                    favoritesCursor = data.cursor;
-                } else {
-                    if(subpage === 'media') {
-                        tl = await API.getUserMediaTweets(pageUser.id_str, mediaCursor);
-                        mediaCursor = tl.cursor;
-                        tl = tl.tweets;
+                if (!user_protected) {
+                    if(subpage === "likes") {
+                        let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
+                        tl = data.tl;
+                        favoritesCursor = data.cursor;
                     } else {
-                        tl = await API.getUserTweetsV2(pageUser.id_str, tweetsCursor, subpage !== 'profile');
-                        tweetsCursor = tl.cursor;
-                        tl = tl.tweets;
+                        if(subpage === 'media') {
+                            tl = await API.getUserMediaTweets(pageUser.id_str, mediaCursor);
+                            mediaCursor = tl.cursor;
+                            tl = tl.tweets;
+                        } else {
+                            tl = await API.getUserTweetsV2(pageUser.id_str, tweetsCursor, subpage !== 'profile');
+                            tweetsCursor = tl.cursor;
+                            tl = tl.tweets;
+                        }
                     }
+                } else {
+                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("%s",pageUser.screen_name)}</p></div>`;
+                    return;
                 }
             } catch (e) {
                 console.error(e);
