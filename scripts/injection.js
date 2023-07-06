@@ -105,7 +105,7 @@ if(
 ) {
     location.replace(location.href.replace('twitter.com', 'mobile.twitter.com'));
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -116,7 +116,7 @@ const TRANSLATORS = {
     ],
     "es": [
         ["Ruchi", "https://twitter.com/anbulansia"],
-        ["gaelcoral", "https://github.com/gaelcoral"],
+        ["gaelcoral", "https://twitter.com/gaelcoral"],
         ["hue", "https://twitter.com/huey1116"]
     ],
     "el": ["VasilisTheChu", "https://pikachu.systems/"],
@@ -135,7 +135,9 @@ const TRANSLATORS = {
     "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
     "ko": ["Nyankodasu", "https://github.com/Nyankodasu"],
-    "pl": ["lele"]
+    "pl": ["lele"],
+    "vi": ["btmxh", "https://github.com/btmxh"],
+    "zh_CN": ["am1006", "https://github.com/am1006"]
 };
 let LOC = {};
 let LOC_EN = {};

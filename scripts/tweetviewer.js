@@ -424,9 +424,9 @@ class TweetViewer {
         if(!replyTweet) return;
         this.tweets.push(['compose', replyTweet]);
 
-        let mentions = replyTweet.full_text.match(/^((?<!\w)@([\w+]{1,15})\s)+/g);
+        let mentions = replyTweet.full_text.match(/@([\w+]{1,15})/g);
         if(mentions) {
-            mentions = mentions[0].match(/@([\w+]{1,15})/g).map(m => m.slice(1).trim());
+            mentions = mentions.map(m => m.slice(1).trim());
         } else {
             mentions = [];
         }
@@ -459,6 +459,12 @@ class TweetViewer {
             document.getElementsByClassName('new-tweet-media-div')[0].classList.add('new-tweet-media-div-focused');
         });
         if(mentions.length > 0) {
+            for(let i = 0; i < mentions.length; i++) {
+                let u = Object.values(this.users).find(u => u.screen_name === mentions[i]);
+                if(!u) u = await API.getUser(mentions[i], false);
+                if(!u) continue;
+                this.users[u.id_str] = u;
+            }
             document.getElementsByClassName('new-tweet-button')[0].style = 'margin-right: -50px;';
             document.getElementsByClassName("new-tweet-mentions")[0].addEventListener('click', async () => {
                 let modal = createModal(/*html*/`

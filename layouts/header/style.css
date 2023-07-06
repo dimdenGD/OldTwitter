@@ -1744,3 +1744,7 @@ emoji-picker {
 .timeline-more {
     padding-left: 10px !important;
 }
+.user-div {
+    max-width: 300px;
+    overflow: hidden;
+}

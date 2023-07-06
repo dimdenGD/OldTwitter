@@ -393,6 +393,12 @@ function renderUserData() {
 
     twemoji.parse(document.getElementById('user-name'));
     document.getElementById('loading-box').hidden = true;
+
+    if(document.getElementById('user-stats').clientWidth > 300) {
+        let style = document.createElement('style');
+        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        document.head.appendChild(style);
+    }
 }
 async function appendComposeComponent(container, replyTweet) {
     if(!replyTweet) return;
@@ -405,9 +411,9 @@ async function appendComposeComponent(container, replyTweet) {
     let el = document.createElement('div');
     el.className = 'new-tweet-container';
 
-    let mentions = replyTweet.full_text.match(/^((?<!\w)@([\w+]{1,15})\s)+/g);
+    let mentions = replyTweet.full_text.match(/@([\w+]{1,15})/g);
     if(mentions) {
-        mentions = mentions[0].match(/@([\w+]{1,15})/g).map(m => m.slice(1).trim());
+        mentions = mentions.map(m => m.slice(1).trim());
     } else {
         mentions = [];
     }
@@ -440,6 +446,12 @@ async function appendComposeComponent(container, replyTweet) {
     if(mentions.length > 0) {
         document.getElementById('new-tweet-button').style = 'left: 53px';
         document.getElementById("new-tweet-mentions").addEventListener('click', async () => {
+            for(let i = 0; i < mentions.length; i++) {
+                let u = Object.values(users).find(u => u.screen_name === mentions[i]);
+                if(!u) u = await API.getUser(mentions[i], false);
+                if(!u) continue;
+                users[u.id_str] = u;
+            }
             let modal = createModal(/*html*/`
                 <div id="new-tweet-mentions-modal" style="color:var(--almost-black)">
                     <h3 class="nice-header">${LOC.replying_to.message}</h3>
