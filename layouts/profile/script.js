@@ -1039,6 +1039,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
     })
     for(let i in data) {
         let t = data[i];
+        if(!t) continue;
         if(pinnedTweet && t.id_str === pinnedTweet.id_str) continue;
         if (t.retweeted_status) {
             if(pageUser.id_str === user.id_str) t.retweeted_status.current_user_retweet = t;
