@@ -2498,7 +2498,21 @@ API.getRepliesV2 = (id, cursor) => {
                             if(thread[j].entryId.includes("cursor-showmore")) {
                                 continue; // TODO: Implement
                             }
-                            let tweetData = thread[j].item.itemContent.tweet_results.result;
+                            let ic = thread[j].item.itemContent;
+                            if(ic.tombstoneInfo) {
+                                let richText = ic.tombstoneInfo.richText;
+                                let text = richText.text;
+                                if(richText.entities && richText.entities.length > 0) {
+                                    let en = richText.entities[0];
+                                    text = text.slice(0, en.fromIndex) + `<a href="${en.ref.url}" target="_blank">` + text.slice(en.fromIndex, en.toIndex) + "</a>" + text.slice(en.toIndex);
+                                }
+                                list.push({
+                                    type: 'tombstone',
+                                    data: text
+                                });
+                                continue;
+                            }
+                            let tweetData = ic.tweet_results.result;
                             if(!tweetData) continue;
                             if(tweetData.tombstone) {
                                 let text = tweetData.tombstone.text.text;

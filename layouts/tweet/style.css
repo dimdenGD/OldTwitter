@@ -1132,3 +1132,6 @@ a:hover,
 .modal .tweet-view-self-thread-div {
     margin-bottom: 32px;
 }
+.tweet-tombstone {
+    border-bottom: none !important;
+}
