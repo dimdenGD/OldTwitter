@@ -183,9 +183,28 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     // Start observing the page for changes
     observer.observe(document.documentElement, { childList: true, subtree: true });
 
+    // wait for variables
     if(!vars) {
         await varsPromise;
     }
+
+    if(!vars.disableHotkeys) {
+        const keys = {}
+
+        window.addEventListener('keydown', (ev) => {
+            keys[ev.key] = true;
+        }, {passive: true});
+
+        window.addEventListener('keyup', (ev) => {
+            if (keys['Alt'] && keys['Control'] && keys['o']) {
+                let url = new URL(location.href);
+                url.searchParams.set('newtwitter', 'true');
+                location.replace(url.href);
+            }
+            keys[ev.key] = false;
+        }, {passive: true});
+    }
+    
     // disable twitters service worker
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.getRegistrations().then(registrations => {

@@ -57,3 +57,20 @@ setTimeout(() => {
         }, 500);
     }
 }, 1000);
+
+(() => {
+    const keys = {}
+
+    window.addEventListener('keydown', (ev) => {
+        keys[ev.key] = true;
+    }, {passive: true});
+
+    window.addEventListener('keyup', (ev) => {
+        if (keys['Alt'] && keys['Control'] && keys['o']) {
+            let url = new URL(location.href);
+            url.searchParams.delete('newtwitter')
+            location.replace(url.href);
+        }
+        keys[ev.key] = false;
+    }, {passive: true});
+})();
