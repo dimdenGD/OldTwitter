@@ -47,6 +47,12 @@ function renderUserData() {
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 
     document.getElementById('loading-box').hidden = true;
+
+    if(document.getElementById('user-stats').clientWidth > 300) {
+        let style = document.createElement('style');
+        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        document.head.appendChild(style);
+    }
 }
 function renderUnfollows() {
     chrome.storage.local.get(['unfollows'], async d => {

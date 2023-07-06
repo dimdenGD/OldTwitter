@@ -43,6 +43,12 @@ function renderUserData() {
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
+
+    if(document.getElementById('user-stats').clientWidth > 300) {
+        let style = document.createElement('style');
+        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        document.head.appendChild(style);
+    }
 }
 async function renderTopic(cursorRn) {
     let [topic] = await Promise.all([
