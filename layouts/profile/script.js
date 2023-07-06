@@ -315,7 +315,7 @@ async function updateTimeline() {
                     tl = tl.tweets;
                 }
             } else {
-                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p href="https://twitter.com/${pageUser.screen_name}">${LOC.user_protected.description.replace("%s",pageUser.screen_name)}`;
+                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p href="https://twitter.com/${pageUser.screen_name}">${LOC.user_protected.description.replace("%s",pageUser.screen_name)}</p></div>`;
                 return;
             }
         } catch(e) {
@@ -1377,25 +1377,23 @@ setTimeout(async () => {
             let tl;
             try {
                 if (!user_protected) {
-                if(subpage === "likes") {
-                    let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
-                    tl = data.tl;
-                    favoritesCursor = data.cursor;
-                } else {
-                    if(subpage === 'media') {
-                        tl = await API.getUserMediaTweets(pageUser.id_str, mediaCursor);
-                        mediaCursor = tl.cursor;
-                        tl = tl.tweets;
+                    if(subpage === "likes") {
+                        let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
+                        tl = data.tl;
+                        favoritesCursor = data.cursor;
                     } else {
-                        tl = await API.getUserTweetsV2(pageUser.id_str, tweetsCursor, subpage !== 'profile');
-                        tweetsCursor = tl.cursor;
-                        tl = tl.tweets;
+                        if(subpage === 'media') {
+                            tl = await API.getUserMediaTweets(pageUser.id_str, mediaCursor);
+                            mediaCursor = tl.cursor;
+                            tl = tl.tweets;
+                        } else {
+                            tl = await API.getUserTweetsV2(pageUser.id_str, tweetsCursor, subpage !== 'profile');
+                            tweetsCursor = tl.cursor;
+                            tl = tl.tweets;
+                        }
                     }
-                }
                 } else {
-                    document.getElementById(
-                        "timeline"
-                    ).innerHTML = `<div style="padding: 50px;color: var(--darker-gray);"><h1> This account's Tweets are protected. </h1> <p> Only confirmed followers have access to @${pageUser.screen_name}'s Tweets and complete profile. <br/> Click the "Follow" button to send a follow request.</p></div>`;
+                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray)"><h2>${LOC.user_protected.message}</h2><p href="https://twitter.com/${pageUser.screen_name}">${LOC.user_protected.description.replace("%s",pageUser.screen_name)}</p></div>`;
                     return;
                 }
             } catch (e) {
