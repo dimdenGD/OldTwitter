@@ -1026,7 +1026,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
             try {
                 data = JSON.parse(data);
             } catch(e) {
-                if(String(data).toLowerCase().includes('rate') && String(e).includes("SyntaxError")) {
+                if(String(data).toLowerCase().includes('rate limit') && String(e).includes("SyntaxError")) {
                     return reject("Rate limited");
                 } else {
                     return reject(e);
@@ -2194,7 +2194,7 @@ API.getReplies = (id, cursor) => {
                 try {
                     data = JSON.parse(data);
                 } catch(e) {
-                    if(String(data).toLowerCase().includes('rate') && String(e).includes("SyntaxError")) {
+                    if(String(data).toLowerCase().includes('rate limit') && String(e).includes("SyntaxError")) {
                         return reject("Rate limited");
                     } else {
                         return reject(e);
