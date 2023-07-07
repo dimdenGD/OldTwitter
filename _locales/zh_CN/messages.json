@@ -179,7 +179,7 @@
     "oldtwitter_settings": { "message": "OldTwitter 设置" },
     "edit_twitter_settings": { "message": "编辑 Twitter 设置" },
     "refresh_tabs": { "message": "刷新标签页以应用设置" },
-    "chrono": { "message": "倒序时间线（快速）" },
+    "chrono": { "message": "倒序时间线" },
     "chrono_social": { "message": "倒序时间线（包含好友喜欢的内容）" },
     "algo": { "message": "算法（为您推荐）" },
     "timeline_type": { "message": "时间线类型" },

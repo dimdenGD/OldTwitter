@@ -173,7 +173,7 @@
     "oldtwitter_settings": { "message": "OldTwitter의 설정" },
     "edit_twitter_settings": { "message": "트위터 설정 편집" },
     "refresh_tabs": { "message": "페이지를 갱신하여 변경 적용" },
-    "chrono": { "message": "새로운 순서(고속)" },
+    "chrono": { "message": "새로운 순서" },
     "chrono_social": { "message": "친구의 좋아요의 새로운 순서" },
     "algo": { "message": "Algorithmical" },
     "timeline_type": { "message": "타임라인의 종류" },

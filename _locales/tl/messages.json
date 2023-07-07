@@ -173,7 +173,7 @@
     "oldtwitter_settings": { "message": "Mga setting ng OldTwitter" },
     "edit_twitter_settings": { "message": "I-edit ang mga setting ng Twitter" },
     "refresh_tabs": { "message": "I-refresh ang mga tab upang ilapat ang mga setting" },
-    "chrono": { "message": "Baliktad na kronolohikal (mabilis)" },
+    "chrono": { "message": "Baliktad na kronolohikal" },
     "chrono_social": { "message": "Baliktad na kronolohikal kasama ang mga kagustuhan ng kaibigan" },
     "algo": { "message": "Algorithmical" },
     "timeline_type": { "message": "Uri ng timeline" },

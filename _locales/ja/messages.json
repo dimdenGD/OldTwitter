@@ -174,7 +174,7 @@
     "oldtwitter_settings": { "message": "OldTwitterの設定" },
     "edit_twitter_settings": { "message": "ツイッターの設定の編集" },
     "refresh_tabs": { "message": "タブを更新して設定を適用" },
-    "chrono": { "message": "新しい順（高速）" },
+    "chrono": { "message": "新しい順" },
     "chrono_social": { "message": "友達の「いいね！」での新しい順" },
     "algo": { "message": "アルゴリズム" },
     "timeline_type": { "message": "タイムラインの種類" },

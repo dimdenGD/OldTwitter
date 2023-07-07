@@ -179,7 +179,7 @@
     "oldtwitter_settings": { "message": "Cài đặt OldTwitter" },
     "edit_twitter_settings": { "message": "Sửa cài đặt Twitter" },
     "refresh_tabs": { "message": "Làm mới tab để áp dụng cài đặt" },
-    "chrono": { "message": "Theo thứ tự ngược thời gian (nhanh)" },
+    "chrono": { "message": "Theo thứ tự ngược thời gian" },
     "chrono_social": { "message": "Theo thứ tự ngược thời gian, với like của bạn bè" },
     "algo": { "message": "Theo thuật toán (\"For You\"/\"Dành cho bạn\")" },
     "timeline_type": { "message": "Kiểu dòng thời gian" },

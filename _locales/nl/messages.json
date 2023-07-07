@@ -173,7 +173,7 @@
     "oldtwitter_settings": { "message": "OldTwitter instellingen" },
     "edit_twitter_settings": { "message": "Twitter instellingen bewerken" },
     "refresh_tabs": { "message": "Vernieuw uw tabbladen om toe te passen" },
-    "chrono": { "message": "Omgekeerd chronologisch (snel)" },
+    "chrono": { "message": "Omgekeerd chronologisch" },
     "chrono_social": { "message": "Omgekeerd chronologisch met likes van vrienden" },
     "algo": { "message": "Algoritmisch" },
     "timeline_type": { "message": "Tijdlijn soort" },

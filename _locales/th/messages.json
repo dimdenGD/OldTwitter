@@ -172,7 +172,7 @@
     "oldtwitter_settings": { "message": "การตั้งค่า OldTwitter" },
     "edit_twitter_settings": { "message": "เเก้ไขการตั้งค่าทวิตเตอร์" },
     "refresh_tabs": { "message": "รีเฟรชเเท็บนี้เพื่อนำการตั้งค่ามาใช้" },
-    "chrono": { "message": "ย้อนกลับตามลำดับเวลา (รวดเร็ว)" },
+    "chrono": { "message": "ย้อนกลับตามลำดับเวลา" },
     "chrono_social": { "message": "ย้อนกลับตามลำดับเวลา กับ การไลค์ของเพื่อน" },
     "algo": { "message": "ด้วยอัลกอริทึม" },
     "timeline_type": { "message": "ชนิดของไทม์ไลน์" },

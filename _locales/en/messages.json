@@ -179,7 +179,7 @@
     "oldtwitter_settings": { "message": "OldTwitter settings" },
     "edit_twitter_settings": { "message": "Edit Twitter settings" },
     "refresh_tabs": { "message": "Refresh tabs to apply settings" },
-    "chrono": { "message": "Reverse chronological (fast)" },
+    "chrono": { "message": "Reverse chronological" },
     "chrono_social": { "message": "Reverse chronological with friends likes" },
     "algo": { "message": "Algorithmical (\"For You\")" },
     "timeline_type": { "message": "Timeline type" },
@@ -394,5 +394,7 @@
     "follow_to_see": { "message": "Only confirmed followers have access to @%s's Tweets and complete profile. Click the \"Follow\" button to send a follow request."},
     "copy_tweet_links_as": { "message": "Copy tweet links as", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Use new logo as tab icon" },
-    "update_timeline_automatically": { "message": "Update timeline automatically on new tweets. Experimental: this is kinda buggy, only use it if you want to be on top of timeline all the time, it won't auto-update when you scroll down further than about 15 tweets." }
+    "update_timeline_automatically": { "message": "Update timeline automatically on new tweets. Experimental: this is kinda buggy, only use it if you want to be on top of timeline all the time, it won't auto-update when you scroll down further than about 15 tweets." },
+    "chrono_no_retweets": { "message": "Reverse chrono. timeline (no retweets)" },
+    "chrono_retweets": { "message": "Reverse chrono. timeline (only retweets)" }
 }

@@ -172,7 +172,7 @@
     "oldtwitter_settings": { "message": "OldTwitter ayarları" },
     "edit_twitter_settings": { "message": "Twitter ayarlarını düzenle" },
     "refresh_tabs": { "message": "Ayarları uygulamak için tabları yenileyin" },
-    "chrono": { "message": "Ters kronolojik (hızlı)" },
+    "chrono": { "message": "Ters kronolojik" },
     "chrono_social": { "message": "Arkadaşlarının beğenileriyle ters kronolojik" },
     "algo": { "message": "Algoritmik" },
     "timeline_type": { "message": "Zaman akışı tipi" },

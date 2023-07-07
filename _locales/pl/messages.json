@@ -179,7 +179,7 @@
     "oldtwitter_settings": { "message": "Ustawienia OldTwittera" },
     "edit_twitter_settings": { "message": "Edituj ustawienia Twittera" },
     "refresh_tabs": { "message": "Odśwież karty by zatwierdzić ustawienia" },
-    "chrono": { "message": "Odwrotnie chronologiczna (szybka)" },
+    "chrono": { "message": "Odwrotnie chronologiczna" },
     "chrono_social": { "message": "Odwrotna chronoligcznie z polubieniami obserwujących" },
     "algo": { "message": "Algorytmiczna" },
     "timeline_type": { "message": "Typ strony głównej" },

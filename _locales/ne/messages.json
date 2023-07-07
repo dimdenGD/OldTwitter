@@ -172,7 +172,7 @@
     "oldtwitter_settings": { "message": "OldTwitterको सेटिँगहरू" },
     "edit_twitter_settings": { "message": "ट्वीटरको सेटिँगहरू बनाउन" },
     "refresh_tabs": { "message": "सेटिँगहरू लाउन फेरि लोड गर्नु" },
-    "chrono": { "message": "कालानुक्रमिक उल्टो गर्न (छिटो)" },
+    "chrono": { "message": "कालानुक्रमिक उल्टो गर्न " },
     "chrono_social": { "message": "कालानुक्रमिक उल्टो गर्न साथीहरूको लाइकहरू सँग" },
     "algo": { "message": "एल्गोरिदमिकल" },
     "timeline_type": { "message": "कस्तो खालको कलक्रम" },

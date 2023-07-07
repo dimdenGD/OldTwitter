@@ -173,7 +173,7 @@
     "oldtwitter_settings": { "message": "Setări OldTwitter" },
     "edit_twitter_settings": { "message": "Editați setări Twitter" },
     "refresh_tabs": { "message": "Reîmprospătați filele pentru a aplica setările" },
-    "chrono": { "message": "Inversat cronologic (rapid)" },
+    "chrono": { "message": "Inversat cronologic" },
     "chrono_social": { "message": "Inversat cronologic cu prieteni îi place" },
     "algo": { "message": "Algoritmic" },
     "timeline_type": { "message": "Tip timeline" },

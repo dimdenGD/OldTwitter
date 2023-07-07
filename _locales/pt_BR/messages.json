@@ -173,7 +173,7 @@
     "oldtwitter_settings": { "message": "Configurações do OldTwitter" },
     "edit_twitter_settings": { "message": "Editar configurações do Twitter" },
     "refresh_tabs": { "message": "Atualize outras páginas para aplicar as configurações" },
-    "chrono": { "message": "Ordem cronológica (mais rápido)" },
+    "chrono": { "message": "Ordem cronológica" },
     "chrono_social": { "message": "Ordem cronológica com favoritos de amigos" },
     "algo": { "message": "Algoritmo do Twitter" },
     "timeline_type": { "message": "Tipo do feed" },

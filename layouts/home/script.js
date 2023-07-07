@@ -16,7 +16,6 @@ let algoCursor;
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.getUserV2('dimdenEFF');
     if(!dimden.following) {
-        let followed = false;
         let modal = createModal(`
             <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
             <span style="font-size:14px;color:var(--default-text-color)">
@@ -34,7 +33,6 @@ async function createShamelessPlug(firstTime = true) {
         `, 'shameless-plug', () => {});
         let followButton = modal.querySelector('.follow');
         followButton.addEventListener('click', () => {
-            followed = true;
             API.followUser('dimdenEFF').then(() => {
                 alert(LOC.thank_you_follow.message);
                 modal.remove();
@@ -66,6 +64,7 @@ setTimeout(() => {
                             <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
                             <li>Made images get converted to JPEG if they're too big on upload.</li>
                             <li>Fixed "flashbangs" on every refresh.</li>
+                            <li>Added 'only retweets' and 'no retweets' timelines.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
                             <li>Fixed group chats not working.</li>
                             <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
@@ -137,8 +136,12 @@ async function updateTimeline() {
         for(let t of tl) {
             seenTweets.push(t.id_str);
         }
+    } else if(vars.timelineType === 'chrono-retweets') {
+        tl = tl.filter(t => t.retweeted_status);
+    } else if(vars.timelineType === 'chrono-no-retweets') {
+        tl = tl.filter(t => !t.retweeted_status);
     }
-    if(!user.friends_count && tl.length === 0 && vars.timelineType === 'chrono') {
+    if(!user.friends_count && tl.length === 0 && vars.timelineType.startsWith('chrono')) {
         document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.no_tl_tweets.message}</span>`;
         return;
     }
@@ -572,6 +575,10 @@ setTimeout(async () => {
                     for(let t of tl) {
                         seenTweets.push(t.id_str);
                     }
+                } else if(vars.timelineType === 'chrono-retweets') {
+                    tl = tl.slice(1).filter(t => t.retweeted_status);
+                } else if(vars.timelineType === 'chrono-no-retweets') {
+                    tl = tl.slice(1).filter(t => !t.retweeted_status);
                 } else {
                     tl = tl.slice(1);
                 }
