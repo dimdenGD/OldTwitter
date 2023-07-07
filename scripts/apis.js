@@ -21,7 +21,7 @@ setInterval(() => {
 API.verifyCredentials = () => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['credentials'], d => {
-            if(d.credentials && Date.now() - d.credentials.date < 60000*15) {
+            if(d.credentials && Date.now() - d.credentials.date < 15000) {
                 return resolve(d.credentials.data);
             }
             fetch(`https://api.twitter.com/1.1/account/verify_credentials.json`, {
@@ -43,6 +43,19 @@ API.verifyCredentials = () => {
                     date: Date.now(),
                     data
                 }}, () => {});
+                chrome.storage.local.get(['lastUserId'], d => {
+                    if(typeof d.lastUserId === 'string') {
+                        if(d.lastUserId !== data.id_str) {
+                            chrome.storage.local.remove(["credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
+                                chrome.storage.local.set({lastUserId: data.id_str}, () => {
+                                    location.reload();
+                                });
+                            });
+                        }
+                    } else {
+                        chrome.storage.local.set({lastUserId: data.id_str}, () => {});
+                    }
+                });
             }).catch(e => {
                 reject(e);
             });
@@ -128,11 +141,13 @@ API.switchAccount = id => {
             return i.text();
         }).then(data => {
             chrome.storage.local.remove(["credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
-                if(String(status).startsWith("2")) {
-                    resolve(data);
-                } else {
-                    reject(data);
-                }
+                chrome.storage.local.set({lastUserId: id}, () => {
+                    if(String(status).startsWith("2")) {
+                        resolve(data);
+                    } else {
+                        reject(data);
+                    }
+                });
             });
         }).catch(e => {
             reject(e);

@@ -61,14 +61,16 @@ setTimeout(() => {
                         <ul>
                             <li>Removed ads.</li>
                             <li>Fixed quote tweets not showing up on profile, search and list tweets.</li>
-                            <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
                             <li>Made images get converted to JPEG if they're too big on upload.</li>
+                            <li>Added a quick-switch for timeline type on home page.</li>
                             <li>Fixed "flashbangs" on every refresh.</li>
                             <li>Added 'only retweets' and 'no retweets' timelines.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
                             <li>Fixed group chats not working.</li>
                             <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
                             <li>Added option to auto-update timeline.</li>
+                            <li>Fixed bug with adding new account to Twitter.</li>
+                            <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
                             <li>Added Chinese and Vietnamese translations.</li>
                             <li>Fixed logging in to Twitter with extension enabled.</li>
                             <li>Added setting to use new Twitter's logo for tab icon.</li>
