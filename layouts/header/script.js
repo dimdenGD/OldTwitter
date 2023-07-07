@@ -348,7 +348,7 @@ let userDataFunction = async user => {
         var i = e.length - t.length;
         return i || (e > t ? i = 1 : e < t && (i = -1)), i;
     };
-    function renderConversation(convo, convoId, newMessages = true, updateConvo = true) {
+    async function renderConversation(convo, convoId, newMessages = true, updateConvo = true) {
         if(updateConvo) {
             lastConvo = convo;
             lastConvo.conversation_id = convoId;
@@ -381,6 +381,20 @@ let userDataFunction = async user => {
         if(!lastConvo.entries) {
             modal.getElementsByClassName('messages-load-more')[0].hidden = true;
             return;
+        }
+        let missingUserIds = [];
+        for(let j in lastConvo.entries) {
+            let m = lastConvo.entries[j].message;
+            if(!m) continue;
+            if(!lastConvo.users[m.message_data.sender_id] && !missingUserIds.includes(m.message_data.sender_id)) {
+                missingUserIds.push(m.message_data.sender_id);
+            }
+        }
+        if(missingUserIds.length > 0) {
+            let foundUsers = await API.lookupUsers(missingUserIds)
+            foundUsers.forEach(user => {
+                lastConvo.users[user.id_str] = user;
+            });
         }
         lastConvo.entries = lastConvo.entries.reverse();
         let messageElements = [];
