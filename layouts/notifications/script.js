@@ -70,13 +70,17 @@ async function renderNotifications(data, append = false) {
                 if(replyTweet && replyTweet.user_id_str) {;
                     if(replyTweet.quoted_status_id_str) {
                         replyTweet.quoted_status = data.globalObjects.tweets[replyTweet.quoted_status_id_str];
-                        replyTweet.quoted_status.user = data.globalObjects.users[replyTweet.quoted_status.user_id_str];
-                        replyTweet.quoted_status.user.id_str = replyTweet.quoted_status.user_id_str;
+                        if(replyTweet.quoted_status) {
+                            replyTweet.quoted_status.user = data.globalObjects.users[replyTweet.quoted_status.user_id_str];
+                            replyTweet.quoted_status.user.id_str = replyTweet.quoted_status.user_id_str;
+                        }
                     }
                     if(replyTweet.retweeted_status_id_str) {
                         replyTweet.retweeted_status = data.globalObjects.tweets[replyTweet.retweeted_status_id_str];
-                        replyTweet.retweeted_status.user = data.globalObjects.users[replyTweet.retweeted_status.user_id_str];
-                        replyTweet.retweeted_status.user.id_str = replyTweet.retweeted_status.user_id_str;
+                        if(replyTweet.retweeted_status) {
+                            replyTweet.retweeted_status.user = data.globalObjects.users[replyTweet.retweeted_status.user_id_str];
+                            replyTweet.retweeted_status.user.id_str = replyTweet.retweeted_status.user_id_str;
+                        }
                     }
                     let replyUser = replyTweet ? data.globalObjects.users[replyTweet.user_id_str] : undefined;
                     replyUser.id_str = replyTweet.user_id_str;
