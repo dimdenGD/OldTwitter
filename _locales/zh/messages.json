@@ -41,7 +41,7 @@
     "open_newtwitter": { "message": "在此页面打开新的 Twitter" },
     "last_version": { "message": "最新版本" },
     "thank_you": {
-        "message": "感谢安装旧版 Twitter！！我希望你会喜欢它。查看 $AT1$扩展设置$AT2$!",
+        "message": "感谢安装 OldTwitter！！我希望你会喜欢它。查看 $AT1$扩展设置$AT2$!",
         "placeholders": {
             "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
             "at2": { "content": "</a>" }
