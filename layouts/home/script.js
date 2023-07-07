@@ -52,7 +52,7 @@ setTimeout(() => {
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 20});
         } else {
             if (
-                !data.lastVersion || 
+                !data.lastVersion || true ||
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')
             ) {
                 createModal(`
@@ -78,11 +78,14 @@ setTimeout(() => {
                             <li>Fixed some tweets not being viewable.</li>
                             <li>Fixed media tab not working sometimes.</li>
                             <li>Fixed tweet view count not showing up in Lists.</li>
+                            <li>Fixed protected profiles not rendering properly.</li>
                             <li>Fixed download media hotkey and added hotkey to switch between new and old Twitter.</li>
                             <li>Fixed retweet labels not showing up with some adblockers.</li>
                         </ul>
-                        <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
-                        <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
+                        <p style="margin-bottom:5px">
+                            Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
+                            Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a>
+                        </p>
                     </span>
                 `, 'changelog-modal', () => {});
                 let changelog = document.getElementById('changelog');

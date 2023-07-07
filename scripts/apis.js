@@ -1204,7 +1204,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                             }
                             tweet.ext = {};
                             if(result.views) {
-                                tweet.ext.views = {r: {ok: true, count: +result.views.count}};
+                                tweet.ext.views = {r: {ok: {count: +result.views.count}}};
                             }
                             if(i !== items.length - 1) tweet.threadContinuation = true;
                             if(i !== 0) tweet.noTop = true;
