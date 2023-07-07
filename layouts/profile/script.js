@@ -1057,22 +1057,22 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                 if (selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
                     await appendTweet(selfThreadTweet, timelineContainer, {
                         selfThreadContinuation: true,
-                        bigFont: selfThreadTweet.favorite_count > averageLikeCount*1.2 && selfThreadTweet.favorite_count > 3
+                        bigFont: selfThreadTweet.favorite_count > averageLikeCount*1.2 && selfThreadTweet.favorite_count > 3 && (!selfThreadTweet.full_text || selfThreadTweet.full_text.length < 250)
                     });
                     await appendTweet(t, timelineContainer, {
                         noTop: true,
-                        bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3
+                        bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3 && (!t.full_text || t.full_text.length < 250)
                     });
                     seenThreads.push(selfThreadTweet.id_str);
                 } else {
                     await appendTweet(t, timelineContainer, {
                         selfThreadButton: true,
-                        bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3
+                        bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3 && (!t.full_text || t.full_text.length < 250)
                     });
                 }
             } else {
                 await appendTweet(t, timelineContainer, {
-                    bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3
+                    bigFont: t.favorite_count > averageLikeCount*1.2 && t.favorite_count > 3 && (!t.full_text || t.full_text.length < 250)
                 });
             }
         }

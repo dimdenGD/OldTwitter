@@ -1080,6 +1080,9 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     if(result.quoted_status_result) {
                         tweet.quoted_status_result = result.quoted_status_result;
                     }
+                    if(result.note_tweet && result.note_tweet.note_tweet_results) {
+                        tweet.full_text = result.note_tweet.note_tweet_results.text;
+                    }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
                         if(result.limitedActionResults) {
@@ -1152,6 +1155,9 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                             }
                             if(result.quoted_status_result) {
                                 tweet.quoted_status_result = result.quoted_status_result;
+                            }
+                            if(result.note_tweet && result.note_tweet.note_tweet_results) {
+                                tweet.full_text = result.note_tweet.note_tweet_results.text;
                             }
                             if(tweet.quoted_status_result) {
                                 let result = tweet.quoted_status_result.result;
@@ -3553,6 +3559,9 @@ API.getListTweets = (id, cursor) => {
                     }
                     if(res.quoted_status_result) {
                         tweet.quoted_status_result = res.quoted_status_result;
+                    }
+                    if(res.note_tweet && res.note_tweet.note_tweet_results) {
+                        tweet.full_text = res.note_tweet.note_tweet_results.text;
                     }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;

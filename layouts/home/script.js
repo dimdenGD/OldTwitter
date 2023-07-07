@@ -74,6 +74,7 @@ setTimeout(() => {
                             <li>Fixed media tab not working sometimes.</li>
                             <li>Fixed tweet view count not showing up in Lists.</li>
                             <li>Fixed download media hotkey and added hotkey to switch between new and old Twitter.</li>
+                            <li>Fixed retweet labels not showing up with some adblockers.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
