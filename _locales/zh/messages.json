@@ -296,7 +296,7 @@
     "m": { "message": "$NUMBER$分", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
     "h": { "message": "$NUMBER$时", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
     "d": { "message": "$NUMBER$日", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
-    "follow_requests": { "message": "遵循请求" },
+    "follow_requests": { "message": "关注请求" },
     "accept": { "message": "接受" },
     "decline": { "message": "拒绝" },
     "mute_convo": { "message": "静音" },
