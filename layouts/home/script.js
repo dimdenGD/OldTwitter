@@ -69,7 +69,8 @@ setTimeout(() => {
                             <li>Fixed group chats not working.</li>
                             <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
                             <li>Added option to auto-update timeline.</li>
-                            <li>Added Chinese and Vietnamese translation.</li>
+                            <li>Added Chinese and Vietnamese translations.</li>
+                            <li>Fixed logging in to Twitter with extension enabled.</li>
                             <li>Added setting to use new Twitter's logo for tab icon.</li>
                             <li>Fixed unable to unmention people if they were mentioned manually.</li>
                             <li>Fixed some tweets not being viewable.</li>
