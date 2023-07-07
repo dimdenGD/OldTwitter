@@ -176,7 +176,8 @@
     "since": { "message": "从" },
     "until": { "message": "到" },
     "twitter_settings": { "message": "Twitter 设置" },
-    "oldtwitter_settings": { "message": "旧版 Twitter 设置" },
+    "oldtwitter_settings": { "message": "OldTwitter 设置" },
+
     "edit_twitter_settings": { "message": "编辑 Twitter 设置" },
     "refresh_tabs": { "message": "刷新选项卡以应用设置" },
     "chrono": { "message": "逆时排序（快速）" },
