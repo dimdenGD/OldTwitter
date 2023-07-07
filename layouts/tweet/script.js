@@ -858,7 +858,7 @@ setTimeout(async () => {
                 }
             } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
                 // download media
-                if(e.target.className.includes('tweet tweet-id-')) {
+                if(activeTweet.className.includes('tweet tweet-id-')) {
                     activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
                 }
             }

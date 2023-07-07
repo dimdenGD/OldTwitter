@@ -71,7 +71,9 @@ setTimeout(() => {
                             <li>Added setting to use new Twitter's logo for tab icon.</li>
                             <li>Fixed unable to unmention people if they were mentioned manually.</li>
                             <li>Fixed some tweets not being viewable.</li>
+                            <li>Fixed media tab not working sometimes.</li>
                             <li>Fixed tweet view count not showing up in Lists.</li>
+                            <li>Fixed download media hotkey and added hotkey to switch between new and old Twitter.</li>
                         </ul>
                         <p>Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.</p>
                         <p>Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a></p>
@@ -349,6 +351,7 @@ setTimeout(async () => {
         let tle = document.getElementById('timeline');
         document.addEventListener('keydown', async e => {
             if(e.ctrlKey) return;
+            console.log(e);
             // reply box
             if(e.target.className === 'tweet-reply-text') {
                 if(e.altKey) {
@@ -504,7 +507,7 @@ setTimeout(async () => {
                 }
             } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
                 // download media
-                if(e.target.className.includes('tweet tweet-id-')) {
+                if(activeTweet.className.includes('tweet tweet-id-')) {
                     activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
                 }
             }
