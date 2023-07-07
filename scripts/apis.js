@@ -1051,7 +1051,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     if(result.limitedActionResults) {
                         let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                         if(limitation) {
-                            result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                            result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                         }
                         result = result.tweet;
                     }
@@ -1065,7 +1065,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         if(result.limitedActionResults) {
                             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                             if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
                         }
@@ -1085,7 +1085,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         if(result.limitedActionResults) {
                             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                             if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
                         }
@@ -1121,7 +1121,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         if(result.limitedActionResults) {
                             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                             if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
                         }
@@ -1138,7 +1138,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                                 if(result.limitedActionResults) {
                                     let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                                     if(limitation) {
-                                        result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                        result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                                     }
                                     result = result.tweet;
                                 }
@@ -1158,7 +1158,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                                 if(result.limitedActionResults) {
                                     let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                                     if(limitation) {
-                                        result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                        result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                                     }
                                     result = result.tweet;
                                 }
@@ -3053,7 +3053,7 @@ API.searchV3 = (obj, cursor) => {
                         if(result.limitedActionResults) {
                             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                             if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
                         }
@@ -3073,7 +3073,7 @@ API.searchV3 = (obj, cursor) => {
                         if(result.limitedActionResults) {
                             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                             if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
                         }
@@ -3537,7 +3537,7 @@ API.getListTweets = (id, cursor) => {
                         if(result.limitedActionResults) {
                             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                             if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
                         }
@@ -3557,7 +3557,7 @@ API.getListTweets = (id, cursor) => {
                         if(result.limitedActionResults) {
                             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
                             if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt.subtext.text;
+                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
                         }
