@@ -2428,6 +2428,7 @@ API.getRepliesV2 = (id, cursor) => {
                 for (let i = 0; i < entries.length; i++) {
                     let e = entries[i];
                     if (e.entryId.startsWith('tweet-')) {
+                        if(e.content && e.content.itemContent && e.content.itemContent.promotedMetadata) continue;
                         let tweetData = e.content.itemContent.tweet_results.result;
                         if(!tweetData) continue;
                         if(!tweetData.legacy) tweetData = tweetData.tweet;
@@ -2463,6 +2464,7 @@ API.getRepliesV2 = (id, cursor) => {
                         }
                         if(tweetData.source) {
                             tweet.source = tweetData.source;
+                            if(tweet.source && tweet.source.includes('Twitter for Advertisers')) continue;
                         }
                         tweet.user = tweetData.core.user_results.result;
                         tweet.user.legacy.id_str = tweet.user.rest_id;
@@ -2508,6 +2510,7 @@ API.getRepliesV2 = (id, cursor) => {
                                 continue; // TODO: Implement
                             }
                             let ic = thread[j].item.itemContent;
+                            if(ic.promotedMetadata) continue;
                             if(ic.tombstoneInfo) {
                                 let richText = ic.tombstoneInfo.richText;
                                 let text = richText.text;
@@ -2566,6 +2569,7 @@ API.getRepliesV2 = (id, cursor) => {
                             }
                             if(tweetData.source) {
                                 tweet.source = tweetData.source;
+                                if(tweet.source && tweet.source.includes('Twitter for Advertisers')) continue;
                             }
                             tweet.user = tweetData.core.user_results.result;
                             tweet.user.legacy.id_str = tweet.user.rest_id;
