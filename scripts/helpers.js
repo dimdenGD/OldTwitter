@@ -13,7 +13,7 @@ function arrayBufferToBase64(buffer) {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-function createModal(html, className, onclose) {
+function createModal(html, className, onclose, canclose) {
     let modal = document.createElement('div');
     modal.classList.add('modal');
     let modal_content = document.createElement('div');
@@ -47,7 +47,7 @@ function createModal(html, className, onclose) {
     close.addEventListener('click', removeModal);
     modal.addEventListener('click', e => {
         if(e.target === modal) {
-            removeModal();
+            if(!canclose || canclose()) removeModal();
         }
     });
     document.addEventListener('keydown', escapeEvent);
