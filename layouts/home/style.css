@@ -1045,6 +1045,6 @@ a:hover,
     padding: 5px 2px;
     width: 100%;
 }
-#load-more {
-    margin-bottom: 100px;
+#content {
+    min-height: 800px;
 }
