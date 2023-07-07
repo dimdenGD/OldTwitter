@@ -389,7 +389,8 @@
     "recent_unfollow_update": { "message": "取消关注更新时间不到 15 分钟。" },
     "deleted_accounts": { "message": "似乎此列表中的每个人都删除了他们的帐户。" },
     "open_tweet_newtwitter": { "message": "在新 Twitter 中打开推文" },
-    "black_mode_link": { "message": "黑色模式链接" },
+    "black_mode_link": { "message": "漆黑模式链接" },
+
     "custom_mode_link": { "message": "自定义模式链接" },
     "tweet_verb": { "message": "发推", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "您想发推文“$TWEET_TEXT$”吗？", "placeholders": { "tweet_text": { "content": "it's okay" } } }
