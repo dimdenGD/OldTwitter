@@ -2008,19 +2008,22 @@ setInterval(() => {
     }
 
     function fullscreenEvent(fullscreen) {
-        // if(fullscreen) {
-        //     root.style.setProperty('--video-cover', 'contain');
-        // } else {
-        //     root.style.setProperty('--video-cover', 'cover');
-        // }
+        if(fullscreen) {
+            let style = document.createElement('style');
+            style.innerHTML = `.tweet-media-element-quote { object-fit: contain !important; }`;
+            style.id = 'fullscreen-style';
+            document.head.appendChild(style);
+        } else {
+            let style = document.getElementById('fullscreen-style');
+            if(style) style.remove();
+        }
     }
 
     switchDarkMode(vars.darkMode || (vars.timeMode && isDark()));
     updateCustomCSS();
     
     window.addEventListener('resize', () => {
-        if (window.matchMedia('(display-mode: fullscreen)').matches ||
-        window.document.fullscreenElement) {
+        if (window.matchMedia('(display-mode: fullscreen)').matches || window.document.fullscreenElement) {
            fullscreenEvent(true);
         } else {
            fullscreenEvent(false);
