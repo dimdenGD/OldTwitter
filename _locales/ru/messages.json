@@ -378,5 +378,6 @@
     "black_mode_link": { "message": "Ссылка в чёрной теме" },
     "tweet_verb": { "message": "Твитнуть", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "Вы хотите твитнуть \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  },
-    "copy_tweet_links_as": { "message": "Копировать ссылки на твиты как", "example": "->Copy links as<- vxtwitter.com" }
+    "copy_tweet_links_as": { "message": "Копировать ссылки на твиты как", "example": "->Copy links as<- vxtwitter.com" },
+    "use_new_logo": { "message": "Использовать новый логотип для иконки вкладок" }
 }

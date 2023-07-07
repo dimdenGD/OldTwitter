@@ -12,7 +12,7 @@ notificationBus.onmessage = function (e) {
         let icon = document.getElementById('site-icon');
 
         notifElement.hidden = true;
-        icon.href = chrome.runtime.getURL(`images/logo32.png`);
+        icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
         if(document.title.startsWith("(")) {
             document.title = document.title.split(') ').slice(1).join(') ');
         }
@@ -124,7 +124,7 @@ let userDataFunction = async user => {
         } else {
             notifElement.hidden = true;
         }
-        icon.href = total > 0 ? chrome.runtime.getURL(`images/logo32_notification.png`) : chrome.runtime.getURL(`images/logo32.png`);
+        icon.href = total > 0 ? chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`) : chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
         if(total > 0) {
             let newTitle = document.title;
             if(document.title.startsWith('(')) {

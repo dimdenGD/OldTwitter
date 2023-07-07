@@ -397,7 +397,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     document.head.appendChild(header_style);
 
     let icon = document.createElement("link");
-    icon.href = chrome.runtime.getURL(`images/logo32.png`);
+    icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
     icon.rel = "icon";
     icon.id = "site-icon";
     document.head.appendChild(icon);

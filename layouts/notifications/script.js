@@ -248,7 +248,7 @@ async function renderNotifications(data, append = false) {
             API.markAsReadNotifications(cursor);
             if(windowFocused) {
                 firstRender = false;
-                document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32_notification.png`);
+                document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
                 let newTitle = document.title;
                 if(document.title.startsWith('(')) {
                     newTitle = document.title.split(') ')[1];
@@ -319,7 +319,7 @@ setTimeout(async () => {
         windowFocused = vis;
         if(vis) {
             notificationBus.postMessage({type: 'markAsRead', cursor: undefined});
-            document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32.png`);
+            document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
         }
     });
 

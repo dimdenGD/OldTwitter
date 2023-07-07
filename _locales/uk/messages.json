@@ -378,5 +378,6 @@
     "black_mode_link": { "message": "Посилання в чорній темі" },
     "tweet_verb": { "message": "Твітнути", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "Ви хочете твітнути \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  },
-    "copy_tweet_links_as": { "message": "Копіювати посилання на твіти як", "example": "->Copy links as<- vxtwitter.com" }
+    "copy_tweet_links_as": { "message": "Копіювати посилання на твіти як", "example": "->Copy links as<- vxtwitter.com" },
+    "use_new_logo": { "message": "Використовувати новий логотип як значок вкладок" }
 }

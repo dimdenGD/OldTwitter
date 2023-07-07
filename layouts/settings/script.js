@@ -161,6 +161,7 @@ setTimeout(async () => {
     let twitterBlueCheckmarks = document.getElementById('twitter-blue-checkmarks');
     let developerMode = document.getElementById('developer-mode');
     let copyLinksAs = document.getElementById('copy-links-as');
+    let useNewIcon = document.getElementById('use-new-icon');
 
     let root = document.querySelector(":root");
     {
@@ -218,6 +219,11 @@ setTimeout(async () => {
     showTopicTweets.addEventListener('change', () => {
         chrome.storage.sync.set({
             showTopicTweets: showTopicTweets.checked
+        }, () => { });
+    });
+    useNewIcon.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            useNewIcon: useNewIcon.checked
         }, () => { });
     });
     disableHotkeys.addEventListener('change', () => {
@@ -431,6 +437,7 @@ setTimeout(async () => {
     seeTweetViews.checked = !!vars.seeTweetViews;
     twitterBlueCheckmarks.checked = !!vars.twitterBlueCheckmarks;
     developerMode.checked = !!vars.developerMode;
+    useNewIcon.checked = !!vars.useNewIcon;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
