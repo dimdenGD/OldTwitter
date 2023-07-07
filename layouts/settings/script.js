@@ -163,6 +163,10 @@ setTimeout(async () => {
     let copyLinksAs = document.getElementById('copy-links-as');
     let useNewIcon = document.getElementById('use-new-icon');
     let updateTimelineAutomatically = document.getElementById('update-timeline-automatically');
+    let hideTrends = document.getElementById('hide-trends');
+    let hideWtf = document.getElementById('hide-wtf');
+    let hideLikes = document.getElementById('hide-likes');
+    let hideFollowers = document.getElementById('hide-followers');
 
     let root = document.querySelector(":root");
     {
@@ -283,6 +287,34 @@ setTimeout(async () => {
     developerMode.addEventListener('change', () => {
         chrome.storage.sync.set({
             developerMode: developerMode.checked
+        }, () => { });
+    });
+    hideTrends.addEventListener('change', () => {
+        vars.hideTrends = hideTrends.checked;
+        hideStuff();
+        chrome.storage.sync.set({
+            hideTrends: hideTrends.checked
+        }, () => { });
+    });
+    hideWtf.addEventListener('change', () => {
+        vars.hideWtf = hideWtf.checked;
+        hideStuff();
+        chrome.storage.sync.set({
+            hideWtf: hideWtf.checked
+        }, () => { });
+    });
+    hideLikes.addEventListener('change', () => {
+        vars.hideLikes = hideLikes.checked;
+        hideStuff();
+        chrome.storage.sync.set({
+            hideLikes: hideLikes.checked
+        }, () => { });
+    });
+    hideFollowers.addEventListener('change', () => {
+        vars.hideFollowers = hideFollowers.checked;
+        hideStuff();
+        chrome.storage.sync.set({
+            hideFollowers: hideFollowers.checked
         }, () => { });
     });
     language.addEventListener('change', () => {
@@ -445,6 +477,10 @@ setTimeout(async () => {
     developerMode.checked = !!vars.developerMode;
     useNewIcon.checked = !!vars.useNewIcon;
     updateTimelineAutomatically.checked = !!vars.updateTimelineAutomatically;
+    hideTrends.checked = !!vars.hideTrends;
+    hideWtf.checked = !!vars.hideWtf;
+    hideLikes.checked = !!vars.hideLikes;
+    hideFollowers.checked = !!vars.hideFollowers;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

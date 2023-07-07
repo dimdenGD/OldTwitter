@@ -60,6 +60,38 @@ function switchRoundAvatars(enabled) {
     }
 }
 
+function hideStuff() {
+    let hs = document.getElementById('hide-style');
+    if(hs) hs.remove();
+    let hideStyle = document.createElement('style');
+    hideStyle.id = 'hide-style';
+    if(vars.hideTrends) {
+        hideStyle.innerHTML += '#trends { display: none !important; }';
+    }
+    if(vars.hideWtf) {
+        hideStyle.innerHTML += '#wtf { display: none !important; }';
+    }
+    if(vars.hideLikes) {
+        hideStyle.innerHTML += `
+            .tweet-interact-favorite { color: var(--background-color) !important }
+            .tweet-interact-retweet { color: var(--background-color) !important }
+            .tweet-interact-reply { color: var(--background-color) !important }
+            .tweet:hover .tweet-interact-favorite { color: var(--dark-background-color) !important }
+            .tweet:hover .tweet-interact-retweet { color: var(--dark-background-color) !important }
+            .tweet:hover .tweet-interact-reply { color: var(--dark-background-color) !important }
+        `;
+    }
+    if(vars.hideFollowers) {
+        hideStyle.innerHTML += `
+            #user-followers { display: none !important; }
+            #profile-stat-followers-value { display: none !important; }
+        `;
+    }
+    if(hideStyle.innerHTML !== '') {
+        document.head.appendChild(hideStyle);
+    }
+}
+
 let userDataFunction = async user => {
     if(headerGotUser || Object.keys(user).length === 0) return;
     headerGotUser = true;
@@ -1910,6 +1942,8 @@ setInterval(() => {
             root.style.setProperty('--link-color', pageUser.profile_link_color);
         }
     });
+
+    hideStuff();
 
     // custom css
     document.addEventListener('customCSS', updateCustomCSS);

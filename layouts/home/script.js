@@ -62,12 +62,13 @@ setTimeout(() => {
                         <ul>
                             <li>Removed ads.</li>
                             <li>Fixed quote tweets not showing up on profile, search and list tweets.</li>
-                            <li>Made images get converted to JPEG if they're too big on upload.</li>
                             <li>Added a quick-switch for timeline type on home page.</li>
                             <li>Fixed "flashbangs" on every refresh.</li>
                             <li>Added 'only retweets' and 'no retweets' timelines.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
+                            <li>Added ability to hide trends, who to follow, tweet statistics, follower counts.</li>
                             <li>Fixed group chats not working.</li>
+                            <li>Made images get converted to JPEG if they're too big on upload.</li>
                             <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
                             <li>Added option to auto-update timeline.</li>
                             <li>Fixed bug with adding new account to Twitter.</li>
@@ -82,6 +83,7 @@ setTimeout(() => {
                             <li>Fixed protected profiles not rendering properly.</li>
                             <li>Fixed download media hotkey and added hotkey to switch between new and old Twitter.</li>
                             <li>Fixed retweet labels not showing up with some adblockers.</li>
+                            <li>Removed Herobrine.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
