@@ -1220,6 +1220,7 @@ API.getUserMediaTweets = (id, cursor) => {
             let entries = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
             let tweets = entries.filter(i => i.entryId.startsWith('tweet-')).map(t => {
                 let o = t.content.itemContent.tweet_results.result;
+                if(!o) return;
                 o.legacy.user = o.core.user_results.result.legacy;
                 o.legacy.user.id_str = o.core.user_results.result.legacy.rest_id;
                 if(o.views && o.views.count) {
@@ -1235,7 +1236,7 @@ API.getUserMediaTweets = (id, cursor) => {
                 
 
                 return o.legacy;
-            });
+            }).filter(i => i);
             let cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
             if(cursor) {
                 cursor = cursor.content.value;
