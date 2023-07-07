@@ -1093,11 +1093,13 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                             result = result.tweet;
                         }
                         tweet.quoted_status = result.legacy;
-                        tweet.quoted_status.user = result.core.user_results.result.legacy;
-                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                        tweet.quoted_status.ext = {};
-                        if(result.views) {
-                            tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                        if(tweet.quoted_status) {
+                            tweet.quoted_status.user = result.core.user_results.result.legacy;
+                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                            tweet.quoted_status.ext = {};
+                            if(result.views) {
+                                tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                            }
                         }
                     }
                     if(result.card && result.card.legacy) {
