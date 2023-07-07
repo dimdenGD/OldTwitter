@@ -180,8 +180,8 @@
 
     "edit_twitter_settings": { "message": "编辑 Twitter 设置" },
     "refresh_tabs": { "message": "刷新选项卡以应用设置" },
-    "chrono": { "message": "逆时排序（快速）" },
-    "chrono_social": { "message": "朋友喜欢的逆时排序" },
+    "chrono": { "message": "倒序时间线（快速）" },
+    "chrono_social": { "message": "倒序时间线（包含好友喜欢的内容）" },
     "algo": { "message": "算法 (\"为你\")" },
     "timeline_type": { "message": "时间线类型" },
     "show_topic_tweets": { "message": "显示话题推文（仅限算法）" },
