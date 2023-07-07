@@ -788,7 +788,7 @@ async function renderProfile() {
                 document.getElementById("profile-settings-mute").hidden = false;
             } else {
                 let modal = createModal(`
-                <span style='font-size:14px'>${LOC.block_sure.message} @${pageUser.screen_name}?</span>
+                <span style='font-size:14px;color:var(--almost-black)'>${LOC.block_sure.message} @${pageUser.screen_name}?</span>
                     <br><br>
                     <button class="nice-button">${LOC.block.message}</button>
                 `)
