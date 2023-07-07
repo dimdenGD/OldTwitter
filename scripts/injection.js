@@ -148,6 +148,125 @@ if(!LANGUAGES.includes(LANGUAGE)) {
         LANGUAGE = "en";
     }
 }
+
+function isDark() {
+    let date = new Date();
+    let hours = date.getHours();
+    return hours <= 9 || hours >= 19;
+}
+let customCSS;
+async function updateCustomCSS() {
+    let data = await new Promise(resolve => {
+        chrome.storage.sync.get(['customCSS'], data => {
+            resolve(data);
+        });
+    });
+    if(!data.customCSS) data.customCSS = '';
+    if(customCSS) customCSS.remove();
+    customCSS = document.createElement('style');
+    customCSS.id = 'oldtwitter-custom-css';
+    customCSS.innerHTML = data.customCSS;
+    if(document.head) document.head.appendChild(customCSS);
+    else {
+        let int = setInterval(() => {
+            if(document.head) {
+                clearInterval(int);
+                document.head.appendChild(customCSS);
+            }
+        }, 100);
+    }
+}
+async function updateCustomCSSVariables() {
+    let root = document.querySelector(":root");
+    let data = await new Promise(resolve => {
+        chrome.storage.sync.get(['customCSSVariables'], data => {
+            resolve(data);
+        });
+    });
+    if(data.customCSSVariables) {
+        let csv = data.customCSSVariables.split('\n');
+        csv.forEach(line => {
+            let [name, value] = line.split(':');
+            value = value.trim();
+            if(value.endsWith(';')) value = value.slice(0, -1);
+            root.style.setProperty(name, value);
+        });
+    }
+}
+function switchDarkMode(enabled) {
+    let root = document.querySelector(":root");
+    let theme;
+    if(enabled) {
+        if(vars.pitchBlack) {
+            // Pitch black theme
+            theme = `
+                --background-color: #000000;
+                --dark-background-color: #000000;
+                --darker-background-color: #000000;
+                --almost-black: #d4e3ed;
+                --border: #222222;
+                --darker-gray: #c9c9c9;
+                --lil-darker-gray: #8394a1;
+                --light-gray: #8394a1;
+                --default-text-color: white;
+                --new-tweet-over: rgb(0 0 0 / 92%);
+                --input-background: #090a0a;
+                --active-message: #0c0d0e;
+                --more-color: #a088ff;
+                --choice-bg: rgb(25 28 30);
+                --list-actions-bg: #19212b;
+                --menu-bg: rgb(16 19 22 / 98%);
+            `;
+        } else {
+            // Dark theme
+            theme = `
+                --background-color: #1b2836;
+                --dark-background-color: #171f2a;
+                --darker-background-color: #141d26;
+                --almost-black: #d4e3ed;
+                --border: #2c3c52;
+                --darker-gray: #c9c9c9;
+                --lil-darker-gray: #8394a1;
+                --light-gray: #8394a1;
+                --default-text-color: white;
+                --new-tweet-over: rgba(27, 40, 54, 0.92);
+                --input-background: #15202a;
+                --active-message: #141d26;
+                --more-color: #a088ff;
+                --choice-bg: rgb(44 62 71);
+                --list-actions-bg: #19212b;
+                --menu-bg: rgba(34,46,60,0.98);
+            `;
+        }
+    } else {
+        // Light theme
+        theme = `
+            --background-color: white;
+            --dark-background-color: #f5f8fa;
+            --darker-background-color: #f5f8fa;
+            --almost-black: #292f33;
+            --border: #e1e8ed;
+            --darker-gray: #66757f;
+            --lil-darker-gray: #6a7d8c;
+            --light-gray: #8899a6;
+            --default-text-color: black;
+            --new-tweet-over: rgba(255, 255, 255, 0.92);
+            --input-background: white;
+            --active-message: #eaf5fd;
+            --more-color: #30F;
+            --choice-bg: rgb(207, 217, 222);
+            --list-actions-bg: #efefef;
+            --menu-bg: rgba(255,255,255,0.98);
+        `;
+    }
+    let styles = theme.split('\n').map(i => i.trim()).filter(i => i).map(i => i.split(':'));
+    styles.forEach(style => {
+        if(style[1].endsWith(";")) style[1] = style[1].slice(0, -1);
+        root.style.setProperty(style[0], style[1]);
+    });
+    updateCustomCSSVariables();
+}
+
 const keysHeld = {};
 let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
 (async () => {
@@ -188,65 +307,9 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     if(!vars) {
         await varsPromise;
     }
-
-    if(!vars.disableHotkeys) {
-        function processHotkeys() {
-            if (keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyO']) {
-                let url = new URL(location.href);
-                url.searchParams.set('newtwitter', 'true');
-                location.replace(url.href);
-            } else if(keysHeld['KeyG'] && keysHeld['KeyH']) {
-                location.href = '/';
-            } else if(keysHeld['KeyG'] && keysHeld['KeyN']) {
-                location.href = '/notifications';
-            } else if(keysHeld['KeyG'] && keysHeld['KeyR']) {
-                location.href = '/notifications/mentions';
-            } else if(keysHeld['KeyG'] && keysHeld['KeyP']) {
-                location.href = `/${user.screen_name}`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyL']) {
-                location.href = `/${user.screen_name}/likes`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyI']) {
-                location.href = `/${user.screen_name}/lists`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyM']) {
-                document.getElementById("messages").click();
-            } else if(keysHeld['KeyG'] && keysHeld['KeyS']) {
-                location.href = `/old/settings`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyB']) {
-                location.href = `/bookmarks`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyU']) {
-                location.href = `/unfollows/followers`;
-            }
-        }
-        window.addEventListener('keydown', (ev) => {
-            let key = ev.code;
-            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
-            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
-            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
-            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
-                if(keysHeld['KeyG']) {
-                    processHotkeys();
-                }
-            } else {
-                keysHeld[key] = true;
-                processHotkeys();
-            }
-        });
-
-        window.addEventListener('keyup', (ev) => {
-            let key = ev.code;
-            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';g
-            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
-            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
-            
-            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
-                if(keysHeld['KeyG']) {
-                    keysHeld[key] = true;
-                    processHotkeys();
-                }
-            } else {
-                delete keysHeld[key];
-            }
-        });
+    if(vars.darkMode || (vars.timeMode && isDark())) {
+        isDarkModeEnabled = true;
+        switchDarkMode(true);
     }
     
     // disable twitters service worker
@@ -445,6 +508,66 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     icon.rel = "icon";
     icon.id = "site-icon";
     document.head.appendChild(icon);
+
+    if(!vars.disableHotkeys) {
+        function processHotkeys() {
+            if (keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyO']) {
+                let url = new URL(location.href);
+                url.searchParams.set('newtwitter', 'true');
+                location.replace(url.href);
+            } else if(keysHeld['KeyG'] && keysHeld['KeyH']) {
+                location.href = '/';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyN']) {
+                location.href = '/notifications';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyR']) {
+                location.href = '/notifications/mentions';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyP']) {
+                location.href = `/${user.screen_name}`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyL']) {
+                location.href = `/${user.screen_name}/likes`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyI']) {
+                location.href = `/${user.screen_name}/lists`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyM']) {
+                document.getElementById("messages").click();
+            } else if(keysHeld['KeyG'] && keysHeld['KeyS']) {
+                location.href = `/old/settings`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyB']) {
+                location.href = `/bookmarks`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyU']) {
+                location.href = `/unfollows/followers`;
+            }
+        }
+        window.addEventListener('keydown', (ev) => {
+            let key = ev.code;
+            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
+            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
+            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
+            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
+                if(keysHeld['KeyG']) {
+                    processHotkeys();
+                }
+            } else {
+                keysHeld[key] = true;
+                processHotkeys();
+            }
+        });
+
+        window.addEventListener('keyup', (ev) => {
+            let key = ev.code;
+            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
+            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
+            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
+            
+            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
+                if(keysHeld['KeyG']) {
+                    keysHeld[key] = true;
+                    processHotkeys();
+                }
+            } else {
+                delete keysHeld[key];
+            }
+        });
+    }
 
     chrome.runtime.sendMessage({
         action: "inject",

@@ -64,6 +64,7 @@ setTimeout(() => {
                             <li>Fixed quote tweets not showing up on profile, search and list tweets.</li>
                             <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
                             <li>Made images get converted to JPEG if they're too big on upload.</li>
+                            <li>Fixed "flashbangs" on every refresh.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
                             <li>Fixed group chats not working.</li>
                             <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
