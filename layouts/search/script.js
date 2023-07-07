@@ -297,7 +297,7 @@ setTimeout(async () => {
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');
         document.addEventListener('keydown', async e => {
-            if(e.ctrlKey) return;
+            if(e.ctrlKey || keysHeld['KeyG']) return;
             // reply box
             if(e.target.className === 'tweet-reply-text') {
                 if(e.altKey) {

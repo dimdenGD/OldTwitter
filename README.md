@@ -85,7 +85,18 @@ General hotkeys.
 `ESC` - close any modal.  
 `M` - open/close user menu (use TAB to navigate).  
 `CTRL+ENTER` - send tweet (when typing reply/quote/new tweet).  
-`CTRL+ALT+O` - switch between old and new Twitter.
+  
+Navigation hotkeys.  
+`CTRL+ALT+O` - switch between old and new Twitter.  
+`G+H` - Home  
+`G+N` - Notifications  
+`G+M` - Mentions  
+`G+P` - Profile  
+`G+L` - Likes  
+`G+I` - Lists  
+`G+M` - Messages  
+`G+S` - Settings  
+`G+B` - Bookmarks  
   
 Active tweet hotkeys. On bottom-right of tweet element there's blue dot showing tweet is active.  
 `S` - move to next tweet.  

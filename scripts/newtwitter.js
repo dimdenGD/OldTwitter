@@ -59,18 +59,31 @@ setTimeout(() => {
 }, 1000);
 
 (() => {
-    const keys = {}
-
-    window.addEventListener('keydown', (ev) => {
-        keys[ev.key] = true;
-    }, {passive: true});
-
-    window.addEventListener('keyup', (ev) => {
-        if (keys['Alt'] && keys['Control'] && keys['o']) {
+    let keysHeld = {};
+    function processHotkeys() {
+        if (keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyO']) {
             let url = new URL(location.href);
-            url.searchParams.delete('newtwitter')
+            url.searchParams.delete('newtwitter');
             location.replace(url.href);
         }
-        keys[ev.key] = false;
-    }, {passive: true});
+    }
+    window.addEventListener('keydown', (ev) => {
+        let key = ev.code;
+        if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
+        if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
+        if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
+        keysHeld[key] = true;
+
+        processHotkeys();
+    });
+
+    window.addEventListener('keyup', (ev) => {
+        let key = ev.code;
+        if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
+        if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
+        if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
+        keysHeld[key] = true;
+        processHotkeys();
+        keysHeld[key] = false;
+    });
 })();

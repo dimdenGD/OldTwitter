@@ -66,6 +66,7 @@ setTimeout(() => {
                             <li>Made images get converted to JPEG if they're too big on upload.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
                             <li>Fixed group chats not working.</li>
+                            <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
                             <li>Added option to auto-update timeline.</li>
                             <li>Added Chinese and Vietnamese translation.</li>
                             <li>Added setting to use new Twitter's logo for tab icon.</li>
@@ -351,8 +352,7 @@ setTimeout(async () => {
     if(!vars.disableHotkeys) {
         let tle = document.getElementById('timeline');
         document.addEventListener('keydown', async e => {
-            if(e.ctrlKey) return;
-            console.log(e);
+            if(e.ctrlKey || keysHeld['KeyG']) return;
             // reply box
             if(e.target.className === 'tweet-reply-text') {
                 if(e.altKey) {
