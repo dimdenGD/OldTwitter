@@ -2464,7 +2464,7 @@ API.getRepliesV2 = (id, cursor) => {
                         }
                         if(tweetData.source) {
                             tweet.source = tweetData.source;
-                            if(tweet.source && tweet.source.includes('Twitter for Advertisers')) continue;
+                            if(tweet.source && tweet.id_str !== id && tweet.source.includes('Twitter for Advertisers')) continue;
                         }
                         tweet.user = tweetData.core.user_results.result;
                         tweet.user.legacy.id_str = tweet.user.rest_id;
@@ -3057,6 +3057,9 @@ API.searchV3 = (obj, cursor) => {
                     let result = entry.content.itemContent.tweet_results.result;
                     if(!result || !result.legacy) {
                         console.log("Bug: no tweet", entry);
+                        continue;
+                    }
+                    if(entry.content.itemContent.promotedMetadata) {
                         continue;
                     }
                     let tweet = result.legacy;

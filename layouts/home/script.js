@@ -61,6 +61,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>Removed ads.</li>
                             <li>Fixed quote tweets not showing up on profile, search and list tweets.</li>
                             <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
                             <li>Made images get converted to JPEG if they're too big on upload.</li>
