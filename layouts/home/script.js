@@ -65,7 +65,8 @@ setTimeout(() => {
                             <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
                             <li>Made images get converted to JPEG if they're too big on upload.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
-                            <li>Fixed DMs not working.</li>
+                            <li>Fixed group chats not working.</li>
+                            <li>Added option to auto-update timeline.</li>
                             <li>Added Chinese and Vietnamese translation.</li>
                             <li>Added setting to use new Twitter's logo for tab icon.</li>
                             <li>Fixed unable to unmention people if they were mentioned manually.</li>
@@ -327,6 +328,11 @@ function renderNewTweetsButton() {
         `;
         document.getElementById('new-tweets').hidden = false;
         document.getElementById('new-tweets').innerText = `${LOC.see_new_tweets.message}`;
+        if(vars.updateTimelineAutomatically && document.scrollingElement.scrollTop < 5000) {
+            setTimeout(() => {
+                document.getElementById('new-tweets').click();
+            });
+        }
     } else {
         document.getElementById("new-tweets-bug-fix").innerHTML = ``;
         document.getElementById('new-tweets').hidden = true;

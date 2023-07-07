@@ -162,6 +162,7 @@ setTimeout(async () => {
     let developerMode = document.getElementById('developer-mode');
     let copyLinksAs = document.getElementById('copy-links-as');
     let useNewIcon = document.getElementById('use-new-icon');
+    let updateTimelineAutomatically = document.getElementById('update-timeline-automatically');
 
     let root = document.querySelector(":root");
     {
@@ -239,6 +240,11 @@ setTimeout(async () => {
     showOriginalImages.addEventListener('change', () => {
         chrome.storage.sync.set({
             showOriginalImages: showOriginalImages.checked
+        }, () => { });
+    });
+    updateTimelineAutomatically.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            updateTimelineAutomatically: updateTimelineAutomatically.checked
         }, () => { });
     });
     roundAvatars.addEventListener('change', () => {
@@ -438,6 +444,7 @@ setTimeout(async () => {
     twitterBlueCheckmarks.checked = !!vars.twitterBlueCheckmarks;
     developerMode.checked = !!vars.developerMode;
     useNewIcon.checked = !!vars.useNewIcon;
+    updateTimelineAutomatically.checked = !!vars.updateTimelineAutomatically;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
