@@ -1489,7 +1489,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
                         <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span>
-                        <span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>
+                        ${navigator.canShare ? `<span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>` : ''}
                         <span class="tweet-interact-more-menu-newtwitter">${LOC.open_tweet_newtwitter.message}</span>
                         ${t.user.id_str === user.id_str ? /*html*/`
                         <hr>
@@ -2568,7 +2568,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(tweetInteractMoreMenuCopyUserId) tweetInteractMoreMenuCopyUserId.addEventListener('click', () => {
             navigator.clipboard.writeText(t.user.id_str);
         });
-        tweetInteractMoreMenuShare.addEventListener('click', () => {
+        if(tweetInteractMoreMenuShare) tweetInteractMoreMenuShare.addEventListener('click', () => {
             navigator.share({ url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}` });
         });
         tweetInteractMoreMenuNewtwitter.addEventListener('click', () => {
