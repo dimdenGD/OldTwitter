@@ -73,7 +73,7 @@ async function renderDeviceNotificationTimeline(cursor) {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255",
-                    class: 'retweet'
+                    class: 'retweet-label'
                 }
             });
         } else {

@@ -2242,7 +2242,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                             }
                         }
                     } else {
-                        let retweetedElement = Array.from(document.getElementsByClassName('tweet')).find(te => te.dataset.tweetId === t.id_str && te.getElementsByClassName('retweet')[0]);
+                        let retweetedElement = Array.from(document.getElementsByClassName('tweet')).find(te => te.dataset.tweetId === t.id_str && te.getElementsByClassName('retweet-label')[0]);
                         if(retweetedElement) {
                             retweetedElement.remove();
                         }
