@@ -335,12 +335,14 @@ setTimeout(async () => {
     document.getElementById('ns-m').addEventListener('click', async () => {
         lastCursor = undefined;
         history.pushState({}, null, '/notifications/mentions');
+        document.getElementById('notifications-div').innerHTML = `<span style="color:var(--darker-gray)">${LOC.loading.message}</span>`;
         updateSubpage();
         updateNotifications();
     });
     document.getElementById('ns-n').addEventListener('click', async () => {
         lastCursor = undefined;
         history.pushState({}, null, '/notifications');
+        document.getElementById('notifications-div').innerHTML = `<span style="color:var(--darker-gray)">${LOC.loading.message}</span>`;
         updateSubpage();
         updateNotifications();
     });

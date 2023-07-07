@@ -898,3 +898,6 @@ a:hover,
         padding-right: 400px;
     }
 }
+#content {
+    min-height: 800px;
+}

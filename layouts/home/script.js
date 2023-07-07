@@ -1242,6 +1242,25 @@ setTimeout(async () => {
         delete newTweetText.dataset.blurSince;
     });
 
+    document.getElementById('timeline-type').value = vars.timelineType;
+    document.getElementById('timeline-type').addEventListener('change', e => {
+        chrome.storage.sync.set({
+            timelineType: e.target.value
+        }, () => {
+            vars.timelineType = e.target.value;
+            timeline.data = [];
+            timeline.dataToUpdate = [];
+            timeline.toBeUpdated = [];
+            seenThreads = [];
+            seenTweets = [];
+            algoCursor = undefined;
+
+            window.scrollTo(0, 0);
+            renderNewTweetsButton();
+            updateTimeline();
+        });
+    })
+
 
     // Update dates every minute & unfocus tweet composer
     setInterval(() => {

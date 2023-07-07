@@ -1036,3 +1036,15 @@ a:hover,
 .poll-disabled:before {
     color: gray !important;
 }
+#timeline-type {
+    color: var(--default-text-color);
+    background-color: var(--background-color);
+    border-color: var(--border);
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 5px 2px;
+    width: 100%;
+}
+#load-more {
+    margin-bottom: 100px;
+}
