@@ -63,8 +63,11 @@ setTimeout(() => {
                         <ul>
                             <li>Fixed quote tweets not showing up on profile, search and list tweets.</li>
                             <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
+                            <li>Made images get converted to JPEG if they're too big on upload.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
+                            <li>Fixed DMs not working.</li>
                             <li>Added Chinese and Vietnamese translation.</li>
+                            <li>Added setting to use new Twitter's logo for tab icon.</li>
                             <li>Fixed unable to unmention people if they were mentioned manually.</li>
                             <li>Fixed some tweets not being viewable.</li>
                             <li>Fixed tweet view count not showing up in Lists.</li>

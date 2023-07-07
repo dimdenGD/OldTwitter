@@ -55,7 +55,7 @@ function createModal(html, className, onclose) {
     document.body.appendChild(modal);
     return modal;
 }
-function handleFiles(files, mediaArray, mediaContainer) {
+async function handleFiles(files, mediaArray, mediaContainer) {
     let images = [];
     let videos = [];
     let gifs = [];
@@ -76,7 +76,29 @@ function handleFiles(files, mediaArray, mediaContainer) {
         } else if (file.type.includes('image')) {
             // max 5 mb
             if (file.size > 5000000) {
-                return alert(LOC.images_max.message);
+                // convert png to jpeg
+                await new Promise(resolve => {
+                    let canvas = document.createElement('canvas');
+                    let ctx = canvas.getContext('2d');
+                    let img = new Image();
+                    img.onload = function () {
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+                        let dataURL = canvas.toDataURL('image/jpeg', 0.9);
+                        let blobBin = atob(dataURL.split(',')[1]);
+                        let array = [];
+                        for (let i = 0; i < blobBin.length; i++) {
+                            array.push(blobBin.charCodeAt(i));
+                        }
+                        file = new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+                        resolve();
+                    };
+                    img.src = URL.createObjectURL(file);
+                });
+                if(file.size > 5000000) {
+                    return alert(LOC.images_max.message);
+                }
             }
             images.push(file);
         }
