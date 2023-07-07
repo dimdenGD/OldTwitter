@@ -370,7 +370,8 @@
     "replying_to": { "message": "正在回复", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "显示", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "显示 Twitter Blue 复选标记" },
-    "retweet_hotkey_warn": { "message": "你刚刚按下了 T 键，这是转发的热键。 你想转发这条推文吗？ 如果你按下确认键，你将不会再次看到此警告。" },
+    "retweet_hotkey_warn": { "message": "你刚刚按下了 T 键，这是转发的快捷键。 你想转发这条推文吗？ 如果你按下确认键，你将不会再次看到此警告。" },
+
     "reply_btn": { "message": "回复", "description": "Used for reply button." },
     "retweet_btn": { "message": "转发/引用推文", "description": "Used for retweet menu button." },
     "like_btn": { "message": "喜欢/不喜欢", "description": "Used for like button." },
