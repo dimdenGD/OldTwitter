@@ -2440,11 +2440,13 @@ API.getRepliesV2 = (id, cursor) => {
                         }
                         if(tweet.quoted_status_id_str) {
                             tweet.quoted_status = tweetData.quoted_status_result.result;
-                            if(!tweet.quoted_status.core) tweet.quoted_status = tweet.quoted_status.tweet;
-                            let userData = tweet.quoted_status.core.user_results.result;
-                            userData.legacy.id_str = userData.rest_id;
-                            tweet.quoted_status.legacy.user = userData.legacy;
-                            tweet.quoted_status = tweet.quoted_status.legacy;
+                            if(!tweet.quoted_status.core && tweet.quoted_status) tweet.quoted_status = tweet.quoted_status.tweet;
+                            if(tweet.quoted_status)  {
+                                let userData = tweet.quoted_status.core.user_results.result;
+                                userData.legacy.id_str = userData.rest_id;
+                                tweet.quoted_status.legacy.user = userData.legacy;
+                                tweet.quoted_status = tweet.quoted_status.legacy;
+                            }
                         }
                         if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
                             tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
