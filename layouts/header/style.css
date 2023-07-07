@@ -1755,3 +1755,18 @@ emoji-picker {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+.tweet-reply-text,
+.tweet-quote-text {
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    display: inline-block;
+    font-family: var(--font);
+    height: 30px;
+    min-height: 30px;
+    padding: 5px;
+    width: 346px;
+    min-width: 346px;
+    max-width: 346px;
+    max-height: 200px;
+}

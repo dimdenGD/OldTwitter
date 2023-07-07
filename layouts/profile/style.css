@@ -295,18 +295,6 @@ span.tweet-body-text {
     color: var(--favorite-icon-color) !important
 }
 
-.tweet-reply-text,
-.tweet-quote-text {
-    border: 1px solid var(--border);
-    resize: none;
-    border-radius: 5px;
-    width: 346px;
-    padding: 5px;
-    font-family: var(--font);
-    display: inline-block;
-    height: 30px
-}
-
 .tweet-reply-text:focus,
 .tweet-quote-text:focus {
     outline: none

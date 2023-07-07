@@ -343,9 +343,12 @@ span.tweet-body-text {
     display: inline-block;
     font-family: var(--font);
     height: 30px;
+    min-height: 30px;
     padding: 5px;
-    resize: none;
-    width: 346px
+    width: 346px;
+    min-width: 346px;
+    max-width: 346px;
+    max-height: 200px;
 }
 
 .tweet-reply-text:focus,
