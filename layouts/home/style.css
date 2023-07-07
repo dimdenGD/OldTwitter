@@ -1048,3 +1048,7 @@ a:hover,
 #content {
     min-height: 800px;
 }
+.changelog-modal {
+    top: 16% !important;
+    max-height: 64% !important;
+}
