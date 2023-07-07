@@ -188,8 +188,9 @@
     "enable_twemoji": { "message": "启用 Twemoji" },
     "hearts_instead_stars": { "message": "显示爱心（喜欢）而不是星星（收藏）" },
     "dark_mode": { "message": "深色模式" },
-    "disable_hotkeys": { "message": "禁用热键" },
-    "hotkeys_list": { "message": "请参阅此处的热键列表" },
+    "disable_hotkeys": { "message": "禁用快捷键" },
+    "hotkeys_list": { "message": "请参阅此处的快捷键列表" },
+
     "save_preferred_quality": { "message": "保存首选视频质量。 如果此项设置为 true，OldTwitter 将保存并使用您首选的视频质量（或使用最接近首选的质量）。 如果关闭，OldTwitter 将选择最高质量。" },
     "preferred_quality": { "message": "优先质量" },
     "default_link_color": { "message": "默认链接颜色" },
