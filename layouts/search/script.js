@@ -94,7 +94,7 @@ async function renderSearch(c, force = false) {
         }
         try {
             searchData = await API.searchV3({
-                rawQuery: encodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : '') + (searchSettings.followedPeople ? ' filter:follows' : ''),
+                rawQuery: decodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : '') + (searchSettings.followedPeople ? ' filter:follows' : ''),
                 count: 50,
                 // tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
                 // social_filter: searchSettings.followedPeople ? 'searcher_follows' : '',
