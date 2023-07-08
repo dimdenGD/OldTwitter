@@ -577,9 +577,9 @@ let userDataFunction = async user => {
                 isUnread = true;
             }
             messageElement.innerHTML = /*html*/`
-                <img src="${messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : c.avatar_image_https}" width="48" height="48" class="inbox-message-avatar">
+                <img src="${messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`))}" width="48" height="48" class="inbox-message-avatar">
                 <div class="inbox-text">
-                    <b class="inbox-name">${messageUsers.length === 1 ? escapeHTML(messageUsers[0].name) : escapeHTML(c.name)}</b>
+                    <b class="inbox-name">${messageUsers.length === 1 ? escapeHTML(messageUsers[0].name) : (c.name ? escapeHTML(c.name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128))}</b>
                     <span class="inbox-screenname">${messageUsers.length === 1 ? "@"+messageUsers[0].screen_name : ''}</span>
                     <span class="inbox-time">${timeElapsed(new Date(+lastMessage.time))}</span>
                     <br>
@@ -599,8 +599,8 @@ let userDataFunction = async user => {
                 modal.querySelector('.name-top').hidden = false;
                 modal.querySelector('.inbox').hidden = true;
                 modal.querySelector('.new-message-box').hidden = true;
-                messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : c.name;
-                messageHeaderAvatar.src = messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : c.avatar_image_https;
+                messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : (c.name || messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128));
+                messageHeaderAvatar.src = messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`));
                 if(messageUsers.length === 1) messageHeaderLink.href = `https://twitter.com/${messageUsers[0].screen_name}`;
                 setTimeout(() => {
                     modal.querySelector(".message-new-input").focus();
