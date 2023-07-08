@@ -599,7 +599,7 @@ let userDataFunction = async user => {
                 modal.querySelector('.name-top').hidden = false;
                 modal.querySelector('.inbox').hidden = true;
                 modal.querySelector('.new-message-box').hidden = true;
-                messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : (c.name || messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128));
+                messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : (c.name || messageUsers.map(i => i.name).join(', ').slice(0, 80));
                 messageHeaderAvatar.src = messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`));
                 if(messageUsers.length === 1) messageHeaderLink.href = `https://twitter.com/${messageUsers[0].screen_name}`;
                 setTimeout(() => {
