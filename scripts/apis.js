@@ -2392,7 +2392,7 @@ API.getRepliesV2 = (id, cursor) => {
         chrome.storage.local.get(['tweetReplies'], d => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
-                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000 && false) {
                     return resolve(d.tweetReplies[id].data);
                 }
                 if(loadingReplies[id]) {
@@ -2448,6 +2448,27 @@ API.getRepliesV2 = (id, cursor) => {
                         if(e.content && e.content.itemContent && e.content.itemContent.promotedMetadata) continue;
                         let tweetData = e.content.itemContent.tweet_results.result;
                         if(!tweetData) continue;
+                        if(tweetData.tombstone) {
+                            let text = tweetData.tombstone.text.text;
+                            if(tweetData.tombstone.text.entities && tweetData.tombstone.text.entities.length > 0) {
+                                let en = tweetData.tombstone.text.entities[0];
+                                text = text.slice(0, en.fromIndex) + `<a href="${en.ref.url}" target="_blank">` + text.slice(en.fromIndex, en.toIndex) + "</a>" + text.slice(en.toIndex);
+                            }
+                            let tombstoneTweetId = e.entryId.slice(6);
+                            let replyTweet = entries.find(i => 
+                                i && i.content && i.content.itemContent &&
+                                i.content.itemContent.tweet_results && 
+                                i.content.itemContent.tweet_results.result && 
+                                i.content.itemContent.tweet_results.result.legacy &&
+                                i.content.itemContent.tweet_results.result.legacy.in_reply_to_status_id_str == tombstoneTweetId
+                            );
+                            list.push({
+                                type: 'tombstone',
+                                data: text,
+                                replyTweet
+                            });
+                            continue;
+                        }
                         if(!tweetData.legacy) tweetData = tweetData.tweet;
                         let tweet = tweetData.legacy;
                         let user = tweetData.core.user_results.result.legacy;

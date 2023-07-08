@@ -46,7 +46,7 @@ async function restorePageData() {
             } else if(t[0] === 'compose') {
                 await appendComposeComponent(tl, t[1]);
             } else if(t[0] === 'tombstone') {
-                await appendTombstone(tl, t[1]);
+                await appendTombstone(tl, t[1], t[2]);
             }
         }
         let id = currentLocation.match(/status\/(\d{1,32})/)[1];
@@ -197,7 +197,7 @@ async function updateReplies(id, c) {
                 });
             }
         } else if(t.type === 'tombstone') {
-            appendTombstone(tlContainer, t.data);
+            appendTombstone(tlContainer, t.data, t.replyTweet);
         } else if(t.type === 'showMore') {
             let div = document.createElement('div');
             div.className = 'show-more';
@@ -677,12 +677,21 @@ async function appendComposeComponent(container, replyTweet) {
     });
 }
 
-async function appendTombstone(timelineContainer, text) {
-    tweets.push(['tombstone', text]);
+async function appendTombstone(timelineContainer, text, replyTweet) {
+    tweets.push(['tombstone', text, replyTweet]);
     let tombstone = document.createElement('div');
     tombstone.className = 'tweet-tombstone';
     tombstone.innerHTML = text;
     timelineContainer.append(tombstone);
+    if(replyTweet) {
+        let threadDiv = document.createElement('div');
+        threadDiv.className = "tweet-self-thread-div tombstone-thread";
+        threadDiv.innerHTML = `
+            <span style="margin-left: 33px;margin-top: 8px;" class="tweet-self-thread-line"></span>
+            <div style="margin-left: 29px;margin-top: 10px;" class="tweet-self-thread-line-dots"></div>
+        `;
+        tombstone.after(threadDiv);
+    }
 }
 
 // On scroll to end of timeline, load more tweets

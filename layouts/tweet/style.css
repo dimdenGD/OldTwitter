@@ -1123,3 +1123,12 @@ a:hover,
 .tweet-tombstone {
     border-bottom: none !important;
 }
+.tombstone-thread {
+    background-color: var(--background-color);
+    padding-bottom: 38px;
+    bottom: 0;
+    width: calc(100% - 2px);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+}
