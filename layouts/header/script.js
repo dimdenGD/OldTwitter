@@ -388,6 +388,8 @@ let userDataFunction = async user => {
             if(!convo.users) convo.users = {};
             if(!lastConvo.users) lastConvo.users = {};
             lastConvo.users = Object.assign(lastConvo.users, convo.users);
+            if(!lastConvo.entries) lastConvo.entries = []; // what the fuck all of this does
+            if(!convo.entries) convo.entries = [];
             lastConvo.entries.forEach(e => {
                 e.added = true;
             });
@@ -429,6 +431,7 @@ let userDataFunction = async user => {
             });
         }
         lastConvo.entries = lastConvo.entries.reverse();
+        console.log(lastConvo.entries);
         let messageElements = [];
         for(let i in lastConvo.entries) {
             if(lastConvo.entries[i].added) continue;

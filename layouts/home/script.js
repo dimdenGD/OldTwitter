@@ -73,6 +73,8 @@ setTimeout(() => {
                             <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
                             <li>Added option to auto-update timeline.</li>
                             <li>Fixed bug with adding new account to Twitter.</li>
+                            <li>Fixed search not working on complex queries.</li>
+                            <li>Fixed DMs breaking on first message ever.</li>
                             <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
                             <li>Added Chinese and Vietnamese translations.</li>
                             <li>Fixed logging in to Twitter with extension enabled.</li>
