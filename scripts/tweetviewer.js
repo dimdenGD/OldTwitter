@@ -785,7 +785,7 @@ class TweetViewer {
             }
         }
         let full_text = t.full_text ? t.full_text : '';
-        full_text = full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
+        full_text = Array.from(full_text).slice(t.display_text_range[0], t.display_text_range[1]).join(''); //Array.from helps with parsing emojis correctly, otherwise this may cut off 2 byte emojis
         let textWithoutLinks = full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
         let isEnglish
         try { 
