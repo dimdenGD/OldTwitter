@@ -292,7 +292,10 @@ function updateUserData() {
 
 async function updateTimeline() {
     seenThreads = [];
-    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.loading_tweets.message}</span>`;
+    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = `
+    <div class="loading-data" id="tweets-loader">
+        <img src="${chrome.runtime.getURL(`images/loading.svg`)}" width="64" height="64">
+    </div>`;
     let tl;
     if(subpage === "likes") {
         let data = await API.getFavorites(pageUser.id_str);
@@ -1555,7 +1558,10 @@ setTimeout(async () => {
                 loadingNewTweets = true;
                 document.getElementById('loading-box').hidden = false;
                 everAddedAdditional = false;
-                document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.loading_tweets.message}</span>`;
+                document.getElementById('timeline').innerHTML = `
+                <div class="loading-data" id="tweets-loader">
+                    <img src="${chrome.runtime.getURL(`images/loading.svg`)}" width="64" height="64">
+                </div>`;
                 document.getElementById('profile-media-div').innerHTML = '';
                 document.getElementById('tweet-to-bg').hidden = true;
                 document.getElementById('profile-additional').innerHTML = '';

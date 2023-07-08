@@ -268,6 +268,10 @@ async function renderNotifications(data, append = false) {
 }
 let lastData;
 async function updateNotifications(append = false) {
+    if(!append) {
+        document.getElementById('notifs-loading').hidden = false;
+        document.getElementById('notifications-more').hidden = true;
+    }
     let data;
 
     try {
@@ -277,6 +281,8 @@ async function updateNotifications(append = false) {
         try {
             data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
         } catch(e) {
+            document.getElementById('notifs-loading').hidden = true;
+            document.getElementById('notifications-more').hidden = true;
             console.error(e);
             return;
         }
@@ -294,6 +300,8 @@ async function updateNotifications(append = false) {
     }
     lastData = data;
     await renderNotifications(data, append);
+    document.getElementById('notifs-loading').hidden = true;
+    document.getElementById('notifications-more').hidden = false;
     document.getElementById('loading-box').hidden = true;
 }
 
@@ -335,14 +343,18 @@ setTimeout(async () => {
     document.getElementById('ns-m').addEventListener('click', async () => {
         lastCursor = undefined;
         history.pushState({}, null, '/notifications/mentions');
-        document.getElementById('notifications-div').innerHTML = `<span style="color:var(--darker-gray)">${LOC.loading.message}</span>`;
+        document.getElementById('notifs-loading').hidden = false;
+        document.getElementById('notifications-more').hidden = true;
+        document.getElementById('notifications-div').innerHTML = ``;
         updateSubpage();
         updateNotifications();
     });
     document.getElementById('ns-n').addEventListener('click', async () => {
         lastCursor = undefined;
         history.pushState({}, null, '/notifications');
-        document.getElementById('notifications-div').innerHTML = `<span style="color:var(--darker-gray)">${LOC.loading.message}</span>`;
+        document.getElementById('notifs-loading').hidden = false;
+        document.getElementById('notifications-more').hidden = true;
+        document.getElementById('notifications-div').innerHTML = ``;
         updateSubpage();
         updateNotifications();
     });

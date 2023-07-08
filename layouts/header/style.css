@@ -144,19 +144,20 @@ input, textarea {
 
 #navbar-links a {
     padding: 13px 15px;
+    padding-bottom: 16px;
     top: 8px;
     position: relative;
-    border-bottom: 3px solid transparent;
-    transition: 0.1s;
+    /* border-bottom: 3px solid transparent; */
+    transition: 0.2s;
 }
 
 #navbar-links a:hover {
-    border-bottom: 3px solid var(--link-color);
-    transition: 0.1s;
+    box-shadow: 0px -7px 0px -4px var(--link-color) inset;
+    transition: 0.2s;
 }
 
 .menu-active {
-    border-bottom: 3px solid var(--link-color) !important;
+    box-shadow: 0px -7px 0px -4px var(--link-color) inset;
 }
 
 .menu-active:before {
@@ -286,6 +287,15 @@ input, textarea {
     position: relative;
     max-height: 60%;
     overflow-y: inherit;
+    animation: opac 0.2s ease-in-out;
+}
+@keyframes opac {
+    0% {
+        opacity: 0
+    }
+    100% {
+        opacity: 1
+    }
 }
 
 /* The Close Button */
@@ -1769,4 +1779,7 @@ emoji-picker {
     min-width: 346px;
     max-width: 346px;
     max-height: 200px;
+}
+.tweet-viewer-loading {
+    text-align: center;
 }

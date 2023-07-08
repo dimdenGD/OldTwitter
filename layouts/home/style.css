@@ -1040,7 +1040,7 @@ a:hover,
     color: var(--default-text-color);
     background-color: var(--background-color);
     border-color: var(--border);
-    border-radius: 3px;
+    border-radius: 4px;
     margin-bottom: 10px;
     padding: 5px 2px;
     width: 100%;
@@ -1051,4 +1051,7 @@ a:hover,
 .changelog-modal {
     top: 16% !important;
     max-height: 64% !important;
+}
+#tweets-loading {
+    text-align: center;
 }

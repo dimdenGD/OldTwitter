@@ -901,3 +901,6 @@ a:hover,
 #content {
     min-height: 800px;
 }
+#notifs-loading {
+    text-align: center;
+}

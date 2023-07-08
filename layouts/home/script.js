@@ -68,6 +68,7 @@ setTimeout(() => {
                             <li>Fixed retweets not showing up properly in Lists.</li>
                             <li>Added ability to hide trends, who to follow, tweet statistics, follower counts.</li>
                             <li>Fixed group chats not working.</li>
+                            <li>Added new animations everywhere.</li>
                             <li>Made images get converted to JPEG if they're too big on upload.</li>
                             <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
                             <li>Added option to auto-update timeline.</li>
@@ -130,11 +131,16 @@ function updateUserData() {
 }
 async function updateTimeline() {
     seenThreads = [];
-    if (timeline.data.length === 0) document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.loading_tweets.message}</span>`;
+    if (timeline.data.length === 0) {
+        document.getElementById('timeline').innerHTML = ``;
+        document.getElementById('tweets-loading').hidden = false;
+        document.getElementById('load-more').hidden = true;
+    }
     let fn = vars.timelineType === 'algo' ? API.getAlgoTimeline : vars.timelineType === 'chrono-social' ? API.getMixedTimeline : API.getTimeline;
     let [tl, s] = await Promise.allSettled([fn(), API.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
+        document.getElementById('tweets-loading').hidden = true;
         return;
     }
     s = s.value; tl = tl.value;
@@ -335,6 +341,8 @@ async function renderTimeline(append = false, sliceAmount = 0) {
         }
     };
     document.getElementById('loading-box').hidden = true;
+    document.getElementById('tweets-loading').hidden = true;
+    document.getElementById('load-more').hidden = false;
     return true;
 }
 function renderNewTweetsButton() {

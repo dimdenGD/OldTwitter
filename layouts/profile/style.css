@@ -1085,15 +1085,17 @@ emoji-picker {
     display: grid;
     text-align: center;
     padding: 12px;
-    padding-bottom: 10px;
-    transition: color .15s ease-in-out;
-    border-bottom: 4px solid transparent
+    padding-bottom: 13px;
+    /* border-bottom: 4px solid transparent */
+    transition: 0.2s;
 }
 
 .profile-stat:hover,
 .profile-stat-active {
     text-decoration: none;
-    border-bottom: 4px solid var(--link-color)
+    box-shadow: 0px -7px 0px -4px var(--link-color) inset;
+    transition: 0.2s;
+    /* border-bottom: 4px solid var(--link-color) */
 }
 .profile-stat-active > .profile-stat-value {
     color: var(--almost-black)
@@ -1481,4 +1483,8 @@ emoji-picker {
     vertical-align: middle;
     margin-right: -5px;
     cursor: pointer;
+}
+.loading-data {
+    margin-top: 25px;
+    text-align: center;
 }

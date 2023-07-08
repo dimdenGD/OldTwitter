@@ -202,16 +202,12 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
 
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background_v2.js', 'utf8');
     
-    let headerStyle = fs.readFileSync('../OldTwitterFirefox/layouts/header/style.css', 'utf8');
-    headerStyle = headerStyle.replace("chrome-extension", "moz-extension");
-
     fs.writeFileSync('../OldTwitterFirefox/manifest.json', JSON.stringify(manifest, null, 2));
     fs.writeFileSync('../OldTwitterFirefox/scripts/injection.js', content);
     fs.writeFileSync('../OldTwitterFirefox/scripts/helpers.js', helpers);
     fs.writeFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', tweetviewer);
     fs.writeFileSync('../OldTwitterFirefox/scripts/config.js', config);
     fs.writeFileSync('../OldTwitterFirefox/scripts/background.js', background);
-    fs.writeFileSync('../OldTwitterFirefox/layouts/header/style.css', headerStyle);
     fs.unlinkSync('../OldTwitterFirefox/ruleset.json');
     fs.unlinkSync('../OldTwitterFirefox/pack.js');
     fs.unlinkSync('../OldTwitterTempChrome/pack.js');
@@ -226,6 +222,14 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         script = script.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
         script = script.replace("https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf", "https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/");
         fs.writeFileSync(`../OldTwitterFirefox/layouts/${layout}/script.js`, script);
+
+        let style = fs.readFileSync(`../OldTwitterFirefox/layouts/${layout}/style.css`, 'utf8');
+        style = style.replaceAll("chrome-extension://", "moz-extension://");
+        fs.writeFileSync(`../OldTwitterFirefox/layouts/${layout}/style.css`, style);
+
+        let html = fs.readFileSync(`../OldTwitterFirefox/layouts/${layout}/index.html`, 'utf8');
+        html = html.replaceAll("chrome-extension://", "moz-extension://");
+        fs.writeFileSync(`../OldTwitterFirefox/layouts/${layout}/index.html`, html);
     }
 
     console.log("Patched!");

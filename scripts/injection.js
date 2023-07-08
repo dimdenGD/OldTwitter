@@ -148,7 +148,6 @@ if(!LANGUAGES.includes(LANGUAGE)) {
         LANGUAGE = "en";
     }
 }
-
 function isDark() {
     let date = new Date();
     let hours = date.getHours();
@@ -442,6 +441,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         fetch(chrome.runtime.getURL(`layouts/header/style.css`)).then(response => response.text())
     ]);
     LOC = LOC_DATA; LOC_EN = LOC_EN_DATA;
+    LOC_EN.extension_id = {message: chrome.runtime.id};
 
     // internationalization
     for(let i in LOC_EN) {

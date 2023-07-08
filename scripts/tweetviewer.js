@@ -3,6 +3,9 @@ class TweetViewer {
         let previousLocation = location.pathname + location.search;
 
         this.container = createModal(/*html*/`
+            <div class="tweet-viewer-loading">
+                <img src="${chrome.runtime.getURL(`images/loading.svg`)}" width="64" height="64">
+            </div>
             <div class="timeline" hidden></div>
             <div class="retweets" class="box" hidden></div>
             <div class="retweets_with_comments" hidden></div>
@@ -154,7 +157,11 @@ class TweetViewer {
         }
     }
     async updateReplies(id, c) {
-        if(!c) document.getElementsByClassName('timeline')[0].innerHTML = '';
+        let tvl = this.container.getElementsByClassName('tweet-viewer-loading')[0];
+        if(!c) {
+            tvl.hidden = false;
+            document.getElementsByClassName('timeline')[0].innerHTML = '';
+        }
         let tl, tweetLikers;
         try {
             let [tlData, tweetLikersData] = await Promise.allSettled([API.getRepliesV2(id, c), API.getTweetLikers(id)]);
@@ -172,6 +179,7 @@ class TweetViewer {
         } catch(e) {
             document.getElementsByClassName('timeline-more')[0].innerText = LOC.load_more.message;
             this.loadingNewTweets = false;
+            tvl.hidden = true;
             return this.cursor = undefined;
         }
     
@@ -250,9 +258,12 @@ class TweetViewer {
             }
         }
         if(mainTweet) mainTweet.scrollIntoView();
+        if(tvl) tvl.hidden = true;
         return true;
     }
     async updateLikes(id, c) {
+        let tvl = this.container.getElementsByClassName('tweet-viewer-loading')[0];
+        if(tvl) tvl.hidden = false;
         let tweetLikers;
         if(!c && this.mainTweetLikers.length > 0) {
             tweetLikers = this.mainTweetLikers;
@@ -264,6 +275,7 @@ class TweetViewer {
                 if(!c) this.mainTweetLikers = tweetLikers;
             } catch(e) {
                 console.error(e);
+                if(tvl) tvl.hidden = true;
                 return this.likeCursor = undefined;
             }
         }
@@ -292,8 +304,12 @@ class TweetViewer {
         for(let i in tweetLikers) {
             appendUser(tweetLikers[i], likeDiv);
         }
+
+        if(tvl) tvl.hidden = true;
     }
     async updateRetweets(id, c) {
+        let tvl = this.container.getElementsByClassName('tweet-viewer-loading')[0];
+        tvl.hidden = false;
         let tweetRetweeters;
         try {
             tweetRetweeters = await API.getTweetRetweeters(id, c);
@@ -374,8 +390,12 @@ class TweetViewer {
     
             retweetDiv.appendChild(retweetElement);
         }
+
+        tvl.hidden = true;
     }
     async updateRetweetsWithComments(id, c) {
+        let tvl = this.container.getElementsByClassName('tweet-viewer-loading')[0];
+        tvl.hidden = false;
         let tweetRetweeters;
         let tweetData = await API.getTweet(id);
         try {
@@ -384,6 +404,7 @@ class TweetViewer {
             tweetRetweeters = tweetRetweeters.list;
         } catch(e) {
             console.error(e);
+            tvl.hidden = true;
             return this.retweetCommentsCursor = undefined;
         }
         let retweetDiv = document.getElementsByClassName('retweets_with_comments')[0];
@@ -419,6 +440,8 @@ class TweetViewer {
         for(let i in tweetRetweeters) {
             await this.appendTweet(tweetRetweeters[i], retweetDiv);
         }
+
+        tvl.hidden = true;
     }
     async appendComposeComponent(container, replyTweet) {
         if(!replyTweet) return;
