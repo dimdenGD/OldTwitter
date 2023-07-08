@@ -135,16 +135,17 @@ async function renderNotifications(data, append = false) {
                     n.message.entities.forEach(e => {
                         if(!e.ref || !e.ref.user) return;
                         let user = data.globalObjects.users[e.ref.user.id];
-                        let emojiHelpers = matchEmojiHelperCount(notificationHeader);
-                        notificationHeader = stringInsert(notificationHeader, additionalLength+e.toIndex+emojiHelpers, '</a>');
-                        notificationHeader = stringInsert(notificationHeader, additionalLength+e.fromIndex, `<a href="/dimdenEFF">`);
+                        notificationHeader = Array.from(notificationHeader);
+                        notificationHeader = arrayInsert(notificationHeader, e.toIndex+additionalLength, '</a>');
+                        notificationHeader = arrayInsert(notificationHeader, e.fromIndex+additionalLength, `<a href="/dimdenEFF">`);
+                        notificationHeader = notificationHeader.join('');
                         additionalLength += `<a href="/dimdenEFF"></a>`.length;
                         let mi = 0;
                         let newText = notificationHeader.replace(aRegex, (_, m) => {
                             if(mi++ !== matches) return _;
                             return `<a href="/${user.screen_name}"${user.verified ? 'class="user-verified"' : ''}>${escapeHTML(m)}</a>`;
                         });
-                        additionalLength += newText.length - notificationHeader.length + emojiHelpers;
+                        additionalLength += newText.length - notificationHeader.length;
                         notificationHeader = newText;
                         matches++;
                     });
