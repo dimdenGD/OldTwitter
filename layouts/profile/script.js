@@ -1463,7 +1463,7 @@ setTimeout(async () => {
     });
     document.getElementById('tweet-nav-more-menu-hr').addEventListener('change', e => {
         if(e.target.checked) {
-            document.getElementById('style-hide-retweets').innerHTML = `.tweet-top-retweet { display: none !important; }`;
+            document.getElementById('style-hide-retweets').innerHTML = `.tweet-top-retweet-label { display: none !important; }`;
         } else {
             document.getElementById('style-hide-retweets').innerHTML = '';
         }
