@@ -1278,7 +1278,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
         let full_text = t.full_text ? t.full_text : '';
-        if(location.pathname.includes('/status/')) full_text = full_text.replace(/^((?<!\w)@([\w+]{1,15})\s)+/, '')
+        if(location.pathname.includes('/status/')) full_text = full_text.substring(t.display_text_range[0], t.display_text_range[1]);
         let textWithoutLinks = full_text.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
         let isEnglish
         try { 
