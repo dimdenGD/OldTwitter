@@ -583,7 +583,7 @@ let userDataFunction = async user => {
                     <span class="inbox-screenname">${messageUsers.length === 1 ? "@"+messageUsers[0].screen_name : ''}</span>
                     <span class="inbox-time">${timeElapsed(new Date(+lastMessage.time))}</span>
                     <br>
-                    <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text === 'dmservice_reaction_one_to_one_text' ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${escapeHTML(messageUsers[0].name)} reacted to message`}` : escapeHTML(lastMessage.message_data.text)}</span>
+                    <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text.startsWith('dmservice_reaction_') ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${escapeHTML(messageUsers[0].name)} reacted to message`}` : escapeHTML(lastMessage.message_data.text)}</span>
                 </div>
             `;
             if(vars.enableTwemoji) {
