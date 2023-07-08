@@ -1,5 +1,6 @@
 let user = {};
 let subpage;
+let loadingMore = false;
 
 // Util
 
@@ -268,8 +269,8 @@ async function renderNotifications(data, append = false) {
     }
 }
 let lastData;
-async function updateNotifications(append = false) {
-    if(!append) {
+async function updateNotifications(append = false, quiet = false) {
+    if(!append && !quiet) {
         document.getElementById('notifs-loading').hidden = false;
         document.getElementById('notifications-more').hidden = true;
     }
@@ -283,7 +284,9 @@ async function updateNotifications(append = false) {
             data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
         } catch(e) {
             document.getElementById('notifs-loading').hidden = true;
-            document.getElementById('notifications-more').hidden = true;
+            document.getElementById('notifications-more').hidden = false;
+            document.getElementById('notifications-more').innerText = LOC.load_more.message;
+            loadingMore = false;
             console.error(e);
             return;
         }
@@ -303,6 +306,8 @@ async function updateNotifications(append = false) {
     await renderNotifications(data, append);
     document.getElementById('notifs-loading').hidden = true;
     document.getElementById('notifications-more').hidden = false;
+    document.getElementById('notifications-more').innerText = LOC.load_more.message;
+    loadingMore = false;
     document.getElementById('loading-box').hidden = true;
 }
 
@@ -339,6 +344,10 @@ setTimeout(async () => {
     // buttons
     document.getElementById('notifications-more').addEventListener('click', async () => {
         if(!lastCursor) return;
+        if(loadingMore) return;
+
+        loadingMore = true;
+        document.getElementById('notifications-more').innerText = LOC.loading.message;
         updateNotifications(true);
     });
     document.getElementById('ns-m').addEventListener('click', async () => {
@@ -385,12 +394,13 @@ setTimeout(async () => {
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
     setInterval(() => {
+        if(document.scrollingElement.scrollTop > 3000) return;
         let modal = document.querySelector('.modal');
         if(!modal) {
             if(document.querySelector('.tweet-reply:not([hidden])') || document.querySelector('.tweet-quote:not([hidden])')) {
                 return;
             }
         }
-        updateNotifications();
+        updateNotifications(false, true);
     }, 20000);
 }, 50);
