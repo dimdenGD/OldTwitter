@@ -388,8 +388,8 @@ function escapeHTML(unsafe) {
          .replace(/"/g, "&quot;")
          .replace(/'/g, "’");
  }
-function stringInsert(string, index, value) {
-    return string.substr(0, index) + value + string.substr(index);
+function arrayInsert(arr, index, value) {
+    return [...arr.slice(0, index), value, ...arr.slice(index)];
 }
 function generatePoll(tweet, tweetElement, user) {
     let pollElement = tweetElement.getElementsByClassName('tweet-card')[0];
@@ -637,14 +637,6 @@ function generateCard(tweet, tweetElement, user) {
         generatePoll(tweet, tweetElement, user);
     }
 }
-let emojiCombination = /(\u00a9|\u00ae|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]{1,2}\u200D(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]{1,2}\u200D{0,1})+)/g;
-function matchEmojiHelperCount(str) {
-    let matches = str.matchAll(emojiCombination);
-    let count = 0;
-    for(let m of matches) count += m[2] ? m[2].length : 0;
-    return count;
-}
-
 function createEmojiPicker(container, input, style = {}) {
     let picker = new EmojiPicker({
         i18n: {
