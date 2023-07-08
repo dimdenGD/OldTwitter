@@ -65,6 +65,7 @@ setTimeout(() => {
                             <li>Added a quick-switch for timeline type on home page.</li>
                             <li>Fixed "flashbangs" on every refresh.</li>
                             <li>Added 'only retweets' and 'no retweets' timelines.</li>
+                            <li>Made Trends be actually relevant to selected location.</li>
                             <li>Fixed retweets not showing up properly in Lists.</li>
                             <li>Added ability to hide trends, who to follow, tweet statistics, follower counts.</li>
                             <li>Fixed group chats not working.</li>
@@ -717,6 +718,9 @@ setTimeout(async () => {
     });
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
+    });
+    document.getElementById('trends-refresh').addEventListener('click', async () => {
+        renderTrends(false, false);
     });
     let newTweetUserSearch = document.getElementById("new-tweet-user-search");
     let newTweetText = document.getElementById('new-tweet-text');

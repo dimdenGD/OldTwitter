@@ -8,6 +8,7 @@ setInterval(() => {
     chrome.storage.local.set({tweetLikers: {}}, () => {});
     chrome.storage.local.set({listData: {}}, () => {});
     chrome.storage.local.set({trends: {}}, () => {});
+    chrome.storage.local.set({trendsv2: {}}, () => {});
 }, 60000*10);
 
 setInterval(() => {
@@ -424,7 +425,7 @@ API.peopleRecommendations = (id, cache = true, by_screen_name = false) => {
 API.getTrends = () => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['trends'], d => {
-            if(d.trends && Date.now() - d.trends.date < 60000*10) {
+            if(d.trends && Date.now() - d.trends.date < 60000*5) {
                 return resolve(d.trends.data);
             }
             fetch(`https://api.twitter.com/1.1/trends/plus.json?max_trends=8`, {
@@ -442,6 +443,53 @@ API.getTrends = () => {
                 }
                 resolve(data);
                 chrome.storage.local.set({trends: {
+                    date: Date.now(),
+                    data
+                }}, () => {});
+            }).catch(e => {
+                reject(e);
+            });
+        });
+    });
+}
+API.getTrendsV2 = (cache) => {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(['trendsv2'], d => {
+            if(d.trends && Date.now() - d.trendsv2.date < 60000*5 && cache) {
+                return resolve(d.trendsv2.data);
+            }
+            fetch(`
+            https://twitter.com/i/api/2/guide.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&requestContext=launch&candidate_source=trends&include_page_configuration=false&entity_tokens=false&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl`, {
+                headers: {
+                    "authorization": OLDTWITTER_CONFIG.public_token,
+                    "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                    "x-twitter-auth-type": "OAuth2Session",
+                    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                    "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en",
+                    "X-Twitter-Utcoffset": getTimeZone().replace(":", ""),
+                },
+                credentials: "include",
+            }).then(i => i.json()).then(d => {
+                if (d.errors && d.errors[0]) {
+                    return reject(d.errors[0].message);
+                }
+                let data = [];
+                let instructions = d.timeline.instructions;
+                let ae = instructions.find(i => i.addEntries);
+                if(!ae) return resolve([]);
+                let entries = ae.addEntries.entries;
+                let trends = entries.find(i => i.entryId === 'trends');
+                if(!trends) return resolve([]);
+                trends = trends.content.timelineModule.items;
+                trends.forEach(trend => {
+                    if(!trend.item || !trend.item.content || !trend.item.content.trend) return;
+                    data.push({trend:{
+                        name: trend.item.content.trend.name,
+                        meta_description: trend.item.content.trend.trendMetadata.domainContext,
+                    }})
+                });
+                resolve({modules: data});
+                chrome.storage.local.set({trendsv2: {
                     date: Date.now(),
                     data
                 }}, () => {});

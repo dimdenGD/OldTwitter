@@ -485,7 +485,9 @@ span.tweet-body-text {
 }
 
 #wtf-refresh,
-#wtf-viewall {
+#wtf-viewall,
+#trends-refresh,
+#trends-viewall {
     color: var(--light-gray);
     cursor: pointer;
     font-size: 12px;
@@ -497,7 +499,9 @@ a:hover,
 .tweet-body-text a:hover,
 .center-text:hover,
 #wtf-refresh:hover,
-#wtf-viewall:hover {
+#wtf-viewall:hover,
+#trends-refresh:hover,
+#trends-viewall:hover {
     text-decoration: underline
 }
 

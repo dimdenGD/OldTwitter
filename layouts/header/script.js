@@ -431,7 +431,6 @@ let userDataFunction = async user => {
             });
         }
         lastConvo.entries = lastConvo.entries.reverse();
-        console.log(lastConvo.entries);
         let messageElements = [];
         for(let i in lastConvo.entries) {
             if(lastConvo.entries[i].added) continue;

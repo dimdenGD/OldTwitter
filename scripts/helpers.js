@@ -960,6 +960,10 @@ function updateUnfollows(res) {
         chrome.storage.local.set({unfollows: res}, () => resolve(res));
     });
 }
+function getTimeZone() {
+    let offset = new Date().getTimezoneOffset(), o = Math.abs(offset);
+    return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
+}
 
 const mediaClasses = [
     undefined,
@@ -984,8 +988,8 @@ const quoteSizeFunctions = [
     (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
 ];
 
-async function renderTrends(compact = false) {
-    let [trendsData, hashflags] = await Promise.allSettled([API.getTrends(), API.getHashflags()]);
+async function renderTrends(compact = false, cache = true) {
+    let [trendsData, hashflags] = await Promise.allSettled([API.getTrendsV2(cache), API.getHashflags()]);
     let trends = trendsData.value.modules;
     hashflags = hashflags.value ? hashflags.value : [];
     let trendsContainer = document.getElementById('trends-list');
