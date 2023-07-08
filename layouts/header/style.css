@@ -1587,7 +1587,7 @@ emoji-picker {
 .tweet-tombstone {
     background-color: var(--background-color);
     padding: 10px;
-    z-index: 10;
+    z-index: 4;
     color: var(--almost-black);
     position: relative;
     border: 1px solid var(--border);
