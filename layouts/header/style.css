@@ -1624,6 +1624,7 @@ emoji-picker {
     animation: donate 5s infinite alternate, vibrate 10s infinite linear;
     position: absolute;
     transition: 1s;
+    word-break: keep-all;
 }
 @keyframes donate {
     20% {
