@@ -1338,6 +1338,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) {
             full_text = "";
         }
+        if(t.quoted_status_id_str && !t.quoted_status) { //t.quoted_status is undefined if the user blocked the quoter (this also applies to deleted/private tweets too, but it just results in original behavior then)
+            try {
+                t.quoted_status = await API.getTweet(t.quoted_status_id_str);
+            } catch {
+                t.quoted_status = undefined;
+            }
+        }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
             <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'" src="${t.user.profile_image_url_https.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
