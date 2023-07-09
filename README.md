@@ -143,3 +143,4 @@ Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)
 Polish - lele  
 Vietnamese - [btmxh](https://github.com/btmxh)  
 Chinese - [am1006](https://github.com/am1006)  
+Czech - Menal  

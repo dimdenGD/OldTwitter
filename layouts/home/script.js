@@ -77,7 +77,7 @@ setTimeout(() => {
                             <li>Fixed search not working on complex queries.</li>
                             <li>Fixed DMs breaking on first message ever.</li>
                             <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
-                            <li>Added Chinese and Vietnamese translations.</li>
+                            <li>Added Czech, Chinese and Vietnamese translations.</li>
                             <li>Fixed logging in to Twitter with extension enabled.</li>
                             <li>Added setting to use new Twitter's logo for tab icon.</li>
                             <li>Fixed unable to unmention people if they were mentioned manually.</li>
