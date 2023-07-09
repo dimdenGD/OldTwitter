@@ -34,6 +34,7 @@ API.verifyCredentials = () => {
                 credentials: "include"
             }).then(response => response.json()).then(data => {
                 if (data.errors && data.errors[0].code === 32) {
+                    chrome.storage.local.remove(["lastUserId", "credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {});
                     return reject("Not logged in");
                 }
                 if (data.errors && data.errors[0]) {
