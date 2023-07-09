@@ -568,9 +568,16 @@ async function renderProfile() {
     updateSelection();
 
     document.getElementById('profile-bio').innerHTML = escapeHTML(pageUser.description).replace(/\n\n\n\n/g, "\n").replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>');
-    let textWithoutLinks = pageUser.description.replace(/(?:https?|ftp):\/\/[\n\S]+/g, '').replace(/(?<!\w)@([\w+]{1,15}\b)/g, '');
-    let isEnglish = textWithoutLinks.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(textWithoutLinks);
-    isEnglish = isEnglish.languages[0] && isEnglish.languages[0].percentage > 60 && isEnglish.languages[0].language.startsWith(LANGUAGE);
+    let strippedDownText = pageUser.description
+    .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
+    .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
+    .replace(/[\p{Extended_Pictographic}]/gu, '') //emojis (including ones that arent colored)
+    .replace(/[\u200B-\u200D\uFE0E\uFE0F]/g, '') //sometimes emojis leave these behind
+    .replace(/\d+/g, '') //numbers
+    .trim();
+    let detectedLanguage = strippedDownText.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(strippedDownText);
+    if(!detectedLanguage.languages[0]) detectedLanguage = {languages:[{language:LANGUAGE, percentage:100}]};
+    let isEnglish = detectedLanguage.languages[0] && detectedLanguage.languages[0].percentage > 60 && detectedLanguage.languages[0].language.startsWith(LANGUAGE);
     let at = false;
     if(!isEnglish) {
         let translateBtn = document.createElement('span');
