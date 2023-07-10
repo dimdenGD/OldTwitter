@@ -1410,7 +1410,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                     width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
                                     height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
                                     loading="lazy"
-                                    src="${m.media_url_https + (vars.showOriginalImages && m.media_url_https.endsWith('.jpg') ? '?name=orig' : '')}"
+                                    src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : '')}"
                                     class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}"
                                 >
                             ` : ''}
