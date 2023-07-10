@@ -231,7 +231,10 @@ function updateUserData() {
         let r = document.querySelector(':root');
         r.style.setProperty('--link-color', vars && vars.linkColor ? vars.linkColor : '#4595B5');
         let sc = makeSeeableColor(oldUser.profile_link_color);
-        if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', sc);
+        if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') {
+            customSet = true;
+            r.style.setProperty('--link-color', sc);
+        }
 
         getLinkColors(pageUserData.id_str).then(data => {
             let color = data[0];
@@ -239,6 +242,7 @@ function updateUserData() {
 
             if(color && color !== 'none') {
                 let sc = makeSeeableColor(color);
+                customSet = true;
                 r.style.setProperty('--link-color', sc);
             }
             fetch("https://dimden.dev/services/twitter_link_colors/v2/get/"+pageUserData.id_str).then(r => r.text()).then(data => {
@@ -249,6 +253,7 @@ function updateUserData() {
                         chrome.storage.local.set({ linkColors });
                     });
                     let sc = makeSeeableColor(data);
+                    customSet = true;
                     r.style.setProperty('--link-color', sc);
                 }
             });

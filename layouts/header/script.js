@@ -100,10 +100,11 @@ let userDataFunction = async user => {
     document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
     document.getElementById('navbar-user-menu-lists').href = `/${user.screen_name}/lists`;
     document.getElementById('navbar-user-menu-username').innerText = user.name;
+    user.profile_link_color = 'FF0000';
 
     let root = document.querySelector(":root");
 
-    if(!customSet && vars.linkColor && (!user.profile_link_color || user.profile_link_color === '1DA1F2')) {
+    if(!customSet && vars.linkColor) {
         root.style.setProperty('--link-color', vars.linkColor);
     }
     if(vars.font) {
