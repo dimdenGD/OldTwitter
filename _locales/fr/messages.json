@@ -382,7 +382,7 @@
     "tweet_verb": { "message": "Tweeter", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "Voulez-vous tweeter \"$TWEET_TEXT$\" ?", "placeholders": { "tweet_text": { "content": "it's okay" } }  },
     "user_protected" : { "message": "Ces Tweets sont protégés."},
-    "follow_to_see": { "message": "Seuls les abonnés approuvés peuvent voir les Tweets de @%s. Pour demander l'accès, cliquez sur Suivre."},
+    "follow_to_see": { "message": "Seuls les abonnés approuvés peuvent voir les Tweets de @$SCREEN_NAME$. Pour demander l'accès, cliquez sur Suivre.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Copier les liens de Tweets en", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Utiliser le nouveau logo comme icône d'onglet" },
     "update_timeline_automatically": { "message": "Update timeline automatically on new tweets. Experimental: this is kinda buggy, only use it if you want to be on top of timeline all the time, it won't auto-update when you scroll down further than about 15 tweets." },

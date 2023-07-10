@@ -213,26 +213,28 @@ function updateUserData() {
             }
             return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         }
-        pageUserData = pageUserData.value;
-        if (pageUserData.protected && !pageUserData.following) {
-            user_protected = true;
-        } else {
-            user_protected = false;
-        }
         followersYouFollowData = followersYouFollowData.value;
         oldUser = oldUser.value;
         u = u.value;
         user = u;
+        pageUserData = pageUserData.value;
+        if (pageUserData.protected && !pageUserData.following && pageUserData.id_str !== user.id_str) {
+            user_protected = true;
+        } else {
+            user_protected = false;
+        }
         userDataFunction(u);
         const event2 = new CustomEvent('updatePageUserData', { detail: oldUser });
         document.dispatchEvent(event2);
-
         pageUser = pageUserData;
         pageUser.protected = oldUser.protected;
         let r = document.querySelector(':root');
         r.style.setProperty('--link-color', vars && vars.linkColor ? vars.linkColor : '#4595B5');
         let sc = makeSeeableColor(oldUser.profile_link_color);
-        if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') r.style.setProperty('--link-color', sc);
+        if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') {
+            customSet = true;
+            r.style.setProperty('--link-color', sc);
+        }
 
         getLinkColors(pageUserData.id_str).then(data => {
             let color = data[0];
@@ -240,6 +242,7 @@ function updateUserData() {
 
             if(color && color !== 'none') {
                 let sc = makeSeeableColor(color);
+                customSet = true;
                 r.style.setProperty('--link-color', sc);
             }
             fetch("https://dimden.dev/services/twitter_link_colors/v2/get/"+pageUserData.id_str).then(r => r.text()).then(data => {
@@ -250,6 +253,7 @@ function updateUserData() {
                         chrome.storage.local.set({ linkColors });
                     });
                     let sc = makeSeeableColor(data);
+                    customSet = true;
                     r.style.setProperty('--link-color', sc);
                 }
             });
@@ -318,7 +322,7 @@ async function updateTimeline() {
                     tl = tl.tweets;
                 }
             } else {
-                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("%s",pageUser.screen_name)}</p></div>`;
+                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                 return;
             }
         } catch(e) {
@@ -1404,7 +1408,7 @@ setTimeout(async () => {
                         }
                     }
                 } else {
-                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("%s",pageUser.screen_name)}</p></div>`;
+                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                     return;
                 }
             } catch (e) {

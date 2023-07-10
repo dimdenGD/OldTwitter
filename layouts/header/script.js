@@ -103,7 +103,7 @@ let userDataFunction = async user => {
 
     let root = document.querySelector(":root");
 
-    if(!customSet && vars.linkColor && (!user.profile_link_color || user.profile_link_color === '1DA1F2')) {
+    if(!customSet && vars.linkColor) {
         root.style.setProperty('--link-color', vars.linkColor);
     }
     if(vars.font) {

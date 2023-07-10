@@ -330,5 +330,5 @@
     "scheduled_success": { "message": "سقسقة مجدولة!" },
     "see_scheduled": { "message": "أُنظُر الجدولة" },
     "user_protected" : { "message": "هذه التغريدات محمية" },
-    "follow_to_see": { "message": "يمكن للمتابعين المعتدمين فقط مشاهدة تغريدات @%s لطلب حق الوصول انقر على متابعة" }
+    "follow_to_see": { "message": "يمكن للمتابعين المعتدمين فقط مشاهدة تغريدات @$SCREEN_NAME$ لطلب حق الوصول انقر على متابعة", "placeholders": { "screen_name": { "content": "dimden" } } }
 }

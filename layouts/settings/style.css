@@ -380,10 +380,10 @@ body {
     background-color: black;
 }
 
-select {
+select, input, textarea {
     color: var(--default-text-color);
     background-color: var(--input-background);
-    border-color: var(--border);
+    border: 1px solid var(--border);
 }
 .user-stat-div:hover {
     text-decoration: none !important;
