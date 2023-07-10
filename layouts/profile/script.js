@@ -213,20 +213,19 @@ function updateUserData() {
             }
             return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
         }
-        pageUserData = pageUserData.value;
-        if (pageUserData.protected && !pageUserData.following) {
-            user_protected = true;
-        } else {
-            user_protected = false;
-        }
         followersYouFollowData = followersYouFollowData.value;
         oldUser = oldUser.value;
         u = u.value;
         user = u;
+        pageUserData = pageUserData.value;
+        if (pageUserData.protected && !pageUserData.following && pageUserData.id_str !== user.id_str) {
+            user_protected = true;
+        } else {
+            user_protected = false;
+        }
         userDataFunction(u);
         const event2 = new CustomEvent('updatePageUserData', { detail: oldUser });
         document.dispatchEvent(event2);
-
         pageUser = pageUserData;
         pageUser.protected = oldUser.protected;
         let r = document.querySelector(':root');
