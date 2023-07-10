@@ -31,7 +31,7 @@ async function createShamelessPlug(firstTime = true) {
                     <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
                 </div>
             </span>
-        `, 'shameless-plug', () => {}, () => Date.now() - opened > 1500);
+        `, 'shameless-plug', () => {}, () => Date.now() - opened > 1750);
         let followButton = modal.querySelector('.follow');
         followButton.addEventListener('click', () => {
             API.followUser('dimdenEFF').then(() => {
@@ -679,6 +679,7 @@ setTimeout(async () => {
         console.error(e);
         return;
     }
+    document.getElementById('tweets-loading').children[0].src = chrome.runtime.getURL(`images/loading.svg`);
 
     // Buttons
     document.getElementById('load-more').addEventListener('click', async () => {

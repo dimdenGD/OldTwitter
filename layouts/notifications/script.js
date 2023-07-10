@@ -331,6 +331,7 @@ setTimeout(async () => {
         console.error(e);
         return;
     }
+    document.getElementById('notifs-loading').children[0].src = chrome.runtime.getURL(`images/loading.svg`);
 
     windowFocused = document.hidden;
     onVisibilityChange(vis => {
