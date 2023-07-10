@@ -1043,7 +1043,7 @@ a:hover,
 #timeline-type {
     color: var(--default-text-color);
     background-color: var(--background-color);
-    border-color: var(--border);
+    border: 1px solid var(--border);
     border-radius: 4px;
     margin-bottom: 10px;
     padding: 5px 2px;
