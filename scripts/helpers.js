@@ -1344,9 +1344,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) {
             full_text = "";
         }
-        if(t.quoted_status_id_str && !t.quoted_status) { //t.quoted_status is undefined if the user blocked the quoter (this also applies to deleted/private tweets too, but it just results in original behavior then)
+        if(t.quoted_status_id_str && !t.quoted_status && options.mainTweet) { //t.quoted_status is undefined if the user blocked the quoter (this also applies to deleted/private tweets too, but it just results in original behavior then)
             try {
-                t.quoted_status = await API.getTweet(t.quoted_status_id_str);
+                if(t.quoted_status_result && t.quoted_status_result.result.tweet) {
+                    t.quoted_status = t.quoted_status_result.result.tweet.legacy;
+                    t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
+                } else {
+                    t.quoted_status = await API.getTweet(t.quoted_status_id_str);
+                }
             } catch {
                 t.quoted_status = undefined;
             }
