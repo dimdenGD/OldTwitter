@@ -379,7 +379,7 @@
     "tweet_verb": { "message": "Твитнуть", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "Вы хотите твитнуть \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  },
     "user_protected" : { "message": "Твиты этого аккаунта защищены." },
-    "follow_to_see": { "message": "Только подтвержденные пользователи имеют доступ до твитов и полного профиля @%s. Нажмите \"Подписаться\" чтобы отправить запрос на подписку."},
+    "follow_to_see": { "message": "Только подтвержденные пользователи имеют доступ до твитов и полного профиля @$SCREEN_NAME$. Нажмите \"Подписаться\" чтобы отправить запрос на подписку.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Копировать ссылки на твиты как", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_logo": { "message": "Использовать новый логотип для иконки вкладок" },
     "update_timeline_automatically": { "message": "Обновлять ленту автоматически при новых твитах. Экспериментальная функция: используйте только если хотите постоянно быть сверху ленты, оно не будет авто-обновлять ленту если вы проскроллите ниже примерно 15 твитов." },

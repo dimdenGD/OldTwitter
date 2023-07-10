@@ -380,5 +380,5 @@
     "tweet_verb": { "message": "Tweeter", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "Voulez-vous tweeter \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  },
     "user_protected" : { "message": "Ces Tweets sont protégés."},
-    "follow_to_see": { "message": "Seuls les abonnés approuvés peuvent voir les Tweets de @%s Pour demander l'accès, cliquez sur Suivre."}
+    "follow_to_see": { "message": "Seuls les abonnés approuvés peuvent voir les Tweets de @$SCREEN_NAME$ Pour demander l'accès, cliquez sur Suivre.", "placeholders": { "screen_name": { "content": "dimden" } } }
 }

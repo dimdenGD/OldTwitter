@@ -126,7 +126,7 @@ Russian - [dimden](https://dimden.dev/)
 Ukrainian - [dimden](https://dimden.dev/)  
 French - [Aurore C.](https://asuure.com/)  
 Portuguese (Brazil) - [dzshn](https://dzshn.xyz/), [kigidere](https://twitter.com/kigidere)  
-Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitter.com/gaelcoral), [hue](https://twitter.com/huey1116)  
+Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitter.com/gaelcoral), [hue](https://twitter.com/huey1116), Beelzenef  
 Greek - [VasilisTheChu](https://pikachu.systems/)  
 Romanian - [Skylar](https://143.dust.moe/)  
 Tagalog - [Eurasian](https://twitter.com/NotPROxV)  

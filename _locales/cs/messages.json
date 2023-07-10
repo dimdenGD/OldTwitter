@@ -391,6 +391,6 @@
     "tweet_verb": { "message": "Tweetnout", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "Chcete tweetnout \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
     "user_protected" : { "message": "Tweety tohoto účtu jsou chráněny." },
-    "follow_to_see": { "message": "Jen potvrzení sledující mají přístup k tweetům a kompletnímu profilu uživatele @%s. Stiskněte tlačítko \"Sledovat\" k poslání žádosti o sledování."},
+    "follow_to_see": { "message": "Jen potvrzení sledující mají přístup k tweetům a kompletnímu profilu uživatele @$SCREEN_NAME$. Stiskněte tlačítko \"Sledovat\" k poslání žádosti o sledování.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Kopírovat odkaz na tweet jako", "example": "->Copy links as<- vxtwitter.com" }
 }
