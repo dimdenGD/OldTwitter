@@ -1064,6 +1064,7 @@ class TweetViewer {
                 let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
                 vid.play();
                 vid.controls = true;
+                vid.classList.remove('tweet-media-element-censor');
                 vidOverlay.style.display = 'none';
             });
         }
