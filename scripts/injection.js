@@ -539,7 +539,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             } else if(keysHeld['KeyG'] && keysHeld['KeyS']) {
                 location.href = `/old/settings`;
             } else if(keysHeld['KeyG'] && keysHeld['KeyB']) {
-                location.href = `/bookmarks`;
+                location.href = `/i/bookmarks`;
             } else if(keysHeld['KeyG'] && keysHeld['KeyU']) {
                 location.href = `/unfollows/followers`;
             }
