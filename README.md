@@ -124,7 +124,7 @@ These will work when reply/quote/new tweet modal is focused.
 English - [dimden](https://dimden.dev/)  
 Russian - [dimden](https://dimden.dev/)  
 Ukrainian - [dimden](https://dimden.dev/)  
-French - [Aurore C.](https://asuure.com/)  
+French - [Aurore C.](https://asuure.com/), [zdimension](https://twitter.com/zdimension_)  
 Portuguese (Brazil) - [dzshn](https://dzshn.xyz/), [kigidere](https://twitter.com/kigidere)  
 Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitter.com/gaelcoral), [hue](https://twitter.com/huey1116), Beelzenef  
 Greek - [VasilisTheChu](https://pikachu.systems/)  

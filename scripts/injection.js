@@ -109,7 +109,10 @@ const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv"
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
-    "fr": ["Aurore C.", "https://asuure.com/"],
+    "fr": [
+        ["Aurore C.", "https://asuure.com/"],
+        ["zdimension", "https://twitter.com/zdimension_"]
+    ],
     "pt_BR": [
         ["dzshn", "https://dzshn.xyz/"],
         ["kigi", "https://twitter.com/kigidere"]
