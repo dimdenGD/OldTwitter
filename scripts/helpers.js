@@ -457,7 +457,13 @@ function generatePoll(tweet, tweetElement, user) {
     if(tweet.card.url.startsWith('card://')) {
         let footer = document.createElement('span');
         footer.classList.add('poll-footer');
-        footer.innerHTML = `${voteCount} ${voteCount === 1 ? LOC.vote.message : LOC.votes.message}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ ${LOC.ends_at.message} ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}` : ''}`;
+        let endsAtMessage;
+        if(LOC.ends_at.message.includes("$DATE$")) {
+            endsAtMessage = LOC.ends_at.message.replace('$DATE$', new Date(poll.end_datetime_utc.string_value).toLocaleString());
+        } else {
+            endsAtMessage = `${LOC.ends_at.message} ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}`;
+        }
+        footer.innerHTML = `${voteCount} ${voteCount === 1 ? LOC.vote.message : LOC.votes.message}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ ${endsAtMessage}` : ''}`;
         pollElement.append(footer);
     }
 }
@@ -1345,6 +1351,21 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 t.quoted_status = undefined;
             }
         }
+        let followUserText, unfollowUserText, blockUserText, unblockUserText;
+        if(
+            LOC.follow_user.message.includes('$SCREEN_NAME$') && LOC.unfollow_user.message.includes('$SCREEN_NAME$') &&
+            LOC.block_user.message.includes('$SCREEN_NAME$') && LOC.unblock_user.message.includes('$SCREEN_NAME$')
+        ) {
+            followUserText = `${LOC.follow_user.message.replace('$SCREEN_NAME$', t.user.screen_name)}`;
+            unfollowUserText = `${LOC.unfollow_user.message.replace('$SCREEN_NAME$', t.user.screen_name)}`;
+            blockUserText = `${LOC.block_user.message.replace('$SCREEN_NAME$', t.user.screen_name)}`;
+            unblockUserText = `${LOC.unblock_user.message.replace('$SCREEN_NAME$', t.user.screen_name)}`;
+        } else {
+            followUserText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+            unfollowUserText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+            blockUserText = `${LOC.block_user.message} @${t.user.screen_name}`;
+            unblockUserText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+        }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
             <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'" src="${t.user.profile_image_url_https.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
@@ -1503,10 +1524,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ` : ''}
                         <hr>
                         ${t.user.id_str !== user.id_str && !options.mainTweet ? /*html*/`
-                            <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span>
+                            <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? unfollowUserText : followUserText}</span>
                         ` : ''}
                         ${t.user.id_str !== user.id_str ? /*html*/`
-                            <span class="tweet-interact-more-menu-block">${t.user.blocking ? LOC.unblock_user.message : LOC.block_user.message} @${t.user.screen_name}</span>
+                            <span class="tweet-interact-more-menu-block">${t.user.blocking ? unblockUserText : blockUserText}</span>
                         ` : ''}
                         ${!location.pathname.startsWith('/i/bookmarks') ? /*html*/`<span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>` : ''}
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
@@ -1917,8 +1938,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
             let translated = await API.translateTweet(t.id_str);
             t.translated = true;
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
+            let translatedMessage;
+            if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+            } else {
+                translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+            }
             tweetBodyText.innerHTML += `<br>
-            <span style="font-size: 12px;color: var(--light-gray);">${LOC.translated_from.message} [${translated.translated_lang}]:</span>
+            <span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>
             <br>
             <span class="tweet-translated-text">${escapeHTML(translated.text).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>')}</span>`;
             if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
@@ -2512,7 +2539,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return;
                 }
                 t.user.following = false;
-                tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                tweetInteractMoreMenuFollow.innerText = followUserText;
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'unfollow',
                     tweet: t
@@ -2527,7 +2554,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return;
                 }
                 t.user.following = true;
-                tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+                tweetInteractMoreMenuFollow.innerText = unfollowUserText;
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'follow',
                     tweet: t
@@ -2540,7 +2567,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (t.user.blocking) {
                 await API.unblockUser(t.user.id_str);
                 t.user.blocking = false;
-                tweetInteractMoreMenuBlock.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
+                if(LOC.block_user.message.includes("$SCREEN_NAME$")) {
+                    tweetInteractMoreMenuBlock.innerText = LOC.block_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    tweetInteractMoreMenuBlock.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
+                }
                 tweetInteractMoreMenuFollow.hidden = false;
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'unblock',
@@ -2548,14 +2579,24 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 } });
                 document.dispatchEvent(event);
             } else {
-                let c = confirm(`${LOC.block_sure.message} @${t.user.screen_name}?`);
+                let blockMessage;
+                if(LOC.block_sure.message.includes("$SCREEN_NAME$")) {
+                    blockMessage = LOC.block_sure.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    blockMessage = `${LOC.block_sure.message} @${t.user.screen_name}?`;
+                }
+                let c = confirm(blockMessage);
                 if (!c) return;
                 await API.blockUser(t.user.id_str);
                 t.user.blocking = true;
-                tweetInteractMoreMenuBlock.innerText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+                if(LOC.unblock_user.message.includes("$SCREEN_NAME$")) {
+                    tweetInteractMoreMenuBlock.innerText = LOC.unblock_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    tweetInteractMoreMenuBlock.innerText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+                }
                 tweetInteractMoreMenuFollow.hidden = true;
                 t.user.following = false;
-                tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                tweetInteractMoreMenuFollow.innerText = followUserText;
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'block',
                     tweet: t

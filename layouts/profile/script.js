@@ -440,7 +440,13 @@ async function renderFollowers(clear = true, cursor) {
 async function renderFollowersYouFollow(clear = true, cursor) {
     loadingFollowersYouKnow = true;
     let userList = document.getElementById('followers_you_follow-list');
-    if(clear) userList.innerHTML = `<h1 class="nice-header">${LOC.followers_you_know.message}</h1>`;
+    if(clear) {
+        if(LOC.followers_you_know.message.includes("$NUMBER$")) {
+            userList.innerHTML = `<h1 class="nice-header">${LOC.followers_you_know.message.replace("$NUMBER$", '0')}</h1>`;
+        } else {
+            userList.innerHTML = `<h1 class="nice-header">0 ${LOC.followers_you_know.message}</h1>`;
+        }
+    }
     let following;
     try {
         following = await API.getFollowersYouFollow(pageUser.id_str, cursor);
@@ -541,8 +547,12 @@ async function renderProfile() {
     document.getElementById('nav-profile-avatar').src = pageUser.profile_image_url_https.replace('_normal.', '_bigger.');
     document.getElementById('profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
     document.getElementById('nav-profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
-    document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal.', '_400x400.');;
-    document.getElementById('tweet-to').innerText = `${LOC.tweet_to.message} ${pageUser.name.replace(/\n/g, ' ')}`;
+    document.getElementById('profile-avatar-link').href = pageUser.profile_image_url_https.replace('_normal.', '_400x400.');
+    if(LOC.tweet_to.message.includes("$SCREEN_NAME$")) {
+        document.getElementById('tweet-to').innerText = LOC.tweet_to.message.replace("$SCREEN_NAME$", pageUser.screen_name.replace(/\n/g, ' '));
+    } else {
+        document.getElementById('tweet-to').innerText = `${LOC.tweet_to.message} ${pageUser.name.replace(/\n/g, ' ')}`;
+    }
     if(vars.heartsNotStars) {
         document.getElementById('profile-stat-text-favorites').innerText = LOC.likes.message;
     }
@@ -591,9 +601,15 @@ async function renderProfile() {
             at = true;
             let translated = await API.translateProfile(pageUser.id_str);
             let span = document.createElement('span');
+            let translatedMessage;
+            if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.localizedSourceLanguage}]`);
+            } else {
+                translatedMessage = `${LOC.translated_from.message} [${translated.localizedSourceLanguage}]`;
+            }
             span.innerHTML = `
                 <br>
-                <span class='piu-a'>${LOC.translated_from.message} [${translated.localizedSourceLanguage}]</span>
+                <span class='piu-a'>${translatedMessage}:</span>
                 <span>${escapeHTML(translated.translation).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>')}</span>
             `;
             translateBtn.hidden = true;
@@ -656,7 +672,11 @@ async function renderProfile() {
         let friendsFollowing = document.getElementById('profile-friends-following');
         let friendsFollowingList = document.getElementById('profile-friends-div');
         let friendsFollowingText = document.getElementById('profile-friends-text');
-        friendsFollowingText.innerText = `${followersYouFollow.total_count} ${LOC.followers_you_know.message}`;
+        if(LOC.followers_you_know.message.includes("$NUMBER$")) {
+            friendsFollowingText.innerText = LOC.followers_you_know.message.replace("$NUMBER$", followersYouFollow.total_count);
+        } else {
+            friendsFollowingText.innerText = `${followersYouFollow.total_count} ${LOC.followers_you_know.message}`;
+        }
         friendsFollowingText.href = `https://twitter.com/${pageUser.screen_name}/followers_you_follow`;
         friendsFollowingText
         followersYouFollow.users.forEach(u => {
@@ -690,11 +710,19 @@ async function renderProfile() {
         if(!pageUser.following) {
             pageUser.want_retweets = true;
         }
+        let blockUserText, unblockUserText;
+        if(LOC.block_user.message.includes('$SCREEN_NAME$') && LOC.unblock_user.message.includes('$SCREEN_NAME$')) {
+            blockUserText = `${LOC.block_user.message.replace('$SCREEN_NAME$', pageUser.screen_name)}`;
+            unblockUserText = `${LOC.unblock_user.message.replace('$SCREEN_NAME$', pageUser.screen_name)}`;
+        } else {
+            blockUserText = `${LOC.block_user.message} @${pageUser.screen_name}`;
+            unblockUserText = `${LOC.unblock_user.message} @${pageUser.screen_name}`;
+        }
         buttonsElement.innerHTML += /*html*/`
             <span class="profile-additional-thing" id="profile-settings"></span>
             <div id="profile-settings-div" class="dropdown-menu" hidden>
                 <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications ? LOC.stop_notifications.message : LOC.receive_notifications.message}</span>
-                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? `${LOC.unblock_user.message} @${pageUser.screen_name}` : `${LOC.block_user.message} @${pageUser.screen_name}`}</span>
+                <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? unblockUserText : blockUserText}</span>
                 <span ${pageUser.blocking || (pageUser.protected && !pageUser.following) ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}</span>
                 ${pageUser.followed_by ? /*html*/`<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span>` : ''}
                 <span id="profile-settings-lists-action" ${pageUser.blocking || (pageUser.protected && !pageUser.following) ? 'hidden' : ''}>${LOC.from_list.message}</span>
@@ -794,15 +822,25 @@ async function renderProfile() {
                 pageUser.blocking = false;
                 document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
                 document.getElementById('profile-settings-block').classList.add('profile-settings-block');
-                document.getElementById('profile-settings-block').innerText = `${LOC.block_user.message} @${pageUser.screen_name}`;
+                if(LOC.block_user.message.includes("$SCREEN_NAME$")) {
+                    document.getElementById('profile-settings-block').innerText = LOC.block_user.message.replace("$SCREEN_NAME$", pageUser.screen_name);
+                } else {
+                    document.getElementById('profile-settings-block').innerText = `${LOC.block_user.message} @${pageUser.screen_name}`;
+                }
                 document.getElementById('control-unblock').hidden = true;
                 document.getElementById('control-follow').hidden = false;
                 document.getElementById('message-user').hidden = !pageUser.can_dm;
                 document.getElementById("profile-settings-notifications").hidden = false;
                 document.getElementById("profile-settings-mute").hidden = false;
             } else {
+                let blockMessage;
+                if(LOC.block_sure.message.includes("$SCREEN_NAME$")) {
+                    blockMessage = LOC.block_sure.message.replace("$SCREEN_NAME$", pageUser.screen_name);
+                } else {
+                    blockMessage = `${LOC.block_sure.message} @${pageUser.screen_name}?`;
+                }
                 let modal = createModal(`
-                <span style='font-size:14px;color:var(--almost-black)'>${LOC.block_sure.message} @${pageUser.screen_name}?</span>
+                <span style='font-size:14px;color:var(--almost-black)'>${blockMessage}</span>
                     <br><br>
                     <button class="nice-button">${LOC.block.message}</button>
                 `)
@@ -811,7 +849,11 @@ async function renderProfile() {
                     pageUser.blocking = true;
                     document.getElementById('profile-settings-block').classList.add('profile-settings-unblock');
                     document.getElementById('profile-settings-block').classList.remove('profile-settings-block');
-                    document.getElementById('profile-settings-block').innerText = `${LOC.unblock_user.message} @${pageUser.screen_name}`;
+                    if(LOC.unblock_user.message.includes("$SCREEN_NAME$")) {
+                        document.getElementById('profile-settings-block').innerText = LOC.unblock_user.message.replace("$SCREEN_NAME$", pageUser.screen_name);
+                    } else {
+                        document.getElementById('profile-settings-block').innerText = `${LOC.unblock_user.message} @${pageUser.screen_name}`;
+                    }
                     document.getElementById('control-unblock').hidden = false;
                     document.getElementById('control-follow').hidden = true;
                     document.getElementById('message-user').hidden = true;
@@ -827,7 +869,11 @@ async function renderProfile() {
                 pageUser.blocking = false;
                 document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
                 document.getElementById('profile-settings-block').classList.add('profile-settings-block');
-                document.getElementById('profile-settings-block').innerText = `${LOC.block_user.message} @${pageUser.screen_name}`;
+                if(LOC.block_user.message.includes("$SCREEN_NAME$")) {
+                    document.getElementById('profile-settings-block').innerText = LOC.block_user.message.replace("$SCREEN_NAME$", pageUser.screen_name);
+                } else {
+                    document.getElementById('profile-settings-block').innerText = `${LOC.block_user.message} @${pageUser.screen_name}`;
+                }
                 document.getElementById('control-unblock').hidden = true;
                 document.getElementById('control-follow').hidden = false;
                 document.getElementById("profile-settings-notifications").hidden = false;

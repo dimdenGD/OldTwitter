@@ -1740,7 +1740,13 @@ let userDataFunction = async user => {
                 });
                 tweetsElementsByUser.forEach(tweetElement => {
                     let followButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-follow')[0];
-                    if(followButton) followButton.innerText = `${LOC.unfollow_user.message} @${tweet.user.screen_name}`;
+                    if(followButton) {
+                        if(LOC.unfollow_user.message.includes('$SCREEN_NAME$')) {
+                            followButton.innerText = `${LOC.unfollow_user.message.replace('$SCREEN_NAME$', tweet.user.screen_name)}`;
+                        } else {
+                            followButton.innerText = `${LOC.unfollow_user.message} @${tweet.user.screen_name}`;
+                        }
+                    }
                 });
                 let controlFollow = document.getElementById('control-follow');
                 if(controlFollow) {
@@ -1767,7 +1773,13 @@ let userDataFunction = async user => {
                 }
                 tweetsElementsByUser.forEach(tweetElement => {
                     let followButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-follow')[0];
-                    if(followButton) followButton.innerText = `${LOC.follow_user.message} @${tweet.user.screen_name}`;
+                    if(followButton) {
+                        if(LOC.follow_user.message.includes('$SCREEN_NAME$')) {
+                            followButton.innerText = `${LOC.follow_user.message.replace('$SCREEN_NAME$', tweet.user.screen_name)}`;
+                        } else {
+                            followButton.innerText = `${LOC.follow_user.message} @${tweet.user.screen_name}`;
+                        }
+                    }
                 });
                 break;
             }
@@ -1784,7 +1796,13 @@ let userDataFunction = async user => {
                 });
                 tweetsElementsByUser.forEach(tweetElement => {
                     let blockButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-block')[0];
-                    if(blockButton) blockButton.innerText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+                    if(blockButton) {
+                        if(LOC.unblock_user.message.includes('$SCREEN_NAME$')) {
+                            blockButton.innerText = `${LOC.unblock_user.message.replace('$SCREEN_NAME$', tweet.user.screen_name)}`;
+                        } else {
+                            blockButton.innerText = `${LOC.unblock_user.message} @${tweet.user.screen_name}`;
+                        }
+                    }
                 });
                 break;
             }
@@ -1797,7 +1815,13 @@ let userDataFunction = async user => {
                 });
                 tweetsElementsByUser.forEach(tweetElement => {
                     let blockButton = tweetElement.getElementsByClassName('tweet-interact-more-menu-block')[0];
-                    if(blockButton) blockButton.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
+                    if(blockButton) {
+                        if(LOC.block_user.message.includes('$SCREEN_NAME$')) {
+                            blockButton.innerText = `${LOC.block_user.message.replace('$SCREEN_NAME$', tweet.user.screen_name)}`;
+                        } else {
+                            blockButton.innerText = `${LOC.block_user.message} @${tweet.user.screen_name}`;
+                        }
+                    }
                 });
                 break;
             }

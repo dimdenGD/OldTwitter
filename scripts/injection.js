@@ -134,7 +134,10 @@ const TRANSLATORS = {
     "it": ["krek", "https://twitter.com/CactusInc420"],
     "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
-    "ko": ["Nyankodasu", "https://github.com/Nyankodasu"],
+    "ko": [
+        ["Nyankodasu", "https://github.com/Nyankodasu"],
+        ["han_eirin", "https://twitter.com/han_eirin"]
+    ],
     "pl": ["lele"],
     "vi": ["btmxh", "https://github.com/btmxh"],
     "zh_CN": ["am1006", "https://github.com/am1006"],

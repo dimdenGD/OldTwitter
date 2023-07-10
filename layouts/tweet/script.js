@@ -418,11 +418,18 @@ async function appendComposeComponent(container, replyTweet) {
         mentions = [];
     }
 
+    let replyMessage;
+    if(LOC.reply_to.message.includes("$SCREEN_NAME$")) {
+        replyMessage = LOC.reply_to.message.replace("$SCREEN_NAME$", replyTweet.user.screen_name);
+    } else {
+        replyMessage = `${LOC.reply_to.message} @${replyTweet.user.screen_name}`;
+    }
+
     el.innerHTML = /*html*/`
         <div id="new-tweet" class="box">
             <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
             <span id="new-tweet-char" hidden>0/280</span>
-            <textarea id="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="1000"></textarea>
+            <textarea id="new-tweet-text" placeholder="${replyMessage}" maxlength="1000"></textarea>
             <div id="new-tweet-user-search" class="box" hidden></div>
             <div id="new-tweet-media-div" title="${LOC.add_media.message}">
                 <span id="new-tweet-media"></span>

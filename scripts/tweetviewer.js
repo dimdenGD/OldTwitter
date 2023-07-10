@@ -454,13 +454,20 @@ class TweetViewer {
             mentions = [];
         }
 
+        let replyMessage;
+        if(LOC.reply_to.message.includes("$SCREEN_NAME$")) {
+            replyMessage = LOC.reply_to.message.replace("$SCREEN_NAME$", replyTweet.user.screen_name);
+        } else {
+            replyMessage = `${LOC.reply_to.message} @${replyTweet.user.screen_name}`;
+        }
+
         let el = document.createElement('div');
         el.className = 'new-tweet-container';
         el.innerHTML = /*html*/`
             <div class="new-tweet-view box">
                 <img width="35" height="35" class="tweet-avatar new-tweet-avatar">
                 <span class="new-tweet-char" hidden>0/280</span>
-                <textarea class="new-tweet-text" placeholder="${LOC.reply_to.message} @${replyTweet.user.screen_name}" maxlength="1000"></textarea>
+                <textarea class="new-tweet-text" placeholder="${replyMessage}" maxlength="1000"></textarea>
                 <div class="new-tweet-user-search box" hidden></div>
                 <div class="new-tweet-media-div" title="${LOC.add_media.message}">
                     <span class="new-tweet-media"></span>
@@ -859,6 +866,21 @@ class TweetViewer {
                 t.quoted_status = undefined;
             }
         }
+        let followUserText, unfollowUserText, blockUserText, unblockUserText;
+        if(
+            LOC.follow_user.message.includes('$SCREEN_NAME$') && LOC.unfollow_user.message.includes('$SCREEN_NAME$') &&
+            LOC.block_user.message.includes('$SCREEN_NAME$') && LOC.unblock_user.message.includes('$SCREEN_NAME$')
+        ) {
+            followUserText = `${LOC.follow_user.message.replace('$SCREEN_NAME$', t.user.screen_name)}`;
+            unfollowUserText = `${LOC.unfollow_user.message.replace('$SCREEN_NAME$', t.user.screen_name)}`;
+            blockUserText = `${LOC.block_user.message.replace('$SCREEN_NAME$', t.user.screen_name)}`;
+            unblockUserText = `${LOC.unblock_user.message.replace('$SCREEN_NAME$', t.user.screen_name)}`;
+        } else {
+            followUserText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+            unfollowUserText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+            blockUserText = `${LOC.block_user.message} @${t.user.screen_name}`;
+            unblockUserText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+        }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
             <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'" src="${t.user.profile_image_url_https.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
@@ -1014,10 +1036,10 @@ class TweetViewer {
                         ` : ``}
                         <hr>
                         ${t.user.id_str !== user.id_str && !options.mainTweet ? `
-                        <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? LOC.unfollow_user.message : LOC.follow_user.message} @${t.user.screen_name}</span>
+                        <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? unfollowUserText : followUserText}</span>
                         ` : ''}
                         ${t.user.id_str !== user.id_str ? /*html*/`
-                            <span class="tweet-interact-more-menu-block">${t.user.blocking ? LOC.unblock_user.message : LOC.block_user.message} @${t.user.screen_name}</span>
+                            <span class="tweet-interact-more-menu-block">${t.user.blocking ? unblockUserText : blockUserText}</span>
                         ` : ''}
                         <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
@@ -1342,8 +1364,14 @@ class TweetViewer {
         if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
             let translated = await API.translateTweet(t.id_str);
             tweetTranslate.hidden = true;
+            let translatedMessage;
+            if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+            } else {
+                translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+            }
             tweetBodyText.innerHTML += `<br>
-            <span style="font-size: 12px;color: var(--light-gray);">${LOC.translated_from.message} [${translated.translated_lang}]:</span>
+            <span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>
             <br>
             <span class="tweet-translated-text">${escapeHTML(translated.text).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>')}</span>`;
             if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
@@ -1867,7 +1895,11 @@ class TweetViewer {
             if (t.user.following) {
                 await API.unfollowUser(t.user.screen_name);
                 t.user.following = false;
-                tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                if(LOC.follow_user.message.includes("$SCREEN_NAME$")) {
+                    tweetInteractMoreMenuFollow.innerText = LOC.follow_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                }
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'unfollow',
                     tweet: t
@@ -1876,7 +1908,11 @@ class TweetViewer {
             } else {
                 await API.followUser(t.user.screen_name);
                 t.user.following = true;
-                tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+                if(LOC.unfollow_user.message.includes("$SCREEN_NAME$")) {
+                    tweetInteractMoreMenuFollow.innerText = LOC.unfollow_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    tweetInteractMoreMenuFollow.innerText = `${LOC.unfollow_user.message} @${t.user.screen_name}`;
+                }
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'follow',
                     tweet: t
@@ -1889,7 +1925,11 @@ class TweetViewer {
             if (t.user.blocking) {
                 await API.unblockUser(t.user.id_str);
                 t.user.blocking = false;
-                tweetInteractMoreMenuBlock.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
+                if(LOC.block_user.message.includes("$SCREEN_NAME$")) {
+                    tweetInteractMoreMenuBlock.innerText = LOC.block_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    tweetInteractMoreMenuBlock.innerText = `${LOC.block_user.message} @${t.user.screen_name}`;
+                }
                 tweetInteractMoreMenuFollow.hidden = false;
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'unblock',
@@ -1897,14 +1937,28 @@ class TweetViewer {
                 } });
                 document.dispatchEvent(event);
             } else {
-                let c = confirm(`${LOC.block_sure.message} @${t.user.screen_name}?`);
+                let blockMessage;
+                if(LOC.block_sure.message.includes("$SCREEN_NAME$")) {
+                    blockMessage = LOC.block_sure.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    blockMessage = `${LOC.block_sure.message} @${t.user.screen_name}?`;
+                }
+                let c = confirm(blockMessage);
                 if (!c) return;
                 await API.blockUser(t.user.id_str);
                 t.user.blocking = true;
-                tweetInteractMoreMenuBlock.innerText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+                if(LOC.unblock_user.message.includes("$SCREEN_NAME$")) {
+                    tweetInteractMoreMenuBlock.innerText = LOC.unblock_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    tweetInteractMoreMenuBlock.innerText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
+                }
                 tweetInteractMoreMenuFollow.hidden = true;
                 t.user.following = false;
-                tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                if(LOC.follow_user.message.includes("$SCREEN_NAME$")) {
+                    tweetInteractMoreMenuFollow.innerText = LOC.follow_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+                } else {
+                    tweetInteractMoreMenuFollow.innerText = `${LOC.follow_user.message} @${t.user.screen_name}`;
+                }
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'block',
                     tweet: t
