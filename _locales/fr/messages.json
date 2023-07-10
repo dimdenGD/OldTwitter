@@ -296,7 +296,7 @@
     "mute_convo": { "message": "Mettre en sourdine la conversation" },
     "unmute_convo": { "message": "Arrêter de mettre en sourdine la conversation" },
     "no_big_font": { "message": "Désactiver la police large pour les Tweets courts ou populaires." },
-    "emoji": { "message": "émoji" },
+    "emoji": { "message": "Émoji" },
     "emoji_btn": { "message": "[émoji]" },
     "add_emoji": { "message": "Ajouter un émoji" },
     "custom": { "message": "Personnalisé" },
