@@ -1,5 +1,5 @@
 {
-    "ext_description": { "message": "امتداد جديد يعيد مظهرامتداد جديد يعيد مظهر Twitter القديم.", "translator_note": "There is still some confusion if Twitter is to be written as تويتر or Twitter. For now I have arbritarirly put it the latter. Also note that 'tweet' in official translation is given literally as chirp so I had changed it to تويت, and that this is not a mistake" },
+    "ext_description": { "message": "امتداد جديد يعيد مظهرامتداد جديد يعيد مظهر Twitter القديم.", "note": "There is still some confusion if Twitter is to be written as تويتر or Twitter. For now I have arbritarirly put it the latter. Also note that 'tweet' in official translation is given literally as chirp so I had changed it to تويت, and that this is not a mistake" },
     "timeline": { "message": "الجدول الزمني" },
     "loading": { "message": "جار التحميل" },
     "tweets": { "message": "تغريدات" },
@@ -26,7 +26,7 @@
     "profile": { "message": "الملف الشخصيّ" },
     "settings": { "message": "الإعدادات" },
     "lists": { "message": "القوائم" },
-    "تحدي": { "message": "قائمة" },
+    "list": { "message": "قائمة" },
     "bookmarks": { "message": "العلامات المرجعية" },
     "manage_accounts": { "message": "إدارة الحسابات" },
     "logout": { "message": "تسجيل خروج" },

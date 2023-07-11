@@ -1,0 +1,32 @@
+{
+  "name": "oldtwitter",
+  "version": "0.0.0",
+  "description": "Extension to return old Twitter layout from 2015.",
+  "main": "pack.js",
+  "scripts": {
+    "test": "node test.js",
+    "build": "node pack.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dimdenGD/OldTwitter.git"
+  },
+  "keywords": [
+    "twitter",
+    "twitter-client",
+    "chrome-extension",
+    "firefox-addons",
+    "chrome",
+    "firefox-extension",
+    "chromium-extension"
+  ],
+  "author": "dimden",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/dimdenGD/OldTwitter/issues"
+  },
+  "homepage": "https://github.com/dimdenGD/OldTwitter#readme",
+  "dependencies": {
+    "adm-zip": "^0.5.10"
+  }
+}

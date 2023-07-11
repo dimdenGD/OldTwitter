@@ -19,10 +19,10 @@ jobs:
         uses: actions/setup-node@v2.5.2
         
       - name: Setup NPM packages
-        run: npm i adm-zip
+        run: npm install
         
       - name: Pack extension
-        run: node pack.js
+        run: npm run build
         
       - name: Upload for Firefox
         uses: actions/upload-artifact@v3.1.2

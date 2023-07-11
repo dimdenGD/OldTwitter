@@ -12,7 +12,7 @@
     "who_to_follow": { "message": "팔로우 추천", "description": "Max 19 characters, you can use word 'People' if no space" },
     "refresh": { "message": "새로고침" },
     "view_all": { "message": "모두 보기" },
-    "running": { "message": "", "memo": "Korean Remove Running message because of grammer differance" },
+    "running": { "message": "", "note": "Korean Remove Running message because of grammer differance" },
     "created_by": { "message": "제작자", "example": "->Created by<- dimden" },
     "website": { "message": "웹사이트" },
     "help": { "message": "고객지원", "description": "noun" },
@@ -259,7 +259,7 @@
     "replying_to_tweet": { "message": "트윗에 대한 답글" },
     "upload_media_btn": { "message": "[미디어 업로드]" },
     "cancel_btn": { "message": "[취소]" },
-    "quote": { "message": "인용","memo":"원래 인용하기가 맞을지도" },
+    "quote": { "message": "인용", "note":"원래 인용하기가 맞을지도" },
     "reply_example": { "message": "답글로 초멘나사이는 적지 마세요" },
     "quote_example": { "message": "추가 내용" },
     "error_sending_tweet": { "message": "트윗 전송 오류" },
@@ -403,5 +403,4 @@
     "block_sure_desc": { "message": "이제 @$SCREEN_NAME$ 님은 더이상 나를 팔로우 하거나 쪽지를 보낼 수 없습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user" : { "message": "@$SCREEN_NAME$ 님이 나를 차단했습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "why_you_cant_see_block_user": { "message": "@$SCREEN_NAME$ 님을 팔로우 하거나 @$SCREEN_NAME$ 님의 트윗을 볼 수 없습니다", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
-    
 }

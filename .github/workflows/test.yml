@@ -1,0 +1,25 @@
+name: Test locales
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ] 
+
+jobs:
+  test:
+
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Source Tree
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.5.2
+        
+      - name: Setup NPM packages
+        run: npm install
+        
+      - name: Test locales
+        run: npm run test

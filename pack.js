@@ -9,7 +9,7 @@ async function copyDir(src, dest) {
     const entries = await fsp.readdir(src, { withFileTypes: true });
     await fsp.mkdir(dest);
     for (let entry of entries) {
-        if(entry.name === '.git' || entry.name === '.github' || entry.name === '_metadata') continue;
+        if(entry.name === '.git' || entry.name === '.github' || entry.name === '_metadata' || entry.name === 'node_modules') continue;
         const srcPath = path.join(src, entry.name);
         const destPath = path.join(dest, entry.name);
         if (entry.isDirectory()) {
@@ -215,6 +215,12 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     fs.unlinkSync('../OldTwitterFirefox/scripts/background_v2.js');
     fs.unlinkSync('../OldTwitterFirefox/.gitignore');
     fs.unlinkSync('../OldTwitterTempChrome/.gitignore');
+    fs.unlinkSync('../OldTwitterFirefox/test.js');
+    fs.unlinkSync('../OldTwitterTempChrome/test.js');
+    fs.unlinkSync('../OldTwitterFirefox/package.json');
+    fs.unlinkSync('../OldTwitterTempChrome/package.json');
+    fs.unlinkSync('../OldTwitterFirefox/package-lock.json');
+    fs.unlinkSync('../OldTwitterTempChrome/package-lock.json');
 
     let layouts = fs.readdirSync('../OldTwitterFirefox/layouts');
     for (let layout of layouts) {
