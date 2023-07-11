@@ -1224,7 +1224,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                             if(result.note_tweet && result.note_tweet.note_tweet_results) {
                                 tweet.full_text = result.note_tweet.note_tweet_results.text;
                             }
-                            if(tweet.quoted_status_result) {
+                            if(tweet.quoted_status_result && tweet.quoted_status_result.tweet) {
                                 let result = tweet.quoted_status_result.result;
                                 if(result.limitedActionResults) {
                                     let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
