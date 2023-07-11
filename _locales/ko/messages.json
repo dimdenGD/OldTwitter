@@ -400,6 +400,8 @@
     "hide_wtf": { "message": "\"팔로우 추천\"을 숨기기" },
     "hide_likes": { "message": "트윗에서 마음에 들어요, 리트윗, 답글 수를 숨기기" },
     "hide_followers": { "message": "팔로워 수를 숨기기" },
-    "block_sure_desc": { "message": "이제 @$SCREEN_NAME$ 님은 더이상 나를 팔로우 하거나 쪽지를 보낼 수 없습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
-
+    "block_sure_desc": { "message": "이제 @$SCREEN_NAME$ 님은 더이상 나를 팔로우 하거나 쪽지를 보낼 수 없습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "blocked_by_user" : { "message": "@$SCREEN_NAME$ 님이 나를 차단했습니다." },
+    "why_you_cant_see_block_user": { "message": "@$SCREEN_NAME$ 님을 팔로우 하거나 @$SCREEN_NAME$ 님의 트윗을 볼 수 없습니다"}
+    
 }

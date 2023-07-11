@@ -17,6 +17,7 @@ let subpage;
 let user_handle = location.pathname.slice(1).split("?")[0].split('#')[0];
 user_handle = user_handle.split('/')[0];
 let user_protected = false;
+let user_blocked_by = false;
 function updateSubpage() {
     previousLastTweet = undefined; stopLoad = false;
     averageLikeCount = 1;
@@ -218,9 +219,15 @@ function updateUserData() {
         u = u.value;
         user = u;
         pageUserData = pageUserData.value;
-        if (pageUserData.protected && !pageUserData.following && pageUserData.id_str !== user.id_str) {
+        if (pageUserData.blocked_by) {
+            user_blocked_by = true;
+            user_protected = false;//you cant block yourself or by your follwer
+        }
+        else if (pageUserData.protected && !pageUserData.following && pageUserData.id_str !== user.id_str) {
+            user_blocked_by = false;
             user_protected = true;
         } else {
+            user_blocked_by = false;
             user_protected = false;
         }
         userDataFunction(u);
@@ -307,7 +314,7 @@ async function updateTimeline() {
         favoritesCursor = data.cursor;
     } else {
         try {
-            if (!user_protected) {
+            if (!user_protected && !user_blocked_by) {
                 if (subpage === "media") {
                     tl = await API.getUserMediaTweets(pageUser.id_str);
                     mediaCursor = tl.cursor;
@@ -321,8 +328,13 @@ async function updateTimeline() {
                     tweetsCursor = tl.cursor;
                     tl = tl.tweets;
                 }
-            } else {
+            } 
+            else if(user_protected) {
                 document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                return;
+            }
+            else if(user_blocked_by) {
+                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                 return;
             }
         } catch(e) {
@@ -558,7 +570,7 @@ async function renderProfile() {
     }
     let stats = Array.from(document.getElementsByClassName('profile-stat'));
     stats.forEach(s => {
-        s.classList.toggle('profile-stat-disabled', pageUser.protected && !pageUser.following && pageUser.id_str !== user.id_str);
+        s.classList.toggle('profile-stat-disabled', (pageUser.protected || pageUser.blocked_by) && !pageUser.following && pageUser.id_str !== user.id_str);
     });
 
     document.getElementById('profile-name').className = "";
@@ -636,13 +648,13 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
 
-    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
+    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_blocked_by  || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
     document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
     document.getElementById('profile-stat-favorites-link').hidden = pageUser.favourites_count === 0;
 
-    if((pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies' || subpage === 'media')) || (pageUser.protected && !pageUser.following && pageUser.id_str !== user.id_str)) {
+    if((pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies' || subpage === 'media')) || ((pageUser.protected || pageUser.blocked_by)  && !pageUser.following && pageUser.id_str !== user.id_str)) {
         document.getElementById('trends').hidden = true;
         setTimeout(() => {
             let list = document.getElementById('wtf-list');
@@ -703,9 +715,9 @@ async function renderProfile() {
     } else {
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`
-            <button ${pageUser.blocking ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? LOC.follow_request_sent.message : LOC.following_btn.message) : LOC.follow.message}</button>
+            <button ${(pageUser.blocking || pageUser.blocked_by)  ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? LOC.follow_request_sent.message : LOC.following_btn.message) : LOC.follow.message}</button>
             <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>${LOC.unblock.message}</button>
-            <a ${pageUser.can_dm && !pageUser.blocking ? '' : 'hidden'} class="nice-button" id="message-user"></a>
+            <a ${pageUser.can_dm && !pageUser.blocking && !pageUser.blocked_by ? '' : 'hidden'} class="nice-button" id="message-user"></a>
         `;
         if(!pageUser.following) {
             pageUser.want_retweets = true;
@@ -723,13 +735,13 @@ async function renderProfile() {
             <div id="profile-settings-div" class="dropdown-menu" hidden>
                 <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications ? LOC.stop_notifications.message : LOC.receive_notifications.message}</span>
                 <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? unblockUserText : blockUserText}</span>
-                <span ${pageUser.blocking || (pageUser.protected && !pageUser.following) ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}</span>
+                <span ${pageUser.blocking || ((pageUser.protected || pageUser.blocked_by)  && !pageUser.following) ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}</span>
                 ${pageUser.followed_by ? /*html*/`<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span>` : ''}
-                <span id="profile-settings-lists-action" ${pageUser.blocking || (pageUser.protected && !pageUser.following) ? 'hidden' : ''}>${LOC.from_list.message}</span>
+                <span id="profile-settings-lists-action" ${pageUser.blocking || ((pageUser.protected || pageUser.blocked_by)  && !pageUser.following) ? 'hidden' : ''}>${LOC.from_list.message}</span>
                 <span id="profile-settings-autotranslate">${toAutotranslate ? LOC.dont_autotranslate.message : LOC.autotranslate_tweets.message}</span>
                 <span id="profile-settings-retweets" ${pageUser.following ? '' : 'hidden'}>${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}</span>
                 <hr>
-                <span id="profile-settings-lists" ${pageUser.protected && !pageUser.following ? 'hidden' : ''}>${LOC.see_lists.message}</span>
+                <span id="profile-settings-lists" ${(pageUser.protected || pageUser.blocked_by) && !pageUser.following ? 'hidden' : ''}>${LOC.see_lists.message}</span>
                 <span id="profile-settings-share">${LOC.share_user.message}</span>
                 <span id="profile-settings-copy">${LOC.copy_profile_link.message}</span>
                 ${vars.developerMode ? /*html*/`<span id="profile-settings-copy-id">${LOC.copy_user_id.message}</span>` : ''}
@@ -828,10 +840,12 @@ async function renderProfile() {
                     document.getElementById('profile-settings-block').innerText = `${LOC.block_user.message} @${pageUser.screen_name}`;
                 }
                 document.getElementById('control-unblock').hidden = true;
-                document.getElementById('control-follow').hidden = false;
-                document.getElementById('message-user').hidden = !pageUser.can_dm;
-                document.getElementById("profile-settings-notifications").hidden = false;
-                document.getElementById("profile-settings-mute").hidden = false;
+                if(!pageUser.blocked_by) {
+                    document.getElementById('control-follow').hidden = false;
+                    document.getElementById("profile-settings-notifications").hidden = false;
+                    document.getElementById("profile-settings-mute").hidden = false;
+                    document.getElementById('message-user').hidden = !pageUser.can_dm;
+                }
             } else {
                 let blockMessage;
                 if(LOC.block_sure.message.includes("$SCREEN_NAME$")) {
@@ -885,11 +899,15 @@ async function renderProfile() {
                     document.getElementById('profile-settings-block').innerText = `${LOC.block_user.message} @${pageUser.screen_name}`;
                 }
                 document.getElementById('control-unblock').hidden = true;
-                document.getElementById('control-follow').hidden = false;
-                document.getElementById("profile-settings-notifications").hidden = false;
-                document.getElementById("profile-settings-mute").hidden = false;
-                document.getElementById('message-user').hidden = !pageUser.can_dm;
+                if(!pageUser.blocked_by) {
+                    document.getElementById('control-follow').hidden = false;
+                    document.getElementById("profile-settings-notifications").hidden = false;
+                    document.getElementById("profile-settings-mute").hidden = false;
+                    document.getElementById('message-user').hidden = !pageUser.can_dm;
+                }
             }
+           
+           
         });
         document.getElementById('profile-settings-autotranslate').addEventListener('click', async () => {
             let autotranslateProfiles = await new Promise(resolve => {
@@ -1449,7 +1467,7 @@ setTimeout(async () => {
             loadingNewTweets = true;
             let tl;
             try {
-                if (!user_protected) {
+                if (!user_protected && !user_blocked_by) {
                     if(subpage === "likes") {
                         let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
                         tl = data.tl;
@@ -1465,7 +1483,10 @@ setTimeout(async () => {
                             tl = tl.tweets;
                         }
                     }
-                } else {
+                } else if (user_protected) {
+                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                    return;
+                } else if (user_blocked_by)  {
                     document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                     return;
                 }
