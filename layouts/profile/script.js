@@ -570,7 +570,7 @@ async function renderProfile() {
     }
     let stats = Array.from(document.getElementsByClassName('profile-stat'));
     stats.forEach(s => {
-        s.classList.toggle('profile-stat-disabled', (pageUser.protected || pageUser.blocked_by) && !pageUser.following && pageUser.id_str !== user.id_str);
+        s.classList.toggle('profile-stat-disabled', (pageUser.protected && !pageUser.following) && pageUser.id_str !== user.id_str); //BUG:pageUser.blocked_by works strangly only here...
     });
 
     document.getElementById('profile-name').className = "";
