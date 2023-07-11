@@ -844,9 +844,11 @@ function makeSeeableColor(color, bg_color = getBackgroundColor()) {
             }
         }
         if(bg_hsl[2] < 0.4) {
-            if(hsl[2] < 0.45) {
-                hsl[2] = 0.6;
-                if(hsl[1] >= 0.1) hsl[1] -= 0.1;
+            if(c < 2.9) {
+                if(hsl[2] <= 0.6) {
+                    hsl[2] = 0.6;
+                    if(hsl[1] >= 0.1) hsl[1] -= 0.1;
+                }
             }
         }
     }
