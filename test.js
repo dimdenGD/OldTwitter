@@ -75,6 +75,10 @@ for(let localeName of locales) {
                         console.error(`Missing placeholder "${placeholder}" on "${fieldName}" in _locales/${localeName}/messages.json`);
                         errors = true;
                     }
+                    if(!field.placeholders[placeholder].content) {
+                        console.error(`Missing placeholder content "${placeholder}" on "${fieldName}" in _locales/${localeName}/messages.json`);
+                        errors = true;
+                    }
                 }
             }
         }
@@ -83,6 +87,6 @@ for(let localeName of locales) {
 
 if(errors) {
     process.exit(1);
+} else {
+    console.log('All locale files are valid.');
 }
-
-console.log('All locale files are valid.');
