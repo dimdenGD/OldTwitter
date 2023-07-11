@@ -933,14 +933,16 @@ async function renderProfile() {
         });
         if(document.getElementById('profile-settings-removefollowing')) document.getElementById('profile-settings-removefollowing').addEventListener('click', async () => {
             let modal = createModal(`
-            <span style='font-size:14px'>
-            ${LOC.remove_from_followers_sure.message}
-            <br>${LOC.able_in_future.message}
+            <h1 class="cool-header">${LOC.remove_from_followers_sure.message}</h1><br>
+            <span style='font-size:14px;color:var(--almost-black)'>
+            ${LOC.able_in_future.message}
             <br><br>
             ${LOC.remove_from_followers_warn.message}
             </span>
                 <br><br>
-                <button class="nice-button">${LOC.remove_from_followers_button.message}</button>
+                <div style="display:inline-block;float: right;margin-top: 5px;">
+                    <button class="nice-button">${LOC.remove_from_followers_button.message}</button>
+                </div>
             `.replace('$SCREEN_NAME$', pageUser.screen_name));
             modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
                 await API.removeFollower(pageUser.id_str);
