@@ -839,10 +839,20 @@ async function renderProfile() {
                 } else {
                     blockMessage = `${LOC.block_sure.message} @${pageUser.screen_name}?`;
                 }
+                let blockMessageDesc;
+                if(LOC.block_sure_desc.message.includes("$SCREEN_NAME$")) {
+                    blockMessageDesc = LOC.block_sure_desc.message.replace("$SCREEN_NAME$", pageUser.screen_name);
+                } else {
+                    blockMessageDesc = `${LOC.block_sure_desc.message} @${pageUser.screen_name}?`;
+                }
                 let modal = createModal(`
-                <span style='font-size:14px;color:var(--almost-black)'>${blockMessage}</span>
+                <h1 class="cool-header">${blockMessage}</span>
                     <br><br>
-                    <button class="nice-button">${LOC.block.message}</button>
+                    <span style='font-size:14px;color:var(--almost-black)'>${blockMessageDesc}</h1>
+                    <br>
+                    <div style="display:inline-block;float: right;margin-top: 5px;">
+                        <button class="nice-button">${LOC.block.message}</button>
+                    </div>
                 `)
                 modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
                     await API.blockUser(pageUser.id_str);

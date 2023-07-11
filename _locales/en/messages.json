@@ -400,5 +400,6 @@
     "hide_trends": { "message": "Hide trends" },
     "hide_wtf": { "message": "Hide \"Who to follow\"" },
     "hide_likes": { "message": "Hide like, retweet and reply count on tweets" },
-    "hide_followers": { "message": "Hide follower counts" }
+    "hide_followers": { "message": "Hide follower counts" },
+    "block_sure_desc": { "message": "@$SCREEN_NAME$ will no longer be able to follow or message you,<br>and you will not see notifications", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
 }
