@@ -124,6 +124,7 @@ setTimeout(async () => {
     }
 
     document.getElementById('utitle').innerText = unfollowersPage ? LOC.unfollowers.message : LOC.unfollowings.message;
+    document.getElementsByTagName('title')[0].innerText = unfollowersPage ? LOC.unfollowers.message : LOC.unfollowings.message;
     document.getElementById('update-btn').addEventListener('click', async () => {
         chrome.storage.local.get(['unfollows'], async d => {
             let res = d.unfollows;
