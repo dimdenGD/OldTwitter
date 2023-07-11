@@ -50,8 +50,16 @@ function renderUserData() {
 }
 
 async function renderBookmarks(cursor) {
-    let bookmarks = await API.getBookmarks(cursor);
+    let bookmarks;
     let bookmarksContainer = document.getElementById('timeline');
+    try {
+        bookmarks = await API.getBookmarks(cursor);
+    } catch(e) {
+        console.error(e);
+        bookmarksContainer.innerHTML = `<div style="color:var(--light-gray)">${e}</div>`;
+        document.getElementById('loading-box').hidden = true;
+        return;
+    }
     
     if (bookmarks.cursor) {
         bookmarkCursor = bookmarks.cursor;
@@ -74,6 +82,8 @@ async function renderBookmarks(cursor) {
             bigFont: b.full_text.length < 75
         });
     }
+    document.getElementById('loading-box').hidden = true;
+
 }
 let lastScroll = Date.now();
 let loadingNewTweets = false;
@@ -309,7 +319,6 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     renderBookmarks();
-    document.getElementById('loading-box').hidden = true;
     setInterval(updateUserData, 60000 * 3);
     setInterval(() => renderDiscovery(false), 60000 * 15);
     setInterval(renderTrends, 60000 * 5);
