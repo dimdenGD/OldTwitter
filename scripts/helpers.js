@@ -557,7 +557,7 @@ function generateCard(tweet, tweetElement, user) {
         tweetElement.getElementsByClassName('tweet-card')[0].append(buttonGroup);
     } else if(tweet.card.name === "player") {
         let iframe = document.createElement('iframe');
-        iframe.src = tweet.card.binding_values.player_url.string_value;
+        iframe.src = tweet.card.binding_values.player_url.string_value.replace("autoplay=true", "autoplay=false");
         iframe.classList.add('tweet-player');
         iframe.width = 450;
         iframe.height = 250;
