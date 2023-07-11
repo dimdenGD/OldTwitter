@@ -1154,7 +1154,11 @@ async function appendUser(u, container, label) {
 let lastTweetErrorDate = 0;
 async function appendTweet(t, timelineContainer, options = {}) {
     if(typeof t !== 'object') {
-        console.warn('Tweet is undefined', t, timelineContainer, options);
+        console.error('Tweet is undefined', t, timelineContainer, options);
+        return;
+    }
+    if(typeof t.user !== 'object') {
+        console.error('Tweet user is undefined', t, timelineContainer, options);
         return;
     }
     try {
@@ -1201,7 +1205,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
         }
-        if(t.user.ext && t.user.ext.verifiedType && t.user.ext.verifiedType.r && t.user.ext.verifiedType.r.ok) {
+        if(t.user && t.user.ext && t.user.ext.verifiedType && t.user.ext.verifiedType.r && t.user.ext.verifiedType.r.ok) {
             t.user.verified_type = t.user.ext.verifiedType.r.ok;
         }
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);

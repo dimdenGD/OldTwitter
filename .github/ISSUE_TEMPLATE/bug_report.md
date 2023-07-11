@@ -18,3 +18,6 @@ Include your browsers name and it's version.
 
 **Links**
 Link to profile/tweet or other page where bug happens.
+
+**OldTwitter version**
+Can be seen on bottom-right

@@ -622,28 +622,30 @@ setTimeout(async () => {
             }, 250);
         }
     }, { passive: true });
-    document.addEventListener('mousemove', e => {
-        if(Date.now() - lastScroll > 10) {
-            let t = e.target;
-            let c = t.className;
-            if(c.baseVal) return;
-            if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
-                if(t.className.includes('tweet-view')) return;
-                if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
-                else if(t.className === 'tweet-body') t = t.parentElement;
-                let id;
-                try { id = t.className.split('id-')[1].split(' ')[0] } catch(e) { return };
-                if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
-                else tweetsToLoad[id]++;
-                if(tweetsToLoad[id] === 10) {
-                    API.getRepliesV2(id);
-                    API.getTweetLikers(id);
-                    t.classList.add('tweet-preload');
-                    console.log(`Preloading ${id}`);
-                }
-            }
-        }
-    });
+
+    // this isn't very useful with current rate limits
+    // document.addEventListener('mousemove', e => {
+    //     if(Date.now() - lastScroll > 10) {
+    //         let t = e.target;
+    //         let c = t.className;
+    //         if(c.baseVal) return;
+    //         if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
+    //             if(t.className.includes('tweet-view')) return;
+    //             if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
+    //             else if(t.className === 'tweet-body') t = t.parentElement;
+    //             let id;
+    //             try { id = t.className.split('id-')[1].split(' ')[0] } catch(e) { return };
+    //             if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
+    //             else tweetsToLoad[id]++;
+    //             if(tweetsToLoad[id] === 10) {
+    //                 API.getRepliesV2(id);
+    //                 API.getTweetLikers(id);
+    //                 t.classList.add('tweet-preload');
+    //                 console.log(`Preloading ${id}`);
+    //             }
+    //         }
+    //     }
+    // });
 
     document.addEventListener('clearActiveTweet', () => {
         if(activeTweet) {
