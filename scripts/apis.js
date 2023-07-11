@@ -3542,6 +3542,32 @@ API.getBookmarks = (cursor) => {
                     let tweet = res.legacy;
                     tweet.user = res.core.user_results.result.legacy;
                     tweet.user.id_str = tweet.user_id_str;
+                    if(res.quoted_status_result) {
+                        tweet.quoted_status_result = res.quoted_status_result;
+                    }
+                    if(res.note_tweet && res.note_tweet.note_tweet_results) {
+                        tweet.full_text = res.note_tweet.note_tweet_results.text;
+                    }
+                    if(tweet.quoted_status_result) {
+                        let result = tweet.quoted_status_result.result;
+                        if(result.limitedActionResults) {
+                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+                            if(limitation) {
+                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
+                            }
+                            result = result.tweet;
+                        }
+                        tweet.quoted_status = result.legacy;
+                        tweet.quoted_status.user = result.core.user_results.result.legacy;
+                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                        tweet.quoted_status.ext = {};
+                        if(result.views) {
+                            tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                        }
+                    }
+                    if(res.views) {
+                        tweet.ext = {views: {r: {ok: {count: +res.views.count}}}};
+                    }
                     return tweet;
                 }).filter(i => !!i),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
