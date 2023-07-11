@@ -313,7 +313,7 @@
     "unsupported_emoji": { "message": "Votre navigateur ne supporte pas les émojis de différentes couleurs" },
     "cant_load_emoji": { "message": "Les émojis n'ont pas pu être chargés" },
     "emoji_picker": { "message": "Sélecteur d'émojis" },
-    "émoji_search_description": { "message": "Quand des résultats de recherche sont disponibles, appuyez sur bas ou haut pour sélectionner et entrer pour choisir l'émoji." },
+    "emoji_search_description": { "message": "Quand des résultats de recherche sont disponibles, appuyez sur bas ou haut pour sélectionner et entrer pour choisir l'émoji." },
     "search_results": { "message": "Rechercher les résultats" },
     "skin_tone_description": { "message": "Quand étendu, appuyez sur haut ou bas pour sélectionner et entrer pour choisir l'émoji." },
     "skin_tone_label": { "message": "Choisissez une couleur de peau (actuellement $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
