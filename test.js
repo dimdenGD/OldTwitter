@@ -5,7 +5,7 @@ const path = require('path');
 
 const validKey = /^[a-zA-Z0-9_@]+$/;
 const placeholdersRegex = /\$[a-zA-Z0-9_@]+\$/g;
-const validFieldKeys = ['name', 'message', 'description', 'example', 'placeholders'];
+const validFieldKeys = ['name', 'message', 'description', 'example', 'note', 'placeholders'];
 
 const locales = 
     fs.readdirSync(path.join(__dirname, '_locales'), { withFileTypes: true })
