@@ -1541,7 +1541,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         <span class="tweet-interact-more-menu-refresh">${LOC.refresh_tweet.message}</span>
                         ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? /*html*/`<span class="tweet-interact-more-menu-download-gif" data-gifno="1">${LOC.download_gif.message}</span>` : ``}
                         ${t.extended_entities && t.extended_entities.media.length > 1 ? t.extended_entities.media.filter(m => m.type === 'animated_gif').map((m, i) => /*html*/`<span class="tweet-interact-more-menu-download-gif" data-gifno="${i+1}">${LOC.download_gif.message} (#${i+1})</span>`).join('\n') : ''}
-                        ${t.extended_entities && t.extended_entities.media.length === 1 ? /*html*/`<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
+                        ${t.extended_entities && t.extended_entities.media.length > 0 ? /*html*/`<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
                         ${vars.developerMode ? `
                         <hr>
                         <span class="tweet-interact-more-menu-copy-user-id">${LOC.copy_user_id.message}</span>
@@ -2750,23 +2750,33 @@ async function appendTweet(t, timelineContainer, options = {}) {
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
         let downloading = false;
-        if (t.extended_entities && t.extended_entities.media.length === 1) {
+        if (t.extended_entities && t.extended_entities.media.length > 0) {
             tweetInteractMoreMenuDownload.addEventListener('click', () => {
                 if (downloading) return;
                 downloading = true;
-                let media = t.extended_entities.media[0];
-                let url = media.type === 'photo' ? media.media_url_https : media.video_info.variants[0].url;
-                fetch(url).then(res => res.blob()).then(blob => {
-                    downloading = false;
-                    let a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = media.type === 'photo' ? media.media_url_https.split('/').pop() : media.video_info.variants[0].url.split('/').pop();
-                    a.download = a.download.split('?')[0];
-                    a.click();
-                    a.remove();
-                }).catch(e => {
-                    downloading = false;
-                    console.error(e);
+                t.extended_entities.media.forEach((item, index) => {
+                    let url = item.type === 'photo' ? item.media_url_https : item.video_info.variants[0].url;
+                    url = new URL(url);
+                    if (item.type === 'photo') {
+                        url.searchParams.set("name", "orig"); // force original resolution
+                    }
+                    fetch(url).then(res => res.blob()).then(blob => {
+                        downloading = false;
+                        let a = document.createElement('a');
+                        a.href = URL.createObjectURL(blob);
+
+                        let ts = new Date(t.created_at).toISOString().split("T")[0];
+                        let extension = url.pathname.split('.').pop();
+                        let _index = t.extended_entities.media.length > 1 ? "_"+(index+1) : "";
+                        let filename = `${t.user.screen_name}_${ts}_${t.id_str}${_index}.${extension}`;
+                        a.download = filename;
+
+                        a.click();
+                        a.remove();
+                    }).catch(e => {
+                        downloading = false;
+                        console.error(e);
+                    });
                 });
             });
         }
