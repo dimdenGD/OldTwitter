@@ -572,6 +572,9 @@ a:hover,
     .search-switches {
         width: 200px !important;
     }
+    #trends {
+        width: 200px;
+    }
 }
 @media screen and (max-width: 1012px) {
     #about {

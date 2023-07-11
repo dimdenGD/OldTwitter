@@ -851,7 +851,7 @@ a:hover,
         display: none;
     }
 }
-@media screen and (max-width: 1135px) {
+@media screen and (max-width: 1075px) {
     .notification-switch {
         padding-right: 100px;
     }
@@ -867,7 +867,7 @@ a:hover,
         display: none;
     }
 }
-@media screen and (max-width: 830px) {
+@media screen and (max-width: 850px) {
     #trends {
         display: none;
     }
