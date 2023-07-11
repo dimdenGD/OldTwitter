@@ -3532,6 +3532,9 @@ API.getBookmarks = (cursor) => {
             resolve({
                 list: list.filter(e => e.entryId.startsWith('tweet-')).map(e => {
                     let res = e.content.itemContent.tweet_results.result;
+                    if (res && res.__typename == 'TweetWithVisibilityResults') {
+                        res = res.tweet;
+                    }
                     if(!res || !res.legacy) return;
                     let tweet = res.legacy;
                     tweet.user = res.core.user_results.result.legacy;
