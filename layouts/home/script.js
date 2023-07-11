@@ -359,9 +359,11 @@ function renderNewTweetsButton() {
         document.getElementById('new-tweets').hidden = false;
         document.getElementById('new-tweets').innerText = `${LOC.see_new_tweets.message}`;
         if(vars.updateTimelineAutomatically && document.scrollingElement.scrollTop < 5000) {
-            setTimeout(() => {
-                document.getElementById('new-tweets').click();
-            });
+            if(!activeTweet || (!activeTweet.querySelector('.tweet-reply:not([hidden])') && !activeTweet.querySelector('.tweet-quote:not([hidden])'))) {
+                setTimeout(() => {
+                    document.getElementById('new-tweets').click();
+                });
+            }
         }
     } else {
         document.getElementById("new-tweets-bug-fix").innerHTML = ``;
