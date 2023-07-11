@@ -403,6 +403,5 @@
     "hide_followers": { "message": "Hide follower counts" },
     "block_sure_desc": { "message": "They will not be able to follow you or view your Tweets, and you will not see Tweets or notifications from @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user" : { "message": "@$SCREEN_NAME$ blocked you", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "why_you_cant_see_block_user": { "message": "You are blocked from following @$SCREEN_NAME$ and viewing @$SCREEN_NAME$'s Tweets.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
-    
+    "why_you_cant_see_block_user": { "message": "You can't follow or see @$SCREEN_NAME$'s Tweets.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
 }
