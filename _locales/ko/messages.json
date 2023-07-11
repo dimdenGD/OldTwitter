@@ -142,7 +142,7 @@
     "photos": { "message": "사진" },
     "videos": { "message": "동영상" },
     "all_people": { "message": "모든 사람" },
-    "people_yk": { "message": "내가 팔로우하는 사람" },
+    "people_yk": { "message": "내가 팔로우하는 사람들" },
     "everywhere": { "message": "모든 지역" },
     "near_you": { "message": "현 위치 주변" },
     "advanced_search": { "message": "고급 검색" },
