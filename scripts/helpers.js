@@ -1301,14 +1301,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
         let full_text = t.full_text ? t.full_text : '';
-        if(location.pathname.includes('/status/') && full_text.length < 281) full_text = Array.from(full_text).slice(t.display_text_range[0], t.display_text_range[1]).join(''); //Array.from helps with parsing emojis correctly, otherwise this may cut off 2 byte emojis
+        if(location.pathname.includes('/status/') && full_text.length <= 280) full_text = Array.from(full_text).slice(t.display_text_range[0], t.display_text_range[1]).join(''); //Array.from helps with parsing emojis correctly, otherwise this may cut off 2 byte emojis
         let strippedDownText = full_text
-        .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
-        .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
-        .replace(/[\p{Extended_Pictographic}]/gu, '') //emojis (including ones that arent colored)
-        .replace(/[\u200B-\u200D\uFE0E\uFE0F]/g, '') //sometimes emojis leave these behind
-        .replace(/\d+/g, '') //numbers
-        .trim();
+            .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
+            .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
+            .replace(/[\p{Extended_Pictographic}]/gu, '') //emojis (including ones that arent colored)
+            .replace(/[\u200B-\u200D\uFE0E\uFE0F]/g, '') //sometimes emojis leave these behind
+            .replace(/\d+/g, '') //numbers
+            .trim();
         let detectedLanguage = strippedDownText.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(strippedDownText);
         if(!detectedLanguage.languages[0]) detectedLanguage = {languages:[{language:t.lang, percentage:100}]}; //fallback to what twitter says
         let isEnglish = detectedLanguage.languages[0] && detectedLanguage.languages[0].percentage > 60 && detectedLanguage.languages[0].language.startsWith(LANGUAGE);

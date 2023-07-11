@@ -200,6 +200,14 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     content = content.replace(/chrome.runtime.sendMessage\(\{.+?\}\)/gs, "");
     content = content.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
 
+    let apis = fs.readFileSync('../OldTwitterFirefox/scripts/apis.js', 'utf8');
+    apis = apis.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
+    if(apis.includes("&& true") || apis.includes("&& false") || apis.includes("|| true") || apis.includes("|| false") || apis.includes("&&true") || apis.includes("&&false") || apis.includes("||true") || apis.includes("||false")) {
+      for(let i = 0; i < 3; i++) {
+        console.warn("\x1b[33m", "Warning: probably temporary boolean left in code.", '\x1b[0m');
+      }
+    }
+
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background_v2.js', 'utf8');
     
     fs.writeFileSync('../OldTwitterFirefox/manifest.json', JSON.stringify(manifest, null, 2));
@@ -208,6 +216,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     fs.writeFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', tweetviewer);
     fs.writeFileSync('../OldTwitterFirefox/scripts/config.js', config);
     fs.writeFileSync('../OldTwitterFirefox/scripts/background.js', background);
+    fs.writeFileSync('../OldTwitterFirefox/scripts/apis.js', apis);
     fs.unlinkSync('../OldTwitterFirefox/ruleset.json');
     fs.unlinkSync('../OldTwitterFirefox/pack.js');
     fs.unlinkSync('../OldTwitterTempChrome/pack.js');

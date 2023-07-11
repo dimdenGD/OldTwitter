@@ -1146,6 +1146,9 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     }
                     if(result.note_tweet && result.note_tweet.note_tweet_results) {
                         tweet.full_text = result.note_tweet.note_tweet_results.text;
+                        if(typeof tweet.full_text !== "string") {
+                            tweet.full_text = result.note_tweet.note_tweet_results.result.text;
+                        }
                     }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
@@ -2441,7 +2444,7 @@ API.getRepliesV2 = (id, cursor) => {
         chrome.storage.local.get(['tweetReplies'], d => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
-                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000 && false) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
                     return resolve(d.tweetReplies[id].data);
                 }
                 if(loadingReplies[id]) {
