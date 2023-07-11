@@ -400,5 +400,8 @@
     "hide_trends": { "message": "Hide trends" },
     "hide_wtf": { "message": "Hide \"Who to follow\"" },
     "hide_likes": { "message": "Hide like, retweet and reply count on tweets" },
-    "hide_followers": { "message": "Hide follower counts" }
+    "hide_followers": { "message": "Hide follower counts" },
+    "block_sure_desc": { "message": "They will not be able to follow you or view your Tweets, and you will not see Tweets or notifications from @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "blocked_by_user" : { "message": "@$SCREEN_NAME$ blocked you", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "why_you_cant_see_block_user": { "message": "You can't follow or see @$SCREEN_NAME$'s Tweets.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
 }

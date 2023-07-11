@@ -731,7 +731,9 @@ a:hover,
     padding: 10px;
     text-align: center
 }
-
+.list-info {
+    width: 300px
+}
 .list-switches {
     margin-bottom: 10px;
     padding: 10px;

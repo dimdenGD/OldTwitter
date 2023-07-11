@@ -858,6 +858,9 @@ a:hover,
     #notification-switches {
         width: 200px;
     }
+    #trends {
+        width: 200px;
+    }
 }
 @media screen and (max-width: 966px) {
     #about {
