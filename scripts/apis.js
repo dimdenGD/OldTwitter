@@ -18,6 +18,12 @@ setInterval(() => {
     chrome.storage.local.set({hashflags: {}}, () => {});
 }, 60000);
 
+function debugLog(...args) {
+    if(typeof vars === "object" && vars.developerMode) {
+        console.log(...args);
+    }
+}
+
 // Account
 API.verifyCredentials = () => {
     return new Promise((resolve, reject) => {
@@ -1096,6 +1102,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     return reject(e);
                 }
             }
+            debugLog('getUserTweetsV2', data);
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -1132,6 +1139,11 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                                 result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
+                        }
+                        if(result.quoted_status_result) {
+                            result.legacy.quoted_status = result.quoted_status_result.result.legacy;
+                            result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
+                            result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
                         }
                         tweet.retweeted_status = result.legacy;
                         tweet.retweeted_status.user = result.core.user_results.result.legacy;
@@ -3674,6 +3686,11 @@ API.getListTweets = (id, cursor) => {
                                 result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
                             }
                             result = result.tweet;
+                        }
+                        if(result.quoted_status_result) {
+                            result.legacy.quoted_status = result.quoted_status_result.result.legacy;
+                            result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
+                            result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
                         }
                         tweet.retweeted_status = result.legacy;
                         tweet.retweeted_status.user = result.core.user_results.result.legacy;
