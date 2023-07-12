@@ -219,7 +219,7 @@ async function renderListTweets(c) {
             });
         } else {
             await appendTweet(t, container, {
-                bigFont: t.full_text.length < 75,
+                bigFont: typeof t.full_text === 'string' && t.full_text.length < 75,
                 translate: vars.autotranslateProfiles.includes(t.user.id_str)
             });
         }

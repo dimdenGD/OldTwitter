@@ -3705,6 +3705,9 @@ API.getListTweets = (id, cursor) => {
                     }
                     if(res.note_tweet && res.note_tweet.note_tweet_results) {
                         tweet.full_text = res.note_tweet.note_tweet_results.text;
+                        if(typeof tweet.full_text !== "string") {
+                            tweet.full_text = res.note_tweet.note_tweet_results.result.text;
+                        }
                     }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
