@@ -65,6 +65,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         },
         {
           "matches": ["https://twitter.com/*"],
+          "exclude_matches": ["https://twitter.com/*?*newtwitter=true*", "https://twitter.com/settings/download_your_data", "https://twitter.com/i/flow/login*"],
           "js": ["layouts/header/script.js", "scripts/tweetviewer.js", "libraries/gif.js", "libraries/viewer.min.js"],
           "css": ["libraries/viewer.min.css"],
           "all_frames": true,
