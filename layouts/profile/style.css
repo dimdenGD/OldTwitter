@@ -1439,6 +1439,7 @@ emoji-picker {
     display: none !important;
 }
 #no-tweets {
+    width: 490px;
     padding: 50px;
 }
 #no-tweets h3 {
