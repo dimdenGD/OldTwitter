@@ -18,6 +18,7 @@ let user_handle = location.pathname.slice(1).split("?")[0].split('#')[0];
 user_handle = user_handle.split('/')[0];
 let user_protected = false;
 let user_blocked_by = false;
+let user_blocking = false;
 function updateSubpage() {
     previousLastTweet = undefined; stopLoad = false;
     averageLikeCount = 1;
@@ -219,15 +220,23 @@ function updateUserData() {
         u = u.value;
         user = u;
         pageUserData = pageUserData.value;
-        if (pageUserData.blocked_by) {
+        if (pageUserData.blocked_by) {//blocked by is most important
             user_blocked_by = true;
+            user_blocking = false;
             user_protected = false;//you cant block yourself or by your follwer
+        }
+        else if (pageUserData.blocking) {
+            user_blocked_by = false;
+            user_blocking = true;
+            user_protected = false;
         }
         else if (pageUserData.protected && !pageUserData.following && pageUserData.id_str !== user.id_str) {
             user_blocked_by = false;
+            user_blocking = false;
             user_protected = true;
         } else {
             user_blocked_by = false;
+            user_blocking = false;
             user_protected = false;
         }
         userDataFunction(u);
@@ -314,7 +323,7 @@ async function updateTimeline() {
         favoritesCursor = data.cursor;
     } else {
         try {
-            if (!user_protected && !user_blocked_by) {
+            if (!user_protected && !user_blocked_by && !user_blocking) {
                 if (subpage === "media") {
                     tl = await API.getUserMediaTweets(pageUser.id_str);
                     mediaCursor = tl.cursor;
@@ -335,6 +344,10 @@ async function updateTimeline() {
             }
             else if(user_blocked_by) {
                 document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                return;
+            }
+            else if(user_blocking) {
+                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
                 return;
             }
         } catch(e) {
@@ -648,7 +661,7 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
 
-    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_blocked_by  || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
+    document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_blocked_by  || user_blocking || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
     document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
@@ -883,6 +896,11 @@ async function renderProfile() {
                     document.getElementById('message-user').hidden = true;
                     document.getElementById("profile-settings-notifications").hidden = true;
                     document.getElementById("profile-settings-mute").hidden = true;
+                    if(!pageUser.blocked_by) {
+                        //disable timeline
+                        document.getElementById('timeline').innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
+                        document.getElementById('tweet-nav').hidden = true; 
+                    }
                     modal.removeModal();
                 });
             }
@@ -1467,7 +1485,7 @@ setTimeout(async () => {
             loadingNewTweets = true;
             let tl;
             try {
-                if (!user_protected && !user_blocked_by) {
+                if (!user_protected && !user_blocked_by && !user_blocking) {
                     if(subpage === "likes") {
                         let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
                         tl = data.tl;
@@ -1488,6 +1506,10 @@ setTimeout(async () => {
                     return;
                 } else if (user_blocked_by)  {
                     document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                    return;
+                } else if (user_blocking)  {
+                  document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
+                
                     return;
                 }
             } catch (e) {
