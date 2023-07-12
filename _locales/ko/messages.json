@@ -402,5 +402,8 @@
     "hide_followers": { "message": "팔로워 수를 숨기기" },
     "block_sure_desc": { "message": "이제 @$SCREEN_NAME$ 님은 더이상 나를 팔로우 하거나 쪽지를 보낼 수 없습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user" : { "message": "@$SCREEN_NAME$ 님이 나를 차단했습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "why_you_cant_see_block_user": { "message": "@$SCREEN_NAME$ 님을 팔로우 하거나 @$SCREEN_NAME$ 님의 트윗을 볼 수 없습니다", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
+    "why_you_cant_see_block_user": { "message": "@$SCREEN_NAME$ 님을 팔로우 하거나 @$SCREEN_NAME$ 님의 트윗을 볼 수 없습니다", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "you_blocked_user": { "message": "@$SCREEN_NAME$ 님은 차단되어 있습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "do_you_want_see_blocked_user": { "message": "정말로 이 트윗을 보시겠어요? 트윗을 봐도 @$SCREEN_NAME$ 님이 차단 해제되지 않습니다", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "I_want_see_blocked_user": { "message": "네, 프로필을 봅니다" }
 }
