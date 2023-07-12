@@ -819,13 +819,13 @@ async function renderProfile() {
                 pageUser.notifications = true;
                 document.getElementById('profile-settings-notifications').classList.remove('profile-settings-notifications');
                 document.getElementById('profile-settings-notifications').classList.add('profile-settings-offnotifications');
-                document.getElementById('profile-settings-notifications').innerText = `Stop getting notifications`;
+                document.getElementById('profile-settings-notifications').innerText = LOC.stop_notifications.message;
             } else {
                 await API.receiveNotifications(pageUser.id_str, false);
                 pageUser.notifications = false;
                 document.getElementById('profile-settings-notifications').classList.remove('profile-settings-offnotifications');
                 document.getElementById('profile-settings-notifications').classList.add('profile-settings-notifications');
-                document.getElementById('profile-settings-notifications').innerText = `Receive notifications`;
+                document.getElementById('profile-settings-notifications').innerText = LOC.stop_notifications.message;
             }
         });
         document.getElementById('profile-settings-block').addEventListener('click', async () => {
