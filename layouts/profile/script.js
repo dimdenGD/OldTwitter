@@ -331,16 +331,13 @@ async function updateTimeline() {
                     tweetsCursor = tl.cursor;
                     tl = tl.tweets;
                 }
-            } 
-            else if(user_blocked_by) {
+            } else if(user_blocked_by) {
                 document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                 return;
-            }
-            else if(user_protected) {
+            }else if(user_protected) {
                 document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                 return;
-            }
-            /*else if(user_blocking) {
+            }/*else if(user_blocking) {
                 document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
                 return;
             }*/
@@ -1582,7 +1579,7 @@ setTimeout(async () => {
                         }
                     }
                 } else if (user_blocked_by)  {
-                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                     return;
                 } else if (user_protected) {
                     document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
