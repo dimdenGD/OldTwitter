@@ -883,7 +883,7 @@ async function renderProfile() {
                     document.getElementById('message-user').hidden = true;
                     document.getElementById("profile-settings-notifications").hidden = true;
                     document.getElementById("profile-settings-mute").hidden = true;
-                    modal.remove();
+                    modal.removeModal();
                 });
             }
         });
@@ -967,7 +967,7 @@ async function renderProfile() {
                 pageUser.followed_by = false;
                 document.getElementById('profile-settings-removefollowing').hidden = true;
                 document.getElementById('follows-you').hidden = true;
-                modal.remove();
+                modal.removeModal();
             });
         });
         document.getElementById('profile-settings-lists-action').addEventListener('click', async () => {
