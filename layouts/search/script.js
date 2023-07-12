@@ -490,13 +490,13 @@ setTimeout(async () => {
                         <span class="example">${LOC.mentions_this_user_example.message}</span>
                         <br><br>
                         <h3 class="nice-subheader">${LOC.interactions.message}</h3>
-                        <input type="number" id="sai-minreplies" class="search-advanced-input" placeholder="${LOC.min_replies.message}"><br>
+                        <input type="number" id="sai-minreplies" class="search-advanced-input" min="0"  placeholder="${LOC.min_replies.message}"><br>
                         <span class="example">${LOC.min_replies_example.message}</span>
                         <br><br>
-                        <input type="number" id="sai-minlikes" class="search-advanced-input" placeholder="${LOC.min_favorites.message}"><br>
+                        <input type="number" id="sai-minlikes" class="search-advanced-input" min="0"  placeholder="${LOC.min_favorites.message}"><br>
                         <span class="example">${LOC.min_favorites_example.message}</span>
                         <br><br>
-                        <input type="number" id="sai-minretweets" class="search-advanced-input" placeholder="${LOC.min_retweets.message}"><br>
+                        <input type="number" id="sai-minretweets" class="search-advanced-input"  min="0" placeholder="${LOC.min_retweets.message}"><br>
                         <span class="example">${LOC.min_retweets_example.message}</span>
                         <br><br>
                         <h3 class="nice-subheader">${LOC.dates.message}</h3><br>
