@@ -759,7 +759,8 @@ a:hover,
     background-color: var(--link-color);
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    border-radius: 5px
+    border-radius: 5px;
+    width: 590px;
 }
 
 #new-tweet-media-div {
@@ -1047,6 +1048,7 @@ a:hover,
     margin-bottom: 10px;
     padding: 5px 2px;
     width: 100%;
+    max-width: 275px;
 }
 #content {
     min-height: 800px;
