@@ -167,7 +167,7 @@ function updateSelection() {
     document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
     document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
 
-    if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies')) {
+    if(pageUser.statuses_count === 0 && !( pageUser.blocked_by || pageUser.blocking || pageUser.protected ) && (subpage === 'profile' || subpage === 'replies')) {
         document.getElementById('trends').hidden = true;
         document.getElementById('no-tweets').hidden = false;
         document.getElementById('no-tweets').innerHTML = `
@@ -663,7 +663,7 @@ async function renderProfile() {
     } else {
         document.getElementById('trends').hidden = false;   
     }
-    if(pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies' || subpage === 'media')) {
+    if(pageUser.statuses_count === 0 && !( pageUser.blocked_by || pageUser.blocking || pageUser.protected ) && (subpage === 'profile' || subpage === 'replies' || subpage === 'media')) {
         document.getElementById('no-tweets').hidden = false;
         document.getElementById('no-tweets').innerHTML = `
             <h3>${LOC.hasnt_tweeted.message.replace('$SCREEN_NAME$', `<span>${pageUser.screen_name}</span>`)}</h3>
