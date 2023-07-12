@@ -865,7 +865,7 @@ async function renderProfile() {
                     <span style='font-size:14px;color:var(--almost-black)'>${blockMessageDesc}</h1>
                     <br>
                     <div style="display:inline-block;float: right;margin-top: 5px;">
-                        <button class="nice-button">${LOC.block.message}</button>
+                        <button class="nice-button nice-red-button">${LOC.block.message}</button>
                     </div>
                 `)
                 modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
@@ -959,7 +959,7 @@ async function renderProfile() {
             </span>
                 <br><br>
                 <div style="display:inline-block;float: right;margin-top: 5px;">
-                    <button class="nice-button">${LOC.remove_from_followers_button.message}</button>
+                    <button class="nice-button nice-red-button">${LOC.remove_from_followers_button.message}</button>
                 </div>
             `.replace('$SCREEN_NAME$', pageUser.screen_name));
             modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
