@@ -518,31 +518,8 @@ function generateCard(tweet, tweetElement, user) {
                     modal.removeModal();
                     try {
                         await API.postTweetV2({
-                            "variables": {
-                                "tweet_text": b[1].string_value,
-                                "media": {
-                                    "media_entities": [],
-                                    "possibly_sensitive": false
-                                },
-                                "withDownvotePerspective": false,
-                                "withReactionsMetadata": false,
-                                "withReactionsPerspective": false,
-                                "withSuperFollowsTweetFields": true,
-                                "withSuperFollowsUserFields": true,
-                                "semantic_annotation_ids": [],
-                                "dark_request": false,
-                                "card_uri": tweet.card.url,
-                            },
-                            "features": {
-                                "dont_mention_me_view_api_enabled": true,
-                                "interactive_text_enabled": true,
-                                "responsive_web_uc_gql_enabled": false,
-                                "vibe_api_enabled": false,
-                                "responsive_web_edit_tweet_api_enabled": false,
-                                "standardized_nudges_misinfo": true,
-                                "responsive_web_enhance_cards_enabled": false
-                            },
-                            "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
+                            "text": b[1].string_value,
+                            "card_uri": tweet.card.url,
                         });
                     } catch(e) {
                         console.error(e);
@@ -2137,25 +2114,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             let tweetObject = {
                 status: text,
-                in_reply_to_status_id: t.id_str,
-                auto_populate_reply_metadata: true,
-                batch_mode: 'off',
-                exclude_reply_user_ids: '',
-                cards_platform: 'Web-13',
-                include_entities: 1,
-                include_user_entities: 1,
-                include_cards: 1,
-                send_error_codes: 1,
-                tweet_mode: 'extended',
-                include_ext_alt_text: true,
-                include_reply_count: true
+                in_reply_to_status_id: t.id_str
             };
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
             }
             let tweetData;
             try {
-                tweetData = await API.postTweet(tweetObject)
+                tweetData = await API.postTweetV2(tweetObject)
             } catch (e) {
                 tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetReplyButton.disabled = false;
@@ -2257,7 +2223,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 let tweetData;
                 try {
-                    tweetData = await API.deleteTweet(t.current_user_retweet ? t.current_user_retweet.id_str : t.newTweetId);
+                    tweetData = await API.deleteRetweet(t.retweeted_status ? t.retweeted_status.id_str : t.id_str);
                 } catch (e) {
                     console.error(e);
                     return;
@@ -2419,25 +2385,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             let tweetObject = {
                 status: text,
-                attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`,
-                auto_populate_reply_metadata: true,
-                batch_mode: 'off',
-                exclude_reply_user_ids: '',
-                cards_platform: 'Web-13',
-                include_entities: 1,
-                include_user_entities: 1,
-                include_cards: 1,
-                send_error_codes: 1,
-                tweet_mode: 'extended',
-                include_ext_alt_text: true,
-                include_reply_count: true
+                attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`
             };
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
             }
             let tweetData;
             try {
-                tweetData = await API.postTweet(tweetObject)
+                tweetData = await API.postTweetV2(tweetObject)
             } catch (e) {
                 tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetQuoteButton.disabled = false;
@@ -2504,18 +2459,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
-                API.unfavoriteTweet({
-                    id: t.id_str
-                }).catch(e => {
+                API.unfavoriteTweet(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesUp();
                 });
                 t.renderFavoritesDown();
             } else {
-                API.favoriteTweet({
-                    id: t.id_str
-                }).catch(e => {
+                API.favoriteTweet(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesDown();

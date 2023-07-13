@@ -1199,31 +1199,18 @@ let userDataFunction = async user => {
                         alert(e);
                     }
                 }
-                let tweetObject = {
-                    status: tweet,
-                    auto_populate_reply_metadata: true,
-                    batch_mode: 'off',
-                    exclude_reply_user_ids: '',
-                    cards_platform: 'Web-13',
-                    include_entities: 1,
-                    include_user_entities: 1,
-                    include_cards: 1,
-                    send_error_codes: 1,
-                    tweet_mode: 'extended',
-                    include_ext_alt_text: true,
-                    include_reply_count: true
-                };
-                if (uploadedMedia.length > 0) {
-                    tweetObject.media_ids = uploadedMedia.join(',');
-                }
                 try {
-                    let tweet = await API.postTweet(tweetObject);
-                    tweet._ARTIFICIAL = true;
-                    const event = new CustomEvent('newTweet', { detail: tweet });
+                    let tweetObject = await API.postTweetV2({
+                        text: tweet,
+                        media: uploadedMedia
+                    });
+                    tweetObject._ARTIFICIAL = true;
+                    const event = new CustomEvent('newTweet', { detail: tweetObject });
                     document.dispatchEvent(event);
                 } catch (e) {
                     newTweetButton.disabled = false;
                     console.error(e);
+                    alert(e);
                 }
             } else {
                 let pollVariants = pollToUpload.variants.filter(i => i);
@@ -1247,31 +1234,8 @@ let userDataFunction = async user => {
                 try {
                     let card = await API.createCard(cardObject);
                     let tweetObject = await API.postTweetV2({
-                        "variables": {
-                            "tweet_text": tweet,
-                            "card_uri": card.card_uri,
-                            "media": {
-                                "media_entities": [],
-                                "possibly_sensitive": false
-                            },
-                            "withDownvotePerspective": false,
-                            "withReactionsMetadata": false,
-                            "withReactionsPerspective": false,
-                            "withSuperFollowsTweetFields": true,
-                            "withSuperFollowsUserFields": true,
-                            "semantic_annotation_ids": [],
-                            "dark_request": false
-                        },
-                        "features": {
-                            "dont_mention_me_view_api_enabled": true,
-                            "interactive_text_enabled": true,
-                            "responsive_web_uc_gql_enabled": false,
-                            "vibe_api_enabled": false,
-                            "responsive_web_edit_tweet_api_enabled": false,
-                            "standardized_nudges_misinfo": true,
-                            "responsive_web_enhance_cards_enabled": false
-                        },
-                        "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
+                        text: tweet,
+                        card_uri: card.card_uri,
                     });
                     tweetObject._ARTIFICIAL = true;
                     const event = new CustomEvent('newTweet', { detail: tweetObject });

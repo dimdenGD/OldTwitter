@@ -1142,8 +1142,10 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         }
                         if(result.quoted_status_result) {
                             result.legacy.quoted_status = result.quoted_status_result.result.legacy;
-                            result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
-                            result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+                            if(result.legacy.quoted_status) {
+                                result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
+                                result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+                            }
                         }
                         tweet.retweeted_status = result.legacy;
                         tweet.retweeted_status.user = result.core.user_results.result.legacy;
@@ -1954,9 +1956,88 @@ API.postTweet = data => {
         });
     });
 }
-API.postTweetV2 = data => {
+/* 
+text | tweet_text | status - tweet text
+media | media_ids - media ids
+card_uri - card uri
+sensitive - sensitive media
+in_reply_to_status_id | in_reply_to_tweet_id - reply to tweet id
+exclude_reply_user_ids - exclude mentions
+attachment_url - quote tweet url
+circle - circle id
+conversation_control - conversation control (follows | mentions)
+*/
+API.postTweetV2 = tweet => {
     return new Promise((resolve, reject) => {
-        fetch(`https://twitter.com/i/api/graphql/Mvpg1U7PrmuHeYdY_83kLw/CreateTweet`, {
+        let text;
+        if(tweet.text) {
+            text = tweet.text;
+        } else if(tweet.tweet_text) {
+            text = tweet.tweet_text;
+        } else if(tweet.status) {
+            text = tweet.status;
+        } else {
+            text = "";
+        }
+        let variables = {
+            "tweet_text": text,
+            "media": {
+                "media_entities": [],
+                "possibly_sensitive": false
+            },
+            "withDownvotePerspective": false,
+            "withReactionsMetadata": false,
+            "withReactionsPerspective": false,
+            "withSuperFollowsTweetFields": true,
+            "withSuperFollowsUserFields": true,
+            "semantic_annotation_ids": [],
+            "dark_request": false
+        };
+        if(tweet.card_uri) {
+            variables.card_uri = tweet.card_uri;
+        }
+        if(tweet.media_ids) {
+            if(typeof tweet.media_ids === "string") {
+                tweet.media = tweet.media_ids.split(",");
+            } else {
+                tweet.media = tweet.media_ids;
+            }
+        }
+        if(tweet.media) {
+            variables.media.media_entities = tweet.media.map(i => ({media_id: i, tagged_users: []}));
+            if(tweet.sensitive) {
+                variables.media.possibly_sensitive = true;
+            }
+        }
+        if(tweet.conversation_control === 'follows') {
+            variables.conversation_control = { mode: 'Community' };
+        } else if(tweet.conversation_control === 'mentions') {
+            variables.conversation_control = { mode: 'ByInvitation' };
+        }
+        if(tweet.circle) {
+            variables.trusted_friends_control_options = { "trusted_friends_list_id": tweet.circle };
+        }
+        if(tweet.in_reply_to_status_id) {
+            tweet.in_reply_to_tweet_id = tweet.in_reply_to_status_id;
+            delete tweet.in_reply_to_status_id;
+        }
+        if(tweet.in_reply_to_tweet_id) {
+            variables.reply = {
+                in_reply_to_tweet_id: tweet.in_reply_to_tweet_id,
+                exclude_reply_user_ids: []
+            }
+            if(tweet.exclude_reply_user_ids) {
+                if(typeof tweet.exclude_reply_user_ids === "string") {
+                    tweet.exclude_reply_user_ids = tweet.exclude_reply_user_ids.split(",");
+                }
+                variables.reply.exclude_reply_user_ids = tweet.exclude_reply_user_ids;
+            }
+        }
+        if(tweet.attachment_url) {
+            variables.attachment_url = tweet.attachment_url;
+        }
+        debugLog('postTweetV2', 'init', {tweet, variables});
+        fetch(`https://twitter.com/i/api/graphql/tTsjMKyhajZvK4q76mpIBg/CreateTweet`, {
             method: 'POST',
             headers: {
                 "authorization": OLDTWITTER_CONFIG.public_token,
@@ -1965,8 +2046,14 @@ API.postTweetV2 = data => {
                 "content-type": "application/json; charset=utf-8"
             },
             credentials: "include",
-            body: JSON.stringify(data)
+            body: JSON.stringify({
+                variables,
+                "features": {"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_enhance_cards_enabled":false},
+                "fieldToggles":{"withArticleRichContentState":false,"withAuxiliaryUserLabels":false},
+                "queryId": "tTsjMKyhajZvK4q76mpIBg"
+            })
         }).then(i => i.json()).then(data => {
+            debugLog('postTweetV2', 'start', data);
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
@@ -1986,24 +2073,25 @@ API.postTweetV2 = data => {
                 }
                 tweet.card.binding_values = binding_values;
             }
+            debugLog('postTweetV2', 'end', tweet);
             resolve(tweet);
         }).catch(e => {
             reject(e);
         });
     });
 }
-API.favoriteTweet = data => {
+API.favoriteTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/favorites/create.json`, {
+        fetch(`https://twitter.com/i/api/graphql/lI07N6Otwv1PhnEgXILM7A/FavoriteTweet`, {
             method: 'POST',
             headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "content-type": "application/json; charset=utf-8"
             },
-            body: new URLSearchParams(data).toString(),
-            credentials: "include"
+            credentials: "include",
+            body: JSON.stringify({"variables":{"tweet_id":id},"queryId":"lI07N6Otwv1PhnEgXILM7A"})
         }).then(i => i.json()).then(data => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
@@ -2014,18 +2102,18 @@ API.favoriteTweet = data => {
         });
     });
 }
-API.unfavoriteTweet = data => {
+API.unfavoriteTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/favorites/destroy.json`, {
+        fetch(`https://twitter.com/i/api/graphql/ZYKSe-w7KEslx3JhSIk5LA/UnfavoriteTweet`, {
             method: 'POST',
             headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "content-type": "application/json; charset=utf-8"
             },
-            body: new URLSearchParams(data).toString(),
-            credentials: "include"
+            credentials: "include",
+            body: JSON.stringify({"variables":{"tweet_id":id},"queryId":"ZYKSe-w7KEslx3JhSIk5LA"})
         }).then(i => i.json()).then(data => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
@@ -2038,16 +2126,41 @@ API.unfavoriteTweet = data => {
 }
 API.retweetTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/statuses/retweet/${id}.json`, {
+        fetch(`https://twitter.com/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet`, {
             method: 'POST',
             headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "content-type": "application/json; charset=utf-8"
             },
-            credentials: "include"
+            credentials: "include",
+            body: JSON.stringify({"variables":{"tweet_id":id,"dark_request":false},"queryId":"ojPdsZsimiJrUGLR1sjUtA"})
         }).then(i => i.json()).then(data => {
+            debugLog('retweetTweet', 'start', id, data);
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
+API.deleteRetweet = id => {
+    return new Promise((resolve, reject) => {
+        fetch(`https://twitter.com/i/api/graphql/iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet`, {
+            method: 'POST',
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.public_token,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+                "content-type": "application/json; charset=utf-8"
+            },
+            credentials: "include",
+            body: JSON.stringify({"variables":{"source_tweet_id":id,"dark_request":false},"queryId":"iQtK4dl5hBmXewYZuEOKVw"})
+        }).then(i => i.json()).then(data => {
+            debugLog('deleteRetweet', 'start', id, data);
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
@@ -2059,16 +2172,18 @@ API.retweetTweet = id => {
 }
 API.deleteTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/statuses/destroy/${id}.json`, {
+        fetch(`https://twitter.com/i/api/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet`, {
             method: 'POST',
             headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "content-type": "application/json; charset=utf-8"
             },
-            credentials: "include"
+            credentials: "include",
+            body: JSON.stringify({"variables":{"tweet_id":id,"dark_request":false},"queryId":"VaenaVgh5q5ih7kvyVjgtg"})
         }).then(i => i.json()).then(data => {
+            debugLog('deleteTweet', id, data);
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }

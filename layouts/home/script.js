@@ -1218,18 +1218,13 @@ setTimeout(async () => {
                     <a href="https://twitter.com/compose/tweet/unsent/scheduled?newtwitter=true" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
                 `);
             } else {
+                let whoCanReply = document.getElementById('new-tweet-wcr-input').value;
                 let tweetObject = await API.postTweetV2({
-                    "variables": variables,
-                    "features": {
-                        "dont_mention_me_view_api_enabled": true,
-                        "interactive_text_enabled": true,
-                        "responsive_web_uc_gql_enabled": false,
-                        "vibe_api_enabled": false,
-                        "responsive_web_edit_tweet_api_enabled": false,
-                        "standardized_nudges_misinfo": true,
-                        "responsive_web_enhance_cards_enabled": false
-                    },
-                    "queryId": "Mvpg1U7PrmuHeYdY_83kLw"
+                    text: tweet,
+                    media: uploadedMedia,
+                    circle: selectedCircle ? selectedCircle.rest_id : undefined,
+                    conversation_control: whoCanReply,
+                    card_uri: card ? card.card_uri : undefined
                 });
                 timeline.data.unshift(tweetObject);
                 appendTweet(tweetObject, document.getElementById('timeline'), {

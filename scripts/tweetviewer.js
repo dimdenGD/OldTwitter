@@ -699,24 +699,13 @@ class TweetViewer {
             let tweetObject = {
                 status: tweet,
                 in_reply_to_status_id: replyTweet.id_str,
-                auto_populate_reply_metadata: true,
-                batch_mode: 'off',
-                exclude_reply_user_ids: '',
-                cards_platform: 'Web-13',
-                include_entities: 1,
-                include_user_entities: 1,
-                include_cards: 1,
-                send_error_codes: 1,
-                tweet_mode: 'extended',
-                include_ext_alt_text: true,
-                include_reply_count: true
             };
             if(this.excludeUserMentions.length > 0) tweetObject.exclude_reply_user_ids = this.excludeUserMentions.join(',');
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
             }
             try {
-                let tweet = await API.postTweet(tweetObject);
+                let tweet = await API.postTweetV2(tweetObject);
                 tweet._ARTIFICIAL = true;
                 this.appendTweet(tweet, document.getElementsByClassName('timeline')[0], {
                     after: document.getElementsByClassName('new-tweet-view')[0].parentElement
@@ -1525,25 +1514,14 @@ class TweetViewer {
             }
             let tweetObject = {
                 status: text,
-                in_reply_to_status_id: t.id_str,
-                auto_populate_reply_metadata: true,
-                batch_mode: 'off',
-                exclude_reply_user_ids: '',
-                cards_platform: 'Web-13',
-                include_entities: 1,
-                include_user_entities: 1,
-                include_cards: 1,
-                send_error_codes: 1,
-                tweet_mode: 'extended',
-                include_ext_alt_text: true,
-                include_reply_count: true
+                in_reply_to_status_id: t.id_str
             };
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
             }
             let tweetData;
             try {
-                tweetData = await API.postTweet(tweetObject)
+                tweetData = await API.postTweetV2(tweetObject)
             } catch (e) {
                 tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetReplyButton.disabled = false;
@@ -1634,7 +1612,7 @@ class TweetViewer {
             } else {
                 let tweetData;
                 try {
-                    tweetData = await API.deleteTweet(t.current_user_retweet ? t.current_user_retweet.id_str : t.newTweetId);
+                    tweetData = await API.deleteRetweet(t.retweeted_status ? t.retweeted_status.id_str : t.id_str);
                 } catch (e) {
                     console.error(e);
                     return;
@@ -1780,25 +1758,14 @@ class TweetViewer {
             }
             let tweetObject = {
                 status: text,
-                attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`,
-                auto_populate_reply_metadata: true,
-                batch_mode: 'off',
-                exclude_reply_user_ids: '',
-                cards_platform: 'Web-13',
-                include_entities: 1,
-                include_user_entities: 1,
-                include_cards: 1,
-                send_error_codes: 1,
-                tweet_mode: 'extended',
-                include_ext_alt_text: true,
-                include_reply_count: true
+                attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`
             };
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
             }
             let tweetData;
             try {
-                tweetData = await API.postTweet(tweetObject)
+                tweetData = await API.postTweetV2(tweetObject)
             } catch (e) {
                 tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetQuoteButton.disabled = false;
@@ -1823,9 +1790,7 @@ class TweetViewer {
         // Favorite
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
-                API.unfavoriteTweet({
-                    id: t.id_str
-                });
+                API.unfavoriteTweet(t.id_str);
                 t.favorited = false;
                 t.favorite_count--;
                 if(!options.mainTweet) {
@@ -1846,9 +1811,7 @@ class TweetViewer {
                 } });
                 document.dispatchEvent(event);
             } else {
-                API.favoriteTweet({
-                    id: t.id_str
-                });
+                API.favoriteTweet(t.id_str);
                 t.favorited = true;
                 t.favorite_count++;
                 if(!options.mainTweet) {
