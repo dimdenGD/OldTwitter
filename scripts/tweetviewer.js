@@ -1790,9 +1790,7 @@ class TweetViewer {
         // Favorite
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
-                API.unfavoriteTweet({
-                    id: t.id_str
-                });
+                API.unfavoriteTweet(t.id_str);
                 t.favorited = false;
                 t.favorite_count--;
                 if(!options.mainTweet) {
@@ -1813,9 +1811,7 @@ class TweetViewer {
                 } });
                 document.dispatchEvent(event);
             } else {
-                API.favoriteTweet({
-                    id: t.id_str
-                });
+                API.favoriteTweet(t.id_str);
                 t.favorited = true;
                 t.favorite_count++;
                 if(!options.mainTweet) {

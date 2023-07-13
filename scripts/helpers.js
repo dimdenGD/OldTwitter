@@ -2459,18 +2459,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
-                API.unfavoriteTweet({
-                    id: t.id_str
-                }).catch(e => {
+                API.unfavoriteTweet(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesUp();
                 });
                 t.renderFavoritesDown();
             } else {
-                API.favoriteTweet({
-                    id: t.id_str
-                }).catch(e => {
+                API.favoriteTweet(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesDown();

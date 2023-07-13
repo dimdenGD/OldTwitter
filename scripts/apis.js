@@ -2078,18 +2078,18 @@ API.postTweetV2 = tweet => {
         });
     });
 }
-API.favoriteTweet = data => {
+API.favoriteTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/favorites/create.json`, {
+        fetch(`https://twitter.com/i/api/graphql/lI07N6Otwv1PhnEgXILM7A/FavoriteTweet`, {
             method: 'POST',
             headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "content-type": "application/json; charset=utf-8"
             },
-            body: new URLSearchParams(data).toString(),
-            credentials: "include"
+            credentials: "include",
+            body: JSON.stringify({"variables":{"tweet_id":id},"queryId":"lI07N6Otwv1PhnEgXILM7A"})
         }).then(i => i.json()).then(data => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
@@ -2100,18 +2100,18 @@ API.favoriteTweet = data => {
         });
     });
 }
-API.unfavoriteTweet = data => {
+API.unfavoriteTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/favorites/destroy.json`, {
+        fetch(`https://twitter.com/i/api/graphql/ZYKSe-w7KEslx3JhSIk5LA/UnfavoriteTweet`, {
             method: 'POST',
             headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "authorization": OLDTWITTER_CONFIG.public_token,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "content-type": "application/json; charset=utf-8"
             },
-            body: new URLSearchParams(data).toString(),
-            credentials: "include"
+            credentials: "include",
+            body: JSON.stringify({"variables":{"tweet_id":id},"queryId":"ZYKSe-w7KEslx3JhSIk5LA"})
         }).then(i => i.json()).then(data => {
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
