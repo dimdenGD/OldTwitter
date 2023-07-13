@@ -198,10 +198,13 @@ let userDataFunction = async user => {
         });
         document.getElementById('navbar-user-menu-logout').addEventListener('click', async () => {
             let modal = createModal(/*html*/`
-                <span style="font-size:14px">OldTwitter only works when you're logged in.<br>
-                If you don't have any other accounts in list you'll be redirected to login page. Are you sure?</span>
+                <h1 class="cool-header">${LOC.logout_title.message}</h1><br>
+                <span style="font-size:14px;color:var(--almost-black)">${LOC.logout_desc_1.message}<br>
+                ${LOC.logout_desc_2.message}</span>
                 <br><br>
-                <button class="nice-button">Log me out</button>
+                <div style="display:inline-block;float: right;margin-top: 5px;">
+                    <button class="nice-button nice-red-button">${LOC.logout_button.message}</button>
+                </div>
             `);
             let button = modal.querySelector('button');
             button.addEventListener('click', async () => {
