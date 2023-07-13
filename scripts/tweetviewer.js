@@ -804,7 +804,6 @@ class TweetViewer {
             }
         }
         let full_text = t.full_text ? t.full_text : '';
-        if(full_text.length <= 280) full_text = Array.from(full_text).slice(t.display_text_range[0], t.display_text_range[1]).join(''); //Array.from helps with parsing emojis correctly, otherwise this may cut off 2 byte emojis
         let strippedDownText = full_text
         .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
         .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
@@ -887,7 +886,7 @@ class TweetViewer {
             </div>
             <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
-                <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${full_text ? escapeHTML(full_text).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>') : ''}</span>
+                <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
                 ${!isEnglish ? `
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
@@ -967,7 +966,7 @@ class TweetViewer {
                         </span>
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
-                    <span class="tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? escapeHTML(t.quoted_status.full_text).replace(/\n/g, '<br>') : ''}</span>
+                    <span class="tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? escapeHTML(t.quoted_status.full_text) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `
                     <div class="tweet-media-quote">
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
@@ -1364,10 +1363,10 @@ class TweetViewer {
             } else {
                 translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
             }
-            tweetBodyText.innerHTML += `<br>
-            <span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>
-            <br>
-            <span class="tweet-translated-text">${escapeHTML(translated.text).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>')}</span>`;
+            tweetBodyText.innerHTML += `<br>`+
+            `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
+            `<br>`+
+            `<span class="tweet-translated-text">${await renderTweetBodyHTML(translated.text, translated.entities)}</span>`;
             if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             let links = Array.from(tweetBodyText.getElementsByClassName('tweet-translated-text')[0].getElementsByTagName('a'));
             links.forEach(a => {

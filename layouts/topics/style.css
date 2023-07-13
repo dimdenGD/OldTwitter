@@ -465,7 +465,11 @@ body {
 }
 
 span.tweet-body-text {
+    white-space: pre-wrap;
     word-break: break-word;
+}
+span.tweet-body-text .hashflag {
+    vertical-align: -10%;
 }
 
 .tweet-body,

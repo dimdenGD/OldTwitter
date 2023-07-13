@@ -699,13 +699,15 @@ API.translateTweet = id => {
                 }
                 resolve({
                     translated_lang: data.localizedSourceLanguage,
-                    text: data.translation
+                    text: data.translation,
+                    entities: data.entities
                 });
                 d.translations[id] = {
                     date: Date.now(),
                     data: {
                         translated_lang: data.localizedSourceLanguage,
-                        text: data.translation
+                        text: data.translation,
+                        entities: data.entities
                     }
                 };
                 chrome.storage.local.set({translations: d.translations}, () => {});
@@ -1163,6 +1165,8 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         if(typeof tweet.full_text !== "string") {
                             tweet.full_text = result.note_tweet.note_tweet_results.result.text;
                         }
+                        tweet.display_text_range = undefined; // no text range for long tweets
+                        tweet.entities = result.note_tweet.note_tweet_results.result.entity_set;
                     }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
@@ -1241,6 +1245,8 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                             }
                             if(result.note_tweet && result.note_tweet.note_tweet_results) {
                                 tweet.full_text = result.note_tweet.note_tweet_results.text;
+                                tweet.display_text_range = undefined; // no text range for long tweets
+                                tweet.entities = result.note_tweet.note_tweet_results.result.entity_set;
                             }
                             if(tweet.quoted_status_result && tweet.quoted_status_result.tweet) {
                                 let result = tweet.quoted_status_result.result;
@@ -2294,6 +2300,8 @@ API.tweetDetail = id => {
                 }
                 if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
                     tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
+                    tweet.display_text_range = undefined; // no text range for long tweets
+                    tweet.entities = tweetData.note_tweet.note_tweet_results.result.entity_set;
                 }
                 if(tweetData.views && tweetData.views.count) {
                     if(!tweet.ext) tweet.ext = {};
@@ -2679,6 +2687,8 @@ API.getRepliesV2 = (id, cursor) => {
                         }
                         if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
                             tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
+                            tweet.display_text_range = undefined; // no text range for long tweets
+                            tweet.entities = tweetData.note_tweet.note_tweet_results.result.entity_set;
                         }
                         if(tweetData.views && tweetData.views.count) {
                             if(!tweet.ext) tweet.ext = {};
@@ -2784,6 +2794,8 @@ API.getRepliesV2 = (id, cursor) => {
                             }
                             if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
                                 tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
+                                tweet.display_text_range = undefined; // no text range for long tweets
+                                tweet.entities = tweetData.note_tweet.note_tweet_results.result.entity_set;
                             }
                             if(tweetData.views && tweetData.views.count) {
                                 if(!tweet.ext) tweet.ext = {};
@@ -3682,6 +3694,11 @@ API.getBookmarks = (cursor) => {
                     }
                     if(res.note_tweet && res.note_tweet.note_tweet_results) {
                         tweet.full_text = res.note_tweet.note_tweet_results.text;
+                        if(typeof tweet.full_text !== "string") {
+                            tweet.full_text = res.note_tweet.note_tweet_results.result.text;
+                        }
+                        tweet.display_text_range = undefined; // no text range for long tweets
+                        tweet.entities = res.note_tweet.note_tweet_results.result.entity_set;
                     }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
@@ -3831,6 +3848,8 @@ API.getListTweets = (id, cursor) => {
                         if(typeof tweet.full_text !== "string") {
                             tweet.full_text = res.note_tweet.note_tweet_results.result.text;
                         }
+                        tweet.display_text_range = undefined; // no text range for long tweets
+                        tweet.entities = res.note_tweet.note_tweet_results.result.entity_set;
                     }
                     if(tweet.quoted_status_result) {
                         let result = tweet.quoted_status_result.result;
