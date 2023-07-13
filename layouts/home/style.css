@@ -562,6 +562,12 @@ a:hover,
     #about {
         display: none;
     }
+    #timeline-type-left {
+        display: none;
+    }
+    #timeline-type-center {
+        display: inline-block;
+    }
 }
 @media screen and (max-width: 880px) {
     #left-cell {
@@ -1040,7 +1046,7 @@ a:hover,
 .poll-disabled:before {
     color: gray !important;
 }
-#timeline-type {
+#timeline-type-left {
     color: var(--default-text-color);
     background-color: var(--background-color);
     border: 1px solid var(--border);
@@ -1049,6 +1055,16 @@ a:hover,
     padding: 5px 2px;
     width: 100%;
     max-width: 275px;
+}
+#timeline-type-center {
+    color: var(--default-text-color);
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 5px 2px;
+    width: 100%;
+    max-width: 590px
 }
 #content {
     min-height: 800px;
