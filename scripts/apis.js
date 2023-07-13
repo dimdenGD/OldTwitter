@@ -2059,16 +2059,18 @@ API.retweetTweet = id => {
 }
 API.deleteTweet = id => {
     return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/statuses/destroy/${id}.json`, {
+        fetch(`https://twitter.com/i/api/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet`, {
             method: 'POST',
             headers: {
                 "authorization": OLDTWITTER_CONFIG.oauth_key,
                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                 "x-twitter-auth-type": "OAuth2Session",
-                "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                "content-type": "application/json; charset=utf-8"
             },
-            credentials: "include"
+            credentials: "include",
+            body: JSON.stringify({"variables":{"tweet_id":id,"dark_request":false},"queryId":"VaenaVgh5q5ih7kvyVjgtg"})
         }).then(i => i.json()).then(data => {
+            debugLog('deleteTweet', data);
             if (data.errors && data.errors[0]) {
                 return reject(data.errors[0].message);
             }
