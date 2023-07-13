@@ -83,9 +83,7 @@ function hideStuff() {
     }
     if(vars.hideFollowers) {
         hideStyle.innerHTML += `
-            #user-followers { display: none !important; }
             #user-followers-div { display: none !important; }
-            #profile-stat-followers-value { display: none !important; }
             #profile-stat-followers-link { display: none !important; }
         `;
     }
