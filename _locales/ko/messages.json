@@ -237,7 +237,7 @@
     "reload": { "message": "새로고침" },
     "circle_limited_tweet": { "message": "@$SCREEN_NAME$ 님의 Twitter 서클에 포함된 사람만이 이 트윗을 볼 수 있습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "learn_more": { "message": "자세히 알아보기" },
-    "limited_tweet": { "message": "이 트윗은 답장할 수 있는 사람이 제한되어 있습니다" },
+    "limited_tweet": { "message": "이 트윗은 답글을 달 수 있는 사람이 제한되어 있습니다" },
     "replies": { "message": "답글" },
     "retweets": { "message": "리트윗" },
     "likes": { "message": "마음에 들어요" },
