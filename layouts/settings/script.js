@@ -396,7 +396,7 @@ setTimeout(async () => {
         if(color.startsWith('#')) color = color.slice(1);
         let tweet;
         try {
-            tweet = await API.postTweet({
+            tweet = await API.postTweetV2({
                 status: `link_color=${color}`
             })
             let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set`, {

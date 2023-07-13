@@ -636,18 +636,7 @@ async function appendComposeComponent(container, replyTweet) {
         }
         let tweetObject = {
             status: tweet,
-            in_reply_to_status_id: replyTweet.id_str,
-            auto_populate_reply_metadata: true,
-            batch_mode: 'off',
-            exclude_reply_user_ids: '',
-            cards_platform: 'Web-13',
-            include_entities: 1,
-            include_user_entities: 1,
-            include_cards: 1,
-            send_error_codes: 1,
-            tweet_mode: 'extended',
-            include_ext_alt_text: true,
-            include_reply_count: true
+            in_reply_to_status_id: replyTweet.id_str
         };
         if(excludeUserMentions) {
             tweetObject.exclude_reply_user_ids = excludeUserMentions.join(',');
@@ -656,7 +645,7 @@ async function appendComposeComponent(container, replyTweet) {
             tweetObject.media_ids = uploadedMedia.join(',');
         }
         try {
-            let tweet = await API.postTweet(tweetObject);
+            let tweet = await API.postTweetV2(tweetObject);
             tweet._ARTIFICIAL = true;
             appendTweet(tweet, document.getElementById('timeline'), {
                 after: document.getElementsByClassName('new-tweet-container')[0]
