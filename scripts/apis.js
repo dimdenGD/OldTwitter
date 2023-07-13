@@ -1142,8 +1142,10 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                         }
                         if(result.quoted_status_result) {
                             result.legacy.quoted_status = result.quoted_status_result.result.legacy;
-                            result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
-                            result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+                            if(result.legacy.quoted_status) {
+                                result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
+                                result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+                            }
                         }
                         tweet.retweeted_status = result.legacy;
                         tweet.retweeted_status.user = result.core.user_results.result.legacy;
