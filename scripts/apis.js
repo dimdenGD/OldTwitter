@@ -1102,7 +1102,7 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     return reject(e);
                 }
             }
-            debugLog('getUserTweetsV2', data);
+            debugLog('getUserTweetsV2', 'start', data);
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -1277,10 +1277,13 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
                     }
                 }
             }
-            resolve({
+
+            const out = {
                 tweets,
                 cursor: entries.find(e => e.entryId.startsWith("sq-cursor-bottom-") || e.entryId.startsWith("cursor-bottom-")).content.value
-            });
+            };
+            debugLog('getUserTweetsV2', 'end', out);
+            resolve(out);
         }).catch(e => {
             reject(e);
         });
@@ -2457,6 +2460,7 @@ API.getRepliesV2 = (id, cursor) => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
                 if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
+                    debugLog('getRepliesV2', 'cache', d.tweetReplies[id].data);
                     return resolve(d.tweetReplies[id].data);
                 }
                 if(loadingReplies[id]) {
@@ -2485,6 +2489,7 @@ API.getRepliesV2 = (id, cursor) => {
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
+                debugLog('getRepliesV2', 'start', data);
                 if (data.errors && data.errors[0]) {
                     if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[1](data.errors[0].message));
                     delete loadingReplies[id];
@@ -2706,11 +2711,14 @@ API.getRepliesV2 = (id, cursor) => {
                     newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.itemContent.value;
                 } catch(e) {};
 
-                resolve({
+                const out = {
                     list,
                     cursor: newCursor,
                     users
-                });
+                };
+                debugLog('getRepliesV2', 'end', out);
+
+                resolve(out);
 
                 if(!cursor) {
                     loadingReplies[id].listeners.forEach(l => l[0]({

@@ -5,8 +5,17 @@ chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
         return {
             cancel:
-                (details.originUrl && !details.originUrl.includes("mobile.twitter.com") && !details.originUrl.includes("newtwitter=true")) && 
-                (details.url.includes("twitter.com/manifest.json") || details.url.includes("abs.twimg.com/responsive-web/client-web/") || details.url.includes("/sw.js"))
+                ( // excludes
+                    details.originUrl &&
+                    !details.originUrl.includes("newtwitter=true") &&
+                    !details.originUrl.includes("/i/flow/login") &&
+                    !details.originUrl.includes("/settings/download_your_data")
+                ) && 
+                ( // includes
+                    details.url.includes("twitter.com/manifest.json") ||
+                    details.url.includes("abs.twimg.com/responsive-web/client-web/") ||
+                    details.url.includes("/sw.js")
+                )
         };
     }, {
         urls: ["*://*.twitter.com/*", "*://*.twimg.com/*"]

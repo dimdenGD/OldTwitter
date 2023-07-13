@@ -421,7 +421,12 @@ setTimeout(async () => {
             alert(LOC.error_setting_color.message);
         } finally {
             sync.disabled = false;
-            API.deleteTweet(tweet.id_str);
+            API.deleteTweet(tweet.id_str).catch(e => {
+                console.error(e);
+                setTimeout(() => {
+                    API.deleteTweet(tweet.id_str);
+                }, 1000);
+            });
         }
     });
     customCSS.addEventListener('keydown', e => {

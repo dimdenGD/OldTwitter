@@ -1989,7 +1989,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if (t.extended_entities && t.extended_entities.media) {
             const tweetMedia = tweet.getElementsByClassName('tweet-media')[0];
             tweetMedia.addEventListener('click', e => {
-                if (e.target.className.includes('tweet-media-element-censor')) {
+                if (e.target.className && e.target.className.includes('tweet-media-element-censor')) {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
