@@ -1333,7 +1333,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     t.quoted_status = t.quoted_status_result.result.tweet.legacy;
                     t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
                 } else {
-                    t.quoted_status = await API.getTweet(t.quoted_status_id_str);
+                    t.quoted_status = await API.tweetDetail(t.quoted_status_id_str);
                 }
             } catch {
                 t.quoted_status = undefined;
@@ -2661,7 +2661,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
             let tweetData;
             try {
-                tweetData = await API.getTweet(t.id_str);
+                tweetData = await API.tweetDetail(t.id_str);
             } catch (e) {
                 console.error(e);
                 return;
