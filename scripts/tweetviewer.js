@@ -1368,16 +1368,6 @@ class TweetViewer {
             `<br>`+
             `<span class="tweet-translated-text">${await renderTweetBodyHTML(translated.text, translated.entities)}</span>`;
             if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
-            let links = Array.from(tweetBodyText.getElementsByClassName('tweet-translated-text')[0].getElementsByTagName('a'));
-            links.forEach(a => {
-                let link = t.entities.urls && t.entities.urls.find(u => u.url === a.href.split('?')[0].split('#')[0]);
-                if (link) {
-                    a.innerText = link.display_url;
-                    a.href = link.expanded_url;
-                    a.target = '_blank';
-                    a.rel = 'noopener noreferrer';
-                }
-            });
         });
 
         tweetInteractMoreMenuBookmark.addEventListener('click', async () => {
@@ -1399,24 +1389,6 @@ class TweetViewer {
                 }
             });
         }
-    
-        // Links
-        if (tweetBodyText && tweetBodyText.lastChild && tweetBodyText.lastChild.href && tweetBodyText.lastChild.href.startsWith('https://t.co/')) {
-            if (t.entities.urls.length === 0 || t.entities.urls[t.entities.urls.length - 1].url !== tweetBodyText.lastChild.href) {
-                tweetBodyText.lastChild.remove();
-            }
-        }
-        let links = Array.from(tweetBodyText.getElementsByTagName('a')).filter(a => a.href.startsWith('https://t.co/'));
-        links.forEach(a => {
-            if(a.href.endsWith('.') || a.href.endsWith(';') || a.href.endsWith('?')) a.href = a.href.slice(0, -1);
-            let link = t.entities.urls.find(u => u.url === a.href);
-            if (link) {
-                a.innerText = link.display_url;
-                a.href = link.expanded_url;
-                a.target = '_blank';
-                a.rel = 'noopener noreferrer';
-            }
-        });
 
         // Emojis
         [tweetReplyAddEmoji, tweetQuoteAddEmoji].forEach(e => {
