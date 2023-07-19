@@ -1266,6 +1266,7 @@ class TweetViewer {
                 }
             });
         }
+        const tweetBody = tweet.getElementsByClassName('tweet-body')[0];
         const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
@@ -1322,8 +1323,13 @@ class TweetViewer {
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
-    
-            // Quote body
+
+        // rtl languages
+        if(rtlLanguages.includes(t.lang)) {
+            tweetBody.classList.add('rtl');
+        }
+
+        // Quote body
         if(t.quoted_status && t.quoted_status.entities && t.quoted_status.entities.urls) {
             for(let u of t.quoted_status.entities.urls) {
                 tweetBodyQuoteText.innerHTML = tweetBodyQuoteText.innerHTML.replace(new RegExp(u.url, "g"), escapeHTML(u.display_url));
@@ -1352,6 +1358,11 @@ class TweetViewer {
                 }
                 this.currentLocation = location.pathname;
             });
+            if(rtlLanguages.includes(t.quoted_status.lang)) {
+                tweetBodyQuoteText.classList.add('rtl');
+            } else {
+                tweetBodyQuoteText.classList.add('ltr');
+            }
         }
     
         // Translate
