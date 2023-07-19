@@ -20,8 +20,92 @@ setInterval(() => {
 
 function debugLog(...args) {
     if(typeof vars === "object" && vars.developerMode) {
-        console.log(...args);
+        console.log(...args, new Error().stack.split("\n")[2].trim()); // genius
     }
+}
+
+// transform ugly useless twitter api reply to usable legacy tweet
+function parseTweet(res) {
+    if(typeof res !== "object") return;
+    if(res.limitedActionResults) {
+        let limitation = res.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+        if(limitation) {
+            res.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
+        }
+        res = res.tweet;
+    }
+    let tweet = res.legacy;
+    if(!res.core) return;
+    tweet.user = res.core.user_results.result.legacy;
+    tweet.user.id_str = tweet.user_id_str;
+    if(tweet.retweeted_status_result) {
+        let result = tweet.retweeted_status_result.result;
+        if(result.limitedActionResults) {
+            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+            if(limitation) {
+                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
+            }
+            result = result.tweet;
+        }
+        if(result.quoted_status_result) {
+            result.legacy.quoted_status = result.quoted_status_result.result.legacy;
+            result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
+            result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+        }
+        tweet.retweeted_status = result.legacy;
+        tweet.retweeted_status.user = result.core.user_results.result.legacy;
+        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+        tweet.retweeted_status.ext = {};
+        if(result.views) {
+            tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+        }
+    }
+    if(res.quoted_status_result) {
+        tweet.quoted_status_result = res.quoted_status_result;
+    }
+    if(res.note_tweet && res.note_tweet.note_tweet_results) {
+        tweet.full_text = res.note_tweet.note_tweet_results.text;
+        if(typeof tweet.full_text !== "string") {
+            tweet.full_text = res.note_tweet.note_tweet_results.result.text;
+        }
+    }
+    if(tweet.quoted_status_result) {
+        let result = tweet.quoted_status_result.result;
+        if(result.limitedActionResults) {
+            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
+            if(limitation) {
+                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
+            }
+            result = result.tweet;
+        }
+        tweet.quoted_status = result.legacy;
+        if(tweet.quoted_status) {
+            tweet.quoted_status.user = result.core.user_results.result.legacy;
+            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+            tweet.quoted_status.ext = {};
+            if(result.views) {
+                tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+            }
+        }
+    }
+    if(res.card && res.card.legacy) {
+        tweet.card = res.card.legacy;
+        let bvo = {};
+        for(let i = 0; i < tweet.card.binding_values.length; i++) {
+            let bv = tweet.card.binding_values[i];
+            bvo[bv.key] = bv.value;
+        }
+        tweet.card.binding_values = bvo;
+    }
+    if(res.views) {
+        if(!tweet.ext) tweet.ext = {};
+        tweet.ext.views = {r: {ok: {count: +res.views.count}}};
+    }
+    if(res.source) {
+        tweet.source = res.source;
+    }
+
+    return tweet;
 }
 
 // Account
@@ -1119,159 +1203,17 @@ API.getUserTweetsV2 = (id, cursor, replies = false) => {
             for(let entry of entries) {
                 if(entry.entryId.startsWith("tweet-")) {
                     let result = entry.content.itemContent.tweet_results.result;
-                    if(result.limitedActionResults) {
-                        let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                        if(limitation) {
-                            result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                        }
-                        result = result.tweet;
-                    }
-                    if(!result || !result.legacy) {
-                        console.log("Bug: Tweet result is missing", entry);
-                        continue;
-                    }
-                    let tweet = result.legacy;
-                    if(tweet.retweeted_status_result) {
-                        let result = tweet.retweeted_status_result.result;
-                        if(result.limitedActionResults) {
-                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                            if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                            }
-                            result = result.tweet;
-                        }
-                        if(result.quoted_status_result) {
-                            result.legacy.quoted_status = result.quoted_status_result.result.legacy;
-                            if(result.legacy.quoted_status) {
-                                result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
-                                result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
-                            }
-                        }
-                        tweet.retweeted_status = result.legacy;
-                        tweet.retweeted_status.user = result.core.user_results.result.legacy;
-                        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
-                        tweet.retweeted_status.ext = {};
-                        if(result.views) {
-                            tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                        }
-                    }
-                    if(result.quoted_status_result) {
-                        tweet.quoted_status_result = result.quoted_status_result;
-                    }
-                    if(result.note_tweet && result.note_tweet.note_tweet_results) {
-                        tweet.full_text = result.note_tweet.note_tweet_results.text;
-                        if(typeof tweet.full_text !== "string") {
-                            tweet.full_text = result.note_tweet.note_tweet_results.result.text;
-                        }
-                    }
-                    if(tweet.quoted_status_result) {
-                        let result = tweet.quoted_status_result.result;
-                        if(result.limitedActionResults) {
-                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                            if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                            }
-                            result = result.tweet;
-                        }
-                        tweet.quoted_status = result.legacy;
-                        if(tweet.quoted_status) {
-                            tweet.quoted_status.user = result.core.user_results.result.legacy;
-                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                            tweet.quoted_status.ext = {};
-                            if(result.views) {
-                                tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                            }
-                        }
-                    }
-                    if(result.card && result.card.legacy) {
-                        tweet.card = result.card.legacy;
-                        let bvo = {};
-                        for(let i = 0; i < tweet.card.binding_values.length; i++) {
-                            let bv = tweet.card.binding_values[i];
-                            bvo[bv.key] = bv.value;
-                        }
-                        tweet.card.binding_values = bvo;
-                    }
-                    tweet.user = result.core.user_results.result.legacy;
-                    tweet.user.id_str = tweet.user_id_str;
-                    tweet.ext = {};
-                    if(result.views) {
-                        tweet.ext.views = {r: {ok: {count: +result.views.count}}};
-                    }
-                    tweets.push(tweet);
+                    let tweet = parseTweet(result);
+                    if(tweet) tweets.push(tweet);
                 } else if(entry.entryId.startsWith("profile-conversation-")) {
                     let items = entry.content.items;
                     for(let i = 0; i < items.length; i++) {
                         let item = items[i];
                         let result = item.item.itemContent.tweet_results.result;
-                        if(result.limitedActionResults) {
-                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                            if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                            }
-                            result = result.tweet;
-                        }
-                        if(!result || !result.legacy) {
-                            console.log("Bug: Tweet result is missing", item);
-                            continue;
-                        }
                         if(item.entryId.includes("-tweet-")) {
-                            let tweet = result.legacy;
-                            tweet.user = result.core.user_results.result.legacy;
-                            tweet.user.id_str = tweet.user_id_str;
-                            if(tweet.retweeted_status_result) {
-                                let result = tweet.retweeted_status_result.result;
-                                if(result.limitedActionResults) {
-                                    let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                                    if(limitation) {
-                                        result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                                    }
-                                    result = result.tweet;
-                                }
-                                tweet.retweeted_status = result.legacy;
-                                tweet.retweeted_status.user = result.core.user_results.result.legacy;
-                                tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
-                                tweet.retweeted_status.ext = {};
-                                if(result.views) {
-                                    tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                                }
-                            }
-                            if(result.quoted_status_result) {
-                                tweet.quoted_status_result = result.quoted_status_result;
-                            }
-                            if(result.note_tweet && result.note_tweet.note_tweet_results) {
-                                tweet.full_text = result.note_tweet.note_tweet_results.text;
-                            }
-                            if(tweet.quoted_status_result && tweet.quoted_status_result.tweet) {
-                                let result = tweet.quoted_status_result.result;
-                                if(result.limitedActionResults) {
-                                    let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                                    if(limitation) {
-                                        result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                                    }
-                                    result = result.tweet;
-                                }
-                                tweet.quoted_status = result.legacy;
-                                tweet.quoted_status.user = result.core.user_results.result.legacy;
-                                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                                tweet.quoted_status.ext = {};
-                                if(result.views) {
-                                    tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                                }
-                            }
-                            if(result.card && result.card.legacy) {
-                                tweet.card = result.card.legacy;
-                                let bvo = {};
-                                for(let i = 0; i < tweet.card.binding_values.length; i++) {
-                                    let bv = tweet.card.binding_values[i];
-                                    bvo[bv.key] = bv.value;
-                                }
-                                tweet.card.binding_values = bvo;
-                            }
-                            tweet.ext = {};
-                            if(result.views) {
-                                tweet.ext.views = {r: {ok: {count: +result.views.count}}};
-                            }
+                            let tweet = parseTweet(result);
+                            if(!tweet) continue;
+
                             if(i !== items.length - 1) tweet.threadContinuation = true;
                             if(i !== 0) tweet.noTop = true;
                             tweets.push(tweet);
@@ -2239,7 +2181,8 @@ API.tweetDetail = id => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['tweetDetails'], d => {
             if(!d.tweetDetails) d.tweetDetails = {};
-            if(d.tweetDetails[id] && Date.now() - d.tweetDetails[id].date < 60000*5) {
+            if(d.tweetDetails[id] && Date.now() - d.tweetDetails[id].date < 60000*3) {
+                debugLog('tweetDetail', 'cache', id, d.tweetDetails[id].data);
                 return resolve(d.tweetDetails[id].data);
             }
             if(loadingDetails[id]) {
@@ -2266,45 +2209,15 @@ API.tweetDetail = id => {
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
+                debugLog('tweetDetail', 'start', id, data);
                 if (data.errors && data.errors[0]) {
                     if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
                     delete loadingDetails[id];
                     return reject(data.errors[0].message);
                 }
-                let tweetData = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
-                if(!tweetData.legacy) {
-                    tweetData = tweetData.tweet;
-                }
-                let tweet = tweetData.legacy;
-                if(tweetData.card) {
-                    tweet.card = tweetData.card.legacy;
-                    let newBindingValues = {};
-                    for(let i of tweet.card.binding_values) {
-                        newBindingValues[i.key] = i.value;
-                    }
-                    tweet.card.binding_values = newBindingValues;
-                }
-                if(tweet.quoted_status_id_str) {
-                    tweet.quoted_status = tweetData.quoted_status_result.result;
-                    if(!tweet.quoted_status.core) tweet.quoted_status = tweet.quoted_status.tweet;
-                    let userData = tweet.quoted_status.core.user_results.result;
-                    userData.legacy.id_str = userData.rest_id;
-                    tweet.quoted_status.legacy.user = userData.legacy;
-                    tweet.quoted_status = tweet.quoted_status.legacy;
-                }
-                if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
-                    tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
-                }
-                if(tweetData.views && tweetData.views.count) {
-                    if(!tweet.ext) tweet.ext = {};
-                    tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
-                }
-                if(tweetData.source) {
-                    tweet.source = tweetData.source;
-                }
-                tweet.user = tweetData.core.user_results.result;
-                tweet.user.legacy.id_str = tweet.user.rest_id;
-                tweet.user = tweet.user.legacy;
+                let res = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
+                let tweet = parseTweet(res);
+                debugLog('tweetDetail', 'end', id, tweet);
                 resolve(tweet);
                 if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[0](tweet));
                 delete loadingDetails[id];
@@ -2653,46 +2566,9 @@ API.getRepliesV2 = (id, cursor) => {
                             });
                             continue;
                         }
-                        if(!tweetData.legacy) tweetData = tweetData.tweet;
-                        let tweet = tweetData.legacy;
-                        let user = tweetData.core.user_results.result.legacy;
-                        tweet.user = user;
-                        tweet.user.id_str = tweet.user_id_str;
-                        users[tweet.user_id_str] = tweet.user;
-                        if(tweetData.card) {
-                            tweet.card = tweetData.card.legacy;
-                            let newBindingValues = {};
-                            for(let i of tweet.card.binding_values) {
-                                newBindingValues[i.key] = i.value;
-                            }
-                            tweet.card.binding_values = newBindingValues;
-                        }
-                        if(tweet.quoted_status_id_str) {
-                            tweet.quoted_status = tweetData.quoted_status_result.result;
-                            if(!tweet.quoted_status.core && tweet.quoted_status) tweet.quoted_status = tweet.quoted_status.tweet;
-                            if(tweet.quoted_status)  {
-                                let userData = tweet.quoted_status.core.user_results.result;
-                                userData.legacy.id_str = userData.rest_id;
-                                tweet.quoted_status.legacy.user = userData.legacy;
-                                tweet.quoted_status = tweet.quoted_status.legacy;
-                            }
-                        }
-                        if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
-                            tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
-                        }
-                        if(tweetData.views && tweetData.views.count) {
-                            if(!tweet.ext) tweet.ext = {};
-                            tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
-                        }
-                        if(tweetData.source) {
-                            tweet.source = tweetData.source;
-                            if(tweet.source && tweet.id_str !== id && tweet.source.includes('Twitter for Advertisers')) continue;
-                        }
-                        tweet.user = tweetData.core.user_results.result;
-                        tweet.user.legacy.id_str = tweet.user.rest_id;
-                        tweet.user = tweet.user.legacy;
+                        let tweet = parseTweet(tweetData);
 
-                        list.push({
+                        if(tweet) list.push({
                             type: tweet.id_str === id ? 'mainTweet' : 'tweet',
                             data: tweet
                         });
@@ -2760,44 +2636,9 @@ API.getRepliesV2 = (id, cursor) => {
                                 });
                                 continue;
                             }
-                            if(!tweetData.legacy) tweetData = tweetData.tweet;
-                            let tweet = tweetData.legacy;
-                            let user = tweetData.core.user_results.result.legacy;
-                            tweet.user = user;
-                            tweet.user.id_str = tweet.user_id_str;
-                            users[tweet.user_id_str] = tweet.user;
-                            if(tweetData.card) {
-                                tweet.card = tweetData.card.legacy;
-                                let newBindingValues = {};
-                                for(let i of tweet.card.binding_values) {
-                                    newBindingValues[i.key] = i.value;
-                                }
-                                tweet.card.binding_values = newBindingValues;
-                            }
-                            if(tweet.quoted_status_id_str) {
-                                tweet.quoted_status = tweetData.quoted_status_result.result;
-                                if(!tweet.quoted_status.core) tweet.quoted_status = tweet.quoted_status.tweet;
-                                let userData = tweet.quoted_status.core.user_results.result;
-                                userData.legacy.id_str = userData.rest_id;
-                                tweet.quoted_status.legacy.user = userData.legacy;
-                                tweet.quoted_status = tweet.quoted_status.legacy;
-                            }
-                            if(tweetData.note_tweet && tweetData.note_tweet.note_tweet_results && tweetData.note_tweet.note_tweet_results.result) {
-                                tweet.full_text = tweetData.note_tweet.note_tweet_results.result.text;
-                            }
-                            if(tweetData.views && tweetData.views.count) {
-                                if(!tweet.ext) tweet.ext = {};
-                                tweet.ext.views = {r:{ok:{count: tweetData.views.count}}};
-                            }
-                            if(tweetData.source) {
-                                tweet.source = tweetData.source;
-                                if(tweet.source && tweet.source.includes('Twitter for Advertisers')) continue;
-                            }
-                            tweet.user = tweetData.core.user_results.result;
-                            tweet.user.legacy.id_str = tweet.user.rest_id;
-                            tweet.user = tweet.user.legacy;
+                            let tweet = parseTweet(tweetData);
                             
-                            threadList.push(tweet);
+                            if(tweet) threadList.push(tweet);
                         }
                         if(threadList.length === 1) {
                             list.push({
@@ -3280,56 +3121,13 @@ API.searchV3 = (obj, cursor) => {
             for(let entry of entries) {
                 if(entry.entryId.startsWith('sq-I-t-') || entry.entryId.startsWith('tweet-')) {
                     let result = entry.content.itemContent.tweet_results.result;
-                    if(!result || !result.legacy) {
-                        console.log("Bug: no tweet", entry);
-                        continue;
-                    }
+
                     if(entry.content.itemContent.promotedMetadata) {
                         continue;
                     }
-                    let tweet = result.legacy;
-                    if(tweet.retweeted_status_result) {
-                        let result = tweet.retweeted_status_result.result;
-                        if(result.limitedActionResults) {
-                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                            if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                            }
-                            result = result.tweet;
-                        }
-                        tweet.retweeted_status = result.legacy;
-                        tweet.retweeted_status.user = result.core.user_results.result.legacy;
-                        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
-                        tweet.retweeted_status.ext = {};
-                        if(result.views) {
-                            tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                        }
-                    }
-                    if(result.quoted_status_result) {
-                        tweet.quoted_status_result = result.quoted_status_result;
-                    }
-                    if(tweet.quoted_status_result) {
-                        let result = tweet.quoted_status_result.result;
-                        if(result.limitedActionResults) {
-                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                            if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                            }
-                            result = result.tweet;
-                        }
-                        tweet.quoted_status = result.legacy;
-                        tweet.quoted_status.user = result.core.user_results.result.legacy;
-                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                        tweet.quoted_status.ext = {};
-                        if(result.views) {
-                            tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                        }
-                    }
-                    tweet.user = result.core.user_results.result.legacy;
-                    tweet.user.id_str = tweet.user_id_str;
-                    tweet.ext = {};
-                    if(result.views) {
-                        tweet.ext.views = {r: {ok: {count: +result.views.count}}};
+                    let tweet = parseTweet(result);
+                    if(!tweet) {
+                        continue;
                     }
                     tweet.type = 'tweet';
                     res.push(tweet);
@@ -3670,40 +3468,7 @@ API.getBookmarks = (cursor) => {
             resolve({
                 list: list.filter(e => e.entryId.startsWith('tweet-')).map(e => {
                     let res = e.content.itemContent.tweet_results.result;
-                    if (res && res.__typename == 'TweetWithVisibilityResults') {
-                        res = res.tweet;
-                    }
-                    if(!res || !res.legacy) return;
-                    let tweet = res.legacy;
-                    tweet.user = res.core.user_results.result.legacy;
-                    tweet.user.id_str = tweet.user_id_str;
-                    if(res.quoted_status_result) {
-                        tweet.quoted_status_result = res.quoted_status_result;
-                    }
-                    if(res.note_tweet && res.note_tweet.note_tweet_results) {
-                        tweet.full_text = res.note_tweet.note_tweet_results.text;
-                    }
-                    if(tweet.quoted_status_result) {
-                        let result = tweet.quoted_status_result.result;
-                        if(result.limitedActionResults) {
-                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                            if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                            }
-                            result = result.tweet;
-                        }
-                        tweet.quoted_status = result.legacy;
-                        tweet.quoted_status.user = result.core.user_results.result.legacy;
-                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                        tweet.quoted_status.ext = {};
-                        if(result.views) {
-                            tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                        }
-                    }
-                    if(res.views) {
-                        tweet.ext = {views: {r: {ok: {count: +res.views.count}}}};
-                    }
-                    return tweet;
+                    return parseTweet(res);
                 }).filter(i => !!i),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
             });
@@ -3784,6 +3549,7 @@ API.getListTweets = (id, cursor) => {
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
+            debugLog('getListTweets', 'start', id, cursor, data);
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -3793,69 +3559,15 @@ API.getListTweets = (id, cursor) => {
             let list = data.data.list.tweets_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
             if(!list) return resolve({ list: [], cursor: undefined });
             list = list.entries;
-            resolve({
+            let out = {
                 list: list.filter(e => e.entryId.startsWith('tweet-')).map(e => {
                     let res = e.content.itemContent.tweet_results.result;
-                    if(!res) return;
-                    let tweet = res.legacy;
-                    if(!res.core) return;
-                    tweet.user = res.core.user_results.result.legacy;
-                    tweet.user.id_str = tweet.user_id_str;
-                    if(tweet.retweeted_status_result) {
-                        let result = tweet.retweeted_status_result.result;
-                        if(result.limitedActionResults) {
-                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                            if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                            }
-                            result = result.tweet;
-                        }
-                        if(result.quoted_status_result) {
-                            result.legacy.quoted_status = result.quoted_status_result.result.legacy;
-                            result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
-                            result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
-                        }
-                        tweet.retweeted_status = result.legacy;
-                        tweet.retweeted_status.user = result.core.user_results.result.legacy;
-                        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
-                        tweet.retweeted_status.ext = {};
-                        if(result.views) {
-                            tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                        }
-                    }
-                    if(res.quoted_status_result) {
-                        tweet.quoted_status_result = res.quoted_status_result;
-                    }
-                    if(res.note_tweet && res.note_tweet.note_tweet_results) {
-                        tweet.full_text = res.note_tweet.note_tweet_results.text;
-                        if(typeof tweet.full_text !== "string") {
-                            tweet.full_text = res.note_tweet.note_tweet_results.result.text;
-                        }
-                    }
-                    if(tweet.quoted_status_result) {
-                        let result = tweet.quoted_status_result.result;
-                        if(result.limitedActionResults) {
-                            let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
-                            if(limitation) {
-                                result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
-                            }
-                            result = result.tweet;
-                        }
-                        tweet.quoted_status = result.legacy;
-                        tweet.quoted_status.user = result.core.user_results.result.legacy;
-                        tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                        tweet.quoted_status.ext = {};
-                        if(result.views) {
-                            tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
-                        }
-                    }
-                    if(res.views) {
-                        tweet.ext = {views: {r: {ok: {count: +res.views.count}}}};
-                    }
-                    return tweet;
+                    return parseTweet(res);
                 }).filter(i => !!i),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
-            });
+            };
+            debugLog('getListTweets', 'end', id, cursor, out);
+            resolve(out);
         }).catch(e => {
             reject(e);
         });
