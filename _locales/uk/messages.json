@@ -388,5 +388,15 @@
     "hide_trends": { "message": "Не показувати тренди" },
     "hide_wtf": { "message": "Не показувати рекомендації для підписок" },
     "hide_likes": { "message": "Приховати кількість лайків, ретвітів та відповідей на твітах" },
-    "hide_followers": { "message": "Приховувати кількість підписників" }
+    "hide_followers": { "message": "Приховувати кількість підписників" },
+    "block_sure_desc": { "message": "Вони не зможуть підписатись на вас або дивитись ваші твіти, а ви не будете бачити твіти та сповіщення від @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "blocked_by_user" : { "message": "@$SCREEN_NAME$ вас заблокував", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "why_you_cant_see_block_user": { "message": "Ви не можете підписатись або бачити твіти @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "you_blocked_user": { "message": "Ви заблокували @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "do_you_want_see_blocked_user": { "message": "Ви впевнені що хочете побачити ці твіти? Перегляд твітів не розблокує @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "I_want_see_blocked_user": { "message": "Так, показати твіти" },
+    "logout_title": { "message": "Ви впевнені що хочете вийти з акаунту?" },
+    "logout_desc_1": { "message": "OldTwitter працює тільки з акаунтом." },
+    "logout_desc_2": { "message": "Якщо у вас немає інших акаунтів в списку вас буде перенаправлено на сторінку входу." },
+    "logout_button": { "message": "Вийти з акаунту" }
 }

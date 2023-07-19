@@ -1150,7 +1150,7 @@ span.tweet-body-text {
     padding-right: 40px;
     resize: none;
     scrollbar-width: thin;
-    width: 463px
+    width: 469px
 }
 
 .new-tweet-text::-webkit-scrollbar {
@@ -1181,7 +1181,7 @@ span.tweet-body-text {
     border-right: none !important;
     border-left: none !important;
     padding: 10px;
-    width: 554px;
+    width: 560px;
 }
 
 

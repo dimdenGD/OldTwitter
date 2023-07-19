@@ -692,12 +692,13 @@ async function renderProfile() {
                         `;
             }
             else {
-                document.getElementById('trends').hidden = false;
                 document.getElementById('no-tweets').hidden = true;
                 document.getElementById('no-tweets').innerHTML = ``;
                 document.getElementById('timeline').hidden = false; 
-                if(!pageUser.protected)
+                if(!pageUser.protected){
+                        document.getElementById('trends').hidden = false;
                         document.getElementById('tweet-nav').hidden = false; 
+                }
             }
             
         });
@@ -949,12 +950,13 @@ async function renderProfile() {
                                         `;
                             }
                             else {
-                                document.getElementById('trends').hidden = false;
                                 document.getElementById('no-tweets').hidden = true;
                                 document.getElementById('no-tweets').innerHTML = ``;
                                 document.getElementById('timeline').hidden = false; 
-                                if(!pageUser.protected)
+                                if(!pageUser.protected){
+                                        document.getElementById('trends').hidden = false;
                                         document.getElementById('tweet-nav').hidden = false; 
+                                }
                             }
                             
                         });
