@@ -5,6 +5,7 @@ let followRequestsData = [];
 let customSet = false;
 let menuFn;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
+const keysHeld = {};
 const notificationBus = new BroadcastChannel('notification_bus');
 notificationBus.onmessage = function (e) {
     if(e.data.type === 'markAsRead') {
@@ -1945,6 +1946,228 @@ setInterval(() => {
 
     // hotkeys
     if(!vars.disableHotkeys) {
+        function processHotkeys() {
+            if (keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyO']) {
+                let url = new URL(location.href);
+                url.searchParams.set('newtwitter', 'true');
+                location.replace(url.href);
+            } else if(keysHeld['KeyG'] && keysHeld['KeyH']) {
+                location.href = '/';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyN']) {
+                location.href = '/notifications';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyR']) {
+                location.href = '/notifications/mentions';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyP']) {
+                location.href = `/${user.screen_name}`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyL']) {
+                location.href = `/${user.screen_name}/likes`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyI']) {
+                location.href = `/${user.screen_name}/lists`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyM']) {
+                document.getElementById("messages").click();
+            } else if(keysHeld['KeyG'] && keysHeld['KeyS']) {
+                location.href = `/old/settings`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyB']) {
+                location.href = `/i/bookmarks`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyU']) {
+                location.href = `/unfollows/followers`;
+            }
+        }
+        window.addEventListener('keydown', (ev) => {
+            let key = ev.code;
+            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
+            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
+            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
+            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
+                if(keysHeld['KeyG']) {
+                    processHotkeys();
+                }
+            } else {
+                keysHeld[key] = true;
+                processHotkeys();
+            }
+        });
+
+        window.addEventListener('keyup', (ev) => {
+            let key = ev.code;
+            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
+            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
+            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
+            
+            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
+                if(keysHeld['KeyG']) {
+                    keysHeld[key] = true;
+                    processHotkeys();
+                }
+            } else {
+                delete keysHeld[key];
+            }
+        });
+
+        let tle = document.getElementById('timeline');
+        if(!tle) tle = document.getElementById('list-tweets');
+        document.addEventListener('keydown', async e => {
+            if(e.ctrlKey || keysHeld['KeyG']) return;
+            // reply box
+            if(e.target.className === 'tweet-reply-text') {
+                if(e.altKey) {
+                    if(e.keyCode === 82) { // ALT+R
+                        // hide reply box
+                        e.target.blur();
+                        activeTweet.getElementsByClassName('tweet-interact-reply')[0].click();
+                    } else if(e.keyCode === 77) { // ALT+M
+                        // upload media
+                        let tweetReplyUpload = activeTweet.getElementsByClassName('tweet-reply-upload')[0];
+                        tweetReplyUpload.click();
+                    } else if(e.keyCode === 70) { // ALT+F
+                        // remove first media
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        let tweetReplyMediaElement = activeTweet.getElementsByClassName('tweet-reply-media')[0].children[0];
+                        if(!tweetReplyMediaElement) return;
+                        let removeBtn = tweetReplyMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
+                        removeBtn.click();
+                    }
+                }
+            }
+            if(e.target.className === 'tweet-quote-text') {
+                if(e.altKey) {
+                    if(e.keyCode === 81) { // ALT+Q
+                        // hide quote box
+                        e.target.blur();
+                        activeTweet.getElementsByClassName('tweet-interact-retweet')[0].click();
+                    } else if(e.keyCode === 77) { // ALT+M
+                        // upload media
+                        let tweetQuoteUpload = activeTweet.getElementsByClassName('tweet-quote-upload')[0];
+                        tweetQuoteUpload.click();
+                    } else if(e.keyCode === 70) { // ALT+F
+                        // remove first media
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        let tweetQuoteMediaElement = activeTweet.getElementsByClassName('tweet-quote-media')[0].children[0];
+                        if(!tweetQuoteMediaElement) return;
+                        let removeBtn = tweetQuoteMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
+                        removeBtn.click();
+                    }
+                }
+            }
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
+            if(e.keyCode === 83) { // S
+                // next tweet
+                let index = [...tle.children].indexOf(activeTweet);
+                if(index === -1) return;
+                let nextTweet = tle.children[index + 1];
+                if(!nextTweet) return;
+                nextTweet.focus();
+                nextTweet.scrollIntoView({ block: 'center' });
+            } else if(e.keyCode === 87) { // W
+                // previous tweet
+                let index = [...tle.children].indexOf(activeTweet);
+                if(index === -1) return;
+                let nextTweet = tle.children[index - 1];
+                if(!nextTweet) return;
+                nextTweet.focus();
+                nextTweet.scrollIntoView({ block: 'center' });
+            } else if(e.keyCode === 76) { // L
+                // like tweet
+                if(!activeTweet) return;
+                let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
+                tweetFavoriteButton.click();
+            } else if(e.keyCode === 84) { // T
+                // retweet
+                if(!activeTweet) return;
+                let hasRetweetedWithHotkeyBefore = await new Promise(resolve => {
+                    chrome.storage.local.get(['hasRetweetedWithHotkey'], data => {
+                        resolve(data.hasRetweetedWithHotkey);
+                    });
+                });
+                if(!hasRetweetedWithHotkeyBefore) {
+                    let c = confirm(LOC.retweet_hotkey_warn.message);
+                    if(c) {
+                        chrome.storage.local.set({hasRetweetedWithHotkey: true}, () => {});
+                    } else {
+                        return;
+                    }
+                }
+                let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
+                tweetRetweetButton.click();
+            } else if(e.keyCode === 82) { // R
+                // open reply box
+                if(!activeTweet) return;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
+                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
+                let tweetReplyText = activeTweet.getElementsByClassName('tweet-reply-text')[0];
+                
+                tweetReply.hidden = false;
+                tweetQuote.hidden = true;
+                tweetReplyText.focus();
+            } else if(e.keyCode === 81) { // Q
+                // open quote box
+                if(!activeTweet) return;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
+                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
+                let tweetQuoteText = activeTweet.getElementsByClassName('tweet-quote-text')[0];
+                
+                tweetReply.hidden = true;
+                tweetQuote.hidden = false;
+                tweetQuoteText.focus();
+            } else if(e.keyCode === 32) { // Space
+                // toggle tweet media
+                if(!activeTweet) return;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                let tweetMedia = activeTweet.getElementsByClassName('tweet-media')[0].children[0];
+                if(!tweetMedia) return;
+                if(tweetMedia.tagName === "VIDEO") {
+                    tweetMedia.paused ? tweetMedia.play() : tweetMedia.pause();
+                } else {
+                    tweetMedia.click();
+                    tweetMedia.click();
+                }
+            } else if(e.keyCode === 13) { // Enter
+                // open tweet
+                if(e.target.className.includes('tweet tweet-id-')) {
+                    if(!activeTweet) return;
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    activeTweet.click();
+                } else if(e.target.className === "tweet-interact-more") {
+                    e.target.click();
+                    activeTweet.getElementsByClassName('tweet-interact-more-menu-copy')[0].focus();
+                }
+            } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
+                // copy image
+                if(e.target.className.includes('tweet tweet-id-')) {
+                    if(!activeTweet) return;
+                    let media = activeTweet.getElementsByClassName('tweet-media')[0];
+                    if(!media) return;
+                    media = media.children[0];
+                    if(!media) return;
+                    if(media.tagName === "IMG") {
+                        let img = media;
+                        let canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        let ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
+                        canvas.toBlob((blob) => {
+                            navigator.clipboard.write([
+                                new ClipboardItem({ "image/png": blob })
+                            ]);
+                        }, "image/png");
+                    }
+                }
+            } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
+                // download media
+                if(activeTweet.className.includes('tweet tweet-id-')) {
+                    activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
+                }
+            }
+        });
         let searchInput = document.getElementById('search-input');
         document.addEventListener('keydown', e => {
             if(document.activeElement === searchInput && e.altKey && e.keyCode === 70) { // Alt+F
