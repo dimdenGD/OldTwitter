@@ -767,6 +767,8 @@ input, textarea {
     font-family: RosettaIcons;
 }
 .message-element-media {
+    margin-left: 30px;
+    margin-top: 2px;
     cursor: pointer;
     object-fit: cover;
     max-width: fit-content;
