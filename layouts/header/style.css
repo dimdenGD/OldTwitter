@@ -1064,6 +1064,10 @@ input, textarea {
     padding-top: 2px
 }
 
+span.tweet-body-text {
+    word-break: break-word;
+}
+
 .tweet-body-main {
     display: block !important;
     margin-top: 10px
@@ -1787,4 +1791,35 @@ emoji-picker {
 }
 .tweet-viewer-loading {
     text-align: center;
+}
+.rtl {
+    direction: rtl;
+}
+.ltr {
+    direction: ltr;
+}
+.tweet-card {
+    direction: ltr;
+}
+.tweet-interact {
+    margin-top: 10px;
+    user-select: none;
+    direction: ltr;
+}
+.tweet-body-quote {
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    display: block;
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    right: 10px;
+    text-decoration: none;
+    direction: ltr;
+}
+
+.tweet-body-quote:hover {
+    background-color: var(--darker-background-color);
+    text-decoration: none
 }

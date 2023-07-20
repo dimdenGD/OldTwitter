@@ -60,35 +60,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Removed ads.</li>
-                            <li>Fixed quote tweets not showing up on profile, search and list tweets.</li>
-                            <li>Added a quick-switch for timeline type on home page.</li>
-                            <li>Fixed "flashbangs" on every refresh.</li>
-                            <li>Added 'only retweets' and 'no retweets' timelines.</li>
-                            <li>Made Trends be actually relevant to selected location.</li>
-                            <li>Fixed retweets not showing up properly in Lists.</li>
-                            <li>Added ability to hide trends, who to follow, tweet statistics, follower counts.</li>
-                            <li>Fixed group chats not working.</li>
-                            <li>Added new animations everywhere.</li>
-                            <li>Made images get converted to JPEG if they're too big on upload.</li>
-                            <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
-                            <li>Added option to auto-update timeline.</li>
-                            <li>Fixed bug with adding new account to Twitter.</li>
-                            <li>Fixed search not working on complex queries.</li>
-                            <li>Fixed DMs breaking on first message ever.</li>
-                            <li>Fixed default link color not working for some users.</li>
-                            <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
-                            <li>Added Czech, Chinese and Vietnamese translations.</li>
-                            <li>Fixed logging in to Twitter with extension enabled.</li>
-                            <li>Added setting to use new Twitter's logo for tab icon.</li>
-                            <li>Fixed unable to unmention people if they were mentioned manually.</li>
-                            <li>Fixed some tweets not being viewable.</li>
-                            <li>Fixed media tab not working sometimes.</li>
-                            <li>Fixed tweet view count not showing up in Lists.</li>
-                            <li>Fixed protected profiles not rendering properly.</li>
-                            <li>Fixed download media hotkey and added hotkey to switch between new and old Twitter.</li>
-                            <li>Fixed retweet labels not showing up with some adblockers.</li>
-                            <li>Removed Herobrine.</li>
+                            <li>Fixed right-to-left language tweets not showing properly.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>

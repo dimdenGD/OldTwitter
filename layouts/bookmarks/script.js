@@ -79,7 +79,7 @@ async function renderBookmarks(cursor) {
     for (let i = 0; i < bookmarks.length; i++) {
         let b = bookmarks[i];
         await appendTweet(b, bookmarksContainer, {
-            bigFont: b.full_text.length < 75
+            bigFont: b.full_text && b.full_text.length < 75
         });
     }
     document.getElementById('loading-box').hidden = true;

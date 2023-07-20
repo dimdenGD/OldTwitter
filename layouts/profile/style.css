@@ -210,10 +210,6 @@ body {
     text-decoration: underline
 }
 
-span.tweet-body-text {
-    word-break: break-word;
-}
-
 .tweet-body,
 .tweet-interact,
 .tweet-body-text-quote {
@@ -259,11 +255,6 @@ span.tweet-body-text {
 
 .tweet-body-text a {
     text-decoration: none
-}
-
-.tweet-interact {
-    margin-top: 10px;
-    user-select: none
 }
 
 .tweet-interact span:before,

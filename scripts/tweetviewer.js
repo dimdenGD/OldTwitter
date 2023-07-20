@@ -283,7 +283,7 @@ class TweetViewer {
     
         if(!c) {
             likeDiv.innerHTML = '';
-            let tweetData = await API.getTweet(id);
+            let tweetData = await API.tweetDetail(id);
             let tweet = await this.appendTweet(tweetData, likeDiv, {
                 mainTweet: true
             });
@@ -323,7 +323,7 @@ class TweetViewer {
     
         if(!c) {
             retweetDiv.innerHTML = '';
-            let tweetData = await API.getTweet(id);
+            let tweetData = await API.tweetDetail(id);
             let tweet = await this.appendTweet(tweetData, retweetDiv, {
                 mainTweet: true
             });
@@ -397,7 +397,7 @@ class TweetViewer {
         let tvl = this.container.getElementsByClassName('tweet-viewer-loading')[0];
         tvl.hidden = false;
         let tweetRetweeters;
-        let tweetData = await API.getTweet(id);
+        let tweetData = await API.tweetDetail(id);
         try {
             tweetRetweeters = await API.getTweetQuotes(id, c);
             this.retweetCommentsCursor = tweetRetweeters.cursor;
@@ -417,7 +417,7 @@ class TweetViewer {
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
                 e.preventDefault();
-                let t = await API.getTweet(id);
+                let t = await API.tweetDetail(id);
                 history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
@@ -854,7 +854,7 @@ class TweetViewer {
                     t.quoted_status = t.quoted_status_result.result.tweet.legacy;
                     t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
                 } else {
-                    t.quoted_status = await API.getTweet(t.quoted_status_id_str);
+                    t.quoted_status = await API.tweetDetail(t.quoted_status_id_str);
                 }
             } catch {
                 t.quoted_status = undefined;
@@ -1266,6 +1266,7 @@ class TweetViewer {
                 }
             });
         }
+        const tweetBody = tweet.getElementsByClassName('tweet-body')[0];
         const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
@@ -1322,8 +1323,13 @@ class TweetViewer {
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
-    
-            // Quote body
+
+        // rtl languages
+        if(rtlLanguages.includes(t.lang)) {
+            tweetBody.classList.add('rtl');
+        }
+
+        // Quote body
         if(t.quoted_status && t.quoted_status.entities && t.quoted_status.entities.urls) {
             for(let u of t.quoted_status.entities.urls) {
                 tweetBodyQuoteText.innerHTML = tweetBodyQuoteText.innerHTML.replace(new RegExp(u.url, "g"), escapeHTML(u.display_url));
@@ -1352,6 +1358,11 @@ class TweetViewer {
                 }
                 this.currentLocation = location.pathname;
             });
+            if(rtlLanguages.includes(t.quoted_status.lang)) {
+                tweetBodyQuoteText.classList.add('rtl');
+            } else {
+                tweetBodyQuoteText.classList.add('ltr');
+            }
         }
     
         // Translate
@@ -2022,7 +2033,7 @@ class TweetViewer {
         tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
             let tweetData;
             try {
-                tweetData = await API.getTweet(t.id_str);
+                tweetData = await API.tweetDetail(t.id_str);
             } catch (e) {
                 console.error(e);
                 return;

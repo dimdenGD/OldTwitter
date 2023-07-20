@@ -234,7 +234,7 @@ async function updateLikes(id, c) {
 
     if(!c) {
         likeDiv.innerHTML = '';
-        let tweet = await appendTweet(await API.getTweet(id), likeDiv, {
+        let tweet = await appendTweet(await API.tweetDetail(id), likeDiv, { //th line
             mainTweet: true
         });
         tweet.style.borderBottom = '1px solid var(--border)';
@@ -277,7 +277,7 @@ async function updateRetweets(id, c) {
 
     if(!c) {
         retweetDiv.innerHTML = '';
-        let tweetData = await API.getTweet(id);
+        let tweetData = await API.tweetDetail(id);
         let tweet = await appendTweet(tweetData, retweetDiv, {
             mainTweet: true
         });
@@ -345,7 +345,7 @@ async function updateRetweetsWithComments(id, c) {
     let retweetDiv = document.getElementById('retweets_with_comments');
 
     if(!c) {
-        let t = await API.getTweet(id);
+        let t = await API.tweetDetail(id);
         retweetDiv.innerHTML = '';
         let h1 = document.createElement('h1');
         h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
@@ -872,7 +872,7 @@ setTimeout(async () => {
     if(/^\/i\/web\/status\/(\d{5,32})(|\/)$/.test(realPath)) {
         let id = realPath.split("/i/web/status/")[1];
         if (id.endsWith("/")) id = id.slice(0, -1);
-        let tweet = await API.getTweet(id);
+        let tweet = await API.tweetDetail(id);
         location.replace(`https://twitter.com/${tweet.user.screen_name}/status/${id}`);
         return;
     }
