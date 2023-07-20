@@ -39,6 +39,7 @@ function parseTweet(res) {
         }
         res = res.tweet;
     }
+    if(!res.legacy && res.tweet) res = res.tweet;
     let tweet = res.legacy;
     if(!res.core) return;
     tweet.user = res.core.user_results.result.legacy;
