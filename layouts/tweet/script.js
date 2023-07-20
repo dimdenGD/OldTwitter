@@ -455,7 +455,18 @@ async function appendComposeComponent(container, replyTweet) {
         document.getElementById("new-tweet-mentions").addEventListener('click', async () => {
             for(let i = 0; i < mentions.length; i++) {
                 let u = Object.values(users).find(u => u.screen_name === mentions[i]);
-                if(!u) u = await API.getUser(mentions[i], false);
+                if(!u) {
+                    if(mentions[i] === user.screen_name) {
+                        u = user;
+                    } else {
+                        try {
+                            u = await API.getUser(mentions[i], false);
+                        } catch(e) {
+                            console.error(e);
+                            continue;
+                        }
+                    }
+                }
                 if(!u) continue;
                 users[u.id_str] = u;
             }
