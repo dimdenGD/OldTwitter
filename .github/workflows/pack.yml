@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Source Tree
@@ -23,14 +23,19 @@ jobs:
         
       - name: Pack extension
         run: npm run build
+
+      - name: Unzip extension
+        uses: montudor/action-zip@v1.0.0
+        with:
+          args: unzip -qq OldTwitterChrome.zip -d OldTwitterChrome; unzip -qq OldTwitterFirefox.zip -d OldTwitterFirefox
         
       - name: Upload for Firefox
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: OldTwitterFirefox
-          path: D:\a\OldTwitter\OldTwitterFirefox.zip
+          name: OldTwitterFirefox.zip
+          path: D:\a\OldTwitter\OldTwitterFirefox
       - name: Upload for Chromium
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: OldTwitterChrome
-          path: D:\a\OldTwitter\OldTwitterChrome.zip
+          name: OldTwitterChrome.zip
+          path: D:\a\OldTwitter\OldTwitterChrome
