@@ -263,6 +263,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     } catch (e) {
         console.log(`Something went wrong ${e}`);
     }
+    console.log(`Zipped Firefox version into ${path.resolve('../OldTwitterFirefox.zip')}!`);
     console.log("Zipping Chrome version...");
     try {
         const zip = new AdmZip();
@@ -272,7 +273,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     } catch (e) {
         console.log(`Something went wrong ${e}`);
     }
-    console.log("Zipped!");
+    console.log(`Zipped Chrome version into ${path.resolve('../OldTwitterChrome.zip')}!`);
     console.log("Deleting temporary folders...");
     fs.rmSync('../OldTwitterTempChrome', { recursive: true });
     fs.rmSync('../OldTwitterFirefox', { recursive: true });

@@ -27,7 +27,7 @@ jobs:
       - name: Unzip extension
         uses: montudor/action-zip@v1.0.0
         with:
-          args: unzip -qq ${{ github.workspace }}/../OldTwitterChrome.zip -d ${{ github.workspace }}/../OldTwitterChrome; unzip -qq ${{ github.workspace }}/../OldTwitterFirefox.zip -d ${{ github.workspace }}/../OldTwitterFirefox
+          args: unzip -qq ../OldTwitterChrome.zip -d ../OldTwitterChrome; unzip -qq ../OldTwitterFirefox.zip -d ../OldTwitterFirefox
         
       - name: Upload for Firefox
         uses: actions/upload-artifact@v3.1.2
