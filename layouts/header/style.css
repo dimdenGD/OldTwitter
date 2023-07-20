@@ -725,13 +725,17 @@ input, textarea {
     text-decoration: underline;
 }
 .message-element .message-body {
+    text-align: left;
+    display:inline-table;
+    max-width:400px;
     background-color: var(--link-color);
     color: var(--background-color);
     border-radius: 5px;
     font-size: 14px;
+    margin: 0px;
     padding: 5px;
     white-space: break-spaces;
-    line-height: 1.8;
+    line-height: 1.2;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
 }
