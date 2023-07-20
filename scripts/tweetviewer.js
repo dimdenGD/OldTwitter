@@ -492,8 +492,11 @@ class TweetViewer {
             for(let i = 0; i < mentions.length; i++) {
                 let u = Object.values(this.users).find(u => u.screen_name === mentions[i]);
                 if(!u) {
-                    if(mentions[i] === this.user.screen_name) u = this.user;
-                    else {
+                    if(mentions[i] === this.user.screen_name) {
+                        u = this.user;
+                    } else if(typeof pageUser !== 'undefined' && mentions[i] === pageUser.screen_name) {
+                        u = pageUser;
+                    } else {
                         try {
                             u = await API.getUser(mentions[i], false);
                         } catch(e) {
