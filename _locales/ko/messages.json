@@ -47,6 +47,7 @@
             "at2": { "content": "</a>" }
         }
     },
+    "follow_mb": { "message": "절 팔로우 해주시겠나요?" },
 	"follow_user": { "message": "@$SCREEN_NAME$ 님 팔로우하기", "example": "->Follow<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "$SCREEN_NAME$" } } },
     "unfollow_user": { "message": "@$SCREEN_NAME$ 님 언팔로우하기", "example": "->Unfollow<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "$SCREEN_NAME$" } } },
     "follow": { "message": "팔로우" },
