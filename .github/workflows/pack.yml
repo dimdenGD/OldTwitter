@@ -34,10 +34,10 @@ jobs:
       - name: Upload for Firefox
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: OldTwitterFirefox.zip
+          name: OldTwitterFirefox
           path: ${{ github.workspace }}/OldTwitterFirefox
       - name: Upload for Chromium
         uses: actions/upload-artifact@v3.1.2
         with:
-          name: OldTwitterChrome.zip
+          name: OldTwitterChrome
           path: ${{ github.workspace }}/OldTwitterChrome
