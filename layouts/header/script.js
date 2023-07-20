@@ -1951,6 +1951,17 @@ setInterval(() => {
                 let url = new URL(location.href);
                 url.searchParams.set('newtwitter', 'true');
                 location.replace(url.href);
+            } else if(keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyD']) {
+                if(vars.developerMode) chrome.storage.sync.get('extensiveLogging', res => {
+                    chrome.storage.sync.set({ extensiveLogging: !res.extensiveLogging }, () => {
+                        if(!res.extensiveLogging) {
+                            toast.success('Extensive logging enabled', 3000);
+                        } else {
+                            toast.error('Extensive logging disabled', 3000);
+                        }
+                        vars.extensiveLogging = !res.extensiveLogging;
+                    });
+                });
             } else if(keysHeld['KeyG'] && keysHeld['KeyH']) {
                 location.href = '/';
             } else if(keysHeld['KeyG'] && keysHeld['KeyN']) {

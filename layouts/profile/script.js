@@ -280,7 +280,7 @@ function updateUserData() {
         try {
             pinnedTweet = pageUser.pinned_tweet_ids_str;
             if(pinnedTweet && pinnedTweet.length > 0) {
-                pinnedTweet = await API.tweetDetail(pinnedTweet[0]);
+                pinnedTweet = await API.getTweetV2(pinnedTweet[0]);
                 if(pinnedTweet.user.id_str === pageUser.id_str) {
                     if(pageUser.verified) {
                         pinnedTweet.user.verified = true;

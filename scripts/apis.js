@@ -1,6 +1,7 @@
 const API = {};
 
 setInterval(() => {
+    // clearing cache
     chrome.storage.local.set({userUpdates: {}}, () => {});
     chrome.storage.local.set({peopleRecommendations: {}}, () => {});
     chrome.storage.local.set({tweetReplies: {}}, () => {});
@@ -20,7 +21,11 @@ setInterval(() => {
 
 function debugLog(...args) {
     if(typeof vars === "object" && vars.developerMode) {
-        console.log(...args, new Error().stack.split("\n")[2].trim()); // genius
+        if(vars.extensiveLogging) {
+            console.trace(...args);
+        } else {
+            console.log(...args, new Error().stack.split("\n")[2].trim()); // genius
+        }
     }
 }
 
@@ -1909,7 +1914,7 @@ API.declineFollowRequest = user_id => {
 }
 
 // Tweets
-API.postTweet = data => {
+API.postTweet = data => { // deprecated
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/statuses/update.json`, {
             method: 'POST',
@@ -2168,25 +2173,6 @@ API.deleteTweet = id => {
         });
     });
 }
-API.getTweet = id => {
-    return new Promise((resolve, reject) => {
-        fetch(`https://api.twitter.com/1.1/statuses/show.json?id=${id}&include_my_retweet=1&cards_platform=Web13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
-            headers: {
-                "authorization": OLDTWITTER_CONFIG.oauth_key,
-                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                "x-twitter-auth-type": "OAuth2Session",
-            },
-            credentials: "include"
-        }).then(i => i.json()).then(data => {
-            if (data.errors && data.errors[0]) {
-                return reject(data.errors[0].message);
-            }
-            resolve(data);
-        }).catch(e => {
-            reject(e);
-        });
-    });
-}
 API.createScheduledTweet = data => {
     return new Promise((resolve, reject) => {
         fetch(`https://twitter.com/i/api/graphql/LCVzRQGxOaGnOnYH01NQXg/CreateScheduledTweet`, {
@@ -2209,13 +2195,32 @@ API.createScheduledTweet = data => {
         });
     });
 }
+API.getTweet = id => { // deprecated
+    return new Promise((resolve, reject) => {
+        fetch(`https://api.twitter.com/1.1/statuses/show.json?id=${id}&include_my_retweet=1&cards_platform=Web13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
+            headers: {
+                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                "x-twitter-auth-type": "OAuth2Session",
+            },
+            credentials: "include"
+        }).then(i => i.json()).then(data => {
+            if (data.errors && data.errors[0]) {
+                return reject(data.errors[0].message);
+            }
+            resolve(data);
+        }).catch(e => {
+            reject(e);
+        });
+    });
+}
 let loadingDetails = {};
-API.tweetDetail = id => {
+API.getTweetV2 = id => {
     return new Promise((resolve, reject) => {
         chrome.storage.local.get(['tweetDetails'], d => {
             if(!d.tweetDetails) d.tweetDetails = {};
             if(d.tweetDetails[id] && Date.now() - d.tweetDetails[id].date < 60000*3) {
-                debugLog('tweetDetail', 'cache', id, d.tweetDetails[id].data);
+                debugLog('getTweetV2', 'cache', id, d.tweetDetails[id].data);
                 return resolve(d.tweetDetails[id].data);
             }
             if(loadingDetails[id]) {
@@ -2242,7 +2247,7 @@ API.tweetDetail = id => {
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
-                debugLog('tweetDetail', 'start', id, data);
+                debugLog('getTweetV2', 'start', id, data);
                 if (data.errors && data.errors[0]) {
                     if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
                     delete loadingDetails[id];
@@ -2250,7 +2255,7 @@ API.tweetDetail = id => {
                 }
                 let res = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
                 let tweet = parseTweet(res);
-                debugLog('tweetDetail', 'end', id, tweet);
+                debugLog('getTweetV2', 'end', id, tweet);
                 resolve(tweet);
                 if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[0](tweet));
                 delete loadingDetails[id];
@@ -2320,7 +2325,7 @@ API.createCard = card_data => {
     })
 }
 let loadingReplies = {};
-API.getReplies = (id, cursor) => {
+API.getReplies = (id, cursor) => { // deprecated
     return new Promise((resolve, reject) => {
         if(cursor) {
             cursor = cursor.replace(/\+/g, '%2B');
@@ -2758,6 +2763,7 @@ API.getTweetLikers = (id, cursor) => {
             if(!d.tweetLikers) d.tweetLikers = {};
             if(!cursor) {
                 if(d.tweetLikers[id] && Date.now() - d.tweetLikers[id].date < 60000) {
+                    debugLog('getTweetLikers', 'cache', d.tweetLikers[id].data);
                     return resolve(d.tweetLikers[id].data);
                 }
                 if(loadingLikers[id]) {
@@ -2785,6 +2791,7 @@ API.getTweetLikers = (id, cursor) => {
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
+                debugLog('getTweetLikers', 'start', { id, cursor, data });
                 if (data.errors && data.errors[0].code === 32) {
                     if(!cursor) {
                         loadingLikers[id].listeners.forEach(l => l[1]('Not logged in'));
@@ -2817,6 +2824,7 @@ API.getTweetLikers = (id, cursor) => {
                     }).filter(u => u),
                     cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                 };
+                debugLog('getTweetLikers', 'end', id, rdata);
                 resolve(rdata);
                 if(!cursor) {
                     loadingLikers[id].listeners.forEach(l => l[0](rdata));
@@ -2871,6 +2879,7 @@ API.getTweetRetweeters = (id, cursor) => {
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
+            debugLog('getTweetRetweeters', 'start', { id, cursor, data });
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -2880,7 +2889,7 @@ API.getTweetRetweeters = (id, cursor) => {
             let list = data.data.retweeters_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
             if(!list) return resolve({ list: [], cursor: undefined });
             list = list.entries;
-            resolve({
+            let out = {
                 list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
                     if(e.content.itemContent.user_results.result.__typename === "UserUnavailable") return;
                     let user = e.content.itemContent.user_results.result;
@@ -2888,7 +2897,9 @@ API.getTweetRetweeters = (id, cursor) => {
                     return user.legacy;
                 }).filter(u => u),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
-            });
+            };
+            debugLog('getTweetRetweeters', 'end', id, out);
+            resolve(out);
         }).catch(e => {
             reject(e);
         });
@@ -2905,6 +2916,7 @@ API.getTweetQuotes = (id, cursor) => {
             },
             credentials: "include",
         }).then(i => i.json()).then(data => {
+            debugLog('getTweetQuotes', 'start', { id, cursor, data });
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -2929,7 +2941,7 @@ API.getTweetQuotes = (id, cursor) => {
             } else {
                 cursor = cursor.content.operation.cursor.value;
             }
-            return resolve({
+            let out = {
                 list: list.map(e => {
                     let tweet = tweets[e.content.item.content.tweet.id];
                     let user = users[tweet.user_id_str];
@@ -2941,7 +2953,9 @@ API.getTweetQuotes = (id, cursor) => {
                     return tweet;
                 }),
                 cursor
-            });
+            };
+            debugLog('getTweetQuotes', 'end', id, out);
+            return resolve(out);
         }).catch(e => {
             reject(e);
         });
@@ -2997,9 +3011,7 @@ API.unmuteTweet = id => {
         });
     });
 }
-
-// Deprecated...
-API.getTweets = ids => {
+API.getTweets = ids => { // deprecated
     return new Promise((resolve, reject) => {
         fetch(`https://api.twitter.com/1.1/statuses/lookup.json?id=${ids.join(',')}&include_entities=true&include_ext_alt_text=true&include_card_uri=true&tweet_mode=extended&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
             headers: {
@@ -3047,7 +3059,7 @@ API.search = query => {
         });
     });
 }
-API.searchV2 = (obj, cursor) => {
+API.searchV2 = (obj, cursor) => { // deprecated
     return new Promise((resolve, reject) => {
         fetch(`https://twitter.com/i/api/2/search/adaptive.json?${cursor ? `cursor=${cursor}&` : ''}${obj.tweet_search_mode ? `tweet_search_mode=${obj.tweet_search_mode}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=${obj.q}${obj.social_filter ? `&social_filter=${obj.social_filter}`:''}${obj.result_filter ? `&result_filter=${obj.result_filter}`:''}&count=50&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
             headers: {
@@ -3489,6 +3501,7 @@ API.getBookmarks = (cursor) => {
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
+            debugLog('getBookmarks', 'start', {cursor, data});
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -3498,13 +3511,15 @@ API.getBookmarks = (cursor) => {
             let list = data.data.bookmark_timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
             if(!list) return resolve({ list: [], cursor: undefined });
             list = list.entries;
-            resolve({
+            let out = {
                 list: list.filter(e => e.entryId.startsWith('tweet-')).map(e => {
                     let res = e.content.itemContent.tweet_results.result;
                     return parseTweet(res);
                 }).filter(i => !!i),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
-            });
+            };
+            debugLog('getBookmarks', 'end', out);
+            resolve(out);
         }).catch(e => {
             reject(e);
         });
@@ -3619,6 +3634,7 @@ API.getListMembers = (id, cursor) => {
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
+            debugLog('getListMembers', 'start', {id, cursor, data})
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -3628,14 +3644,16 @@ API.getListMembers = (id, cursor) => {
             let list = data.data.list.members_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
             if(!list) return resolve({ list: [], cursor: undefined });
             list = list.entries;
-            resolve({
+            let out = {
                 list: list.filter(e => e.entryId.startsWith('user-')).map(u => {
                     let res = u.content.itemContent.user_results.result;
                     res.legacy.id_str = res.rest_id;
                     return res.legacy;
                 }),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
-            });
+            };
+            debugLog('getListMembers', 'end', id, out);
+            resolve(out);
         }).catch(e => {
             reject(e);
         });
@@ -3654,6 +3672,7 @@ API.getListFollowers = (id, cursor) => {
             },
             credentials: "include"
         }).then(i => i.json()).then(data => {
+            debugLog('getListFollowers', 'start', {id, cursor, data})
             if (data.errors && data.errors[0].code === 32) {
                 return reject("Not logged in");
             }
@@ -3663,14 +3682,16 @@ API.getListFollowers = (id, cursor) => {
             let list = data.data.list.subscribers_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
             if(!list) return resolve({ list: [], cursor: undefined });
             list = list.entries;
-            resolve({
+            let out = {
                 list: list.filter(e => e.entryId.startsWith('user-')).map(u => {
                     let res = u.content.itemContent.user_results.result;
                     res.legacy.id_str = res.rest_id;
                     return res.legacy;
                 }),
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
-            });
+            };
+            debugLog('getListFollowers', 'end', id, out);
+            resolve(out);
         }).catch(e => {
             reject(e);
         });
@@ -3681,6 +3702,7 @@ API.getList = id => {
         chrome.storage.local.get(['listData'], d => {
             if(!d.listData) d.listData = {};
             if(d.listData[id] && Date.now() - d.listData[id].date < 60000) {
+                debugLog('getList', 'cache', id, d.listData[id].data);
                 return resolve(d.listData[id].data);
             }
             fetch(`https://twitter.com/i/api/graphql/vxx-Y8zadpAP64HHiw4hMQ/ListByRestId?variables=${encodeURIComponent(JSON.stringify({"listId":id,"withSuperFollowsUserFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false}))}`, {
@@ -3692,6 +3714,7 @@ API.getList = id => {
                 },
                 credentials: "include"
             }).then(i => i.json()).then(data => {
+                debugLog('getList', id, data);
                 if (data.errors && data.errors[0].code === 32) {
                     return reject("Not logged in");
                 }
