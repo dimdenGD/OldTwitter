@@ -17,6 +17,9 @@ jobs:
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
+
+      - name: Install ZIP
+        uses: montudor/action-zip@v1
         
       - name: Setup NPM packages
         run: npm install
@@ -25,17 +28,16 @@ jobs:
         run: npm run build
 
       - name: Unzip extension
-        uses: montudor/action-zip@v1.0.0
-        with:
-          args: unzip -qq ../OldTwitterChrome.zip -d ../OldTwitterChrome; unzip -qq ../OldTwitterFirefox.zip -d ../OldTwitterFirefox
+        run: unzip -qq ../OldTwitterChrome.zip -d OldTwitterChrome; unzip -qq ../OldTwitterFirefox.zip -d OldTwitterFirefox
+        working-directory: ${{ github.workspace }}
         
       - name: Upload for Firefox
         uses: actions/upload-artifact@v3.1.2
         with:
           name: OldTwitterFirefox.zip
-          path: ${{ github.workspace }}/../OldTwitterFirefox
+          path: ${{ github.workspace }}/OldTwitterFirefox
       - name: Upload for Chromium
         uses: actions/upload-artifact@v3.1.2
         with:
           name: OldTwitterChrome.zip
-          path: ${{ github.workspace }}/../OldTwitterChrome
+          path: ${{ github.workspace }}/OldTwitterChrome
