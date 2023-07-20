@@ -848,3 +848,6 @@ a:hover,
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+#loading-box-error {
+    color: var(--almost-black)
+}

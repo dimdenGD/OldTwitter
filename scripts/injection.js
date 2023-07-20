@@ -580,13 +580,14 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         action: "inject",
         data: [
             "libraries/twemoji.min.js",
-            "libraries/custom-elements.min.js",
-            "libraries/emojipicker.js",
             "layouts/header/script.js",
             `layouts/${page.name}/script.js`,
             "scripts/tweetviewer.js",
             "libraries/gif.js",
-            "libraries/viewer.min.js"
+            "libraries/viewer.min.js",
+            "libraries/custom-elements.min.js",
+            "libraries/emojipicker.js",
+            "libraries/tinytoast.js"
         ]
     });
 })();
