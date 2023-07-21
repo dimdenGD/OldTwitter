@@ -273,7 +273,6 @@ function switchDarkMode(enabled) {
     updateCustomCSSVariables();
 }
 
-const keysHeld = {};
 let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclude.includes(realPath)) && (p.paths.includes(realPath) || p.paths.find(r => r instanceof RegExp && r.test(realPath))));
 (async () => {
     if (!page) return;
@@ -516,77 +515,18 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     icon.id = "site-icon";
     document.head.appendChild(icon);
 
-    if(!vars.disableHotkeys) {
-        function processHotkeys() {
-            if (keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyO']) {
-                let url = new URL(location.href);
-                url.searchParams.set('newtwitter', 'true');
-                location.replace(url.href);
-            } else if(keysHeld['KeyG'] && keysHeld['KeyH']) {
-                location.href = '/';
-            } else if(keysHeld['KeyG'] && keysHeld['KeyN']) {
-                location.href = '/notifications';
-            } else if(keysHeld['KeyG'] && keysHeld['KeyR']) {
-                location.href = '/notifications/mentions';
-            } else if(keysHeld['KeyG'] && keysHeld['KeyP']) {
-                location.href = `/${user.screen_name}`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyL']) {
-                location.href = `/${user.screen_name}/likes`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyI']) {
-                location.href = `/${user.screen_name}/lists`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyM']) {
-                document.getElementById("messages").click();
-            } else if(keysHeld['KeyG'] && keysHeld['KeyS']) {
-                location.href = `/old/settings`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyB']) {
-                location.href = `/i/bookmarks`;
-            } else if(keysHeld['KeyG'] && keysHeld['KeyU']) {
-                location.href = `/unfollows/followers`;
-            }
-        }
-        window.addEventListener('keydown', (ev) => {
-            let key = ev.code;
-            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
-            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
-            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
-            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
-                if(keysHeld['KeyG']) {
-                    processHotkeys();
-                }
-            } else {
-                keysHeld[key] = true;
-                processHotkeys();
-            }
-        });
-
-        window.addEventListener('keyup', (ev) => {
-            let key = ev.code;
-            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
-            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
-            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
-            
-            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
-                if(keysHeld['KeyG']) {
-                    keysHeld[key] = true;
-                    processHotkeys();
-                }
-            } else {
-                delete keysHeld[key];
-            }
-        });
-    }
-
     chrome.runtime.sendMessage({
         action: "inject",
         data: [
             "libraries/twemoji.min.js",
-            "libraries/custom-elements.min.js",
-            "libraries/emojipicker.js",
             "layouts/header/script.js",
             `layouts/${page.name}/script.js`,
             "scripts/tweetviewer.js",
             "libraries/gif.js",
-            "libraries/viewer.min.js"
+            "libraries/viewer.min.js",
+            "libraries/custom-elements.min.js",
+            "libraries/emojipicker.js",
+            "libraries/tinytoast.js"
         ]
     });
 })();
