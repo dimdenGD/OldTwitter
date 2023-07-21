@@ -996,6 +996,12 @@ input, textarea {
     font-size: 14px
 }
 
+.tweet, .tweet-reply-to {
+    font-size: 13px;
+    color: var(--light-gray);
+    padding-bottom: 3px;
+}
+
 .tweet-footer-stat {
     display: grid;
     text-decoration: none
