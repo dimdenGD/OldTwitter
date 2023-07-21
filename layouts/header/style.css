@@ -1075,6 +1075,31 @@ input, textarea {
     padding: 20px
 }
 
+.emoji, .hashflag {
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
+    margin-right: 2px;
+    vertical-align: bottom;
+}
+
+.tweet-body-text-short .emoji,
+.tweet-body-text-short .hashflag {
+    width: 26px !important;
+    height: 26px !important;
+    vertical-align: text-top !important;
+}
+
+.tweet-body-text-long .emoji,
+.tweet-body-text-long .hashflag {
+    vertical-align: text-top !important;
+}
+
+#user-name .emoji {
+    width: 26px !important;
+    height: 26px !important;
+}
+
 .tweet-footer-favorites-img {
     border-radius: 5px;
     margin-right: 5px

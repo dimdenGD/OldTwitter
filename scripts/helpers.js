@@ -417,7 +417,7 @@ async function renderTweetBodyHTML(full_text, entities, display_text_range) {
         let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
         index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
             `#${escapeHTML(hashtag.text)}`+
-            `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag" width="16" height="16">` : ''}`+
+            `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
         `</a>`];
     });
     

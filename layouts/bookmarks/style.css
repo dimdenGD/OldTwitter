@@ -283,25 +283,6 @@ body {
     font-size: 14px;
     color: var(--light-gray);
 }
-.emoji {
-    width: 16px;
-    height: 16px;
-    vertical-align: bottom;
-    margin-left: 2px;
-    margin-right: 2px;
-}
-.tweet-body-text-short .emoji {
-    width: 26px !important;
-    height: 26px !important;
-    vertical-align: text-top !important;
-}
-.tweet-body-text-long .emoji {
-    vertical-align: text-bottom !important;
-}
-#user-name .emoji {
-    width: 26px !important;
-    height: 26px !important;
-}
 .tweet-translate {
     color: var(--link-color);
     font-size: 13px;
@@ -472,9 +453,6 @@ body {
 span.tweet-body-text {
     white-space: pre-wrap;
     word-break: break-word;
-}
-span.tweet-body-text .hashflag {
-    vertical-align: -10%;
 }
 
 .tweet-body,
@@ -926,23 +904,6 @@ a:hover,
     font-size: 14px
 }
 
-.emoji {
-    height: 16px;
-    margin-left: 2px;
-    margin-right: 2px;
-    vertical-align: bottom;
-    width: 16px
-}
-
-.tweet-body-text-short .emoji {
-    height: 26px !important;
-    vertical-align: text-top !important;
-    width: 26px !important
-}
-
-.tweet-body-text-long .emoji {
-    vertical-align: text-bottom !important
-}
 #delete-all {
     float: right;
     margin-top: 5px;
