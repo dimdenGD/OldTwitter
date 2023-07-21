@@ -240,6 +240,12 @@ body {
     text-decoration: underline
 }
 
+.tweet, .tweet-reply-to {
+    font-size: 13px;
+    color: var(--light-gray);
+    padding-bottom: 3px;
+}
+
 span.tweet-body-text {
     white-space: pre-wrap;
     word-break: break-word;
