@@ -410,8 +410,20 @@ body {
     max-height: 500px
 }
 
-.center-text {
+.center-padding-text {
     padding-left: 100px !important;
+}
+
+.center-text {
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    color: var(--light-gray);
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center
 }
 
 .tweet-media-element-censor {
