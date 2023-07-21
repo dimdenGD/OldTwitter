@@ -283,7 +283,7 @@ class TweetViewer {
     
         if(!c) {
             likeDiv.innerHTML = '';
-            let tweetData = await API.tweetDetail(id);
+            let tweetData = await API.getTweetV2(id);
             let tweet = await this.appendTweet(tweetData, likeDiv, {
                 mainTweet: true
             });
@@ -323,7 +323,7 @@ class TweetViewer {
     
         if(!c) {
             retweetDiv.innerHTML = '';
-            let tweetData = await API.tweetDetail(id);
+            let tweetData = await API.getTweetV2(id);
             let tweet = await this.appendTweet(tweetData, retweetDiv, {
                 mainTweet: true
             });
@@ -397,7 +397,7 @@ class TweetViewer {
         let tvl = this.container.getElementsByClassName('tweet-viewer-loading')[0];
         tvl.hidden = false;
         let tweetRetweeters;
-        let tweetData = await API.tweetDetail(id);
+        let tweetData = await API.getTweetV2(id);
         try {
             tweetRetweeters = await API.getTweetQuotes(id, c);
             this.retweetCommentsCursor = tweetRetweeters.cursor;
@@ -417,7 +417,7 @@ class TweetViewer {
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
                 e.preventDefault();
-                let t = await API.tweetDetail(id);
+                let t = await API.getTweetV2(id);
                 history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
@@ -491,7 +491,20 @@ class TweetViewer {
         if(mentions.length > 0) {
             for(let i = 0; i < mentions.length; i++) {
                 let u = Object.values(this.users).find(u => u.screen_name === mentions[i]);
-                if(!u) u = await API.getUser(mentions[i], false);
+                if(!u) {
+                    if(mentions[i] === this.user.screen_name) {
+                        u = this.user;
+                    } else if(typeof pageUser !== 'undefined' && mentions[i] === pageUser.screen_name) {
+                        u = pageUser;
+                    } else {
+                        try {
+                            u = await API.getUser(mentions[i], false);
+                        } catch(e) {
+                            console.error(e);
+                            continue;
+                        }
+                    }
+                }
                 if(!u) continue;
                 this.users[u.id_str] = u;
             }
@@ -733,7 +746,7 @@ class TweetViewer {
             // if(webUrl) {
             //     try {
             //         let source = t.source;
-            //         t = await API.tweetDetail(t.id_str);
+            //         t = await API.getTweetV2(t.id_str);
             //         t.source = source;
             //     } catch(e) {}
             // }
@@ -854,7 +867,7 @@ class TweetViewer {
                     t.quoted_status = t.quoted_status_result.result.tweet.legacy;
                     t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
                 } else {
-                    t.quoted_status = await API.tweetDetail(t.quoted_status_id_str);
+                    t.quoted_status = await API.getTweetV2(t.quoted_status_id_str);
                 }
             } catch {
                 t.quoted_status = undefined;
@@ -2033,7 +2046,7 @@ class TweetViewer {
         tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
             let tweetData;
             try {
-                tweetData = await API.tweetDetail(t.id_str);
+                tweetData = await API.getTweetV2(t.id_str);
             } catch (e) {
                 console.error(e);
                 return;
