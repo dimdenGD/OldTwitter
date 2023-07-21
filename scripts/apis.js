@@ -55,15 +55,23 @@ function parseTweet(res) {
         }
         if(result.quoted_status_result) {
             result.legacy.quoted_status = result.quoted_status_result.result.legacy;
-            result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
-            result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+            if(result.legacy.quoted_status) {
+                result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
+                result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+            } else {
+                console.warn("No retweeted quoted status", result);
+            }
         }
         tweet.retweeted_status = result.legacy;
-        tweet.retweeted_status.user = result.core.user_results.result.legacy;
-        tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
-        tweet.retweeted_status.ext = {};
-        if(result.views) {
-            tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+        if(tweet.retweeted_status) {
+            tweet.retweeted_status.user = result.core.user_results.result.legacy;
+            tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+            tweet.retweeted_status.ext = {};
+            if(result.views) {
+                tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+            }
+        } else {
+            console.warn("No retweeted status", result);
         }
     }
     if(res.quoted_status_result) {
@@ -92,6 +100,8 @@ function parseTweet(res) {
             if(result.views) {
                 tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
             }
+        } else {
+            console.warn("No quoted status", result);
         }
     }
     if(res.card && res.card.legacy) {
