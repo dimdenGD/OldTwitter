@@ -1421,9 +1421,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
                 ${!options.mainTweet && !isEnglish ? `<span class="tweet-translate-after">${`${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 ? LOC.view_translation.message : ''}</span>` : ''}
             </div>
-            ${t.in_reply_to_screen_name && 
-                !options.threadContinuation && 
-                !options.noTop ? `
+            ${t.in_reply_to_screen_name &&
+                !options.threadContinuation &&
+                !options.noTop &&
+                !location.pathname.includes('/status/') ? `
             <div class="tweet-reply-to"><span>${LOC.replying_to.message} <a href="https://twitter.com/${t.in_reply_to_screen_name}">@${t.in_reply_to_screen_name}</a></span></div>
             `: ''}
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
