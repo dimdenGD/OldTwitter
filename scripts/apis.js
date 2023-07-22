@@ -53,7 +53,12 @@ function parseTweet(res) {
             }
             result = result.tweet;
         }
-        if(result.quoted_status_result) {
+        if(
+            result.quoted_status_result && 
+            result.quoted_status_result.result.legacy &&
+            result.quoted_status_result.result.core &&
+            result.quoted_status_result.result.core.user_results.result.legacy    
+        ) {
             result.legacy.quoted_status = result.quoted_status_result.result.legacy;
             if(result.legacy.quoted_status) {
                 result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
@@ -63,7 +68,7 @@ function parseTweet(res) {
             }
         }
         tweet.retweeted_status = result.legacy;
-        if(tweet.retweeted_status) {
+        if(tweet.retweeted_status && result.core.user_results.result.legacy) {
             tweet.retweeted_status.user = result.core.user_results.result.legacy;
             tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
             tweet.retweeted_status.ext = {};
