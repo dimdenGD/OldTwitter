@@ -687,6 +687,7 @@ let userDataFunction = async user => {
                 <div class="center-text load-more" ${cursor ? '' : 'hidden'}>${LOC.load_more.message}</div>
             </div>
             <div class="message-box" hidden>
+                <div class="name-top-background"></div><!-- ugly bug fix -->
                 <div class="inbox-top name-top">
                     <span class="message-header-back"></span>
                     <a class="message-header-link">
