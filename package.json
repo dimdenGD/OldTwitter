@@ -5,7 +5,8 @@
   "main": "pack.js",
   "scripts": {
     "test": "node test.js",
-    "build": "node pack.js"
+    "build": "node pack.js",
+    "build-action": "node pack.js -a"
   },
   "repository": {
     "type": "git",

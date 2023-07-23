@@ -202,11 +202,15 @@ async function updateReplies(id, c) {
             let div = document.createElement('div');
             div.className = 'show-more';
             div.innerHTML = `
-                <button class="show-more-button center-text">${t.data.actionText}</button>
+                <button class="show-more-button center-text">${t.data.labelText ? t.data.labelText : t.data.actionText}</button>
             `;
-            div.querySelector('.show-more-button').addEventListener('click', () => {
+            let loading = false;
+            div.querySelector('.show-more-button').addEventListener('click', async () => {
+                if(loading) return;
+                loading = true;
+                div.children[0].innerText = LOC.loading_tweets.message;
+                await updateReplies(id, t.data.cursor);
                 div.remove();
-                updateReplies(id, t.data.cursor);
             });
             tlContainer.appendChild(div);
         }
