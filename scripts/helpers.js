@@ -1501,6 +1501,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </div>
                     <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</span>
                     ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${Number(t.ext.views.r.ok.count).toLocaleString().replace(/\s/g, ',')}</span>` : ''}
+                    ${t.bookmark_count && vars.showBookmarkCount && options.mainTweet ? 
+                        /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',')}</span>` :
+                    ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
@@ -1520,7 +1523,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ${t.user.id_str !== user.id_str ? /*html*/`
                             <span class="tweet-interact-more-menu-block">${t.user.blocking ? unblockUserText : blockUserText}</span>
                         ` : ''}
-                        ${!location.pathname.startsWith('/i/bookmarks') ? /*html*/`<span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>` : ''}
+                        ${!location.pathname.startsWith('/i/bookmarks') ? /*html*/`<span class="tweet-interact-more-menu-bookmark">${t.bookmarked ? LOC.remove_bookmark.message : LOC.bookmark_tweet.message}</span>` : ''}
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
                         <hr>
                         ${t.feedback ? t.feedback.map((f, i) => /*html*/`<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span>`).join("\n") : ''}
@@ -1815,6 +1818,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
         const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
         const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
+        const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
         const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
 
         const tweetFooterReplies = tweet.getElementsByClassName('tweet-footer-stat-replies')[0];
@@ -1964,9 +1968,57 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
 
         // Bookmarks
-        if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', async () => {
-            API.createBookmark(t.id_str);
-        });
+        let switchingBookmark = false;
+        let switchBookmark = () => {
+            if(switchingBookmark) return;
+            switchingBookmark = true;
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
+            if(t.bookmarked) {
+                API.deleteBookmark(t.id_str).then(() => {
+                    switchingBookmark = false;
+                    if(tweetDeleteBookmark) {
+                        tweet.remove();
+                        if(timelineContainer.children.length === 0) {
+                            timelineContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
+                            document.getElementById('delete-all').hidden = true;
+                        }
+                        return;
+                    }
+                    t.bookmarked = false;
+                    t.bookmark_count--;
+                    tweetInteractMoreMenuBookmark.innerText = LOC.bookmark_tweet.message;
+                    if(tweetInteractBookmark) {
+                        tweetInteractBookmark.classList.remove('tweet-interact-bookmarked');
+                        if(vars.bookmarkButton !== 'show_all_no_count') {
+                            tweetInteractBookmark.innerText = Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',');
+                        }
+                    }
+                }).catch(e => {
+                    switchingBookmark = false;
+                    console.error(e);
+                    alert(e);
+                });
+            } else {
+                API.createBookmark(t.id_str).then(() => {
+                    switchingBookmark = false;
+                    t.bookmarked = true;
+                    t.bookmark_count++;
+                    tweetInteractMoreMenuBookmark.innerText = LOC.remove_bookmark.message;
+                    if(tweetInteractBookmark) {
+                        tweetInteractBookmark.classList.add('tweet-interact-bookmarked');
+                        if(vars.bookmarkButton !== 'show_all_no_count') {
+                            tweetInteractBookmark.innerText = Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',');
+                        }
+                    }
+                }).catch(e => {
+                    switchingBookmark = false;
+                    console.error(e);
+                    alert(e);
+                });
+            }
+        };
+        if(tweetInteractBookmark) tweetInteractBookmark.addEventListener('click', switchBookmark);
+        if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', switchBookmark);
         if(tweetDeleteBookmark) tweetDeleteBookmark.addEventListener('click', async () => {
             await API.deleteBookmark(t.id_str);
             tweet.remove();

@@ -399,5 +399,8 @@
     "logout_desc_1": { "message": "OldTwitter работает только с аккаунтом." },
     "logout_desc_2": { "message": "Если у вас нет других аккаунтов в списке вас будет перенаправлено на страницу." },
     "logout_button": { "message": "Выйти с аккаунта" },
-    "disable_personalized_trends": { "message": "Отключить персонализированные тренды" }
+    "disable_personalized_trends": { "message": "Отключить персонализированные тренды" },
+    "show_bookmark_count": { "message": "Показывать кол-во закладок на твитах" },
+    "bookmarks_count": { "message": "Закладки" },
+    "remove_bookmark": { "message": "Убрать закладку" }
 }

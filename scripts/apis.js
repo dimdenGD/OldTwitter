@@ -2545,7 +2545,7 @@ API.getRepliesV2 = (id, cursor) => {
         chrome.storage.local.get(['tweetReplies'], d => {
             if(!d.tweetReplies) d.tweetReplies = {};
             if(!cursor) {
-                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000 && false) {
+                if(d.tweetReplies[id] && Date.now() - d.tweetReplies[id].date < 60000) {
                     debugLog('getRepliesV2', 'cache', d.tweetReplies[id].data);
                     return resolve(d.tweetReplies[id].data);
                 }
@@ -2663,13 +2663,12 @@ API.getRepliesV2 = (id, cursor) => {
                                 continue;
                             }
                             if(thread[j].entryId.includes("cursor-showmore")) {
-                                console.log(thread[j])
                                 list.push({
                                     type: 'showMoreMiddle',
                                     data: {
-                                        cursor: thread[j].content.itemContent.value,
-                                        labelText: thread[j].content.itemContent.displayTreatment.labelText,
-                                        actionText: thread[j].content.itemContent.displayTreatment.actionText
+                                        cursor: thread[j].item.itemContent.value,
+                                        labelText: thread[j].item.itemContent.displayTreatment.labelText,
+                                        actionText: thread[j].item.itemContent.displayTreatment.actionText
                                     }
                                 });
                                 continue;

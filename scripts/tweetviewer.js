@@ -1034,6 +1034,9 @@ class TweetViewer {
                     </div>
                     <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</span>
                     ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${Number(t.ext.views.r.ok.count).toLocaleString().replace(/\s/g, ',')}</span>` : ''}
+                    ${t.bookmark_count && vars.showBookmarkCount && options.mainTweet ? 
+                        /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',')}</span>` :
+                    ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
@@ -1302,6 +1305,7 @@ class TweetViewer {
         const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
         const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
         const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
+        const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
         const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
     
         const tweetFooterReplies = tweet.getElementsByClassName('tweet-footer-stat-replies')[0];
@@ -1409,9 +1413,50 @@ class TweetViewer {
             });
         });
 
-        tweetInteractMoreMenuBookmark.addEventListener('click', async () => {
-            API.createBookmark(t.id_str);
-        });    
+        // Bookmarks
+        let switchingBookmark = false;
+        let switchBookmark = () => {
+            if(switchingBookmark) return;
+            switchingBookmark = true;
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
+            if(t.bookmarked) {
+                API.deleteBookmark(t.id_str).then(() => {
+                    switchingBookmark = false;
+                    t.bookmarked = false;
+                    t.bookmark_count--;
+                    tweetInteractMoreMenuBookmark.innerText = LOC.bookmark_tweet.message;
+                    if(tweetInteractBookmark) {
+                        tweetInteractBookmark.classList.remove('tweet-interact-bookmarked');
+                        if(vars.bookmarkButton !== 'show_all_no_count') {
+                            tweetInteractBookmark.innerText = Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',');
+                        }
+                    }
+                }).catch(e => {
+                    switchingBookmark = false;
+                    console.error(e);
+                    alert(e);
+                });
+            } else {
+                API.createBookmark(t.id_str).then(() => {
+                    switchingBookmark = false;
+                    t.bookmarked = true;
+                    t.bookmark_count++;
+                    tweetInteractMoreMenuBookmark.innerText = LOC.remove_bookmark.message;
+                    if(tweetInteractBookmark) {
+                        tweetInteractBookmark.classList.add('tweet-interact-bookmarked');
+                        if(vars.bookmarkButton !== 'show_all_no_count') {
+                            tweetInteractBookmark.innerText = Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',');
+                        }
+                    }
+                }).catch(e => {
+                    switchingBookmark = false;
+                    console.error(e);
+                    alert(e);
+                });
+            }
+        };
+        if(tweetInteractBookmark) tweetInteractBookmark.addEventListener('click', switchBookmark);
+        if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', switchBookmark);
     
         // Media
         if (t.extended_entities && t.extended_entities.media) {
