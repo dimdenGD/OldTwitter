@@ -3627,11 +3627,33 @@ API.getListTweets = (id, cursor) => {
             let list = data.data.list.tweets_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
             if(!list) return resolve({ list: [], cursor: undefined });
             list = list.entries;
-            let out = {
-                list: list.filter(e => e.entryId.startsWith('tweet-')).map(e => {
+            let tweets = [];
+            for(let e of list) {
+                if(e.entryId.startsWith('tweet-')) {
                     let res = e.content.itemContent.tweet_results.result;
-                    return parseTweet(res);
-                }).filter(i => !!i),
+                    let tweet = parseTweet(res);
+                    if(tweet) tweets.push(tweet);
+                } else if(e.entryId.startsWith('list-conversation-')) {
+                    let lt = e.content.items;
+                    for(let i = 0; i < lt.length; i++) {
+                        let t = lt[i];
+                        if(t.entryId.includes('-tweet-')) {
+                            let res = t.item.itemContent.tweet_results.result;
+                            let tweet = parseTweet(res);
+                            if(!tweet) continue;
+                            if(i !== lt.length - 1) {
+                                tweet.threadContinuation = true;
+                            }
+                            if(i !== 0) {
+                                tweet.noTop = true;
+                            }
+                            tweets.push(tweet);
+                        }
+                    }
+                }
+            }
+            let out = {
+                list: tweets,
                 cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
             };
             debugLog('getListTweets', 'end', id, cursor, out);
