@@ -1815,12 +1815,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetReplyChar = tweet.getElementsByClassName('tweet-reply-char')[0];
         const tweetReplyMedia = tweet.getElementsByClassName('tweet-reply-media')[0];
 
+        const tweetInteract = tweet.getElementsByClassName('tweet-interact')[0];
         const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
         const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
         const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
         const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
         const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
 
+        const tweetFooter = tweet.getElementsByClassName('tweet-footer')[0];
         const tweetFooterReplies = tweet.getElementsByClassName('tweet-footer-stat-replies')[0];
         const tweetFooterRetweets = tweet.getElementsByClassName('tweet-footer-stat-retweets')[0];
         const tweetFooterFavorites = tweet.getElementsByClassName('tweet-footer-stat-favorites')[0];
@@ -1859,6 +1861,32 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
+
+        // community notes
+        if(t.birdwatch) {
+            let div = document.createElement('div');
+            div.classList.add('tweet-birdwatch', 'box');
+            let text = Array.from(escapeHTML(t.birdwatch.subtitle.text));
+            for(let e = t.birdwatch.subtitle.entities.length - 1; e >= 0; e--) {
+                let entity = t.birdwatch.subtitle.entities[e];
+                if(!entity.ref) continue;
+                text = arrayInsert(text, entity.toIndex, '</a>');
+                text = arrayInsert(text, entity.fromIndex, `<a href="${entity.ref.url}" target="_blank">`);
+            }
+            text = text.join('');
+            
+            div.innerHTML = /*html*/`
+                <div class="tweet-birdwatch-header">
+                    <span class="tweet-birdwatch-title">${escapeHTML(t.birdwatch.title)}</span>
+                </div>
+                <div class="tweet-birdwatch-body">
+                    <span class="tweet-birdwatch-subtitle">${text}</span>
+                </div>
+            `;
+
+            if(tweetFooter) tweetFooter.before(div);
+            else tweetInteract.before(div);
+        }
 
         // rtl languages
         if(rtlLanguages.includes(t.lang)) {

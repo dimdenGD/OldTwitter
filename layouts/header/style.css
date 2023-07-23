@@ -1829,7 +1829,7 @@ emoji-picker {
     color: var(--background-color);
 }
 
-.tweet:hover {
+.tweet:hover:not(.tweet-main) {
     background-color: var(--dark-background-color)
 }
 .tweet:hover .tweet-interact-reply[data-val="0"],
@@ -1844,4 +1844,28 @@ emoji-picker {
 .tweet-interact-bookmark:hover:before,
 .tweet-interact-bookmark:hover {
     color: #3b918a !important
+}
+
+.tweet-birdwatch {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tweet-birdwatch-header {
+    background-color: var(--dark-background-color);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.tweet-birdwatch-body {
+    padding: 10px;
+}
+
+.tweet-birdwatch-title::before {
+    content: "\f182";
+    color: #ffac33;
+    font-family: RosettaIcons;
+    vertical-align: text-bottom;
+    margin-right: 5px;
 }

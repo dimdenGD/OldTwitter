@@ -129,6 +129,9 @@ function parseTweet(res) {
     if(res.source) {
         tweet.source = res.source;
     }
+    if(res.birdwatch_pivot) { // community notes
+        tweet.birdwatch = res.birdwatch_pivot;
+    }
 
     return tweet;
 }
