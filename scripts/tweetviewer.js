@@ -1348,7 +1348,7 @@ class TweetViewer {
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
 
         // community notes
-        if(t.birdwatch && options.mainTweet) {
+        if(t.birdwatch && options.mainTweet && !vars.hideCommunityNotes) {
             let div = document.createElement('div');
             div.classList.add('tweet-birdwatch', 'box');
             let text = Array.from(escapeHTML(t.birdwatch.subtitle.text));

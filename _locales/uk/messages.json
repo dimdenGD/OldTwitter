@@ -402,5 +402,6 @@
     "disable_personalized_trends": { "message": "Вимкнути персоналізовані тренди" },
     "show_bookmark_count": { "message": "Показувати кількість закладок" },
     "bookmarks_count": { "message": "Закладки" },
-    "remove_bookmark": { "message": "Видалити закладку" }
+    "remove_bookmark": { "message": "Видалити закладку" },
+    "hide_community_notes": { "message": "Не показувати примітки спільноти (Community Notes)" }
 }

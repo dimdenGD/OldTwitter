@@ -1863,7 +1863,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
 
         // community notes
-        if(t.birdwatch) {
+        if(t.birdwatch && !vars.hideCommunityNotes) {
             let div = document.createElement('div');
             div.classList.add('tweet-birdwatch', 'box');
             let text = Array.from(escapeHTML(t.birdwatch.subtitle.text));

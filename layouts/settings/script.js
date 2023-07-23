@@ -169,6 +169,7 @@ setTimeout(async () => {
     let hideFollowers = document.getElementById('hide-followers');
     let disablePersonalizedTrends = document.getElementById('disable-personalized-trends');
     let showBookmarkCount = document.getElementById('show-bookmark-count');
+    let hideCommunityNotes = document.getElementById('hide-community-notes');
 
     let root = document.querySelector(":root");
     {
@@ -294,6 +295,11 @@ setTimeout(async () => {
     showBookmarkCount.addEventListener('change', () => {
         chrome.storage.sync.set({
             showBookmarkCount: showBookmarkCount.checked
+        }, () => { });
+    });
+    hideCommunityNotes.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            hideCommunityNotes: hideCommunityNotes.checked
         }, () => { });
     });
     disablePersonalizedTrends.addEventListener('change', () => {
@@ -507,6 +513,7 @@ setTimeout(async () => {
     hideFollowers.checked = !!vars.hideFollowers;
     disablePersonalizedTrends.checked = !!vars.disablePersonalizedTrends;
     showBookmarkCount.checked = !!vars.showBookmarkCount;
+    hideCommunityNotes.checked = !!vars.hideCommunityNotes;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
