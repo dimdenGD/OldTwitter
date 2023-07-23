@@ -18,7 +18,7 @@ async function loadVars() {
             'noBigFont', 'language', 'autoplayVideos', 'displaySensitiveContent', 'displaySensitiveContentMoved', 'volume', 'timeMode',
             'showOriginalImages', 'pitchBlack', 'seeTweetViews', 'autotranslateProfiles', 'roundAvatars', 'twitterBlueCheckmarks',
             'developerMode', 'copyLinksAs', 'useNewIcon', 'updateTimelineAutomatically', 'hideTrends', 'hideWtf', 'hideLikes', 'hideFollowers',
-            'extensiveLogging'
+            'extensiveLogging', 'disablePersonalizedTrends'
         ], data => {
             resolve(data);
             varsResolve(data);

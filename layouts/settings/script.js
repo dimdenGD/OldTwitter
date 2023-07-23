@@ -167,6 +167,7 @@ setTimeout(async () => {
     let hideWtf = document.getElementById('hide-wtf');
     let hideLikes = document.getElementById('hide-likes');
     let hideFollowers = document.getElementById('hide-followers');
+    let disablePersonalizedTrends = document.getElementById('disable-personalized-trends');
 
     let root = document.querySelector(":root");
     {
@@ -289,19 +290,31 @@ setTimeout(async () => {
             developerMode: developerMode.checked
         }, () => { });
     });
+    disablePersonalizedTrends.addEventListener('change', () => {
+        vars.disablePersonalizedTrends = disablePersonalizedTrends.checked;
+        chrome.storage.sync.set({
+            disablePersonalizedTrends: disablePersonalizedTrends.checked
+        }, () => {
+            renderTrends(false, false);
+        });
+    });
     hideTrends.addEventListener('change', () => {
         vars.hideTrends = hideTrends.checked;
         hideStuff();
         chrome.storage.sync.set({
             hideTrends: hideTrends.checked
-        }, () => { });
+        }, () => {
+            renderTrends();
+        });
     });
     hideWtf.addEventListener('change', () => {
         vars.hideWtf = hideWtf.checked;
         hideStuff();
         chrome.storage.sync.set({
             hideWtf: hideWtf.checked
-        }, () => { });
+        }, () => {
+            renderDiscovery();
+        });
     });
     hideLikes.addEventListener('change', () => {
         vars.hideLikes = hideLikes.checked;
@@ -486,6 +499,7 @@ setTimeout(async () => {
     hideWtf.checked = !!vars.hideWtf;
     hideLikes.checked = !!vars.hideLikes;
     hideFollowers.checked = !!vars.hideFollowers;
+    disablePersonalizedTrends.checked = !!vars.disablePersonalizedTrends;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

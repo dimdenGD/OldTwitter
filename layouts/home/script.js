@@ -60,6 +60,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>Added option to disable personalized trends.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>
                             <li>Fixed thread tweets in lists.</li>
                             <li>Fixed links not showing in long tweets.</li>
@@ -1026,6 +1027,10 @@ setTimeout(async () => {
                     <a href="https://twitter.com/compose/tweet/unsent/scheduled?newtwitter=true" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
                 `);
             } else {
+                if(timeline.toBeUpdated > 0) {
+                    let newTweetsButton = document.getElementById('new-tweets');
+                    newTweetsButton.click();
+                }
                 let whoCanReply = document.getElementById('new-tweet-wcr-input').value;
                 let tweetObject = await API.postTweetV2({
                     text: tweet,
@@ -1034,11 +1039,6 @@ setTimeout(async () => {
                     conversation_control: whoCanReply,
                     card_uri: card ? card.card_uri : undefined
                 });
-                if(timeline.toBeUpdated > 0) {
-                    let newTweetsButton = document.getElementById('new-tweets');
-                    newTweetsButton.click();
-                    await sleep(10);
-                }
                 timeline.data.unshift(tweetObject);
                 appendTweet(tweetObject, document.getElementById('timeline'), {
                     prepend: true,

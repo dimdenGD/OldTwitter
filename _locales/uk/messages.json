@@ -398,5 +398,6 @@
     "logout_title": { "message": "Ви впевнені що хочете вийти з акаунту?" },
     "logout_desc_1": { "message": "OldTwitter працює тільки з акаунтом." },
     "logout_desc_2": { "message": "Якщо у вас немає інших акаунтів в списку вас буде перенаправлено на сторінку входу." },
-    "logout_button": { "message": "Вийти з акаунту" }
+    "logout_button": { "message": "Вийти з акаунту" },
+    "disable_personalized_trends": { "message": "Вимкнути персоналізовані тренди" }
 }

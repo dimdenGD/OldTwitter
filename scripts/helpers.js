@@ -975,7 +975,8 @@ const quoteSizeFunctions = [
 ];
 
 async function renderTrends(compact = false, cache = true) {
-    let [trendsData, hashflags] = await Promise.allSettled([API.getTrendsV2(cache), API.getHashflags()]);
+    if(vars.hideTrends) return;
+    let [trendsData, hashflags] = await Promise.allSettled([API[vars.disablePersonalizedTrends ? 'getTrends' : 'getTrendsV2'](cache), API.getHashflags()]);
     let trends = trendsData.value.modules;
     hashflags = hashflags.value ? hashflags.value : [];
     let trendsContainer = document.getElementById('trends-list');
@@ -1000,6 +1001,7 @@ async function renderTrends(compact = false, cache = true) {
     });
 }
 async function renderDiscovery(cache = true) {
+    if(vars.hideWtf) return;
     let discover = await API.discoverPeople(cache);
     let discoverContainer = document.getElementById('wtf-list');
     discoverContainer.innerHTML = '';

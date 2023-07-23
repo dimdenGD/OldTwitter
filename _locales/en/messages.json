@@ -410,5 +410,6 @@
     "logout_title": { "message": "Are you sure you want to logout?" },
     "logout_desc_1": { "message": "OldTwitter only works when you're logged in." },
     "logout_desc_2": { "message": "If you don't have any other accounts in list you'll be redirected to login page. Are you sure?" },
-    "logout_button": { "message": "Log me out" }
+    "logout_button": { "message": "Log me out" },
+    "disable_personalized_trends": { "message": "Disable personalized trends" }
 }
