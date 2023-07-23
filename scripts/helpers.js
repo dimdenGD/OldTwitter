@@ -1996,6 +1996,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     if(ch.find(c => c.src === m.media_url_https)) return;
                     const media = document.createElement('img');
                     media.classList.add('tweet-media-element', 'tweet-media-element-four', 'profile-media-preview');
+                    if(!vars.displaySensitiveContent && t.possibly_sensitive) media.classList.add('tweet-media-element-censor');
                     media.src = m.media_url_https;
                     if(m.ext_alt_text) media.alt = m.ext_alt_text;
                     media.addEventListener('click', async () => {
