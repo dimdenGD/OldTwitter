@@ -1080,7 +1080,7 @@ input, textarea {
     height: 16px;
     margin-left: 2px;
     margin-right: 2px;
-    vertical-align: bottom;
+    vertical-align: text-top;
 }
 
 .tweet-body-text-short .emoji,

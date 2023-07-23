@@ -1512,7 +1512,7 @@ let userDataFunction = async user => {
                     .nice-button:hover:not([disabled]) {color: var(--almost-black);text-decoration: none;background-color: var(--border);background-image: linear-gradient(var(--background-color),var(--border));border-color: var(--border);}
                     .nice-button:disabled {color: lightgray !important;cursor: not-allowed;}
                     .nice-button:disabled:before {color: lightgray !important;}
-                    .emoji {height: 16px;margin-left: 2px;margin-right: 2px;vertical-align: bottom;width: 16px;}
+                    .emoji {height: 16px;margin-left: 2px;margin-right: 2px;vertical-align: text-top;width: 16px;}
                     a {color: var(--link-color);text-decoration: none }
                     a:hover {text-decoration: underline;}
                     .profile-additional-thing{font-size:14px;color: var(--darker-gray);font-weight:400;line-height:20px;left: 10px;position: relative;display: block;overflow: hidden;}
