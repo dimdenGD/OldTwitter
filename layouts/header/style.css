@@ -1671,6 +1671,9 @@ emoji-picker {
 .tweet-interact-views:before {
     content: "\f200";
 }
+.tweet-interact-bookmark:before {
+    content: "\f093";
+}
 .user-verified::after {
     content: "\f099";
     color: #ee55a1;
@@ -1818,4 +1821,27 @@ emoji-picker {
 .tweet-body-quote:hover {
     background-color: var(--darker-background-color);
     text-decoration: none
+}
+.tweet-interact-reply[data-val="0"],
+.tweet-interact-retweet[data-val="0"],
+.tweet-interact-favorite[data-val="0"],
+.tweet-interact-bookmark[data-val="0"] {
+    color: var(--background-color);
+}
+
+.tweet:hover {
+    background-color: var(--dark-background-color)
+}
+.tweet:hover .tweet-interact-reply[data-val="0"],
+.tweet:hover .tweet-interact-retweet[data-val="0"],
+.tweet:hover .tweet-interact-favorite[data-val="0"],
+.tweet:hover .tweet-interact-bookmark[data-val="0"] {
+    color: var(--dark-background-color);
+}
+
+.tweet-interact-bookmarked,
+.tweet-interact-bookmarked:before,
+.tweet-interact-bookmark:hover:before,
+.tweet-interact-bookmark:hover {
+    color: #3b918a !important
 }

@@ -168,6 +168,7 @@ setTimeout(async () => {
     let hideLikes = document.getElementById('hide-likes');
     let hideFollowers = document.getElementById('hide-followers');
     let disablePersonalizedTrends = document.getElementById('disable-personalized-trends');
+    let bookmarkButton = document.getElementById('bookmark-button');
 
     let root = document.querySelector(":root");
     {
@@ -288,6 +289,11 @@ setTimeout(async () => {
     developerMode.addEventListener('change', () => {
         chrome.storage.sync.set({
             developerMode: developerMode.checked
+        }, () => { });
+    });
+    bookmarkButton.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            bookmarkButton: bookmarkButton.value
         }, () => { });
     });
     disablePersonalizedTrends.addEventListener('change', () => {
@@ -500,6 +506,7 @@ setTimeout(async () => {
     hideLikes.checked = !!vars.hideLikes;
     hideFollowers.checked = !!vars.hideFollowers;
     disablePersonalizedTrends.checked = !!vars.disablePersonalizedTrends;
+    bookmarkButton.value = vars.bookmarkButton ? vars.bookmarkButton : 'hide';
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

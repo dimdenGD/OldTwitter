@@ -411,5 +411,13 @@
     "logout_desc_1": { "message": "OldTwitter only works when you're logged in." },
     "logout_desc_2": { "message": "If you don't have any other accounts in list you'll be redirected to login page. Are you sure?" },
     "logout_button": { "message": "Log me out" },
-    "disable_personalized_trends": { "message": "Disable personalized trends" }
+    "disable_personalized_trends": { "message": "Disable personalized trends" },
+    "bookmark_button": { "message": "Bookmark button:" },
+    "dont_show_bookmark_button": { "message": "Don't show anywhere" },
+    "show_bookmark_button": { "message": "Show only on main tweet" },
+    "show_bookmark_button_all": { "message": "Show on all tweets" },
+    "show_bookmark_button_all_no_count": { "message": "Show on all tweets (no count)" },
+    "show_bookmark_dynamic": { "message": "Always show on main, only show when there's bookmarks on others" },
+    "bookmarks_count": { "message": "Bookmarks", "description": "Used for bookmarks count." },
+    "remove_bookmark": { "message": "Remove bookmark" }
 }

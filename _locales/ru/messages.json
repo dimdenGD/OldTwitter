@@ -399,5 +399,13 @@
     "logout_desc_1": { "message": "OldTwitter работает только с аккаунтом." },
     "logout_desc_2": { "message": "Если у вас нет других аккаунтов в списке вас будет перенаправлено на страницу." },
     "logout_button": { "message": "Выйти с аккаунта" },
-    "disable_personalized_trends": { "message": "Отключить персонализированные тренды" }
+    "disable_personalized_trends": { "message": "Отключить персонализированные тренды" },
+    "bookmark_button": { "message": "Кнопка закладок:" },
+    "dont_show_bookmark_button": { "message": "Не показывать" },
+    "show_bookmark_button": { "message": "Показывать только на главном твите" },
+    "show_bookmark_button_all": { "message": "Показывать на всех твитах" },
+    "show_bookmark_button_all_no_count": { "message": "Показывать на всех твитах без кол-ва" },
+    "show_bookmark_dynamic": { "message": "Всегда показывать на главном, показывать только если есть закладки на других" },
+    "bookmarks_count": { "message": "Закладки" },
+    "remove_bookmark": { "message": "Убрать закладку" }
 }
