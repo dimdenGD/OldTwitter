@@ -83,9 +83,13 @@ function parseTweet(res) {
         tweet.quoted_status_result = res.quoted_status_result;
     }
     if(res.note_tweet && res.note_tweet.note_tweet_results) {
+        if(res.note_tweet.note_tweet_results.entity_set) {
+            tweet.entities.urls = res.note_tweet.note_tweet_results.entity_set.urls;
+        }
         tweet.full_text = res.note_tweet.note_tweet_results.text;
         if(typeof tweet.full_text !== "string") {
             tweet.full_text = res.note_tweet.note_tweet_results.result.text;
+            tweet.entities.urls = res.note_tweet.note_tweet_results.result.entity_set.urls;
         }
     }
     if(tweet.quoted_status_result) {
