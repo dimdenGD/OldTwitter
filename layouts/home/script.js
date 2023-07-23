@@ -1034,6 +1034,11 @@ setTimeout(async () => {
                     conversation_control: whoCanReply,
                     card_uri: card ? card.card_uri : undefined
                 });
+                if(timeline.toBeUpdated > 0) {
+                    let newTweetsButton = document.getElementById('new-tweets');
+                    newTweetsButton.click();
+                    await sleep(10);
+                }
                 timeline.data.unshift(tweetObject);
                 appendTweet(tweetObject, document.getElementById('timeline'), {
                     prepend: true,
