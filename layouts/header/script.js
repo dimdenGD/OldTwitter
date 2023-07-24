@@ -5,6 +5,7 @@ let followRequestsData = [];
 let customSet = false;
 let menuFn;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
+const keysHeld = {};
 const notificationBus = new BroadcastChannel('notification_bus');
 notificationBus.onmessage = function (e) {
     if(e.data.type === 'markAsRead') {
@@ -83,8 +84,8 @@ function hideStuff() {
     }
     if(vars.hideFollowers) {
         hideStyle.innerHTML += `
-            #user-followers { display: none !important; }
-            #profile-stat-followers-value { display: none !important; }
+            #user-followers-div { display: none !important; }
+            #profile-stat-followers-link { display: none !important; }
         `;
     }
     if(hideStyle.innerHTML !== '') {
@@ -127,7 +128,7 @@ let userDataFunction = async user => {
     // util
     let firstTime = false;
     async function updateUnread() {
-        let unread = await API.getUnreadCount(firstTime);
+        let unread = await API.notifications.getUnreadCount(firstTime);
         if(!firstTime) firstTime = true;
         let dms = unread.dm_unread_count;
         let notifs = unread.ntab_unread_count;
@@ -173,7 +174,7 @@ let userDataFunction = async user => {
         }
     }
     async function updateAccounts() {
-        let accounts = (await API.getAccounts()).users;
+        let accounts = (await API.account.getAccounts()).users;
         let accountsElement = document.getElementById('navbar-user-accounts');
         accountsElement.innerHTML = '';
         accounts.forEach(account => {
@@ -183,7 +184,7 @@ let userDataFunction = async user => {
             accountElement.addEventListener('click', async () => {
                 if(account.screen_name === user.screen_name) return alert("You're already on this account!");
                 try {
-                    await API.switchAccount(account.user_id);
+                    await API.account.switch(account.user_id);
                     window.location.reload();
                 } catch(e) {
                     if((typeof(e) === 'string' && e.includes('User not found.')) || e.errors[0].code === 50) {
@@ -198,20 +199,23 @@ let userDataFunction = async user => {
         });
         document.getElementById('navbar-user-menu-logout').addEventListener('click', async () => {
             let modal = createModal(/*html*/`
-                <span style="font-size:14px">OldTwitter only works when you're logged in.<br>
-                If you don't have any other accounts in list you'll be redirected to login page. Are you sure?</span>
+                <h1 class="cool-header">${LOC.logout_title.message}</h1><br>
+                <span style="font-size:14px;color:var(--almost-black)">${LOC.logout_desc_1.message}<br>
+                ${LOC.logout_desc_2.message}</span>
                 <br><br>
-                <button class="nice-button">Log me out</button>
+                <div style="display:inline-block;float: right;margin-top: 5px;">
+                    <button class="nice-button nice-red-button">${LOC.logout_button.message}</button>
+                </div>
             `);
             let button = modal.querySelector('button');
             button.addEventListener('click', async () => {
-                await API.logout();
+                await API.account.logout();
                 window.location.reload();
             });
         });
     }
     async function updateInboxData() {
-        inboxData = await API.getInbox();
+        inboxData = await API.inbox.get();
         if(inboxData.status === "HAS_MORE" && !cursor) {
             cursor = inboxData.min_entry_id;
         } else {
@@ -229,7 +233,7 @@ let userDataFunction = async user => {
 
         async function updateFollowRequests() {
             let list = document.querySelector('.follow-requests-list');
-            let newUserData = await Promise.all(followRequestsData.ids.filter(i => typeof i === 'string').map(i => API.getUser(i)));
+            let newUserData = await Promise.all(followRequestsData.ids.filter(i => typeof i === 'string').map(i => API.user.get(i)));
             for(let i = 0; i < newUserData.length; i++) {
                 followRequestsData.ids[i] = newUserData[i];
             }
@@ -254,7 +258,7 @@ let userDataFunction = async user => {
                 `;
                 userElement.querySelector('.accept').addEventListener('click', async () => {
                     try {
-                        await API.acceptFollowRequest(u.id_str);
+                        await API.user.acceptFollowRequest(u.id_str);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -277,7 +281,7 @@ let userDataFunction = async user => {
                 });
                 userElement.querySelector('.decline').addEventListener('click', async () => {
                     try {
-                        await API.declineFollowRequest(u.id_str);
+                        await API.user.declineFollowRequest(u.id_str);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -314,7 +318,7 @@ let userDataFunction = async user => {
                 loadMoreBtn.addEventListener('click', async () => {
                     loadMoreBtn.innerText = LOC.loading.message;
                     loadMoreBtn.disabled = true;
-                    API.getFollowRequests(followRequestsData.next_cursor_str).then(data => {
+                    API.user.getFollowRequests(followRequestsData.next_cursor_str).then(data => {
                         followRequestsData.ids = followRequestsData.ids.concat(data.ids);
                         followRequestsData.next_cursor_str = data.next_cursor_str;
                         updateFollowRequests();
@@ -325,7 +329,7 @@ let userDataFunction = async user => {
             }
             updateFollowRequests();
         });
-        API.getFollowRequests().then(data => {
+        API.user.getFollowRequests().then(data => {
             followRequestsData = data;
             let count = data.total_count ? data.total_count : data.ids.length;
             if(count > 0) {
@@ -406,7 +410,7 @@ let userDataFunction = async user => {
             let conversations = Array.isArray(inboxData.conversations) ? inboxData.conversations : Object.values(inboxData.conversations);
             let realConvo = conversations.find(c => c.id_str === lastConvo.id_str);
             if(+lastConvo.max_entry_id >= +realConvo.last_read_event_id) {
-                API.markRead(lastConvo.max_entry_id);
+                API.inbox.markRead(lastConvo.max_entry_id);
                 realConvo.last_read_event_id = lastConvo.max_entry_id;
             }
         }
@@ -425,7 +429,7 @@ let userDataFunction = async user => {
             }
         }
         if(missingUserIds.length > 0) {
-            let foundUsers = await API.lookupUsers(missingUserIds)
+            let foundUsers = await API.user.lookup(missingUserIds)
             foundUsers.forEach(user => {
                 lastConvo.users[user.id_str] = user;
             });
@@ -464,7 +468,7 @@ let userDataFunction = async user => {
                 let menuDelete = messageElement.querySelector('.message-menu-delete');
 
                 menuDelete.addEventListener('click', () => {
-                    API.deleteMessage(m.id);
+                    API.inbox.deleteMessage(m.id);
                     messageElement.remove();
                 });
 
@@ -627,7 +631,7 @@ let userDataFunction = async user => {
             const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
             const messageHeaderLink = modal.querySelector('.message-header-link');
             messageElement.addEventListener('click', async () => {
-                let messageData = await API.getConversation(c.conversation_id);
+                let messageData = await API.inbox.getConversation(c.conversation_id);
                 modal.querySelector('.message-box').hidden = false;
                 modal.querySelector('.home-top').hidden = true;
                 modal.querySelector('.name-top').hidden = false;
@@ -752,7 +756,7 @@ let userDataFunction = async user => {
             if(!lastConvo || !lastConvo.conversation_id) return;
             let c = confirm('Are you sure you want to leave/remove this conversation?');
             if(c) {
-                await API.deleteConversation(lastConvo.conversation_id);
+                await API.inbox.deleteConversation(lastConvo.conversation_id);
                 modal.remove();
                 chrome.storage.local.remove(['inboxData'], () => {});
                 await updateInboxData();
@@ -760,7 +764,7 @@ let userDataFunction = async user => {
         });
         userSearch.addEventListener('keyup', async () => {
             let q = userSearch.value;
-            let res = await API.search(q);
+            let res = await API.search.typeahead(q);
             newMessageResults.innerHTML = '';
             res.users.slice(0, 5).forEach(u => {
                 let userElement = document.createElement('div');
@@ -776,7 +780,7 @@ let userDataFunction = async user => {
                     const messageHeaderName = modal.querySelector('.message-header-name');
                     const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
                     const messageHeaderLink = modal.querySelector('.message-header-link');
-                    let messageData = await API.getConversation(`${user.id_str}-${u.id_str}`);
+                    let messageData = await API.inbox.getConversation(`${user.id_str}-${u.id_str}`);
                     modal.querySelector('.message-box').hidden = false;
                     modal.querySelector('.home-top').hidden = true;
                     modal.querySelector('.name-top').hidden = false;
@@ -846,7 +850,7 @@ let userDataFunction = async user => {
                 obj.media_id = uploadedMedia.join(',');
             }
             try {
-                let sentMessage = await API.sendMessage(obj);
+                let sentMessage = await API.inbox.send(obj);
                 newSend.disabled = false;
                 newInput.value = "";
                 mediaToUpload = [];
@@ -873,7 +877,7 @@ let userDataFunction = async user => {
         
 
         loadMore.addEventListener('click', async () => {
-            let moreInbox = await API.getInbox(cursor);
+            let moreInbox = await API.inbox.get(cursor);
             if(moreInbox.status === "HAS_MORE") {
                 cursor = moreInbox.min_entry_id;
             } else {
@@ -882,12 +886,12 @@ let userDataFunction = async user => {
             renderInboxMessages(moreInbox, inboxList);
         });
         loadMoreMessages.addEventListener('click', async () => {
-            let moreMessages = await API.getConversation(lastConvo.conversation_id, lastConvo.min_entry_id);
+            let moreMessages = await API.inbox.getConversation(lastConvo.conversation_id, lastConvo.min_entry_id);
             renderConversation(moreMessages, lastConvo.conversation_id, false);
         });
 
         readAll.addEventListener('click', async () => {
-            await API.markRead(inbox.last_seen_event_id);
+            await API.inbox.markRead(inbox.last_seen_event_id);
             let unreadMessages = Array.from(document.getElementsByClassName('inbox-message-unread'));
             unreadMessages.forEach(message => {
                 message.classList.remove('inbox-message-unread');
@@ -914,7 +918,7 @@ let userDataFunction = async user => {
     }, 10000);
     let updateCursor;
     setInterval(async () => {
-        let updates = await API.getUserUpdates(updateCursor);
+        let updates = await API.inbox.getUpdates(updateCursor);
         updateCursor = Object.values(updates)[0].cursor;
         if(updates.user_events && updates.user_events.conversations && lastConvo) {
             for(let i in updates.user_events.conversations) {
@@ -1118,7 +1122,7 @@ let userDataFunction = async user => {
             if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
                 newTweetUserSearch.hidden = false;
                 selectedIndex = 0;
-                let users = (await API.search(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
+                let users = (await API.search.typeahead(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
                 newTweetUserSearch.innerHTML = '';
                 users.forEach((user, index) => {
                     let userElement = document.createElement('span');
@@ -1197,7 +1201,7 @@ let userDataFunction = async user => {
                     }
                 }
                 try {
-                    let tweetObject = await API.postTweetV2({
+                    let tweetObject = await API.tweet.postV2({
                         text: tweet,
                         media: uploadedMedia
                     });
@@ -1229,8 +1233,8 @@ let userDataFunction = async user => {
                     cardObject["twitter:string:choice4_label"] = pollVariants[3];
                 }
                 try {
-                    let card = await API.createCard(cardObject);
-                    let tweetObject = await API.postTweetV2({
+                    let card = await API.tweet.createCard(cardObject);
+                    let tweetObject = await API.tweet.postV2({
                         text: tweet,
                         card_uri: card.card_uri,
                     });
@@ -1266,7 +1270,7 @@ let userDataFunction = async user => {
         }));
         if(savedSearches.length === 0) {
             try {
-                savedSearches = await API.getSavedSearches();
+                savedSearches = await API.search.getSaved();
             } catch(e) {}
         }
         if(lastSearches.length > 0) {
@@ -1322,7 +1326,7 @@ let userDataFunction = async user => {
                 removeTopic.innerText = '×';
                 removeTopic.className = 'search-result-item-remove';
                 removeTopic.addEventListener('click',async () => {
-                    await API.deleteSavedSearch(topicId);
+                    await API.search.deleteSaved(topicId);
                     savedSearches.splice(i, 1);
                     topicElement.remove();
                     removeTopic.remove();
@@ -1378,7 +1382,7 @@ let userDataFunction = async user => {
         if(query.length === 0) {
             return loadDefaultSearches();
         }
-        let search = await API.search(query);
+        let search = await API.search.typeahead(query);
         searchResults.innerHTML = '';
         search.topics.forEach(({topic}) => {
             let topicElement = document.createElement('a');
@@ -1490,7 +1494,7 @@ let userDataFunction = async user => {
             }
             el.addEventListener('mouseleave', leaveFunction);
 
-            let user = await API.getUser(id ? id : username, !!id);
+            let user = await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;
             let div = document.createElement('div');
             div.innerHTML = /*html*/`
@@ -1591,7 +1595,7 @@ let userDataFunction = async user => {
             const followBtn = div.querySelector('.preview-user-follow');
             followBtn.addEventListener('click', async () => {
                 if (followBtn.className.includes('following')) {
-                    await API.unfollowUser(user.screen_name);
+                    await API.user.unfollow(user.screen_name);
                     followBtn.classList.remove('following');
                     followBtn.classList.add('follow');
                     followBtn.innerText = LOC.follow.message;
@@ -1603,7 +1607,7 @@ let userDataFunction = async user => {
                     wtfFollow.classList.add('follow');
                     wtfFollow.innerText = LOC.follow.message;
                 } else {
-                    await API.followUser(user.screen_name);
+                    await API.user.follow(user.screen_name);
                     followBtn.classList.add('following');
                     followBtn.classList.remove('follow');
                     followBtn.innerText = LOC.following_btn.message;
@@ -1645,7 +1649,7 @@ let userDataFunction = async user => {
             const messageHeaderName = modal.querySelector('.message-header-name');
             const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
             const messageHeaderLink = modal.querySelector('.message-header-link');
-            let messageData = await API.getConversation(convo_id);
+            let messageData = await API.inbox.getConversation(convo_id);
             modal.querySelector('.message-box').hidden = false;
             modal.querySelector('.home-top').hidden = true;
             modal.querySelector('.name-top').hidden = false;
@@ -1870,7 +1874,7 @@ setInterval(() => {
 
     setTimeout(() => {
         if(!headerGotUser) {
-            API.verifyCredentials().then(async u => {
+            API.account.verifyCredentials().then(async u => {
                 userDataFunction(u);
             });
         }
@@ -1942,6 +1946,244 @@ setInterval(() => {
 
     // hotkeys
     if(!vars.disableHotkeys) {
+        function processHotkeys() {
+            if (keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyO']) {
+                let url = new URL(location.href);
+                url.searchParams.set('newtwitter', 'true');
+                location.replace(url.href);
+            } else if(keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyD']) {
+                if(vars.developerMode) chrome.storage.sync.get('extensiveLogging', res => {
+                    chrome.storage.sync.set({ extensiveLogging: !res.extensiveLogging }, () => {
+                        if(!res.extensiveLogging) {
+                            toast.success('Extensive logging enabled', 3000);
+                        } else {
+                            toast.error('Extensive logging disabled', 3000);
+                        }
+                        vars.extensiveLogging = !res.extensiveLogging;
+                    });
+                });
+            } else if(keysHeld['KeyG'] && keysHeld['KeyH']) {
+                location.href = '/';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyN']) {
+                location.href = '/notifications';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyR']) {
+                location.href = '/notifications/mentions';
+            } else if(keysHeld['KeyG'] && keysHeld['KeyP']) {
+                location.href = `/${user.screen_name}`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyL']) {
+                location.href = `/${user.screen_name}/likes`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyI']) {
+                location.href = `/${user.screen_name}/lists`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyM']) {
+                document.getElementById("messages").click();
+            } else if(keysHeld['KeyG'] && keysHeld['KeyS']) {
+                location.href = `/old/settings`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyB']) {
+                location.href = `/i/bookmarks`;
+            } else if(keysHeld['KeyG'] && keysHeld['KeyU']) {
+                location.href = `/unfollows/followers`;
+            }
+        }
+        window.addEventListener('keydown', (ev) => {
+            let key = ev.code;
+            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
+            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
+            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
+            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
+                if(keysHeld['KeyG']) {
+                    processHotkeys();
+                }
+            } else {
+                keysHeld[key] = true;
+                processHotkeys();
+            }
+        });
+
+        window.addEventListener('keyup', (ev) => {
+            let key = ev.code;
+            if(key === 'AltLeft' || key === 'AltRight') key = 'Alt';
+            if(key === 'ControlLeft' || key === 'ControlRight') key = 'Control';
+            if(key === 'ShiftLeft' || key === 'ShiftRight') key = 'Shift';
+            
+            if(ev.target.tagName === 'INPUT' || ev.target.tagName === 'TEXTAREA') {
+                if(keysHeld['KeyG']) {
+                    keysHeld[key] = true;
+                    processHotkeys();
+                }
+            } else {
+                delete keysHeld[key];
+            }
+        });
+
+        let tle = document.getElementById('timeline');
+        if(!tle) tle = document.getElementById('list-tweets');
+        document.addEventListener('keydown', async e => {
+            if(e.ctrlKey || keysHeld['KeyG']) return;
+            // reply box
+            if(e.target.className === 'tweet-reply-text') {
+                if(e.altKey) {
+                    if(e.keyCode === 82) { // ALT+R
+                        // hide reply box
+                        e.target.blur();
+                        activeTweet.getElementsByClassName('tweet-interact-reply')[0].click();
+                    } else if(e.keyCode === 77) { // ALT+M
+                        // upload media
+                        let tweetReplyUpload = activeTweet.getElementsByClassName('tweet-reply-upload')[0];
+                        tweetReplyUpload.click();
+                    } else if(e.keyCode === 70) { // ALT+F
+                        // remove first media
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        let tweetReplyMediaElement = activeTweet.getElementsByClassName('tweet-reply-media')[0].children[0];
+                        if(!tweetReplyMediaElement) return;
+                        let removeBtn = tweetReplyMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
+                        removeBtn.click();
+                    }
+                }
+            }
+            if(e.target.className === 'tweet-quote-text') {
+                if(e.altKey) {
+                    if(e.keyCode === 81) { // ALT+Q
+                        // hide quote box
+                        e.target.blur();
+                        activeTweet.getElementsByClassName('tweet-interact-retweet')[0].click();
+                    } else if(e.keyCode === 77) { // ALT+M
+                        // upload media
+                        let tweetQuoteUpload = activeTweet.getElementsByClassName('tweet-quote-upload')[0];
+                        tweetQuoteUpload.click();
+                    } else if(e.keyCode === 70) { // ALT+F
+                        // remove first media
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                        let tweetQuoteMediaElement = activeTweet.getElementsByClassName('tweet-quote-media')[0].children[0];
+                        if(!tweetQuoteMediaElement) return;
+                        let removeBtn = tweetQuoteMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
+                        removeBtn.click();
+                    }
+                }
+            }
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
+            if(e.keyCode === 83) { // S
+                // next tweet
+                let index = [...tle.children].indexOf(activeTweet);
+                if(index === -1) return;
+                let nextTweet = tle.children[index + 1];
+                if(!nextTweet) return;
+                nextTweet.focus();
+                nextTweet.scrollIntoView({ block: 'center' });
+            } else if(e.keyCode === 87) { // W
+                // previous tweet
+                let index = [...tle.children].indexOf(activeTweet);
+                if(index === -1) return;
+                let nextTweet = tle.children[index - 1];
+                if(!nextTweet) return;
+                nextTweet.focus();
+                nextTweet.scrollIntoView({ block: 'center' });
+            } else if(e.keyCode === 76) { // L
+                // like tweet
+                if(!activeTweet) return;
+                let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
+                tweetFavoriteButton.click();
+            } else if(e.keyCode === 66) { // B
+                // bookmark tweet
+                if(!activeTweet) return;
+                let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-more-menu-bookmark');
+                tweetFavoriteButton.click();
+            } else if(e.keyCode === 84) { // T
+                // retweet
+                if(!activeTweet) return;
+                let hasRetweetedWithHotkeyBefore = await new Promise(resolve => {
+                    chrome.storage.local.get(['hasRetweetedWithHotkey'], data => {
+                        resolve(data.hasRetweetedWithHotkey);
+                    });
+                });
+                if(!hasRetweetedWithHotkeyBefore) {
+                    let c = confirm(LOC.retweet_hotkey_warn.message);
+                    if(c) {
+                        chrome.storage.local.set({hasRetweetedWithHotkey: true}, () => {});
+                    } else {
+                        return;
+                    }
+                }
+                let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
+                tweetRetweetButton.click();
+            } else if(e.keyCode === 82) { // R
+                // open reply box
+                if(!activeTweet) return;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
+                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
+                let tweetReplyText = activeTweet.getElementsByClassName('tweet-reply-text')[0];
+                
+                tweetReply.hidden = false;
+                tweetQuote.hidden = true;
+                tweetReplyText.focus();
+            } else if(e.keyCode === 81) { // Q
+                // open quote box
+                if(!activeTweet) return;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
+                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
+                let tweetQuoteText = activeTweet.getElementsByClassName('tweet-quote-text')[0];
+                
+                tweetReply.hidden = true;
+                tweetQuote.hidden = false;
+                tweetQuoteText.focus();
+            } else if(e.keyCode === 32) { // Space
+                // toggle tweet media
+                if(!activeTweet) return;
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                let tweetMedia = activeTweet.getElementsByClassName('tweet-media')[0].children[0];
+                if(!tweetMedia) return;
+                if(tweetMedia.tagName === "VIDEO") {
+                    tweetMedia.paused ? tweetMedia.play() : tweetMedia.pause();
+                } else {
+                    tweetMedia.click();
+                    tweetMedia.click();
+                }
+            } else if(e.keyCode === 13) { // Enter
+                // open tweet
+                if(e.target.className.includes('tweet tweet-id-')) {
+                    if(!activeTweet) return;
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    activeTweet.click();
+                } else if(e.target.className === "tweet-interact-more") {
+                    e.target.click();
+                    activeTweet.getElementsByClassName('tweet-interact-more-menu-copy')[0].focus();
+                }
+            } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
+                // copy image
+                if(e.target.className.includes('tweet tweet-id-')) {
+                    if(!activeTweet) return;
+                    let media = activeTweet.getElementsByClassName('tweet-media')[0];
+                    if(!media) return;
+                    media = media.children[0];
+                    if(!media) return;
+                    if(media.tagName === "IMG") {
+                        let img = media;
+                        let canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        let ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
+                        canvas.toBlob((blob) => {
+                            navigator.clipboard.write([
+                                new ClipboardItem({ "image/png": blob })
+                            ]);
+                        }, "image/png");
+                    }
+                }
+            } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
+                // download media
+                if(activeTweet.className.includes('tweet tweet-id-')) {
+                    activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
+                }
+            }
+        });
         let searchInput = document.getElementById('search-input');
         document.addEventListener('keydown', e => {
             if(document.activeElement === searchInput && e.altKey && e.keyCode === 70) { // Alt+F
@@ -2056,7 +2298,7 @@ setInterval(() => {
     setTimeout(() => {
         document.getElementById('navbar-user-avatar').addEventListener('click', () => {
             if(headerGotUser) return;
-            API.verifyCredentials().then(async u => {
+            API.account.verifyCredentials().then(async u => {
                 userDataFunction({ detail: u });
             });
         });

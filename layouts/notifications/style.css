@@ -250,23 +250,6 @@ body {
     overflow-x: hidden;
 }
 
-.tweet-body-quote {
-    background-color: var(--background-color);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    display: block;
-    margin: 10px;
-    padding: 10px;
-    position: relative;
-    right: 10px;
-    text-decoration: none
-}
-
-.tweet-body-quote:hover {
-    background-color: var(--darker-background-color);
-    text-decoration: none
-}
-
 .tweet-body-text-long {
     font-size: 16px;
     font-weight: 400;

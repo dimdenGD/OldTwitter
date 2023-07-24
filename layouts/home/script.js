@@ -14,7 +14,7 @@ let selectedCircle = undefined;
 let algoCursor;
 
 async function createShamelessPlug(firstTime = true) {
-    let dimden = await API.getUserV2('dimdenEFF');
+    let dimden = await API.user.getV2('dimdenEFF');
     if(!dimden.following) {
         let opened = Date.now();
         let modal = createModal(`
@@ -34,7 +34,7 @@ async function createShamelessPlug(firstTime = true) {
         `, 'shameless-plug', () => {}, () => Date.now() - opened > 1750);
         let followButton = modal.querySelector('.follow');
         followButton.addEventListener('click', () => {
-            API.followUser('dimdenEFF').then(() => {
+            API.user.follow('dimdenEFF').then(() => {
                 alert(LOC.thank_you_follow.message);
                 modal.remove();
             }).catch(e => {
@@ -60,35 +60,18 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Removed ads.</li>
-                            <li>Fixed quote tweets not showing up on profile, search and list tweets.</li>
-                            <li>Added a quick-switch for timeline type on home page.</li>
-                            <li>Fixed "flashbangs" on every refresh.</li>
-                            <li>Added 'only retweets' and 'no retweets' timelines.</li>
-                            <li>Made Trends be actually relevant to selected location.</li>
-                            <li>Fixed retweets not showing up properly in Lists.</li>
-                            <li>Added ability to hide trends, who to follow, tweet statistics, follower counts.</li>
-                            <li>Fixed group chats not working.</li>
-                            <li>Added new animations everywhere.</li>
-                            <li>Made images get converted to JPEG if they're too big on upload.</li>
-                            <li>Added lot of new <a href="https://github.com/dimdenGD/OldTwitter#hotkeys" target="_blank">hotkeys</a>.</li>
-                            <li>Added option to auto-update timeline.</li>
-                            <li>Fixed bug with adding new account to Twitter.</li>
-                            <li>Fixed search not working on complex queries.</li>
-                            <li>Fixed DMs breaking on first message ever.</li>
-                            <li>Fixed default link color not working for some users.</li>
-                            <li>Added option to copy tweet links as vxtwitter.com and some other services.</li>
-                            <li>Added Czech, Chinese and Vietnamese translations.</li>
-                            <li>Fixed logging in to Twitter with extension enabled.</li>
-                            <li>Added setting to use new Twitter's logo for tab icon.</li>
-                            <li>Fixed unable to unmention people if they were mentioned manually.</li>
-                            <li>Fixed some tweets not being viewable.</li>
-                            <li>Fixed media tab not working sometimes.</li>
-                            <li>Fixed tweet view count not showing up in Lists.</li>
-                            <li>Fixed protected profiles not rendering properly.</li>
-                            <li>Fixed download media hotkey and added hotkey to switch between new and old Twitter.</li>
-                            <li>Fixed retweet labels not showing up with some adblockers.</li>
-                            <li>Removed Herobrine.</li>
+                            <li>Added support for Community Notes.</li>
+                            <li>Added option to see bookmark count.</li>
+                            <li>Added option to disable GIF autoplay.</li>
+                            <li>Added ability to pause GIFs.</li>
+                            <li>Added ability to hide replies.</li>
+                            <li>Added option to disable personalized trends.</li>
+                            <li>Added hotkey to bookmark tweets.</li>
+                            <li>Fixed right-to-left language tweets not showing properly.</li>
+                            <li>Fixed thread tweets in lists.</li>
+                            <li>Fixed links not showing in long tweets.</li>
+                            <li>Fixed sensitive content not being censored in profile previews.</li>
+                            <li>Lot of fixes about some pages just not loading.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
@@ -122,7 +105,7 @@ setTimeout(() => {
 
 // Util
 function updateUserData() {
-    API.verifyCredentials().then(u => {
+    API.account.verifyCredentials().then(u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -140,8 +123,8 @@ async function updateTimeline() {
         document.getElementById('tweets-loading').hidden = false;
         document.getElementById('load-more').hidden = true;
     }
-    let fn = vars.timelineType === 'algo' ? API.getAlgoTimeline : vars.timelineType === 'chrono-social' ? API.getMixedTimeline : API.getTimeline;
-    let [tl, s] = await Promise.allSettled([fn(), API.getSettings()]);
+    let fn = vars.timelineType === 'algo' ? API.timeline.getAlgorithmical : vars.timelineType === 'chrono-social' ? API.timeline.getMixed : API.timeline.getChronological;
+    let [tl, s] = await Promise.allSettled([fn(), API.account.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
         document.getElementById('tweets-loading').hidden = true;
@@ -220,7 +203,7 @@ async function updateTimeline() {
 }
 async function updateCircles() {
     let circlesList = document.getElementById('audience-group');
-    circles = await API.getCircles();
+    circles = await API.circle.getCircles();
     for(let i in circles) {
         let option = document.createElement('option');
         option.value = circles[i].rest_id;
@@ -376,177 +359,10 @@ setTimeout(async () => {
     if(!vars) {
         await loadVars();
     }
-    // tweet hotkeys
-    if(!vars.disableHotkeys) {
-        let tle = document.getElementById('timeline');
-        document.addEventListener('keydown', async e => {
-            if(e.ctrlKey || keysHeld['KeyG']) return;
-            // reply box
-            if(e.target.className === 'tweet-reply-text') {
-                if(e.altKey) {
-                    if(e.keyCode === 82) { // ALT+R
-                        // hide reply box
-                        e.target.blur();
-                        activeTweet.getElementsByClassName('tweet-interact-reply')[0].click();
-                    } else if(e.keyCode === 77) { // ALT+M
-                        // upload media
-                        let tweetReplyUpload = activeTweet.getElementsByClassName('tweet-reply-upload')[0];
-                        tweetReplyUpload.click();
-                    } else if(e.keyCode === 70) { // ALT+F
-                        // remove first media
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                        let tweetReplyMediaElement = activeTweet.getElementsByClassName('tweet-reply-media')[0].children[0];
-                        if(!tweetReplyMediaElement) return;
-                        let removeBtn = tweetReplyMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
-                        removeBtn.click();
-                    }
-                }
-            }
-            if(e.target.className === 'tweet-quote-text') {
-                if(e.altKey) {
-                    if(e.keyCode === 81) { // ALT+Q
-                        // hide quote box
-                        e.target.blur();
-                        activeTweet.getElementsByClassName('tweet-interact-retweet')[0].click();
-                    } else if(e.keyCode === 77) { // ALT+M
-                        // upload media
-                        let tweetQuoteUpload = activeTweet.getElementsByClassName('tweet-quote-upload')[0];
-                        tweetQuoteUpload.click();
-                    } else if(e.keyCode === 70) { // ALT+F
-                        // remove first media
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                        let tweetQuoteMediaElement = activeTweet.getElementsByClassName('tweet-quote-media')[0].children[0];
-                        if(!tweetQuoteMediaElement) return;
-                        let removeBtn = tweetQuoteMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
-                        removeBtn.click();
-                    }
-                }
-            }
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
-            if(e.keyCode === 83) { // S
-                // next tweet
-                let index = [...tle.children].indexOf(activeTweet);
-                if(index === -1) return;
-                let nextTweet = tle.children[index + 1];
-                if(!nextTweet) return;
-                nextTweet.focus();
-                nextTweet.scrollIntoView({ block: 'center' });
-            } else if(e.keyCode === 87) { // W
-                // previous tweet
-                let index = [...tle.children].indexOf(activeTweet);
-                if(index === -1) return;
-                let nextTweet = tle.children[index - 1];
-                if(!nextTweet) return;
-                nextTweet.focus();
-                nextTweet.scrollIntoView({ block: 'center' });
-            } else if(e.keyCode === 76) { // L
-                // like tweet
-                if(!activeTweet) return;
-                let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
-                tweetFavoriteButton.click();
-            } else if(e.keyCode === 84) { // T
-                // retweet
-                if(!activeTweet) return;
-                let hasRetweetedWithHotkeyBefore = await new Promise(resolve => {
-                    chrome.storage.local.get(['hasRetweetedWithHotkey'], data => {
-                        resolve(data.hasRetweetedWithHotkey);
-                    });
-                });
-                if(!hasRetweetedWithHotkeyBefore) {
-                    let c = confirm(LOC.retweet_hotkey_warn.message);
-                    if(c) {
-                        chrome.storage.local.set({hasRetweetedWithHotkey: true}, () => {});
-                    } else {
-                        return;
-                    }
-                }
-                let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
-                tweetRetweetButton.click();
-            } else if(e.keyCode === 82) { // R
-                // open reply box
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
-                let tweetReplyText = activeTweet.getElementsByClassName('tweet-reply-text')[0];
-                
-                tweetReply.hidden = false;
-                tweetQuote.hidden = true;
-                tweetReplyText.focus();
-            } else if(e.keyCode === 81) { // Q
-                // open quote box
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
-                let tweetQuoteText = activeTweet.getElementsByClassName('tweet-quote-text')[0];
-                
-                tweetReply.hidden = true;
-                tweetQuote.hidden = false;
-                tweetQuoteText.focus();
-            } else if(e.keyCode === 32) { // Space
-                // toggle tweet media
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetMedia = activeTweet.getElementsByClassName('tweet-media')[0].children[0];
-                if(!tweetMedia) return;
-                if(tweetMedia.tagName === "VIDEO") {
-                    tweetMedia.paused ? tweetMedia.play() : tweetMedia.pause();
-                } else {
-                    tweetMedia.click();
-                    tweetMedia.click();
-                }
-            } else if(e.keyCode === 13) { // Enter
-                // open tweet
-                if(e.target.className.includes('tweet tweet-id-')) {
-                    if(!activeTweet) return;
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
-                    activeTweet.click();
-                } else if(e.target.className === "tweet-interact-more") {
-                    e.target.click();
-                    activeTweet.getElementsByClassName('tweet-interact-more-menu-copy')[0].focus();
-                }
-            } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
-                // copy image
-                if(e.target.className.includes('tweet tweet-id-')) {
-                    if(!activeTweet) return;
-                    let media = activeTweet.getElementsByClassName('tweet-media')[0];
-                    if(!media) return;
-                    media = media.children[0];
-                    if(!media) return;
-                    if(media.tagName === "IMG") {
-                        let img = media;
-                        let canvas = document.createElement('canvas');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        let ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, img.width, img.height);
-                        canvas.toBlob((blob) => {
-                            navigator.clipboard.write([
-                                new ClipboardItem({ "image/png": blob })
-                            ]);
-                        }, "image/png");
-                    }
-                }
-            } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
-                // download media
-                if(activeTweet.className.includes('tweet tweet-id-')) {
-                    activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
-                }
-            }
-        });
-    }
 
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
     let lastTweetDate = 0;
-    let tweetsToLoad = {};
     let lastScroll = Date.now();
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
@@ -590,7 +406,7 @@ setTimeout(async () => {
             document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
             let tl;
             try {
-                tl = vars.timelineType === 'algo' ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+                tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronological(timeline.data[timeline.data.length - 1].id_str);
                 if(vars.timelineType === 'algo') {
                     algoCursor = tl.cursor;
                     tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
@@ -640,8 +456,8 @@ setTimeout(async () => {
     //             if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
     //             else tweetsToLoad[id]++;
     //             if(tweetsToLoad[id] === 10) {
-    //                 API.getRepliesV2(id);
-    //                 API.getTweetLikers(id);
+    //                 API.tweet.getRepliesV2(id);
+    //                 API.tweet.getLikers(id);
     //                 t.classList.add('tweet-preload');
     //                 console.log(`Preloading ${id}`);
     //             }
@@ -693,7 +509,7 @@ setTimeout(async () => {
         document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
         let tl;
         try {
-            tl = vars.timelineType === 'algo' ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+            tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronological(timeline.data[timeline.data.length - 1].id_str);
             if(vars.timelineType === 'algo') {
                 algoCursor = tl.cursor;
                 tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
@@ -940,7 +756,7 @@ setTimeout(async () => {
         if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
             newTweetUserSearch.hidden = false;
             selectedIndex = 0;
-            let users = (await API.search(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
+            let users = (await API.search.typeahead(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
             newTweetUserSearch.innerHTML = '';
             users.forEach((user, index) => {
                 let userElement = document.createElement('span');
@@ -1047,7 +863,7 @@ setTimeout(async () => {
                     <button class="nice-button circle-control-btn">${LOC.remove.message}</button>
                 `;
                 userElement.querySelector('.circle-control-btn').addEventListener('click', async () => {
-                    await API.removeUserFromCircle(selectedCircle.id, selectedCircle.rest_id, u.id, u.legacy.id_str);
+                    await API.circle.removeUser(selectedCircle.id, selectedCircle.rest_id, u.id, u.legacy.id_str);
                     userElement.remove();
                     document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) - 1;
                 });
@@ -1056,11 +872,11 @@ setTimeout(async () => {
             });
         }
 
-        let members = await API.getCircleMembers(selectedCircle.rest_id);
+        let members = await API.circle.getMembers(selectedCircle.rest_id);
         renderMembers(members);
         userSearch.addEventListener('keyup', async () => {
             let q = userSearch.value;
-            let res = await API.trustedFriendsTypeahead(selectedCircle.rest_id, q);
+            let res = await API.search.trustedFriendsTypeahead(selectedCircle.rest_id, q);
             circleSearch.innerHTML = '';
             res.slice(0, 5).forEach(u => {
                 let userElement = document.createElement('div');
@@ -1078,11 +894,11 @@ setTimeout(async () => {
                 `;
                 userElement.querySelector('.circle-control-btn').addEventListener('click', async e => {
                     if(u.is_trusted_friends_list_member) {
-                        await API.removeUserFromCircle(selectedCircle.id, selectedCircle.rest_id, u.id, u.rest_id);
+                        await API.circle.removeUser(selectedCircle.id, selectedCircle.rest_id, u.id, u.rest_id);
                         e.target.innerText = LOC.add.message;
                         document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) - 1;
                     } else {
-                        await API.addUserToCircle(selectedCircle.id, selectedCircle.rest_id, u.rest_id);
+                        await API.circle.addUser(selectedCircle.id, selectedCircle.rest_id, u.rest_id);
                         e.target.innerText = LOC.remove.message;
                         document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) + 1;
                     }
@@ -1099,7 +915,7 @@ setTimeout(async () => {
             circleMembers.innerHTML = '';
             circleMembers.hidden = false;
             userSearch.style.display = 'none';
-            let members = await API.getCircleMembers(selectedCircle.rest_id);
+            let members = await API.circle.getMembers(selectedCircle.rest_id);
             renderMembers(members);
         });
         modal.querySelector('.circle-menu-search_people').addEventListener('click', async () => {
@@ -1155,7 +971,7 @@ setTimeout(async () => {
             if(pollVariants[3]) {
                 cardObject["twitter:string:choice4_label"] = pollVariants[3];
             }
-            card = await API.createCard(cardObject);
+            card = await API.tweet.createCard(cardObject);
         }
         try {
             let variables = {
@@ -1201,7 +1017,7 @@ setTimeout(async () => {
                 if(uploadedMedia.length > 0) {
                     variables2.post_tweet_request.media_ids = uploadedMedia.map(i => i.media_id);
                 }
-                await API.createScheduledTweet({
+                await API.tweet.postScheduled({
                     variables: variables2,
                     queryId: "LCVzRQGxOaGnOnYH01NQXg"
                 });
@@ -1218,8 +1034,12 @@ setTimeout(async () => {
                     <a href="https://twitter.com/compose/tweet/unsent/scheduled?newtwitter=true" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
                 `);
             } else {
+                if(timeline.toBeUpdated > 0) {
+                    let newTweetsButton = document.getElementById('new-tweets');
+                    newTweetsButton.click();
+                }
                 let whoCanReply = document.getElementById('new-tweet-wcr-input').value;
-                let tweetObject = await API.postTweetV2({
+                let tweetObject = await API.tweet.postV2({
                     text: tweet,
                     media: uploadedMedia,
                     circle: selectedCircle ? selectedCircle.rest_id : undefined,
@@ -1265,12 +1085,32 @@ setTimeout(async () => {
         delete newTweetText.dataset.blurSince;
     });
 
-    document.getElementById('timeline-type').value = vars.timelineType;
-    document.getElementById('timeline-type').addEventListener('change', e => {
+    document.getElementById('timeline-type-left').value = vars.timelineType;
+    document.getElementById('timeline-type-center').value = vars.timelineType;
+    document.getElementById('timeline-type-left').addEventListener('change', e => {
         chrome.storage.sync.set({
             timelineType: e.target.value
         }, () => {
             vars.timelineType = e.target.value;
+            document.getElementById('timeline-type-center').value = vars.timelineType;
+            timeline.data = [];
+            timeline.dataToUpdate = [];
+            timeline.toBeUpdated = [];
+            seenThreads = [];
+            seenTweets = [];
+            algoCursor = undefined;
+
+            window.scrollTo(0, 0);
+            renderNewTweetsButton();
+            updateTimeline();
+        });
+    })
+    document.getElementById('timeline-type-center').addEventListener('change', e => {
+        chrome.storage.sync.set({
+            timelineType: e.target.value
+        }, () => {
+            vars.timelineType = e.target.value;
+            document.getElementById('timeline-type-left').value = vars.timelineType;
             timeline.data = [];
             timeline.dataToUpdate = [];
             timeline.toBeUpdated = [];

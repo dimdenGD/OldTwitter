@@ -18,7 +18,7 @@ function updateSubpage() {
 }
 
 function updateUserData() {
-    API.verifyCredentials().then(u => {
+    API.account.verifyCredentials().then(u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -251,7 +251,7 @@ async function renderNotifications(data, append = false) {
     }
     if(unreadNotifications > 0) {
         setTimeout(() => {
-            API.markAsReadNotifications(cursor);
+            API.notifications.markAsRead(cursor);
             if(windowFocused) {
                 firstRender = false;
                 document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
@@ -277,11 +277,11 @@ async function updateNotifications(append = false, quiet = false) {
     let data;
 
     try {
-        data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
+        data = await API.notifications.get(append ? lastCursor : undefined, subpage === 'mentions');
     } catch(e) {
         await sleep(2500);
         try {
-            data = await API.getNotifications(append ? lastCursor : undefined, subpage === 'mentions');
+            data = await API.notifications.get(append ? lastCursor : undefined, subpage === 'mentions');
         } catch(e) {
             document.getElementById('notifs-loading').hidden = true;
             document.getElementById('notifications-more').hidden = false;

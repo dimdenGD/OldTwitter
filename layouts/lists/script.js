@@ -31,7 +31,7 @@ function updateSubpage() {
     }
 }
 function updateUserData() {
-    API.verifyCredentials().then(u => {
+    API.account.verifyCredentials().then(u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -98,18 +98,18 @@ function renderListData(data) {
                     let description = document.getElementById('list-description-input').value;
                     let isPrivate = document.getElementById('list-private-input').checked;
                     try {
-                        await API.updateList(data.id_str, name, description, isPrivate);
+                        await API.list.update(data.id_str, name, description, isPrivate);
                         document.getElementById('list-name').classList.toggle('user-protected', isPrivate);
                     } catch(e) {
                         return document.getElementById('list-editor-error').innerText = e && e.message ? e.message : e;
                     }
                     modal.remove();
-                    renderListData(await API.getList(data.id_str));
+                    renderListData(await API.list.get(data.id_str));
                 });
                 let membersCursor;
                 let membersContainer = document.getElementById('list-editor-members-container');
                 async function getMembers() {
-                    let listMembers = await API.getListMembers(data.id_str, membersCursor);
+                    let listMembers = await API.list.getMembers(data.id_str, membersCursor);
                     membersCursor = listMembers.cursor;
                     listMembers = listMembers.list;
                     if(!cursor || listMembers.length === 0) document.getElementById('list-editor-members-more').hidden = true;
@@ -134,7 +134,7 @@ function renderListData(data) {
 
                         let removeButton = followingElement.querySelector('.following-item-btn');
                         removeButton.addEventListener('click', async () => {
-                            await API.listRemoveMember(listId, t.id_str);
+                            await API.list.removeMember(listId, t.id_str);
                             document.getElementById('list-members-count').innerText = parseInt(document.getElementById('list-members-count').innerText) - 1;
                             followingElement.remove();
                         });
@@ -162,7 +162,7 @@ function renderListData(data) {
                     <button class="nice-button" id="list-btn-delete-confirm">${LOC.delete.message}</button>
                 `, 'list-editor-modal');
                 document.getElementById('list-btn-delete-confirm').addEventListener('click', async () => {
-                    await API.deleteList(data.id_str);
+                    await API.list.delete(data.id_str);
                     modal.remove();
                     window.location.href = `https://twitter.com/${user.screen_name}/lists`;
                 });
@@ -171,12 +171,12 @@ function renderListData(data) {
             actions.innerHTML = `<button class="nice-button" id="list-btn-subscribe">${data.following ? LOC.unsubscribe.message : LOC.subscribe.message}</button>`;
             document.getElementById('list-btn-subscribe').addEventListener('click', async () => {
                 if(data.following) {
-                    await API.unsubscribeList(data.id_str);
+                    await API.list.unsubscribe(data.id_str);
                     document.getElementById('list-followers-count').innerText = +document.getElementById('list-followers-count').innerText - 1;
                     data.following = false;
                     document.getElementById('list-btn-subscribe').innerText = LOC.subscribe.message;
                 } else {
-                    await API.subscribeList(data.id_str);
+                    await API.list.subscribe(data.id_str);
                     document.getElementById('list-followers-count').innerText = +document.getElementById('list-followers-count').innerText + 1;
                     data.following = true;
                     document.getElementById('list-btn-subscribe').innerText = LOC.unsubscribe.message;
@@ -187,8 +187,8 @@ function renderListData(data) {
 }
 async function renderListTweets(c) {
     let [listInfo, listTweets] = await Promise.allSettled([
-        API.getList(listId),
-        API.getListTweets(listId, c)
+        API.list.get(listId),
+        API.list.getTweets(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -228,8 +228,8 @@ async function renderListTweets(c) {
 }
 async function renderListMembers(c) {
     let [listInfo, listMembers] = await Promise.allSettled([
-        API.getList(listId),
-        API.getListMembers(listId, c)
+        API.list.get(listId),
+        API.list.getMembers(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -254,8 +254,8 @@ async function renderListMembers(c) {
 }
 async function renderListFollowers(c) {
     let [listInfo, listFollowers] = await Promise.allSettled([
-        API.getList(listId),
-        API.getListFollowers(listId, c)
+        API.list.get(listId),
+        API.list.getFollowers(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -293,12 +293,12 @@ async function renderListFollowers(c) {
         let followButton = followingElement.querySelector('.user-item-btn');
         followButton.addEventListener('click', async () => {
             if (followButton.classList.contains('following')) {
-                await API.unfollowUser(t.screen_name);
+                await API.user.unfollow(t.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
                 followButton.innerText = LOC.follow.message;
             } else {
-                await API.followUser(t.screen_name);
+                await API.user.follow(t.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
                 followButton.innerText = LOC.following.message;
@@ -393,156 +393,6 @@ setTimeout(async () => {
         }
     });
     
-    // tweet hotkeys
-    if(!vars.disableHotkeys) {
-        let tle = document.getElementById('list-tweets');
-        document.addEventListener('keydown', async e => {
-            if(e.ctrlKey || keysHeld['KeyG']) return;
-            // reply box
-            if(e.target.className === 'tweet-reply-text') {
-                if(e.altKey) {
-                    if(e.keyCode === 82) { // ALT+R
-                        // hide reply box
-                        e.target.blur();
-                        let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                        tweetReply.hidden = true;
-                    } else if(e.keyCode === 77) { // ALT+M
-                        // upload media
-                        let tweetReplyUpload = activeTweet.getElementsByClassName('tweet-reply-upload')[0];
-                        tweetReplyUpload.click();
-                    } else if(e.keyCode === 70) { // ALT+F
-                        // remove first media
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                        let tweetReplyMediaElement = activeTweet.getElementsByClassName('tweet-reply-media')[0].children[0];
-                        if(!tweetReplyMediaElement) return;
-                        let removeBtn = tweetReplyMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
-                        removeBtn.click();
-                    }
-                }
-            }
-            if(e.target.className === 'tweet-quote-text') {
-                if(e.altKey) {
-                    if(e.keyCode === 81) { // ALT+Q
-                        // hide quote box
-                        e.target.blur();
-                        let tweetReply = activeTweet.getElementsByClassName('tweet-quote')[0];
-                        tweetReply.hidden = true;
-                    } else if(e.keyCode === 77) { // ALT+M
-                        // upload media
-                        let tweetQuoteUpload = activeTweet.getElementsByClassName('tweet-quote-upload')[0];
-                        tweetQuoteUpload.click();
-                    } else if(e.keyCode === 70) { // ALT+F
-                        // remove first media
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                        let tweetQuoteMediaElement = activeTweet.getElementsByClassName('tweet-quote-media')[0].children[0];
-                        if(!tweetQuoteMediaElement) return;
-                        let removeBtn = tweetQuoteMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
-                        removeBtn.click();
-                    }
-                }
-            }
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
-            if(e.keyCode === 83) { // S
-                // next tweet
-                let index = [...tle.children].indexOf(activeTweet);
-                if(index === -1) return;
-                let nextTweet = tle.children[index + 1];
-                if(!nextTweet) return;
-                nextTweet.focus();
-                nextTweet.scrollIntoView({ block: 'center' });
-            } else if(e.keyCode === 87) { // W
-                // previous tweet
-                let index = [...tle.children].indexOf(activeTweet);
-                if(index === -1) return;
-                let nextTweet = tle.children[index - 1];
-                if(!nextTweet) return;
-                nextTweet.focus();
-                nextTweet.scrollIntoView({ block: 'center' });
-            } else if(e.keyCode === 76) { // L
-                // like tweet
-                if(!activeTweet) return;
-                let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
-                tweetFavoriteButton.click();
-            } else if(e.keyCode === 84) { // T
-                // retweet
-                if(!activeTweet) return;
-                let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
-                tweetRetweetButton.click();
-            } else if(e.keyCode === 82) { // R
-                // open reply box
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
-                let tweetReplyText = activeTweet.getElementsByClassName('tweet-reply-text')[0];
-                
-                tweetReply.hidden = false;
-                tweetQuote.hidden = true;
-                tweetReplyText.focus();
-            } else if(e.keyCode === 81) { // Q
-                // open quote box
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
-                let tweetQuoteText = activeTweet.getElementsByClassName('tweet-quote-text')[0];
-                
-                tweetReply.hidden = true;
-                tweetQuote.hidden = false;
-                tweetQuoteText.focus();
-            } else if(e.keyCode === 32) { // Space
-                // toggle tweet media
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetMedia = activeTweet.getElementsByClassName('tweet-media')[0].children[0];
-                if(!tweetMedia) return;
-                if(tweetMedia.tagName === "VIDEO") {
-                    tweetMedia.paused ? tweetMedia.play() : tweetMedia.pause();
-                } else {
-                    tweetMedia.click();
-                    tweetMedia.click();
-                }
-            } else if(e.keyCode === 13) { // Enter
-                // open tweet
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                activeTweet.click();
-            } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
-                // copy image
-                if(e.target.className.includes('tweet tweet-id-')) {
-                    if(!activeTweet) return;
-                    let media = activeTweet.getElementsByClassName('tweet-media')[0];
-                    if(!media) return;
-                    media = media.children[0];
-                    if(!media) return;
-                    if(media.tagName === "IMG") {
-                        let img = media;
-                        let canvas = document.createElement('canvas');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        let ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, img.width, img.height);
-                        canvas.toBlob((blob) => {
-                            navigator.clipboard.write([
-                                new ClipboardItem({ "image/png": blob })
-                            ]);
-                        }, "image/png");
-                    }
-                }
-            } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
-                // download media
-                if(activeTweet.className.includes('tweet tweet-id-')) {
-                    activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
-                }
-            }
-        });
-    }
     document.addEventListener('clearActiveTweet', () => {
         if(activeTweet) {
             activeTweet.classList.remove('tweet-active');

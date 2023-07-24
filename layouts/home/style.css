@@ -154,21 +154,6 @@ body {
     outline: none;
 }
 
-.tweet-interact-reply[data-val="0"],
-.tweet-interact-retweet[data-val="0"],
-.tweet-interact-favorite[data-val="0"] {
-    color: var(--background-color);
-}
-
-.tweet:hover {
-    background-color: var(--dark-background-color)
-}
-.tweet:hover .tweet-interact-reply[data-val="0"],
-.tweet:hover .tweet-interact-retweet[data-val="0"],
-.tweet:hover .tweet-interact-favorite[data-val="0"] {
-    color: var(--dark-background-color);
-}
-
 .tweet-avatar-link {
     float: left;
     margin-right: 10px
@@ -250,23 +235,6 @@ body {
 }
 .tweet-header-name-main {
     width: 300px;
-}
-
-.tweet-body-quote {
-    background-color: var(--background-color);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    display: block;
-    margin: 10px;
-    padding: 10px;
-    position: relative;
-    right: 10px;
-    text-decoration: none
-}
-
-.tweet-body-quote:hover {
-    background-color: var(--darker-background-color);
-    text-decoration: none
 }
 
 .tweet-body-text-long {
@@ -558,6 +526,12 @@ a:hover,
     #about {
         display: none;
     }
+    #timeline-type-left {
+        display: none;
+    }
+    #timeline-type-center {
+        display: inline-block;
+    }
 }
 @media screen and (max-width: 880px) {
     #left-cell {
@@ -732,7 +706,8 @@ a:hover,
     background-color: var(--link-color);
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    border-radius: 5px
+    border-radius: 5px;
+    width: 590px;
 }
 
 #new-tweet-media-div {
@@ -1012,7 +987,7 @@ a:hover,
 .poll-disabled:before {
     color: gray !important;
 }
-#timeline-type {
+#timeline-type-left {
     color: var(--default-text-color);
     background-color: var(--background-color);
     border: 1px solid var(--border);
@@ -1020,6 +995,17 @@ a:hover,
     margin-bottom: 10px;
     padding: 5px 2px;
     width: 100%;
+    max-width: 275px;
+}
+#timeline-type-center {
+    color: var(--default-text-color);
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    padding: 5px 2px;
+    width: 100%;
+    max-width: 590px
 }
 #content {
     min-height: 800px;

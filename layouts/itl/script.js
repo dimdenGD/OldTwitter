@@ -7,7 +7,7 @@ let subpage = new URLSearchParams(location.search).get('page');
 let nid = new URLSearchParams(location.search).get('nid');
 
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -52,7 +52,7 @@ function renderUserData() {
     }
 }
 async function renderDeviceNotificationTimeline(cursor) {
-    let tl = await API.getDeviceFollowTweets(cursor);
+    let tl = await API.notifications.getDeviceFollowTweets(cursor);
     let container = document.getElementById('timeline');
     if (tl.cursor) {
         tlCursor = tl.cursor;
@@ -86,7 +86,7 @@ async function renderDeviceNotificationTimeline(cursor) {
 async function renderLikesTimeline() {
     document.getElementById("itl-header").innerText = LOC.likes.message;
     document.getElementsByTagName('title')[0].innerText = `${LOC.likes.message} - OldTwitter`;
-    let tl = await API.viewNotification(nid);
+    let tl = await API.notifications.view(nid);
     let tweetContainer = document.getElementById('timeline');
     let userContainer = document.getElementById('user-list');
     for(let i in tl) {
@@ -123,156 +123,6 @@ setTimeout(async () => {
         setTimeout(() => location.reload(), 500);
         console.error(e);
         return;
-    }
-    // tweet hotkeys
-    if(!vars.disableHotkeys) {
-        let tle = document.getElementById('timeline');
-        document.addEventListener('keydown', async e => {
-            if(e.ctrlKey || keysHeld['KeyG']) return;
-            // reply box
-            if(e.target.className === 'tweet-reply-text') {
-                if(e.altKey) {
-                    if(e.keyCode === 82) { // ALT+R
-                        // hide reply box
-                        e.target.blur();
-                        let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                        tweetReply.hidden = true;
-                    } else if(e.keyCode === 77) { // ALT+M
-                        // upload media
-                        let tweetReplyUpload = activeTweet.getElementsByClassName('tweet-reply-upload')[0];
-                        tweetReplyUpload.click();
-                    } else if(e.keyCode === 70) { // ALT+F
-                        // remove first media
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                        let tweetReplyMediaElement = activeTweet.getElementsByClassName('tweet-reply-media')[0].children[0];
-                        if(!tweetReplyMediaElement) return;
-                        let removeBtn = tweetReplyMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
-                        removeBtn.click();
-                    }
-                }
-            }
-            if(e.target.className === 'tweet-quote-text') {
-                if(e.altKey) {
-                    if(e.keyCode === 81) { // ALT+Q
-                        // hide quote box
-                        e.target.blur();
-                        let tweetReply = activeTweet.getElementsByClassName('tweet-quote')[0];
-                        tweetReply.hidden = true;
-                    } else if(e.keyCode === 77) { // ALT+M
-                        // upload media
-                        let tweetQuoteUpload = activeTweet.getElementsByClassName('tweet-quote-upload')[0];
-                        tweetQuoteUpload.click();
-                    } else if(e.keyCode === 70) { // ALT+F
-                        // remove first media
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
-                        let tweetQuoteMediaElement = activeTweet.getElementsByClassName('tweet-quote-media')[0].children[0];
-                        if(!tweetQuoteMediaElement) return;
-                        let removeBtn = tweetQuoteMediaElement.getElementsByClassName('new-tweet-media-img-remove')[0];
-                        removeBtn.click();
-                    }
-                }
-            }
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
-            if(e.keyCode === 83) { // S
-                // next tweet
-                let index = [...tle.children].indexOf(activeTweet);
-                if(index === -1) return;
-                let nextTweet = tle.children[index + 1];
-                if(!nextTweet) return;
-                nextTweet.focus();
-                nextTweet.scrollIntoView({ block: 'center' });
-            } else if(e.keyCode === 87) { // W
-                // previous tweet
-                let index = [...tle.children].indexOf(activeTweet);
-                if(index === -1) return;
-                let nextTweet = tle.children[index - 1];
-                if(!nextTweet) return;
-                nextTweet.focus();
-                nextTweet.scrollIntoView({ block: 'center' });
-            } else if(e.keyCode === 76) { // L
-                // like tweet
-                if(!activeTweet) return;
-                let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
-                tweetFavoriteButton.click();
-            } else if(e.keyCode === 84) { // T
-                // retweet
-                if(!activeTweet) return;
-                let tweetRetweetButton = activeTweet.querySelector('.tweet-interact-retweet-menu-retweet');
-                tweetRetweetButton.click();
-            } else if(e.keyCode === 82) { // R
-                // open reply box
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
-                let tweetReplyText = activeTweet.getElementsByClassName('tweet-reply-text')[0];
-                
-                tweetReply.hidden = false;
-                tweetQuote.hidden = true;
-                tweetReplyText.focus();
-            } else if(e.keyCode === 81) { // Q
-                // open quote box
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetReply = activeTweet.getElementsByClassName('tweet-reply')[0];
-                let tweetQuote = activeTweet.getElementsByClassName('tweet-quote')[0];
-                let tweetQuoteText = activeTweet.getElementsByClassName('tweet-quote-text')[0];
-                
-                tweetReply.hidden = true;
-                tweetQuote.hidden = false;
-                tweetQuoteText.focus();
-            } else if(e.keyCode === 32) { // Space
-                // toggle tweet media
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                let tweetMedia = activeTweet.getElementsByClassName('tweet-media')[0].children[0];
-                if(!tweetMedia) return;
-                if(tweetMedia.tagName === "VIDEO") {
-                    tweetMedia.paused ? tweetMedia.play() : tweetMedia.pause();
-                } else {
-                    tweetMedia.click();
-                    tweetMedia.click();
-                }
-            } else if(e.keyCode === 13) { // Enter
-                // open tweet
-                if(!activeTweet) return;
-                e.preventDefault();
-                e.stopImmediatePropagation();
-                activeTweet.click();
-            } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
-                // copy image
-                if(e.target.className.includes('tweet tweet-id-')) {
-                    if(!activeTweet) return;
-                    let media = activeTweet.getElementsByClassName('tweet-media')[0];
-                    if(!media) return;
-                    media = media.children[0];
-                    if(!media) return;
-                    if(media.tagName === "IMG") {
-                        let img = media;
-                        let canvas = document.createElement('canvas');
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        let ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, img.width, img.height);
-                        canvas.toBlob((blob) => {
-                            navigator.clipboard.write([
-                                new ClipboardItem({ "image/png": blob })
-                            ]);
-                        }, "image/png");
-                    }
-                }
-            } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
-                // download media
-                if(activeTweet.className.includes('tweet tweet-id-')) {
-                    activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
-                }
-            }
-        });
     }
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();

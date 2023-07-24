@@ -1,5 +1,6 @@
 const linkRegex = /(\s|^)(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,60}\.(삼성|닷컴|닷넷|香格里拉|餐厅|食品|飞利浦|電訊盈科|集团|通販|购物|谷歌|诺基亚|联通|网络|网站|网店|网址|组织机构|移动|珠宝|点看|游戏|淡马锡|机构|書籍|时尚|新闻|政府|政务|招聘|手表|手机|我爱你|慈善|微博|广东|工行|家電|娱乐|天主教|大拿|大众汽车|在线|嘉里大酒店|嘉里|商标|商店|商城|公益|公司|八卦|健康|信息|佛山|企业|亚马逊|中文网|中信|世界|ポイント|ファッション|セール|ストア|コム|グーグル|クラウド|アマゾン|みんな|คอม|संगठन|नेट|कॉम|همراه|موقع|موبايلي|كوم|كاثوليك|عرب|شبكة|بيتك|بازار|العليان|ارامكو|اتصالات|ابوظبي|קום|сайт|рус|орг|онлайн|москва|ком|католик|дети|zuerich|zone|zippo|zip|zero|zara|zappos|yun|youtube|you|yokohama|yoga|yodobashi|yandex|yamaxun|yahoo|yachts|xyz|xxx|xperia|xin|xihuan|xfinity|xerox|xbox|wtf|wtc|wow|world|works|work|woodside|wolterskluwer|wme|winners|wine|windows|win|williamhill|wiki|wien|whoswho|weir|weibo|wedding|wed|website|weber|webcam|weatherchannel|weather|watches|watch|warman|wanggou|wang|walter|walmart|wales|vuelos|voyage|voto|voting|vote|volvo|volkswagen|vodka|vlaanderen|vivo|viva|vistaprint|vista|vision|visa|virgin|vip|vin|villas|viking|vig|video|viajes|vet|versicherung|vermögensberatung|vermögensberater|verisign|ventures|vegas|vanguard|vana|vacations|ups|uol|uno|university|unicom|uconnect|ubs|ubank|tvs|tushu|tunes|tui|tube|trv|trust|travelersinsurance|travelers|travelchannel|travel|training|trading|trade|toys|toyota|town|tours|total|toshiba|toray|top|tools|tokyo|today|tmall|tkmaxx|tjx|tjmaxx|tirol|tires|tips|tiffany|tienda|tickets|tiaa|theatre|theater|thd|teva|tennis|temasek|telefonica|telecity|tel|technology|tech|team|tdk|tci|taxi|tax|tattoo|tatar|tatamotors|target|taobao|talk|taipei|tab|systems|symantec|sydney|swiss|swiftcover|swatch|suzuki|surgery|surf|support|supply|supplies|sucks|style|study|studio|stream|store|storage|stockholm|stcgroup|stc|statoil|statefarm|statebank|starhub|star|staples|stada|srt|srl|spreadbetting|spot|sport|spiegel|space|soy|sony|song|solutions|solar|sohu|software|softbank|social|soccer|sncf|smile|smart|sling|skype|sky|skin|ski|site|singles|sina|silk|shriram|showtime|show|shouji|shopping|shop|shoes|shiksha|shia|shell|shaw|sharp|shangrila|sfr|sexy|sex|sew|seven|ses|services|sener|select|seek|security|secure|seat|search|scot|scor|scjohnson|science|schwarz|schule|school|scholarships|schmidt|schaeffler|scb|sca|sbs|sbi|saxo|save|sas|sarl|sapo|sap|sanofi|sandvikcoromant|sandvik|samsung|samsclub|salon|sale|sakura|safety|safe|saarland|ryukyu|rwe|run|ruhr|rugby|rsvp|room|rogers|rodeo|rocks|rocher|rmit|rip|rio|ril|rightathome|ricoh|richardli|rich|rexroth|reviews|review|restaurant|rest|republican|report|repair|rentals|rent|ren|reliance|reit|reisen|reise|rehab|redumbrella|redstone|red|recipes|realty|realtor|realestate|read|raid|radio|racing|qvc|quest|quebec|qpon|pwc|pub|prudential|pru|protection|property|properties|promo|progressive|prof|productions|prod|pro|prime|press|praxi|pramerica|post|porn|politie|poker|pohl|pnc|plus|plumbing|playstation|play|place|pizza|pioneer|pink|ping|pin|pid|pictures|pictet|pics|piaget|physio|photos|photography|photo|phone|philips|phd|pharmacy|pfizer|pet|pccw|pay|passagens|party|parts|partners|pars|paris|panerai|panasonic|pamperedchef|page|ovh|ott|otsuka|osaka|origins|orientexpress|organic|org|orange|oracle|open|ooo|onyourside|online|onl|ong|one|omega|ollo|oldnavy|olayangroup|olayan|okinawa|office|off|observer|obi|nyc|ntt|nrw|nra|nowtv|nowruz|now|norton|northwesternmutual|nokia|nissay|nissan|ninja|nikon|nike|nico|nhk|ngo|nfl|nexus|nextdirect|next|news|newholland|new|neustar|network|netflix|netbank|net|nec|nba|navy|natura|nationwide|name|nagoya|nadex|nab|mutuelle|mutual|museum|mtr|mtpc|mtn|msd|movistar|movie|mov|motorcycles|moto|moscow|mortgage|mormon|mopar|montblanc|monster|money|monash|mom|moi|moe|moda|mobily|mobile|mobi|mma|mls|mlb|mitsubishi|mit|mint|mini|mil|microsoft|miami|metlife|merckmsd|meo|menu|men|memorial|meme|melbourne|meet|media|med|mckinsey|mcdonalds|mcd|mba|mattel|maserati|marshalls|marriott|markets|marketing|market|map|mango|management|man|makeup|maison|maif|madrid|macys|luxury|luxe|lupin|lundbeck|ltda|ltd|lplfinancial|lpl|love|lotto|lotte|london|lol|loft|locus|locker|loans|loan|llp|llc|lixil|living|live|lipsy|link|linde|lincoln|limo|limited|lilly|like|lighting|lifestyle|lifeinsurance|life|lidl|liaison|lgbt|lexus|lego|legal|lefrak|leclerc|lease|lds|lawyer|law|latrobe|latino|lat|lasalle|lanxess|landrover|land|lancome|lancia|lancaster|lamer|lamborghini|ladbrokes|lacaixa|kyoto|kuokgroup|kred|krd|kpn|kpmg|kosher|komatsu|koeln|kiwi|kitchen|kindle|kinder|kim|kia|kfh|kerryproperties|kerrylogistics|kerryhotels|kddi|kaufen|juniper|juegos|jprs|jpmorgan|joy|jot|joburg|jobs|jnj|jmp|jll|jlc|jio|jewelry|jetzt|jeep|jcp|jcb|java|jaguar|iwc|iveco|itv|itau|istanbul|ist|ismaili|iselect|irish|ipiranga|investments|intuit|international|intel|int|insure|insurance|institute|ink|ing|info|infiniti|industries|inc|immobilien|immo|imdb|imamat|ikano|iinet|ifm|ieee|icu|ice|icbc|ibm|hyundai|hyatt|hughes|htc|hsbc|how|house|hotmail|hotels|hoteles|hot|hosting|host|hospital|horse|honeywell|honda|homesense|homes|homegoods|homedepot|holiday|holdings|hockey|hkt|hiv|hitachi|hisamitsu|hiphop|hgtv|hermes|here|helsinki|help|healthcare|health|hdfcbank|hdfc|hbo|haus|hangout|hamburg|hair|guru|guitars|guide|guge|gucci|guardian|group|grocery|gripe|green|gratis|graphics|grainger|gov|got|gop|google|goog|goodyear|goodhands|goo|golf|goldpoint|gold|godaddy|gmx|gmo|gmbh|gmail|globo|global|gle|glass|glade|giving|gives|gifts|gift|ggee|george|genting|gent|gea|gdn|gbiz|gay|garden|gap|games|game|gallup|gallo|gallery|gal|fyi|futbol|furniture|fund|fun|fujixerox|fujitsu|ftr|frontier|frontdoor|frogans|frl|fresenius|free|fox|foundation|forum|forsale|forex|ford|football|foodnetwork|food|foo|fly|flsmidth|flowers|florist|flir|flights|flickr|fitness|fit|fishing|fish|firmdale|firestone|fire|financial|finance|final|film|fido|fidelity|fiat|ferrero|ferrari|feedback|fedex|fast|fashion|farmers|farm|fans|fan|family|faith|fairwinds|fail|fage|extraspace|express|exposed|expert|exchange|everbank|events|eus|eurovision|etisalat|esurance|estate|esq|erni|ericsson|equipment|epson|epost|enterprises|engineering|engineer|energy|emerck|email|education|edu|edeka|eco|eat|earth|dvr|dvag|durban|dupont|duns|dunlop|duck|dubai|dtv|drive|download|dot|doosan|domains|doha|dog|dodge|doctor|docs|dnp|diy|dish|discover|discount|directory|direct|digital|diet|diamonds|dhl|dev|design|desi|dentist|dental|democrat|delta|deloitte|dell|delivery|degree|deals|dealer|deal|dds|dclk|day|datsun|dating|date|data|dance|dad|dabur|cyou|cymru|cuisinella|csc|cruises|cruise|crs|crown|cricket|creditunion|creditcard|credit|cpa|courses|coupons|coupon|country|corsica|coop|cool|cookingchannel|cooking|contractors|contact|consulting|construction|condos|comsec|computer|compare|company|community|commbank|comcast|com|cologne|college|coffee|codes|coach|clubmed|club|cloud|clothing|clinique|clinic|click|cleaning|claims|cityeats|city|citic|citi|citadel|cisco|circle|cipriani|church|chrysler|chrome|christmas|chloe|chintai|cheap|chat|chase|charity|channel|chanel|cfd|cfa|cern|ceo|center|ceb|cbs|cbre|cbn|cba|catholic|catering|cat|casino|cash|caseih|case|casa|cartier|cars|careers|career|care|cards|caravan|car|capitalone|capital|capetown|canon|cancerresearch|camp|camera|cam|calvinklein|call|cal|cafe|cab|bzh|buzz|buy|business|builders|build|bugatti|budapest|brussels|brother|broker|broadway|bridgestone|bradesco|box|boutique|bot|boston|bostik|bosch|boots|booking|book|boo|bond|bom|bofa|boehringer|boats|bnpparibas|bnl|bmw|bms|blue|bloomberg|blog|blockbuster|blanco|blackfriday|black|biz|bio|bingo|bing|bike|bid|bible|bharti|bet|bestbuy|best|berlin|bentley|beer|beauty|beats|bcn|bcg|bbva|bbt|bbc|bayern|bauhaus|basketball|baseball|bargains|barefoot|barclays|barclaycard|barcelona|bar|bank|band|bananarepublic|banamex|baidu|baby|azure|axa|aws|avianca|autos|auto|author|auspost|audio|audible|audi|auction|attorney|athleta|associates|asia|asda|arte|art|arpa|army|archi|aramco|arab|aquarelle|apple|app|apartments|aol|anz|anquan|android|analytics|amsterdam|amica|amfam|amex|americanfamily|americanexpress|amazon|alstom|alsace|ally|allstate|allfinanz|alipay|alibaba|alfaromeo|akdn|airtel|airforce|airbus|aigo|aig|agency|agakhan|africa|afl|afamilycompany|aetna|aero|aeg|adult|ads|adac|actor|active|aco|accountants|accountant|accenture|academy|abudhabi|abogado|able|abc|abbvie|abbott|abb|abarth|aarp|aaa|onion)\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/gi;
 const hashtagRegex = /(#|＃)([a-z0-9_\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u024f\u0253-\u0254\u0256-\u0257\u0300-\u036f\u1e00-\u1eff\u0400-\u04ff\u0500-\u0527\u2de0-\u2dff\ua640-\ua69f\u0591-\u05bf\u05c1-\u05c2\u05c4-\u05c5\u05d0-\u05ea\u05f0-\u05f4\ufb12-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufb4f\u0610-\u061a\u0620-\u065f\u066e-\u06d3\u06d5-\u06dc\u06de-\u06e8\u06ea-\u06ef\u06fa-\u06fc\u0750-\u077f\u08a2-\u08ac\u08e4-\u08fe\ufb50-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\u200c-\u200c\u0e01-\u0e3a\u0e40-\u0e4e\u1100-\u11ff\u3130-\u3185\ua960-\ua97f\uac00-\ud7af\ud7b0-\ud7ff\uffa1-\uffdc\u30a1-\u30fa\u30fc-\u30fe\uff66-\uff9f\uff10-\uff19\uff21-\uff3a\uff41-\uff5a\u3041-\u3096\u3099-\u309e\u3400-\u4dbf\u4e00-\u9fff\u20000-\u2a6df\u2a700-\u2b73f\u2b740-\u2b81f\u2f800-\u2fa1f]*[a-z_\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u024f\u0253-\u0254\u0256-\u0257\u0300-\u036f\u1e00-\u1eff\u0400-\u04ff\u0500-\u0527\u2de0-\u2dff\ua640-\ua69f\u0591-\u05bf\u05c1-\u05c2\u05c4-\u05c5\u05d0-\u05ea\u05f0-\u05f4\ufb12-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufb4f\u0610-\u061a\u0620-\u065f\u066e-\u06d3\u06d5-\u06dc\u06de-\u06e8\u06ea-\u06ef\u06fa-\u06fc\u0750-\u077f\u08a2-\u08ac\u08e4-\u08fe\ufb50-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\u200c-\u200c\u0e01-\u0e3a\u0e40-\u0e4e\u1100-\u11ff\u3130-\u3185\ua960-\ua97f\uac00-\ud7af\ud7b0-\ud7ff\uffa1-\uffdc\u30a1-\u30fa\u30fc-\u30fe\uff66-\uff9f\uff10-\uff19\uff21-\uff3a\uff41-\uff5a\u3041-\u3096\u3099-\u309e\u3400-\u4dbf\u4e00-\u9fff\u20000-\u2a6df\u2a700-\u2b73f\u2b740-\u2b81f\u2f800-\u2fa1f][a-z0-9_\u00c0-\u00d6\u00d8-\u00f6\u00f8-\u00ff\u0100-\u024f\u0253-\u0254\u0256-\u0257\u0300-\u036f\u1e00-\u1eff\u0400-\u04ff\u0500-\u0527\u2de0-\u2dff\ua640-\ua69f\u0591-\u05bf\u05c1-\u05c2\u05c4-\u05c5\u05d0-\u05ea\u05f0-\u05f4\ufb12-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufb4f\u0610-\u061a\u0620-\u065f\u066e-\u06d3\u06d5-\u06dc\u06de-\u06e8\u06ea-\u06ef\u06fa-\u06fc\u0750-\u077f\u08a2-\u08ac\u08e4-\u08fe\ufb50-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\u200c-\u200c\u0e01-\u0e3a\u0e40-\u0e4e\u1100-\u11ff\u3130-\u3185\ua960-\ua97f\uac00-\ud7af\ud7b0-\ud7ff\uffa1-\uffdc\u30a1-\u30fa\u30fc-\u30fe\uff66-\uff9f\uff10-\uff19\uff21-\uff3a\uff41-\uff5a\u3041-\u3096\u3099-\u309e\u3400-\u4dbf\u4e00-\u9fff\u20000-\u2a6df\u2a700-\u2b73f\u2b740-\u2b81f\u2f800-\u2fa1f]*)/gi;
+const rtlLanguages = ['ar', 'arc', 'dv', 'fa', 'ha', 'he', 'khw', 'ks', 'ku', 'ps', 'ur', 'yi'];
 
 function arrayBufferToBase64(buffer) {
     let binary = '';
@@ -409,7 +410,7 @@ async function renderTweetBodyHTML(full_text, entities, display_text_range, is_q
     let result = "",
         last_pos = 0,
         index_map = {}; // {start_position: [end_position, replacer_func]}
-        hashflags = await API.getHashflags();
+        hashflags = await API.discover.getHashflags();
 
     full_text_array = Array.from(full_text);
 
@@ -522,7 +523,7 @@ function generatePoll(tweet, tweetElement, user) {
                 <div class="choice-label">${escapeHTML(choice.label)}</div>
             `;
             choiceElement.addEventListener('click', async () => {
-                let newCard = await API.pollVote(poll.api.string_value, tweet.id_str, tweet.card.url, tweet.card.name, choice.id);
+                let newCard = await API.tweet.vote(poll.api.string_value, tweet.id_str, tweet.card.url, tweet.card.name, choice.id);
                 tweet.card = newCard.card;
                 generateCard(tweet, tweetElement, user);
             });
@@ -592,7 +593,7 @@ function generateCard(tweet, tweetElement, user) {
                 modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
                     modal.removeModal();
                     try {
-                        await API.postTweetV2({
+                        await API.tweet.postV2({
                             "text": b[1].string_value,
                             "card_uri": tweet.card.url,
                         });
@@ -988,13 +989,13 @@ function updateUnfollows(res) {
         chrome.storage.local.set({unfollows: res});
     
         while(cursor !== "0") {
-            let data = await API.getFollowersIds(cursor);
+            let data = await API.user.getFollowersIds(cursor);
             cursor = data.next_cursor_str;
             followers = followers.concat(data.ids);
         }
         cursor = "-1";
         while(cursor !== "0") {
-            let data = await API.getFollowingIds(cursor);
+            let data = await API.user.getFollowingIds(cursor);
             cursor = data.next_cursor_str;
             following = following.concat(data.ids);
         }
@@ -1049,7 +1050,8 @@ const quoteSizeFunctions = [
 ];
 
 async function renderTrends(compact = false, cache = true) {
-    let [trendsData, hashflags] = await Promise.allSettled([API.getTrendsV2(cache), API.getHashflags()]);
+    if(vars.hideTrends) return;
+    let [trendsData, hashflags] = await Promise.allSettled([API.discover[vars.disablePersonalizedTrends ? 'getTrends' : 'getTrendsV2'](cache), API.discover.getHashflags()]);
     let trends = trendsData.value.modules;
     hashflags = hashflags.value ? hashflags.value : [];
     let trendsContainer = document.getElementById('trends-list');
@@ -1074,7 +1076,8 @@ async function renderTrends(compact = false, cache = true) {
     });
 }
 async function renderDiscovery(cache = true) {
-    let discover = await API.discoverPeople(cache);
+    if(vars.hideWtf) return;
+    let discover = await API.discover.getPeople(cache);
     let discoverContainer = document.getElementById('wtf-list');
     discoverContainer.innerHTML = '';
     try {
@@ -1110,7 +1113,7 @@ async function renderDiscovery(cache = true) {
             followBtn.addEventListener('click', async () => {
                 if (followBtn.className.includes('following')) {
                     try {
-                        await API.unfollowUser(userData.screen_name);
+                        await API.user.unfollow(userData.screen_name);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -1122,7 +1125,7 @@ async function renderDiscovery(cache = true) {
                     userData.following = false;
                 } else {
                     try {
-                        await API.followUser(userData.screen_name);
+                        await API.user.follow(userData.screen_name);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -1178,7 +1181,7 @@ async function appendUser(u, container, label) {
     followButton.addEventListener('click', async () => {
         if (followButton.classList.contains('following')) {
             try {
-                await API.unfollowUser(u.screen_name);
+                await API.user.unfollow(u.screen_name);
             } catch(e) {
                 console.error(e);
                 alert(e);
@@ -1189,7 +1192,7 @@ async function appendUser(u, container, label) {
             followButton.innerText = LOC.follow.message;
         } else {
             try {
-                await API.followUser(u.screen_name);
+                await API.user.follow(u.screen_name);
             } catch(e) {
                 console.error(e);
                 alert(e);
@@ -1228,7 +1231,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             // if(webUrl) {
             //     try {
             //         let source = t.source;
-            //         t = await API.tweetDetail(t.id_str);
+            //         t = await API.tweet.getV2(t.id_str);
             //         t.source = source;
             //     } catch(e) {}
             // }
@@ -1407,7 +1410,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     t.quoted_status = t.quoted_status_result.result.tweet.legacy;
                     t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
                 } else {
-                    t.quoted_status = await API.getTweet(t.quoted_status_id_str);
+                    t.quoted_status = await API.tweet.getV2(t.quoted_status_id_str);
                 }
             } catch {
                 t.quoted_status = undefined;
@@ -1448,7 +1451,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             <div class="tweet-reply-to"><span>${LOC.replying_to.message} <a href="https://twitter.com/${t.in_reply_to_screen_name}">@${t.in_reply_to_screen_name}</a></span></div>
             `: ''}
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
-                <span class="tweet-body-text ${vars.noBigFont || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
+                <span class="tweet-body-text ${vars.noBigFont || t.full_text.length > 280 || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
                 ${!isEnglish && options.mainTweet ? `
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
@@ -1484,7 +1487,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                     width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
                                     height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
                                     loop
-                                    autoplay
+                                    onclick="if(this.paused) this.play(); else this.pause()"
+                                    ${vars.disableGifAutoplay ? '' : 'autoplay'}
                                     muted
                                     class="tweet-media-element tweet-media-gif ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}"
                                 >
@@ -1509,6 +1513,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                             ` : ''}
                         `).join('\n')}
                     </div>
+                    ${t.extended_entities && t.extended_entities.media && t.extended_entities.media.some(m => m.type === 'animated_gif') ? `<div class="tweet-media-controls">GIF</div>` : ''}
                     ${videos ? /*html*/`
                         <div class="tweet-media-controls">
                             ${videos[0].ext && videos[0].ext.mediaStats && videos[0].ext.mediaStats.r && videos[0].ext.mediaStats.r.ok ? `<span class="tweet-video-views">${Number(videos[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload">${LOC.reload.message}</span> •
@@ -1534,7 +1539,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
                     </div>
                     ` : ''}
                 </a>
@@ -1544,7 +1549,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ${LOC.circle_limited_tweet.message}
                     <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">${LOC.learn_more.message}</a>
                 </div>
-                `.replace('$SCREEN_NAME$', t.user.screen_name) : ''}
+                `.replace('$SCREEN_NAME$', tweetStorage[t.conversation_id_str] ? tweetStorage[t.conversation_id_str].user.screen_name : t.in_reply_to_screen_name ? t.in_reply_to_screen_name : t.user.screen_name) : ''}
                 ${t.tombstone ? `<div class="tweet-warning">${t.tombstone}</div>` : ''}
                 ${((t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) || t.withheld_scope) ? `<div class="tweet-warning">This Tweet has been withheld in response to a report from the copyright holder. <a href="https://help.twitter.com/en/rules-and-policies/copyright-policy" target="_blank">Learn more.</a></div>` : ''}
                 ${t.conversation_control ? `<div class="tweet-warning">${t.limited_actions_text ? t.limited_actions_text : LOC.limited_tweet.message}${t.conversation_control.policy && (t.user.id_str === user.id_str || (t.conversation_control.policy.toLowerCase() === 'community' && (t.user.followed_by || (full_text && full_text.includes(`@${user.screen_name}`)))) || (t.conversation_control.policy.toLowerCase() === 'by_invitation' && full_text && full_text.includes(`@${user.screen_name}`))) ? ' ' + LOC.you_can_reply.message : ''}.</div>` : ''}
@@ -1581,6 +1586,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </div>
                     <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</span>
                     ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${Number(t.ext.views.r.ok.count).toLocaleString().replace(/\s/g, ',')}</span>` : ''}
+                    ${t.bookmark_count && vars.showBookmarkCount && options.mainTweet ? 
+                        /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',')}</span>` :
+                    ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
@@ -1593,6 +1601,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         <span class="tweet-interact-more-menu-delete">${LOC.delete_tweet.message}</span>
                         ${typeof pageUser !== 'undefined' && pageUser.id_str === user.id_str ? /*html*/`<span class="tweet-interact-more-menu-pin">${pinnedTweet && pinnedTweet.id_str === t.id_str ? LOC.unpin_tweet.message :  LOC.pin_tweet.message}</span>` : ''}
                         ` : ''}
+                        ${t.conversation_id_str && tweetStorage[t.conversation_id_str] && tweetStorage[t.conversation_id_str].user.id_str === user.id_str && t.user.id_str !== user.id_str ? /*html*/`
+                            <span class="tweet-interact-more-menu-hide">${t.moderated ? LOC.unhide_tweet.message : LOC.hide_tweet.message}</span>
+                        `: ''}
+                        ${t.hasModeratedReplies ? /*html*/`
+                            <span class="tweet-interact-more-menu-hidden"><a target="_blank" href="/${t.user.screen_name}/status/${t.id_str}/hidden?newtwitter=true">${LOC.see_hidden_replies.message}</a></span>
+                        ` : ''}
                         <hr>
                         ${t.user.id_str !== user.id_str && !options.mainTweet ? /*html*/`
                             <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? unfollowUserText : followUserText}</span>
@@ -1600,7 +1614,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ${t.user.id_str !== user.id_str ? /*html*/`
                             <span class="tweet-interact-more-menu-block">${t.user.blocking ? unblockUserText : blockUserText}</span>
                         ` : ''}
-                        ${!location.pathname.startsWith('/i/bookmarks') ? /*html*/`<span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>` : ''}
+                        ${!location.pathname.startsWith('/i/bookmarks') ? /*html*/`<span class="tweet-interact-more-menu-bookmark">${t.bookmarked ? LOC.remove_bookmark.message : LOC.bookmark_tweet.message}</span>` : ''}
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
                         <hr>
                         ${t.feedback ? t.feedback.map((f, i) => /*html*/`<span class="tweet-interact-more-menu-feedback" data-index="${i}">${f.prompt ? f.prompt : LOC.topic_not_interested.message}</span>`).join("\n") : ''}
@@ -1709,7 +1723,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         }
                     }
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
-                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
+                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                             ${m.video_info.variants.map(v => `<source src="${v.url}&ttd=${Date.now()}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
@@ -1848,7 +1862,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetFollow.addEventListener('click', async () => {
                 if(t.user.following) {
                     try {
-                        await API.unfollowUser(t.user.screen_name);
+                        await API.user.unfollow(t.user.screen_name);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -1860,7 +1874,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     t.user.following = false;
                 } else {
                     try {
-                        await API.followUser(t.user.screen_name);
+                        await API.user.follow(t.user.screen_name);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -1873,6 +1887,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }
             });
         }
+        const tweetBody = tweet.getElementsByClassName('tweet-body')[0];
         const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
         const tweetTranslateAfter = tweet.getElementsByClassName('tweet-translate-after')[0];
@@ -1891,11 +1906,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetReplyChar = tweet.getElementsByClassName('tweet-reply-char')[0];
         const tweetReplyMedia = tweet.getElementsByClassName('tweet-reply-media')[0];
 
+        const tweetInteract = tweet.getElementsByClassName('tweet-interact')[0];
         const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
         const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
         const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
+        const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
         const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
 
+        const tweetFooter = tweet.getElementsByClassName('tweet-footer')[0];
         const tweetFooterReplies = tweet.getElementsByClassName('tweet-footer-stat-replies')[0];
         const tweetFooterRetweets = tweet.getElementsByClassName('tweet-footer-stat-retweets')[0];
         const tweetFooterFavorites = tweet.getElementsByClassName('tweet-footer-stat-favorites')[0];
@@ -1934,6 +1952,65 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
+        const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
+
+        // moderating tweets
+        if(tweetInteractMoreMenuHide) tweetInteractMoreMenuHide.addEventListener('click', async () => {
+            if(t.moderated) {
+                try {
+                    await API.tweet.unmoderate(t.id_str);
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    return;
+                }
+                tweetInteractMoreMenuHide.innerText = LOC.hide_tweet.message;
+                t.moderated = false;
+            } else {
+                let sure = confirm(LOC.hide_tweet_sure.message);
+                if(!sure) return;
+                try {
+                    await API.tweet.moderate(t.id_str);
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    return;
+                }
+                tweetInteractMoreMenuHide.innerText = LOC.unhide_tweet.message;
+                t.moderated = true;
+            }
+        });
+
+        // community notes
+        if(t.birdwatch && !vars.hideCommunityNotes) {
+            let div = document.createElement('div');
+            div.classList.add('tweet-birdwatch', 'box');
+            let text = Array.from(escapeHTML(t.birdwatch.subtitle.text));
+            for(let e = t.birdwatch.subtitle.entities.length - 1; e >= 0; e--) {
+                let entity = t.birdwatch.subtitle.entities[e];
+                if(!entity.ref) continue;
+                text = arrayInsert(text, entity.toIndex, '</a>');
+                text = arrayInsert(text, entity.fromIndex, `<a href="${entity.ref.url}" target="_blank">`);
+            }
+            text = text.join('');
+            
+            div.innerHTML = /*html*/`
+                <div class="tweet-birdwatch-header">
+                    <span class="tweet-birdwatch-title">${escapeHTML(t.birdwatch.title)}</span>
+                </div>
+                <div class="tweet-birdwatch-body">
+                    <span class="tweet-birdwatch-subtitle">${text}</span>
+                </div>
+            `;
+
+            if(tweetFooter) tweetFooter.before(div);
+            else tweetInteract.before(div);
+        }
+
+        // rtl languages
+        if(rtlLanguages.includes(t.lang)) {
+            tweetBody.classList.add('rtl');
+        }
 
         // Quote body
         if(tweetMediaQuote) tweetMediaQuote.addEventListener('click', e => {
@@ -1987,6 +2064,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     new TweetViewer(user, t.quoted_status);
                 });
             }
+            if(rtlLanguages.includes(t.quoted_status.lang)) {
+                tweetBodyQuoteText.classList.add('rtl');
+            } else {
+                tweetBodyQuoteText.classList.add('ltr');
+            }
         }
         if(tweetTranslate || tweetTranslateAfter) if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate)) {
             onVisible(tweet, () => {
@@ -2001,7 +2083,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         t.translated = false;
         if(tweetTranslate || tweetTranslateAfter) (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
             if(t.translated) return;
-            let translated = await API.translateTweet(t.id_str);
+            let translated = await API.tweet.translate(t.id_str);
             t.translated = true;
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
             let translatedMessage;
@@ -2018,11 +2100,61 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
 
         // Bookmarks
-        if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', async () => {
-            API.createBookmark(t.id_str);
-        });
+        let switchingBookmark = false;
+        let switchBookmark = () => {
+            if(switchingBookmark) return;
+            switchingBookmark = true;
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
+            if(t.bookmarked) {
+                API.bookmarks.delete(t.id_str).then(() => {
+                    toast.info(LOC.unbookmarked_tweet.message);
+                    switchingBookmark = false;
+                    if(tweetDeleteBookmark) {
+                        tweet.remove();
+                        if(timelineContainer.children.length === 0) {
+                            timelineContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
+                            document.getElementById('delete-all').hidden = true;
+                        }
+                        return;
+                    }
+                    t.bookmarked = false;
+                    t.bookmark_count--;
+                    tweetInteractMoreMenuBookmark.innerText = LOC.bookmark_tweet.message;
+                    if(tweetInteractBookmark) {
+                        tweetInteractBookmark.classList.remove('tweet-interact-bookmarked');
+                        if(vars.bookmarkButton !== 'show_all_no_count') {
+                            tweetInteractBookmark.innerText = Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',');
+                        }
+                    }
+                }).catch(e => {
+                    switchingBookmark = false;
+                    console.error(e);
+                    alert(e);
+                });
+            } else {
+                API.bookmarks.create(t.id_str).then(() => {
+                    toast.info(LOC.bookmarked_tweet.message);
+                    switchingBookmark = false;
+                    t.bookmarked = true;
+                    t.bookmark_count++;
+                    tweetInteractMoreMenuBookmark.innerText = LOC.remove_bookmark.message;
+                    if(tweetInteractBookmark) {
+                        tweetInteractBookmark.classList.add('tweet-interact-bookmarked');
+                        if(vars.bookmarkButton !== 'show_all_no_count') {
+                            tweetInteractBookmark.innerText = Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',');
+                        }
+                    }
+                }).catch(e => {
+                    switchingBookmark = false;
+                    console.error(e);
+                    alert(e);
+                });
+            }
+        };
+        if(tweetInteractBookmark) tweetInteractBookmark.addEventListener('click', switchBookmark);
+        if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', switchBookmark);
         if(tweetDeleteBookmark) tweetDeleteBookmark.addEventListener('click', async () => {
-            await API.deleteBookmark(t.id_str);
+            await API.bookmarks.delete(t.id_str);
             tweet.remove();
             if(timelineContainer.children.length === 0) {
                 timelineContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
@@ -2052,6 +2184,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     if(ch.find(c => c.src === m.media_url_https)) return;
                     const media = document.createElement('img');
                     media.classList.add('tweet-media-element', 'tweet-media-element-four', 'profile-media-preview');
+                    if(!vars.displaySensitiveContent && t.possibly_sensitive) media.classList.add('tweet-media-element-censor');
                     media.src = m.media_url_https;
                     if(m.ext_alt_text) media.alt = m.ext_alt_text;
                     media.addEventListener('click', async () => {
@@ -2169,7 +2302,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             let tweetData;
             try {
-                tweetData = await API.postTweetV2(tweetObject)
+                tweetData = await API.tweet.postV2(tweetObject)
             } catch (e) {
                 tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetReplyButton.disabled = false;
@@ -2259,7 +2392,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (!t.retweeted) {
                 let tweetData;
                 try {
-                    tweetData = await API.retweetTweet(t.id_str);
+                    tweetData = await API.tweet.retweet(t.id_str);
                 } catch (e) {
                     console.error(e);
                     return;
@@ -2271,7 +2404,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 let tweetData;
                 try {
-                    tweetData = await API.deleteRetweet(t.retweeted_status ? t.retweeted_status.id_str : t.id_str);
+                    tweetData = await API.tweet.unretweet(t.retweeted_status ? t.retweeted_status.id_str : t.id_str);
                 } catch (e) {
                     console.error(e);
                     return;
@@ -2440,7 +2573,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             let tweetData;
             try {
-                tweetData = await API.postTweetV2(tweetObject)
+                tweetData = await API.tweet.postV2(tweetObject)
             } catch (e) {
                 tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetQuoteButton.disabled = false;
@@ -2507,14 +2640,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
-                API.unfavoriteTweet(t.id_str).catch(e => {
+                API.tweet.unfavorite(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesUp();
                 });
                 t.renderFavoritesDown();
             } else {
-                API.favoriteTweet(t.id_str).catch(e => {
+                API.tweet.favorite(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesDown();
@@ -2542,7 +2675,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(tweetInteractMoreMenuFollow) tweetInteractMoreMenuFollow.addEventListener('click', async () => {
             if (t.user.following) {
                 try {
-                    await API.unfollowUser(t.user.screen_name);
+                    await API.user.unfollow(t.user.screen_name);
                 } catch(e) {
                     console.error(e);
                     alert(e);
@@ -2557,7 +2690,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 document.dispatchEvent(event);
             } else {
                 try {
-                    await API.followUser(t.user.screen_name);
+                    await API.user.follow(t.user.screen_name);
                 } catch(e) {
                     console.error(e);
                     alert(e);
@@ -2575,7 +2708,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         if(tweetInteractMoreMenuBlock) tweetInteractMoreMenuBlock.addEventListener('click', async () => {
             if (t.user.blocking) {
-                await API.unblockUser(t.user.id_str);
+                await API.user.unblock(t.user.id_str);
                 t.user.blocking = false;
                 if(LOC.block_user.message.includes("$SCREEN_NAME$")) {
                     tweetInteractMoreMenuBlock.innerText = LOC.block_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
@@ -2597,7 +2730,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }
                 let c = confirm(blockMessage);
                 if (!c) return;
-                await API.blockUser(t.user.id_str);
+                await API.user.block(t.user.id_str);
                 t.user.blocking = true;
                 if(LOC.unblock_user.message.includes("$SCREEN_NAME$")) {
                     tweetInteractMoreMenuBlock.innerText = LOC.unblock_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
@@ -2641,7 +2774,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 let sure = confirm(LOC.delete_sure.message);
                 if (!sure) return;
                 try {
-                    await API.deleteTweet(t.id_str);
+                    await API.tweet.delete(t.id_str);
                 } catch (e) {
                     alert(e);
                     console.error(e);
@@ -2670,7 +2803,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             if(tweetInteractMoreMenuPin) tweetInteractMoreMenuPin.addEventListener('click', async () => {
                 if(pinnedTweet && pinnedTweet.id_str === t.id_str) {
-                    await API.unpinTweet(t.id_str);
+                    await API.tweet.unpin(t.id_str);
                     pinnedTweet = null;
                     tweet.remove();
                     let tweetTime = new Date(t.created_at).getTime();
@@ -2683,7 +2816,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     }
                     return;
                 } else {
-                    await API.pinTweet(t.id_str);
+                    await API.tweet.pin(t.id_str);
                     pinnedTweet = t;
                     let pinnedTweetElement = Array.from(document.getElementsByClassName('tweet')).find(i => {
                         let topText = i.getElementsByClassName('tweet-top-text')[0];
@@ -2709,7 +2842,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
             let tweetData;
             try {
-                tweetData = await API.getTweet(t.id_str);
+                tweetData = await API.tweet.getV2(t.id_str);
             } catch (e) {
                 console.error(e);
                 return;
@@ -2744,11 +2877,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         tweetInteractMoreMenuMute.addEventListener('click', async () => {
             if(t.conversation_muted) {
-                await API.unmuteTweet(t.id_str);
+                await API.tweet.unmute(t.id_str);
+                toast.info(LOC.unmuted_convo.message);
                 t.conversation_muted = false;
                 tweetInteractMoreMenuMute.innerText = LOC.mute_convo.message;
             } else {
-                await API.muteTweet(t.id_str);
+                await API.tweet.mute(t.id_str);
+                toast.info(LOC.muted_convo.message);
                 t.conversation_muted = true;
                 tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
             }

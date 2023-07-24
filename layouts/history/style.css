@@ -370,21 +370,6 @@ body {
     outline: none;
 }
 
-.tweet-interact-reply[data-val="0"],
-.tweet-interact-retweet[data-val="0"],
-.tweet-interact-favorite[data-val="0"] {
-    color: var(--background-color);
-}
-
-.tweet:hover {
-    background-color: var(--dark-background-color)
-}
-.tweet:hover .tweet-interact-reply[data-val="0"],
-.tweet:hover .tweet-interact-retweet[data-val="0"],
-.tweet:hover .tweet-interact-favorite[data-val="0"] {
-    color: var(--dark-background-color);
-}
-
 .tweet-avatar-link {
     float: left;
     margin-right: 10px
@@ -463,23 +448,6 @@ body {
 }
 .tweet-header-name-main {
     width: 300px;
-}
-
-.tweet-body-quote {
-    background-color: var(--background-color);
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    display: block;
-    margin: 10px;
-    padding: 10px;
-    position: relative;
-    right: 10px;
-    text-decoration: none
-}
-
-.tweet-body-quote:hover {
-    background-color: var(--darker-background-color);
-    text-decoration: none
 }
 
 .tweet-body-text-long {

@@ -1067,6 +1067,10 @@ input, textarea {
     padding-top: 2px
 }
 
+span.tweet-body-text {
+    word-break: break-word;
+}
+
 .tweet-body-main {
     display: block !important;
     margin-top: 10px
@@ -1183,7 +1187,7 @@ span.tweet-body-text {
     padding-right: 40px;
     resize: none;
     scrollbar-width: thin;
-    width: 463px
+    width: 469px
 }
 
 .new-tweet-text::-webkit-scrollbar {
@@ -1214,7 +1218,7 @@ span.tweet-body-text {
     border-right: none !important;
     border-left: none !important;
     padding: 10px;
-    width: 554px;
+    width: 560px;
 }
 
 
@@ -1419,6 +1423,9 @@ span.tweet-body-text {
 }
 .tweet-interact-more-menu-bookmark:before {
     content: "\f093"
+}
+.tweet-interact-more-menu-hide:before {
+    content: "\f096"
 }
 
 .tweet-interact-more-menu-feedback:before {
@@ -1704,6 +1711,9 @@ emoji-picker {
 .tweet-interact-views:before {
     content: "\f200";
 }
+.tweet-interact-bookmark:before {
+    content: "\f093";
+}
 .user-verified::after {
     content: "\f099";
     color: #ee55a1;
@@ -1820,4 +1830,82 @@ emoji-picker {
 }
 .tweet-viewer-loading {
     text-align: center;
+}
+.rtl {
+    direction: rtl;
+}
+.ltr {
+    direction: ltr;
+}
+.tweet-card {
+    direction: ltr;
+}
+.tweet-interact {
+    margin-top: 10px;
+    user-select: none;
+    direction: ltr;
+}
+.tweet-body-quote {
+    background-color: var(--background-color);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    display: block;
+    margin: 10px;
+    padding: 10px;
+    position: relative;
+    right: 10px;
+    text-decoration: none;
+    direction: ltr;
+}
+
+.tweet-body-quote:hover {
+    background-color: var(--darker-background-color);
+    text-decoration: none
+}
+.tweet-interact-reply[data-val="0"],
+.tweet-interact-retweet[data-val="0"],
+.tweet-interact-favorite[data-val="0"],
+.tweet-interact-bookmark[data-val="0"] {
+    color: var(--background-color);
+}
+
+.tweet:hover:not(.tweet-main) {
+    background-color: var(--dark-background-color)
+}
+.tweet:hover .tweet-interact-reply[data-val="0"],
+.tweet:hover .tweet-interact-retweet[data-val="0"],
+.tweet:hover .tweet-interact-favorite[data-val="0"],
+.tweet:hover .tweet-interact-bookmark[data-val="0"] {
+    color: var(--dark-background-color);
+}
+
+.tweet-interact-bookmarked,
+.tweet-interact-bookmarked:before,
+.tweet-interact-bookmark:hover:before,
+.tweet-interact-bookmark:hover {
+    color: #3b918a !important
+}
+
+.tweet-birdwatch {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tweet-birdwatch-header {
+    background-color: var(--dark-background-color);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.tweet-birdwatch-body {
+    padding: 10px;
+}
+
+.tweet-birdwatch-title::before {
+    content: "\f182";
+    color: #ffac33;
+    font-family: RosettaIcons;
+    vertical-align: text-bottom;
+    margin-right: 5px;
 }

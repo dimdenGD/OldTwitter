@@ -128,21 +128,6 @@ body {
     outline: none;
 }
 
-.tweet-interact-reply[data-val="0"],
-.tweet-interact-retweet[data-val="0"],
-.tweet-interact-favorite[data-val="0"] {
-    color: var(--background-color);
-}
-
-.tweet:hover {
-    background-color: var(--dark-background-color)
-}
-.tweet:hover .tweet-interact-reply[data-val="0"],
-.tweet:hover .tweet-interact-retweet[data-val="0"],
-.tweet:hover .tweet-interact-favorite[data-val="0"] {
-    color: var(--dark-background-color);
-}
-
 .tweet-avatar-link {
     float: left;
     margin-right: 10px
@@ -255,11 +240,6 @@ body {
 
 .tweet-body-text a {
     text-decoration: none
-}
-
-.tweet-interact {
-    margin-top: 10px;
-    user-select: none
 }
 
 .tweet-interact span:before,
@@ -1042,6 +1022,11 @@ emoji-picker {
     width: 76px;
     height: 76px;
     margin: 3px
+}
+.profile-media-preview:hover {
+    filter: none;
+    -webkit-filter: none;
+    -moz-filter: none;
 }
 
 #profile-stats {
