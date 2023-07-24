@@ -114,6 +114,7 @@ function parseTweet(res) {
     }
     if(tweet.quoted_status_result) {
         let result = tweet.quoted_status_result.result;
+        if(!result.core && result.tweet) result = result.tweet;
         if(result.limitedActionResults) {
             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
             if(limitation) {
