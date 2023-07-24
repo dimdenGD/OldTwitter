@@ -405,7 +405,7 @@ function escapeHTML(unsafe) {
          .replace(/"/g, "&quot;")
          .replace(/'/g, "’");
 }
-async function renderTweetBodyHTML(full_text, entities, display_text_range) {
+async function renderTweetBodyHTML(full_text, entities, display_text_range, is_quote_tweet=false) {
     let result = "",
         last_pos = 0,
         index_map = {}; // {start_position: [end_position, replacer_func]}
@@ -413,23 +413,37 @@ async function renderTweetBodyHTML(full_text, entities, display_text_range) {
 
     full_text_array = Array.from(full_text);
 
-    entities.hashtags.forEach(hashtag => {
-        let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
-        index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
-            `#${escapeHTML(hashtag.text)}`+
-            `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
-        `</a>`];
-    });
-    
-    entities.urls.forEach(url => {
-        index_map[url.indices[0]] = [url.indices[1], text => 
-            `<a href="${escapeHTML(url.expanded_url)}" title="${escapeHTML(url.expanded_url)}" target="_blank" rel="noopener noreferrer">`+
-            `${escapeHTML(url.display_url)}</a>`];
-    });
+    if (is_quote_tweet) { // for quoted tweet we need only hashflags and readable urls
+        entities.hashtags.forEach(hashtag => {
+            let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+            index_map[hashtag.indices[0]] = [hashtag.indices[1], text =>
+                `#${escapeHTML(hashtag.text)}`+
+                `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`
+            ];
+        });
 
-    entities.user_mentions.forEach(user => {
-        index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
-    });
+        entities.urls.forEach(url => {
+            index_map[url.indices[0]] = [url.indices[1], text => `${escapeHTML(url.display_url)}`];
+        });
+    } else {
+        entities.hashtags.forEach(hashtag => {
+            let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+            index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
+                `#${escapeHTML(hashtag.text)}`+
+                `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
+            `</a>`];
+        });
+
+        entities.urls.forEach(url => {
+            index_map[url.indices[0]] = [url.indices[1], text =>
+                `<a href="${escapeHTML(url.expanded_url)}" title="${escapeHTML(url.expanded_url)}" target="_blank" rel="noopener noreferrer">`+
+                `${escapeHTML(url.display_url)}</a>`];
+        });
+
+        entities.user_mentions.forEach(user => {
+            index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
+        });
+    }
 
     let display_start = display_text_range !== undefined ? display_text_range[0] : 0;
     let display_end   = display_text_range !== undefined ? display_text_range[1] : full_text_array.length;
@@ -1508,7 +1522,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         </span>
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
-                    <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? escapeHTML(t.quoted_status.full_text) : ''}</span>
+                    ${t.quoted_status.in_reply_to_screen_name ? `
+                    <span class="tweet-reply-to">${LOC.replying_to.message} @${t.quoted_status.in_reply_to_screen_name}</span>
+                    ` : ''}
+                    <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `
                     <div class="tweet-media-quote">
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop autoplay muted' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
@@ -1925,11 +1942,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }
             }
         });
-        if(t.quoted_status && t.quoted_status.entities && t.quoted_status.entities.urls) {
-            for(let u of t.quoted_status.entities.urls) {
-                tweetBodyQuoteText.innerHTML = tweetBodyQuoteText.innerHTML.replace(new RegExp(u.url, "g"), escapeHTML(u.display_url));
-            }
-        }
         if(tweetBodyQuote) {
             if(typeof mainTweetLikers !== 'undefined') {
                 tweetBodyQuote.addEventListener('click', e => {

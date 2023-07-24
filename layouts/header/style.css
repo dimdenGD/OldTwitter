@@ -997,6 +997,7 @@ input, textarea {
 }
 
 .tweet-reply-to {
+    display: flow-root;
     font-size: 13px;
     color: var(--light-gray);
     padding-bottom: 3px;
