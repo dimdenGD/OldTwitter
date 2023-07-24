@@ -1138,14 +1138,14 @@ const API = {
                         }
                         return tweet;
                     }).filter(i => i);
-                    let cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
-                    if(cursor) {
-                        cursor = cursor.content.value;
+                    let newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    if(newCursor) {
+                        newCursor = newCursor.content.value;
                     }
         
                     let out = {
                         tweets,
-                        cursor
+                        cursor: newCursor
                     };
                     debugLog('user.getMediaTweets', 'end', out);
                     resolve(out);

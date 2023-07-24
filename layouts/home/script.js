@@ -70,6 +70,7 @@ setTimeout(() => {
                             <li>Fixed thread tweets in lists.</li>
                             <li>Fixed links not showing in long tweets.</li>
                             <li>Fixed sensitive content not being censored in profile previews.</li>
+                            <li>Lot of fixes about some pages just not loading.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
