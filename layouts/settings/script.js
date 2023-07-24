@@ -171,6 +171,7 @@ setTimeout(async () => {
     let showBookmarkCount = document.getElementById('show-bookmark-count');
     let hideCommunityNotes = document.getElementById('hide-community-notes');
     let disableGifAutoplay = document.getElementById('disable-gif-autoplay');
+    let showMediaCount = document.getElementById('show-media-count');
 
     let root = document.querySelector(":root");
     {
@@ -355,6 +356,12 @@ setTimeout(async () => {
             location.reload();
         });
     });
+    showMediaCount.addEventListener('change', () => {
+        vars.showMediaCount = showMediaCount.checked;
+        chrome.storage.sync.set({
+            showMediaCount: showMediaCount.checked
+        }, () => { });
+    });
     darkMode.addEventListener('change', () => {
         themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
         isDarkModeEnabled = darkMode.checked;
@@ -521,6 +528,7 @@ setTimeout(async () => {
     showBookmarkCount.checked = !!vars.showBookmarkCount;
     hideCommunityNotes.checked = !!vars.hideCommunityNotes;
     disableGifAutoplay.checked = !!vars.disableGifAutoplay;
+    showMediaCount.checked = !!vars.showMediaCount;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

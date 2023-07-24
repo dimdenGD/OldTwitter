@@ -412,5 +412,8 @@
     "bookmarked_tweet": { "message": "Добавлено закладку" },
     "unbookmarked_tweet": { "message": "Убрано с закладок" },
     "muted_convo": { "message": "Переписка теперь игнорируется" },
-    "unmuted_convo": { "message": "Переписка теперь не игнорируется" }
+    "unmuted_convo": { "message": "Переписка теперь не игнорируется" },
+    "show_media_count": { "message": "Показывать кол-во медиа на профилях" },
+    "show_list_count": { "message": "Показывать кол-во списков на профилях" },
+    "media": { "message": "Медиа", "note": "Keep this short" }
 }

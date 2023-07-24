@@ -424,5 +424,8 @@
     "bookmarked_tweet": { "message": "Bookmarked tweet" },
     "unbookmarked_tweet": { "message": "Unbookmarked tweet" },
     "muted_convo": { "message": "Muted conversation" },
-    "unmuted_convo": { "message": "Unmuted conversation" }
+    "unmuted_convo": { "message": "Unmuted conversation" },
+    "show_media_count": { "message": "Show media count on profiles" },
+    "show_list_count": { "message": "Show list count on profiles" },
+    "media": { "message": "Media", "note": "Keep this short" }
 }

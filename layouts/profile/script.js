@@ -111,7 +111,7 @@ function updateSelection() {
         document.getElementById('followers_you_follow-more').hidden = true;
         document.getElementById('lists-list').hidden = true;
 
-        document.getElementById('profile-stat-tweets-link').classList.add('profile-stat-active');
+        document.getElementById('profile-stat-media-link').classList.add('profile-stat-active');
         document.getElementById('tweet-nav-media').classList.add('tweet-nav-active');
     } else if(subpage === "following") {
         document.getElementById('tweet-nav').hidden = true;
@@ -164,6 +164,7 @@ function updateSelection() {
     document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
     document.getElementById('profile-stat-followers-link').href = `https://twitter.com/${pageUser.screen_name}/followers`;
     document.getElementById('profile-stat-favorites-link').href = `https://twitter.com/${pageUser.screen_name}/likes`;
+    document.getElementById('profile-stat-media-link').href = `https://twitter.com/${pageUser.screen_name}/media`;
     document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
     document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
     document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
@@ -583,12 +584,12 @@ async function renderProfile() {
 
     document.getElementById('profile-bio').innerHTML = escapeHTML(pageUser.description).replace(/\n\n\n\n/g, "\n").replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>');
     let strippedDownText = pageUser.description
-    .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
-    .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
-    .replace(/[\p{Extended_Pictographic}]/gu, '') //emojis (including ones that arent colored)
-    .replace(/[\u200B-\u200D\uFE0E\uFE0F]/g, '') //sometimes emojis leave these behind
-    .replace(/\d+/g, '') //numbers
-    .trim();
+        .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
+        .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
+        .replace(/[\p{Extended_Pictographic}]/gu, '') //emojis (including ones that arent colored)
+        .replace(/[\u200B-\u200D\uFE0E\uFE0F]/g, '') //sometimes emojis leave these behind
+        .replace(/\d+/g, '') //numbers
+        .trim();
     let detectedLanguage = strippedDownText.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(strippedDownText);
     if(!detectedLanguage.languages[0]) detectedLanguage = {languages:[{language:LANGUAGE, percentage:100}]};
     let isEnglish = detectedLanguage.languages[0] && detectedLanguage.languages[0].percentage > 60 && detectedLanguage.languages[0].language.startsWith(LANGUAGE);
@@ -635,12 +636,14 @@ async function renderProfile() {
     document.getElementById('profile-stat-following-value').innerText = Number(pageUser.friends_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
+    document.getElementById('profile-stat-media-value').innerText = Number(pageUser.media_count).toLocaleString().replace(/\s/g, ',');
 
     document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_blocked_by || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
     document.getElementById('profile-stat-following-link').hidden = pageUser.friends_count === 0;
     document.getElementById('profile-stat-followers-link').hidden = pageUser.followers_count === 0;
     document.getElementById('profile-stat-favorites-link').hidden = pageUser.favourites_count === 0;
+    document.getElementById('profile-stat-media-link').hidden = pageUser.media_count === 0 || !vars.showMediaCount;
 
     if((pageUser.statuses_count === 0 && (subpage === 'profile' || subpage === 'replies' || subpage === 'media')) || ((pageUser.protected || pageUser.blocked_by)  && !pageUser.following && pageUser.id_str !== user.id_str)) {
         document.getElementById('trends').hidden = true;
@@ -1547,6 +1550,7 @@ setTimeout(async () => {
     document.getElementById('profile-stat-following-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-followers-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-favorites-link').addEventListener('click', updatePath);
+    document.getElementById('profile-stat-media-link').addEventListener('click', updatePath);
     document.getElementById('profile-friends-text').addEventListener('click', updatePath);
     document.addEventListener('click', async e => {
         let el = e.target;
