@@ -115,6 +115,9 @@ let userDataFunction = async user => {
     if(vars.font) {
         root.style.setProperty('--font', `"${vars.font}"`);
     }
+    if(vars.tweetFont) {
+        root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
+    }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
         root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');

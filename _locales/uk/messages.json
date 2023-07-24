@@ -418,5 +418,6 @@
     "pin_profile_on_navbar": { "message": "Закріпити Профіль на панелі навігації" },
     "pin_bookmarks_on_navbar": { "message": "Закріпити Закладки на панелі навігації" },
     "pin_lists_on_navbar": { "message": "Закріпити Списки на панелі навігації" },
-    "me": { "message": "Профіль", "description": "You should probably use word 'Profile' in your language" }
+    "me": { "message": "Профіль", "description": "You should probably use word 'Profile' in your language" },
+    "tweet_text_font": { "message": "Шрифт для тексту твітів" }
 }

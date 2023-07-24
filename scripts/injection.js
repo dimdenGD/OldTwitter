@@ -19,7 +19,8 @@ let pages = [
     },
     {
         name: "bookmarks",
-        paths: ["/i/bookmarks"]
+        paths: ["/i/bookmarks"],
+        activeMenu: "pin-bookmarks"
     },
     {
         name: "lists",
@@ -44,7 +45,7 @@ let pages = [
     {
         name: "profile",
         paths: [/^\/[A-z-0-9-_]{1,15}(\/with_replies|\/media|\/likes|\/following|\/followers|\/followers_you_follow|\/lists|)$/g],
-        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"],
+        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"]
     },
     {
         name: "unfollows",
@@ -389,10 +390,22 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             font: 'Arial'
         }, () => {});
     }
+    if(typeof(vars.tweetFont) !== 'string') {
+        vars.tweetFont = 'Arial';
+        chrome.storage.sync.set({
+            tweetFont: 'Arial'
+        }, () => {});
+    }
     if(typeof(vars.showOriginalImages) !== 'boolean') {
         vars.showOriginalImages = false;
         chrome.storage.sync.set({
             showOriginalImages: false
+        }, () => {});
+    }
+    if(typeof(vars.pinProfileOnNavbar) !== 'boolean') {
+        vars.pinProfileOnNavbar = true;
+        chrome.storage.sync.set({
+            pinProfileOnNavbar: true
         }, () => {});
     }
     if(typeof(vars.roundAvatars) !== 'boolean') {

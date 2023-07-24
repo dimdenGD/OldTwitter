@@ -727,6 +727,8 @@ async function renderProfile() {
     }
 
     let buttonsElement = document.getElementById('profile-nav-buttons');
+    document.getElementById('pin-profile').classList.toggle('menu-active', pageUser.id_str === user.id_str && !location.pathname.includes('/lists'));
+    document.getElementById('pin-lists').classList.toggle('menu-active', location.pathname.startsWith(`/${pageUser.screen_name}/lists`));
     if(pageUser.id_str === user.id_str) {
         buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>`;
     } else {

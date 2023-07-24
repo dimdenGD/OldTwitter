@@ -130,6 +130,7 @@ setTimeout(async () => {
         return [...fontAvailable.values()];
     })();
     let fontElement = document.getElementById('font');
+    let tweetFontElement = document.getElementById('tweet-font');
     let linkColor = document.getElementById('link-color');
     let profileLinkColor = document.getElementById('profile-link-color');
     let sync = document.getElementById('sync');
@@ -182,6 +183,7 @@ setTimeout(async () => {
         option.value = "_custom";
         option.innerText = '<CUSTOM FONT>';
         fontElement.append(option);
+        tweetFontElement.append(option.cloneNode(true));
     }
     for(let i in fonts) {
         let font = fonts[i];
@@ -190,6 +192,7 @@ setTimeout(async () => {
         option.innerText = font;
         option.style.fontFamily = `"${font}"`;
         fontElement.append(option);
+        tweetFontElement.append(option.cloneNode(true));
     }
     fontElement.addEventListener('change', () => {
         let font = fontElement.value;
@@ -201,6 +204,17 @@ setTimeout(async () => {
             font: font
         }, () => { });
     });
+    tweetFontElement.addEventListener('change', () => {
+        let font = tweetFontElement.value;
+        if(font === '_custom') {
+            font = prompt('Enter a custom font name');
+        }
+        root.style.setProperty('--tweet-font', `"${font}"`);
+        chrome.storage.sync.set({
+            tweetFont: font
+        }, () => { });
+    });
+    
     linkColor.addEventListener('change', () => {
         let color = linkColor.value;
         root.style.setProperty('--link-color', color);
@@ -530,6 +544,10 @@ setTimeout(async () => {
     if(vars.font) {
         fontElement.value = vars.font;
         root.style.setProperty('--font', `"${vars.font}"`);
+    }
+    if(vars.tweetFont) {
+        tweetFontElement.value = vars.tweetFont;
+        root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
     heartsNotStars.checked = !!vars.heartsNotStars;
     linkColorsInTL.checked = !!vars.linkColorsInTL;

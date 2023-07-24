@@ -1,6 +1,7 @@
 :root {
     --link-color: #4bacd2;
     --font: Arial, sans-serif;
+    --tweet-font: Arial, sans-serif;
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
     --favorite-icon-color: #ffac33;
@@ -1074,6 +1075,10 @@ input, textarea {
 
 span.tweet-body-text {
     word-break: break-word;
+    font-family: var(--tweet-font);
+}
+#notification-text {
+    font-family: var(--tweet-font);
 }
 
 .tweet-body-main {
