@@ -1099,9 +1099,19 @@ const API = {
                             }
                         }
                     }
+                    let pinEntry = instructions.find(e => e.type === "TimelinePinEntry");
+                    let pinnedTweet;
+                    if(pinEntry) {
+                        let result = pinEntry.entry.content.itemContent.tweet_results.result;
+                        pinnedTweet = parseTweet(result);
+                        if(pinnedTweet) {
+                            pinnedTweet.hasModeratedReplies = pinEntry.entry.content.itemContent.hasModeratedReplies;
+                        }
+                    }
         
                     const out = {
                         tweets,
+                        pinnedTweet,
                         cursor: entries.find(e => e.entryId.startsWith("sq-cursor-bottom-") || e.entryId.startsWith("cursor-bottom-")).content.value
                     };
                     debugLog('user.getTweetsV2', 'end', out);

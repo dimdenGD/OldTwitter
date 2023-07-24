@@ -151,7 +151,7 @@ setTimeout(async () => {
     }, { passive: true });
     document.getElementById('delete-all').addEventListener('click', async () => {
         let modal = createModal(`
-            <p>${LOC.delete_bookmarks.message}</p>
+            <p style="color:var(--almost-black);margin-top:0">${LOC.delete_bookmarks.message}</p>
             <button class="nice-button" id="delete-all-confirm">${LOC.delete_all.message}</button>
         `);
         modal.getElementsByClassName('nice-button')[0].addEventListener('click', () => {

@@ -277,23 +277,6 @@ function updateUserData() {
             document.getElementById('profile-friends-text').style.display = 'none';
         }
         renderProfile();
-        try {
-            pinnedTweet = pageUser.pinned_tweet_ids_str;
-            if(pinnedTweet && pinnedTweet.length > 0) {
-                pinnedTweet = await API.tweet.getV2(pinnedTweet[0]);
-                if(pinnedTweet.user.id_str === pageUser.id_str) {
-                    if(pageUser.verified) {
-                        pinnedTweet.user.verified = true;
-                    }
-                    if(pageUser.verified_type) {
-                        pinnedTweet.user.verified_type = pageUser.verified_type;
-                    }
-                }
-            } else pinnedTweet = undefined;
-        } catch(e) {
-            pinnedTweet = undefined;
-            console.warn(e);
-        }
         resolve(u);
     }).catch(e => {
         if (e === "Not logged in") {
@@ -328,6 +311,7 @@ async function updateTimeline() {
                         undefined,
                         subpage !== "profile"
                     );
+                    pinnedTweet = tl.pinnedTweet;
                     tweetsCursor = tl.cursor;
                     tl = tl.tweets;
                 }
