@@ -124,6 +124,18 @@ input, textarea {
 #messages:before {
     content: "\f054";
 }
+#pin-profile, #pin-bookmarks, #pin-lists {
+    background-color: var(--background-color);
+}
+#pin-profile:before {
+    content: "\f056";
+}
+#pin-bookmarks:before {
+    content: "\f093";
+}
+#pin-lists:before {
+    content: "\f094";
+}
 
 #navbar a:before {
     vertical-align: sub;

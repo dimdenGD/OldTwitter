@@ -414,6 +414,9 @@
     "muted_convo": { "message": "Ви приховали цю розмову." },
     "unmuted_convo": { "message": "Ви відмінили приховування цієї розмови." },
     "show_media_count": { "message": "Показувати кількість медіа в профілях" },
-    "show_list_count": { "message": "Показувати кількість списків в профілях" },
-    "media": { "message": "Медіа", "note": "Keep this short" }
+    "media": { "message": "Медіа", "note": "Keep this short" },
+    "pin_profile_on_navbar": { "message": "Закріпити Профіль на панелі навігації" },
+    "pin_bookmarks_on_navbar": { "message": "Закріпити Закладки на панелі навігації" },
+    "pin_lists_on_navbar": { "message": "Закріпити Списки на панелі навігації" },
+    "me": { "message": "Профіль", "description": "You should probably use word 'Profile' in your language" }
 }

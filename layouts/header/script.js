@@ -101,6 +101,11 @@ let userDataFunction = async user => {
     document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
     document.getElementById('navbar-user-menu-lists').href = `/${user.screen_name}/lists`;
     document.getElementById('navbar-user-menu-username').innerText = user.name;
+    document.getElementById('pin-profile').hidden = !vars.pinProfileOnNavbar;
+    document.getElementById('pin-bookmarks').hidden = !vars.pinBookmarksOnNavbar;
+    document.getElementById('pin-lists').hidden = !vars.pinListsOnNavbar;
+    document.getElementById('pin-profile').href = `/${user.screen_name}`;
+    document.getElementById('pin-lists').href = `/${user.screen_name}/lists`;
 
     let root = document.querySelector(":root");
 

@@ -414,6 +414,9 @@
     "muted_convo": { "message": "Переписка теперь игнорируется" },
     "unmuted_convo": { "message": "Переписка теперь не игнорируется" },
     "show_media_count": { "message": "Показывать кол-во медиа на профилях" },
-    "show_list_count": { "message": "Показывать кол-во списков на профилях" },
-    "media": { "message": "Медиа", "note": "Keep this short" }
+    "media": { "message": "Медиа", "note": "Keep this short" },
+    "pin_profile_on_navbar": { "message": "Закрепить Профиль на панеле навигации" },
+    "pin_bookmarks_on_navbar": { "message": "Закрепить Закладки на панеле навигации" },
+    "pin_lists_on_navbar": { "message": "Закрепить Списки на панеле навигации" },
+    "me": { "message": "Профиль", "description": "You should probably use word 'Profile' in your language, used for navbar pin" }
 }
