@@ -5,7 +5,7 @@ let linkColors = {};
 let activeTweet;
 
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -53,7 +53,7 @@ async function renderBookmarks(cursor) {
     let bookmarks;
     let bookmarksContainer = document.getElementById('timeline');
     try {
-        bookmarks = await API.getBookmarks(cursor);
+        bookmarks = await API.bookmarks.get(cursor);
     } catch(e) {
         console.error(e);
         bookmarksContainer.innerHTML = `<div style="color:var(--light-gray)">${e}</div>`;
@@ -155,7 +155,7 @@ setTimeout(async () => {
             <button class="nice-button" id="delete-all-confirm">${LOC.delete_all.message}</button>
         `);
         modal.getElementsByClassName('nice-button')[0].addEventListener('click', () => {
-            API.deleteAllBookmarks().then(() => {
+            API.bookmarks.deleteAll().then(() => {
                 document.getElementById('timeline').innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
                 document.getElementById('delete-all').hidden = true;
                 modal.remove();

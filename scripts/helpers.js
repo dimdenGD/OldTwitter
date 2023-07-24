@@ -448,7 +448,7 @@ function generatePoll(tweet, tweetElement, user) {
                 <div class="choice-label">${escapeHTML(choice.label)}</div>
             `;
             choiceElement.addEventListener('click', async () => {
-                let newCard = await API.pollVote(poll.api.string_value, tweet.id_str, tweet.card.url, tweet.card.name, choice.id);
+                let newCard = await API.tweet.vote(poll.api.string_value, tweet.id_str, tweet.card.url, tweet.card.name, choice.id);
                 tweet.card = newCard.card;
                 generateCard(tweet, tweetElement, user);
             });
@@ -518,7 +518,7 @@ function generateCard(tweet, tweetElement, user) {
                 modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
                     modal.removeModal();
                     try {
-                        await API.postTweetV2({
+                        await API.tweet.postV2({
                             "text": b[1].string_value,
                             "card_uri": tweet.card.url,
                         });
@@ -914,13 +914,13 @@ function updateUnfollows(res) {
         chrome.storage.local.set({unfollows: res});
     
         while(cursor !== "0") {
-            let data = await API.getFollowersIds(cursor);
+            let data = await API.user.getFollowersIds(cursor);
             cursor = data.next_cursor_str;
             followers = followers.concat(data.ids);
         }
         cursor = "-1";
         while(cursor !== "0") {
-            let data = await API.getFollowingIds(cursor);
+            let data = await API.user.getFollowingIds(cursor);
             cursor = data.next_cursor_str;
             following = following.concat(data.ids);
         }
@@ -976,7 +976,7 @@ const quoteSizeFunctions = [
 
 async function renderTrends(compact = false, cache = true) {
     if(vars.hideTrends) return;
-    let [trendsData, hashflags] = await Promise.allSettled([API[vars.disablePersonalizedTrends ? 'getTrends' : 'getTrendsV2'](cache), API.getHashflags()]);
+    let [trendsData, hashflags] = await Promise.allSettled([API.discover[vars.disablePersonalizedTrends ? 'getTrends' : 'getTrendsV2'](cache), API.discover.getHashflags()]);
     let trends = trendsData.value.modules;
     hashflags = hashflags.value ? hashflags.value : [];
     let trendsContainer = document.getElementById('trends-list');
@@ -1002,7 +1002,7 @@ async function renderTrends(compact = false, cache = true) {
 }
 async function renderDiscovery(cache = true) {
     if(vars.hideWtf) return;
-    let discover = await API.discoverPeople(cache);
+    let discover = await API.discover.getPeople(cache);
     let discoverContainer = document.getElementById('wtf-list');
     discoverContainer.innerHTML = '';
     try {
@@ -1038,7 +1038,7 @@ async function renderDiscovery(cache = true) {
             followBtn.addEventListener('click', async () => {
                 if (followBtn.className.includes('following')) {
                     try {
-                        await API.unfollowUser(userData.screen_name);
+                        await API.user.unfollow(userData.screen_name);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -1050,7 +1050,7 @@ async function renderDiscovery(cache = true) {
                     userData.following = false;
                 } else {
                     try {
-                        await API.followUser(userData.screen_name);
+                        await API.user.follow(userData.screen_name);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -1106,7 +1106,7 @@ async function appendUser(u, container, label) {
     followButton.addEventListener('click', async () => {
         if (followButton.classList.contains('following')) {
             try {
-                await API.unfollowUser(u.screen_name);
+                await API.user.unfollow(u.screen_name);
             } catch(e) {
                 console.error(e);
                 alert(e);
@@ -1117,7 +1117,7 @@ async function appendUser(u, container, label) {
             followButton.innerText = LOC.follow.message;
         } else {
             try {
-                await API.followUser(u.screen_name);
+                await API.user.follow(u.screen_name);
             } catch(e) {
                 console.error(e);
                 alert(e);
@@ -1156,7 +1156,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             // if(webUrl) {
             //     try {
             //         let source = t.source;
-            //         t = await API.getTweetV2(t.id_str);
+            //         t = await API.tweet.getV2(t.id_str);
             //         t.source = source;
             //     } catch(e) {}
             // }
@@ -1336,7 +1336,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     t.quoted_status = t.quoted_status_result.result.tweet.legacy;
                     t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
                 } else {
-                    t.quoted_status = await API.getTweetV2(t.quoted_status_id_str);
+                    t.quoted_status = await API.tweet.getV2(t.quoted_status_id_str);
                 }
             } catch {
                 t.quoted_status = undefined;
@@ -1773,7 +1773,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetFollow.addEventListener('click', async () => {
                 if(t.user.following) {
                     try {
-                        await API.unfollowUser(t.user.screen_name);
+                        await API.user.unfollow(t.user.screen_name);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -1785,7 +1785,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     t.user.following = false;
                 } else {
                     try {
-                        await API.followUser(t.user.screen_name);
+                        await API.user.follow(t.user.screen_name);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -1971,7 +1971,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         t.translated = false;
         if(tweetTranslate || tweetTranslateAfter) (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
             if(t.translated) return;
-            let translated = await API.translateTweet(t.id_str);
+            let translated = await API.tweet.translate(t.id_str);
             t.translated = true;
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
             let translatedMessage;
@@ -2004,7 +2004,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             switchingBookmark = true;
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             if(t.bookmarked) {
-                API.deleteBookmark(t.id_str).then(() => {
+                API.bookmarks.delete(t.id_str).then(() => {
                     switchingBookmark = false;
                     if(tweetDeleteBookmark) {
                         tweet.remove();
@@ -2029,7 +2029,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     alert(e);
                 });
             } else {
-                API.createBookmark(t.id_str).then(() => {
+                API.bookmarks.create(t.id_str).then(() => {
                     switchingBookmark = false;
                     t.bookmarked = true;
                     t.bookmark_count++;
@@ -2050,7 +2050,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(tweetInteractBookmark) tweetInteractBookmark.addEventListener('click', switchBookmark);
         if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', switchBookmark);
         if(tweetDeleteBookmark) tweetDeleteBookmark.addEventListener('click', async () => {
-            await API.deleteBookmark(t.id_str);
+            await API.bookmarks.delete(t.id_str);
             tweet.remove();
             if(timelineContainer.children.length === 0) {
                 timelineContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
@@ -2218,7 +2218,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             let tweetData;
             try {
-                tweetData = await API.postTweetV2(tweetObject)
+                tweetData = await API.tweet.postV2(tweetObject)
             } catch (e) {
                 tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetReplyButton.disabled = false;
@@ -2308,7 +2308,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (!t.retweeted) {
                 let tweetData;
                 try {
-                    tweetData = await API.retweetTweet(t.id_str);
+                    tweetData = await API.tweet.retweet(t.id_str);
                 } catch (e) {
                     console.error(e);
                     return;
@@ -2320,7 +2320,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 let tweetData;
                 try {
-                    tweetData = await API.deleteRetweet(t.retweeted_status ? t.retweeted_status.id_str : t.id_str);
+                    tweetData = await API.tweet.unretweet(t.retweeted_status ? t.retweeted_status.id_str : t.id_str);
                 } catch (e) {
                     console.error(e);
                     return;
@@ -2489,7 +2489,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             let tweetData;
             try {
-                tweetData = await API.postTweetV2(tweetObject)
+                tweetData = await API.tweet.postV2(tweetObject)
             } catch (e) {
                 tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetQuoteButton.disabled = false;
@@ -2556,14 +2556,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
-                API.unfavoriteTweet(t.id_str).catch(e => {
+                API.tweet.unfavorite(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesUp();
                 });
                 t.renderFavoritesDown();
             } else {
-                API.favoriteTweet(t.id_str).catch(e => {
+                API.tweet.favorite(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesDown();
@@ -2591,7 +2591,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(tweetInteractMoreMenuFollow) tweetInteractMoreMenuFollow.addEventListener('click', async () => {
             if (t.user.following) {
                 try {
-                    await API.unfollowUser(t.user.screen_name);
+                    await API.user.unfollow(t.user.screen_name);
                 } catch(e) {
                     console.error(e);
                     alert(e);
@@ -2606,7 +2606,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 document.dispatchEvent(event);
             } else {
                 try {
-                    await API.followUser(t.user.screen_name);
+                    await API.user.follow(t.user.screen_name);
                 } catch(e) {
                     console.error(e);
                     alert(e);
@@ -2624,7 +2624,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         if(tweetInteractMoreMenuBlock) tweetInteractMoreMenuBlock.addEventListener('click', async () => {
             if (t.user.blocking) {
-                await API.unblockUser(t.user.id_str);
+                await API.user.unblock(t.user.id_str);
                 t.user.blocking = false;
                 if(LOC.block_user.message.includes("$SCREEN_NAME$")) {
                     tweetInteractMoreMenuBlock.innerText = LOC.block_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
@@ -2646,7 +2646,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }
                 let c = confirm(blockMessage);
                 if (!c) return;
-                await API.blockUser(t.user.id_str);
+                await API.user.block(t.user.id_str);
                 t.user.blocking = true;
                 if(LOC.unblock_user.message.includes("$SCREEN_NAME$")) {
                     tweetInteractMoreMenuBlock.innerText = LOC.unblock_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
@@ -2690,7 +2690,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 let sure = confirm(LOC.delete_sure.message);
                 if (!sure) return;
                 try {
-                    await API.deleteTweet(t.id_str);
+                    await API.tweet.delete(t.id_str);
                 } catch (e) {
                     alert(e);
                     console.error(e);
@@ -2719,7 +2719,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             if(tweetInteractMoreMenuPin) tweetInteractMoreMenuPin.addEventListener('click', async () => {
                 if(pinnedTweet && pinnedTweet.id_str === t.id_str) {
-                    await API.unpinTweet(t.id_str);
+                    await API.tweet.unpin(t.id_str);
                     pinnedTweet = null;
                     tweet.remove();
                     let tweetTime = new Date(t.created_at).getTime();
@@ -2732,7 +2732,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     }
                     return;
                 } else {
-                    await API.pinTweet(t.id_str);
+                    await API.tweet.pin(t.id_str);
                     pinnedTweet = t;
                     let pinnedTweetElement = Array.from(document.getElementsByClassName('tweet')).find(i => {
                         let topText = i.getElementsByClassName('tweet-top-text')[0];
@@ -2758,7 +2758,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
             let tweetData;
             try {
-                tweetData = await API.getTweetV2(t.id_str);
+                tweetData = await API.tweet.getV2(t.id_str);
             } catch (e) {
                 console.error(e);
                 return;
@@ -2793,11 +2793,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         tweetInteractMoreMenuMute.addEventListener('click', async () => {
             if(t.conversation_muted) {
-                await API.unmuteTweet(t.id_str);
+                await API.tweet.unmute(t.id_str);
                 t.conversation_muted = false;
                 tweetInteractMoreMenuMute.innerText = LOC.mute_convo.message;
             } else {
-                await API.muteTweet(t.id_str);
+                await API.tweet.mute(t.id_str);
                 t.conversation_muted = true;
                 tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
             }

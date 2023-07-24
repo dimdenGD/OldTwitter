@@ -186,10 +186,10 @@ function updateUserData() {
     return new Promise(async (resolve, reject) => {
         document.getElementsByTagName('title')[0].innerText = `${user_handle} - OldTwitter`;
         let [pageUserData, followersYouFollowData, oldUser, u] = await Promise.allSettled([
-            API.getUserV2(user_handle),
-            API.friendsFollowing(user_handle, false),
-            API.getUser(user_handle, false),
-            API.verifyCredentials()
+            API.user.getV2(user_handle),
+            API.user.friendsFollowing(user_handle, false),
+            API.user.get(user_handle, false),
+            API.account.verifyCredentials()
         ]).catch(e => {
             document.getElementById('loading-box').hidden = false;
             if(String(e).includes('User has been suspended.')) {
@@ -280,7 +280,7 @@ function updateUserData() {
         try {
             pinnedTweet = pageUser.pinned_tweet_ids_str;
             if(pinnedTweet && pinnedTweet.length > 0) {
-                pinnedTweet = await API.getTweetV2(pinnedTweet[0]);
+                pinnedTweet = await API.tweet.getV2(pinnedTweet[0]);
                 if(pinnedTweet.user.id_str === pageUser.id_str) {
                     if(pageUser.verified) {
                         pinnedTweet.user.verified = true;
@@ -312,18 +312,18 @@ async function updateTimeline() {
     </div>`;
     let tl;
     if(subpage === "likes") {
-        let data = await API.getFavorites(pageUser.id_str);
+        let data = await API.user.getFavorites(pageUser.id_str);
         tl = data.tl;
         favoritesCursor = data.cursor;
     } else {
         try {
             if (!user_protected && !user_blocked_by) {
                 if (subpage === "media") {
-                    tl = await API.getUserMediaTweets(pageUser.id_str);
+                    tl = await API.user.getMediaTweets(pageUser.id_str);
                     mediaCursor = tl.cursor;
                     tl = tl.tweets;
                 } else {
-                    tl = await API.getUserTweetsV2(
+                    tl = await API.user.getTweetsV2(
                         pageUser.id_str,
                         undefined,
                         subpage !== "profile"
@@ -396,7 +396,7 @@ async function renderFollowing(clear = true, cursor) {
     }
     let following;
     try {
-        following = await API.getFollowing(pageUser.id_str, cursor);
+        following = await API.user.getFollowing(pageUser.id_str, cursor);
     } catch(e) {
         loadingFollowing = false;
         followingMoreBtn.innerText = LOC.load_more.message;
@@ -432,7 +432,7 @@ async function renderFollowers(clear = true, cursor) {
     }
     let following;
     try {
-        following = await API.getFollowers(pageUser.id_str, cursor)
+        following = await API.user.getFollowers(pageUser.id_str, cursor)
     } catch(e) {
         loadingFollowers = false;
         followersMoreBtn.innerText = LOC.load_more.message;
@@ -465,7 +465,7 @@ async function renderFollowersYouFollow(clear = true, cursor) {
     }
     let following;
     try {
-        following = await API.getFollowersYouFollow(pageUser.id_str, cursor);
+        following = await API.user.getFollowersYouFollow(pageUser.id_str, cursor);
     } catch(e) {
         console.error(e);
         loadingFollowersYouKnow = false;
@@ -487,7 +487,7 @@ async function renderFollowersYouFollow(clear = true, cursor) {
     followersYouFollowMoreBtn.innerText = LOC.load_more.message;
 }
 async function renderLists() {
-    let lists = pageUser.id_str === user.id_str ? await API.getMyLists() : await API.getUserLists(pageUser.id_str);
+    let lists = pageUser.id_str === user.id_str ? await API.list.getMyLists() : await API.user.getLists(pageUser.id_str);
     let listsList = document.getElementById('lists-list');
     listsList.innerHTML = `<h1 class="nice-header">${LOC.lists.message}</h1>`;
     if(pageUser.id_str === user.id_str) {
@@ -508,7 +508,7 @@ async function renderLists() {
             document.getElementById('list-btn-create').addEventListener('click', async () => {
                 let list;
                 try {
-                    list = await API.createList(document.getElementById('list-name-input').value, document.getElementById('list-description-input').value, document.getElementById('list-private-input').checked);
+                    list = await API.list.create(document.getElementById('list-name-input').value, document.getElementById('list-description-input').value, document.getElementById('list-private-input').checked);
                 } catch(e) {
                     return document.getElementById('list-editor-error').innerText = e && e.message ? e.message : e;
                 }
@@ -615,7 +615,7 @@ async function renderProfile() {
         translateBtn.addEventListener('click', async () => {
             if(at) return;
             at = true;
-            let translated = await API.translateProfile(pageUser.id_str);
+            let translated = await API.user.translateBio(pageUser.id_str);
             let span = document.createElement('span');
             let translatedMessage;
             if(LOC.translated_from.message.includes("$LANGUAGE$")) {
@@ -787,7 +787,7 @@ async function renderProfile() {
         controlFollow.addEventListener('click', async () => {
             if (controlFollow.className.includes('following')) {
                 try {
-                    pageUser.protected && pageUser.follow_request_sent ? await API.cancelFollow(pageUser.screen_name) : await API.unfollowUser(pageUser.screen_name);
+                    pageUser.protected && pageUser.follow_request_sent ? await API.user.cancelFollowRequest(pageUser.screen_name) : await API.user.unfollow(pageUser.screen_name);
                 } catch(e) {
                     console.error(e);
                     alert(e);
@@ -802,7 +802,7 @@ async function renderProfile() {
                 document.getElementById('profile-settings-notifications').hidden = true;
             } else {
                 try {
-                    await API.followUser(pageUser.screen_name);
+                    await API.user.follow(pageUser.screen_name);
                 } catch(e) {
                     console.error(e);
                     alert(e);
@@ -821,11 +821,11 @@ async function renderProfile() {
         });
         document.getElementById('profile-settings-retweets').addEventListener('click', async e => {
             if(pageUser.want_retweets) {
-                await API.switchRetweetsVisibility(pageUser.id_str, false);
+                await API.user.switchRetweetsVisibility(pageUser.id_str, false);
                 pageUser.want_retweets = false;
                 e.target.innerText = LOC.turn_on_retweets.message;
             } else {
-                await API.switchRetweetsVisibility(pageUser.id_str, true);
+                await API.user.switchRetweetsVisibility(pageUser.id_str, true);
                 pageUser.want_retweets = true;
                 e.target.innerText = LOC.turn_off_retweets.message;
             }
@@ -845,13 +845,13 @@ async function renderProfile() {
         });
         document.getElementById('profile-settings-notifications').addEventListener('click', async () => {
             if(!pageUser.notifications) {
-                await API.receiveNotifications(pageUser.id_str, true);
+                await API.user.receiveNotifications(pageUser.id_str, true);
                 pageUser.notifications = true;
                 document.getElementById('profile-settings-notifications').classList.remove('profile-settings-notifications');
                 document.getElementById('profile-settings-notifications').classList.add('profile-settings-offnotifications');
                 document.getElementById('profile-settings-notifications').innerText = LOC.stop_notifications.message;
             } else {
-                await API.receiveNotifications(pageUser.id_str, false);
+                await API.user.receiveNotifications(pageUser.id_str, false);
                 pageUser.notifications = false;
                 document.getElementById('profile-settings-notifications').classList.remove('profile-settings-offnotifications');
                 document.getElementById('profile-settings-notifications').classList.add('profile-settings-notifications');
@@ -862,7 +862,7 @@ async function renderProfile() {
         
         document.getElementById('profile-settings-block').addEventListener('click', async () => {
             if(pageUser.blocking) {
-                await API.unblockUser(pageUser.id_str);
+                await API.user.unblock(pageUser.id_str);
                 pageUser.blocking = false;
                 document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
                 document.getElementById('profile-settings-block').classList.add('profile-settings-block');
@@ -919,7 +919,7 @@ async function renderProfile() {
                     </div>
                 `)
                 modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
-                    await API.blockUser(pageUser.id_str);
+                    await API.user.block(pageUser.id_str);
                     pageUser.blocking = true;
                     document.getElementById('profile-settings-block').classList.add('profile-settings-unblock');
                     document.getElementById('profile-settings-block').classList.remove('profile-settings-block');
@@ -967,7 +967,7 @@ async function renderProfile() {
         });
         document.getElementById('control-unblock').addEventListener('click', async () => {
             if(pageUser.blocking) {
-                await API.unblockUser(pageUser.id_str);
+                await API.user.unblock(pageUser.id_str);
                 pageUser.blocking = false;
                 document.getElementById('profile-settings-block').classList.remove('profile-settings-unblock');
                 document.getElementById('profile-settings-block').classList.add('profile-settings-block');
@@ -1031,14 +1031,14 @@ async function renderProfile() {
         });
         document.getElementById('profile-settings-mute').addEventListener('click', async () => {
             if(pageUser.muting) {
-                await API.unmuteUser(pageUser.id_str);
+                await API.user.unmute(pageUser.id_str);
                 pageUser.muting = false;
                 document.getElementById('profile-settings-mute').classList.remove('profile-settings-unmute');
                 document.getElementById('profile-settings-mute').classList.add('profile-settings-mute');
                 document.getElementById('profile-settings-mute').innerText = LOC.mute.message;
                 document.getElementById('profile-name').classList.remove('user-muted');
             } else {
-                await API.muteUser(pageUser.id_str);
+                await API.user.mute(pageUser.id_str);
                 pageUser.muting = true;
                 document.getElementById('profile-settings-mute').classList.add('profile-settings-unmute');
                 document.getElementById('profile-settings-mute').classList.remove('profile-settings-mute');
@@ -1060,7 +1060,7 @@ async function renderProfile() {
                 </div>
             `.replace('$SCREEN_NAME$', pageUser.screen_name));
             modal.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
-                await API.removeFollower(pageUser.id_str);
+                await API.user.removeFollower(pageUser.id_str);
                 pageUser.followed_by = false;
                 document.getElementById('profile-settings-removefollowing').hidden = true;
                 document.getElementById('follows-you').hidden = true;
@@ -1068,7 +1068,7 @@ async function renderProfile() {
             });
         });
         document.getElementById('profile-settings-lists-action').addEventListener('click', async () => {
-            let lists = await API.getListOwnerships(user.id_str, pageUser.id_str);
+            let lists = await API.list.getOwnerships(user.id_str, pageUser.id_str);
             let modal = createModal(`
                 <h1 class="cool-header">${LOC.from_list.message}</h1>
                 <div id="modal-lists"></div>
@@ -1095,11 +1095,11 @@ async function renderProfile() {
                 container.appendChild(listElement);
                 listElement.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
                     if(l.is_member) {
-                        await API.listRemoveMember(l.id_str, pageUser.id_str);
+                        await API.list.removeMember(l.id_str, pageUser.id_str);
                         l.is_member = false;
                         listElement.getElementsByClassName('nice-button')[0].innerText = LOC.add.message;
                     } else {
-                        await API.listAddMember(l.id_str, pageUser.id_str);
+                        await API.list.addMember(l.id_str, pageUser.id_str);
                         l.is_member = true;
                         listElement.getElementsByClassName('nice-button')[0].innerText = LOC.remove.message;
                     }
@@ -1403,16 +1403,16 @@ setTimeout(async () => {
             try {
                 if (!user_protected && !user_blocked_by) {
                     if(subpage === "likes") {
-                        let data = await API.getFavorites(pageUser.id_str, favoritesCursor);
+                        let data = await API.user.getFavorites(pageUser.id_str, favoritesCursor);
                         tl = data.tl;
                         favoritesCursor = data.cursor;
                     } else {
                         if(subpage === 'media') {
-                            tl = await API.getUserMediaTweets(pageUser.id_str, mediaCursor);
+                            tl = await API.user.getMediaTweets(pageUser.id_str, mediaCursor);
                             mediaCursor = tl.cursor;
                             tl = tl.tweets;
                         } else {
-                            tl = await API.getUserTweetsV2(pageUser.id_str, tweetsCursor, subpage !== 'profile');
+                            tl = await API.user.getTweetsV2(pageUser.id_str, tweetsCursor, subpage !== 'profile');
                             tweetsCursor = tl.cursor;
                             tl = tl.tweets;
                         }
@@ -1453,8 +1453,8 @@ setTimeout(async () => {
     //             if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
     //             else tweetsToLoad[id]++;
     //             if(tweetsToLoad[id] === 15) {
-    //                 API.getRepliesV2(id);
-    //                 API.getTweetLikers(id);
+    //                 API.tweet.getRepliesV2(id);
+    //                 API.tweet.getLikers(id);
     //                 t.classList.add('tweet-preload');
     //                 console.log(`Preloading ${id}`);
     //             }

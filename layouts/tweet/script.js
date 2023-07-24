@@ -105,7 +105,7 @@ function updateSubpage() {
 }
 
 function updateUserData() {
-    API.verifyCredentials().then(u => {
+    API.account.verifyCredentials().then(u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -120,7 +120,7 @@ async function updateReplies(id, c) {
     if(!c) document.getElementById('timeline').innerHTML = '';
     let tl, tweetLikers;
     try {
-        let [tlData, tweetLikersData] = await Promise.allSettled([API.getRepliesV2(id, c), API.getTweetLikers(id)]);
+        let [tlData, tweetLikersData] = await Promise.allSettled([API.tweet.getRepliesV2(id, c), API.tweet.getLikers(id)]);
         if(!tlData.value) {
             cursor = undefined;
             console.error(tlData.reason);
@@ -225,7 +225,7 @@ async function updateLikes(id, c) {
         tweetLikers = mainTweetLikers;
     } else {
         try {
-            tweetLikers = await API.getTweetLikers(id, c);
+            tweetLikers = await API.tweet.getLikers(id, c);
             likeCursor = tweetLikers.cursor;
             tweetLikers = tweetLikers.list;
             if(!c) mainTweetLikers = tweetLikers;
@@ -238,7 +238,7 @@ async function updateLikes(id, c) {
 
     if(!c) {
         likeDiv.innerHTML = '';
-        let tweet = await appendTweet(await API.getTweetV2(id), likeDiv, { //th line
+        let tweet = await appendTweet(await API.tweet.getV2(id), likeDiv, { //th line
             mainTweet: true
         });
         tweet.style.borderBottom = '1px solid var(--border)';
@@ -270,7 +270,7 @@ async function updateLikes(id, c) {
 async function updateRetweets(id, c) {
     let tweetRetweeters;
     try {
-        tweetRetweeters = await API.getTweetRetweeters(id, c);
+        tweetRetweeters = await API.tweet.getRetweeters(id, c);
         retweetCursor = tweetRetweeters.cursor;
         tweetRetweeters = tweetRetweeters.list;
     } catch(e) {
@@ -281,7 +281,7 @@ async function updateRetweets(id, c) {
 
     if(!c) {
         retweetDiv.innerHTML = '';
-        let tweetData = await API.getTweetV2(id);
+        let tweetData = await API.tweet.getV2(id);
         let tweet = await appendTweet(tweetData, retweetDiv, {
             mainTweet: true
         });
@@ -320,12 +320,12 @@ async function updateRetweets(id, c) {
         let followButton = retweetElement.querySelector('.following-item-btn');
         followButton.addEventListener('click', async () => {
             if (followButton.classList.contains('following')) {
-                await API.unfollowUser(u.screen_name);
+                await API.user.unfollow(u.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
                 followButton.innerText = LOC.follow.message;
             } else {
-                await API.followUser(u.screen_name);
+                await API.user.follow(u.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
                 followButton.innerText = LOC.following_btn.message;
@@ -339,7 +339,7 @@ async function updateRetweets(id, c) {
 async function updateRetweetsWithComments(id, c) {
     let tweetRetweeters;
     try {
-        tweetRetweeters = await API.getTweetQuotes(id, c);
+        tweetRetweeters = await API.tweet.getQuotes(id, c);
         retweetCommentsCursor = tweetRetweeters.cursor;
         tweetRetweeters = tweetRetweeters.list;
     } catch(e) {
@@ -349,7 +349,7 @@ async function updateRetweetsWithComments(id, c) {
     let retweetDiv = document.getElementById('retweets_with_comments');
 
     if(!c) {
-        let t = await API.getTweetV2(id);
+        let t = await API.tweet.getV2(id);
         retweetDiv.innerHTML = '';
         let h1 = document.createElement('h1');
         h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
@@ -464,7 +464,7 @@ async function appendComposeComponent(container, replyTweet) {
                         u = user;
                     } else {
                         try {
-                            u = await API.getUser(mentions[i], false);
+                            u = await API.user.get(mentions[i], false);
                         } catch(e) {
                             console.error(e);
                             continue;
@@ -580,7 +580,7 @@ async function appendComposeComponent(container, replyTweet) {
         if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
             newTweetUserSearch.hidden = false;
             selectedIndex = 0;
-            let users = (await API.search(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
+            let users = (await API.search.typeahead(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
             newTweetUserSearch.innerHTML = '';
             users.forEach((user, index) => {
                 let userElement = document.createElement('span');
@@ -660,7 +660,7 @@ async function appendComposeComponent(container, replyTweet) {
             tweetObject.media_ids = uploadedMedia.join(',');
         }
         try {
-            let tweet = await API.postTweetV2(tweetObject);
+            let tweet = await API.tweet.postV2(tweetObject);
             tweet._ARTIFICIAL = true;
             appendTweet(tweet, document.getElementById('timeline'), {
                 after: document.getElementsByClassName('new-tweet-container')[0]
@@ -735,7 +735,7 @@ setTimeout(async () => {
     if(/^\/i\/web\/status\/(\d{5,32})(|\/)$/.test(realPath)) {
         let id = realPath.split("/i/web/status/")[1];
         if (id.endsWith("/")) id = id.slice(0, -1);
-        let tweet = await API.getTweetV2(id);
+        let tweet = await API.tweet.getV2(id);
         location.replace(`https://twitter.com/${tweet.user.screen_name}/status/${id}`);
         return;
     }

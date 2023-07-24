@@ -22,6 +22,10 @@ async function loadVars() {
         ], data => {
             resolve(data);
             varsResolve(data);
+
+            if(data.developerMode) {
+                console.log(API);
+            }
         });
     });
 };

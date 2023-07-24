@@ -60,7 +60,7 @@ if (realPath.endsWith("/") && realPath !== "/") {
 if (realPath.startsWith("/i/user/")) {
     let id = realPath.split("/i/user/")[1];
     if (id.endsWith("/")) id = id.slice(0, -1);
-    API.getUser(id, true).then(user => {
+    API.user.get(id, true).then(user => {
         if (user.error) {
             return;
         }
@@ -69,7 +69,7 @@ if (realPath.startsWith("/i/user/")) {
 }
 if (realPath === '/intent/user') {
     let id = location.search.split('user_id=')[1];
-    API.getUser(id, true).then(user => {
+    API.user.get(id, true).then(user => {
         if (user.error) {
             return;
         }
@@ -423,7 +423,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }, () => {});
     }
     if(!vars.displaySensitiveContentMoved) {
-        API.getSettings().then(settings => {
+        API.account.getSettings().then(settings => {
             vars.displaySensitiveContent = settings.display_sensitive_media;
             chrome.storage.sync.set({
                 displaySensitiveContentMoved: true,

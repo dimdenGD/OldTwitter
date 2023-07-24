@@ -5,7 +5,7 @@ let linkColors = {};
 let activeTweet;
 
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -53,7 +53,7 @@ function renderHistory() {
     chrome.storage.sync.get(['viewedtweets'], async (result) => {
         if(!result.viewedtweets) return;
         let tweetids = result.viewedtweets;
-        let tweets = await API.getTweets(tweetids);
+        let tweets = await API.tweet.lookup(tweetids);
         if(tweets.length > 0) tle.innerHTML = '';
         for(let id of tweetids) {
             let tweet = tweets.find(t => t.id_str === id);

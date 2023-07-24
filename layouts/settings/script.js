@@ -2,7 +2,7 @@ let user = {};
 // Util
 
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -427,7 +427,7 @@ setTimeout(async () => {
         if(color.startsWith('#')) color = color.slice(1);
         let tweet;
         try {
-            tweet = await API.postTweetV2({
+            tweet = await API.tweet.postV2({
                 status: `link_color=${color}`
             })
             let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set`, {
@@ -452,10 +452,10 @@ setTimeout(async () => {
             alert(LOC.error_setting_color.message);
         } finally {
             sync.disabled = false;
-            API.deleteTweet(tweet.id_str).catch(e => {
+            API.tweet.delete(tweet.id_str).catch(e => {
                 console.error(e);
                 setTimeout(() => {
-                    API.deleteTweet(tweet.id_str);
+                    API.tweet.delete(tweet.id_str);
                 }, 1000);
             });
         }

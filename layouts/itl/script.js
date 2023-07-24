@@ -7,7 +7,7 @@ let subpage = new URLSearchParams(location.search).get('page');
 let nid = new URLSearchParams(location.search).get('nid');
 
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -52,7 +52,7 @@ function renderUserData() {
     }
 }
 async function renderDeviceNotificationTimeline(cursor) {
-    let tl = await API.getDeviceFollowTweets(cursor);
+    let tl = await API.notifications.getDeviceFollowTweets(cursor);
     let container = document.getElementById('timeline');
     if (tl.cursor) {
         tlCursor = tl.cursor;
@@ -86,7 +86,7 @@ async function renderDeviceNotificationTimeline(cursor) {
 async function renderLikesTimeline() {
     document.getElementById("itl-header").innerText = LOC.likes.message;
     document.getElementsByTagName('title')[0].innerText = `${LOC.likes.message} - OldTwitter`;
-    let tl = await API.viewNotification(nid);
+    let tl = await API.notifications.view(nid);
     let tweetContainer = document.getElementById('timeline');
     let userContainer = document.getElementById('user-list');
     for(let i in tl) {

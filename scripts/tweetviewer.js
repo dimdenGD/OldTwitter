@@ -164,7 +164,7 @@ class TweetViewer {
         }
         let tl, tweetLikers;
         try {
-            let [tlData, tweetLikersData] = await Promise.allSettled([API.getRepliesV2(id, c), API.getTweetLikers(id)]);
+            let [tlData, tweetLikersData] = await Promise.allSettled([API.tweet.getRepliesV2(id, c), API.tweet.getLikers(id)]);
             if(!tlData.value) {
                 this.cursor = undefined;
                 return console.error(tlData.reason);
@@ -273,7 +273,7 @@ class TweetViewer {
             tweetLikers = this.mainTweetLikers;
         } else {
             try {
-                tweetLikers = await API.getTweetLikers(id, c);
+                tweetLikers = await API.tweet.getLikers(id, c);
                 this.likeCursor = tweetLikers.cursor;
                 tweetLikers = tweetLikers.list;
                 if(!c) this.mainTweetLikers = tweetLikers;
@@ -287,7 +287,7 @@ class TweetViewer {
     
         if(!c) {
             likeDiv.innerHTML = '';
-            let tweetData = await API.getTweetV2(id);
+            let tweetData = await API.tweet.getV2(id);
             let tweet = await this.appendTweet(tweetData, likeDiv, {
                 mainTweet: true
             });
@@ -316,7 +316,7 @@ class TweetViewer {
         tvl.hidden = false;
         let tweetRetweeters;
         try {
-            tweetRetweeters = await API.getTweetRetweeters(id, c);
+            tweetRetweeters = await API.tweet.getRetweeters(id, c);
             this.retweetCursor = tweetRetweeters.cursor;
             tweetRetweeters = tweetRetweeters.list;
         } catch(e) {
@@ -327,7 +327,7 @@ class TweetViewer {
     
         if(!c) {
             retweetDiv.innerHTML = '';
-            let tweetData = await API.getTweetV2(id);
+            let tweetData = await API.tweet.getV2(id);
             let tweet = await this.appendTweet(tweetData, retweetDiv, {
                 mainTweet: true
             });
@@ -380,12 +380,12 @@ class TweetViewer {
             let followButton = retweetElement.querySelector('.following-item-btn');
             followButton.addEventListener('click', async () => {
                 if (followButton.classList.contains('following')) {
-                    await API.unfollowUser(u.screen_name);
+                    await API.user.unfollow(u.screen_name);
                     followButton.classList.remove('following');
                     followButton.classList.add('follow');
                     followButton.innerText = LOC.follow.message;
                 } else {
-                    await API.followUser(u.screen_name);
+                    await API.user.follow(u.screen_name);
                     followButton.classList.remove('follow');
                     followButton.classList.add('following');
                     followButton.innerText = LOC.following_btn.message;
@@ -401,9 +401,9 @@ class TweetViewer {
         let tvl = this.container.getElementsByClassName('tweet-viewer-loading')[0];
         tvl.hidden = false;
         let tweetRetweeters;
-        let tweetData = await API.getTweetV2(id);
+        let tweetData = await API.tweet.getV2(id);
         try {
-            tweetRetweeters = await API.getTweetQuotes(id, c);
+            tweetRetweeters = await API.tweet.getQuotes(id, c);
             this.retweetCommentsCursor = tweetRetweeters.cursor;
             tweetRetweeters = tweetRetweeters.list;
         } catch(e) {
@@ -421,7 +421,7 @@ class TweetViewer {
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
                 e.preventDefault();
-                let t = await API.getTweetV2(id);
+                let t = await API.tweet.getV2(id);
                 history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
@@ -502,7 +502,7 @@ class TweetViewer {
                         u = pageUser;
                     } else {
                         try {
-                            u = await API.getUser(mentions[i], false);
+                            u = await API.user.get(mentions[i], false);
                         } catch(e) {
                             console.error(e);
                             continue;
@@ -634,7 +634,7 @@ class TweetViewer {
             if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
                 newTweetUserSearch.hidden = false;
                 selectedIndex = 0;
-                let users = (await API.search(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
+                let users = (await API.search.typeahead(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
                 newTweetUserSearch.innerHTML = '';
                 users.forEach((user, index) => {
                     let userElement = document.createElement('span');
@@ -722,7 +722,7 @@ class TweetViewer {
                 tweetObject.media_ids = uploadedMedia.join(',');
             }
             try {
-                let tweet = await API.postTweetV2(tweetObject);
+                let tweet = await API.tweet.postV2(tweetObject);
                 tweet._ARTIFICIAL = true;
                 this.appendTweet(tweet, document.getElementsByClassName('timeline')[0], {
                     after: document.getElementsByClassName('new-tweet-view')[0].parentElement
@@ -750,7 +750,7 @@ class TweetViewer {
             // if(webUrl) {
             //     try {
             //         let source = t.source;
-            //         t = await API.getTweetV2(t.id_str);
+            //         t = await API.tweet.getV2(t.id_str);
             //         t.source = source;
             //     } catch(e) {}
             // }
@@ -871,7 +871,7 @@ class TweetViewer {
                     t.quoted_status = t.quoted_status_result.result.tweet.legacy;
                     t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
                 } else {
-                    t.quoted_status = await API.getTweetV2(t.quoted_status_id_str);
+                    t.quoted_status = await API.tweet.getV2(t.quoted_status_id_str);
                 }
             } catch {
                 t.quoted_status = undefined;
@@ -1274,13 +1274,13 @@ class TweetViewer {
             const tweetFollow = tweet.getElementsByClassName('tweet-header-follow')[0];
             tweetFollow.addEventListener('click', async () => {
                 if(t.user.following) {
-                    await API.unfollowUser(t.user.screen_name);
+                    await API.user.unfollow(t.user.screen_name);
                     tweetFollow.innerText = LOC.follow.message;
                     tweetFollow.classList.remove('following');
                     tweetFollow.classList.add('follow');
                     t.user.following = false;
                 } else {
-                    await API.followUser(t.user.screen_name);
+                    await API.user.follow(t.user.screen_name);
                     tweetFollow.innerText = LOC.unfollow.message;
                     tweetFollow.classList.remove('follow');
                     tweetFollow.classList.add('following');
@@ -1418,7 +1418,7 @@ class TweetViewer {
     
         // Translate
         if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
-            let translated = await API.translateTweet(t.id_str);
+            let translated = await API.tweet.translate(t.id_str);
             tweetTranslate.hidden = true;
             let translatedMessage;
             if(LOC.translated_from.message.includes("$LANGUAGE$")) {
@@ -1450,7 +1450,7 @@ class TweetViewer {
             switchingBookmark = true;
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             if(t.bookmarked) {
-                API.deleteBookmark(t.id_str).then(() => {
+                API.bookmarks.delete(t.id_str).then(() => {
                     switchingBookmark = false;
                     t.bookmarked = false;
                     t.bookmark_count--;
@@ -1467,7 +1467,7 @@ class TweetViewer {
                     alert(e);
                 });
             } else {
-                API.createBookmark(t.id_str).then(() => {
+                API.bookmarks.create(t.id_str).then(() => {
                     switchingBookmark = false;
                     t.bookmarked = true;
                     t.bookmark_count++;
@@ -1624,7 +1624,7 @@ class TweetViewer {
             }
             let tweetData;
             try {
-                tweetData = await API.postTweetV2(tweetObject)
+                tweetData = await API.tweet.postV2(tweetObject)
             } catch (e) {
                 tweetReplyError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetReplyButton.disabled = false;
@@ -1688,7 +1688,7 @@ class TweetViewer {
             if (!t.retweeted) {
                 let tweetData;
                 try {
-                    tweetData = await API.retweetTweet(t.id_str);
+                    tweetData = await API.tweet.retweet(t.id_str);
                 } catch (e) {
                     console.error(e);
                     return;
@@ -1715,7 +1715,7 @@ class TweetViewer {
             } else {
                 let tweetData;
                 try {
-                    tweetData = await API.deleteRetweet(t.retweeted_status ? t.retweeted_status.id_str : t.id_str);
+                    tweetData = await API.tweet.unretweet(t.retweeted_status ? t.retweeted_status.id_str : t.id_str);
                 } catch (e) {
                     console.error(e);
                     return;
@@ -1868,7 +1868,7 @@ class TweetViewer {
             }
             let tweetData;
             try {
-                tweetData = await API.postTweetV2(tweetObject)
+                tweetData = await API.tweet.postV2(tweetObject)
             } catch (e) {
                 tweetQuoteError.innerHTML = (e && e.message ? e.message : e) + "<br>";
                 tweetQuoteButton.disabled = false;
@@ -1893,7 +1893,7 @@ class TweetViewer {
         // Favorite
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
-                API.unfavoriteTweet(t.id_str);
+                API.tweet.unfavorite(t.id_str);
                 t.favorited = false;
                 t.favorite_count--;
                 if(!options.mainTweet) {
@@ -1914,7 +1914,7 @@ class TweetViewer {
                 } });
                 document.dispatchEvent(event);
             } else {
-                API.favoriteTweet(t.id_str);
+                API.tweet.favorite(t.id_str);
                 t.favorited = true;
                 t.favorite_count++;
                 if(!options.mainTweet) {
@@ -1964,7 +1964,7 @@ class TweetViewer {
         });
         if(tweetInteractMoreMenuFollow) tweetInteractMoreMenuFollow.addEventListener('click', async () => {
             if (t.user.following) {
-                await API.unfollowUser(t.user.screen_name);
+                await API.user.unfollow(t.user.screen_name);
                 t.user.following = false;
                 if(LOC.follow_user.message.includes("$SCREEN_NAME$")) {
                     tweetInteractMoreMenuFollow.innerText = LOC.follow_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
@@ -1977,7 +1977,7 @@ class TweetViewer {
                 } });
                 document.dispatchEvent(event);
             } else {
-                await API.followUser(t.user.screen_name);
+                await API.user.follow(t.user.screen_name);
                 t.user.following = true;
                 if(LOC.unfollow_user.message.includes("$SCREEN_NAME$")) {
                     tweetInteractMoreMenuFollow.innerText = LOC.unfollow_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
@@ -1994,7 +1994,7 @@ class TweetViewer {
         });
         if(tweetInteractMoreMenuBlock) tweetInteractMoreMenuBlock.addEventListener('click', async () => {
             if (t.user.blocking) {
-                await API.unblockUser(t.user.id_str);
+                await API.user.unblock(t.user.id_str);
                 t.user.blocking = false;
                 if(LOC.block_user.message.includes("$SCREEN_NAME$")) {
                     tweetInteractMoreMenuBlock.innerText = LOC.block_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
@@ -2016,7 +2016,7 @@ class TweetViewer {
                 }
                 let c = confirm(blockMessage);
                 if (!c) return;
-                await API.blockUser(t.user.id_str);
+                await API.user.block(t.user.id_str);
                 t.user.blocking = true;
                 if(LOC.unblock_user.message.includes("$SCREEN_NAME$")) {
                     tweetInteractMoreMenuBlock.innerText = LOC.unblock_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
@@ -2064,7 +2064,7 @@ class TweetViewer {
                 let sure = confirm(LOC.delete_sure.message);
                 if (!sure) return;
                 try {
-                    await API.deleteTweet(t.id_str);
+                    await API.tweet.delete(t.id_str);
                 } catch (e) {
                     alert(e);
                     console.error(e);
@@ -2102,7 +2102,7 @@ class TweetViewer {
         }
         tweetInteractMoreMenuMute.addEventListener('click', async () => {
             if(t.conversation_muted) {
-                await API.unmuteTweet(t.id_str);
+                await API.tweet.unmute(t.id_str);
                 t.conversation_muted = false;
                 tweetInteractMoreMenuMute.innerText = LOC.mute_convo.message;
                 let event = new CustomEvent('tweetAction', { detail: {
@@ -2111,7 +2111,7 @@ class TweetViewer {
                 } });
                 document.dispatchEvent(event);
             } else {
-                await API.muteTweet(t.id_str);
+                await API.tweet.mute(t.id_str);
                 t.conversation_muted = true;
                 tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
                 let event = new CustomEvent('tweetAction', { detail: {
@@ -2125,7 +2125,7 @@ class TweetViewer {
         tweetInteractMoreMenuRefresh.addEventListener('click', async () => {
             let tweetData;
             try {
-                tweetData = await API.getTweetV2(t.id_str);
+                tweetData = await API.tweet.getV2(t.id_str);
             } catch (e) {
                 console.error(e);
                 return;
