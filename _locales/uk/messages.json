@@ -404,5 +404,9 @@
     "bookmarks_count": { "message": "Закладки" },
     "remove_bookmark": { "message": "Видалити закладку" },
     "hide_community_notes": { "message": "Не показувати примітки спільноти (Community Notes)" },
-    "disable_gif_autoplay": { "message": "Вимкнути автовідтворення гіфок" }
+    "disable_gif_autoplay": { "message": "Вимкнути автовідтворення гіфок" },
+    "hide_tweet": { "message": "Сховати твіт для всіх" },
+    "unhide_tweet": { "message": "Показати твіт" },
+    "hide_tweet_sure": { "message": "Ви впевнені що хочете сховати цей твіт?" },
+    "see_hidden_replies": { "message": "Подивитись сховані відповіді" }
 }

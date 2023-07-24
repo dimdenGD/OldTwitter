@@ -416,5 +416,9 @@
     "bookmarks_count": { "message": "Bookmarks", "description": "Used for bookmarks count." },
     "remove_bookmark": { "message": "Remove bookmark" },
     "hide_community_notes": { "message": "Hide community notes" },
-    "disable_gif_autoplay": { "message": "Disable GIF autoplay" }
+    "disable_gif_autoplay": { "message": "Disable GIF autoplay" },
+    "hide_tweet": { "message": "Hide tweet" },
+    "unhide_tweet": { "message": "Unhide tweet" },
+    "hide_tweet_sure": { "message": "Are you sure you want to hide this tweet?" },
+    "see_hidden_replies": { "message": "See hidden replies" }
 }

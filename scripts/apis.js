@@ -1,6 +1,7 @@
 let loadingDetails = {};
 let loadingReplies = {};
 let loadingLikers = {};
+let tweetStorage = {};
 
 setInterval(() => {
     // clearing cache
@@ -150,6 +151,7 @@ function parseTweet(res) {
         tweet.birdwatch = res.birdwatch_pivot;
     }
 
+    tweetStorage[tweet.id_str] = tweet;
     return tweet;
 }
 
@@ -1075,7 +1077,10 @@ const API = {
                         if(entry.entryId.startsWith("tweet-")) {
                             let result = entry.content.itemContent.tweet_results.result;
                             let tweet = parseTweet(result);
-                            if(tweet) tweets.push(tweet);
+                            if(tweet) {
+                                tweet.hasModeratedReplies = entry.content.itemContent.hasModeratedReplies;
+                                tweets.push(tweet);
+                            }
                         } else if(entry.entryId.startsWith("profile-conversation-")) {
                             let items = entry.content.items;
                             for(let i = 0; i < items.length; i++) {
@@ -1087,6 +1092,8 @@ const API = {
         
                                     if(i !== items.length - 1) tweet.threadContinuation = true;
                                     if(i !== 0) tweet.noTop = true;
+
+                                    tweet.hasModeratedReplies = item.item.itemContent.hasModeratedReplies;
                                     tweets.push(tweet);
                                 }
                             }
@@ -1125,22 +1132,11 @@ const API = {
                     }
                     let entries = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
                     let tweets = entries.filter(i => i.entryId.startsWith('tweet-')).map(t => {
-                        let o = t.content.itemContent.tweet_results.result;
-                        if(!o) return;
-                        o.legacy.user = o.core.user_results.result.legacy;
-                        o.legacy.user.id_str = o.core.user_results.result.legacy.rest_id;
-                        if(o.views && o.views.count) {
-                            if(!o.legacy.ext) o.legacy.ext = {};
-                            if(!o.legacy.ext.views) o.legacy.ext.views = {
-                                r: {
-                                    ok: {
-                                        count: +o.views.count
-                                    }
-                                }
-                            };
+                        let tweet = parseTweet(t.content.itemContent.tweet_results.result);
+                        if(tweet) {
+                            tweet.hasModeratedReplies = t.content.itemContent.hasModeratedReplies;
                         }
-        
-                        return o.legacy;
+                        return tweet;
                     }).filter(i => i);
                     let cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
                     if(cursor) {
@@ -2121,8 +2117,12 @@ const API = {
                             delete loadingDetails[id];
                             return reject(data.errors[0].message);
                         }
-                        let res = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent.tweet_results.result;
+                        let ic = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent;
+                        let res = ic.tweet_results.result;
                         let tweet = parseTweet(res);
+                        if(tweet) {
+                            tweet.hasModeratedReplies = ic.hasModeratedReplies;
+                        }
                         debugLog('tweet.getV2', 'end', id, tweet);
                         resolve(tweet);
                         if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[0](tweet));
@@ -2473,10 +2473,13 @@ const API = {
                                 }
                                 let tweet = parseTweet(tweetData);
         
-                                if(tweet) list.push({
-                                    type: tweet.id_str === id ? 'mainTweet' : 'tweet',
-                                    data: tweet
-                                });
+                                if(tweet) {
+                                    tweet.hasModeratedReplies = e.content.itemContent.hasModeratedReplies;
+                                    list.push({
+                                        type: tweet.id_str === id ? 'mainTweet' : 'tweet',
+                                        data: tweet
+                                    });
+                                }
                             } else if (e.entryId.startsWith('tombstone-')) {
                                 if(e.content.item.content.tombstone.tweet) {
                                     let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
@@ -2551,7 +2554,10 @@ const API = {
                                     }
                                     let tweet = parseTweet(tweetData);
                                     
-                                    if(tweet) threadList.push(tweet);
+                                    if(tweet) {
+                                        tweet.hasModeratedReplies = ic.hasModeratedReplies;
+                                        threadList.push(tweet);
+                                    }
                                 }
                                 if(threadList.length === 1) {
                                     list.push({
@@ -2981,6 +2987,102 @@ const API = {
                     body: `id=${id}`
                 }).then(i => i.text()).then(data => {
                     resolve(true);
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+        moderate: id => {
+            return new Promise((resolve, reject) => {
+                fetch(`https://twitter.com/i/api/graphql/pjFnHGVqCjTcZol0xcBJjw/ModerateTweet`, {
+                    method: 'POST',
+                    headers: {
+                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "content-type": "application/json; charset=utf-8"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({"variables":{"tweetId":id},"queryId":"pjFnHGVqCjTcZol0xcBJjw"})
+                }).then(i => i.json()).then(data => {
+                    debugLog('tweet.moderate', id, data);
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    resolve(data);
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+        unmoderate: id => {
+            return new Promise((resolve, reject) => {
+                fetch(`https://twitter.com/i/api/graphql/pVSyu6PA57TLvIE4nN2tsA/UnmoderateTweet`, {
+                    method: 'POST',
+                    headers: {
+                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "content-type": "application/json; charset=utf-8"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({"variables":{"tweetId":"1683331680751308802"},"queryId":"pVSyu6PA57TLvIE4nN2tsA"})
+                }).then(i => i.json()).then(data => {
+                    debugLog('tweet.unmoderate', id, data);
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    resolve(data);
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+        getModeratedReplies: (id, cursor) => {
+            return new Promise((resolve, reject) => {
+                let variables = {"rootTweetId":id,"count":20,"includePromotedContent":false};
+                if(cursor) variables.cursor = cursor;
+                fetch(`https://twitter.com/i/api/graphql/SiKS1_3937rb72ytFnDHmA/ModeratedTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+                    method: 'POST',
+                    headers: {
+                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "content-type": "application/x-www-form-urlencoded"
+                    },
+                    credentials: "include"
+                }).then(i => i.json()).then(data => {
+                    debugLog('tweet.getModeratedReplies', 'start', id, data);
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    let entries = data.data.tweet.result.timeline_response.timeline.instructions.find(i => i.entries);
+                    if(!entries) return resolve({
+                        list: [],
+                        cursor: undefined
+                    });
+                    entries = entries.entries;
+                    let list = entries.filter(e => e.entryId.startsWith('tweet-'));
+                    let cursor = entries.find(e => e.entryId.startsWith('cursor-bottom'));
+                    if(!cursor) {
+                        let entries = data.data.tweet.result.timeline_response.timeline.instructions.find(i => i.replaceEntry && i.replaceEntry.entryIdToReplace.includes('cursor-bottom'));
+                        if(entries) {
+                            cursor = entries.replaceEntry.entry.content.operation.cursor.value;
+                        }
+                    } else {
+                        cursor = cursor.content.operation.cursor.value;
+                    }
+                    let out = {
+                        list: list.map(e => {
+                            let tweet = parseTweet(e.content.itemContent.tweet_results.result);
+                            if(!tweet) return;
+                            tweet.moderated = true;
+                            return tweet;
+                        }).filter(e => e),
+                        cursor
+                    };
+                    debugLog('tweet.getModeratedReplies', 'end', id, out);
+                    resolve(data);
                 }).catch(e => {
                     reject(e);
                 });
@@ -3549,7 +3651,10 @@ const API = {
                         if(e.entryId.startsWith('tweet-')) {
                             let res = e.content.itemContent.tweet_results.result;
                             let tweet = parseTweet(res);
-                            if(tweet) tweets.push(tweet);
+                            if(tweet) {
+                                tweet.hasModeratedReplies = e.content.itemContent.hasModeratedReplies;
+                                tweets.push(tweet);
+                            }
                         } else if(e.entryId.startsWith('list-conversation-')) {
                             let lt = e.content.items;
                             for(let i = 0; i < lt.length; i++) {
@@ -3564,6 +3669,7 @@ const API = {
                                     if(i !== 0) {
                                         tweet.noTop = true;
                                     }
+                                    tweet.hasModeratedReplies = t.item.itemContent.hasModeratedReplies;
                                     tweets.push(tweet);
                                 }
                             }

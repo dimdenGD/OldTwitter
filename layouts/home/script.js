@@ -64,6 +64,7 @@ setTimeout(() => {
                             <li>Added option to see bookmark count.</li>
                             <li>Added option to disable GIF autoplay.</li>
                             <li>Added ability to pause GIFs.</li>
+                            <li>Added ability to hide replies.</li>
                             <li>Added option to disable personalized trends.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>
                             <li>Fixed thread tweets in lists.</li>

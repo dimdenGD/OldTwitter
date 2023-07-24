@@ -1387,6 +1387,9 @@ span.tweet-body-text {
 .tweet-interact-more-menu-bookmark:before {
     content: "\f093"
 }
+.tweet-interact-more-menu-hide:before {
+    content: "\f096"
+}
 
 .tweet-interact-more-menu-feedback:before {
     content: "\f044"

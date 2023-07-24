@@ -404,5 +404,9 @@
     "bookmarks_count": { "message": "Закладки" },
     "remove_bookmark": { "message": "Убрать закладку" },
     "hide_community_notes": { "message": "Не показывать заметки общества (Community Notes)" },
-    "disable_gif_autoplay": { "message": "Отключить автовоспроизведение GIF" }
+    "disable_gif_autoplay": { "message": "Отключить автовоспроизведение GIF" },
+    "hide_tweet": { "message": "Скрыть твит от всех" },
+    "unhide_tweet": { "message": "Показывать твит" },
+    "hide_tweet_sure": { "message": "Вы уверены что хотите скрыть этот твит?" },
+    "see_hidden_replies": { "message": "Посмотреть скрытые ответы" }
 }

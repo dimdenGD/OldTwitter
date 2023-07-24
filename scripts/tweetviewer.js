@@ -1050,6 +1050,12 @@ class TweetViewer {
                         <span class="tweet-interact-more-menu-analytics">${LOC.tweet_analytics.message}</span>
                         <span class="tweet-interact-more-menu-delete">${LOC.delete_tweet.message}</span>
                         ` : ``}
+                        ${t.conversation_id_str && tweetStorage[t.conversation_id_str] && tweetStorage[t.conversation_id_str].user.id_str === user.id_str && t.user.id_str !== user.id_str ? /*html*/`
+                            <span class="tweet-interact-more-menu-hide">${t.moderated ? LOC.unhide_tweet.message : LOC.hide_tweet.message}</span>
+                        `: ''}
+                        ${t.hasModeratedReplies ? /*html*/`
+                            <span class="tweet-interact-more-menu-hidden"><a target="_blank" href="/${t.user.screen_name}/status/${t.id_str}/hidden?newtwitter=true">${LOC.see_hidden_replies.message}</a></span>
+                        ` : ''}
                         <hr>
                         ${t.user.id_str !== user.id_str && !options.mainTweet ? `
                         <span class="tweet-interact-more-menu-follow"${t.user.blocking ? ' hidden' : ''}>${t.user.following ? unfollowUserText : followUserText}</span>
@@ -1348,6 +1354,34 @@ class TweetViewer {
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
+        const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
+
+        // moderating tweets
+        if(tweetInteractMoreMenuHide) tweetInteractMoreMenuHide.addEventListener('click', async () => {
+            if(t.moderated) {
+                try {
+                    await API.tweet.unmoderate(t.id_str);
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    return;
+                }
+                tweetInteractMoreMenuHide.innerText = LOC.hide_tweet.message;
+                t.moderated = false;
+            } else {
+                let sure = confirm(LOC.hide_tweet_sure.message);
+                if(!sure) return;
+                try {
+                    await API.tweet.moderate(t.id_str);
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    return;
+                }
+                tweetInteractMoreMenuHide.innerText = LOC.unhide_tweet.message;
+                t.moderated = true;
+            }
+        });        
 
         // community notes
         if(t.birdwatch && options.mainTweet && !vars.hideCommunityNotes) {
