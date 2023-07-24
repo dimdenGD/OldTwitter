@@ -115,7 +115,8 @@ const TRANSLATORS = {
     ],
     "pt_BR": [
         ["dzshn", "https://dzshn.xyz/"],
-        ["kigi", "https://twitter.com/kigidere"]
+        ["kigi", "https://twitter.com/kigidere"],
+        ["umgustavo", "https://github.com/umgustavo"]
     ],
     "es": [
         ["Ruchi", "https://twitter.com/anbulansia"],
