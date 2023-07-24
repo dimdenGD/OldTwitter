@@ -1424,6 +1424,51 @@ const API = {
                 let obj = {
                     "userId": id,
                     "count": 100,
+                    "includePromotedContent": false
+                };
+                if(cursor) obj.cursor = cursor;
+                fetch(`https://twitter.com/i/api/graphql/t-BPOrMIduGUJWO_LxcvNQ/Following?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+                    headers: {
+                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                    credentials: "include"
+                }).then(i => i.json()).then(data => {
+                    debugLog('user.getFollowing', 'start', {id, cursor, data});
+                    if (data.errors && data.errors[0].code === 32) {
+                        return reject("Not logged in");
+                    }
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    let list = data.data.user.result.timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
+                    const out = {
+                        list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
+                            let user = e.content.itemContent.user_results.result;
+                            user.legacy.id_str = user.rest_id;
+                            if(user.is_blue_verified && !user.legacy.verified_type) {
+                                user.legacy.verified = true;
+                                user.legacy.verified_type = "Blue";
+                            }
+                            return user.legacy;
+                        }),
+                        cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                    }
+                    debugLog('user.getFollowing', 'end', out);
+                    resolve(out);
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+        
+        getFollowers: (id, cursor, count = 100) => {
+            return new Promise((resolve, reject) => {
+                let obj = {
+                    "userId": id,
+                    "count": count,
                     "includePromotedContent": false,
                     "withSuperFollowsUserFields": true,
                     "withDownvotePerspective": false,
@@ -1436,7 +1481,7 @@ const API = {
                     "withV2Timeline": true
                 };
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/N4YSLBJm3XcABTeX3xLWbQ/Following?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+                fetch(`https://twitter.com/i/api/graphql/fJSopkDA3UP9priyce4RgQ/Followers?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
                     "dont_mention_me_view_api_enabled": true,
                     "interactive_text_enabled": true,
                     "responsive_web_uc_gql_enabled": false,
@@ -1453,6 +1498,7 @@ const API = {
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
+                    debugLog('user.getFollowers', 'start', {id, cursor, data});
                     if (data.errors && data.errors[0].code === 32) {
                         return reject("Not logged in");
                     }
@@ -1460,14 +1506,20 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     let list = data.data.user.result.timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
-                    resolve({
+                    const out = {
                         list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
                             let user = e.content.itemContent.user_results.result;
                             user.legacy.id_str = user.rest_id;
+                            if(user.is_blue_verified && !user.legacy.verified_type) {
+                                user.legacy.verified = true;
+                                user.legacy.verified_type = "Blue";
+                            }
                             return user.legacy;
                         }),
                         cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
-                    });
+                    };
+                    debugLog('user.getFollowers', 'end', out);
+                    resolve(out);
                 }).catch(e => {
                     reject(e);
                 });
@@ -1533,86 +1585,15 @@ const API = {
                 });
             });
         },
-        getFollowers: (id, cursor, count = 100) => {
-            return new Promise((resolve, reject) => {
-                let obj = {
-                    "userId": id,
-                    "count": count,
-                    "includePromotedContent": false,
-                    "withSuperFollowsUserFields": true,
-                    "withDownvotePerspective": false,
-                    "withReactionsMetadata": false,
-                    "withReactionsPerspective": false,
-                    "withSuperFollowsTweetFields": true,
-                    "withClientEventToken": false,
-                    "withBirdwatchNotes": false,
-                    "withVoice": true,
-                    "withV2Timeline": true
-                };
-                if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/fJSopkDA3UP9priyce4RgQ/Followers?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
-                    "dont_mention_me_view_api_enabled": true,
-                    "interactive_text_enabled": true,
-                    "responsive_web_uc_gql_enabled": false,
-                    "vibe_tweet_context_enabled": false,
-                    "responsive_web_edit_tweet_api_enabled": false,
-                    "standardized_nudges_misinfo": false,
-                    "responsive_web_enhance_cards_enabled": false
-                }))}`, {
-                    headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
-                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                        "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
-                    },
-                    credentials: "include"
-                }).then(i => i.json()).then(data => {
-                    if (data.errors && data.errors[0].code === 32) {
-                        return reject("Not logged in");
-                    }
-                    if (data.errors && data.errors[0]) {
-                        return reject(data.errors[0].message);
-                    }
-                    let list = data.data.user.result.timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
-                    resolve({
-                        list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
-                            let user = e.content.itemContent.user_results.result;
-                            user.legacy.id_str = user.rest_id;
-                            return user.legacy;
-                        }),
-                        cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
-                    });
-                }).catch(e => {
-                    reject(e);
-                });
-            });
-        },
         getFollowersYouFollow: (id, cursor) => {
             return new Promise((resolve, reject) => {
                 let obj = {
                     "userId": id,
                     "count": 50,
-                    "includePromotedContent": false,
-                    "withSuperFollowsUserFields": true,
-                    "withDownvotePerspective": false,
-                    "withReactionsMetadata": false,
-                    "withReactionsPerspective": false,
-                    "withSuperFollowsTweetFields": true,
-                    "withClientEventToken": false,
-                    "withBirdwatchNotes": false,
-                    "withVoice": true,
-                    "withV2Timeline": true
+                    "includePromotedContent": false
                 };
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/Ta_Zd7mReCZVnThOABfNhA/FollowersYouKnow?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
-                    "dont_mention_me_view_api_enabled": true,
-                    "interactive_text_enabled": true,
-                    "responsive_web_uc_gql_enabled": false,
-                    "vibe_tweet_context_enabled": false,
-                    "responsive_web_edit_tweet_api_enabled": false,
-                    "standardized_nudges_misinfo": false,
-                    "responsive_web_enhance_cards_enabled": false
-                }))}`, {
+                fetch(`https://twitter.com/i/api/graphql/m8AXvuS9H0aAI09J3ISOrw/FollowersYouKnow?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1621,6 +1602,7 @@ const API = {
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
+                    debugLog('user.getFollowersYouFollow', 'start', {id, cursor, data});
                     if (data.errors && data.errors[0].code === 32) {
                         return reject("Not logged in");
                     }
@@ -1628,14 +1610,20 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     let list = data.data.user.result.timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
-                    resolve({
+                    const out = {
                         list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
                             let user = e.content.itemContent.user_results.result;
                             user.legacy.id_str = user.rest_id;
+                            if(user.is_blue_verified && !user.legacy.verified_type) {
+                                user.legacy.verified = true;
+                                user.legacy.verified_type = "Blue";
+                            }
                             return user.legacy;
                         }),
                         cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
-                    });
+                    };
+                    debugLog('user.getFollowersYouFollow', 'end', out);
+                    resolve(out);
                 }).catch(e => {
                     reject(e);
                 });
