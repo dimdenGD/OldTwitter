@@ -403,5 +403,6 @@
     "show_bookmark_count": { "message": "Показывать кол-во закладок на твитах" },
     "bookmarks_count": { "message": "Закладки" },
     "remove_bookmark": { "message": "Убрать закладку" },
-    "hide_community_notes": { "message": "Не показывать заметки общества (Community Notes)" }
+    "hide_community_notes": { "message": "Не показывать заметки общества (Community Notes)" },
+    "disable_gif_autoplay": { "message": "Отключить автовоспроизведение GIF" }
 }

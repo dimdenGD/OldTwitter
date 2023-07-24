@@ -403,5 +403,6 @@
     "show_bookmark_count": { "message": "Показувати кількість закладок" },
     "bookmarks_count": { "message": "Закладки" },
     "remove_bookmark": { "message": "Видалити закладку" },
-    "hide_community_notes": { "message": "Не показувати примітки спільноти (Community Notes)" }
+    "hide_community_notes": { "message": "Не показувати примітки спільноти (Community Notes)" },
+    "disable_gif_autoplay": { "message": "Вимкнути автовідтворення гіфок" }
 }

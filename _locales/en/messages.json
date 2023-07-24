@@ -415,5 +415,6 @@
     "show_bookmark_count": { "message": "Show bookmark count on tweets" },
     "bookmarks_count": { "message": "Bookmarks", "description": "Used for bookmarks count." },
     "remove_bookmark": { "message": "Remove bookmark" },
-    "hide_community_notes": { "message": "Hide community notes" }
+    "hide_community_notes": { "message": "Hide community notes" },
+    "disable_gif_autoplay": { "message": "Disable GIF autoplay" }
 }

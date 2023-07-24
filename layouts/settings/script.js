@@ -170,6 +170,7 @@ setTimeout(async () => {
     let disablePersonalizedTrends = document.getElementById('disable-personalized-trends');
     let showBookmarkCount = document.getElementById('show-bookmark-count');
     let hideCommunityNotes = document.getElementById('hide-community-notes');
+    let disableGifAutoplay = document.getElementById('disable-gif-autoplay');
 
     let root = document.querySelector(":root");
     {
@@ -300,6 +301,11 @@ setTimeout(async () => {
     hideCommunityNotes.addEventListener('change', () => {
         chrome.storage.sync.set({
             hideCommunityNotes: hideCommunityNotes.checked
+        }, () => { });
+    });
+    disableGifAutoplay.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableGifAutoplay: disableGifAutoplay.checked
         }, () => { });
     });
     disablePersonalizedTrends.addEventListener('change', () => {
@@ -514,6 +520,7 @@ setTimeout(async () => {
     disablePersonalizedTrends.checked = !!vars.disablePersonalizedTrends;
     showBookmarkCount.checked = !!vars.showBookmarkCount;
     hideCommunityNotes.checked = !!vars.hideCommunityNotes;
+    disableGifAutoplay.checked = !!vars.disableGifAutoplay;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
