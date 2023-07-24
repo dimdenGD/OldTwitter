@@ -102,6 +102,7 @@ Active tweet hotkeys. On bottom-right of tweet element there's blue dot showing 
 `S` - move to next tweet.  
 `W` - move to previous tweet.  
 `L` - (un)favorite/like tweet.  
+`B` - (un)bookmark tweet.  
 `T` - (un)retweet tweet.  
 `R` - open reply box.  
 `Q` - open quote box.  

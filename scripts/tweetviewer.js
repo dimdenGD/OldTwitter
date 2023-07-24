@@ -1485,6 +1485,7 @@ class TweetViewer {
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             if(t.bookmarked) {
                 API.bookmarks.delete(t.id_str).then(() => {
+                    toast.info(LOC.unbookmarked_tweet.message);
                     switchingBookmark = false;
                     t.bookmarked = false;
                     t.bookmark_count--;
@@ -1502,6 +1503,7 @@ class TweetViewer {
                 });
             } else {
                 API.bookmarks.create(t.id_str).then(() => {
+                    toast.info(LOC.bookmarked_tweet.message);
                     switchingBookmark = false;
                     t.bookmarked = true;
                     t.bookmark_count++;
@@ -2137,6 +2139,7 @@ class TweetViewer {
         tweetInteractMoreMenuMute.addEventListener('click', async () => {
             if(t.conversation_muted) {
                 await API.tweet.unmute(t.id_str);
+                toast.info(LOC.unmuted_convo.message);
                 t.conversation_muted = false;
                 tweetInteractMoreMenuMute.innerText = LOC.mute_convo.message;
                 let event = new CustomEvent('tweetAction', { detail: {
@@ -2146,6 +2149,7 @@ class TweetViewer {
                 document.dispatchEvent(event);
             } else {
                 await API.tweet.mute(t.id_str);
+                toast.info(LOC.muted_convo.message);
                 t.conversation_muted = true;
                 tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
                 let event = new CustomEvent('tweetAction', { detail: {

@@ -420,5 +420,9 @@
     "hide_tweet": { "message": "Hide tweet" },
     "unhide_tweet": { "message": "Unhide tweet" },
     "hide_tweet_sure": { "message": "Are you sure you want to hide this tweet?" },
-    "see_hidden_replies": { "message": "See hidden replies" }
+    "see_hidden_replies": { "message": "See hidden replies" },
+    "bookmarked_tweet": { "message": "Bookmarked tweet" },
+    "unbookmarked_tweet": { "message": "Unbookmarked tweet" },
+    "muted_convo": { "message": "Muted conversation" },
+    "unmuted_convo": { "message": "Unmuted conversation" }
 }

@@ -2084,6 +2084,11 @@ setInterval(() => {
                 if(!activeTweet) return;
                 let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
                 tweetFavoriteButton.click();
+            } else if(e.keyCode === 66) { // B
+                // bookmark tweet
+                if(!activeTweet) return;
+                let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-more-menu-bookmark');
+                tweetFavoriteButton.click();
             } else if(e.keyCode === 84) { // T
                 // retweet
                 if(!activeTweet) return;

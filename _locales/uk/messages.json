@@ -408,5 +408,9 @@
     "hide_tweet": { "message": "Сховати твіт для всіх" },
     "unhide_tweet": { "message": "Показати твіт" },
     "hide_tweet_sure": { "message": "Ви впевнені що хочете сховати цей твіт?" },
-    "see_hidden_replies": { "message": "Подивитись сховані відповіді" }
+    "see_hidden_replies": { "message": "Подивитись сховані відповіді" },
+    "bookmarked_tweet": { "message": "Добавлено закладку" },
+    "unbookmarked_tweet": { "message": "Видалено закладку" },
+    "muted_convo": { "message": "Ви приховали цю розмову." },
+    "unmuted_convo": { "message": "Ви відмінили приховування цієї розмови." }
 }

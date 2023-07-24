@@ -66,6 +66,7 @@ setTimeout(() => {
                             <li>Added ability to pause GIFs.</li>
                             <li>Added ability to hide replies.</li>
                             <li>Added option to disable personalized trends.</li>
+                            <li>Added hotkey to bookmark tweets.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>
                             <li>Fixed thread tweets in lists.</li>
                             <li>Fixed links not showing in long tweets.</li>

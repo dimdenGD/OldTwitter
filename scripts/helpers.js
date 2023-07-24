@@ -2039,6 +2039,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             if(t.bookmarked) {
                 API.bookmarks.delete(t.id_str).then(() => {
+                    toast.info(LOC.unbookmarked_tweet.message);
                     switchingBookmark = false;
                     if(tweetDeleteBookmark) {
                         tweet.remove();
@@ -2064,6 +2065,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 });
             } else {
                 API.bookmarks.create(t.id_str).then(() => {
+                    toast.info(LOC.bookmarked_tweet.message);
                     switchingBookmark = false;
                     t.bookmarked = true;
                     t.bookmark_count++;
@@ -2828,10 +2830,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweetInteractMoreMenuMute.addEventListener('click', async () => {
             if(t.conversation_muted) {
                 await API.tweet.unmute(t.id_str);
+                toast.info(LOC.unmuted_convo.message);
                 t.conversation_muted = false;
                 tweetInteractMoreMenuMute.innerText = LOC.mute_convo.message;
             } else {
                 await API.tweet.mute(t.id_str);
+                toast.info(LOC.muted_convo.message);
                 t.conversation_muted = true;
                 tweetInteractMoreMenuMute.innerText = LOC.unmute_convo.message;
             }

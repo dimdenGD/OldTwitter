@@ -408,5 +408,9 @@
     "hide_tweet": { "message": "Скрыть твит от всех" },
     "unhide_tweet": { "message": "Показывать твит" },
     "hide_tweet_sure": { "message": "Вы уверены что хотите скрыть этот твит?" },
-    "see_hidden_replies": { "message": "Посмотреть скрытые ответы" }
+    "see_hidden_replies": { "message": "Посмотреть скрытые ответы" },
+    "bookmarked_tweet": { "message": "Добавлено закладку" },
+    "unbookmarked_tweet": { "message": "Убрано с закладок" },
+    "muted_convo": { "message": "Переписка теперь игнорируется" },
+    "unmuted_convo": { "message": "Переписка теперь не игнорируется" }
 }
