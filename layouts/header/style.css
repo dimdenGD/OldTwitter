@@ -1076,6 +1076,11 @@ input, textarea {
     padding: 20px
 }
 
+span.tweet-body-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
 .emoji, .hashflag {
     width: 16px;
     height: 16px;

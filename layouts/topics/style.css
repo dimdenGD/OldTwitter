@@ -445,11 +445,6 @@ body {
     text-decoration: underline
 }
 
-span.tweet-body-text {
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-
 .tweet-body,
 .tweet-interact,
 .tweet-body-text-quote {
