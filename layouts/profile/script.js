@@ -1425,7 +1425,13 @@ setTimeout(async () => {
             let originalLength = timeline.data.length;
             timeline.data = timeline.data.concat(tl);
             averageLikeCount = timeline.data.filter(t => !t.retweeted_status).map(t => t.favorite_count).sort((a, b) => a - b)[Math.floor(timeline.data.length/2)];
-            if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
+            if(subpage === 'profile') {
+                if(!tweetsCursor) {
+                    stopLoad = true;
+                }
+            } else {
+                if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
+            }
             previousLastTweet = timeline.data[timeline.data.length - 1];
             await renderTimeline(true, originalLength);
         }
