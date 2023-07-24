@@ -434,6 +434,12 @@ async function renderTweetBodyHTML(full_text, entities, display_text_range, is_q
             `</a>`];
         });
 
+        entities.symbols.forEach(symbol => {
+            index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="https://twitter.com/search?q=%24${escapeHTML(symbol.text)}">`+
+                `$${escapeHTML(symbol.text)}`+
+            `</a>`];
+        });
+
         entities.urls.forEach(url => {
             index_map[url.indices[0]] = [url.indices[1], text =>
                 `<a href="${escapeHTML(url.expanded_url)}" title="${escapeHTML(url.expanded_url)}" target="_blank" rel="noopener noreferrer">`+
