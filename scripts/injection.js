@@ -125,7 +125,10 @@ const TRANSLATORS = {
         ["hue", "https://twitter.com/huey1116"]
     ],
     "el": ["VasilisTheChu", "https://pikachu.systems/"],
-    "ro": ["Skyrina", "https://skyrina.dev/"],
+    "ro": [
+        ["Skyrina", "https://skyrina.dev/"],
+        ["AlexSem", "https://twitter.com/AlexSem5399"]
+    ],
     "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
     "lv": ["yourfriend", "https://3.141.lv/"],
     "he": ["ugh"],
