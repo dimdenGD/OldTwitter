@@ -29,6 +29,20 @@ function debugLog(...args) {
     }
 }
 
+// extract full text and url entities from "note_tweet"
+function parseNoteTweet(result) {
+    let text, urls;
+    if(result.note_tweet.note_tweet_results.entity_set) {
+        urls = result.note_tweet.note_tweet_results.entity_set.urls;
+    }
+    text = result.note_tweet.note_tweet_results.text;
+    if(typeof text !== "string") {
+        text = result.note_tweet.note_tweet_results.result.text;
+        urls = result.note_tweet.note_tweet_results.result.entity_set.urls;
+    }
+    return {text, urls};
+}
+
 // transform ugly useless twitter api reply to usable legacy tweet
 function parseTweet(res) {
     if(typeof res !== "object") return;
@@ -78,19 +92,20 @@ function parseTweet(res) {
         } else {
             console.warn("No retweeted status", result);
         }
+        if(result.note_tweet && result.note_tweet.note_tweet_results) {
+            let note = parseNoteTweet(result);
+            tweet.retweeted_status.full_text = note.text;
+            tweet.retweeted_status.entities.urls = note.urls;
+        }
     }
+
     if(res.quoted_status_result) {
         tweet.quoted_status_result = res.quoted_status_result;
     }
     if(res.note_tweet && res.note_tweet.note_tweet_results) {
-        if(res.note_tweet.note_tweet_results.entity_set) {
-            tweet.entities.urls = res.note_tweet.note_tweet_results.entity_set.urls;
-        }
-        tweet.full_text = res.note_tweet.note_tweet_results.text;
-        if(typeof tweet.full_text !== "string") {
-            tweet.full_text = res.note_tweet.note_tweet_results.result.text;
-            tweet.entities.urls = res.note_tweet.note_tweet_results.result.entity_set.urls;
-        }
+        let note = parseNoteTweet(res);
+        tweet.full_text = note.text;
+        tweet.entities.urls = note.urls;
     }
     if(tweet.quoted_status_result) {
         let result = tweet.quoted_status_result.result;
