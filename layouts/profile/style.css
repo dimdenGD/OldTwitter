@@ -1480,3 +1480,6 @@ emoji-picker {
     margin-top: 25px;
     text-align: center;
 }
+#navbar-links a {
+    padding-bottom: 17px !important;
+}
