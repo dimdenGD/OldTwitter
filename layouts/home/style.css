@@ -700,7 +700,7 @@ a:hover,
     padding-right: 40px;
     resize: none;
     scrollbar-width: thin;
-    width: 480px
+    width: 476px
 }
 #new-tweet-text::placeholder {
     color: var(--link-color);
