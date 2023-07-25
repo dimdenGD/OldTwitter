@@ -42,5 +42,23 @@
             "urlFilter": "*://twitter.com/sw.js",
             "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
         }
+    },
+    {
+        "id": 5,
+        "priority": 1,
+        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo32_new.png" } },
+        "condition": {
+            "urlFilter": "*://abs.twimg.com/favicons/twitter.3.ico",
+            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
+        }
+    },
+    {
+        "id": 6,
+        "priority": 1,
+        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo32_new_notification.png" } },
+        "condition": {
+            "urlFilter": "*://abs.twimg.com/favicons/twitter-pip.3.ico",
+            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
+        }
     }
 ]
