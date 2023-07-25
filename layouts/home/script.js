@@ -70,6 +70,7 @@ setTimeout(() => {
                             <li>Added option to show media count in profiles.</li>
                             <li>Added hotkey to bookmark tweets.</li>
                             <li>Made extension remove X logo in new Twitter too.</li>
+                            <li>Fixed refreshing new Twitter redirecting you back to OldTwitter.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>
                             <li>Fixed thread tweets in lists.</li>
                             <li>Fixed links not showing in long tweets.</li>

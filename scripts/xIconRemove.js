@@ -1,4 +1,4 @@
-setInterval(() => {
+let xi = setInterval(() => {
     let xIcon = document.querySelector('svg.r-13v1u17.r-4qtqp9.r-yyyyoo.r-16y2uox.r-8kz0gk.r-dnmrzs.r-bnwqim.r-1plcrui.r-lrvibr.r-lrsllp');
     if(xIcon) {
         let parent = xIcon.parentElement;
@@ -7,6 +7,7 @@ setInterval(() => {
         img.style.cssText = 'width: 2em;height: 2em;image-rendering: -webkit-optimize-contrast;filter: brightness(99);';
         parent.appendChild(img);
         xIcon.remove();
+        clearInterval(xi);
     };
 });
 
@@ -18,15 +19,16 @@ function removeAndReplaceX(element) {
         img.style.cssText = 'width: 2em;height: 2em;image-rendering: -webkit-optimize-contrast;filter: brightness(99);display: block;top: 50%;position: absolute;left: 50%;transform: translate(-50%, -50%);';
         parent.appendChild(img);
         element.remove();
+        xObserver.disconnect();
     };
 }
 
-const observer = new MutationObserver((mutations) => {
+const xObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
             mutation.addedNodes.forEach((node) => {
                 if (node.nodeType === Node.ELEMENT_NODE) {
-                    if(node.tagName === 'svg') {
+                    if(node.tagName === 'SVG') {
                         removeAndReplaceX(node);
                     }
                     node.querySelectorAll('svg').forEach(removeAndReplaceX);
@@ -37,4 +39,4 @@ const observer = new MutationObserver((mutations) => {
 });
 
 // Start observing the page for changes
-observer.observe(document.documentElement, { childList: true, subtree: true });
+xObserver.observe(document.documentElement, { childList: true, subtree: true });
