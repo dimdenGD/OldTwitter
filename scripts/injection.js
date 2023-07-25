@@ -19,7 +19,8 @@ let pages = [
     },
     {
         name: "bookmarks",
-        paths: ["/i/bookmarks"]
+        paths: ["/i/bookmarks"],
+        activeMenu: "pin-bookmarks"
     },
     {
         name: "lists",
@@ -44,7 +45,7 @@ let pages = [
     {
         name: "profile",
         paths: [/^\/[A-z-0-9-_]{1,15}(\/with_replies|\/media|\/likes|\/following|\/followers|\/followers_you_follow|\/lists|)$/g],
-        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"],
+        exclude: ["/home", "/notifications", "/messages", "/settings", "/explore", "/login", "/register", "/logout", "/search"]
     },
     {
         name: "unfollows",
@@ -124,7 +125,10 @@ const TRANSLATORS = {
         ["hue", "https://twitter.com/huey1116"]
     ],
     "el": ["VasilisTheChu", "https://pikachu.systems/"],
-    "ro": ["Skyrina", "https://skyrina.dev/"],
+    "ro": [
+        ["Skyrina", "https://skyrina.dev/"],
+        ["AlexSem", "https://twitter.com/AlexSem5399"]
+    ],
     "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
     "lv": ["yourfriend", "https://3.141.lv/"],
     "he": ["ugh"],
@@ -300,6 +304,10 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
                     if (node.nodeType === Node.ELEMENT_NODE) {
                         blockScriptElements(node);
                         node.querySelectorAll('script').forEach(blockScriptElements);
+                        if(node.tagName === 'svg') {
+                            node.remove();
+                        }
+                        node.querySelectorAll('svg').forEach(i => i.remove());
                     }
                 });
             }
@@ -395,10 +403,22 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             font: 'Arial'
         }, () => {});
     }
+    if(typeof(vars.tweetFont) !== 'string') {
+        vars.tweetFont = 'Arial';
+        chrome.storage.sync.set({
+            tweetFont: 'Arial'
+        }, () => {});
+    }
     if(typeof(vars.showOriginalImages) !== 'boolean') {
         vars.showOriginalImages = false;
         chrome.storage.sync.set({
             showOriginalImages: false
+        }, () => {});
+    }
+    if(typeof(vars.pinProfileOnNavbar) !== 'boolean') {
+        vars.pinProfileOnNavbar = true;
+        chrome.storage.sync.set({
+            pinProfileOnNavbar: true
         }, () => {});
     }
     if(typeof(vars.roundAvatars) !== 'boolean') {

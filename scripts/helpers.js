@@ -799,6 +799,7 @@ function createEmojiPicker(container, input, style = {}) {
             }
             picker.remove();
             document.removeEventListener('click', oc);
+            picker.database.close();
         }
         document.addEventListener('click', oc);
     }, 100);

@@ -427,6 +427,10 @@
     "muted_convo": { "message": "Muted conversation" },
     "unmuted_convo": { "message": "Unmuted conversation" },
     "show_media_count": { "message": "Show media count on profiles" },
-    "show_list_count": { "message": "Show list count on profiles" },
-    "media": { "message": "Media", "note": "Keep this short" }
+    "media": { "message": "Media", "note": "Keep this short" },
+    "pin_profile_on_navbar": { "message": "Pin Profile link on navbar" },
+    "pin_bookmarks_on_navbar": { "message": "Pin Bookmarks link on navbar" },
+    "pin_lists_on_navbar": { "message": "Pin Lists link on navbar" },
+    "me": { "message": "Me", "description": "You should probably use word 'Profile' in your language" },
+    "tweet_text_font": { "message": "Tweet text font" }
 }

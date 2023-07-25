@@ -611,9 +611,6 @@ a:hover,
     color: var(--light-gray);
     margin-right: 8px
 }
-emoji-picker {
-    position: fixed !important;
-}
 
 #new-tweets {
     border-bottom: none !important;
@@ -1456,4 +1453,7 @@ emoji-picker {
 .loading-data {
     margin-top: 25px;
     text-align: center;
+}
+#navbar-links a {
+    padding-bottom: 17px !important;
 }

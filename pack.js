@@ -53,6 +53,12 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     manifest.content_scripts = [
         {
           "matches": ["https://mobile.twitter.com/*", "https://twitter.com/*?*newtwitter=true*"],
+          "js": ["scripts/xIconRemove.js"],
+          "all_frames": true,
+          "run_at": "document_start"
+        },
+        {
+          "matches": ["https://mobile.twitter.com/*", "https://twitter.com/*?*newtwitter=true*"],
           "js": ["scripts/newtwitter.js"],
           "all_frames": true,
           "run_at": "document_end"

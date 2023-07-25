@@ -1094,76 +1094,86 @@ const API = {
                         "x-twitter-auth-type": "OAuth2Session"
                     },
                     credentials: "include"
-                }).then(i => i.text()).then(data => {
-                    try {
-                        data = JSON.parse(data);
-                    } catch(e) {
-                        console.error(e, data);
-                        if(String(e).includes("SyntaxError")) {
-                            return reject(data);
-                        } else {
-                            return reject(e);
-                        }
-                    }
-                    debugLog('user.getTweetsV2', 'start', data);
-                    if (data.errors && data.errors[0].code === 32) {
-                        return reject("Not logged in");
-                    }
-                    if (data.errors && data.errors[0]) {
-                        return reject(data.errors[0].message);
-                    }
-                    let instructions = data.data.user.result.timeline_v2.timeline.instructions;
-                    let entries = instructions.find(e => e.type === "TimelineAddEntries");
-                    if(!entries) {
-                        return reject("Nothing here");
-                    }
-                    entries = entries.entries;
-                    let tweets = [];
-                    for(let entry of entries) {
-                        if(entry.entryId.startsWith("tweet-")) {
-                            let result = entry.content.itemContent.tweet_results.result;
-                            let tweet = parseTweet(result);
-                            if(tweet) {
-                                tweet.hasModeratedReplies = entry.content.itemContent.hasModeratedReplies;
-                                tweets.push(tweet);
+                }).then(r => {
+                    r.text().then(data => {
+                        try {
+                            data = JSON.parse(data);
+                        } catch(e) {
+                            console.error(e, data);
+                            if(String(e).includes("SyntaxError")) {
+                                if(String(e).includes('Rate limit exceeded')) {
+                                    let rateLimitReset = r.headers.get('x-rate-limit-reset');
+                                    if(rateLimitReset) {
+                                        let date = new Date(+rateLimitReset * 1000);
+                                        let minutesLeft = Math.floor((date - Date.now()) / 1000 / 60);
+                                        reject(`Rate limit exceeded, try again in ${minutesLeft} minutes.`);
+                                    }
+                                }
+                                return reject(data);
+                            } else {
+                                return reject(e);
                             }
-                        } else if(entry.entryId.startsWith("profile-conversation-")) {
-                            let items = entry.content.items;
-                            for(let i = 0; i < items.length; i++) {
-                                let item = items[i];
-                                let result = item.item.itemContent.tweet_results.result;
-                                if(item.entryId.includes("-tweet-")) {
-                                    let tweet = parseTweet(result);
-                                    if(!tweet) continue;
-        
-                                    if(i !== items.length - 1) tweet.threadContinuation = true;
-                                    if(i !== 0) tweet.noTop = true;
-
-                                    tweet.hasModeratedReplies = item.item.itemContent.hasModeratedReplies;
+                        }
+                        debugLog('user.getTweetsV2', 'start', data);
+                        if (data.errors && data.errors[0].code === 32) {
+                            return reject("Not logged in");
+                        }
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+                        let instructions = data.data.user.result.timeline_v2.timeline.instructions;
+                        let entries = instructions.find(e => e.type === "TimelineAddEntries");
+                        if(!entries) {
+                            return reject("Nothing here");
+                        }
+                        entries = entries.entries;
+                        let tweets = [];
+                        for(let entry of entries) {
+                            if(entry.entryId.startsWith("tweet-")) {
+                                let result = entry.content.itemContent.tweet_results.result;
+                                let tweet = parseTweet(result);
+                                if(tweet) {
+                                    tweet.hasModeratedReplies = entry.content.itemContent.hasModeratedReplies;
                                     tweets.push(tweet);
+                                }
+                            } else if(entry.entryId.startsWith("profile-conversation-")) {
+                                let items = entry.content.items;
+                                for(let i = 0; i < items.length; i++) {
+                                    let item = items[i];
+                                    let result = item.item.itemContent.tweet_results.result;
+                                    if(item.entryId.includes("-tweet-")) {
+                                        let tweet = parseTweet(result);
+                                        if(!tweet) continue;
+            
+                                        if(i !== items.length - 1) tweet.threadContinuation = true;
+                                        if(i !== 0) tweet.noTop = true;
+
+                                        tweet.hasModeratedReplies = item.item.itemContent.hasModeratedReplies;
+                                        tweets.push(tweet);
+                                    }
                                 }
                             }
                         }
-                    }
-                    let pinEntry = instructions.find(e => e.type === "TimelinePinEntry");
-                    let pinnedTweet;
-                    if(pinEntry) {
-                        let result = pinEntry.entry.content.itemContent.tweet_results.result;
-                        pinnedTweet = parseTweet(result);
-                        if(pinnedTweet) {
-                            pinnedTweet.hasModeratedReplies = pinEntry.entry.content.itemContent.hasModeratedReplies;
+                        let pinEntry = instructions.find(e => e.type === "TimelinePinEntry");
+                        let pinnedTweet;
+                        if(pinEntry) {
+                            let result = pinEntry.entry.content.itemContent.tweet_results.result;
+                            pinnedTweet = parseTweet(result);
+                            if(pinnedTweet) {
+                                pinnedTweet.hasModeratedReplies = pinEntry.entry.content.itemContent.hasModeratedReplies;
+                            }
                         }
-                    }
-        
-                    const out = {
-                        tweets,
-                        pinnedTweet,
-                        cursor: entries.find(e => e.entryId.startsWith("sq-cursor-bottom-") || e.entryId.startsWith("cursor-bottom-")).content.value
-                    };
-                    debugLog('user.getTweetsV2', 'end', out);
-                    resolve(out);
-                }).catch(e => {
-                    reject(e);
+            
+                        const out = {
+                            tweets,
+                            pinnedTweet,
+                            cursor: entries.find(e => e.entryId.startsWith("sq-cursor-bottom-") || e.entryId.startsWith("cursor-bottom-")).content.value
+                        };
+                        debugLog('user.getTweetsV2', 'end', out);
+                        resolve(out);
+                    }).catch(e => {
+                        reject(e);
+                    });
                 });
             });
         },

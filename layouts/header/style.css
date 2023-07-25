@@ -1,6 +1,7 @@
 :root {
     --link-color: #4bacd2;
     --font: Arial, sans-serif;
+    --tweet-font: Arial, sans-serif;
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
     --favorite-icon-color: #ffac33;
@@ -123,6 +124,18 @@ input, textarea {
 
 #messages:before {
     content: "\f054";
+}
+#pin-profile, #pin-bookmarks, #pin-lists {
+    background-color: var(--background-color);
+}
+#pin-profile:before {
+    content: "\f056";
+}
+#pin-bookmarks:before {
+    content: "\f093";
+}
+#pin-lists:before {
+    content: "\f094";
 }
 
 #navbar a:before {
@@ -1068,7 +1081,12 @@ input, textarea {
 }
 
 span.tweet-body-text {
+    white-space: pre-wrap;
     word-break: break-word;
+    font-family: var(--tweet-font);
+}
+#notification-text {
+    font-family: var(--tweet-font);
 }
 
 .tweet-body-main {
@@ -1078,11 +1096,6 @@ span.tweet-body-text {
 
 .tweet-main {
     padding: 20px
-}
-
-span.tweet-body-text {
-    white-space: pre-wrap;
-    word-break: break-word;
 }
 
 .emoji, .hashflag {

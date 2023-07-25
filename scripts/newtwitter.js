@@ -34,6 +34,12 @@ setInterval(() => {
     } else {
         r.hidden = false;
     }
+    
+    if(!location.search.includes('newtwitter=true')) {
+        let url = new URL(location.href);
+        url.searchParams.set('newtwitter', 'true');
+        history.replaceState(null, null, url.href);
+    }
 }, 500);
 r.textContent = 'Open this page in OldTwitter';
 r.style.cssText = 'position: fixed; top: 0; right: 10px; padding: 0.5em; background: #fff; color: #000; font-family: Arial, sans-serif;border-radius:3px;';
@@ -87,3 +93,29 @@ setTimeout(() => {
         keysHeld[key] = false;
     });
 })();
+
+function modifyLink(a) {
+    if(a.href && !a.href.includes('newtwitter=true')) {
+        let url = new URL(a.href);
+        url.searchParams.set('newtwitter', 'true');
+        a.href = url.href;
+    }
+}
+
+const linkObserver = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+            mutation.addedNodes.forEach((node) => {
+                if (node.nodeType === Node.ELEMENT_NODE) {
+                    if(node.tagName === 'A') {
+                        modifyLink(node);
+                    }
+                    node.querySelectorAll('a').forEach(modifyLink);
+                }
+            });
+        }
+    });
+});
+
+// Start observing the page for changes
+linkObserver.observe(document.documentElement, { childList: true, subtree: true });

@@ -727,6 +727,8 @@ async function renderProfile() {
     }
 
     let buttonsElement = document.getElementById('profile-nav-buttons');
+    document.getElementById('pin-profile').classList.toggle('menu-active', pageUser.id_str === user.id_str && !location.pathname.includes('/lists'));
+    document.getElementById('pin-lists').classList.toggle('menu-active', location.pathname.startsWith(`/${pageUser.screen_name}/lists`));
     if(pageUser.id_str === user.id_str) {
         buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>`;
     } else {
@@ -1423,7 +1425,13 @@ setTimeout(async () => {
             let originalLength = timeline.data.length;
             timeline.data = timeline.data.concat(tl);
             averageLikeCount = timeline.data.filter(t => !t.retweeted_status).map(t => t.favorite_count).sort((a, b) => a - b)[Math.floor(timeline.data.length/2)];
-            if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
+            if(subpage === 'profile') {
+                if(!tweetsCursor) {
+                    stopLoad = true;
+                }
+            } else {
+                if(previousLastTweet && previousLastTweet.id_str === timeline.data[timeline.data.length - 1].id_str) return stopLoad = true;
+            }
             previousLastTweet = timeline.data[timeline.data.length - 1];
             await renderTimeline(true, originalLength);
         }
