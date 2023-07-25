@@ -181,7 +181,7 @@ async function renderNotifications(data, append = false) {
                     </div>
                     <div class="notification-text">${escapeHTML(replyTweet.full_text.replace(/^(@[\w+]{1,15}\b\s)((@[\w+]{1,15}\b\s)+)/g, '$1'))}</div>
                     <div class="notification-avatars">
-                        ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img class="notification-avatar-img" src="${u.profile_image_url_https.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
+                        ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img class="notification-avatar-img" src="${`${(u.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): u.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
                     </div>
                 `;
                 let notifText = notificationDiv.querySelector('.notification-text');

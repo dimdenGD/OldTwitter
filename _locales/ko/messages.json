@@ -431,5 +431,6 @@
     "pin_bookmarks_on_navbar": { "message": "북마크를 네비게이션 바에 고정합니다" },
     "pin_lists_on_navbar": { "message": "리스트를 네비게이션 바에 고정합니다" },
     "me": { "message": "프로필", "description": "You should probably use word 'Profile' in your language" },
-    "tweet_text_font": { "message": "트윗 본문 글꼴" }
+    "tweet_text_font": { "message": "트윗 본문 글꼴" },
+    "use_old_default_profile": { "message": "알계에 알계 프사를 이용합니다." }
 }

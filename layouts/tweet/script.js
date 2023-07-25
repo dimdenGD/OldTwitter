@@ -306,7 +306,7 @@ async function updateRetweets(id, c) {
         retweetElement.innerHTML = `
         <div>
             <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                <img src="${(u.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                 <div class="following-item-text">
                     <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
@@ -390,7 +390,7 @@ function renderUserData() {
     document.getElementById('user-following').innerText = Number(user.friends_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('user-followers').innerText = Number(user.followers_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
-    document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
+    document.getElementById('user-avatar').src = `${(user.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): user.profile_image_url_https}`.replace("_normal", "_400x400");
     document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
@@ -447,7 +447,7 @@ async function appendComposeComponent(container, replyTweet) {
             </div>
         </div>`;
     container.append(el);
-    document.getElementById('new-tweet-avatar').src = user.profile_image_url_https.replace("_normal", "_bigger");
+    document.getElementById('new-tweet-avatar').src = `${(user.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): user.profile_image_url_https}`.replace("_normal", "_bigger");
     document.getElementById('new-tweet').addEventListener('click', async () => {
         document.getElementById('new-tweet-focused').hidden = false;
         document.getElementById('new-tweet-char').hidden = false;
@@ -587,7 +587,7 @@ async function appendComposeComponent(container, replyTweet) {
                 userElement.className = 'search-result-item';
                 if(index === 0) userElement.classList.add('search-result-item-active');
                 userElement.innerHTML = `
-                    <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
+                    <img width="16" height="16" class="search-result-item-avatar" src="${(user.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): user.profile_image_url_https}">
                     <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                     <span class="search-result-item-screen-name">@${user.screen_name}</span>
                 `;

@@ -62,7 +62,7 @@ function renderListData(data) {
     document.getElementById('list-followers-count').innerText = data.subscriber_count;
     if(data.user_results && data.user_results.result) {
         document.getElementById('list-user').href = `https://twitter.com/${data.user_results.result.legacy.screen_name}/lists`;
-        document.getElementById('list-avatar').src = data.user_results.result.legacy.profile_image_url_https.replace('_normal', '_bigger');
+        document.getElementById('list-avatar').src = `${(data.user_results.result.legacy.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): data.user_results.result.legacy.profile_image_url_https}`.replace('_normal', '_bigger');
         let actions = document.getElementById('list-actions');
         actions.innerHTML = ``;
         if(data.user_results.result.rest_id === user.id_str) {
@@ -120,7 +120,7 @@ function renderListData(data) {
                         followingElement.innerHTML = `
                         <div style="height:48px">
                             <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
-                                <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                                <img src="${(t.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                                 <div class="following-item-text">
                                     <span class="tweet-header-name following-item-name">${escapeHTML(t.name)}</span><br>
                                     <span class="tweet-header-handle">@${t.screen_name}</span>
@@ -279,7 +279,7 @@ async function renderListFollowers(c) {
         followingElement.innerHTML = `
         <div style="height:48px">
             <a href="https://twitter.com/${t.screen_name}" class="user-item-link">
-                <img src="${t.profile_image_url_https}" alt="${t.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
+                <img src="${(t.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): t.profile_image_url_https}" alt="${t.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
                     <span class="tweet-header-name user-item-name">${escapeHTML(t.name)}</span><br>
                     <span class="tweet-header-handle">@${t.screen_name}</span>

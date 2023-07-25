@@ -431,5 +431,6 @@
     "pin_bookmarks_on_navbar": { "message": "Pin Bookmarks link on navbar" },
     "pin_lists_on_navbar": { "message": "Pin Lists link on navbar" },
     "me": { "message": "Me", "description": "You should probably use word 'Profile' in your language" },
-    "tweet_text_font": { "message": "Tweet text font" }
+    "tweet_text_font": { "message": "Tweet text font" },
+    "use_old_default_profile": { "message": "Set default profile picture to EGG" }
 }
