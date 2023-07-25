@@ -410,7 +410,11 @@ async function renderTweetBodyHTML(full_text, entities, display_text_range, is_q
     let result = "",
         last_pos = 0,
         index_map = {}; // {start_position: [end_position, replacer_func]}
-        hashflags = await API.discover.getHashflags();
+        hashflags = [];
+        
+    if (vars.enableHashflags) {
+        hashflags = await API.discover.getHashflagsV2();
+    }   
 
     full_text_array = Array.from(full_text);
 

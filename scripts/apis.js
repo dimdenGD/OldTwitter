@@ -2,6 +2,7 @@ let loadingDetails = {};
 let loadingReplies = {};
 let loadingLikers = {};
 let tweetStorage = {};
+let hashflagStorage = {};
 
 setInterval(() => {
     // clearing cache
@@ -20,6 +21,7 @@ setInterval(() => {
     if(new Date().getMinutes() !== 0) return;
     chrome.storage.local.set({translations: {}}, () => {});
     chrome.storage.local.set({hashflags: {}}, () => {});
+    hashflagStorage = {};
 }, 60000);
 
 function debugLog(...args) {
@@ -686,7 +688,48 @@ const API = {
                     });
                 });
             });
-        }
+        },
+        getHashflagsV2: () => { // uses memory-caching for better performance
+            return new Promise((resolve, reject) => {
+                // check in memory first
+                if(hashflagStorage && Date.now() - hashflagStorage.date < 60000*60*4) {
+                    return resolve(hashflagStorage.data);
+                }
+                // then in local storage
+                chrome.storage.local.get(['hashflags'], d => {
+                    if(d.hashflags && Date.now() - d.hashflags.date < 60000*60*4) {
+                        // copy to memory 
+                        hashflagStorage = d.hashflags;
+                        return resolve(d.hashflags.data);
+                    }
+                    fetch(`https://twitter.com/i/api/1.1/hashflags.json`, {
+                        headers: {
+                            "authorization": OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        credentials: "include",
+                    }).then(i => i.json()).then(data => {
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+                        resolve(data);
+                        // save to both local storage and memory
+                        chrome.storage.local.set({hashflags: {
+                            date: Date.now(),
+                            data
+                        }}, () => {});
+                        hashflagStorage = {
+                            date: Date.now(),
+                            data
+                        };
+                    }).catch(e => {
+                        reject(e);
+                    });
+                });
+            });
+        },
     },
     notifications: {
         getUnreadCount: (cache = true) => {

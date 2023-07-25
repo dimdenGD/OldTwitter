@@ -186,6 +186,7 @@
     "show_topic_tweets": { "message": "Show topic tweets (algo only)" },
     "show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline" },
     "enable_twemoji": { "message": "Enable Twemoji" },
+    "enable_hashflags": { "message": "Enable Hashflags (might slow down page loading a little)" },
     "hearts_instead_stars": { "message": "Show hearts (likes) instead of stars (favorites)" },
     "dark_mode": { "message": "Dark mode" },
     "disable_hotkeys": { "message": "Disable hotkeys" },
