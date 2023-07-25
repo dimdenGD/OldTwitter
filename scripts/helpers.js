@@ -1024,7 +1024,7 @@ async function renderDiscovery(cache = true) {
             udiv.className = 'wtf-user';
             udiv.dataset.userId = userId;
             udiv.innerHTML = `
-                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${`${(user.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): user.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
+                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${`${(userData.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
                         <b class="tweet-header-name wtf-user-name${userData.verified || userData.verified_type ? ' user-verified' : userData.id_str === '1123203847776763904' ? ' user-verified user-verified-dimden' : ''} ${userData.verified_type === 'Government' ? 'user-verified-gray' : userData.verified_type === 'Business' ? 'user-verified-yellow' : userData.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(userData.name)}</b>
