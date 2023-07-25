@@ -6,7 +6,7 @@ let activeTweet;
 let unfollowersPage = location.pathname.includes('/followers');
 
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -83,7 +83,7 @@ function renderUnfollows() {
 
         let userData;
         try {
-            userData = await API.lookupUsers(unfollows.map(u => u[0]));
+            userData = await API.user.lookup(unfollows.map(u => u[0]));
         } catch(e) {
             console.error(e);
             if(String(e).includes('No user matches for specified terms.')) {

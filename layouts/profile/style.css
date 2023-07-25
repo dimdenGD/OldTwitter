@@ -128,21 +128,6 @@ body {
     outline: none;
 }
 
-.tweet-interact-reply[data-val="0"],
-.tweet-interact-retweet[data-val="0"],
-.tweet-interact-favorite[data-val="0"] {
-    color: var(--background-color);
-}
-
-.tweet:hover {
-    background-color: var(--dark-background-color)
-}
-.tweet:hover .tweet-interact-reply[data-val="0"],
-.tweet:hover .tweet-interact-retweet[data-val="0"],
-.tweet:hover .tweet-interact-favorite[data-val="0"] {
-    color: var(--dark-background-color);
-}
-
 .tweet-avatar-link {
     float: left;
     margin-right: 10px
@@ -1073,6 +1058,11 @@ emoji-picker {
     height: 76px;
     margin: 3px
 }
+.profile-media-preview:hover {
+    filter: none;
+    -webkit-filter: none;
+    -moz-filter: none;
+}
 
 #profile-stats {
     display: inline-flex;
@@ -1501,4 +1491,7 @@ emoji-picker {
 .loading-data {
     margin-top: 25px;
     text-align: center;
+}
+#navbar-links a {
+    padding-bottom: 17px !important;
 }

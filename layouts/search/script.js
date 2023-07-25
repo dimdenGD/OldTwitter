@@ -58,7 +58,7 @@ function craftParams() {
 }
 
 function updateUserData() {
-    API.verifyCredentials().then(u => {
+    API.account.verifyCredentials().then(u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -93,7 +93,7 @@ async function renderSearch(c, force = false) {
             video: "Videos"
         }
         try {
-            searchData = await API.searchV3({
+            searchData = await API.search.adaptiveV2({
                 rawQuery: decodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : '') + (searchSettings.followedPeople ? ' filter:follows' : ''),
                 count: 50,
                 // tweet_search_mode: searchSettings.type === 'live' ? 'live' : '',
@@ -184,7 +184,7 @@ async function renderSearch(c, force = false) {
     document.getElementById('loading-box').hidden = true;
 }
 async function updateSavedButton() {
-    API.getSavedSearches().then(savedSearches => {
+    API.search.getSaved().then(savedSearches => {
         saved = savedSearches.find(s => s.query === searchParams.q);
         if(saved) {
             document.getElementById('save-search').innerText = LOC.remove_search.message;
@@ -195,7 +195,7 @@ async function updateSavedButton() {
         }
         document.getElementById('save-search').addEventListener('click', async () => {
             if(saved) {
-                await API.deleteSavedSearch(saved.id_str);
+                await API.search.deleteSaved(saved.id_str);
                 document.getElementById('save-search').innerText = LOC.save_search.message;
                 document.getElementById('save-search').classList.remove('saved');
                 savedSearches = savedSearches.filter(s => s.id_str !== saved.id_str);
@@ -205,7 +205,7 @@ async function updateSavedButton() {
                 }}, () => {});
                 saved = undefined;
             } else {
-                let saveData = await API.saveSearch(searchParams.q);
+                let saveData = await API.search.save(searchParams.q);
                 savedSearches.push(saveData);
                 chrome.storage.local.set({savedSearches: {
                     date: Date.now(),

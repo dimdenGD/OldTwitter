@@ -2,7 +2,7 @@ let user = {};
 // Util
 
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -130,6 +130,7 @@ setTimeout(async () => {
         return [...fontAvailable.values()];
     })();
     let fontElement = document.getElementById('font');
+    let tweetFontElement = document.getElementById('tweet-font');
     let linkColor = document.getElementById('link-color');
     let profileLinkColor = document.getElementById('profile-link-color');
     let sync = document.getElementById('sync');
@@ -167,6 +168,14 @@ setTimeout(async () => {
     let hideWtf = document.getElementById('hide-wtf');
     let hideLikes = document.getElementById('hide-likes');
     let hideFollowers = document.getElementById('hide-followers');
+    let disablePersonalizedTrends = document.getElementById('disable-personalized-trends');
+    let showBookmarkCount = document.getElementById('show-bookmark-count');
+    let hideCommunityNotes = document.getElementById('hide-community-notes');
+    let disableGifAutoplay = document.getElementById('disable-gif-autoplay');
+    let showMediaCount = document.getElementById('show-media-count');
+    let pinProfileOnNavbar = document.getElementById('pin-profile-on-navbar');
+    let pinBookmarksOnNavbar = document.getElementById('pin-bookmarks-on-navbar');
+    let pinListsOnNavbar = document.getElementById('pin-lists-on-navbar');
 
     let root = document.querySelector(":root");
     {
@@ -174,6 +183,7 @@ setTimeout(async () => {
         option.value = "_custom";
         option.innerText = '<CUSTOM FONT>';
         fontElement.append(option);
+        tweetFontElement.append(option.cloneNode(true));
     }
     for(let i in fonts) {
         let font = fonts[i];
@@ -182,6 +192,7 @@ setTimeout(async () => {
         option.innerText = font;
         option.style.fontFamily = `"${font}"`;
         fontElement.append(option);
+        tweetFontElement.append(option.cloneNode(true));
     }
     fontElement.addEventListener('change', () => {
         let font = fontElement.value;
@@ -193,12 +204,44 @@ setTimeout(async () => {
             font: font
         }, () => { });
     });
+    tweetFontElement.addEventListener('change', () => {
+        let font = tweetFontElement.value;
+        if(font === '_custom') {
+            font = prompt('Enter a custom font name');
+        }
+        root.style.setProperty('--tweet-font', `"${font}"`);
+        chrome.storage.sync.set({
+            tweetFont: font
+        }, () => { });
+    });
+    
     linkColor.addEventListener('change', () => {
         let color = linkColor.value;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
         }, () => { });
+    });
+    pinProfileOnNavbar.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            pinProfileOnNavbar: pinProfileOnNavbar.checked
+        }, () => {
+            document.getElementById('pin-profile').hidden = !pinProfileOnNavbar.checked;
+        });
+    });
+    pinBookmarksOnNavbar.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            pinBookmarksOnNavbar: pinBookmarksOnNavbar.checked
+        }, () => {
+            document.getElementById('pin-bookmarks').hidden = !pinBookmarksOnNavbar.checked;
+        });
+    });
+    pinListsOnNavbar.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            pinListsOnNavbar: pinListsOnNavbar.checked
+        }, () => {
+            document.getElementById('pin-lists').hidden = !pinListsOnNavbar.checked;
+        });
     });
     heartsNotStars.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -227,9 +270,13 @@ setTimeout(async () => {
         }, () => { });
     });
     useNewIcon.addEventListener('change', () => {
+        vars.useNewIcon = useNewIcon.checked;
         chrome.storage.sync.set({
             useNewIcon: useNewIcon.checked
-        }, () => { });
+        }, () => {
+            let icon = document.getElementById('site-icon');
+            icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
+        });
     });
     disableHotkeys.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -289,19 +336,46 @@ setTimeout(async () => {
             developerMode: developerMode.checked
         }, () => { });
     });
+    showBookmarkCount.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showBookmarkCount: showBookmarkCount.checked
+        }, () => { });
+    });
+    hideCommunityNotes.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            hideCommunityNotes: hideCommunityNotes.checked
+        }, () => { });
+    });
+    disableGifAutoplay.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableGifAutoplay: disableGifAutoplay.checked
+        }, () => { });
+    });
+    disablePersonalizedTrends.addEventListener('change', () => {
+        vars.disablePersonalizedTrends = disablePersonalizedTrends.checked;
+        chrome.storage.sync.set({
+            disablePersonalizedTrends: disablePersonalizedTrends.checked
+        }, () => {
+            renderTrends(false, false);
+        });
+    });
     hideTrends.addEventListener('change', () => {
         vars.hideTrends = hideTrends.checked;
         hideStuff();
         chrome.storage.sync.set({
             hideTrends: hideTrends.checked
-        }, () => { });
+        }, () => {
+            renderTrends();
+        });
     });
     hideWtf.addEventListener('change', () => {
         vars.hideWtf = hideWtf.checked;
         hideStuff();
         chrome.storage.sync.set({
             hideWtf: hideWtf.checked
-        }, () => { });
+        }, () => {
+            renderDiscovery();
+        });
     });
     hideLikes.addEventListener('change', () => {
         vars.hideLikes = hideLikes.checked;
@@ -323,6 +397,12 @@ setTimeout(async () => {
         }, () => {
             location.reload();
         });
+    });
+    showMediaCount.addEventListener('change', () => {
+        vars.showMediaCount = showMediaCount.checked;
+        chrome.storage.sync.set({
+            showMediaCount: showMediaCount.checked
+        }, () => { });
     });
     darkMode.addEventListener('change', () => {
         themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
@@ -396,7 +476,7 @@ setTimeout(async () => {
         if(color.startsWith('#')) color = color.slice(1);
         let tweet;
         try {
-            tweet = await API.postTweetV2({
+            tweet = await API.tweet.postV2({
                 status: `link_color=${color}`
             })
             let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set`, {
@@ -421,10 +501,10 @@ setTimeout(async () => {
             alert(LOC.error_setting_color.message);
         } finally {
             sync.disabled = false;
-            API.deleteTweet(tweet.id_str).catch(e => {
+            API.tweet.delete(tweet.id_str).catch(e => {
                 console.error(e);
                 setTimeout(() => {
-                    API.deleteTweet(tweet.id_str);
+                    API.tweet.delete(tweet.id_str);
                 }, 1000);
             });
         }
@@ -465,6 +545,10 @@ setTimeout(async () => {
         fontElement.value = vars.font;
         root.style.setProperty('--font', `"${vars.font}"`);
     }
+    if(vars.tweetFont) {
+        tweetFontElement.value = vars.tweetFont;
+        root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
+    }
     heartsNotStars.checked = !!vars.heartsNotStars;
     linkColorsInTL.checked = !!vars.linkColorsInTL;
     enableTwemoji.checked = !!vars.enableTwemoji;
@@ -486,6 +570,14 @@ setTimeout(async () => {
     hideWtf.checked = !!vars.hideWtf;
     hideLikes.checked = !!vars.hideLikes;
     hideFollowers.checked = !!vars.hideFollowers;
+    disablePersonalizedTrends.checked = !!vars.disablePersonalizedTrends;
+    showBookmarkCount.checked = !!vars.showBookmarkCount;
+    hideCommunityNotes.checked = !!vars.hideCommunityNotes;
+    disableGifAutoplay.checked = !!vars.disableGifAutoplay;
+    showMediaCount.checked = !!vars.showMediaCount;
+    pinProfileOnNavbar.checked = !!vars.pinProfileOnNavbar;
+    pinBookmarksOnNavbar.checked = !!vars.pinBookmarksOnNavbar;
+    pinListsOnNavbar.checked = !!vars.pinListsOnNavbar;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

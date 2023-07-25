@@ -14,7 +14,7 @@ let selectedCircle = undefined;
 let algoCursor;
 
 async function createShamelessPlug(firstTime = true) {
-    let dimden = await API.getUserV2('dimdenEFF');
+    let dimden = await API.user.getV2('dimdenEFF');
     if(!dimden.following) {
         let opened = Date.now();
         let modal = createModal(`
@@ -34,7 +34,7 @@ async function createShamelessPlug(firstTime = true) {
         `, 'shameless-plug', () => {}, () => Date.now() - opened > 1750);
         let followButton = modal.querySelector('.follow');
         followButton.addEventListener('click', () => {
-            API.followUser('dimdenEFF').then(() => {
+            API.user.follow('dimdenEFF').then(() => {
                 alert(LOC.thank_you_follow.message);
                 modal.remove();
             }).catch(e => {
@@ -60,7 +60,20 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>Added support for Community Notes.</li>
+                            <li>Added option to see bookmark count.</li>
+                            <li>Added ability to pin Profile, Bookmarks and Lists on the navbar.</li>
+                            <li>Added option to disable GIF autoplay.</li>
+                            <li>Added ability to pause GIFs.</li>
+                            <li>Added ability to hide replies.</li>
+                            <li>Added option to disable personalized trends.</li>
+                            <li>Added option to show media count in profiles.</li>
+                            <li>Added hotkey to bookmark tweets.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>
+                            <li>Fixed thread tweets in lists.</li>
+                            <li>Fixed links not showing in long tweets.</li>
+                            <li>Fixed sensitive content not being censored in profile previews.</li>
+                            <li>Lot of fixes about some pages just not loading.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
@@ -94,7 +107,7 @@ setTimeout(() => {
 
 // Util
 function updateUserData() {
-    API.verifyCredentials().then(u => {
+    API.account.verifyCredentials().then(u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -112,8 +125,8 @@ async function updateTimeline() {
         document.getElementById('tweets-loading').hidden = false;
         document.getElementById('load-more').hidden = true;
     }
-    let fn = vars.timelineType === 'algo' ? API.getAlgoTimeline : vars.timelineType === 'chrono-social' ? API.getMixedTimeline : API.getTimeline;
-    let [tl, s] = await Promise.allSettled([fn(), API.getSettings()]);
+    let fn = vars.timelineType === 'algo' ? API.timeline.getAlgorithmical : vars.timelineType === 'chrono-social' ? API.timeline.getMixed : API.timeline.getChronological;
+    let [tl, s] = await Promise.allSettled([fn(), API.account.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
         document.getElementById('tweets-loading').hidden = true;
@@ -192,7 +205,7 @@ async function updateTimeline() {
 }
 async function updateCircles() {
     let circlesList = document.getElementById('audience-group');
-    circles = await API.getCircles();
+    circles = await API.circle.getCircles();
     for(let i in circles) {
         let option = document.createElement('option');
         option.value = circles[i].rest_id;
@@ -395,7 +408,7 @@ setTimeout(async () => {
             document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
             let tl;
             try {
-                tl = vars.timelineType === 'algo' ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+                tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronological(timeline.data[timeline.data.length - 1].id_str);
                 if(vars.timelineType === 'algo') {
                     algoCursor = tl.cursor;
                     tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
@@ -445,8 +458,8 @@ setTimeout(async () => {
     //             if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
     //             else tweetsToLoad[id]++;
     //             if(tweetsToLoad[id] === 10) {
-    //                 API.getRepliesV2(id);
-    //                 API.getTweetLikers(id);
+    //                 API.tweet.getRepliesV2(id);
+    //                 API.tweet.getLikers(id);
     //                 t.classList.add('tweet-preload');
     //                 console.log(`Preloading ${id}`);
     //             }
@@ -498,7 +511,7 @@ setTimeout(async () => {
         document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
         let tl;
         try {
-            tl = vars.timelineType === 'algo' ? await API.getAlgoTimeline(algoCursor, 50) : await API.getTimeline(timeline.data[timeline.data.length - 1].id_str);
+            tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronological(timeline.data[timeline.data.length - 1].id_str);
             if(vars.timelineType === 'algo') {
                 algoCursor = tl.cursor;
                 tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
@@ -745,7 +758,7 @@ setTimeout(async () => {
         if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
             newTweetUserSearch.hidden = false;
             selectedIndex = 0;
-            let users = (await API.search(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
+            let users = (await API.search.typeahead(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
             newTweetUserSearch.innerHTML = '';
             users.forEach((user, index) => {
                 let userElement = document.createElement('span');
@@ -852,7 +865,7 @@ setTimeout(async () => {
                     <button class="nice-button circle-control-btn">${LOC.remove.message}</button>
                 `;
                 userElement.querySelector('.circle-control-btn').addEventListener('click', async () => {
-                    await API.removeUserFromCircle(selectedCircle.id, selectedCircle.rest_id, u.id, u.legacy.id_str);
+                    await API.circle.removeUser(selectedCircle.id, selectedCircle.rest_id, u.id, u.legacy.id_str);
                     userElement.remove();
                     document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) - 1;
                 });
@@ -861,11 +874,11 @@ setTimeout(async () => {
             });
         }
 
-        let members = await API.getCircleMembers(selectedCircle.rest_id);
+        let members = await API.circle.getMembers(selectedCircle.rest_id);
         renderMembers(members);
         userSearch.addEventListener('keyup', async () => {
             let q = userSearch.value;
-            let res = await API.trustedFriendsTypeahead(selectedCircle.rest_id, q);
+            let res = await API.search.trustedFriendsTypeahead(selectedCircle.rest_id, q);
             circleSearch.innerHTML = '';
             res.slice(0, 5).forEach(u => {
                 let userElement = document.createElement('div');
@@ -883,11 +896,11 @@ setTimeout(async () => {
                 `;
                 userElement.querySelector('.circle-control-btn').addEventListener('click', async e => {
                     if(u.is_trusted_friends_list_member) {
-                        await API.removeUserFromCircle(selectedCircle.id, selectedCircle.rest_id, u.id, u.rest_id);
+                        await API.circle.removeUser(selectedCircle.id, selectedCircle.rest_id, u.id, u.rest_id);
                         e.target.innerText = LOC.add.message;
                         document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) - 1;
                     } else {
-                        await API.addUserToCircle(selectedCircle.id, selectedCircle.rest_id, u.rest_id);
+                        await API.circle.addUser(selectedCircle.id, selectedCircle.rest_id, u.rest_id);
                         e.target.innerText = LOC.remove.message;
                         document.getElementById('new-tweet-circle-people-count').innerText = parseInt(document.getElementById('new-tweet-circle-people-count').innerText) + 1;
                     }
@@ -904,7 +917,7 @@ setTimeout(async () => {
             circleMembers.innerHTML = '';
             circleMembers.hidden = false;
             userSearch.style.display = 'none';
-            let members = await API.getCircleMembers(selectedCircle.rest_id);
+            let members = await API.circle.getMembers(selectedCircle.rest_id);
             renderMembers(members);
         });
         modal.querySelector('.circle-menu-search_people').addEventListener('click', async () => {
@@ -960,7 +973,7 @@ setTimeout(async () => {
             if(pollVariants[3]) {
                 cardObject["twitter:string:choice4_label"] = pollVariants[3];
             }
-            card = await API.createCard(cardObject);
+            card = await API.tweet.createCard(cardObject);
         }
         try {
             let variables = {
@@ -1006,7 +1019,7 @@ setTimeout(async () => {
                 if(uploadedMedia.length > 0) {
                     variables2.post_tweet_request.media_ids = uploadedMedia.map(i => i.media_id);
                 }
-                await API.createScheduledTweet({
+                await API.tweet.postScheduled({
                     variables: variables2,
                     queryId: "LCVzRQGxOaGnOnYH01NQXg"
                 });
@@ -1023,8 +1036,12 @@ setTimeout(async () => {
                     <a href="https://twitter.com/compose/tweet/unsent/scheduled?newtwitter=true" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
                 `);
             } else {
+                if(timeline.toBeUpdated > 0) {
+                    let newTweetsButton = document.getElementById('new-tweets');
+                    newTweetsButton.click();
+                }
                 let whoCanReply = document.getElementById('new-tweet-wcr-input').value;
-                let tweetObject = await API.postTweetV2({
+                let tweetObject = await API.tweet.postV2({
                     text: tweet,
                     media: uploadedMedia,
                     circle: selectedCircle ? selectedCircle.rest_id : undefined,

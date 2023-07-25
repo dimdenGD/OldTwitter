@@ -31,7 +31,7 @@ function updateSubpage() {
     }
 }
 function updateUserData() {
-    API.verifyCredentials().then(u => {
+    API.account.verifyCredentials().then(u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -98,18 +98,18 @@ function renderListData(data) {
                     let description = document.getElementById('list-description-input').value;
                     let isPrivate = document.getElementById('list-private-input').checked;
                     try {
-                        await API.updateList(data.id_str, name, description, isPrivate);
+                        await API.list.update(data.id_str, name, description, isPrivate);
                         document.getElementById('list-name').classList.toggle('user-protected', isPrivate);
                     } catch(e) {
                         return document.getElementById('list-editor-error').innerText = e && e.message ? e.message : e;
                     }
                     modal.remove();
-                    renderListData(await API.getList(data.id_str));
+                    renderListData(await API.list.get(data.id_str));
                 });
                 let membersCursor;
                 let membersContainer = document.getElementById('list-editor-members-container');
                 async function getMembers() {
-                    let listMembers = await API.getListMembers(data.id_str, membersCursor);
+                    let listMembers = await API.list.getMembers(data.id_str, membersCursor);
                     membersCursor = listMembers.cursor;
                     listMembers = listMembers.list;
                     if(!cursor || listMembers.length === 0) document.getElementById('list-editor-members-more').hidden = true;
@@ -134,7 +134,7 @@ function renderListData(data) {
 
                         let removeButton = followingElement.querySelector('.following-item-btn');
                         removeButton.addEventListener('click', async () => {
-                            await API.listRemoveMember(listId, t.id_str);
+                            await API.list.removeMember(listId, t.id_str);
                             document.getElementById('list-members-count').innerText = parseInt(document.getElementById('list-members-count').innerText) - 1;
                             followingElement.remove();
                         });
@@ -162,7 +162,7 @@ function renderListData(data) {
                     <button class="nice-button" id="list-btn-delete-confirm">${LOC.delete.message}</button>
                 `, 'list-editor-modal');
                 document.getElementById('list-btn-delete-confirm').addEventListener('click', async () => {
-                    await API.deleteList(data.id_str);
+                    await API.list.delete(data.id_str);
                     modal.remove();
                     window.location.href = `https://twitter.com/${user.screen_name}/lists`;
                 });
@@ -171,12 +171,12 @@ function renderListData(data) {
             actions.innerHTML = `<button class="nice-button" id="list-btn-subscribe">${data.following ? LOC.unsubscribe.message : LOC.subscribe.message}</button>`;
             document.getElementById('list-btn-subscribe').addEventListener('click', async () => {
                 if(data.following) {
-                    await API.unsubscribeList(data.id_str);
+                    await API.list.unsubscribe(data.id_str);
                     document.getElementById('list-followers-count').innerText = +document.getElementById('list-followers-count').innerText - 1;
                     data.following = false;
                     document.getElementById('list-btn-subscribe').innerText = LOC.subscribe.message;
                 } else {
-                    await API.subscribeList(data.id_str);
+                    await API.list.subscribe(data.id_str);
                     document.getElementById('list-followers-count').innerText = +document.getElementById('list-followers-count').innerText + 1;
                     data.following = true;
                     document.getElementById('list-btn-subscribe').innerText = LOC.unsubscribe.message;
@@ -187,8 +187,8 @@ function renderListData(data) {
 }
 async function renderListTweets(c) {
     let [listInfo, listTweets] = await Promise.allSettled([
-        API.getList(listId),
-        API.getListTweets(listId, c)
+        API.list.get(listId),
+        API.list.getTweets(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -228,8 +228,8 @@ async function renderListTweets(c) {
 }
 async function renderListMembers(c) {
     let [listInfo, listMembers] = await Promise.allSettled([
-        API.getList(listId),
-        API.getListMembers(listId, c)
+        API.list.get(listId),
+        API.list.getMembers(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -254,8 +254,8 @@ async function renderListMembers(c) {
 }
 async function renderListFollowers(c) {
     let [listInfo, listFollowers] = await Promise.allSettled([
-        API.getList(listId),
-        API.getListFollowers(listId, c)
+        API.list.get(listId),
+        API.list.getFollowers(listId, c)
     ]).catch(e => {
         console.error(e);
     });
@@ -293,12 +293,12 @@ async function renderListFollowers(c) {
         let followButton = followingElement.querySelector('.user-item-btn');
         followButton.addEventListener('click', async () => {
             if (followButton.classList.contains('following')) {
-                await API.unfollowUser(t.screen_name);
+                await API.user.unfollow(t.screen_name);
                 followButton.classList.remove('following');
                 followButton.classList.add('follow');
                 followButton.innerText = LOC.follow.message;
             } else {
-                await API.followUser(t.screen_name);
+                await API.user.follow(t.screen_name);
                 followButton.classList.remove('follow');
                 followButton.classList.add('following');
                 followButton.innerText = LOC.following.message;

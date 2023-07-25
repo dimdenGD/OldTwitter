@@ -101,6 +101,11 @@ let userDataFunction = async user => {
     document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
     document.getElementById('navbar-user-menu-lists').href = `/${user.screen_name}/lists`;
     document.getElementById('navbar-user-menu-username').innerText = user.name;
+    document.getElementById('pin-profile').hidden = !vars.pinProfileOnNavbar;
+    document.getElementById('pin-bookmarks').hidden = !vars.pinBookmarksOnNavbar;
+    document.getElementById('pin-lists').hidden = !vars.pinListsOnNavbar;
+    document.getElementById('pin-profile').href = `/${user.screen_name}`;
+    document.getElementById('pin-lists').href = `/${user.screen_name}/lists`;
 
     let root = document.querySelector(":root");
 
@@ -109,6 +114,9 @@ let userDataFunction = async user => {
     }
     if(vars.font) {
         root.style.setProperty('--font', `"${vars.font}"`);
+    }
+    if(vars.tweetFont) {
+        root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
@@ -128,7 +136,7 @@ let userDataFunction = async user => {
     // util
     let firstTime = false;
     async function updateUnread() {
-        let unread = await API.getUnreadCount(firstTime);
+        let unread = await API.notifications.getUnreadCount(firstTime);
         if(!firstTime) firstTime = true;
         let dms = unread.dm_unread_count;
         let notifs = unread.ntab_unread_count;
@@ -174,7 +182,7 @@ let userDataFunction = async user => {
         }
     }
     async function updateAccounts() {
-        let accounts = (await API.getAccounts()).users;
+        let accounts = (await API.account.getAccounts()).users;
         let accountsElement = document.getElementById('navbar-user-accounts');
         accountsElement.innerHTML = '';
         accounts.forEach(account => {
@@ -184,7 +192,7 @@ let userDataFunction = async user => {
             accountElement.addEventListener('click', async () => {
                 if(account.screen_name === user.screen_name) return alert("You're already on this account!");
                 try {
-                    await API.switchAccount(account.user_id);
+                    await API.account.switch(account.user_id);
                     window.location.reload();
                 } catch(e) {
                     if((typeof(e) === 'string' && e.includes('User not found.')) || e.errors[0].code === 50) {
@@ -209,13 +217,13 @@ let userDataFunction = async user => {
             `);
             let button = modal.querySelector('button');
             button.addEventListener('click', async () => {
-                await API.logout();
+                await API.account.logout();
                 window.location.reload();
             });
         });
     }
     async function updateInboxData() {
-        inboxData = await API.getInbox();
+        inboxData = await API.inbox.get();
         if(inboxData.status === "HAS_MORE" && !cursor) {
             cursor = inboxData.min_entry_id;
         } else {
@@ -233,7 +241,7 @@ let userDataFunction = async user => {
 
         async function updateFollowRequests() {
             let list = document.querySelector('.follow-requests-list');
-            let newUserData = await Promise.all(followRequestsData.ids.filter(i => typeof i === 'string').map(i => API.getUser(i)));
+            let newUserData = await Promise.all(followRequestsData.ids.filter(i => typeof i === 'string').map(i => API.user.get(i)));
             for(let i = 0; i < newUserData.length; i++) {
                 followRequestsData.ids[i] = newUserData[i];
             }
@@ -258,7 +266,7 @@ let userDataFunction = async user => {
                 `;
                 userElement.querySelector('.accept').addEventListener('click', async () => {
                     try {
-                        await API.acceptFollowRequest(u.id_str);
+                        await API.user.acceptFollowRequest(u.id_str);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -281,7 +289,7 @@ let userDataFunction = async user => {
                 });
                 userElement.querySelector('.decline').addEventListener('click', async () => {
                     try {
-                        await API.declineFollowRequest(u.id_str);
+                        await API.user.declineFollowRequest(u.id_str);
                     } catch(e) {
                         console.error(e);
                         alert(e);
@@ -318,7 +326,7 @@ let userDataFunction = async user => {
                 loadMoreBtn.addEventListener('click', async () => {
                     loadMoreBtn.innerText = LOC.loading.message;
                     loadMoreBtn.disabled = true;
-                    API.getFollowRequests(followRequestsData.next_cursor_str).then(data => {
+                    API.user.getFollowRequests(followRequestsData.next_cursor_str).then(data => {
                         followRequestsData.ids = followRequestsData.ids.concat(data.ids);
                         followRequestsData.next_cursor_str = data.next_cursor_str;
                         updateFollowRequests();
@@ -329,7 +337,7 @@ let userDataFunction = async user => {
             }
             updateFollowRequests();
         });
-        API.getFollowRequests().then(data => {
+        API.user.getFollowRequests().then(data => {
             followRequestsData = data;
             let count = data.total_count ? data.total_count : data.ids.length;
             if(count > 0) {
@@ -410,7 +418,7 @@ let userDataFunction = async user => {
             let conversations = Array.isArray(inboxData.conversations) ? inboxData.conversations : Object.values(inboxData.conversations);
             let realConvo = conversations.find(c => c.id_str === lastConvo.id_str);
             if(+lastConvo.max_entry_id >= +realConvo.last_read_event_id) {
-                API.markRead(lastConvo.max_entry_id);
+                API.inbox.markRead(lastConvo.max_entry_id);
                 realConvo.last_read_event_id = lastConvo.max_entry_id;
             }
         }
@@ -429,7 +437,7 @@ let userDataFunction = async user => {
             }
         }
         if(missingUserIds.length > 0) {
-            let foundUsers = await API.lookupUsers(missingUserIds)
+            let foundUsers = await API.user.lookup(missingUserIds)
             foundUsers.forEach(user => {
                 lastConvo.users[user.id_str] = user;
             });
@@ -468,7 +476,7 @@ let userDataFunction = async user => {
                 let menuDelete = messageElement.querySelector('.message-menu-delete');
 
                 menuDelete.addEventListener('click', () => {
-                    API.deleteMessage(m.id);
+                    API.inbox.deleteMessage(m.id);
                     messageElement.remove();
                 });
 
@@ -631,7 +639,7 @@ let userDataFunction = async user => {
             const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
             const messageHeaderLink = modal.querySelector('.message-header-link');
             messageElement.addEventListener('click', async () => {
-                let messageData = await API.getConversation(c.conversation_id);
+                let messageData = await API.inbox.getConversation(c.conversation_id);
                 modal.querySelector('.message-box').hidden = false;
                 modal.querySelector('.home-top').hidden = true;
                 modal.querySelector('.name-top').hidden = false;
@@ -757,7 +765,7 @@ let userDataFunction = async user => {
             if(!lastConvo || !lastConvo.conversation_id) return;
             let c = confirm('Are you sure you want to leave/remove this conversation?');
             if(c) {
-                await API.deleteConversation(lastConvo.conversation_id);
+                await API.inbox.deleteConversation(lastConvo.conversation_id);
                 modal.remove();
                 chrome.storage.local.remove(['inboxData'], () => {});
                 await updateInboxData();
@@ -765,7 +773,7 @@ let userDataFunction = async user => {
         });
         userSearch.addEventListener('keyup', async () => {
             let q = userSearch.value;
-            let res = await API.search(q);
+            let res = await API.search.typeahead(q);
             newMessageResults.innerHTML = '';
             res.users.slice(0, 5).forEach(u => {
                 let userElement = document.createElement('div');
@@ -781,7 +789,7 @@ let userDataFunction = async user => {
                     const messageHeaderName = modal.querySelector('.message-header-name');
                     const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
                     const messageHeaderLink = modal.querySelector('.message-header-link');
-                    let messageData = await API.getConversation(`${user.id_str}-${u.id_str}`);
+                    let messageData = await API.inbox.getConversation(`${user.id_str}-${u.id_str}`);
                     modal.querySelector('.message-box').hidden = false;
                     modal.querySelector('.home-top').hidden = true;
                     modal.querySelector('.name-top').hidden = false;
@@ -851,7 +859,7 @@ let userDataFunction = async user => {
                 obj.media_id = uploadedMedia.join(',');
             }
             try {
-                let sentMessage = await API.sendMessage(obj);
+                let sentMessage = await API.inbox.send(obj);
                 newSend.disabled = false;
                 newInput.value = "";
                 mediaToUpload = [];
@@ -878,7 +886,7 @@ let userDataFunction = async user => {
         
 
         loadMore.addEventListener('click', async () => {
-            let moreInbox = await API.getInbox(cursor);
+            let moreInbox = await API.inbox.get(cursor);
             if(moreInbox.status === "HAS_MORE") {
                 cursor = moreInbox.min_entry_id;
             } else {
@@ -887,12 +895,12 @@ let userDataFunction = async user => {
             renderInboxMessages(moreInbox, inboxList);
         });
         loadMoreMessages.addEventListener('click', async () => {
-            let moreMessages = await API.getConversation(lastConvo.conversation_id, lastConvo.min_entry_id);
+            let moreMessages = await API.inbox.getConversation(lastConvo.conversation_id, lastConvo.min_entry_id);
             renderConversation(moreMessages, lastConvo.conversation_id, false);
         });
 
         readAll.addEventListener('click', async () => {
-            await API.markRead(inbox.last_seen_event_id);
+            await API.inbox.markRead(inbox.last_seen_event_id);
             let unreadMessages = Array.from(document.getElementsByClassName('inbox-message-unread'));
             unreadMessages.forEach(message => {
                 message.classList.remove('inbox-message-unread');
@@ -919,7 +927,7 @@ let userDataFunction = async user => {
     }, 10000);
     let updateCursor;
     setInterval(async () => {
-        let updates = await API.getUserUpdates(updateCursor);
+        let updates = await API.inbox.getUpdates(updateCursor);
         updateCursor = Object.values(updates)[0].cursor;
         if(updates.user_events && updates.user_events.conversations && lastConvo) {
             for(let i in updates.user_events.conversations) {
@@ -1123,7 +1131,7 @@ let userDataFunction = async user => {
             if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
                 newTweetUserSearch.hidden = false;
                 selectedIndex = 0;
-                let users = (await API.search(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
+                let users = (await API.search.typeahead(e.target.value.match(/@([\w+]{1,15}\b)$/)[1])).users;
                 newTweetUserSearch.innerHTML = '';
                 users.forEach((user, index) => {
                     let userElement = document.createElement('span');
@@ -1202,7 +1210,7 @@ let userDataFunction = async user => {
                     }
                 }
                 try {
-                    let tweetObject = await API.postTweetV2({
+                    let tweetObject = await API.tweet.postV2({
                         text: tweet,
                         media: uploadedMedia
                     });
@@ -1234,8 +1242,8 @@ let userDataFunction = async user => {
                     cardObject["twitter:string:choice4_label"] = pollVariants[3];
                 }
                 try {
-                    let card = await API.createCard(cardObject);
-                    let tweetObject = await API.postTweetV2({
+                    let card = await API.tweet.createCard(cardObject);
+                    let tweetObject = await API.tweet.postV2({
                         text: tweet,
                         card_uri: card.card_uri,
                     });
@@ -1271,7 +1279,7 @@ let userDataFunction = async user => {
         }));
         if(savedSearches.length === 0) {
             try {
-                savedSearches = await API.getSavedSearches();
+                savedSearches = await API.search.getSaved();
             } catch(e) {}
         }
         if(lastSearches.length > 0) {
@@ -1327,7 +1335,7 @@ let userDataFunction = async user => {
                 removeTopic.innerText = '×';
                 removeTopic.className = 'search-result-item-remove';
                 removeTopic.addEventListener('click',async () => {
-                    await API.deleteSavedSearch(topicId);
+                    await API.search.deleteSaved(topicId);
                     savedSearches.splice(i, 1);
                     topicElement.remove();
                     removeTopic.remove();
@@ -1383,7 +1391,7 @@ let userDataFunction = async user => {
         if(query.length === 0) {
             return loadDefaultSearches();
         }
-        let search = await API.search(query);
+        let search = await API.search.typeahead(query);
         searchResults.innerHTML = '';
         search.topics.forEach(({topic}) => {
             let topicElement = document.createElement('a');
@@ -1495,7 +1503,7 @@ let userDataFunction = async user => {
             }
             el.addEventListener('mouseleave', leaveFunction);
 
-            let user = await API.getUser(id ? id : username, !!id);
+            let user = await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;
             let div = document.createElement('div');
             div.innerHTML = /*html*/`
@@ -1596,7 +1604,7 @@ let userDataFunction = async user => {
             const followBtn = div.querySelector('.preview-user-follow');
             followBtn.addEventListener('click', async () => {
                 if (followBtn.className.includes('following')) {
-                    await API.unfollowUser(user.screen_name);
+                    await API.user.unfollow(user.screen_name);
                     followBtn.classList.remove('following');
                     followBtn.classList.add('follow');
                     followBtn.innerText = LOC.follow.message;
@@ -1608,7 +1616,7 @@ let userDataFunction = async user => {
                     wtfFollow.classList.add('follow');
                     wtfFollow.innerText = LOC.follow.message;
                 } else {
-                    await API.followUser(user.screen_name);
+                    await API.user.follow(user.screen_name);
                     followBtn.classList.add('following');
                     followBtn.classList.remove('follow');
                     followBtn.innerText = LOC.following_btn.message;
@@ -1650,7 +1658,7 @@ let userDataFunction = async user => {
             const messageHeaderName = modal.querySelector('.message-header-name');
             const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
             const messageHeaderLink = modal.querySelector('.message-header-link');
-            let messageData = await API.getConversation(convo_id);
+            let messageData = await API.inbox.getConversation(convo_id);
             modal.querySelector('.message-box').hidden = false;
             modal.querySelector('.home-top').hidden = true;
             modal.querySelector('.name-top').hidden = false;
@@ -1875,7 +1883,7 @@ setInterval(() => {
 
     setTimeout(() => {
         if(!headerGotUser) {
-            API.verifyCredentials().then(async u => {
+            API.account.verifyCredentials().then(async u => {
                 userDataFunction(u);
             });
         }
@@ -2084,6 +2092,11 @@ setInterval(() => {
                 // like tweet
                 if(!activeTweet) return;
                 let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
+                tweetFavoriteButton.click();
+            } else if(e.keyCode === 66) { // B
+                // bookmark tweet
+                if(!activeTweet) return;
+                let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-more-menu-bookmark');
                 tweetFavoriteButton.click();
             } else if(e.keyCode === 84) { // T
                 // retweet
@@ -2294,7 +2307,7 @@ setInterval(() => {
     setTimeout(() => {
         document.getElementById('navbar-user-avatar').addEventListener('click', () => {
             if(headerGotUser) return;
-            API.verifyCredentials().then(async u => {
+            API.account.verifyCredentials().then(async u => {
                 userDataFunction({ detail: u });
             });
         });

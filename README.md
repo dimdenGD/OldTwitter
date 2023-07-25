@@ -102,6 +102,7 @@ Active tweet hotkeys. On bottom-right of tweet element there's blue dot showing 
 `S` - move to next tweet.  
 `W` - move to previous tweet.  
 `L` - (un)favorite/like tweet.  
+`B` - (un)bookmark tweet.  
 `T` - (un)retweet tweet.  
 `R` - open reply box.  
 `Q` - open quote box.  
@@ -125,10 +126,10 @@ English - [dimden](https://dimden.dev/)
 Russian - [dimden](https://dimden.dev/)  
 Ukrainian - [dimden](https://dimden.dev/)  
 French - [Aurore C.](https://asuure.com/), [zdimension](https://twitter.com/zdimension_)  
-Portuguese (Brazil) - [dzshn](https://dzshn.xyz/), [kigidere](https://twitter.com/kigidere)  
+Portuguese (Brazil) - [dzshn](https://dzshn.xyz/), [kigidere](https://twitter.com/kigidere), [umgustavo](https://github.com/umgustavo)  
 Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitter.com/gaelcoral), [hue](https://twitter.com/huey1116), Beelzenef  
 Greek - [VasilisTheChu](https://pikachu.systems/)  
-Romanian - [Skylar](https://143.dust.moe/)  
+Romanian - [Skyrina](https://skyrina.dev/), [AlexSem](https://twitter.com/AlexSem5399)  
 Tagalog - [Eurasian](https://twitter.com/NotPROxV)  
 Latvian - [yourfriend](https://3.141.lv/)  
 Hebrew - "ugh", qqqq  

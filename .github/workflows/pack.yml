@@ -25,7 +25,7 @@ jobs:
         run: npm install
         
       - name: Pack extension
-        run: npm run build
+        run: npm run build-action
 
       - name: Unzip extension
         run: unzip -qq ../OldTwitterChrome.zip -d OldTwitterChrome; unzip -qq ../OldTwitterFirefox.zip -d OldTwitterFirefox

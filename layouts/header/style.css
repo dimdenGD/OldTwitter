@@ -1,6 +1,7 @@
 :root {
     --link-color: #4bacd2;
     --font: Arial, sans-serif;
+    --tweet-font: Arial, sans-serif;
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
     --favorite-icon-color: #ffac33;
@@ -123,6 +124,18 @@ input, textarea {
 
 #messages:before {
     content: "\f054";
+}
+#pin-profile, #pin-bookmarks, #pin-lists {
+    background-color: var(--background-color);
+}
+#pin-profile:before {
+    content: "\f056";
+}
+#pin-bookmarks:before {
+    content: "\f093";
+}
+#pin-lists:before {
+    content: "\f094";
 }
 
 #navbar a:before {
@@ -1077,6 +1090,10 @@ input, textarea {
 
 span.tweet-body-text {
     word-break: break-word;
+    font-family: var(--tweet-font);
+}
+#notification-text {
+    font-family: var(--tweet-font);
 }
 
 .tweet-body-main {
@@ -1402,6 +1419,9 @@ span.tweet-body-text {
 .tweet-interact-more-menu-bookmark:before {
     content: "\f093"
 }
+.tweet-interact-more-menu-hide:before {
+    content: "\f096"
+}
 
 .tweet-interact-more-menu-feedback:before {
     content: "\f044"
@@ -1686,6 +1706,9 @@ emoji-picker {
 .tweet-interact-views:before {
     content: "\f200";
 }
+.tweet-interact-bookmark:before {
+    content: "\f093";
+}
 .user-verified::after {
     content: "\f099";
     color: #ee55a1;
@@ -1833,4 +1856,51 @@ emoji-picker {
 .tweet-body-quote:hover {
     background-color: var(--darker-background-color);
     text-decoration: none
+}
+.tweet-interact-reply[data-val="0"],
+.tweet-interact-retweet[data-val="0"],
+.tweet-interact-favorite[data-val="0"],
+.tweet-interact-bookmark[data-val="0"] {
+    color: var(--background-color);
+}
+
+.tweet:hover:not(.tweet-main) {
+    background-color: var(--dark-background-color)
+}
+.tweet:hover .tweet-interact-reply[data-val="0"],
+.tweet:hover .tweet-interact-retweet[data-val="0"],
+.tweet:hover .tweet-interact-favorite[data-val="0"],
+.tweet:hover .tweet-interact-bookmark[data-val="0"] {
+    color: var(--dark-background-color);
+}
+
+.tweet-interact-bookmarked,
+.tweet-interact-bookmarked:before,
+.tweet-interact-bookmark:hover:before,
+.tweet-interact-bookmark:hover {
+    color: #3b918a !important
+}
+
+.tweet-birdwatch {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.tweet-birdwatch-header {
+    background-color: var(--dark-background-color);
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.tweet-birdwatch-body {
+    padding: 10px;
+}
+
+.tweet-birdwatch-title::before {
+    content: "\f182";
+    color: #ffac33;
+    font-family: RosettaIcons;
+    vertical-align: text-bottom;
+    margin-right: 5px;
 }

@@ -7,7 +7,7 @@ let activeTweet;
 let topicId = location.pathname.split('/')[3];
 
 function updateUserData() {
-    API.verifyCredentials().then(async u => {
+    API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
@@ -52,7 +52,7 @@ function renderUserData() {
 }
 async function renderTopic(cursorRn) {
     let [topic] = await Promise.all([
-        API.topicLandingPage(topicId, cursorRn)
+        API.topic.landingPage(topicId, cursorRn)
     ]);
 
     document.getElementsByTagName('title')[0].innerText = `"${topic.header.topic.name}" Topic - OldTwitter`;
@@ -166,7 +166,7 @@ setTimeout(async () => {
     }
     document.getElementById('topic-not-interested-btn').addEventListener('click', async () => {
         try {
-            await API.topicNotInterested(topicId);
+            await API.topic.notInterested(topicId);
         } catch(e) {
             console.error(e);
             alert(e);
@@ -177,7 +177,7 @@ setTimeout(async () => {
     });
     document.getElementById('topic-not-interested-cancel').addEventListener('click', async () => {
         try {
-            await API.topicUndoNotInterested(topicId);
+            await API.topic.undoNotInterested(topicId);
         } catch(e) {
             console.error(e);
             alert(e);
@@ -189,7 +189,7 @@ setTimeout(async () => {
     document.getElementById('topic-follow-control').addEventListener('click', async e => {
         if(e.target.className.includes('topic-following')) {
             try {
-                await API.topicUnfollow(topicId);
+                await API.topic.unfollow(topicId);
             } catch(e) {
                 console.error(e);
                 alert(e);
@@ -201,7 +201,7 @@ setTimeout(async () => {
             document.getElementById('topic-not-interested-btn').hidden = false;
         } else {
             try {
-                await API.topicFollow(topicId);
+                await API.topic.follow(topicId);
             } catch(e) {
                 console.error(e);
                 alert(e);

@@ -4,6 +4,7 @@ const fsp = require('fs').promises;
 const fs = require('fs');
 const path = require('path');
 const AdmZip = require('adm-zip');
+const args = process.argv.slice(2);
 
 async function copyDir(src, dest) {
     const entries = await fsp.readdir(src, { withFileTypes: true });
@@ -204,8 +205,13 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     let apis = fs.readFileSync('../OldTwitterFirefox/scripts/apis.js', 'utf8');
     apis = apis.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     if(apis.includes("&& true") || apis.includes("&& false") || apis.includes("|| true") || apis.includes("|| false") || apis.includes("&&true") || apis.includes("&&false") || apis.includes("||true") || apis.includes("||false")) {
-      for(let i = 0; i < 3; i++) {
-        console.warn("\x1b[33m", "Warning: probably temporary boolean left in code.", '\x1b[0m');
+      if(args[0] === '-a') {
+        let line = apis.split("\n").findIndex(l => l.includes("&& true") || l.includes("&& false") || l.includes("|| true") || l.includes("|| false") || l.includes("&&true") || l.includes("&&false") || l.includes("||true") || l.includes("||false"));
+        console.warn("::warning file=scripts/api.js,line=" + (line+1) + "::Probably temporary boolean left in code.");
+      } else {
+        for(let i = 0; i < 3; i++) {
+          console.warn("\x1b[33m", "Warning: probably temporary boolean left in code.", '\x1b[0m');
+        }
       }
     }
 
