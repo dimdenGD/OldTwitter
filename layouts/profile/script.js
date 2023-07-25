@@ -532,7 +532,7 @@ async function renderProfile() {
         if(attempts > 3) return document.getElementById('profile-avatar').src = `${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_400x400.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'}`;
         attempts++;
         setTimeout(() => {
-            document.getElementById('profile-avatar').src = `${(pageUser.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
+            document.getElementById('profile-avatar').src = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
         }, 500);
     });
     let autotranslateProfiles = await new Promise(resolve => {
@@ -544,11 +544,11 @@ async function renderProfile() {
         autotranslateProfiles = [];
     }
     toAutotranslate = autotranslateProfiles.includes(pageUser.id_str);
-    document.getElementById('profile-avatar').src = `${(pageUser.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
-    document.getElementById('nav-profile-avatar').src = `${(pageUser.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_bigger.');
+    document.getElementById('profile-avatar').src = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
+    document.getElementById('nav-profile-avatar').src = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_bigger.');
     document.getElementById('profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
     document.getElementById('nav-profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
-    document.getElementById('profile-avatar-link').href = `${(pageUser.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
+    document.getElementById('profile-avatar-link').href = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
     if(LOC.tweet_to.message.includes("$SCREEN_NAME$")) {
         document.getElementById('tweet-to').innerText = LOC.tweet_to.message.replace("$SCREEN_NAME$", pageUser.screen_name.replace(/\n/g, ' '));
     } else {
@@ -712,7 +712,7 @@ async function renderProfile() {
             let a = document.createElement('a');
             a.href = `/${u.screen_name}`;
             let avatar = document.createElement('img');
-            avatar.src = `${(u.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): u.profile_image_url_https}`.replace('_normal', '_bigger');
+            avatar.src = `${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_normal.png`): u.profile_image_url_https}`.replace('_normal', '_bigger');
             avatar.width = 45;
             avatar.height = 45;
             avatar.title = u.name + ' (@' + u.screen_name + ')';
