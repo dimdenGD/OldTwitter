@@ -415,6 +415,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             showOriginalImages: false
         }, () => {});
     }
+    if(typeof(vars.useOldDefaultProfileImage) !== 'boolean') {
+        vars.useOldDefaultProfileImage = true;
+        chrome.storage.sync.set({
+            useOldDefaultProfileImage: true
+        }, () => {});
+    }
     if(typeof(vars.pinProfileOnNavbar) !== 'boolean') {
         vars.pinProfileOnNavbar = true;
         chrome.storage.sync.set({
