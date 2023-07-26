@@ -1530,6 +1530,9 @@ class TweetViewer {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
+                    if(!e.target.src.endsWith('?name=orig')) {
+                        e.target.src += '?name=orig';
+                    }
                     new Viewer(tweetMedia, {
                         transition: false
                     });

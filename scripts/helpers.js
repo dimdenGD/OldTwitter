@@ -179,6 +179,9 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                     div.append(img, progress, remove);
                     if (!file.type.includes('video')) {
                         img.addEventListener('click', () => {
+                            if(!img.src.endsWith('?name=orig')) {
+                                img.src += '?name=orig';
+                            }
                             new Viewer(mediaContainer, {
                                 transition: false
                             });
@@ -289,6 +292,9 @@ function getDMMedia(mediaArray, mediaContainer, modalElement) {
                         div.append(img, progress, remove);
                         if (!file.type.includes('video')) {
                             img.addEventListener('click', () => {
+                                if(!img.src.endsWith('?name=orig')) {
+                                    img.src += '?name=orig';
+                                }
                                 new Viewer(mediaContainer, {
                                     transition: false
                                 });
@@ -1978,6 +1984,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetBodyQuote.addEventListener('click', e => {
                     e.preventDefault();
                     if(e.target.className && e.target.className.includes('tweet-media-element')) {
+                        if(!e.target.src.endsWith('?name=orig')) {
+                            e.target.src += '?name=orig';
+                        }
                         new Viewer(e.target, {
                             transition: false
                         });
@@ -2103,6 +2112,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
+                    if(!e.target.src.endsWith('?name=orig')) {
+                        e.target.src += '?name=orig';
+                    }
                     new Viewer(tweetMedia, {
                         transition: false
                     });
