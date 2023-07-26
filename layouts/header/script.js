@@ -19,6 +19,15 @@ notificationBus.onmessage = function (e) {
         }
     }
 };
+const customCSSBus = new BroadcastChannel('custom_css_bus');
+customCSSBus.onmessage = function (e) {
+    if(e.data.type === 'vars') {
+        switchDarkMode(isDarkModeEnabled);
+    } else if(e.data.type === 'css') {
+        updateCustomCSS();
+    }
+};
+
 const themeBus = new BroadcastChannel('theme_bus');
 themeBus.onmessage = function (e) {
     isDarkModeEnabled = e.data[0];

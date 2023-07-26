@@ -428,5 +428,11 @@
     "adult_content": { "message": "Контент для дорослих" },
     "sensitive_content": { "message": "Чутливий контент" },
     "replying_to_user": { "message": "Відповідь $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "content_warnings": { "message": "Зміст" }
+    "content_warnings": { "message": "Зміст" },
+    "transparency": { "message": "Прозорість" },
+    "reset": { "message": "Скинути" },
+    "reset_all": { "message": "Скинути все" },
+    "import": { "message": "Імпортувати" },
+    "export": { "message": "Експортувати" },
+    "reset_colors_sure": { "message": "Ви впевнені що хочете скинути всі кольори до замовчування?" }
 }

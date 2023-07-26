@@ -525,11 +525,11 @@ input, textarea {
     border-color: var(--border);
 }
 .nice-button:disabled {
-    color: lightgray !important;
+    color: gray !important;
     cursor: not-allowed;
 }
 .nice-button:disabled:before {
-    color: lightgray !important;
+    color: gray !important;
 }
 #navbar-user-menu {
     min-width: 130px;

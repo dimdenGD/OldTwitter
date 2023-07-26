@@ -443,5 +443,11 @@
     "uncensor_adult_content_automatically": { "message": "Uncensor media with nudity content warning automatically" },
     "uncensor_sensitive_content_automatically": { "message": "Uncensor media with sensitive content content warning automatically" },
     "replying_to_user": { "message": "Replying to $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "content_warnings": { "message": "Content warnings" }
+    "content_warnings": { "message": "Content warnings" },
+    "transparency": { "message": "Transparency" },
+    "reset": { "message": "Reset" },
+    "reset_all": { "message": "Reset all" },
+    "import": { "message": "Import", "note": "Verb" },
+    "export": { "message": "Export", "note": "Verb" },
+    "reset_colors_sure": { "message": "Are you sure you want to reset all colors?" }
 }

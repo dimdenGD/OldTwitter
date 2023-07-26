@@ -195,17 +195,14 @@ async function updateCustomCSSVariables() {
         });
     });
     if(data.customCSSVariables) {
-        let csv = data.customCSSVariables.split('\n');
-        csv.forEach(line => {
-            let [name, value] = line.split(':');
-            value = value.trim();
-            if(value.endsWith(';')) value = value.slice(0, -1);
-            root.style.setProperty(name, value);
-        });
+        let csv = parseVariables(data.customCSSVariables);
+        for(let i in csv) {
+            root.style.setProperty(i, csv[i]);
+        }
     }
 }
-function switchDarkMode(enabled) {
-    let root = document.querySelector(":root");
+
+function getThemeVariables(enabled) {
     let theme;
     if(enabled) {
         if(vars.pitchBlack) {
@@ -270,11 +267,26 @@ function switchDarkMode(enabled) {
             --menu-bg: rgba(255,255,255,0.98);
         `;
     }
-    let styles = theme.split('\n').map(i => i.trim()).filter(i => i).map(i => i.split(':'));
+
+    return theme;
+}
+function parseVariables(vars) {
+    let obj = {};
+    let styles = vars.split('\n').map(i => i.trim()).filter(i => i).map(i => i.split(':'));
     styles.forEach(style => {
         if(style[1].endsWith(";")) style[1] = style[1].slice(0, -1);
-        root.style.setProperty(style[0], style[1]);
+        obj[style[0].trim()] = style[1].trim();
     });
+    return obj;
+}
+
+function switchDarkMode(enabled) {
+    let root = document.querySelector(":root");
+    let theme = getThemeVariables(enabled);
+    let themeVars = parseVariables(theme);
+    for(let i in themeVars) {
+        root.style.setProperty(i, themeVars[i]);
+    }
     updateCustomCSSVariables();
 }
 
@@ -367,6 +379,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             enableHashflags: false
         }, () => {});
     }
+    if(typeof(vars.customCSSVariables) !== 'string') {
+        vars.customCSSVariables = '';
+        chrome.storage.sync.set({
+            customCSSVariables: ''
+        }, () => {});
+    }
     if(typeof(vars.copyLinksAs) !== 'string') {
         vars.copyLinksAs = 'twitter.com';
         chrome.storage.sync.set({
@@ -406,7 +424,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     if(typeof(vars.tweetFont) !== 'string') {
         vars.tweetFont = 'Arial';
         chrome.storage.sync.set({
-            tweetFont: 'Arial'
+            tweetFont: vars.font
         }, () => {});
     }
     if(typeof(vars.showOriginalImages) !== 'boolean') {
@@ -551,6 +569,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     chrome.runtime.sendMessage({
         action: "inject",
         data: [
+            "libraries/parseCssColor.js",
             "libraries/twemoji.min.js",
             "layouts/header/script.js",
             `layouts/${page.name}/script.js`,

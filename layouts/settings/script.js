@@ -572,6 +572,7 @@ setTimeout(async () => {
             customCSS: customCSS.value
         }, () => {
             let event = new CustomEvent('customCSS', { detail: customCSS.value });
+            customCSSBus.postMessage({type: 'css'});
             document.dispatchEvent(event);
         });
     });
@@ -639,6 +640,106 @@ setTimeout(async () => {
     }
 
     // Colors
+    let colorsDiv = document.getElementById('colors');
+    let theme = getThemeVariables(isDarkModeEnabled);
+    let defaultVars = parseVariables(theme);
+    let customVars = parseVariables(vars.customCSSVariables);
+
+    for(let v in defaultVars) {
+        try {
+            let color = parseCssColor(customVars[v] ? customVars[v] : defaultVars[v]);
+            if(!color || v === '--link-color' || v === '--favorite-icon-color') continue;
+
+            let div = document.createElement('div');
+            div.classList.add('color-div');
+            div.innerHTML = `
+                <input class="color-value" type="color" data-var="${v}" value="${rgb2hex(...color.values)}">
+                <input class="color-transparency" title="${LOC.transparency.message}" type="range" min="0" max="1" step="0.01" value="${color.alpha}">
+                <span class="color-name">${v[2].toUpperCase() + v.slice(3).replace(/-/g, ' ')}</span>
+                <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>Reset</button>
+            `;
+            colorsDiv.append(div);
+            function colorUpdate() {
+                let colorValue = div.querySelector('.color-value');
+                let colorTransparency = div.querySelector('.color-transparency');
+
+                customVars[colorValue.dataset.var] = `rgba(${hex2rgb(colorValue.value).join(', ')}, ${colorTransparency.value})`;
+                let css = Object.entries(customVars).map(([k, v]) => `${k}: ${v};`).join('\n');
+                chrome.storage.sync.set({
+                    customCSSVariables: css
+                }, () => {
+                    vars.customCSSVariables = css;
+                    root.style.setProperty(colorValue.dataset.var, customVars[colorValue.dataset.var]);
+                    customCSSBus.postMessage({type: 'vars'});
+                    div.querySelector('.color-reset').disabled = false;
+                });
+            }
+            div.querySelector('.color-value').addEventListener('change', colorUpdate);
+            div.querySelector('.color-transparency').addEventListener('change', colorUpdate);
+            div.querySelector('.color-reset').addEventListener('click', () => {
+                delete customVars[v];
+                let css = Object.entries(customVars).map(([k, v]) => `${k}: ${v};`).join('\n');
+                chrome.storage.sync.set({
+                    customCSSVariables: css
+                }, () => {
+                    vars.customCSSVariables = css;
+                    root.style.setProperty(v, defaultVars[v]);
+                    customCSSBus.postMessage({type: 'vars'});
+                    div.querySelector('.color-reset').disabled = true;
+                    let defColor = parseCssColor(defaultVars[v]);
+                    div.querySelector('.color-value').value = rgb2hex(...defColor.values);
+                    div.querySelector('.color-transparency').value = defColor.alpha;
+                });
+            });
+    
+        } catch(e) {
+            console.error(e);
+        }
+    }
+    document.getElementById('reset-all-colors').addEventListener('click', () => {
+        let sure = confirm(LOC.reset_colors_sure.message);
+        if(!sure) return;
+        chrome.storage.sync.set({
+            customCSSVariables: ''
+        }, () => {
+            vars.customCSSVariables = '';
+            customCSSBus.postMessage({type: 'vars'});
+            let resetButtons = document.querySelectorAll('.color-reset');
+            for(let i = 0; i < resetButtons.length; i++) {
+                if(!resetButtons[i].disabled) {
+                    resetButtons[i].click();
+                }
+            }
+        });
+    });
+    document.getElementById('export-colors').addEventListener('click', () => {
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([vars.customCSSVariables], { type: 'text/css' }));
+        a.download = 'custom_colors.css';
+        a.click();
+    });
+    document.getElementById('import-colors').addEventListener('click', () => {
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.css';
+        input.addEventListener('change', () => {
+            let file = input.files[0];
+            if(!file) return;
+            let reader = new FileReader();
+            reader.onload = () => {
+                let css = reader.result;
+                chrome.storage.sync.set({
+                    customCSSVariables: css
+                }, () => {
+                    vars.customCSSVariables = css;
+                    customCSSBus.postMessage({type: 'vars'});
+                    location.reload();
+                });
+            };
+            reader.readAsText(file);
+        });
+        input.click();
+    });
 
 
     // Run
