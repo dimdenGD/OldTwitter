@@ -516,11 +516,12 @@ class TweetViewer {
             document.getElementsByClassName("new-tweet-mentions")[0].addEventListener('click', async () => {
                 let modal = createModal(/*html*/`
                     <div id="new-tweet-mentions-modal" style="color:var(--almost-black)">
-                        <h3 class="nice-header">${LOC.replying_to.message}</h3>
+                        <h3 class="nice-header">${LOC.replying_to_prefix.message}</h3>
                         <div class="new-tweet-mentions-modal-item">
                             <input type="checkbox" id="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}" checked disabled>
                             <label for="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}">@${replyTweet.user.screen_name} (${replyTweet.user.name})</label>
                         </div>
+                        <h3 class="nice-header">${LOC.replying_to_suffix.message}</h3>
                         ${mentions.map(m => {
                             let u = Object.values(this.users).find(u => u.screen_name === m);
                             if(!u) return '';
@@ -984,7 +985,7 @@ class TweetViewer {
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
                     ${t.quoted_status.in_reply_to_screen_name ? `
-                    <span class="tweet-reply-to">${LOC.replying_to.message} @${t.quoted_status.in_reply_to_screen_name}</span>
+                    <span class="tweet-reply-to">${LOC.replying_to_prefix.message} @${t.quoted_status.in_reply_to_screen_name} ${LOC.replying_to_suffix.message}</span>
                     ` : ''}
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `

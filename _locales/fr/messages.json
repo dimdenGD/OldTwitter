@@ -358,7 +358,7 @@
     "round_avatars": { "message": "Photos de profil avec contour arrondi" },
     "search_user_tweets": { "message": "Rechercher les Tweets" },
     "no_tl_tweets": { "message": "Aucun Tweet ne peut apparaître puisque vous ne suivez personne. Vous pouvez changer votre type de chronologie en 'Algorithmique' dans les <a href='https://twitter.com/old/settings'>paramètres de l'extension</a>" },
-    "replying_to": { "message": "Répond à", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to_prefix": { "message": "Répond à", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Affichage", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Faire apparaître la vérification Twitter Blue" },
     "retweet_hotkey_warn": { "message": "T est la touche de raccourci pour retweeter. Voulez-vous vraiment retweeter ce Tweet ? Vous ne verrez plus ce message si vous confirmez." },

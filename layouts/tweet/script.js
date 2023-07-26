@@ -476,11 +476,12 @@ async function appendComposeComponent(container, replyTweet) {
             }
             let modal = createModal(/*html*/`
                 <div id="new-tweet-mentions-modal" style="color:var(--almost-black)">
-                    <h3 class="nice-header">${LOC.replying_to.message}</h3>
+                    <h3 class="nice-header">${LOC.replying_to_prefix.message}</h3>
                     <div class="new-tweet-mentions-modal-item">
                         <input type="checkbox" id="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}" checked disabled>
                         <label for="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}">@${replyTweet.user.screen_name} (${replyTweet.user.name})</label>
                     </div>
+                    <h3 class="nice-header">${LOC.replying_to_suffix.message}</h3>
                     ${mentions.map(m => {
                         let u = Object.values(users).find(u => u.screen_name === m);
                         if(!u) return '';

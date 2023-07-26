@@ -1459,7 +1459,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 !options.threadContinuation &&
                 !options.noTop &&
                 !location.pathname.includes('/status/') ? `
-            <div class="tweet-reply-to"><span>${LOC.replying_to.message} <a href="https://twitter.com/${t.in_reply_to_screen_name}">@${t.in_reply_to_screen_name}</a></span></div>
+            <div class="tweet-reply-to"><span>${LOC.replying_to_prefix.message} <a href="https://twitter.com/${t.in_reply_to_screen_name}">@${t.in_reply_to_screen_name}</a></span> ${LOC.replying_to_suffix.message}</div>
             `: ''}
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 <span class="tweet-body-text ${vars.noBigFont || t.full_text.length > 280 || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
@@ -1545,7 +1545,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
                     ${t.quoted_status.in_reply_to_screen_name ? `
-                    <span class="tweet-reply-to">${LOC.replying_to.message} @${t.quoted_status.in_reply_to_screen_name}</span>
+                    <span class="tweet-reply-to">${LOC.replying_to_prefix.message} @${t.quoted_status.in_reply_to_screen_name} ${LOC.replying_to_suffix.message}</span>
                     ` : ''}
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `
