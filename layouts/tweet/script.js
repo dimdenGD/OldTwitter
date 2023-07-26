@@ -638,6 +638,7 @@ async function appendComposeComponent(container, replyTweet) {
                     media_category: media.category,
                     media: media.data,
                     alt: media.alt,
+                    cw: media.cw,
                     loadCallback: data => {
                         media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                     }

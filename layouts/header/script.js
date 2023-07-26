@@ -840,6 +840,7 @@ let userDataFunction = async user => {
                     let mediaId = await API.uploadMedia({
                         media_type: media.type,
                         media: media.data,
+                        cw: media.cw,
                         loadCallback: data => {
                             media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                         }
@@ -1198,6 +1199,7 @@ let userDataFunction = async user => {
                             media_category: media.category,
                             media: media.data,
                             alt: media.alt,
+                            cw: media.cw,
                             loadCallback: data => {
                                 media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                             }

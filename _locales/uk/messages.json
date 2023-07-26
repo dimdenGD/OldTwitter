@@ -422,5 +422,11 @@
     "tweet_text_font": { "message": "Шрифт для тексту твітів" },
     "use_old_default_profile": { "message": "Використовувати значок яйця як аватар за замовчуванням" },
     "colors": { "message": "Кольори" },
-    "enable_hashflags": { "message": "Показувати значки хештегів (може трохи заповільнити загрузку на повільних компах)" }
+    "enable_hashflags": { "message": "Показувати значки хештегів (може трохи заповільнити загрузку на повільних компах)" },
+    "content_warning": { "message": "Зміст: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
+    "graphic_violence": { "message": "Насильство" },
+    "adult_content": { "message": "Контент для дорослих" },
+    "sensitive_content": { "message": "Чутливий контент" },
+    "replying_to_user": { "message": "Відповідь $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "content_warnings": { "message": "Зміст" }
 }

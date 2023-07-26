@@ -290,7 +290,7 @@
     "people_you_follow": { "message": "People you follow" },
     "people_you_mention": { "message": "People you mention" },
     "new_version": { "message": "Updated to new version" },
-    "display_sensitive_content": { "message": "Display media that may contain sensitive content" },
+    "display_sensitive_content": { "message": "Uncensor media that was marked by Twitter to possibly contain sensitive content automatically" },
     "is_private": { "message": "Is private" },
     "s": { "message": "$NUMBER$s", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
     "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
@@ -434,5 +434,14 @@
     "tweet_text_font": { "message": "Tweet text font" },
     "use_old_default_profile": { "message": "Set default profile picture to Egg" },
     "colors": { "message": "Colors" },
-    "enable_hashflags": { "message": "Enable hashtag icons (might slow down page loading a little)" }
+    "enable_hashflags": { "message": "Enable hashtag icons (might slow down page loading a little)" },
+    "content_warning": { "message": "Content warning: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
+    "graphic_violence": { "message": "Graphic violence" },
+    "adult_content": { "message": "Nudity" },
+    "sensitive_content": { "message": "Sensitive content" },
+    "uncensor_graphic_violence_automatically": { "message": "Uncensor media with graphic violence content warning automatically" },
+    "uncensor_adult_content_automatically": { "message": "Uncensor media with nudity content warning automatically" },
+    "uncensor_sensitive_content_automatically": { "message": "Uncensor media with sensitive content content warning automatically" },
+    "replying_to_user": { "message": "Replying to $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "content_warnings": { "message": "Content warnings" }
 }

@@ -422,5 +422,11 @@
     "tweet_text_font": { "message": "Шрифт для текста твитов" },
     "use_old_default_profile": { "message": "Использовать иконку яйца как аватар по умолчанию" },
     "colors": { "message": "Цвета" },
-    "enable_hashflags": { "message": "Показывать значки хештегов (может немного повлиять на скорость загрузки страницы)" }
+    "enable_hashflags": { "message": "Показывать значки хештегов (может немного повлиять на скорость загрузки страницы)" },
+    "content_warning": { "message": "Содержание: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
+    "graphic_violence": { "message": "Насилие" },
+    "adult_content": { "message": "Контент для взрослых" },
+    "sensitive_content": { "message": "Чувствительный контент" },
+    "replying_to_user": { "message": "Ответ $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "content_warnings": { "message": "Содержание" }
 }

@@ -65,6 +65,7 @@ setTimeout(() => {
                             <li>Added ability to pin Profile, Bookmarks and Lists on the navbar.</li>
                             <li>Added option to disable GIF autoplay.</li>
                             <li>Added ability to pause GIFs.</li>
+                            <li>Added support for media content warnings.</li>
                             <li>Added ability to hide replies.</li>
                             <li>Added option to disable personalized trends.</li>
                             <li>Added option to show media count in profiles.</li>
@@ -944,6 +945,7 @@ setTimeout(async () => {
                     media_category: media.category,
                     media: media.data,
                     alt: media.alt,
+                    cw: media.cw,
                     loadCallback: data => {
                         media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                     }

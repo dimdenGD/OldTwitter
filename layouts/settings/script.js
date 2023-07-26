@@ -196,6 +196,9 @@ setTimeout(async () => {
     let pinBookmarksOnNavbar = document.getElementById('pin-bookmarks-on-navbar');
     let pinListsOnNavbar = document.getElementById('pin-lists-on-navbar');
     let useOldDefaultProfileImage = document.getElementById('use-old-default-profile-navbar');
+    let uncensorGraphicViolenceAutomatically = document.getElementById('uncensor-graphic-violence-automatically');
+    let uncensorAdultContentAutomatically = document.getElementById('uncensor-adult-content-automatically');
+    let uncensorSensitiveContentAutomatically = document.getElementById('uncensor-sensitive-content-automatically');
 
     let root = document.querySelector(":root");
     {
@@ -266,6 +269,21 @@ setTimeout(async () => {
     heartsNotStars.addEventListener('change', () => {
         chrome.storage.sync.set({
             heartsNotStars: heartsNotStars.checked
+        }, () => { });
+    });
+    uncensorAdultContentAutomatically.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            uncensorAdultContentAutomatically: uncensorAdultContentAutomatically.checked
+        }, () => { });
+    });
+    uncensorGraphicViolenceAutomatically.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            uncensorGraphicViolenceAutomatically: uncensorGraphicViolenceAutomatically.checked
+        }, () => { });
+    });
+    uncensorSensitiveContentAutomatically.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            uncensorSensitiveContentAutomatically: uncensorSensitiveContentAutomatically.checked
         }, () => { });
     });
     linkColorsInTL.addEventListener('change', () => {
@@ -602,6 +620,9 @@ setTimeout(async () => {
     pinBookmarksOnNavbar.checked = !!vars.pinBookmarksOnNavbar;
     pinListsOnNavbar.checked = !!vars.pinListsOnNavbar;
     useOldDefaultProfileImage.checked = !!vars.useOldDefaultProfileImage;
+    uncensorAdultContentAutomatically.checked = !!vars.uncensorAdultContentAutomatically;
+    uncensorGraphicViolenceAutomatically.checked = !!vars.uncensorGraphicViolenceAutomatically;
+    uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
