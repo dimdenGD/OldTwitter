@@ -425,41 +425,53 @@ async function renderTweetBodyHTML(full_text, entities, display_text_range, is_q
     full_text_array = Array.from(full_text);
 
     if (is_quote_tweet) { // for quoted tweet we need only hashflags and readable urls
-        entities.hashtags.forEach(hashtag => {
-            let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
-            index_map[hashtag.indices[0]] = [hashtag.indices[1], text =>
-                `#${escapeHTML(hashtag.text)}`+
-                `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`
-            ];
-        });
+        if (entities.hashtags) {
+            entities.hashtags.forEach(hashtag => {
+                let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text =>
+                    `#${escapeHTML(hashtag.text)}`+
+                    `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`
+                ];
+            });
+        }
 
-        entities.urls.forEach(url => {
-            index_map[url.indices[0]] = [url.indices[1], text => `${escapeHTML(url.display_url)}`];
-        });
+        if (entities.urls) {
+            entities.urls.forEach(url => {
+                index_map[url.indices[0]] = [url.indices[1], text => `${escapeHTML(url.display_url)}`];
+            });
+        }
     } else {
-        entities.hashtags.forEach(hashtag => {
-            let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
-            index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
-                `#${escapeHTML(hashtag.text)}`+
-                `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
-            `</a>`];
-        });
+        if (entities.hashtags) {
+            entities.hashtags.forEach(hashtag => {
+                let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
+                    `#${escapeHTML(hashtag.text)}`+
+                    `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
+                `</a>`];
+            });
+        }
 
-        entities.symbols.forEach(symbol => {
-            index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="https://twitter.com/search?q=%24${escapeHTML(symbol.text)}">`+
-                `$${escapeHTML(symbol.text)}`+
-            `</a>`];
-        });
+        if (entities.symbols) {
+            entities.symbols.forEach(symbol => {
+                index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="https://twitter.com/search?q=%24${escapeHTML(symbol.text)}">`+
+                    `$${escapeHTML(symbol.text)}`+
+                `</a>`];
+            });
+        }
 
-        entities.urls.forEach(url => {
-            index_map[url.indices[0]] = [url.indices[1], text =>
-                `<a href="${escapeHTML(url.expanded_url)}" title="${escapeHTML(url.expanded_url)}" target="_blank" rel="noopener noreferrer">`+
-                `${escapeHTML(url.display_url)}</a>`];
-        });
+        if (entities.urls) {
+            entities.urls.forEach(url => {
+                index_map[url.indices[0]] = [url.indices[1], text =>
+                    `<a href="${escapeHTML(url.expanded_url)}" title="${escapeHTML(url.expanded_url)}" target="_blank" rel="noopener noreferrer">`+
+                    `${escapeHTML(url.display_url)}</a>`];
+            });
+        }
 
-        entities.user_mentions.forEach(user => {
-            index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
-        });
+        if (entities.user_mentions) {
+            entities.user_mentions.forEach(user => {
+                index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
+            });
+        }
     }
 
     let display_start = display_text_range !== undefined ? display_text_range[0] : 0;
