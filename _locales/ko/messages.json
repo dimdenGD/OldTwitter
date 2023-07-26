@@ -194,8 +194,8 @@
     "preferred_quality": { "message": "화질 우선" },
     "default_link_color": { "message": "기본 링크 색상" },
     "font": { "message": "글꼴" },
-    "color_sync": { "message": "고유 컬러 동기화" },
-    "by_pressing_sync": { "message": "동기화 버튼을 누르면 당신의 프로필 링크 색상이 컬러 데이터베이스 서버로 보내져 다른 사용자에게 표시됩니다." },
+    "color_sync": { "message": "고유 색상 동기화" },
+    "by_pressing_sync": { "message": "동기화 버튼을 누르면 당신의 프로필 링크 색상이 색상 데이터베이스 서버로 보내져 다른 사용자에게 표시됩니다." },
     "color_years_ago": { "message": "이전에 (수년전에) 트위터 링크 색상을 설정한 적이 있는 경우 이전 색상이 덮어써집니다." },
     "sync": { "message": "동기화" },
     "profile_link_color": { "message": "프로필 링크 색상" },
@@ -208,7 +208,7 @@
     "custom_css_text": { "message": "각 페이지에 추가할 커스텀 CSS" },
     "save_css": { "message": "CSS 저장" },
     "error_setting_color": { "message": "링크 색상 설정 오류" },
-    "link_color_set": { "message": "링크 컬러를 설정!" },
+    "link_color_set": { "message": "링크 색상을 설정했습니다!" },
     "retweeted_by": { "message": "다음 유저가 리트윗함" },
     "see_quotes": { "message": "인용을 보기" },
     "see_quotes_big": { "message": "인용을 보기" },
@@ -432,5 +432,7 @@
     "pin_lists_on_navbar": { "message": "리스트를 네비게이션 바에 고정합니다" },
     "me": { "message": "프로필", "description": "You should probably use word 'Profile' in your language" },
     "tweet_text_font": { "message": "트윗 본문 글꼴" },
-    "use_old_default_profile": { "message": "알계에 알계 프사를 이용합니다." }
+    "use_old_default_profile": { "message": "기본 인장으로 알계 인장을 이용합니다" },
+    "colors": { "message": "색상" },
+    "enable_hashflags": { "message": "해시태그 아이콘을 활성화 합니다 (페이지 로딩이 약간 느려질 수 있습니다)" }
 }
