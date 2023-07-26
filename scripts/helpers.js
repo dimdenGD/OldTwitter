@@ -441,10 +441,10 @@ function onVisibilityChange(callback) {
 };
 function escapeHTML(unsafe) {
     return unsafe
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "’");
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "’");
 }
 async function renderTweetBodyHTML(full_text, entities, display_text_range, is_quote_tweet=false) {
     let result = "",

@@ -652,7 +652,7 @@ setTimeout(async () => {
 
             let div = document.createElement('div');
             div.classList.add('color-div');
-            div.innerHTML = `
+            div.innerHTML = /*html*/`
                 <input class="color-value" type="color" data-var="${v}" value="${rgb2hex(...color.values)}">
                 <input class="color-transparency" title="${LOC.transparency.message}" type="range" min="0" max="1" step="0.01" value="${color.alpha}">
                 <span class="color-name">${v[2].toUpperCase() + v.slice(3).replace(/-/g, ' ')}</span>
