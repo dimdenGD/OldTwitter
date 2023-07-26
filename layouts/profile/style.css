@@ -623,9 +623,6 @@ a:hover,
     color: var(--light-gray);
     margin-right: 8px
 }
-emoji-picker {
-    position: fixed !important;
-}
 
 .emoji {
     width: 16px;

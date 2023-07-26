@@ -682,10 +682,8 @@ class TweetViewer {
             }
         });
         document.getElementsByClassName('new-tweet-emojis')[0].addEventListener('click', () => {
-            let rect = document.getElementsByClassName('new-tweet-emojis')[0].getBoundingClientRect();
-            createEmojiPicker(document.body, newTweetText, {
-                left: rect.x - 300 + 'px',
-                top: rect.y + 'px'
+            createEmojiPicker(document.getElementsByClassName('new-tweet-emojis')[0], newTweetText, {
+                marginLeft: '-300px'
             });
         });
         newTweetButton.addEventListener('click', async () => {

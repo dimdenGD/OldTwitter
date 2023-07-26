@@ -3,6 +3,15 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
+        if(details.url.includes('abs.twimg.com/favicons/twitter.3.ico')) {
+            return {
+                redirectUrl: chrome.runtime.getURL('images/logo32_new.png')
+            };
+        } else if(details.url.includes('abs.twimg.com/favicons/twitter-pip.3.ico')) {
+            return {
+                redirectUrl: chrome.runtime.getURL('images/logo32_new_notification.png')
+            };
+        }
         return {
             cancel:
                 ( // excludes
