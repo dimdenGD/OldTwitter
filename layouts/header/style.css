@@ -1026,6 +1026,13 @@ input, textarea {
     font-size: 14px
 }
 
+.tweet-reply-to {
+    display: flow-root;
+    font-size: 13px;
+    color: var(--light-gray);
+    padding-bottom: 3px;
+}
+
 .tweet-footer-stat {
     display: grid;
     text-decoration: none
@@ -1091,6 +1098,7 @@ input, textarea {
 }
 
 span.tweet-body-text {
+    white-space: pre-wrap;
     word-break: break-word;
     font-family: var(--tweet-font);
 }
@@ -1105,6 +1113,31 @@ span.tweet-body-text {
 
 .tweet-main {
     padding: 20px
+}
+
+.emoji, .hashflag {
+    width: 16px;
+    height: 16px;
+    margin-left: 2px;
+    margin-right: 2px;
+    vertical-align: text-top;
+}
+
+.tweet-body-text-short .emoji,
+.tweet-body-text-short .hashflag {
+    width: 26px !important;
+    height: 26px !important;
+    vertical-align: text-top !important;
+}
+
+.tweet-body-text-long .emoji,
+.tweet-body-text-long .hashflag {
+    vertical-align: text-top !important;
+}
+
+#user-name .emoji {
+    width: 26px !important;
+    height: 26px !important;
 }
 
 .tweet-footer-favorites-img {

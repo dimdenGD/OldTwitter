@@ -2,6 +2,7 @@ let loadingDetails = {};
 let loadingReplies = {};
 let loadingLikers = {};
 let tweetStorage = {};
+let hashflagStorage = {};
 
 setInterval(() => {
     // clearing cache
@@ -20,6 +21,7 @@ setInterval(() => {
     if(new Date().getMinutes() !== 0) return;
     chrome.storage.local.set({translations: {}}, () => {});
     chrome.storage.local.set({hashflags: {}}, () => {});
+    hashflagStorage = {};
 }, 60000);
 
 function debugLog(...args) {
@@ -34,16 +36,16 @@ function debugLog(...args) {
 
 // extract full text and url entities from "note_tweet"
 function parseNoteTweet(result) {
-    let text, urls;
+    let text, entities;
     if(result.note_tweet.note_tweet_results.entity_set) {
-        urls = result.note_tweet.note_tweet_results.entity_set.urls;
+        entities = result.note_tweet.note_tweet_results.entity_set;
     }
     text = result.note_tweet.note_tweet_results.text;
     if(typeof text !== "string") {
         text = result.note_tweet.note_tweet_results.result.text;
-        urls = result.note_tweet.note_tweet_results.result.entity_set.urls;
+        entities = result.note_tweet.note_tweet_results.result.entity_set;
     }
-    return {text, urls};
+    return {text, entities};
 }
 
 // transform ugly useless twitter api reply to usable legacy tweet
@@ -98,7 +100,8 @@ function parseTweet(res) {
         if(result.note_tweet && result.note_tweet.note_tweet_results) {
             let note = parseNoteTweet(result);
             tweet.retweeted_status.full_text = note.text;
-            tweet.retweeted_status.entities.urls = note.urls;
+            tweet.retweeted_status.entities = note.entities;
+            tweet.retweeted_status.display_text_range = undefined; // no text range for long tweets
         }
     }
 
@@ -108,10 +111,12 @@ function parseTweet(res) {
     if(res.note_tweet && res.note_tweet.note_tweet_results) {
         let note = parseNoteTweet(res);
         tweet.full_text = note.text;
-        tweet.entities.urls = note.urls;
+        tweet.entities = note.entities;
+        tweet.display_text_range = undefined; // no text range for long tweets
     }
     if(tweet.quoted_status_result) {
         let result = tweet.quoted_status_result.result;
+        if(!result.core && result.tweet) result = result.tweet;
         if(result.limitedActionResults) {
             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
             if(limitation) {
@@ -683,7 +688,48 @@ const API = {
                     });
                 });
             });
-        }
+        },
+        getHashflagsV2: () => { // uses memory-caching for better performance
+            return new Promise((resolve, reject) => {
+                // check in memory first
+                if(hashflagStorage && Date.now() - hashflagStorage.date < 60000*60*4) {
+                    return resolve(hashflagStorage.data);
+                }
+                // then in local storage
+                chrome.storage.local.get(['hashflags'], d => {
+                    if(d.hashflags && Date.now() - d.hashflags.date < 60000*60*4) {
+                        // copy to memory 
+                        hashflagStorage = d.hashflags;
+                        return resolve(d.hashflags.data);
+                    }
+                    fetch(`https://twitter.com/i/api/1.1/hashflags.json`, {
+                        headers: {
+                            "authorization": OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                        },
+                        credentials: "include",
+                    }).then(i => i.json()).then(data => {
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+                        resolve(data);
+                        // save to both local storage and memory
+                        chrome.storage.local.set({hashflags: {
+                            date: Date.now(),
+                            data
+                        }}, () => {});
+                        hashflagStorage = {
+                            date: Date.now(),
+                            data
+                        };
+                    }).catch(e => {
+                        reject(e);
+                    });
+                });
+            });
+        },
     },
     notifications: {
         getUnreadCount: (cache = true) => {
@@ -2946,13 +2992,15 @@ const API = {
                         }
                         resolve({
                             translated_lang: data.localizedSourceLanguage,
-                            text: data.translation
+                            text: data.translation,
+                            entities: data.entities
                         });
                         d.translations[id] = {
                             date: Date.now(),
                             data: {
                                 translated_lang: data.localizedSourceLanguage,
-                                text: data.translation
+                                text: data.translation,
+                                entities: data.entities
                             }
                         };
                         chrome.storage.local.set({translations: d.translations}, () => {});

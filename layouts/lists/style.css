@@ -232,10 +232,6 @@ body {
     text-decoration: underline
 }
 
-span.tweet-body-text {
-    word-break: break-word;
-}
-
 .tweet-body,
 .tweet-interact,
 .tweet-body-text-quote {
@@ -637,29 +633,6 @@ a:hover,
 
 #trends>h1 {
     margin-bottom: 5px
-}
-
-.emoji {
-    height: 16px;
-    margin-left: 2px;
-    margin-right: 2px;
-    vertical-align: bottom;
-    width: 16px
-}
-
-.tweet-body-text-short .emoji {
-    height: 26px !important;
-    vertical-align: text-top !important;
-    width: 26px !important
-}
-
-.tweet-body-text-long .emoji {
-    vertical-align: text-bottom !important
-}
-
-#user-name .emoji {
-    height: 26px !important;
-    width: 26px !important
 }
 
 .tweet-translate {

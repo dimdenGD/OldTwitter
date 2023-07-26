@@ -289,25 +289,6 @@ body {
     font-size: 14px;
     color: var(--light-gray);
 }
-.emoji {
-    width: 16px;
-    height: 16px;
-    vertical-align: bottom;
-    margin-left: 2px;
-    margin-right: 2px;
-}
-.tweet-body-text-short .emoji {
-    width: 26px !important;
-    height: 26px !important;
-    vertical-align: text-top !important;
-}
-.tweet-body-text-long .emoji {
-    vertical-align: text-bottom !important;
-}
-#user-name .emoji {
-    width: 26px !important;
-    height: 26px !important;
-}
 .tweet-translate {
     color: var(--link-color);
     font-size: 13px;
