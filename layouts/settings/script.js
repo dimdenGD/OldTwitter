@@ -1,5 +1,25 @@
 let user = {};
-// Util
+
+function getAllCSSVariables() {
+    const vars = {};
+    Array.from(document.styleSheets)
+        .forEach(styleSheet => {
+            if (!styleSheet.href && styleSheet.cssRules) {
+                Array.from(styleSheet.cssRules).forEach(cssRule => {
+                    if (cssRule.selectorText === ':root') {
+                        const css = cssRule.cssText.split('{')[1].replace('}', '').split(';');
+                        for (const cssProp of css) {
+                            const [property, value] = cssProp.split(':');
+                            if (property.trim().indexOf('--') === 0) {
+                                vars[property.trim()] = value.trim();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    return vars;
+}
 
 function updateUserData() {
     API.account.verifyCredentials().then(async u => {
@@ -148,9 +168,7 @@ setTimeout(async () => {
     let colorPreviewBlack = document.getElementById('color-preview-black');
     let disableHotkeys = document.getElementById('disable-hotkeys');
     let customCSS = document.getElementById('custom-css');
-    let customCSSVariables = document.getElementById('custom-css-variables');
     let customCSSSave = document.getElementById('custom-css-save');
-    let customCSSVariablesSave = document.getElementById('custom-css-variables-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
     let roundAvatars = document.getElementById('round-avatars-switch');
     let showOriginalImages = document.getElementById('show-original-images');
@@ -526,15 +544,6 @@ setTimeout(async () => {
             document.dispatchEvent(event);
         });
     });
-    customCSSVariablesSave.addEventListener('click', () => {
-        chrome.storage.sync.set({
-            customCSSVariables: customCSSVariables.value
-        }, () => {
-            let event = new CustomEvent('customCSSVariables', { detail: customCSSVariables.value });
-            document.dispatchEvent(event);
-        });
-    });
-
     if(vars.linkColor) {
         linkColor.value = vars.linkColor;
         root.style.setProperty('--link-color', vars.linkColor);
@@ -581,9 +590,6 @@ setTimeout(async () => {
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
-    if(vars.customCSSVariables) {
-        customCSSVariables.value = vars.customCSSVariables;
-    }
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
@@ -595,6 +601,9 @@ setTimeout(async () => {
         darkMode.checked = isDark();
         darkModeText.style.color = 'var(--darker-gray)';
     }
+
+    // Colors
+
 
     // Run
     updateUserData();
