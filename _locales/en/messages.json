@@ -186,7 +186,6 @@
     "show_topic_tweets": { "message": "Show topic tweets (algo only)" },
     "show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline" },
     "enable_twemoji": { "message": "Enable Twemoji" },
-    "enable_hashflags": { "message": "Enable Hashflags (might slow down page loading a little)" },
     "hearts_instead_stars": { "message": "Show hearts (likes) instead of stars (favorites)" },
     "dark_mode": { "message": "Dark mode" },
     "disable_hotkeys": { "message": "Disable hotkeys" },
@@ -433,5 +432,6 @@
     "pin_lists_on_navbar": { "message": "Pin Lists link on navbar" },
     "me": { "message": "Me", "description": "You should probably use word 'Profile' in your language" },
     "tweet_text_font": { "message": "Tweet text font" },
-    "colors": { "message": "Colors" }
+    "colors": { "message": "Colors" },
+    "enable_hashflags": { "message": "Enable hashtag icons (might slow down page loading a little)" }
 }

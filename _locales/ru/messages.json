@@ -180,7 +180,6 @@
     "show_topic_tweets": { "message": "Показывать твиты тем (только алгоритмическая)" },
     "show_colors_in_timeline": { "message": "Показывать пользовательские цвета в ленте" },
     "enable_twemoji": { "message": "Показывать Twemoji" },
-    "enable_hashflags": { "message": "Показывать хэшфлаги (может немного повлиять на скорость загрузки страницы)" },
     "hearts_instead_stars": { "message": "Показывать сердца (лайки) вместо звёзд (любимое)" },
     "dark_mode": { "message": "Тёмная тема" },
     "disable_hotkeys": { "message": "Выключить горячие клавиши" },
@@ -420,5 +419,6 @@
     "pin_bookmarks_on_navbar": { "message": "Закрепить Закладки на панеле навигации" },
     "pin_lists_on_navbar": { "message": "Закрепить Списки на панеле навигации" },
     "me": { "message": "Профиль", "description": "You should probably use word 'Profile' in your language, used for navbar pin" },
-    "tweet_text_font": { "message": "Шрифт для текста твитов" }
+    "tweet_text_font": { "message": "Шрифт для текста твитов" },
+    "enable_hashflags": { "message": "Показывать значки хештегов (может немного повлиять на скорость загрузки страницы)" }
 }
