@@ -612,29 +612,6 @@ a:hover,
     margin-right: 8px
 }
 
-.emoji {
-    width: 16px;
-    height: 16px;
-    vertical-align: bottom;
-    margin-left: 2px;
-    margin-right: 2px
-}
-
-.tweet-body-text-short .emoji {
-    width: 26px !important;
-    height: 26px !important;
-    vertical-align: text-top !important
-}
-
-.tweet-body-text-long .emoji {
-    vertical-align: text-bottom !important
-}
-
-#user-name .emoji {
-    width: 26px !important;
-    height: 26px !important
-}
-
 #new-tweets {
     border-bottom: none !important;
     border-radius: 0 !important;

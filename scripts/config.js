@@ -19,7 +19,7 @@ async function loadVars() {
             'showOriginalImages', 'pitchBlack', 'seeTweetViews', 'autotranslateProfiles', 'roundAvatars', 'twitterBlueCheckmarks',
             'developerMode', 'copyLinksAs', 'useNewIcon', 'updateTimelineAutomatically', 'hideTrends', 'hideWtf', 'hideLikes', 'hideFollowers',
             'extensiveLogging', 'disablePersonalizedTrends', 'showBookmarkCount', 'hideCommunityNotes', 'disableGifAutoplay', 'showMediaCount',
-            'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont'
+            'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont', 'enableHashflags'
         ], data => {
             resolve(data);
             varsResolve(data);

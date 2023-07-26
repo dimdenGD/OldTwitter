@@ -157,6 +157,7 @@ setTimeout(async () => {
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
     let enableTwemoji = document.getElementById('enable-twemoji');
+    let enableHashflags = document.getElementById('enable-hashflags');
     let timelineType = document.getElementById('tl-type');
     let darkMode = document.getElementById('dark-mode');
     let pitchBlackMode = document.getElementById('pitch-black-mode');
@@ -274,6 +275,11 @@ setTimeout(async () => {
     enableTwemoji.addEventListener('change', () => {
         chrome.storage.sync.set({
             enableTwemoji: enableTwemoji.checked
+        }, () => { });
+    });
+    enableHashflags.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            enableHashflags: enableHashflags.checked
         }, () => { });
     });
     timelineType.addEventListener('change', () => {
@@ -561,6 +567,7 @@ setTimeout(async () => {
     heartsNotStars.checked = !!vars.heartsNotStars;
     linkColorsInTL.checked = !!vars.linkColorsInTL;
     enableTwemoji.checked = !!vars.enableTwemoji;
+    enableHashflags.checked = !!vars.enableHashflags;
     timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;

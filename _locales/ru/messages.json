@@ -180,6 +180,7 @@
     "show_topic_tweets": { "message": "Показывать твиты тем (только алгоритмическая)" },
     "show_colors_in_timeline": { "message": "Показывать пользовательские цвета в ленте" },
     "enable_twemoji": { "message": "Показывать Twemoji" },
+    "enable_hashflags": { "message": "Показывать хэшфлаги (может немного повлиять на скорость загрузки страницы)" },
     "hearts_instead_stars": { "message": "Показывать сердца (лайки) вместо звёзд (любимое)" },
     "dark_mode": { "message": "Тёмная тема" },
     "disable_hotkeys": { "message": "Выключить горячие клавиши" },
