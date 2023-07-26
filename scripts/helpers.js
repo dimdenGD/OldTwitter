@@ -1024,7 +1024,7 @@ async function renderDiscovery(cache = true) {
             udiv.className = 'wtf-user';
             udiv.dataset.userId = userId;
             udiv.innerHTML = `
-                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${`${(userData.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
+                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${`${(userData.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(userData.id_str) % 7}_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
                         <b class="tweet-header-name wtf-user-name${userData.verified || userData.verified_type ? ' user-verified' : userData.id_str === '1123203847776763904' ? ' user-verified user-verified-dimden' : ''} ${userData.verified_type === 'Government' ? 'user-verified-gray' : userData.verified_type === 'Business' ? 'user-verified-yellow' : userData.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(userData.name)}</b>
@@ -1088,7 +1088,7 @@ async function appendUser(u, container, label) {
     userElement.innerHTML = `
         <div>
             <a href="https://twitter.com/${u.screen_name}" class="user-item-link">
-                <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
+                <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
                     <span${u.id_str === '1123203847776763904' ? ' title="Old Twitter Layout extension developer"' : ''} class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1123203847776763904' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
@@ -1359,7 +1359,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
-            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = '${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
+            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = '${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
                 <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
                     <b ${t.user.id_str === '1123203847776763904' ? 'title="Old Twitter Layout extension developer" ' : ''}class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.user.name)}</b>
@@ -1445,7 +1445,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ${t.card ? `<div class="tweet-card"></div>` : ''}
                 ${t.quoted_status ? `
                 <a class="tweet-body-quote" target="_blank" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
-                    <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
+                    <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
                         <span class="tweet-header-info-quote">
                         <b class="tweet-header-name-quote ${t.quoted_status.user.verified ? 'user-verified' : t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
@@ -1712,7 +1712,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 let a = document.createElement('a');
                 a.href = `https://twitter.com/${liker.screen_name}`;
                 let likerImg = document.createElement('img');
-                likerImg.src = `${(liker.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_normal.png`): liker.profile_image_url_https}`;
+                likerImg.src = `${(liker.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(liker.id_str) % 7}_normal.png`): liker.profile_image_url_https}`;
                 likerImg.classList.add('tweet-footer-favorites-img');
                 likerImg.title = liker.name + ' (@' + liker.screen_name + ')';
                 likerImg.width = 24;
@@ -2576,7 +2576,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     let a = document.createElement('a');
                     a.href = `https://twitter.com/${user.screen_name}`;
                     let likerImg = document.createElement('img');
-                    likerImg.src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_normal.png`): user.profile_image_url_https}`;
+                    likerImg.src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`;
                     likerImg.classList.add('tweet-footer-favorites-img');
                     likerImg.title = user.name + ' (@' + user.screen_name + ')';
                     likerImg.width = 24;
