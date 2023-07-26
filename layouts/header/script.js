@@ -97,7 +97,7 @@ let userDataFunction = async user => {
     if(headerGotUser || Object.keys(user).length === 0) return;
     headerGotUser = true;
     let userAvatar = document.getElementById('navbar-user-avatar');
-    userAvatar.src = user.profile_image_url_https.replace("_normal", "_bigger");
+    userAvatar.src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace('_normal.', '_bigger.');
     document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
     document.getElementById('navbar-user-menu-lists').href = `/${user.screen_name}/lists`;
     document.getElementById('navbar-user-menu-username').innerText = user.name;
@@ -252,7 +252,7 @@ let userDataFunction = async user => {
                 userElement.innerHTML = /*html*/`
                     <div>
                         <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                            <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                            <img src="${`${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                             <div class="following-item-text">
                                 <span class="tweet-header-name following-item-name ${u.verified || u.id_str === '1123203847776763904' ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
                                 <span class="tweet-header-handle">@${u.screen_name}</span>
@@ -458,7 +458,7 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <a href="https://twitter.com/${sender.screen_name}"><img src="${sender.profile_image_url_https.replace("_normal", "_bigger")}" width="26" height="26"></a>
+                    <a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" width="26" height="26"></a>
                     <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
                     <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
                 ` : `
@@ -623,7 +623,7 @@ let userDataFunction = async user => {
                 isUnread = true;
             }
             messageElement.innerHTML = /*html*/`
-                <img src="${messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`))}" width="48" height="48" class="inbox-message-avatar">
+                <img src="${messageUsers.length === 1 ? `${(messageUsers[0].default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(messageUsers[0].id_str) % 7}_normal.png`): messageUsers[0].profile_image_url_https}` : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`))}" width="48" height="48" class="inbox-message-avatar">
                 <div class="inbox-text">
                     <b class="inbox-name">${messageUsers.length === 1 ? escapeHTML(messageUsers[0].name) : (c.name ? escapeHTML(c.name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128))}</b>
                     <span class="inbox-screenname">${messageUsers.length === 1 ? "@"+messageUsers[0].screen_name : ''}</span>
@@ -646,7 +646,7 @@ let userDataFunction = async user => {
                 modal.querySelector('.inbox').hidden = true;
                 modal.querySelector('.new-message-box').hidden = true;
                 messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : (c.name || messageUsers.map(i => i.name).join(', ').slice(0, 80));
-                messageHeaderAvatar.src = messageUsers.length === 1 ? messageUsers[0].profile_image_url_https : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`));
+                messageHeaderAvatar.src = messageUsers.length === 1 ? `${(messageUsers[0].default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(messageUsers[0].id_str) % 7}_normal.png`): messageUsers[0].profile_image_url_https}` : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`));
                 if(messageUsers.length === 1) messageHeaderLink.href = `https://twitter.com/${messageUsers[0].screen_name}`;
                 setTimeout(() => {
                     modal.querySelector(".message-new-input").focus();
@@ -695,6 +695,7 @@ let userDataFunction = async user => {
                 <div class="center-text load-more" ${cursor ? '' : 'hidden'}>${LOC.load_more.message}</div>
             </div>
             <div class="message-box" hidden>
+                <div class="name-top-background"></div><!-- ugly bug fix -->
                 <div class="inbox-top name-top">
                     <span class="message-header-back"></span>
                     <a class="message-header-link">
@@ -778,7 +779,7 @@ let userDataFunction = async user => {
                 let userElement = document.createElement('div');
                 userElement.classList.add('new-message-user');
                 userElement.innerHTML = `
-                    <img class="new-message-user-avatar" src="${u.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48">
+                    <img class="new-message-user-avatar" src="${`${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`.replace("_normal", "_bigger")}" width="48" height="48">
                     <div class="new-message-user-text">
                         <b class="new-message-user-name">${escapeHTML(u.name)}</b>
                         <span class="new-message-user-screenname">@${u.screen_name}</span>
@@ -795,7 +796,7 @@ let userDataFunction = async user => {
                     modal.querySelector('.inbox').hidden = true;
                     modal.querySelector('.new-message-box').hidden = true;
                     messageHeaderName.innerText = u.name;
-                    messageHeaderAvatar.src = u.profile_image_url_https;
+                    messageHeaderAvatar.src = `${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`;
                     messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
                     setTimeout(() => {
                         modal.querySelector(".message-new-input").focus();
@@ -1052,7 +1053,7 @@ let userDataFunction = async user => {
             }
         });
 
-        modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = user.profile_image_url_https.replace("_normal", "_bigger");
+        modal.getElementsByClassName('navbar-new-tweet-avatar')[0].src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_bigger");
         newTweetText.addEventListener('focus', async e => {
             setTimeout(() => {
                 if(/(?<!\w)@([\w+]{1,15}\b)$/.test(e.target.value)) {
@@ -1137,7 +1138,7 @@ let userDataFunction = async user => {
                     userElement.className = 'search-result-item';
                     if(index === 0) userElement.classList.add('search-result-item-active');
                     userElement.innerHTML = `
-                        <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
+                        <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
                         <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                         <span class="search-result-item-screen-name">@${user.screen_name}</span>
                     `;
@@ -1411,7 +1412,7 @@ let userDataFunction = async user => {
             userElement.href = `/${user.screen_name}`;
             userElement.className = 'search-result-item';
             userElement.innerHTML = `
-                <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
+                <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
                 <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${user.name}</span>
                 <span class="search-result-item-screen-name">@${user.screen_name}</span>
             `;
@@ -1540,7 +1541,7 @@ let userDataFunction = async user => {
                 <img class="preview-user-banner" height="100" width="300" src="${user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png'}">
                 <div class="preview-user-data">
                     <a class="preview-user-avatar-link" href="https://twitter.com/${user.screen_name}">
-                        <img class="preview-user-avatar" width="50" height="50" src="${user.profile_image_url_https.replace('_normal.', '_400x400.')}">
+                        <img class="preview-user-avatar" width="50" height="50" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace('_normal.', '_400x400.')}">
                     </a>
                     <br>
                     <a class="preview-user-info" href="https://twitter.com/${user.screen_name}">
@@ -1664,7 +1665,7 @@ let userDataFunction = async user => {
             modal.querySelector('.inbox').hidden = true;
             modal.querySelector('.new-message-box').hidden = true;
             messageHeaderName.innerText = u.name;
-            messageHeaderAvatar.src = u.profile_image_url_https;
+            messageHeaderAvatar.src = `${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`;
             messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
             setTimeout(() => {
                 modal.querySelector(".message-new-input").focus();

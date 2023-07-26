@@ -96,7 +96,7 @@ function renderUserData() {
     document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
     document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
-    document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
+    document.getElementById('user-avatar').src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_400x400");
     document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
@@ -195,6 +195,7 @@ setTimeout(async () => {
     let pinProfileOnNavbar = document.getElementById('pin-profile-on-navbar');
     let pinBookmarksOnNavbar = document.getElementById('pin-bookmarks-on-navbar');
     let pinListsOnNavbar = document.getElementById('pin-lists-on-navbar');
+    let useOldDefaultProfileImage = document.getElementById('use-old-default-profile-navbar');
 
     let root = document.querySelector(":root");
     {
@@ -301,6 +302,12 @@ setTimeout(async () => {
             let icon = document.getElementById('site-icon');
             icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
         });
+    });
+    useOldDefaultProfileImage.addEventListener('change', () => {
+        vars.useOldDefaultProfileImage = useOldDefaultProfileImage.checked;
+        chrome.storage.sync.set({
+            useOldDefaultProfileImage: useOldDefaultProfileImage.checked
+        }, () => { });
     });
     disableHotkeys.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -594,6 +601,7 @@ setTimeout(async () => {
     pinProfileOnNavbar.checked = !!vars.pinProfileOnNavbar;
     pinBookmarksOnNavbar.checked = !!vars.pinBookmarksOnNavbar;
     pinListsOnNavbar.checked = !!vars.pinListsOnNavbar;
+    useOldDefaultProfileImage.checked = !!vars.useOldDefaultProfileImage;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

@@ -432,6 +432,7 @@
     "pin_lists_on_navbar": { "message": "Pin Lists link on navbar" },
     "me": { "message": "Me", "description": "You should probably use word 'Profile' in your language" },
     "tweet_text_font": { "message": "Tweet text font" },
+    "use_old_default_profile": { "message": "Set default profile picture to Egg" },
     "colors": { "message": "Colors" },
     "enable_hashflags": { "message": "Enable hashtag icons (might slow down page loading a little)" }
 }

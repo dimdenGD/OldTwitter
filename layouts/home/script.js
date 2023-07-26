@@ -238,11 +238,11 @@ function renderUserData() {
     document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
     document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
-    document.getElementById('user-avatar').src = user.profile_image_url_https.replace("_normal", "_400x400");
+    document.getElementById('user-avatar').src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_400x400");
     document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
-    document.getElementById('new-tweet-avatar').src = user.profile_image_url_https.replace("_normal", "_bigger");
+    document.getElementById('new-tweet-avatar').src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_bigger");
 
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 
@@ -767,7 +767,7 @@ setTimeout(async () => {
                 userElement.className = 'search-result-item';
                 if(index === 0) userElement.classList.add('search-result-item-active');
                 userElement.innerHTML = `
-                    <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
+                    <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
                     <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${user.name}</span>
                     <span class="search-result-item-screen-name">@${user.screen_name}</span>
                 `;
@@ -857,7 +857,7 @@ setTimeout(async () => {
                 userElement.className = 'circle-user';
                 userElement.innerHTML = /*html*/`
                     <a href="/${u.legacy.screen_name}" target="_blank" style="text-decoration:none!important">
-                        <img class="new-message-user-avatar" src="${u.legacy.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48">
+                        <img class="new-message-user-avatar" src="${`${(u.legacy.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.legacy.id_str) % 7}_normal.png`): u.legacy.profile_image_url_https}`.replace("_normal", "_bigger")}" width="48" height="48">
                         <div class="new-message-user-text">
                             <b class="new-message-user-name">${escapeHTML(u.legacy.name)}</b>
                             <span class="new-message-user-screenname">@${u.legacy.screen_name}</span>
@@ -887,7 +887,7 @@ setTimeout(async () => {
                 userElement.classList.add('circle-user');
                 userElement.innerHTML = /*html*/`
                     <a href="/${u.legacy.screen_name}" target="_blank" style="text-decoration:none!important">
-                        <img class="new-message-user-avatar" src="${u.legacy.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48">
+                        <img class="new-message-user-avatar" src="${`${(u.legacy.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.legacy.id_str) % 7}_normal.png`): u.legacy.profile_image_url_https}`.replace("_normal", "_bigger")}" width="48" height="48">
                         <div class="new-message-user-text">
                             <b class="new-message-user-name">${escapeHTML(u.legacy.name)}</b>
                             <span class="new-message-user-screenname">@${u.legacy.screen_name}</span>

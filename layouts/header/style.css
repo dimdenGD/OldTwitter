@@ -738,13 +738,17 @@ input, textarea {
     text-decoration: underline;
 }
 .message-element .message-body {
+    text-align: left;
+    display:inline-table;
+    max-width:400px;
     background-color: var(--link-color);
     color: var(--background-color);
     border-radius: 5px;
     font-size: 14px;
+    margin: 0px;
     padding: 5px;
     white-space: break-spaces;
-    line-height: 1.8;
+    line-height: 1.2;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
 }
@@ -776,6 +780,8 @@ input, textarea {
     font-family: RosettaIcons;
 }
 .message-element-media {
+    margin-left: 30px;
+    margin-top: 2px;
     cursor: pointer;
     object-fit: cover;
     max-width: fit-content;
@@ -908,8 +914,19 @@ input, textarea {
     color: var(--light-gray);
     margin-right: 5px;
 }
+
+.name-top-background {
+    position: fixed;
+    background-color: var(--background-color);
+    padding-top: 15px;
+    margin-top: -20px;
+    width: 595px;
+    height: 50px
+}
+
 .name-top {
     width: 618px !important;
+    background-color: rgba(0, 0, 0, 0) !important;
 }
 .navbar-new-tweet-user-search {
     background-color: var(--background-color);

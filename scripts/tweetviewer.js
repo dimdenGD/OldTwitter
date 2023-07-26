@@ -366,7 +366,7 @@ class TweetViewer {
             retweetElement.innerHTML = `
             <div>
                 <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
-                    <img src="${u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                    <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                     <div class="following-item-text">
                         <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
                         <span class="tweet-header-handle">@${u.screen_name}</span>
@@ -485,7 +485,7 @@ class TweetViewer {
                 </div>
             </div>`;
         container.append(el);
-        document.getElementsByClassName('new-tweet-avatar')[0].src = this.user.profile_image_url_https.replace("_normal", "_bigger");
+        document.getElementsByClassName('new-tweet-avatar')[0].src = `${(this.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(this.user.id_str) % 7}_normal.png`): this.user.profile_image_url_https}`.replace("_normal", "_bigger");
         document.getElementsByClassName('new-tweet-view')[0].addEventListener('click', async () => {
             document.getElementsByClassName('new-tweet-focused')[0].hidden = false;
             document.getElementsByClassName('new-tweet-char')[0].hidden = false;
@@ -641,7 +641,7 @@ class TweetViewer {
                     userElement.className = 'search-result-item';
                     if(index === 0) userElement.classList.add('search-result-item-active');
                     userElement.innerHTML = `
-                        <img width="16" height="16" class="search-result-item-avatar" src="${user.profile_image_url_https}">
+                        <img width="16" height="16" class="search-result-item-avatar" src="${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}">
                         <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                         <span class="search-result-item-screen-name">@${user.screen_name}</span>
                     `;
@@ -891,7 +891,7 @@ class TweetViewer {
         }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
-            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'" src="${t.user.profile_image_url_https.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
+            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
                 <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
                     <b ${t.user.id_str === '1123203847776763904' ? 'title="Old Twitter Layout extension developer" ' : ''}class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.user.name)}</b>
@@ -975,7 +975,7 @@ class TweetViewer {
                 ${t.card ? `<div class="tweet-card"></div>` : ''}
                 ${t.quoted_status ? `
                 <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
-                    <img src="${t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
+                    <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
                         <span class="tweet-header-info-quote">
                         <b class="tweet-header-name-quote ${t.quoted_status.user.verified || t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
@@ -1220,7 +1220,7 @@ class TweetViewer {
                 let a = document.createElement('a');
                 a.href = `https://twitter.com/${liker.screen_name}`;
                 let likerImg = document.createElement('img');
-                likerImg.src = liker.profile_image_url_https;
+                likerImg.src = `${(liker.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(liker.id_str) % 7}_normal.png`): liker.profile_image_url_https}`;
                 likerImg.classList.add('tweet-footer-favorites-img');
                 likerImg.title = liker.name + ' (@' + liker.screen_name + ')';
                 likerImg.width = 24;
@@ -1931,7 +1931,7 @@ class TweetViewer {
                         let a = document.createElement('a');
                         a.href = `https://twitter.com/${user.screen_name}`;
                         let likerImg = document.createElement('img');
-                        likerImg.src = user.profile_image_url_https;
+                        likerImg.src = `${(liker.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(liker.id_str) % 7}_normal.png`): liker.profile_image_url_https}`    ;
                         likerImg.classList.add('tweet-footer-favorites-img');
                         likerImg.title = user.name + ' (@' + user.screen_name + ')';
                         likerImg.width = 24;

@@ -420,5 +420,7 @@
     "pin_lists_on_navbar": { "message": "Закріпити Списки на панелі навігації" },
     "me": { "message": "Профіль", "description": "You should probably use word 'Profile' in your language" },
     "tweet_text_font": { "message": "Шрифт для тексту твітів" },
+    "use_old_default_profile": { "message": "Використовувати значок яйця як аватар за замовчуванням" },
+    "colors": { "message": "Кольори" },
     "enable_hashflags": { "message": "Показувати значки хештегів (може трохи заповільнити загрузку на повільних компах)" }
 }
