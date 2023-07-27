@@ -1466,8 +1466,10 @@ a:hover,
     margin-top: 25px;
     text-align: center;
 }
-#navbar-links a {
-    padding-bottom: 17px !important;
+@supports not (-moz-appearance:none) {
+    #navbar-links a {
+        padding-bottom: 17px !important;
+    }
 }
 #tweet-nav-more-menu > label[hidden] {
     display: none !important;
