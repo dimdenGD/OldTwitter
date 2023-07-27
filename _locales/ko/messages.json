@@ -455,9 +455,9 @@
     "advanced_option": { "message":"고급 설정", "description":"Setting Text"},
     "advanced_colors": { "message":"고급 색상", "description":"Setting Text"},
     "accssibility": { "message":"접근성", "description":"Setting Text"},
-    "tweet_and_timeline": { "message":"트윗과 타임라인", "description":"Setting Text"},
+    "tweets_and_timeline": { "message":"트윗과 타임라인", "description":"Setting Text"},
     "dark_mode_setting": { "message": "다크 모드", "description":"Setting Text"},
     "old_twitter_look": {"message": "옛날 트위터처럼 설정하기", "description":"Setting Text"},
     "content_you_see": {"message": "표시되는 콘텐츠", "description":"Setting Text"},
-    "use_old_style_reply": {"message": "답장 받는 사람을 맨션처럼 표시합니다 (실제 맨션되는 것은 아닙니다)"}
+    "use_old_style_reply": {"message": "구답장 스타일을 사용합니다"}
 }
