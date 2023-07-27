@@ -623,7 +623,7 @@ let userDataFunction = async user => {
                 lastMessage = lastMessage.trust_conversation;
             };
             let messageUsers = c.participants.filter(p => p.user_id !== user.id_str).map(p => inbox.users[p.user_id]);
-            let lastMessageUser = messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id);
+            let lastMessageUser = lastMessage.message_data ? messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id) : messageUsers[0];
             let messageElement = document.createElement('div');
             messageElement.classList.add('inbox-message');
             let isUnread = false;
