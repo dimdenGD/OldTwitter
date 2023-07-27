@@ -179,6 +179,15 @@ body {
 .nice-button:disabled:before {
     color: lightgray !important;
 }
+.nice-red-button {
+    color: #d4e3ed !important;
+    background-image: linear-gradient(#BA172C, #6F0D1C) !important;
+}
+
+.nice-red-button:hover:not([disabled]) {
+    color: #d4e3ed !important;
+    background-image: linear-gradient(#BA172C, #4B0E17) !important;
+}
 
 #wtf {
     padding: 10px;

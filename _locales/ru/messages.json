@@ -427,6 +427,9 @@
     "graphic_violence": { "message": "Насилие" },
     "adult_content": { "message": "Контент для взрослых" },
     "sensitive_content": { "message": "Чувствительный контент" },
+    "uncensor_graphic_violence_automatically": { "message": "Автоматически раскрывать цензуру с медиа с насилием" },
+    "uncensor_adult_content_automatically": { "message": "Автоматически раскрывать цензуру с медиа с наготой" },
+    "uncensor_sensitive_content_automatically": { "message": "Автоматически раскрывать цензуру с медиа с деликатным контентом" },
     "replying_to_user": { "message": "Ответ $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "content_warnings": { "message": "Содержание" },
     "transparency": { "message": "Прозрачность" },
@@ -434,5 +437,15 @@
     "reset_all": { "message": "Скинуть всё" },
     "import": { "message": "Импортировать" },
     "export": { "message": "Экспортировать" },
-    "reset_colors_sure": { "message": "Вы уверены что хотите скинуть все цвета до умолчания?" }
+    "reset_colors_sure": { "message": "Вы уверены что хотите скинуть все цвета до умолчания?" },
+    "navbar": { "message":"Панель навигации", "description":"Setting Text"},
+    "sidebar": { "message":"Боковая панель", "description":"Setting Text"},
+    "advanced_option": { "message":"Расширенные настройки", "description":"Setting Text"},
+    "advanced_colors": { "message":"Расширенные цвета", "description":"Setting Text"},
+    "accssibility": { "message":"Доступность", "description":"Setting Text"},
+    "tweets_and_timeline": { "message":"Твиты & Лента", "description":"Setting Text"},
+    "dark_mode_setting": { "message": "Тёмная тема", "description":"Setting Text"},
+    "old_twitter_look": {"message": "Старый стиль Твиттера", "description":"Setting Text"},
+    "content_you_see": {"message": "Контент вы видите", "description":"Setting Text"},
+    "use_old_style_reply": {"message": "Использовать старый стиль ответов"}
 }

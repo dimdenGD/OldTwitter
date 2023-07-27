@@ -199,6 +199,8 @@ setTimeout(async () => {
     let uncensorGraphicViolenceAutomatically = document.getElementById('uncensor-graphic-violence-automatically');
     let uncensorAdultContentAutomatically = document.getElementById('uncensor-adult-content-automatically');
     let uncensorSensitiveContentAutomatically = document.getElementById('uncensor-sensitive-content-automatically');
+    let useOldStyleReply = document.getElementById('use-old-style-reply');
+    let linkColorReset = document.getElementById('link-color-reset');
 
     let root = document.querySelector(":root");
     {
@@ -240,6 +242,14 @@ setTimeout(async () => {
     
     linkColor.addEventListener('change', () => {
         let color = linkColor.value;
+        root.style.setProperty('--link-color', color);
+        chrome.storage.sync.set({
+            linkColor: color
+        }, () => { });
+    });
+    linkColorReset.addEventListener('click', async () => {
+        let color = '#4BACD2';
+        linkColor.value=color;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
@@ -320,6 +330,12 @@ setTimeout(async () => {
             let icon = document.getElementById('site-icon');
             icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
         });
+    });
+    useOldStyleReply.addEventListener('change', () => {
+        vars.useOldStyleReply = useOldStyleReply.checked;
+        chrome.storage.sync.set({
+            useOldStyleReply: useOldStyleReply.checked
+        }, () => { });
     });
     useOldDefaultProfileImage.addEventListener('change', () => {
         vars.useOldDefaultProfileImage = useOldDefaultProfileImage.checked;
@@ -624,6 +640,7 @@ setTimeout(async () => {
     uncensorAdultContentAutomatically.checked = !!vars.uncensorAdultContentAutomatically;
     uncensorGraphicViolenceAutomatically.checked = !!vars.uncensorGraphicViolenceAutomatically;
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
+    useOldStyleReply.checked = !!vars.useOldStyleReply;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
@@ -656,7 +673,7 @@ setTimeout(async () => {
                 <input class="color-value" type="color" data-var="${v}" value="${rgb2hex(...color.values)}">
                 <input class="color-transparency" title="${LOC.transparency.message}" type="range" min="0" max="1" step="0.01" value="${color.alpha}">
                 <span class="color-name">${v[2].toUpperCase() + v.slice(3).replace(/-/g, ' ')}</span>
-                <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>Reset</button>
+                <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>${LOC.reset.message}</button>
             `;
             colorsDiv.append(div);
             function colorUpdate() {

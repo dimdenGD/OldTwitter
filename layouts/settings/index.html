@@ -54,7 +54,8 @@
                     <a href="https://twitter.com/settings?newtwitter=true">__MSG_edit_twitter_settings__</a><br>                    
                     <hr>
                     <h1>__MSG_oldtwitter_settings__</h1><br>
-                    <span>__MSG_refresh_tabs__</span><br><br>
+                    <span>__MSG_refresh_tabs__</span><br>      
+                    <label for="show-topic-tweets"><h2>__MSG_language__</h2></label>
                     <div class="setting">
                         <select id="language">
                             <option value="en">English</option>
@@ -81,8 +82,10 @@
                             <option value="he">עִברִית (Hebrew)</option>
                             <option value="ne">नेपाली (Nepali)</option>
                         </select>
-                        <label for="show-topic-tweets">__MSG_language__</label>
+                        
                     </div>
+                    
+                    <h2>__MSG_content_you_see__</h2><br>
                     <div class="setting">
                         <select id="tl-type">
                             <option value="chrono">__MSG_chrono__</option>
@@ -97,6 +100,23 @@
                         <input type="checkbox" id="show-topic-tweets"> <label for="show-topic-tweets">__MSG_show_topic_tweets__</label>
                     </div>
                     <div class="setting">
+                        <input type="checkbox" id="disable-personalized-trends"> <label for="disable-personalized-trends">__MSG_disable_personalized_trends__</label>
+                    </div>
+                    <h2>__MSG_photos_and_videos2__</h2><br>
+                    <div class="setting">
+                        <input type="checkbox" id="show-original-images"> <label for="show-original-images">__MSG_show_original_images__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="autoplay-videos"> <label for="autoplay-videos">__MSG_autoplay_videos__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="disable-gif-autoplay"> <label for="disable-gif-autoplay">__MSG_disable_gif_autoplay__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="save-preferred-quality"> <label for="save-preferred-quality">__MSG_save_preferred_quality__</label>
+                    </div>
+                    <h2>__MSG_sensitive_content__</h2><br>
+                    <div class="setting">
                         <input type="checkbox" id="display-sensitive-content"> <label for="display-sensitive-content">__MSG_display_sensitive_content__</label>
                     </div>
                     <div class="setting">
@@ -108,44 +128,10 @@
                     <div class="setting">
                         <input type="checkbox" id="uncensor-sensitive-content-automatically"> <label for="uncensor-sensitive-content-automatically">__MSG_uncensor_sensitive_content_automatically__</label>
                     </div>
+                    
+                    <h2>__MSG_accssibility__</h2><br>
                     <div class="setting">
                         <input type="checkbox" id="disable-hotkeys"> <label for="disable-hotkeys">__MSG_disable_hotkeys__</label>. <a target="_blank" href="https://github.com/dimdenGD/OldTwitter#hotkeys">__MSG_hotkeys_list__.</a>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="no-big-font"> <label for="no-big-font">__MSG_no_big_font__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="see-tweet-views"> <label for="see-tweet-views">__MSG_see_tweet_views__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="show-bookmark-count"> <label for="show-bookmark-count">__MSG_show_bookmark_count__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="show-media-count"> <label for="show-media-count">__MSG_show_media_count__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="hide-community-notes"> <label for="hide-community-notes">__MSG_hide_community_notes__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="twitter-blue-checkmarks"> <label for="twitter-blue-checkmarks">__MSG_twitter_blue_checkmarks__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="autoplay-videos"> <label for="autoplay-videos">__MSG_autoplay_videos__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="disable-gif-autoplay"> <label for="disable-gif-autoplay">__MSG_disable_gif_autoplay__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="save-preferred-quality"> <label for="save-preferred-quality">__MSG_save_preferred_quality__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="show-original-images"> <label for="show-original-images">__MSG_show_original_images__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="disable-personalized-trends"> <label for="disable-personalized-trends">__MSG_disable_personalized_trends__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="update-timeline-automatically"> <label for="update-timeline-automatically">__MSG_update_timeline_automatically__</label>
                     </div>
                     <div class="setting">
                         <span>__MSG_copy_tweet_links_as__</span> 
@@ -157,41 +143,17 @@
                             <option value="custom">custom</option>
                         </select>
                     </div>
+                    <h2>__MSG_advanced_option__</h2><br>
+                    <div class="setting">
+                        <input type="checkbox" id="update-timeline-automatically"> <label for="update-timeline-automatically">__MSG_update_timeline_automatically__</label>
+                    </div>
+                   
                     <div class="setting">
                         <input type="checkbox" id="developer-mode"> <label for="developer-mode">__MSG_developer_mode__</label>
                     </div>
                     <hr>
                     <h1>__MSG_display__</h1><br>
-                    <div class="setting">
-                        <input type="checkbox" id="link-colors-in-tl"> <label for="link-colors-in-tl">__MSG_show_colors_in_timeline__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="enable-twemoji"> <label for="enable-twemoji">__MSG_enable_twemoji__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="enable-hashflags"> <label for="enable-hashflags">__MSG_enable_hashflags__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="hearts-instead-stars"> <label for="hearts-instead-stars">__MSG_hearts_instead_stars__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="dark-mode"> <label for="dark-mode" id="dark-mode-text">__MSG_dark_mode__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="pitch-black-mode"> <label for="pitch-black-mode">__MSG_pitch_black_mode__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="time-mode"> <label for="time-mode">__MSG_time_mode__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="round-avatars-switch"> <label for="round-avatars-switch">__MSG_round_avatars__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="use-new-icon"> <label for="use-new-icon">__MSG_use_new_icon__</label>
-                    </div>
-                    <div class="setting">
-                        <input type="checkbox" id="use-old-default-profile-navbar"> <label for="use-old-default-profile-navbar">__MSG_use_old_default_profile__</label>
-                    </div>
+                    <h2>__MSG_navbar__</h2><br>
                     <div class="setting">
                         <input type="checkbox" id="pin-profile-on-navbar"> <label for="pin-profile-on-navbar">__MSG_pin_profile_on_navbar__</label>
                     </div>
@@ -201,26 +163,98 @@
                     <div class="setting">
                         <input type="checkbox" id="pin-lists-on-navbar"> <label for="pin-lists-on-navbar">__MSG_pin_lists_on_navbar__</label>
                     </div>
+                    <h2>__MSG_sidebar__</h2><br>
                     <div class="setting">
                         <input type="checkbox" id="hide-trends"> <label for="hide-trends">__MSG_hide_trends__</label>
                     </div>
                     <div class="setting">
                         <input type="checkbox" id="hide-wtf"> <label for="hide-wtf">__MSG_hide_wtf__</label>
                     </div>
+                   <h2>__MSG_profile__</h2><br>
                     <div class="setting">
-                        <input type="checkbox" id="hide-likes"> <label for="hide-likes">__MSG_hide_likes__</label>
+                        <input type="checkbox" id="twitter-blue-checkmarks"> <label for="twitter-blue-checkmarks">__MSG_twitter_blue_checkmarks__</label>
                     </div>
                     <div class="setting">
                         <input type="checkbox" id="hide-followers"> <label for="hide-followers">__MSG_hide_followers__</label>
                     </div>
                     <div class="setting">
-                        <input type="color" id="link-color"> <label for="link-color">__MSG_default_link_color__</label>
+                        <input type="checkbox" id="show-media-count"> <label for="show-media-count">__MSG_show_media_count__</label>
                     </div>
+
+                    <h2>__MSG_tweets_and_timeline__</h2><br>
+                    <div class="setting">
+                        <input type="checkbox" id="show-bookmark-count"> <label for="show-bookmark-count">__MSG_show_bookmark_count__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="see-tweet-views"> <label for="see-tweet-views">__MSG_see_tweet_views__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="hide-likes"> <label for="hide-likes">__MSG_hide_likes__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="hide-community-notes"> <label for="hide-community-notes">__MSG_hide_community_notes__</label>
+                    </div>
+                    <h2>__MSG_dark_mode_setting__</h2><br>
+                    <div class="setting">
+                        <input type="checkbox" id="dark-mode"> <label for="dark-mode" id="dark-mode-text">__MSG_dark_mode__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="pitch-black-mode"> <label for="pitch-black-mode">__MSG_pitch_black_mode__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="time-mode"> <label for="time-mode">__MSG_time_mode__</label>
+                    </div>
+                    <h2>__MSG_old_twitter_look__</h2><br>
+                    <div class="setting">
+                        <input type="checkbox" id="link-colors-in-tl"> <label for="link-colors-in-tl">__MSG_show_colors_in_timeline__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="no-big-font"> <label for="no-big-font">__MSG_no_big_font__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="hearts-instead-stars"> <label for="hearts-instead-stars">__MSG_hearts_instead_stars__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="use-new-icon"> <label for="use-new-icon">__MSG_use_new_icon__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="use-old-style-reply"> <label for="use-old-style-reply">__MSG_use_old_style_reply__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="use-old-default-profile-navbar"> <label for="use-old-default-profile-navbar">__MSG_use_old_default_profile__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="round-avatars-switch"> <label for="round-avatars-switch">__MSG_round_avatars__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="enable-twemoji"> <label for="enable-twemoji">__MSG_enable_twemoji__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="enable-hashflags"> <label for="enable-hashflags">__MSG_enable_hashflags__</label>
+                    </div>
+                    
+
+                    <h2>__MSG_font__</h2><br>
                     <div class="setting">
                         <select id="font"></select> <label for="font">__MSG_font__</label>
                     </div>
                     <div class="setting">
                         <select id="tweet-font"></select> <label for="tweet-font">__MSG_tweet_text_font__</label>
+                    </div>
+
+                    <h2>__MSG_colors__</h2><br>
+                    <div class="setting">
+                        <input type="color" id="link-color"> <label for="link-color">__MSG_default_link_color__</label>
+                        <button class="color-reset nice-button" id="link-color-reset">__MSG_reset__</button>
+                    </div>
+                    
+                    <hr>
+                    <h2>__MSG_advanced_colors__</h2><br>
+                    <div class="setting" id="colors"></div>
+                    <div class="setting" style="margin-top:10px">
+                        <button class="nice-button" id="reset-all-colors">__MSG_reset_all__</button>
+                        <button class="nice-button" id="import-colors">__MSG_import__</button>
+                        <button class="nice-button" id="export-colors">__MSG_export__</button>
                     </div>
                     <hr>
                     <h1>__MSG_color_sync__</h1><br>
@@ -238,14 +272,6 @@
                         <div id="color-preview-black">__MSG_black_mode_link__</div>
                     </div>
                     <button class="nice-button" id="sync">__MSG_sync__</button>
-                    <hr>
-                    <h1>__MSG_colors__</h1><br>
-                    <div class="setting" id="colors"></div>
-                    <div class="setting" style="margin-top:10px">
-                        <button class="nice-button" id="reset-all-colors">__MSG_reset_all__</button>
-                        <button class="nice-button" id="import-colors">__MSG_import__</button>
-                        <button class="nice-button" id="export-colors">__MSG_export__</button>
-                    </div>
                     <br>
                     <hr>
                     <h1>__MSG_custom_css__</h1><br>
