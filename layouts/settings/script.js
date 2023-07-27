@@ -673,7 +673,7 @@ setTimeout(async () => {
                 <input class="color-value" type="color" data-var="${v}" value="${rgb2hex(...color.values)}">
                 <input class="color-transparency" title="${LOC.transparency.message}" type="range" min="0" max="1" step="0.01" value="${color.alpha}">
                 <span class="color-name">${v[2].toUpperCase() + v.slice(3).replace(/-/g, ' ')}</span>
-                <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>Reset</button>
+                <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>${LOC.reset.message}</button>
             `;
             colorsDiv.append(div);
             function colorUpdate() {
