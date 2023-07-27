@@ -1393,6 +1393,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.top.text = t.socialContext.text;
                 options.top.icon = "\uf002";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
+            } else if(t.socialContext.contextType === "Conversation") {
+                options.top.text = t.socialContext.text;
+                options.top.icon = "\uf005";
+                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else {
                 console.log(t.socialContext);
             }

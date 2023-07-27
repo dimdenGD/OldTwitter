@@ -501,6 +501,8 @@ const API = {
                                 tweet.source && 
                                 (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface'))
                             ) continue;
+                            if(tweet.user.blocking || tweet.user.muting) continue;
+
                             if(e.content.feedbackInfo) {
                                 tweet.feedback = e.content.feedbackInfo.feedbackKeys.map(f => data.data.home.home_timeline_urt.responseObjects.feedbackActions.find(a => a.key === f).value).filter(f => f);
                             }
@@ -511,7 +513,37 @@ const API = {
                                     tweet.socialContext = e.content.itemContent.socialContext;
                                 }
                             }
+                            tweet.hasModeratedReplies = e.content.itemContent.hasModeratedReplies;
                             tweets.push(tweet);
+                        } else if(e.entryId.startsWith('home-conversation-')) {
+                            let items = e.content.items;
+                            for(let i = 0; i < items.length; i++) {
+                                let item = items[i];
+                                if(item.entryId.includes('-tweet-') && !item.entryId.includes('promoted')) {
+                                    let res = item.item.itemContent.tweet_results.result;
+                                    let tweet = parseTweet(res);
+                                    if(!tweet) continue;
+                                    if(
+                                        tweet.source && 
+                                        (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface'))
+                                    ) continue;
+                                    if(tweet.user.blocking || tweet.user.muting) break;
+                                    if(item.item.feedbackInfo) {
+                                        tweet.feedback = item.item.feedbackInfo.feedbackKeys.map(f => data.data.home.home_timeline_urt.responseObjects.feedbackActions.find(a => a.key === f).value).filter(f => f);
+                                    }
+                                    if(item.item.itemContent.socialContext) {
+                                        if(item.item.itemContent.socialContext.topic) {
+                                            tweet.socialContext = item.item.itemContent.socialContext.topic;
+                                        } else {
+                                            tweet.socialContext = item.item.itemContent.socialContext;
+                                        }
+                                    }
+                                    if(i !== items.length - 1) tweet.threadContinuation = true;
+                                    if(i !== 0) tweet.noTop = true;
+                                    tweet.hasModeratedReplies = item.item.itemContent.hasModeratedReplies;
+                                    tweets.push(tweet);
+                                }
+                            }
                         }
                     }
                     let out = {
