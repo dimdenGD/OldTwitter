@@ -531,6 +531,15 @@ input, textarea {
 .nice-button:disabled:before {
     color: gray !important;
 }
+.nice-red-button {
+    color: #d4e3ed !important;
+    background-image: linear-gradient(#BA172C, #6F0D1C) !important;
+}
+
+.nice-red-button:hover:not([disabled]) {
+    color: #d4e3ed !important;
+    background-image: linear-gradient(#BA172C, #4B0E17) !important;
+}
 #navbar-user-menu {
     min-width: 130px;
 }

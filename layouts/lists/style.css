@@ -334,6 +334,15 @@ body {
     line-height: normal;
     padding: 8px 16px
 }
+.nice-red-button {
+    color: #d4e3ed !important;
+    background-image: linear-gradient(#BA172C, #6F0D1C) !important;
+}
+
+.nice-red-button:hover:not([disabled]) {
+    color: #d4e3ed !important;
+    background-image: linear-gradient(#BA172C, #4B0E17) !important;
+}
 
 .nice-button:hover:not([disabled]) {
     background-color: var(--border);
