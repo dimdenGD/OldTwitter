@@ -361,7 +361,7 @@
     "round_avatars": { "message": "Avatare rotundzi" },
     "search_user_tweets": { "message": "Căutați tweet-urile utilizatorilor" },
     "no_tl_tweets": { "message": "Nu urmărești pe nimeni, deci nu a fost găsit nici un tweet! Schimbați tipul de cronologie la \"Algoritmic\" în <a href='https://twitter.com/old/settings'>setările OldTwitter</a>." },
-    "replying_to_prefix": { "message": "Menționează pe", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "Menționează pe", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Afișaj", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Afișați emblemele Twitter Blue" },
     "retweet_hotkey_warn": { "message": "Ați apăsat tocmai tasta T, care este scurtătura pentru retweet. Doriți să retweet-uiți acest tweet? Dacă confirmați, nu veți mai primi avertizare acesta din nou." },

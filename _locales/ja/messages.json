@@ -358,7 +358,7 @@
     "round_avatars": { "message": "丸いアイコン" },
     "search_user_tweets": { "message": "ユーザーのツイートを検索する" },
     "no_tl_tweets": { "message": "あなたは誰もフォローしていないので、タイムラインのツイートはありません。タイムラインのタイプを「アルゴリズム」に変更してください' in <a href='https://twitter.com/old/settings'>OldTwitter settings</a>." },
-    "replying_to_prefix": { "message": "返信先", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "返信先", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "ディスプレイ", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Twitter Blueの認証マークを表示する" },
     "retweet_hotkey_warn": { "message": "あなたはリツイートのボタンであるTキーを押しました。このツイートを本当にリツイートしますか？確認を押すとこの警告は表示されなくなります" },

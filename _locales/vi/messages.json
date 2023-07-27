@@ -367,7 +367,7 @@
     "round_avatars": { "message": "Ảnh đại diện tròn" },
     "search_user_tweets": { "message": "Tìm kiếm tweet của người dùng" },
     "no_tl_tweets": { "message": "Bạn đang không theo dõi ai nên không có tweet nào! Đổi loại dòng thời gian thành 'Theo thuật toán' trong <a href='https://twitter.com/old/settings'>cài đặt OldTwitter</a>." },
-    "replying_to_prefix": { "message": "Đang trả lời lại", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "Đang trả lời lại", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Hiển thị", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Hiển thị các dấu tick Twitter Blue" },
     "retweet_hotkey_warn": { "message": "Bạn vừa bấm phím T, là phím tắt cho retweet. Bạn có muốn retweet tweet này không? Nếu bạn đồng ý, cảnh báo này sẽ không xuất hiện lại." },

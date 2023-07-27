@@ -354,7 +354,7 @@
     "round_avatars": { "message": "गोलो अवतारहरू" },
     "search_user_tweets": { "message": "यो मान्छेको ट्वीटहरू खोज्न" },
     "no_tl_tweets": { "message": "तपाईँले कसैलई नपछ्याएर कुनै ट्वीट भेटिइन । टाइम्लाइन 'आल्गोरिथ्मिकल' बनाउनुहोस <a href='https://twitter.com/old/settings'>OldTwitterको सेटिङहरू</a> मा ।" },
-    "replying_to_prefix": { "message": "जवाफहरू", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "जवाफहरू", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "देखाइ", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Twitter Blueको चेक्मार्कहरू देखाउन" },
     "retweet_hotkey_warn": { "message": "You've just pressed T key which is hotkey for retweeting. Do you want to retweet this tweet? If you'll press confirm you won't be shown this warn again. तपाईँले रिट्वीट गर्ने कि 'T' थिच्नुभयो । यो ट्वीटलाई रिट्वीट गर्ने हो? कन्फर्म थिच्नुभ भने यो फेरि देख्नुहुँदैन ।" },

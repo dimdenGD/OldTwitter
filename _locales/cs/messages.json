@@ -367,7 +367,7 @@
     "round_avatars": { "message": "Kulaté avatary" },
     "search_user_tweets": { "message": "Prohledat tweety uživatele" },
     "no_tl_tweets": { "message": "Nikoho nesledujete, takže nebyly nalezeny žádné tweety! Změňte vaši časovou osu na 'Algoritmicky' v <a href='https://twitter.com/old/settings'>nastavení OldTwitteru</a>." },
-    "replying_to_prefix": { "message": "Odpovídá na", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "Odpovídá na", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Zobrazení", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Zobrazit fajfky Twitter Blue" },
     "retweet_hotkey_warn": { "message": "Právě jste stiskli klávesu T, což je zkratka pro retweetování. Chcete tento tweet retweetnout? Pokud zmáčknete potvrdit, toto upozornění se Vám již znovu nebude zobrazovat." },

@@ -367,7 +367,7 @@
     "round_avatars": { "message": "Zaokrąglaj awatary" },
     "search_user_tweets": { "message": "Szukaj tweety użytkownika" },
     "no_tl_tweets": { "message": "Nie obserwujesz nikogo więc nie znaleziono żadnych tweetów! Zmień typ swojej strony głownej na 'Algorytmiczna' w <a href='https://twitter.com/old/settings'>ustawieniach OldTwittera</a>." },
-    "replying_to_prefix": { "message": "W odpowiedzi do", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "W odpowiedzi do", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Wygląd" },
     "twitter_blue_checkmarks": { "message": "Pokaż znacznik Twitter Blue" },
     "retweet_hotkey_warn": { "message": "Właśnie wcisnałeś klawisz T, który jest skrótem dla podania dalej. Czy na pewno chcesz podać dalej ten tweet? Jeśli tak, to ostrzeżenie się nie pojawi ponownie." },

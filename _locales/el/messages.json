@@ -1005,7 +1005,7 @@
     "round_avatars": { "message": "Στρογγυλά avatars" },
     "search_user_tweets": { "message": "Αναζήτηση tweets χρηστών" },
     "no_tl_tweets": { "message": "Δεν ακολουθείτε κανέναν, οπότε δεν βρέθηκαν tweets! Αλλάξτε τον τύπο του χρονολογίου σας σε 'Αλγοριθμικός' στις <a href='https://twitter.com/old/settings'>ρυθμίσεις του OldTwitter</a>." },
-    "replying_to_prefix": { "message": "Απάντηση στο", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "Απάντηση στο", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Παρουσίαση", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Εμφάνιση σημαδιών επιλογής Twitter Blue" },
     "retweet_hotkey_warn": { "message": "Μόλις πατήσατε το πλήκτρο T που είναι το πλήκτρο πρόσβασης για retweet. Θέλετε να κάνετε retweet αυτό το tweet; Εάν πατήσετε επιβεβαίωση, δεν θα εμφανιστεί ξανά αυτή η προειδοποίηση." },
