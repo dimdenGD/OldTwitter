@@ -443,7 +443,7 @@
     "reset_colors_sure": { "message": "Ви впевнені що хочете скинути всі кольори до замовчування?" },
     "navbar": { "message": "Панель навігації", "description":"Setting Text"},
     "sidebar": { "message": "Бічна панель", "description":"Setting Text"},
-    "advanced_option": { "message":"Розширені налаштування", "description":"Setting Text"},
+    "advanced_options": { "message":"Розширені налаштування", "description":"Setting Text"},
     "advanced_colors": { "message":"Розширені кольори", "description":"Setting Text"},
     "accssibility": { "message":"Доступність", "description":"Setting Text"},
     "tweets_and_timeline": { "message":"Твіти & Стрічка", "description":"Setting Text"},
@@ -457,5 +457,12 @@
     "chrono_retweets_help": { "message": "Те ж саме що перше, тільки з ретвітами без твітів." },
     "chrono_social_help": { "message": "Мікс хронологічної та алгоритмічної стрічок, інколи твіти з 'комусь сподобалось' та 'хтось читає' будуть добавлені між хронологічними твітами." },
     "algo_help": { "message": "Стара алгоритмічна стрічка, показує твіти які Твітер думає вам сподобаються. Версія 1 це стара версія, вона не має лімітів (або вони дуже великі) але в неї немає міток чому твіт був добавлений в стрічку." },
-    "algov2_help": { "message": "Алгоритмічна стрічка яку зараз використовує Твітер, має ліміти але зате показує чому твіт був добавлений в стрічку." }
+    "algov2_help": { "message": "Алгоритмічна стрічка яку зараз використовує Твітер, має ліміти але зате показує чому твіт був добавлений в стрічку." },
+    "import_settings": { "message": "Імпорт налаштувань" },
+    "export_settings": { "message": "Експорт налаштувань" },
+    "import_style_settings": { "message": "Імпорт стилю" },
+    "export_style_settings": { "message": "Експорт стилю" },
+    "reset_settings": { "message": "Скинути всі налаштування" },
+    "reset_settings_sure": { "message": "Ви впевнені що хочете скинути всі налаштування?" },
+    "clear_caches": { "message": "Очистити кеші" }
 }

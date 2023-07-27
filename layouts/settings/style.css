@@ -381,3 +381,6 @@ select, input, textarea {
 .help-modal > div {
     margin-bottom: 10px;
 }
+#advanced-settings > button {
+    margin-top: 5px;
+}

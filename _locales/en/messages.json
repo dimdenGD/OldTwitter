@@ -452,7 +452,7 @@
     "reset_colors_sure": { "message": "Are you sure you want to reset all colors?" },
     "navbar": { "message":"Navbar", "description":"Setting Text"},
     "sidebar": { "message":"Sidebar", "description":"Setting Text"},
-    "advanced_option": { "message":"Advanced options", "description":"Setting Text"},
+    "advanced_options": { "message":"Advanced options", "description":"Setting Text"},
     "advanced_colors": { "message":"Advanced colors", "description":"Setting Text"},
     "accssibility": { "message":"Accessibility", "description":"Setting Text"},
     "tweets_and_timeline": { "message":"Tweets & Timeline", "description":"Setting Text"},
@@ -466,5 +466,12 @@
     "chrono_retweets_help": { "message": "Same thing as first one but only shows retweets." },
     "chrono_social_help": { "message": "A mix of both reverse chronological and algorithmical timelines, ocassional 'someone liked' and 'someone follows' will be added in between chronological tweets." },
     "algo_help": { "message": "Old algorithmical timeline, shows tweets that Twitter thinks you'll like. Version 1 is older version of this timeline, it doesn't seem to have any rate limits (or they're very big) but it lacks labels for why tweet was added to timeline." },
-    "algov2_help": { "message": "Algorithmical timeline Twitter currently uses (\"For You\"), has some rate limits but actually shows why tweet was added to timeline." }
+    "algov2_help": { "message": "Algorithmical timeline Twitter currently uses (\"For You\"), has some rate limits but actually shows why tweet was added to timeline." },
+    "import_settings": { "message": "Import settings" },
+    "export_settings": { "message": "Export settings" },
+    "import_style_settings": { "message": "Import style" },
+    "export_style_settings": { "message": "Export style" },
+    "reset_settings": { "message": "Reset settings" },
+    "reset_settings_sure": { "message": "Are you sure you want to reset all settings?" },
+    "clear_caches": { "message": "Clear caches" }
 }

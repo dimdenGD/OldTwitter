@@ -68,6 +68,8 @@ setTimeout(() => {
                             <li>Added ability to pin Profile, Bookmarks and Lists on the navbar.</li>
                             <li>Added option to disable GIF autoplay.</li>
                             <li>Added ability to pause GIFs.</li>
+                            <li>Added ability to import and export settings and styles.</li>
+                            <li>Added ability to reset settings and clear caches.</li>
                             <li>Added support for media content warnings.</li>
                             <li>Added ability to hide replies.</li>
                             <li>Added option to disable personalized trends.</li>
