@@ -1959,6 +1959,7 @@ setInterval(() => {
     });
 
     hideStuff();
+    setTimeout(hideStuff, 1000); // weird issue on firefox
 
     // custom css
     document.addEventListener('customCSS', updateCustomCSS);
