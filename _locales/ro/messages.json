@@ -460,5 +460,12 @@
     "chrono_retweets_help": { "message": "La fel ca prima opțiune dar doar cu retweet-uri." },
     "chrono_social_help": { "message": "Un hibrid între invers cronologic și algoritmic, va insera 'cineva a favoritat' și 'cineva urmărește pe' între tweet-urile cronologice." },
     "algo_help": { "message": "Algoritmul vechi, îți arate ce crede Twitter-ul că o să-ți placă. Versiunea 1 este mai veche decât algoritmul actual. Această versiune nu are limitări de vizualizare (Rate Limit) dar nu justifică tweet-urile adăugate pe timeline." },
-    "algov2_help": { "message": "Algoritmul actual Twitter (\"For You\"), conține restricții de rate limiting dar justifică alegerea tweet-urilor de pe timeline." }
+    "algov2_help": { "message": "Algoritmul actual Twitter (\"For You\"), conține restricții de rate limiting dar justifică alegerea tweet-urilor de pe timeline." },
+    "import_settings": { "message": "Importă setări" },
+    "export_settings": { "message": "Exportă setări" },
+    "import_style_settings": { "message": "Importă stil" },
+    "export_style_settings": { "message": "Exportă stil" },
+    "reset_settings": { "message": "Resetă setările" },
+    "reset_settings_sure": { "message": "Sigur vreți să resetați toate setările?" },
+    "clear_caches": { "message": "Șterge cache" }
 }
