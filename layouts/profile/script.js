@@ -443,9 +443,9 @@ async function renderFollowersYouFollow(clear = true, cursor) {
     let userList = document.getElementById('followers_you_follow-list');
     if(clear) {
         if(LOC.followers_you_know.message.includes("$NUMBER$")) {
-            userList.innerHTML = `<h1 class="nice-header">${LOC.followers_you_know.message.replace("$NUMBER$", '0')}</h1>`;
+            userList.innerHTML = `<h1 class="nice-header">${LOC.followers_you_know.message.replace("$NUMBER$", followersYouFollow.total_count)}</h1>`;
         } else {
-            userList.innerHTML = `<h1 class="nice-header">0 ${LOC.followers_you_know.message}</h1>`;
+            userList.innerHTML = `<h1 class="nice-header">${followersYouFollow.total_count} ${LOC.followers_you_know.message}</h1>`;
         }
     }
     let following;
