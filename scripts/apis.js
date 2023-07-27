@@ -378,7 +378,7 @@ const API = {
                 });
             });
         },
-        getAlgorithmical: (cursor, count = 25) => {
+        getAlgorithmical: (cursor, count = 40) => {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/2/timeline/home.json?${cursor ? `cursor=${cursor.replace(/\+/g, '%2B')}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&earned=1&count=${count}&lca=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified&browserNotificationPermission=default`, {
                     headers: {
@@ -411,10 +411,11 @@ const API = {
                         let tweet = tweets[e.content.tweet.id];
                         if(!tweet) continue;
                         let user = users[tweet.user_id_str];
+                        if(user.blocking || user.muting) continue;
                         tweet.user = user;
                         tweet.id_str = e.content.tweet.id;
                         if(
-                            tweet && tweet.source && 
+                            tweet.source && 
                             (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface'))
                         ) continue;
                         if(e.feedbackInfo) tweet.feedback = e.feedbackInfo.feedbackKeys.map(f => data.timeline.responseObjects.feedbackActions[f]);
@@ -455,14 +456,83 @@ const API = {
                 });
             });
         },
-        getAlgorithmicalWithCache: () => {
+        getAlgorithmicalV2: (cursor, count = 40) => {
+            return new Promise((resolve, reject) => {
+                let variables = {
+                    includePromotedContent: false,
+                    latestControlAvailable: true,
+                    count
+                };
+                if(cursor) {
+                    variables.cursor = cursor;
+                }
+                fetch(`https://twitter.com/i/api/graphql/W4Tpu1uueTGK53paUgxF0Q/HomeTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+                    headers: {
+                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en",
+                        "content-type": "application/x-www-form-urlencoded"
+                    },
+                    credentials: "include"
+                }).then(response => response.json()).then(data => {
+                    debugLog('timeline.getAlgorithmicalV2', 'start', {cursor, count, data});
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    let instructions = data.data.home.home_timeline_urt.instructions;
+                    let entries = instructions.find(i => i.type === 'TimelineAddEntries');
+                    if(!entries) {
+                        debugLog('timeline.getAlgorithmicalV2', 'end', {list: [], cursor: undefined});
+                        return resolve({
+                            list: [],
+                            cursor: undefined
+                        });
+                    }
+                    entries = entries.entries;
+                    let tweets = [];
+                    for(let e of entries) {
+                        // thats a lot of trash https://lune.dimden.dev/0bf524e52eb.png
+                        if(e.entryId.startsWith('tweet-')) {
+                            let res = e.content.itemContent.tweet_results.result;
+                            let tweet = parseTweet(res);
+                            if(!tweet) continue;
+                            if(
+                                tweet.source && 
+                                (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface'))
+                            ) continue;
+                            if(e.content.feedbackInfo) {
+                                tweet.feedback = e.content.feedbackInfo.feedbackKeys.map(f => data.data.home.home_timeline_urt.responseObjects.feedbackActions.find(a => a.key === f).value).filter(f => f);
+                            }
+                            if(e.content.itemContent.socialContext) {
+                                if(e.content.itemContent.socialContext.topic) {
+                                    tweet.socialContext = e.content.itemContent.socialContext.topic;
+                                } else {
+                                    tweet.socialContext = e.content.itemContent.socialContext;
+                                }
+                            }
+                            tweets.push(tweet);
+                        }
+                    }
+                    let out = {
+                        list: tweets,
+                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                    }
+                    debugLog('timeline.getAlgorithmicalV2', 'end', {cursor, count, out});
+                    return resolve(out);
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+        getAlgorithmicalV2WithCache: () => {
             return new Promise((resolve, reject) => {
                 chrome.storage.local.get(['algoTimeline'], d => {
-                    if(d.algoTimeline && Date.now() - d.algoTimeline.date < 60000*10) {
-                        debugLog('timeline.getAlgorithmicalWithCache', 'cache', d.algoTimeline.data);
+                    if(d.algoTimeline && Date.now() - d.algoTimeline.date < 60000*3) {
+                        debugLog('timeline.getAlgorithmicalV2WithCache', 'cache', d.algoTimeline.data);
                         return resolve(d.algoTimeline.data);
                     }
-                    API.timeline.getAlgorithmical().then(data => {
+                    API.timeline.getAlgorithmicalV2().then(data => {
                         chrome.storage.local.set({
                             algoTimeline: {
                                 date: Date.now(),
@@ -477,7 +547,7 @@ const API = {
             });
         },
         getMixed: async () => {
-            let [chrono, algo] = await Promise.allSettled([API.timeline.getChronological(), API.timeline.getAlgorithmicalWithCache()]);
+            let [chrono, algo] = await Promise.allSettled([API.timeline.getChronological(), API.timeline.getAlgorithmicalV2WithCache()]);
             debugLog('timeline.getMixed', 'start', {chrono, algo});
             if(chrono.reason) {
                 throw chrono.reason;

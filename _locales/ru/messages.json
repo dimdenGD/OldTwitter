@@ -175,7 +175,7 @@
     "refresh_tabs": { "message": "Перезагрузите вкладки чтобы применить изменения" },
     "chrono": { "message": "Хронологическая" },
     "chrono_social": { "message": "Хронологическая + лайки друзей" },
-    "algo": { "message": "Алгоритмическая" },
+    "algo": { "message": "Алгоритмическая V1 (без лимита)" },
     "timeline_type": { "message": "Тип ленты" },
     "show_topic_tweets": { "message": "Показывать твиты тем (только алгоритмическая)" },
     "show_colors_in_timeline": { "message": "Показывать пользовательские цвета в ленте" },
@@ -447,5 +447,6 @@
     "dark_mode_setting": { "message": "Тёмная тема", "description":"Setting Text"},
     "old_twitter_look": {"message": "Старый стиль Твиттера", "description":"Setting Text"},
     "content_you_see": {"message": "Контент вы видите", "description":"Setting Text"},
-    "use_old_style_reply": {"message": "Использовать старый стиль ответов"}
+    "use_old_style_reply": {"message": "Использовать старый стиль ответов"},
+    "algov2": { "message": "Алгоритмическая V2" }
 }

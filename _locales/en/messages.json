@@ -181,7 +181,7 @@
     "refresh_tabs": { "message": "Refresh tabs to apply settings" },
     "chrono": { "message": "Reverse chronological" },
     "chrono_social": { "message": "Reverse chronological with friends likes" },
-    "algo": { "message": "Algorithmical (\"For You\")" },
+    "algo": { "message": "Algorithmical V1 (no rate limit)" },
     "timeline_type": { "message": "Timeline type" },
     "show_topic_tweets": { "message": "Show topic tweets (algo only)" },
     "show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline" },
@@ -395,8 +395,8 @@
     "copy_tweet_links_as": { "message": "Copy tweet links as", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Use new logo as tab icon" },
     "update_timeline_automatically": { "message": "Update timeline automatically on new tweets. Experimental: this is kinda buggy, only use it if you want to be on top of timeline all the time, it won't auto-update when you scroll down further than about 15 tweets." },
-    "chrono_no_retweets": { "message": "Reverse chrono. timeline (no retweets)" },
-    "chrono_retweets": { "message": "Reverse chrono. timeline (only retweets)" },
+    "chrono_no_retweets": { "message": "Reverse chronological (no retweets)" },
+    "chrono_retweets": { "message": "Reverse chronological (only retweets)" },
     "hide_trends": { "message": "Hide trends" },
     "hide_wtf": { "message": "Hide \"Who to follow\"" },
     "hide_likes": { "message": "Hide like, retweet and reply count on tweets" },
@@ -459,5 +459,6 @@
     "dark_mode_setting": { "message": "Dark mode", "description":"Setting Text"},
     "old_twitter_look": {"message": "Old twitter look", "description":"Setting Text"},
     "content_you_see": {"message": "Content you see", "description":"Setting Text"},
-    "use_old_style_reply": {"message": "Use old style reply mentions"}
+    "use_old_style_reply": {"message": "Use old style reply mentions"},
+    "algov2": { "message": "Algorithmical V2 (\"For You\")" }
 }

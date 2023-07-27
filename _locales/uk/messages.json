@@ -175,7 +175,7 @@
     "refresh_tabs": { "message": "Перезагрузіть сторінки щоб зміни набули ефекту" },
     "chrono": { "message": "Хронологічна" },
     "chrono_social": { "message": "Хронологічна з вподобаннями друзів" },
-    "algo": { "message": "Алгоритмічна" },
+    "algo": { "message": "Алгоритмічна V1 (без ліміту)" },
     "timeline_type": { "message": "Тип стрічки" },
     "show_topic_tweets": { "message": "Показувати твіти тем (тільки алгорітмічна)" },
     "show_colors_in_timeline": { "message": "Показувати кольори посилань користувачів в стрічці" },
@@ -447,5 +447,6 @@
     "dark_mode_setting": { "message": "Темна тема", "description":"Setting Text"},
     "old_twitter_look": {"message": "Вигляд старого Твітеру", "description":"Setting Text"},
     "content_you_see": {"message": "Контент який ви бачите", "description":"Setting Text"},
-    "use_old_style_reply": {"message": "Використовувати старий стиль відповідей"}
+    "use_old_style_reply": {"message": "Використовувати старий стиль відповідей"},
+    "algov2": { "message": "Алгоритмічна V2" }
 }

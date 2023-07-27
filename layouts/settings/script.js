@@ -312,7 +312,7 @@ setTimeout(async () => {
         }, () => { });
     });
     timelineType.addEventListener('change', () => {
-        document.getElementById('stt-div').hidden = timelineType.value !== 'algo';
+        document.getElementById('stt-div').hidden = timelineType.value !== 'algo' && timelineType.value !== 'algov2';
         chrome.storage.sync.set({
             timelineType: timelineType.value
         }, () => { });
@@ -644,7 +644,7 @@ setTimeout(async () => {
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
-    document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
+    document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
     roundAvatars.checked = !!vars.roundAvatars;

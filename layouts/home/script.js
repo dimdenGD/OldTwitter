@@ -61,6 +61,8 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added user-friendly color customization for all colors in the extension.</li>
+                            <li>Added support for new algorithmical timeline (V2).</li>
+                            <li>Fixed Reverse chronological timeline with friends likes not working properly.</li>
                             <li>Added support for Community Notes.</li>
                             <li>Added option to see bookmark count.</li>
                             <li>Added ability to pin Profile, Bookmarks and Lists on the navbar.</li>
@@ -129,7 +131,15 @@ async function updateTimeline() {
         document.getElementById('tweets-loading').hidden = false;
         document.getElementById('load-more').hidden = true;
     }
-    let fn = vars.timelineType === 'algo' ? API.timeline.getAlgorithmical : vars.timelineType === 'chrono-social' ? API.timeline.getMixed : API.timeline.getChronological;
+    let fn;
+    switch(vars.timelineType) {
+        case 'algo': fn = API.timeline.getAlgorithmical; break;
+        case 'algov2': fn = API.timeline.getAlgorithmicalV2; break;
+        case 'chrono-retweets': fn = API.timeline.getChronological; break;
+        case 'chrono-no-retweets': fn = API.timeline.getChronological; break;
+        case 'chrono-social': fn = API.timeline.getMixed; break;
+        default: fn = API.timeline.getChronological; break;
+    }
     let [tl, s] = await Promise.allSettled([fn(), API.account.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
@@ -137,7 +147,7 @@ async function updateTimeline() {
         return;
     }
     s = s.value; tl = tl.value;
-    if(vars.timelineType === 'algo') {
+    if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
         algoCursor = tl.cursor;
         tl = tl.list;
         for(let t of tl) {
@@ -412,8 +422,12 @@ setTimeout(async () => {
             document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
             let tl;
             try {
-                tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronological(timeline.data[timeline.data.length - 1].id_str);
-                if(vars.timelineType === 'algo') {
+                switch(vars.timelineType) {
+                    case 'algo': tl = await API.timeline.getAlgorithmical(algoCursor, 50); break;
+                    case 'algov2': tl = await API.timeline.getAlgorithmicalV2(algoCursor, 50); break;
+                    default: tl = await API.timeline.getChronological(timeline.data[timeline.data.length - 1].id_str); break;
+                }
+                if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
                     algoCursor = tl.cursor;
                     tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
                     for(let t of tl) {
