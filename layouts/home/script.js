@@ -61,12 +61,17 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added user-friendly color customization for all colors in the extension.</li>
+                            <li>Added support for new algorithmical timeline (V2) and timeline descriptions.</li>
+                            <li>Fixed Reverse chronological timeline with friends likes not working properly.</li>
                             <li>Added support for Community Notes.</li>
                             <li>Added option to see bookmark count.</li>
                             <li>Added ability to pin Profile, Bookmarks and Lists on the navbar.</li>
                             <li>Added option to disable GIF autoplay.</li>
                             <li>Added ability to pause GIFs.</li>
+                            <li>Added ability to import and export settings and styles.</li>
+                            <li>Added ability to reset settings and clear caches.</li>
                             <li>Added support for media content warnings.</li>
+                            <li>Added ability to hide non-replies in profile tweets & replies page.</li>
                             <li>Added ability to hide replies.</li>
                             <li>Added option to disable personalized trends.</li>
                             <li>Added option to show media count in profiles.</li>
@@ -74,6 +79,7 @@ setTimeout(() => {
                             <li>Made extension remove X logo in new Twitter too.</li>
                             <li>Fixed refreshing new Twitter redirecting you back to OldTwitter.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>
+                            <li>Fixed feedback not being sent properly.</li>
                             <li>Fixed thread tweets in lists.</li>
                             <li>Fixed links not showing in long tweets.</li>
                             <li>Fixed sensitive content not being censored in profile previews.</li>
@@ -129,7 +135,15 @@ async function updateTimeline() {
         document.getElementById('tweets-loading').hidden = false;
         document.getElementById('load-more').hidden = true;
     }
-    let fn = vars.timelineType === 'algo' ? API.timeline.getAlgorithmical : vars.timelineType === 'chrono-social' ? API.timeline.getMixed : API.timeline.getChronological;
+    let fn;
+    switch(vars.timelineType) {
+        case 'algo': fn = API.timeline.getAlgorithmical; break;
+        case 'algov2': fn = API.timeline.getAlgorithmicalV2; break;
+        case 'chrono-retweets': fn = API.timeline.getChronological; break;
+        case 'chrono-no-retweets': fn = API.timeline.getChronological; break;
+        case 'chrono-social': fn = API.timeline.getMixed; break;
+        default: fn = API.timeline.getChronological; break;
+    }
     let [tl, s] = await Promise.allSettled([fn(), API.account.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
@@ -137,7 +151,7 @@ async function updateTimeline() {
         return;
     }
     s = s.value; tl = tl.value;
-    if(vars.timelineType === 'algo') {
+    if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
         algoCursor = tl.cursor;
         tl = tl.list;
         for(let t of tl) {
@@ -412,8 +426,12 @@ setTimeout(async () => {
             document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
             let tl;
             try {
-                tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronological(timeline.data[timeline.data.length - 1].id_str);
-                if(vars.timelineType === 'algo') {
+                switch(vars.timelineType) {
+                    case 'algo': tl = await API.timeline.getAlgorithmical(algoCursor, 50); break;
+                    case 'algov2': tl = await API.timeline.getAlgorithmicalV2(algoCursor, 50); break;
+                    default: tl = await API.timeline.getChronological(timeline.data[timeline.data.length - 1].id_str); break;
+                }
+                if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
                     algoCursor = tl.cursor;
                     tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
                     for(let t of tl) {

@@ -25,6 +25,10 @@ customCSSBus.onmessage = function (e) {
         switchDarkMode(isDarkModeEnabled);
     } else if(e.data.type === 'css') {
         updateCustomCSS();
+    } else if(e.data.type === 'color') {
+        if(typeof customSet === 'undefined' || !customSet) {
+            document.querySelector(':root').style.setProperty('--link-color', e.data.color);
+        }
     }
 };
 
@@ -1959,6 +1963,7 @@ setInterval(() => {
     });
 
     hideStuff();
+    setTimeout(hideStuff, 1000); // weird issue on firefox
 
     // custom css
     document.addEventListener('customCSS', updateCustomCSS);

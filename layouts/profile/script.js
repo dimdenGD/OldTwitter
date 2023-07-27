@@ -48,6 +48,7 @@ function updateSubpage() {
 function updateSelection() {
     document.getElementById('style-hide-retweets').innerHTML = '';
     document.getElementById('tweet-nav-more-menu-hr').checked = false;
+    document.getElementById('tweet-nav-more-menu-hnr').checked = false;
     
     let activeStats = Array.from(document.getElementsByClassName('profile-stat-active'));
     for(let i in activeStats) {
@@ -240,12 +241,75 @@ function updateUserData() {
         pageUser = pageUserData;
         pageUser.protected = oldUser.protected;
         let r = document.querySelector(':root');
-        r.style.setProperty('--link-color', vars && vars.linkColor ? vars.linkColor : '#4595B5');
+        let usedProfileColor = vars && vars.linkColor ? vars.linkColor : '#4595B5';
+        r.style.setProperty('--link-color', usedProfileColor);
         let sc = makeSeeableColor(oldUser.profile_link_color);
         if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') {
             customSet = true;
             r.style.setProperty('--link-color', sc);
+            usedProfileColor = oldUser.profile_link_color;
         }
+        let colorPreviewLight = document.getElementById('color-preview-light');
+        let colorPreviewDark = document.getElementById('color-preview-dark');
+        let colorPreviewBlack = document.getElementById('color-preview-black');
+        let profileLinkColor = document.getElementById('profile-link-color');
+        let colorSyncButton = document.getElementById('color-sync-button');
+
+        profileLinkColor.value = `#${usedProfileColor}`;
+        profileLinkColor.addEventListener('input', () => {
+            let color = profileLinkColor.value;
+            if(color.startsWith('#')) color = color.slice(1);
+            let sc = makeSeeableColor(color);
+            customSet = true;
+            r.style.setProperty('--link-color', sc);
+            
+            colorPreviewLight.style.color = makeSeeableColor(`#${color}`, "#ffffff");
+            colorPreviewDark.style.color = makeSeeableColor(`#${color}`, "#1b2836");
+            colorPreviewBlack.style.color = makeSeeableColor(`#${color}`, "#000000");
+        });
+        colorSyncButton.addEventListener('click', async () => {
+            colorSyncButton.disabled = true;
+            let color = profileLinkColor.value;
+            if(color.startsWith('#')) color = color.slice(1);
+            let tweet;
+            try {
+                tweet = await API.tweet.postV2({
+                    status: `link_color=${color}`
+                })
+                let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(tweet)
+                }).then(i => i.text());
+                if(res === 'error') {
+                    alert(LOC.error_setting_color.message);
+                } else {
+                    alert(LOC.link_color_set.message);
+                    chrome.storage.local.get(["linkColors"], async lc => {
+                        let linkColors = lc.linkColors || {};
+                        linkColors[user.id_str] = color;
+                        chrome.storage.local.set({ linkColors });
+                    });
+                }
+            } catch(e) {
+                console.error(e);
+                alert(LOC.error_setting_color.message);
+            } finally {
+                colorSyncButton.disabled = false;
+                API.tweet.delete(tweet.id_str).catch(e => {
+                    console.error(e);
+                    setTimeout(() => {
+                        API.tweet.delete(tweet.id_str);
+                    }, 1000);
+                });
+            }
+        });
+
+        colorPreviewLight.style.color = makeSeeableColor(`#${usedProfileColor}`, "#ffffff");
+        colorPreviewDark.style.color = makeSeeableColor(`#${usedProfileColor}`, "#1b2836");
+        colorPreviewBlack.style.color = makeSeeableColor(`#${usedProfileColor}`, "#000000");
 
         getLinkColors(pageUserData.id_str).then(data => {
             let color = data[0];
@@ -255,17 +319,28 @@ function updateUserData() {
                 let sc = makeSeeableColor(color);
                 customSet = true;
                 r.style.setProperty('--link-color', sc);
+                usedProfileColor = color;
             }
             fetch("https://dimden.dev/services/twitter_link_colors/v2/get/"+pageUserData.id_str).then(r => r.text()).then(data => {
-                if(data !== color && data !== 'none') {
-                    chrome.storage.local.get(["linkColors"], async lc => {
-                        let linkColors = lc.linkColors || {};
-                        linkColors[pageUserData.id_str] = data;
-                        chrome.storage.local.set({ linkColors });
-                    });
-                    let sc = makeSeeableColor(data);
-                    customSet = true;
-                    r.style.setProperty('--link-color', sc);
+                if(data !== 'none') {
+                    if(data !== color) {
+                        chrome.storage.local.get(["linkColors"], async lc => {
+                            let linkColors = lc.linkColors || {};
+                            linkColors[pageUserData.id_str] = data;
+                            chrome.storage.local.set({ linkColors });
+                        });
+                        let sc = makeSeeableColor(data);
+                        customSet = true;
+                        usedProfileColor = data;
+                        r.style.setProperty('--link-color', sc);
+                    }
+                    let pc = `#${data}`;
+
+                    profileLinkColor.value = pc;
+
+                    colorPreviewLight.style.color = makeSeeableColor(pc, "#ffffff");
+                    colorPreviewDark.style.color = makeSeeableColor(pc, "#1b2836");
+                    colorPreviewBlack.style.color = makeSeeableColor(pc, "#000000");
                 }
             });
         });
@@ -443,9 +518,9 @@ async function renderFollowersYouFollow(clear = true, cursor) {
     let userList = document.getElementById('followers_you_follow-list');
     if(clear) {
         if(LOC.followers_you_know.message.includes("$NUMBER$")) {
-            userList.innerHTML = `<h1 class="nice-header">${LOC.followers_you_know.message.replace("$NUMBER$", '0')}</h1>`;
+            userList.innerHTML = `<h1 class="nice-header">${LOC.followers_you_know.message.replace("$NUMBER$", followersYouFollow.total_count)}</h1>`;
         } else {
-            userList.innerHTML = `<h1 class="nice-header">0 ${LOC.followers_you_know.message}</h1>`;
+            userList.innerHTML = `<h1 class="nice-header">${followersYouFollow.total_count} ${LOC.followers_you_know.message}</h1>`;
         }
     }
     let following;
@@ -730,7 +805,18 @@ async function renderProfile() {
     document.getElementById('pin-profile').classList.toggle('menu-active', pageUser.id_str === user.id_str && !location.pathname.includes('/lists'));
     document.getElementById('pin-lists').classList.toggle('menu-active', location.pathname.startsWith(`/${pageUser.screen_name}/lists`));
     if(pageUser.id_str === user.id_str) {
-        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>`;
+        buttonsElement.innerHTML = /*html*/`
+            <a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>
+            <button class="profile-additional-thing nice-button" id="profile-style"></button>
+        `;
+        let profileStyleActive = false;
+        let profileStyle = document.getElementById('profile-style');
+        let colorSyncBox = document.getElementById('color-sync-box');
+        profileStyle.addEventListener('click', () => {
+            profileStyle.classList.toggle('profile-style-active');
+            profileStyleActive = !profileStyleActive;
+            colorSyncBox.hidden = !profileStyleActive;
+        });
     } else {
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`
@@ -1466,9 +1552,16 @@ setTimeout(async () => {
     });
     let tweetNavMoreMenu = document.getElementById('tweet-nav-more-menu');
     let tweetNavClicked = false;
+    let tweetNavMoreMenuHR = document.getElementById('tweet-nav-more-menu-hr');
+    let tweetNavMoreMenuHNR = document.getElementById('tweet-nav-more-menu-hnr');
     document.getElementById('tweet-nav-more').addEventListener('click', () => {
         if (tweetNavMoreMenu.hidden) {
             tweetNavMoreMenu.hidden = false;
+            if(subpage === 'replies') {
+                tweetNavMoreMenu.style.height = '77px';
+                tweetNavMoreMenuHNR.hidden = false;
+                document.getElementById('tweet-nav-more-menu-hnr-label').hidden = false;
+            }
         }
         if(tweetNavClicked) return;
         tweetNavClicked = true;
@@ -1478,19 +1571,29 @@ setTimeout(async () => {
                     return;
                 }
                 tweetNavClicked = false;
-                setTimeout(() => tweetNavMoreMenu.hidden = true, 50);
+                setTimeout(() => {
+                    tweetNavMoreMenu.hidden = true;
+                    tweetNavMoreMenu.style.height = '';
+                    tweetNavMoreMenuHNR.hidden = true;
+                    document.getElementById('tweet-nav-more-menu-hnr-label').hidden = true;
+                }, 50);
                 document.body.removeEventListener('click', closeMenu);
             }
             document.body.addEventListener('click', closeMenu);
         }, 50);
     });
-    document.getElementById('tweet-nav-more-menu-hr').addEventListener('change', e => {
-        if(e.target.checked) {
-            document.getElementById('style-hide-retweets').innerHTML = `.tweet-top-retweet-label { display: none !important; }`;
-        } else {
-            document.getElementById('style-hide-retweets').innerHTML = '';
+    function updateHideStyle() {
+        let style = '';
+        if(tweetNavMoreMenuHR.checked) {
+            style += `.tweet-top-retweet-label { display: none !important; }`;
         }
-    });
+        if(tweetNavMoreMenuHNR.checked) {
+            style += `.tweet-non-reply { display: none !important; }`;
+        }
+        document.getElementById('style-hide-retweets').innerHTML = style;
+    }
+    tweetNavMoreMenuHR.addEventListener('change', updateHideStyle);
+    tweetNavMoreMenuHNR.addEventListener('change', updateHideStyle);
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });

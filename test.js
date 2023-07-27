@@ -12,6 +12,9 @@ const locales =
         .filter(dirent => dirent.isDirectory())
         .map(dirent => dirent.name);
 
+const englishLocale = JSON.parse(fs.readFileSync(path.join(__dirname, '_locales', 'en', 'messages.json')));
+const englishLocaleArray = Object.keys(englishLocale);
+
 let errors = false;
 
 for(let localeName of locales) {
@@ -24,9 +27,28 @@ for(let localeName of locales) {
         errors = true;
         continue;
     }
+
+    if(localeName !== 'en') {
+        let array = Object.keys(locale);
+        let diff = englishLocaleArray.length - array.length;
+        if(diff !== 0) {
+            if(diff < 10) {
+                let missing = englishLocaleArray.filter(key => !array.includes(key));
+                console.log(`Missing ${diff} keys in _locales/${localeName}/messages.json: ${missing.join(', ')}`);
+            } else {
+                console.log(`Missing ${diff} keys in _locales/${localeName}/messages.json`);
+            }
+        } else {
+            console.log(`All keys present in _locales/${localeName}/messages.json`);
+        }
+    }
     
     let keys = Object.keys(locale);
     for(let key of keys) {
+        if(!englishLocale[key]) {
+            console.error(`Key "${key}" is not present in English for _locales/${localeName}/messages.json`);
+            errors = true;
+        }
         if(!validKey.test(key)) {
             console.error(`Invalid key "${key}" in _locales/${localeName}/messages.json`);
             errors = true;
@@ -88,5 +110,5 @@ for(let localeName of locales) {
 if(errors) {
     process.exit(1);
 } else {
-    console.log('All locale files are valid.');
+    console.log('\nAll locale files are valid.');
 }

@@ -1,4 +1,6 @@
 let user = {};
+let customVars = {};
+let linkColor 
 
 function getAllCSSVariables() {
     const vars = {};
@@ -53,6 +55,11 @@ function updateUserData() {
 
                 let blackColor = makeSeeableColor(profileColor, "#000000");
                 colorPreviewBlack.style.color = blackColor;
+
+                if(customVars['--background-color']) {
+                    document.getElementById("color-preview-custom").style.color = makeSeeableColor(profileColor, customVars['--background-color']);
+                    document.getElementById("color-preview-custom").hidden = false;
+                }
             } else {
                 let col = `#4595b5`;
                 profileLinkColor.value = col;
@@ -65,6 +72,11 @@ function updateUserData() {
 
                 let blackColor = makeSeeableColor(col, "#000000");
                 colorPreviewBlack.style.color = blackColor;
+                
+                if(customVars['--background-color']) {
+                    document.getElementById("color-preview-custom").style.color = makeSeeableColor(col, customVars['--background-color']);
+                    document.getElementById("color-preview-custom").hidden = false;
+                }
             }
         }
     }).catch(e => {
@@ -239,13 +251,19 @@ setTimeout(async () => {
             tweetFont: font
         }, () => { });
     });
-    
+
+    linkColor.addEventListener('input', () => {
+        let color = linkColor.value;
+        root.style.setProperty('--link-color', color);
+    });
     linkColor.addEventListener('change', () => {
         let color = linkColor.value;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
-        }, () => { });
+        }, () => {
+            customCSSBus.postMessage({type: 'color', color: color});
+        });
     });
     linkColorReset.addEventListener('click', async () => {
         let color = '#4BACD2';
@@ -253,7 +271,9 @@ setTimeout(async () => {
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
-        }, () => { });
+        }, () => {
+            customCSSBus.postMessage({type: 'color', color: color});
+        });
     });
     pinProfileOnNavbar.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -312,7 +332,7 @@ setTimeout(async () => {
         }, () => { });
     });
     timelineType.addEventListener('change', () => {
-        document.getElementById('stt-div').hidden = timelineType.value !== 'algo';
+        document.getElementById('stt-div').hidden = timelineType.value !== 'algo' && timelineType.value !== 'algov2';
         chrome.storage.sync.set({
             timelineType: timelineType.value
         }, () => { });
@@ -521,6 +541,11 @@ setTimeout(async () => {
 
         let blackColor = makeSeeableColor(previewColor, "#000000");
         colorPreviewBlack.style.color = blackColor;
+
+        if(customVars['--background-color']) {
+            document.getElementById("color-preview-custom").style.color = makeSeeableColor(previewColor, customVars['--background-color']);
+            document.getElementById("color-preview-custom").hidden = false;
+        }
     });
     copyLinksAs.addEventListener('change', () => {
         let val = copyLinksAs.value;
@@ -644,7 +669,7 @@ setTimeout(async () => {
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
-    document.getElementById('stt-div').hidden = vars.timelineType !== 'algo';
+    document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
     roundAvatars.checked = !!vars.roundAvatars;
@@ -656,11 +681,133 @@ setTimeout(async () => {
         darkModeText.style.color = 'var(--darker-gray)';
     }
 
+    document.getElementById('tl-help').addEventListener('click', () => {
+        createModal(`
+            <div style="color:var(--almost-black);max-width:600px" class="help-modal">
+                <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">${LOC.timeline_type.message}</h2>
+                <div><b>${LOC.chrono.message}</b> - ${LOC.chrono_help.message}</div>
+                <div><b>${LOC.chrono_no_retweets.message}</b> - ${LOC.chrono_no_retweets_help.message}</div>
+                <div><b>${LOC.chrono_retweets.message}</b> - ${LOC.chrono_retweets_help.message}</div>
+                <div><b>${LOC.chrono_social.message}</b> - ${LOC.chrono_social_help.message}</div>
+                <div><b>${LOC.algo.message}</b> - ${LOC.algo_help.message}</div>
+                <div><b>${LOC.algov2.message}</b> - ${LOC.algov2_help.message}</div>
+            </div>
+        `)
+    });
+    let [LOC_DATA, LOC_EN_DATA] = await Promise.all([
+        fetch(chrome.runtime.getURL(`_locales/${LANGUAGE}/messages.json`)).then(response => response.json()),
+        fetch(chrome.runtime.getURL(`_locales/en/messages.json`)).then(response => response.json())
+    ]);
+    LOC_DATA = Object.keys(LOC_DATA);
+    LOC_EN_DATA = Object.keys(LOC_EN_DATA);
+    let diff = LOC_EN_DATA.length - LOC_DATA.length;
+    if(diff > 0) {
+        document.getElementById('language-warning-button').hidden = false;
+    } else {
+        document.getElementById('language-warning-button').hidden = true;
+    }
+    document.getElementById('language-warning-button').addEventListener('click', () => {
+        let lang = document.querySelector(`option[value="${LANGUAGE}"]`).innerText;
+        if(!lang) lang = LANGUAGE.toUpperCase();
+        // Don't translate this
+        createModal(`
+        <div style="color:var(--almost-black);max-width:600px" class="help-modal">
+            <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">Do you know English?</h2>
+            <div>Do you know English (at least B2) and ${lang}? If so, you can help translate this extension into your language!</div>
+            <div>${lang} currently lacks ${diff} line translations. You can help translating the missing messages <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales#readme" target="_blank">here</a>.</div>
+            <div>Thank you for your help!</div>
+        </div>
+        `);
+    });
+
+    document.getElementById('export-settings').addEventListener('click', () => {
+        let varsObj = Object.assign({}, vars);
+        delete varsObj.customCSSVariables;
+        delete varsObj.customCSS;
+        delete varsObj.autotranslateProfiles;
+        delete varsObj.viewedtweets;
+        delete varsObj.linkColor;
+        delete varsObj.font;
+        delete varsObj.tweetFont;
+
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(varsObj)], { type: 'application/json' }));
+        a.download = 'oldtwitter_settings.json';
+
+        a.click();
+    });
+    document.getElementById('import-settings').addEventListener('click', () => {
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.addEventListener('change', () => {
+            let file = input.files[0];
+            if(!file) return;
+            let reader = new FileReader();
+            reader.onload = () => {
+                let json = JSON.parse(reader.result);
+                chrome.storage.sync.set(json, () => {
+                    location.reload();
+                });
+            };
+            reader.readAsText(file);
+        });
+        input.click();
+    });
+    document.getElementById('export-style').addEventListener('click', () => {
+        let json = {
+            customCSSVariables: vars.customCSSVariables,
+            customCSS: vars.customCSS,
+            font: vars.font,
+            tweetFont: vars.tweetFont,
+            linkColor: vars.linkColor
+        }
+        let a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([JSON.stringify(json)], { type: 'application/json' }));
+        a.download = 'oldtwitter_style.json';
+
+        a.click();
+    });
+    document.getElementById('import-style').addEventListener('click', () => {
+        let input = document.createElement('input');
+        input.type = 'file';
+        input.accept = '.json';
+        input.addEventListener('change', () => {
+            let file = input.files[0];
+            if(!file) return;
+            let reader = new FileReader();
+            reader.onload = () => {
+                let json = JSON.parse(reader.result);
+                chrome.storage.sync.set(json, () => {
+                    location.reload();
+                });
+            };
+            reader.readAsText(file);
+        });
+        input.click();
+    });
+    document.getElementById('reset-settings').addEventListener('click', () => {
+        let sure = confirm(LOC.reset_settings_sure.message);
+        if(!sure) return;
+        chrome.storage.sync.clear(() => {
+            location.reload();
+        });
+    });
+    document.getElementById('clear-caches').addEventListener('click', () => {
+        chrome.storage.local.get(['extensiveLogging', 'hasRetweetedWithHotkey', 'installed', 'lastSearches', 'lastUserId', 'lastVersion', 'nextPlug', 'unfollows'], async data => {
+            chrome.storage.local.clear(() => {
+                chrome.storage.local.set(data, () => {
+                    location.reload();
+                });
+            });
+        });
+    });
+
     // Colors
     let colorsDiv = document.getElementById('colors');
     let theme = getThemeVariables(isDarkModeEnabled);
     let defaultVars = parseVariables(theme);
-    let customVars = parseVariables(vars.customCSSVariables);
+    customVars = parseVariables(vars.customCSSVariables);
 
     for(let v in defaultVars) {
         try {
@@ -689,6 +836,10 @@ setTimeout(async () => {
                     root.style.setProperty(colorValue.dataset.var, customVars[colorValue.dataset.var]);
                     customCSSBus.postMessage({type: 'vars'});
                     div.querySelector('.color-reset').disabled = false;
+                    if(colorValue.dataset.var === '--background-color') {
+                        document.getElementById("color-preview-custom").style.color = makeSeeableColor(customVars[colorValue.dataset.var]);
+                        document.getElementById("color-preview-custom").hidden = false;
+                    }
                 });
             }
             div.querySelector('.color-value').addEventListener('change', colorUpdate);
@@ -706,6 +857,9 @@ setTimeout(async () => {
                     let defColor = parseCssColor(defaultVars[v]);
                     div.querySelector('.color-value').value = rgb2hex(...defColor.values);
                     div.querySelector('.color-transparency').value = defColor.alpha;
+                    if(v === '--background-color') {
+                        document.getElementById("color-preview-custom").hidden = true;
+                    }
                 });
             });
     
@@ -732,7 +886,7 @@ setTimeout(async () => {
     document.getElementById('export-colors').addEventListener('click', () => {
         let a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob([vars.customCSSVariables], { type: 'text/css' }));
-        a.download = 'custom_colors.css';
+        a.download = 'oldtwitter_colors.css';
         a.click();
     });
     document.getElementById('import-colors').addEventListener('click', () => {

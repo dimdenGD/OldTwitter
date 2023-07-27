@@ -168,7 +168,7 @@ body {
     font-weight: 300;
 }
 
-#settings h2 {
+#settings h2, .help-header {
     margin: 0;
     display: inline-block;
     font-size: 18px;
@@ -357,4 +357,33 @@ select, input, textarea {
     float: right;
     padding-bottom: 3px !important;
     padding-top: 2px !important;
+}
+#tl-help {
+    color: white;
+    background-color: var(--light-gray);
+    border-radius: 50%;
+    padding: 0px 4px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 1px;
+    vertical-align: initial;
+}
+#language-warning-button {
+    color: white;
+    background-color: rgb(255, 83, 83);
+    border-radius: 50%;
+    padding: 0px 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-left: 3px;
+    vertical-align: initial;
+}
+.help-modal > div {
+    margin-bottom: 10px;
+}
+#advanced-settings > button {
+    margin-top: 5px;
+}
+#color-preview-custom[hidden] {
+    display: none;
 }

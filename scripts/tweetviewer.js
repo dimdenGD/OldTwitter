@@ -1897,7 +1897,7 @@ class TweetViewer {
                         let a = document.createElement('a');
                         a.href = `https://twitter.com/${user.screen_name}`;
                         let likerImg = document.createElement('img');
-                        likerImg.src = `${(liker.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(liker.id_str) % 7}_normal.png`): liker.profile_image_url_https}`    ;
+                        likerImg.src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`    ;
                         likerImg.classList.add('tweet-footer-favorites-img');
                         likerImg.title = user.name + ' (@' + user.screen_name + ')';
                         likerImg.width = 24;

@@ -327,10 +327,14 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
                     if (node.nodeType === Node.ELEMENT_NODE) {
                         blockScriptElements(node);
                         node.querySelectorAll('script').forEach(blockScriptElements);
-                        if(node.tagName === 'svg') {
+                        if(node.tagName === 'SVG') {
+                            node.remove();
+                        }
+                        if(node.id === 'placeholder') {
                             node.remove();
                         }
                         node.querySelectorAll('svg').forEach(i => i.remove());
+                        if(document.getElementById('placeholder')) document.getElementById('placeholder').remove();
                     }
                 });
             }

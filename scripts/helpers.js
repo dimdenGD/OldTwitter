@@ -1377,7 +1377,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(t.socialContext) {
             options.top = {};
             if(t.socialContext.description) {
-                options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.id}">${t.socialContext.name}</a>`;
+                options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.topic_id}">${t.socialContext.name}</a>`;
                 options.top.icon = "\uf008";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else if(t.socialContext.contextType === "Like") {
@@ -1392,6 +1392,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else if(t.socialContext.contextType === "Follow") {
                 options.top.text = t.socialContext.text;
                 options.top.icon = "\uf002";
+                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
+            } else if(t.socialContext.contextType === "Conversation") {
+                options.top.text = t.socialContext.text;
+                options.top.icon = "\uf005";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else {
                 console.log(t.socialContext);
@@ -1473,7 +1477,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweet.classList.add('tweet-active');
                 activeTweet = tweet;
             }
-        } catch(e) {}
+        } catch(e) {};
+
+        if(t.nonReply) {
+            tweet.classList.add('tweet-non-reply');
+        }
+
         if(t.threadContinuation) {
             options.threadContinuation = true;
         }
@@ -3120,16 +3129,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         credentials: 'include'
                     }).then(i => i.json()).then(() => {});
                 }
-                fetch(`https://twitter.com/i/api/graphql/vfVbgvTPTQ-dF_PQ5lD1WQ/timelinesFeedback`, {
+                fetch(`https://twitter.com/i/api${feedback.feedbackUrl}`, {
                     method: 'post',
                     headers: {
-                        'content-type': 'application/json',
+                        'content-type': 'application/x-www-form-urlencoded',
                         'authorization': OLDTWITTER_CONFIG.public_token,
                         "x-twitter-active-user": 'yes',
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": 'OAuth2Session',
                     },
-                    body: JSON.stringify({"variables":{"encoded_feedback_request": feedback.encodedFeedbackRequest,"undo":false},"queryId":"vfVbgvTPTQ-dF_PQ5lD1WQ"}),
+                    body: `feedback_type=${feedback.feedbackType}&feedback_metadata=${t.feedbackMetadata}&undo=false`,
                     credentials: 'include'
                 }).then(i => i.json()).then(i => {
                     alert(feedback.confirmation ? feedback.confirmation : LOC.feedback_thanks.message);

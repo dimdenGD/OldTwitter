@@ -82,7 +82,7 @@
                             <option value="he">עִברִית (Hebrew)</option>
                             <option value="ne">नेपाली (Nepali)</option>
                         </select>
-                        
+                        <span id="language-warning-button" hidden>!</span>
                     </div>
                     
                     <h2>__MSG_content_you_see__</h2><br>
@@ -93,8 +93,9 @@
                             <option value="chrono-retweets">__MSG_chrono_retweets__</option>
                             <option value="chrono-social">__MSG_chrono_social__</option>
                             <option value="algo">__MSG_algo__</option>
+                            <option value="algov2">__MSG_algov2__</option>
                         </select>
-                        <label for="tl-type">__MSG_timeline_type__</label>
+                        <label for="tl-type">__MSG_timeline_type__</label> <span id="tl-help">?</span>
                     </div>
                     <div class="setting" id="stt-div" hidden>
                         <input type="checkbox" id="show-topic-tweets"> <label for="show-topic-tweets">__MSG_show_topic_tweets__</label>
@@ -143,7 +144,7 @@
                             <option value="custom">custom</option>
                         </select>
                     </div>
-                    <h2>__MSG_advanced_option__</h2><br>
+                    <h2>__MSG_advanced_options__</h2><br>
                     <div class="setting">
                         <input type="checkbox" id="update-timeline-automatically"> <label for="update-timeline-automatically">__MSG_update_timeline_automatically__</label>
                     </div>
@@ -270,6 +271,7 @@
                         <div id="color-preview-light">__MSG_light_mode_link__</div>
                         <div id="color-preview-dark">__MSG_dark_mode_link__</div>
                         <div id="color-preview-black">__MSG_black_mode_link__</div>
+                        <div id="color-preview-custom" hidden>__MSG_custom_mode_link__</div>
                     </div>
                     <button class="nice-button" id="sync">__MSG_sync__</button>
                     <br>
@@ -281,6 +283,18 @@
                         <textarea type="text" style="height: 71px; width: 550px;" id="custom-css" placeholder="body {&#10;    background-color: blue !important;&#10;}"></textarea>
                     </div>
                     <button class="nice-button" id="custom-css-save">__MSG_save_css__</button>
+                    <br>
+                    <hr>
+                    <h1>__MSG_advanced_options__</h1><br>
+                    <div class="setting" id="advanced-settings">
+                        <button class="nice-button" id="import-settings">__MSG_import_settings__</button>
+                        <button class="nice-button" id="export-settings">__MSG_export_settings__</button>
+                        <button class="nice-button" id="import-style">__MSG_import_style_settings__</button>
+                        <button class="nice-button" id="export-style">__MSG_export_style_settings__</button>
+                        <br>
+                        <button class="nice-button" id="reset-settings">__MSG_reset_settings__</button>
+                        <button class="nice-button" id="clear-caches">__MSG_clear_caches__</button>
+                    </div>
                 </div>
             </div>
             <div class="cell" id="right-cell">
