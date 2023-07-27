@@ -78,6 +78,7 @@ setTimeout(() => {
                             <li>Made extension remove X logo in new Twitter too.</li>
                             <li>Fixed refreshing new Twitter redirecting you back to OldTwitter.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>
+                            <li>Fixed feedback not being sent properly.</li>
                             <li>Fixed thread tweets in lists.</li>
                             <li>Fixed links not showing in long tweets.</li>
                             <li>Fixed sensitive content not being censored in profile previews.</li>

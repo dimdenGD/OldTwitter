@@ -444,7 +444,7 @@
     "uncensor_sensitive_content_automatically": { "message": "Uncensor media with sensitive content content warning automatically" },
     "replying_to_user": { "message": "Replying to $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "content_warnings": { "message": "Content warnings" },
-    "transparency": { "message": "Transparency" },
+    "transparency": { "message": "Transparency", "note": "Color" },
     "reset": { "message": "Reset" },
     "reset_all": { "message": "Reset all" },
     "import": { "message": "Import", "note": "Verb" },
