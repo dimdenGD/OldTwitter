@@ -61,7 +61,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added user-friendly color customization for all colors in the extension.</li>
-                            <li>Added support for new algorithmical timeline (V2).</li>
+                            <li>Added support for new algorithmical timeline (V2) and timeline descriptions.</li>
                             <li>Fixed Reverse chronological timeline with friends likes not working properly.</li>
                             <li>Added support for Community Notes.</li>
                             <li>Added option to see bookmark count.</li>

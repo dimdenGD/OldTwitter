@@ -656,6 +656,20 @@ setTimeout(async () => {
         darkModeText.style.color = 'var(--darker-gray)';
     }
 
+    document.getElementById('tl-help').addEventListener('click', () => {
+        createModal(`
+            <div style="color:var(--almost-black);max-width:600px" class="help-modal">
+                <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">${LOC.timeline_type.message}</h2>
+                <div><b>${LOC.chrono.message}</b> - ${LOC.chrono_help.message}</div>
+                <div><b>${LOC.chrono_no_retweets.message}</b> - ${LOC.chrono_no_retweets_help.message}</div>
+                <div><b>${LOC.chrono_retweets.message}</b> - ${LOC.chrono_retweets_help.message}</div>
+                <div><b>${LOC.chrono_social.message}</b> - ${LOC.chrono_social_help.message}</div>
+                <div><b>${LOC.algo.message}</b> - ${LOC.algo_help.message}</div>
+                <div><b>${LOC.algov2.message}</b> - ${LOC.algov2_help.message}</div>
+            </div>
+        `)
+    });
+
     // Colors
     let colorsDiv = document.getElementById('colors');
     let theme = getThemeVariables(isDarkModeEnabled);

@@ -460,5 +460,11 @@
     "old_twitter_look": {"message": "Old twitter look", "description":"Setting Text"},
     "content_you_see": {"message": "Content you see", "description":"Setting Text"},
     "use_old_style_reply": {"message": "Use old style reply mentions"},
-    "algov2": { "message": "Algorithmical V2 (\"For You\")" }
+    "algov2": { "message": "Algorithmical V2 (\"For You\")" },
+    "chrono_help": { "message": "Classic reverse chronological timeline (\"Following\"), shows most recent tweets and retweets on top with nothing else added." },
+    "chrono_no_retweets_help": { "message": "Same thing as first one but with no retweets." },
+    "chrono_retweets_help": { "message": "Same thing as first one but only shows retweets." },
+    "chrono_social_help": { "message": "A mix of both reverse chronological and algorithmical timelines, ocassional 'someone liked' and 'someone follows' will be added in between chronological tweets." },
+    "algo_help": { "message": "Old algorithmical timeline, shows tweets that Twitter thinks you'll like. Version 1 is older version of this timeline, it doesn't seem to have any rate limits (or they're very big) but it lacks labels for why tweet was added to timeline." },
+    "algov2_help": { "message": "Algorithmical timeline Twitter currently uses (\"For You\"), has some rate limits but actually shows why tweet was added to timeline." }
 }
