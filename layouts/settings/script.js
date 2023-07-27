@@ -669,6 +669,31 @@ setTimeout(async () => {
             </div>
         `)
     });
+    let [LOC_DATA, LOC_EN_DATA] = await Promise.all([
+        fetch(chrome.runtime.getURL(`_locales/${LANGUAGE}/messages.json`)).then(response => response.json()),
+        fetch(chrome.runtime.getURL(`_locales/en/messages.json`)).then(response => response.json())
+    ]);
+    LOC_DATA = Object.keys(LOC_DATA);
+    LOC_EN_DATA = Object.keys(LOC_EN_DATA);
+    let diff = LOC_EN_DATA.length - LOC_DATA.length;
+    if(diff > 0) {
+        document.getElementById('language-warning-button').hidden = false;
+    } else {
+        document.getElementById('language-warning-button').hidden = true;
+    }
+    document.getElementById('language-warning-button').addEventListener('click', () => {
+        let lang = document.querySelector(`option[value="${LANGUAGE}"]`).innerText;
+        if(!lang) lang = LANGUAGE.toUpperCase();
+        // Don't translate this
+        createModal(`
+        <div style="color:var(--almost-black);max-width:600px" class="help-modal">
+            <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">Do you know English?</h2>
+            <div>Do you know English and ${lang}? If so, you can help translate this extension into your language!</div>
+            <div>${lang} currently lacks ${diff} line translations. You can help translating the missing messages <a href="https://github.com/dimdenGD/OldTwitter/tree/master/_locales#readme" target="_blank">here</a>.</div>
+            <div>Thank you for your help!</div>
+        </div>
+        `);
+    });
 
     // Colors
     let colorsDiv = document.getElementById('colors');
