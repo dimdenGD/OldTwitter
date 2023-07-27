@@ -1971,7 +1971,6 @@ emoji-picker {
     display: inline-block;
     position: relative;
     bottom: 2px;
-    max-width: 151px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
