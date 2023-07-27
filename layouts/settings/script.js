@@ -200,6 +200,7 @@ setTimeout(async () => {
     let uncensorAdultContentAutomatically = document.getElementById('uncensor-adult-content-automatically');
     let uncensorSensitiveContentAutomatically = document.getElementById('uncensor-sensitive-content-automatically');
     let useOldStyleReply = document.getElementById('use-old-style-reply');
+    let linkColorReset = document.getElementById('link-color-reset');
 
     let root = document.querySelector(":root");
     {
@@ -241,6 +242,14 @@ setTimeout(async () => {
     
     linkColor.addEventListener('change', () => {
         let color = linkColor.value;
+        root.style.setProperty('--link-color', color);
+        chrome.storage.sync.set({
+            linkColor: color
+        }, () => { });
+    });
+    linkColorReset.addEventListener('click', async () => {
+        let color = '#4BACD2';
+        linkColor.value=color;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
