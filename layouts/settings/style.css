@@ -384,3 +384,6 @@ select, input, textarea {
 #advanced-settings > button {
     margin-top: 5px;
 }
+#color-preview-custom[hidden] {
+    display: none;
+}

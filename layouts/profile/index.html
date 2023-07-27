@@ -109,7 +109,8 @@
                             <input id="user-search-input" type="text" placeholder="__MSG_search_user_tweets__" autocomplete="off" spellcheck="false">
                             <button id="user-search-icon"></button>
                         </div>
-                        <input type="checkbox" id="tweet-nav-more-menu-hr"><label for="tweet-nav-more-menu-hr">__MSG_hide_retweets__</label>
+                        <input type="checkbox" id="tweet-nav-more-menu-hr"><label for="tweet-nav-more-menu-hr">__MSG_hide_retweets__</label><br>
+                        <input type="checkbox" id="tweet-nav-more-menu-hnr" hidden><label id="tweet-nav-more-menu-hnr-label" for="tweet-nav-more-menu-hnr" style="padding-left:4px" hidden>__MSG_hide_non_replies__</label>
                     </div>
                     <style id="style-hide-retweets"></style>
                 </div>
@@ -118,6 +119,22 @@
                 <div id="no-tweets" hidden></div>
             </div>
             <div class="cell" id="right-cell">
+                <div id="color-sync-box" class="box" hidden>
+                    <h1 class="nice-header">__MSG_color_sync__</h1><br>
+                    <div>
+                        __MSG_by_pressing_sync__<br>
+                        __MSG_color_years_ago__
+                    </div>
+                    <div class="setting">
+                        <input type="color" id="profile-link-color"> <label for="profile-link-color">__MSG_profile_link_color__</label>
+                    </div>
+                    <div id="color-preview">
+                        <div id="color-preview-light">__MSG_light_mode_link__</div>
+                        <div id="color-preview-dark">__MSG_dark_mode_link__</div>
+                        <div id="color-preview-black">__MSG_black_mode_link__</div>
+                    </div>
+                    <button class="nice-button" id="color-sync-button">__MSG_sync__</button>
+                </div>
                 <div id="wtf" class="box">
                     <h1>__MSG_you_may_also_like__</h1><br>
                     <span id="wtf-refresh">__MSG_refresh__</span> · <a id="wtf-viewall" target="_blank" href="https://twitter.com/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>

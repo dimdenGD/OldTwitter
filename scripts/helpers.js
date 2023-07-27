@@ -1477,7 +1477,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweet.classList.add('tweet-active');
                 activeTweet = tweet;
             }
-        } catch(e) {}
+        } catch(e) {};
+
+        if(t.nonReply) {
+            tweet.classList.add('tweet-non-reply');
+        }
+
         if(t.threadContinuation) {
             options.threadContinuation = true;
         }

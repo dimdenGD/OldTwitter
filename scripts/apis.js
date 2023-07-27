@@ -754,9 +754,13 @@ const API = {
                         trends = trends.content.timelineModule.items;
                         trends.forEach(trend => {
                             if(!trend.item || !trend.item.content || !trend.item.content.trend) return;
+                            let desc = trend.item.content.trend.trendMetadata.domainContext;
+                            if(trend.item.content.trend.trendMetadata.metaDescription) {
+                                desc += ` • ${trend.item.content.trend.trendMetadata.metaDescription}`;
+                            }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,
-                                meta_description: trend.item.content.trend.trendMetadata.domainContext,
+                                meta_description: desc,
                             }})
                         });
                         debugLog('discover.getTrendsV2', 'end', {cache, data: {modules: data}});
@@ -1245,6 +1249,9 @@ const API = {
                                 let tweet = parseTweet(result);
                                 if(tweet) {
                                     tweet.hasModeratedReplies = entry.content.itemContent.hasModeratedReplies;
+                                    if(replies) {
+                                        tweet.nonReply = true;
+                                    }
                                     tweets.push(tweet);
                                 }
                             } else if(entry.entryId.startsWith("profile-conversation-")) {
@@ -4154,7 +4161,7 @@ const API = {
                     resolve(
                         data.data.viewer.list_management_timeline
                             .timeline.instructions.find(i => i.entries)
-                            .entries.find(i => i.entryId === 'ownedSubscribedListModule')
+                            .entries.find(i => i.entryId.startsWith('owned-subscribed-list-module'))
                             .content.items.map(i => i.item.itemContent.list)
                     );
                 }).catch(e => {
