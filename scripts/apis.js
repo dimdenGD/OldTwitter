@@ -418,7 +418,10 @@ const API = {
                             tweet.source && 
                             (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface'))
                         ) continue;
-                        if(e.feedbackInfo) tweet.feedback = e.feedbackInfo.feedbackKeys.map(f => data.timeline.responseObjects.feedbackActions[f]);
+                        if(e.feedbackInfo) {
+                            tweet.feedback = e.feedbackInfo.feedbackKeys.map(f => data.timeline.responseObjects.feedbackActions[f]);
+                            if(tweet.feedback) tweet.feedbackMetadata = e.feedbackInfo.feedbackMetadata;
+                        }
                         if(tweet.retweeted_status_id_str) {
                             tweet.retweeted_status = tweets[tweet.retweeted_status_id_str];
                             if(tweet.retweeted_status) {
@@ -505,6 +508,9 @@ const API = {
 
                             if(e.content.feedbackInfo) {
                                 tweet.feedback = e.content.feedbackInfo.feedbackKeys.map(f => data.data.home.home_timeline_urt.responseObjects.feedbackActions.find(a => a.key === f).value).filter(f => f);
+                                if(tweet.feedback) {
+                                    tweet.feedbackMetadata = e.content.feedbackInfo.feedbackMetadata;
+                                }
                             }
                             if(e.content.itemContent.socialContext) {
                                 if(e.content.itemContent.socialContext.topic) {
@@ -530,6 +536,9 @@ const API = {
                                     if(tweet.user.blocking || tweet.user.muting) break;
                                     if(item.item.feedbackInfo) {
                                         tweet.feedback = item.item.feedbackInfo.feedbackKeys.map(f => data.data.home.home_timeline_urt.responseObjects.feedbackActions.find(a => a.key === f).value).filter(f => f);
+                                        if(tweet.feedback) {
+                                            tweet.feedbackMetadata = item.item.feedbackInfo.feedbackMetadata;
+                                        }
                                     }
                                     if(item.item.itemContent.socialContext) {
                                         if(item.item.itemContent.socialContext.topic) {

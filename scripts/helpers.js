@@ -3124,16 +3124,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         credentials: 'include'
                     }).then(i => i.json()).then(() => {});
                 }
-                fetch(`https://twitter.com/i/api/graphql/vfVbgvTPTQ-dF_PQ5lD1WQ/timelinesFeedback`, {
+                fetch(`https://twitter.com/i/api${feedback.feedbackUrl}`, {
                     method: 'post',
                     headers: {
-                        'content-type': 'application/json',
+                        'content-type': 'application/x-www-form-urlencoded',
                         'authorization': OLDTWITTER_CONFIG.public_token,
                         "x-twitter-active-user": 'yes',
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": 'OAuth2Session',
                     },
-                    body: JSON.stringify({"variables":{"encoded_feedback_request": feedback.encodedFeedbackRequest,"undo":false},"queryId":"vfVbgvTPTQ-dF_PQ5lD1WQ"}),
+                    body: `feedback_type=${feedback.feedbackType}&feedback_metadata=${t.feedbackMetadata}&undo=false`,
                     credentials: 'include'
                 }).then(i => i.json()).then(i => {
                     alert(feedback.confirmation ? feedback.confirmation : LOC.feedback_thanks.message);
