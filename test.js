@@ -110,5 +110,5 @@ for(let localeName of locales) {
 if(errors) {
     process.exit(1);
 } else {
-    console.log('All locale files are valid.');
+    console.log('\nAll locale files are valid.');
 }

@@ -443,7 +443,7 @@
     "reset_colors_sure": { "message": "Вы уверены что хотите скинуть все цвета до умолчания?" },
     "navbar": { "message":"Панель навигации", "description":"Setting Text"},
     "sidebar": { "message":"Боковая панель", "description":"Setting Text"},
-    "advanced_option": { "message":"Расширенные настройки", "description":"Setting Text"},
+    "advanced_options": { "message":"Расширенные настройки", "description":"Setting Text"},
     "advanced_colors": { "message":"Расширенные цвета", "description":"Setting Text"},
     "accssibility": { "message":"Доступность", "description":"Setting Text"},
     "tweets_and_timeline": { "message":"Твиты & Лента", "description":"Setting Text"},
@@ -457,5 +457,12 @@
     "chrono_retweets_help": { "message": "Тоже что и первое, но только ретвиты." },
     "chrono_social_help": { "message": "Смесь хронологической и алгоритмической лент, иногда твиты с 'кому-то понравилось' и 'кто-то читает' будут добавлены между хронологическими твитами." },
     "algo_help": { "message": "Старая алгоритмическая лента, показывает твиты которые Твиттер думает вам понравятся. Версия 1 это старая версия, у неё нет лимитов (или они очень большие) но у твитов нет меток почему твит был добавлен в ленту." },
-    "algov2_help": { "message": "Алгоритмическая лента которую сейчас использует Твиттер, у неё есть лимиты но зато она показывает почему твит был добавлен в ленту." }
+    "algov2_help": { "message": "Алгоритмическая лента которую сейчас использует Твиттер, у неё есть лимиты но зато она показывает почему твит был добавлен в ленту." },
+    "import_settings": { "message": "Импорт настроек" },
+    "export_settings": { "message": "Экспорт настроек" },
+    "import_style_settings": { "message": "Импорт стиля" },
+    "export_style_settings": { "message": "Экспорт стиля" },
+    "reset_settings": { "message": "Сбросить все настройки" },
+    "reset_settings_sure": { "message": "Вы уверены что хотите сбросить все настройки?" },
+    "clear_caches": { "message": "Очистить кэши" }
 }

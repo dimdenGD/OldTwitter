@@ -11,6 +11,8 @@ Things to keep in mind:
 - Place \ before " inside your text.
 - Try to keep everything as short as English version, if possible (unless it's big messages)
 
+If you're not creating new translation, but just updating new one, you can open your languages locale file and English locale file and copy missing lines from English file and translate them.
+
 When you're finished you can send me your messages.json file to these places:
 - email: admin@dimden.dev
 - twitter: https://twitter.com/dimdenEFF
