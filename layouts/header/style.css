@@ -1961,7 +1961,11 @@ emoji-picker {
 .tweet-quote-reply-to {
     display: inline-block;
     position: relative;
-    bottom: 8px;
+    bottom: 2px;
+    max-width: 151px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .tweet-quote-reply-to::before, .tweet-time-quote::before {
     content: "\00b7";
