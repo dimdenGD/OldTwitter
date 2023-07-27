@@ -356,7 +356,7 @@
     "round_avatars": { "message": "Круглые аватарки" },
     "search_user_tweets": { "message": "Поиск твитов пользователя" },
     "no_tl_tweets": { "message": "Вы ни на кого не подписаны так что никаких твитов не было найдено! Поменяйте тип ленты на 'Алгоритмическую' в <a href='https://twitter.com/old/settings'>настройках расширения</a>." },
-    "replying_to_prefix": { "message": "Упоминания", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "Упоминания", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Отображение" },
     "twitter_blue_checkmarks": { "message": "Показывать галочки Twitter Blue" },
     "retweet_hotkey_warn": { "message": "Вы только что нажали T (русская Е) на клавиатуре, это горячая клавиша для ретвитов. Вы хотите ретвитнуть этот твит? Если вы нажмёте 'да' это сообщение больше не будет показываться." },
@@ -422,5 +422,17 @@
     "tweet_text_font": { "message": "Шрифт для текста твитов" },
     "use_old_default_profile": { "message": "Использовать иконку яйца как аватар по умолчанию" },
     "colors": { "message": "Цвета" },
-    "enable_hashflags": { "message": "Показывать значки хештегов (может немного повлиять на скорость загрузки страницы)" }
+    "enable_hashflags": { "message": "Показывать значки хештегов (может немного повлиять на скорость загрузки страницы)" },
+    "content_warning": { "message": "Содержание: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
+    "graphic_violence": { "message": "Насилие" },
+    "adult_content": { "message": "Контент для взрослых" },
+    "sensitive_content": { "message": "Чувствительный контент" },
+    "replying_to_user": { "message": "Ответ $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "content_warnings": { "message": "Содержание" },
+    "transparency": { "message": "Прозрачность" },
+    "reset": { "message": "Скинуть" },
+    "reset_all": { "message": "Скинуть всё" },
+    "import": { "message": "Импортировать" },
+    "export": { "message": "Экспортировать" },
+    "reset_colors_sure": { "message": "Вы уверены что хотите скинуть все цвета до умолчания?" }
 }

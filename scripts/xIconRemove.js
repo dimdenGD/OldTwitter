@@ -20,6 +20,10 @@ function removeAndReplaceX(element) {
         parent.appendChild(img);
         element.remove();
         xObserver.disconnect();
+
+        setTimeout(() => {
+            img.remove();
+        }, 500);
     };
 }
 

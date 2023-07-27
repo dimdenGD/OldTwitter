@@ -4451,18 +4451,24 @@ const API = {
             if (finalData.errors && finalData.errors[0]) {
                 return reject(finalData.errors[0].message);
             }
-            if(data.alt) {
+            if((typeof data.alt === 'string' && data.alt.length > 0) || data.cw.length > 0) {
                 try {
+                    let obj = {
+                        media_id: mediaId
+                    };
+                    if(data.alt) {
+                        obj.alt_text = {
+                            text: data.alt
+                        };
+                    }
+                    if(data.cw.length > 0) {
+                        obj.sensitive_media_warning = data.cw;
+                    }
                     await fetch(`https://upload.twitter.com/1.1/media/metadata/create.json`, {
                         headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/" },
                         credentials: "include",
                         method: "post",
-                        body: JSON.stringify({
-                            media_id: mediaId,
-                            alt_text: {
-                                text: data.alt
-                            }
-                        })
+                        body: JSON.stringify(obj)
                     }).then(i => i.json());
                 } catch(e) {
                     console.warn(e);

@@ -312,36 +312,6 @@ body {
     position: relative
 }
 
-.nice-button {
-    background-color: var(--darker-background-color);
-    background-image: linear-gradient(var(--background-color), var(--darker-background-color));
-    background-repeat: no-repeat;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--almost-black);
-    color: var(--darker-gray);
-    cursor: pointer;
-    font: 700 14px/normal var(--font);
-    padding: 8px 16px
-}
-
-.nice-button:hover:not([disabled]) {
-    background-color: var(--border);
-    background-image: linear-gradient(var(--background-color), var(--border));
-    border-color: var(--border);
-    color: var(--almost-black);
-    text-decoration: none
-}
-
-.nice-button:disabled {
-    color: lightgray !important;
-    cursor: not-allowed
-}
-
-.nice-button:disabled:before {
-    color: lightgray !important
-}
-
 .tweet-top {
     font-size: 13px;
     margin-bottom: 7px;

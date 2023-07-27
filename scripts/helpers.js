@@ -155,9 +155,39 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                         alt.className = "new-tweet-media-img-alt";
                         alt.innerText = "ALT";
                         alt.addEventListener('click', () => {
-                            mediaObject.alt = prompt(LOC.alt_text.message);
+                            mediaObject.alt = prompt(LOC.alt_text.message, mediaObject.alt || '');
                         });
                     }
+                    let cw = document.createElement('span');
+                    cw.className = "new-tweet-media-img-cw";
+                    cw.innerText = "CW";
+                    cw.addEventListener('click', () => {
+                        createModal(`
+                            <div class="cw-modal" style="color:var(--almost-black)">
+                                <h2 class="nice-header">${LOC.content_warnings.message}</h2>
+                                <br>
+                                <input type="checkbox" id="cw-modal-graphic_violence"${mediaObject.cw.includes('graphic_violence') ? ' checked' : ''}> <label for="cw-modal-graphic_violence">${LOC.graphic_violence.message}</label><br>
+                                <input type="checkbox" id="cw-modal-adult_content"${mediaObject.cw.includes('adult_content') ? ' checked' : ''}> <label for="cw-modal-adult_content">${LOC.adult_content.message}</label><br>
+                                <input type="checkbox" id="cw-modal-other"${mediaObject.cw.includes('other') ? ' checked' : ''}> <label for="cw-modal-other">${LOC.sensitive_content.message}</label><br>
+                            </div>
+                        `);
+                        let graphic_violence = document.getElementById('cw-modal-graphic_violence');
+                        let adult_content = document.getElementById('cw-modal-adult_content');
+                        let sensitive_content = document.getElementById('cw-modal-other');
+                        [graphic_violence, adult_content, sensitive_content].forEach(checkbox => {
+                            checkbox.addEventListener('change', () => {
+                                if (checkbox.checked) {
+                                    mediaObject.cw.push(checkbox.id.slice(9));
+                                } else {
+                                    let index = mediaObject.cw.indexOf(checkbox.id.slice(9));
+                                    if (index > -1) {
+                                        mediaObject.cw.splice(index, 1);
+                                    }
+                                }
+                            });
+                        });
+                    });
+
                     let dataBase64 = arrayBufferToBase64(data);
                     let mediaObject = {
                         div, img,
@@ -165,6 +195,7 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                         data: data,
                         dataBase64: dataBase64,
                         type: file.type,
+                        cw: [],
                         category: file.type.includes('gif') ? 'tweet_gif' : file.type.includes('video') ? 'tweet_video' : 'tweet_image'
                     };
                     mediaArray.push(mediaObject);
@@ -179,7 +210,7 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                     div.append(img, progress, remove);
                     if (!file.type.includes('video')) {
                         img.addEventListener('click', () => {
-                            if(!img.src.endsWith('?name=orig')) {
+                            if(!img.src.endsWith('?name=orig') && !img.src.startsWith('data:')) {
                                 img.src += '?name=orig';
                             }
                             new Viewer(mediaContainer, {
@@ -187,7 +218,10 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                             });
                         });
                         div.append(alt);
+                    } else {
+                        cw.style.marginLeft = '-53px';
                     }
+                    div.append(cw);
                     mediaContainer.append(div);
                 });
             }
@@ -292,7 +326,7 @@ function getDMMedia(mediaArray, mediaContainer, modalElement) {
                         div.append(img, progress, remove);
                         if (!file.type.includes('video')) {
                             img.addEventListener('click', () => {
-                                if(!img.src.endsWith('?name=orig')) {
+                                if(!img.src.endsWith('?name=orig') && !img.src.startsWith('data:')) {
                                     img.src += '?name=orig';
                                 }
                                 new Viewer(mediaContainer, {
@@ -407,10 +441,10 @@ function onVisibilityChange(callback) {
 };
 function escapeHTML(unsafe) {
     return unsafe
-         .replace(/</g, "&lt;")
-         .replace(/>/g, "&gt;")
-         .replace(/"/g, "&quot;")
-         .replace(/'/g, "’");
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "’");
 }
 async function renderTweetBodyHTML(full_text, entities, display_text_range, is_quote_tweet=false) {
     let result = "",
@@ -425,41 +459,53 @@ async function renderTweetBodyHTML(full_text, entities, display_text_range, is_q
     full_text_array = Array.from(full_text);
 
     if (is_quote_tweet) { // for quoted tweet we need only hashflags and readable urls
-        entities.hashtags.forEach(hashtag => {
-            let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
-            index_map[hashtag.indices[0]] = [hashtag.indices[1], text =>
-                `#${escapeHTML(hashtag.text)}`+
-                `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`
-            ];
-        });
+        if (entities.hashtags) {
+            entities.hashtags.forEach(hashtag => {
+                let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text =>
+                    `#${escapeHTML(hashtag.text)}`+
+                    `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`
+                ];
+            });
+        }
 
-        entities.urls.forEach(url => {
-            index_map[url.indices[0]] = [url.indices[1], text => `${escapeHTML(url.display_url)}`];
-        });
+        if (entities.urls) {
+            entities.urls.forEach(url => {
+                index_map[url.indices[0]] = [url.indices[1], text => `${escapeHTML(url.display_url)}`];
+            });
+        }
     } else {
-        entities.hashtags.forEach(hashtag => {
-            let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
-            index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
-                `#${escapeHTML(hashtag.text)}`+
-                `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
-            `</a>`];
-        });
+        if (entities.hashtags) {
+            entities.hashtags.forEach(hashtag => {
+                let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
+                    `#${escapeHTML(hashtag.text)}`+
+                    `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
+                `</a>`];
+            });
+        }
 
-        entities.symbols.forEach(symbol => {
-            index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="https://twitter.com/search?q=%24${escapeHTML(symbol.text)}">`+
-                `$${escapeHTML(symbol.text)}`+
-            `</a>`];
-        });
+        if (entities.symbols) {
+            entities.symbols.forEach(symbol => {
+                index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="https://twitter.com/search?q=%24${escapeHTML(symbol.text)}">`+
+                    `$${escapeHTML(symbol.text)}`+
+                `</a>`];
+            });
+        }
 
-        entities.urls.forEach(url => {
-            index_map[url.indices[0]] = [url.indices[1], text =>
-                `<a href="${escapeHTML(url.expanded_url)}" title="${escapeHTML(url.expanded_url)}" target="_blank" rel="noopener noreferrer">`+
-                `${escapeHTML(url.display_url)}</a>`];
-        });
+        if (entities.urls) {
+            entities.urls.forEach(url => {
+                index_map[url.indices[0]] = [url.indices[1], text =>
+                    `<a href="${escapeHTML(url.expanded_url)}" title="${escapeHTML(url.expanded_url)}" target="_blank" rel="noopener noreferrer">`+
+                    `${escapeHTML(url.display_url)}</a>`];
+            });
+        }
 
-        entities.user_mentions.forEach(user => {
-            index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
-        });
+        if (entities.user_mentions) {
+            entities.user_mentions.forEach(user => {
+                index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
+            });
+        }
     }
 
     let display_start = display_text_range !== undefined ? display_text_range[0] : 0;
@@ -1073,7 +1119,7 @@ async function renderTrends(compact = false, cache = true) {
         let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === trend.name.slice(1).toLowerCase());
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend' + (compact ? ' compact-trend' : '');
-        trendDiv.innerHTML = compact ? `<a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a>` : `
+        trendDiv.innerHTML = compact ? /*html*/`<a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a>` : /*html*/`
             <b>
                 <a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">
                     ${escapeHTML(trend.name)}
@@ -1160,6 +1206,87 @@ async function renderDiscovery(cache = true) {
     } catch (e) {
         console.warn(e);
     }
+}
+
+function renderMedia(t) {
+    let html = '';
+    if(!t.extended_entities || !t.extended_entities.media) return '';
+
+    let cws = [];
+
+    for(let i = 0; i < t.extended_entities.media.length; i++) {
+        let m = t.extended_entities.media[i];
+        let toCensor = !vars.displaySensitiveContent && t.possibly_sensitive;
+        if(m.sensitive_media_warning) {
+            if(m.sensitive_media_warning.graphic_violence) {
+                cws.push(LOC.graphic_violence.message);
+                toCensor = !vars.uncensorGraphicViolenceAutomatically;
+            }
+            if(m.sensitive_media_warning.adult_content) {
+                cws.push(LOC.adult_content.message);
+                toCensor = !vars.uncensorAdultContentAutomatically;
+            }
+            if(m.sensitive_media_warning.other) {
+                cws.push(LOC.sensitive_content.message);
+                toCensor = !vars.uncensorSensitiveContentAutomatically;
+            }
+        }
+        if(m.type === 'photo') {
+            html += /*html*/`
+            <img 
+                ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
+                crossorigin="anonymous"
+                width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
+                height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                loading="lazy"
+                src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : '')}"
+                class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
+            >`;
+        } else if(m.type === 'animated_gif') {
+            html += /*html*/`
+                <video
+                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
+                    crossorigin="anonymous"
+                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
+                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                    loop
+                    onclick="if(this.paused) this.play(); else this.pause()"
+                    ${vars.disableGifAutoplay ? '' : 'autoplay'}
+                    muted
+                    class="tweet-media-element tweet-media-gif ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
+                >
+                    ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
+                    ${LOC.unsupported_video.message}
+                </video>
+            `;
+        } else if(m.type === 'video') {
+            html += /*html*/`
+                <video
+                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
+                    crossorigin="anonymous"
+                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
+                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                    preload="none"
+                    ${t.extended_entities.media.length > 1 ? 'controls' : ''}
+                    poster="${m.media_url_https}"
+                    class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
+                >
+                    ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
+                    ${LOC.unsupported_video.message}
+                </video>
+            `;
+        }
+        if(i === 1 && t.extended_entities.media.length > 3) {
+            html += '<br>';
+        }
+    }
+
+    if(cws.length > 0) {
+        cws = [...new Set(cws)];
+        cws = LOC.content_warning.message.replace('$WARNINGS$', cws.join(', '));
+        html += `<br><div class="tweet-media-cws">${cws}</div>`;
+    }
+    return html;
 }
 
 async function appendUser(u, container, label) {
@@ -1442,12 +1569,26 @@ async function appendTweet(t, timelineContainer, options = {}) {
             blockUserText = `${LOC.block_user.message} @${t.user.screen_name}`;
             unblockUserText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
         }
+
+        // i fucking hate this thing
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
-            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = '${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
+            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}">
+                <img
+                    onerror="this.src = '${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}'"
+                    src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`) : t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}"
+                    alt="${t.user.name}"
+                    class="tweet-avatar"
+                    width="48"
+                    height="48"
+                >
+            </a>
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
                 <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
-                    <b ${t.user.id_str === '1123203847776763904' ? 'title="Old Twitter Layout extension developer" ' : ''}class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.user.name)}</b>
+                    <b
+                        ${t.user.id_str === '1123203847776763904' ? 'title="Old Twitter Layout extension developer" ' : ''}
+                        class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}"
+                    >${escapeHTML(t.user.name)}</b>
                     <span class="tweet-header-handle">@${t.user.screen_name}</span>
                 </a>
                 <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
@@ -1458,18 +1599,18 @@ async function appendTweet(t, timelineContainer, options = {}) {
             ${t.in_reply_to_screen_name &&
                 !options.threadContinuation &&
                 !options.noTop &&
-                !location.pathname.includes('/status/') ? `
-            <div class="tweet-reply-to"><span>${LOC.replying_to_prefix.message} <a href="https://twitter.com/${t.in_reply_to_screen_name}">@${t.in_reply_to_screen_name}</a></span> ${LOC.replying_to_suffix.message}</div>
+                !location.pathname.includes('/status/') ? /*html*/`
+            <div class="tweet-reply-to"><span>${LOC.replying_to_user.message.replace('$SCREEN_NAME$', `<a href="https://twitter.com/${t.in_reply_to_screen_name}">@${t.in_reply_to_screen_name}</a>`)}</span></div>
             `: ''}
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 <span class="tweet-body-text ${vars.noBigFont || t.full_text.length > 280 || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
-                ${!isEnglish && options.mainTweet ? `
+                ${!isEnglish && options.mainTweet ? /*html*/`
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
                 ` : ``}
-                ${t.extended_entities && t.extended_entities.media ? `
+                ${t.extended_entities && t.extended_entities.media ? /*html*/`
                     <div class="tweet-media">
-                        ${t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'video' ? `
+                        ${t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'video' ? /*html*/`
                             <div class="tweet-media-video-overlay">
                                 <svg viewBox="0 0 24 24" class="tweet-media-video-overlay-play">
                                     <g>
@@ -1479,52 +1620,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                 </svg>
                             </div>
                         ` : ''}
-                        ${t.extended_entities.media.map((m, i) => `${i === 2 && t.extended_entities.media.length >= 4 ? '<br>' : ''}
-                            ${m.type === 'photo' ? `
-                                <img 
-                                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
-                                    crossorigin="anonymous"
-                                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
-                                    loading="lazy"
-                                    src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : '')}"
-                                    class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}"
-                                >
-                            ` : ''}
-                            ${m.type === 'animated_gif' ? `
-                                <video
-                                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
-                                    crossorigin="anonymous"
-                                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
-                                    loop
-                                    onclick="if(this.paused) this.play(); else this.pause()"
-                                    ${vars.disableGifAutoplay ? '' : 'autoplay'}
-                                    muted
-                                    class="tweet-media-element tweet-media-gif ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}"
-                                >
-                                    ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                                    ${LOC.unsupported_video.message}
-                                </video>
-                            ` : ''}
-                            ${m.type === 'video' ? `
-                                <video
-                                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
-                                    crossorigin="anonymous"
-                                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
-                                    preload="none"
-                                    ${t.extended_entities.media.length > 1 ? 'controls' : ''}
-                                    poster="${m.media_url_https}"
-                                    class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}"
-                                >
-                                    ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                                    ${LOC.unsupported_video.message}
-                                </video>
-                            ` : ''}
-                        `).join('\n')}
+                        ${renderMedia(t)}
                     </div>
-                    ${t.extended_entities && t.extended_entities.media && t.extended_entities.media.some(m => m.type === 'animated_gif') ? `<div class="tweet-media-controls">GIF</div>` : ''}
+                    ${t.extended_entities && t.extended_entities.media && t.extended_entities.media.some(m => m.type === 'animated_gif') ? /*html*/`<div class="tweet-media-controls">GIF</div>` : ''}
                     ${videos ? /*html*/`
                         <div class="tweet-media-controls">
                             ${videos[0].ext && videos[0].ext.mediaStats && videos[0].ext.mediaStats.r && videos[0].ext.mediaStats.r.ok ? `<span class="tweet-video-views">${Number(videos[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload">${LOC.reload.message}</span> •
@@ -1534,7 +1632,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-media-data"></span>
                 ` : ``}
                 ${t.card ? `<div class="tweet-card"></div>` : ''}
-                ${t.quoted_status ? `
+                ${t.quoted_status ? /*html*/`
                 <a class="tweet-body-quote" target="_blank" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                     <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
@@ -1545,7 +1643,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
                     ${t.quoted_status.in_reply_to_screen_name ? `
-                    <span class="tweet-reply-to">${LOC.replying_to_prefix.message} @${t.quoted_status.in_reply_to_screen_name} ${LOC.replying_to_suffix.message}</span>
+                    <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', '@'+t.quoted_status.in_reply_to_screen_name)}</span>
                     ` : ''}
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `
@@ -1555,7 +1653,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ` : ''}
                 </a>
                 ` : ``}
-                ${t.limited_actions === 'limit_trusted_friends_tweet' && (options.mainTweet || !location.pathname.includes('/status/')) ? `
+                ${t.limited_actions === 'limit_trusted_friends_tweet' && (options.mainTweet || !location.pathname.includes('/status/')) ? /*html*/`
                 <div class="tweet-limited">
                     ${LOC.circle_limited_tweet.message}
                     <a href="https://help.twitter.com/en/using-twitter/twitter-circle" target="_blank">${LOC.learn_more.message}</a>
@@ -1590,7 +1688,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
                         <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? LOC.unretweet.message : LOC.retweet.message}${!vars.disableHotkeys ? ' (T)' : ''}</span>
                         <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}${!vars.disableHotkeys ? ' (Q)' : ''}</span>
-                        ${options.mainTweet ? `
+                        ${options.mainTweet ? /*html*/`
                             <span class="tweet-interact-retweet-menu-quotes">${LOC.see_quotes_big.message}</span>
                             <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span>
                         ` : ''}
@@ -1633,10 +1731,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ${t.extended_entities && t.extended_entities.media.length === 1 && t.extended_entities.media[0].type === 'animated_gif' ? /*html*/`<span class="tweet-interact-more-menu-download-gif" data-gifno="1">${LOC.download_gif.message}</span>` : ``}
                         ${t.extended_entities && t.extended_entities.media.length > 1 ? t.extended_entities.media.filter(m => m.type === 'animated_gif').map((m, i) => /*html*/`<span class="tweet-interact-more-menu-download-gif" data-gifno="${i+1}">${LOC.download_gif.message} (#${i+1})</span>`).join('\n') : ''}
                         ${t.extended_entities && t.extended_entities.media.length > 0 ? /*html*/`<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>` : ``}
-                        ${vars.developerMode ? `
+                        ${vars.developerMode ? /*html*/`
                         <hr>
                         <span class="tweet-interact-more-menu-copy-user-id">${LOC.copy_user_id.message}</span>
                         <span class="tweet-interact-more-menu-copy-tweet-id">${LOC.copy_tweet_id.message}</span>
+                        <span class="tweet-interact-more-menu-log">Log tweet object</span>
                         ` : ''}
                     </div>
                     ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? /*html*/`<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
@@ -1948,6 +2047,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenu = tweet.getElementsByClassName('tweet-interact-more-menu')[0];
         const tweetInteractMoreMenuCopy = tweet.getElementsByClassName('tweet-interact-more-menu-copy')[0];
         const tweetInteractMoreMenuCopyTweetId = tweet.getElementsByClassName('tweet-interact-more-menu-copy-tweet-id')[0];
+        const tweetInteractMoreMenuLog = tweet.getElementsByClassName('tweet-interact-more-menu-log')[0];
         const tweetInteractMoreMenuCopyUserId = tweet.getElementsByClassName('tweet-interact-more-menu-copy-user-id')[0];
         const tweetInteractMoreMenuEmbed = tweet.getElementsByClassName('tweet-interact-more-menu-embed')[0];
         const tweetInteractMoreMenuShare = tweet.getElementsByClassName('tweet-interact-more-menu-share')[0];
@@ -1964,6 +2064,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
         const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
+
+        if(tweetInteractMoreMenuLog) tweetInteractMoreMenuLog.addEventListener('click', () => {
+            console.log(t);
+        });
 
         // moderating tweets
         if(tweetInteractMoreMenuHide) tweetInteractMoreMenuHide.addEventListener('click', async () => {
@@ -2066,7 +2170,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetBodyQuote.addEventListener('click', e => {
                     e.preventDefault();
                     if(e.target.className && e.target.className.includes('tweet-media-element')) {
-                        if(!e.target.src.endsWith('?name=orig')) {
+                        if(!e.target.src.endsWith('?name=orig') && !e.target.src.startsWith('data:')) {
                             e.target.src += '?name=orig';
                         }
                         new Viewer(e.target, {
@@ -2184,7 +2288,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
-                    if(!e.target.src.endsWith('?name=orig')) {
+                    if(!e.target.src.endsWith('?name=orig') && !e.target.src.startsWith('data:')) {
                         e.target.src += '?name=orig';
                     }
                     new Viewer(tweetMedia, {
@@ -2299,6 +2403,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         media_category: media.category,
                         media: media.data,
                         alt: media.alt,
+                        cw: media.cw,
                         loadCallback: data => {
                             media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                         }
@@ -2570,6 +2675,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         media_category: media.category,
                         media: media.data,
                         alt: media.alt,
+                        cw: media.cw,
                         loadCallback: data => {
                             media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                         }

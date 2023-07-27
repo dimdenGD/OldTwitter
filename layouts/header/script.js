@@ -19,6 +19,15 @@ notificationBus.onmessage = function (e) {
         }
     }
 };
+const customCSSBus = new BroadcastChannel('custom_css_bus');
+customCSSBus.onmessage = function (e) {
+    if(e.data.type === 'vars') {
+        switchDarkMode(isDarkModeEnabled);
+    } else if(e.data.type === 'css') {
+        updateCustomCSS();
+    }
+};
+
 const themeBus = new BroadcastChannel('theme_bus');
 themeBus.onmessage = function (e) {
     isDarkModeEnabled = e.data[0];
@@ -614,6 +623,7 @@ let userDataFunction = async user => {
                 lastMessage = lastMessage.trust_conversation;
             };
             let messageUsers = c.participants.filter(p => p.user_id !== user.id_str).map(p => inbox.users[p.user_id]);
+            let lastMessageUser = messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id);
             let messageElement = document.createElement('div');
             messageElement.classList.add('inbox-message');
             let isUnread = false;
@@ -629,7 +639,7 @@ let userDataFunction = async user => {
                     <span class="inbox-screenname">${messageUsers.length === 1 ? "@"+messageUsers[0].screen_name : ''}</span>
                     <span class="inbox-time">${timeElapsed(new Date(+lastMessage.time))}</span>
                     <br>
-                    <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text.startsWith('dmservice_reaction_') ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${escapeHTML(messageUsers[0].name)} reacted to message`}` : escapeHTML(lastMessage.message_data.text)}</span>
+                    <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text.startsWith('dmservice_reaction_') ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${escapeHTML(lastMessageUser.name)} reacted to message`}` : escapeHTML(lastMessage.message_data.text)}</span>
                 </div>
             `;
             if(vars.enableTwemoji) {
@@ -840,6 +850,7 @@ let userDataFunction = async user => {
                     let mediaId = await API.uploadMedia({
                         media_type: media.type,
                         media: media.data,
+                        cw: media.cw,
                         loadCallback: data => {
                             media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                         }
@@ -1198,6 +1209,7 @@ let userDataFunction = async user => {
                             media_category: media.category,
                             media: media.data,
                             alt: media.alt,
+                            cw: media.cw,
                             loadCallback: data => {
                                 media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                             }

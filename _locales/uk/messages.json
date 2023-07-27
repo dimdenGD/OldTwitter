@@ -356,7 +356,7 @@
     "round_avatars": { "message": "Круглі аватарки" },
     "search_user_tweets": { "message": "Пошук твітів користувача" },
     "no_tl_tweets": { "message": "Ви ні на кого не підписані так що ніяких твітів не було знайдено! Змініть тип стрічки на 'Алгорітмічну' в <a href='https://twitter.com/old/settings'>налаштуваннях розширення</a>." },
-    "replying_to_prefix": { "message": "Згадування", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "replying_to": { "message": "Згадування", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Вигляд" },
     "twitter_blue_checkmarks": { "message": "Показувати галочки Twitter Blue" },
     "retweet_hotkey_warn": { "message": "Ви тільки що натиснули T (українська Е) на клавіатурі, це гаряча клавиша для ретвітів. Ви хочете ретвітнути цей твіт? Якщо ви натиснете 'так' це повідомлення не буде більше показуватись." },
@@ -422,5 +422,17 @@
     "tweet_text_font": { "message": "Шрифт для тексту твітів" },
     "use_old_default_profile": { "message": "Використовувати значок яйця як аватар за замовчуванням" },
     "colors": { "message": "Кольори" },
-    "enable_hashflags": { "message": "Показувати значки хештегів (може трохи заповільнити загрузку на повільних компах)" }
+    "enable_hashflags": { "message": "Показувати значки хештегів (може трохи заповільнити загрузку на повільних компах)" },
+    "content_warning": { "message": "Зміст: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
+    "graphic_violence": { "message": "Насильство" },
+    "adult_content": { "message": "Контент для дорослих" },
+    "sensitive_content": { "message": "Чутливий контент" },
+    "replying_to_user": { "message": "Відповідь $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "content_warnings": { "message": "Зміст" },
+    "transparency": { "message": "Прозорість" },
+    "reset": { "message": "Скинути" },
+    "reset_all": { "message": "Скинути все" },
+    "import": { "message": "Імпортувати" },
+    "export": { "message": "Експортувати" },
+    "reset_colors_sure": { "message": "Ви впевнені що хочете скинути всі кольори до замовчування?" }
 }
