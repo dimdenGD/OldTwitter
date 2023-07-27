@@ -754,9 +754,13 @@ const API = {
                         trends = trends.content.timelineModule.items;
                         trends.forEach(trend => {
                             if(!trend.item || !trend.item.content || !trend.item.content.trend) return;
+                            let desc = trend.item.content.trend.trendMetadata.domainContext;
+                            if(trend.item.content.trend.trendMetadata.metaDescription) {
+                                desc += ` • ${trend.item.content.trend.trendMetadata.metaDescription}`;
+                            }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,
-                                meta_description: trend.item.content.trend.trendMetadata.domainContext,
+                                meta_description: desc,
                             }})
                         });
                         debugLog('discover.getTrendsV2', 'end', {cache, data: {modules: data}});

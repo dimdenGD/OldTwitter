@@ -1,4 +1,6 @@
 let user = {};
+let customVars = {};
+let linkColor 
 
 function getAllCSSVariables() {
     const vars = {};
@@ -53,6 +55,11 @@ function updateUserData() {
 
                 let blackColor = makeSeeableColor(profileColor, "#000000");
                 colorPreviewBlack.style.color = blackColor;
+
+                if(customVars['--background-color']) {
+                    document.getElementById("color-preview-custom").style.color = makeSeeableColor(profileColor, customVars['--background-color']);
+                    document.getElementById("color-preview-custom").hidden = false;
+                }
             } else {
                 let col = `#4595b5`;
                 profileLinkColor.value = col;
@@ -65,6 +72,11 @@ function updateUserData() {
 
                 let blackColor = makeSeeableColor(col, "#000000");
                 colorPreviewBlack.style.color = blackColor;
+                
+                if(customVars['--background-color']) {
+                    document.getElementById("color-preview-custom").style.color = makeSeeableColor(col, customVars['--background-color']);
+                    document.getElementById("color-preview-custom").hidden = false;
+                }
             }
         }
     }).catch(e => {
@@ -521,6 +533,11 @@ setTimeout(async () => {
 
         let blackColor = makeSeeableColor(previewColor, "#000000");
         colorPreviewBlack.style.color = blackColor;
+
+        if(customVars['--background-color']) {
+            document.getElementById("color-preview-custom").style.color = makeSeeableColor(previewColor, customVars['--background-color']);
+            document.getElementById("color-preview-custom").hidden = false;
+        }
     });
     copyLinksAs.addEventListener('change', () => {
         let val = copyLinksAs.value;
@@ -782,7 +799,7 @@ setTimeout(async () => {
     let colorsDiv = document.getElementById('colors');
     let theme = getThemeVariables(isDarkModeEnabled);
     let defaultVars = parseVariables(theme);
-    let customVars = parseVariables(vars.customCSSVariables);
+    customVars = parseVariables(vars.customCSSVariables);
 
     for(let v in defaultVars) {
         try {
@@ -811,6 +828,10 @@ setTimeout(async () => {
                     root.style.setProperty(colorValue.dataset.var, customVars[colorValue.dataset.var]);
                     customCSSBus.postMessage({type: 'vars'});
                     div.querySelector('.color-reset').disabled = false;
+                    if(colorValue.dataset.var === '--background-color') {
+                        document.getElementById("color-preview-custom").style.color = makeSeeableColor(customVars[colorValue.dataset.var]);
+                        document.getElementById("color-preview-custom").hidden = false;
+                    }
                 });
             }
             div.querySelector('.color-value').addEventListener('change', colorUpdate);
@@ -828,6 +849,9 @@ setTimeout(async () => {
                     let defColor = parseCssColor(defaultVars[v]);
                     div.querySelector('.color-value').value = rgb2hex(...defColor.values);
                     div.querySelector('.color-transparency').value = defColor.alpha;
+                    if(v === '--background-color') {
+                        document.getElementById("color-preview-custom").hidden = true;
+                    }
                 });
             });
     
