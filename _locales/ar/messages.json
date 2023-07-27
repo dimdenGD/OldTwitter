@@ -288,7 +288,7 @@
     "m": { "message": "$NUMBER$د", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
     "h": { "message": "$NUMBER$س", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
     "d": { "message": "$NUMBER$ي", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
-    "follower_requests": { "message": "طلب متابعة" },
+    "follow_requests": { "message": "طلب متابعة" },
     "accept": { "message": "قبول" },
     "decline": { "message": "رفض" },
     "mute_convo": { "message": "كتم المحادثة" },
