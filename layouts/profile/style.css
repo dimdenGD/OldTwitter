@@ -1012,11 +1012,20 @@ a:hover,
     font-size: 16px;
     content: "\f059"
 }
+#profile-style:before {
+    font-size: 16px;
+    content: "\f112"
+}
 
-#profile-settings {
+#profile-settings, #profile-style {
     cursor: pointer;
     margin-right: 7px;
     margin-top: 6px
+}
+#profile-style {
+    margin-right: 6px;
+    margin-top: 0;
+    padding: 6px 2px 8px 7px;
 }
 
 #edit-profile:before {
@@ -1055,7 +1064,7 @@ a:hover,
     font-size: 18px;
     padding-top: 3px;
     font-weight: 500;
-    transition: color .15s ease-in-out
+    transition: 0s;
 }
 
 .profile-stat {
@@ -1473,4 +1482,35 @@ a:hover,
 }
 #tweet-nav-more-menu > label[hidden] {
     display: none !important;
+}
+.profile-style-active:before {
+    color: var(--link-color);
+}
+#color-sync-box {
+    max-width: 280px;
+    margin-bottom: 10px;
+    color: var(--almost-black);
+    padding: 10px;
+    font-size: 14px;
+}
+#color-sync-box > div {
+    margin-bottom: 10px;
+}
+#color-preview div {
+    padding: 5px;
+    display: inline-block;
+    width: fit-content;
+    border: 1px solid black;
+    margin-bottom: 4px;
+    width: calc(100% - 20px);
+    text-align: center;
+}
+#color-preview-light {
+    background-color: white;
+}
+#color-preview-dark {
+    background-color: #1b2836;
+}
+#color-preview-black {
+    background-color: black;
 }

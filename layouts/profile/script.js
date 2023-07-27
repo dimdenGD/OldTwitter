@@ -241,12 +241,75 @@ function updateUserData() {
         pageUser = pageUserData;
         pageUser.protected = oldUser.protected;
         let r = document.querySelector(':root');
-        r.style.setProperty('--link-color', vars && vars.linkColor ? vars.linkColor : '#4595B5');
+        let usedProfileColor = vars && vars.linkColor ? vars.linkColor : '#4595B5';
+        r.style.setProperty('--link-color', usedProfileColor);
         let sc = makeSeeableColor(oldUser.profile_link_color);
         if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') {
             customSet = true;
             r.style.setProperty('--link-color', sc);
+            usedProfileColor = oldUser.profile_link_color;
         }
+        let colorPreviewLight = document.getElementById('color-preview-light');
+        let colorPreviewDark = document.getElementById('color-preview-dark');
+        let colorPreviewBlack = document.getElementById('color-preview-black');
+        let profileLinkColor = document.getElementById('profile-link-color');
+        let colorSyncButton = document.getElementById('color-sync-button');
+
+        profileLinkColor.value = `#${usedProfileColor}`;
+        profileLinkColor.addEventListener('input', () => {
+            let color = profileLinkColor.value;
+            if(color.startsWith('#')) color = color.slice(1);
+            let sc = makeSeeableColor(color);
+            customSet = true;
+            r.style.setProperty('--link-color', sc);
+            
+            colorPreviewLight.style.color = makeSeeableColor(`#${color}`, "#ffffff");
+            colorPreviewDark.style.color = makeSeeableColor(`#${color}`, "#1b2836");
+            colorPreviewBlack.style.color = makeSeeableColor(`#${color}`, "#000000");
+        });
+        colorSyncButton.addEventListener('click', async () => {
+            colorSyncButton.disabled = true;
+            let color = profileLinkColor.value;
+            if(color.startsWith('#')) color = color.slice(1);
+            let tweet;
+            try {
+                tweet = await API.tweet.postV2({
+                    status: `link_color=${color}`
+                })
+                let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(tweet)
+                }).then(i => i.text());
+                if(res === 'error') {
+                    alert(LOC.error_setting_color.message);
+                } else {
+                    alert(LOC.link_color_set.message);
+                    chrome.storage.local.get(["linkColors"], async lc => {
+                        let linkColors = lc.linkColors || {};
+                        linkColors[user.id_str] = color;
+                        chrome.storage.local.set({ linkColors });
+                    });
+                }
+            } catch(e) {
+                console.error(e);
+                alert(LOC.error_setting_color.message);
+            } finally {
+                colorSyncButton.disabled = false;
+                API.tweet.delete(tweet.id_str).catch(e => {
+                    console.error(e);
+                    setTimeout(() => {
+                        API.tweet.delete(tweet.id_str);
+                    }, 1000);
+                });
+            }
+        });
+
+        colorPreviewLight.style.color = makeSeeableColor(`#${usedProfileColor}`, "#ffffff");
+        colorPreviewDark.style.color = makeSeeableColor(`#${usedProfileColor}`, "#1b2836");
+        colorPreviewBlack.style.color = makeSeeableColor(`#${usedProfileColor}`, "#000000");
 
         getLinkColors(pageUserData.id_str).then(data => {
             let color = data[0];
@@ -256,17 +319,28 @@ function updateUserData() {
                 let sc = makeSeeableColor(color);
                 customSet = true;
                 r.style.setProperty('--link-color', sc);
+                usedProfileColor = color;
             }
             fetch("https://dimden.dev/services/twitter_link_colors/v2/get/"+pageUserData.id_str).then(r => r.text()).then(data => {
-                if(data !== color && data !== 'none') {
-                    chrome.storage.local.get(["linkColors"], async lc => {
-                        let linkColors = lc.linkColors || {};
-                        linkColors[pageUserData.id_str] = data;
-                        chrome.storage.local.set({ linkColors });
-                    });
-                    let sc = makeSeeableColor(data);
-                    customSet = true;
-                    r.style.setProperty('--link-color', sc);
+                if(data !== 'none') {
+                    if(data !== color) {
+                        chrome.storage.local.get(["linkColors"], async lc => {
+                            let linkColors = lc.linkColors || {};
+                            linkColors[pageUserData.id_str] = data;
+                            chrome.storage.local.set({ linkColors });
+                        });
+                        let sc = makeSeeableColor(data);
+                        customSet = true;
+                        usedProfileColor = data;
+                        r.style.setProperty('--link-color', sc);
+                    }
+                    let pc = `#${data}`;
+
+                    profileLinkColor.value = pc;
+
+                    colorPreviewLight.style.color = makeSeeableColor(pc, "#ffffff");
+                    colorPreviewDark.style.color = makeSeeableColor(pc, "#1b2836");
+                    colorPreviewBlack.style.color = makeSeeableColor(pc, "#000000");
                 }
             });
         });
@@ -731,7 +805,18 @@ async function renderProfile() {
     document.getElementById('pin-profile').classList.toggle('menu-active', pageUser.id_str === user.id_str && !location.pathname.includes('/lists'));
     document.getElementById('pin-lists').classList.toggle('menu-active', location.pathname.startsWith(`/${pageUser.screen_name}/lists`));
     if(pageUser.id_str === user.id_str) {
-        buttonsElement.innerHTML = `<a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>`;
+        buttonsElement.innerHTML = /*html*/`
+            <a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>
+            <button class="profile-additional-thing nice-button" id="profile-style"></button>
+        `;
+        let profileStyleActive = false;
+        let profileStyle = document.getElementById('profile-style');
+        let colorSyncBox = document.getElementById('color-sync-box');
+        profileStyle.addEventListener('click', () => {
+            profileStyle.classList.toggle('profile-style-active');
+            profileStyleActive = !profileStyleActive;
+            colorSyncBox.hidden = !profileStyleActive;
+        });
     } else {
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`

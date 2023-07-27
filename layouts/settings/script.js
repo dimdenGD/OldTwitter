@@ -251,13 +251,19 @@ setTimeout(async () => {
             tweetFont: font
         }, () => { });
     });
-    
+
+    linkColor.addEventListener('input', () => {
+        let color = linkColor.value;
+        root.style.setProperty('--link-color', color);
+    });
     linkColor.addEventListener('change', () => {
         let color = linkColor.value;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
-        }, () => { });
+        }, () => {
+            customCSSBus.postMessage({type: 'color', color: color});
+        });
     });
     linkColorReset.addEventListener('click', async () => {
         let color = '#4BACD2';
@@ -265,7 +271,9 @@ setTimeout(async () => {
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
-        }, () => { });
+        }, () => {
+            customCSSBus.postMessage({type: 'color', color: color});
+        });
     });
     pinProfileOnNavbar.addEventListener('change', () => {
         chrome.storage.sync.set({
