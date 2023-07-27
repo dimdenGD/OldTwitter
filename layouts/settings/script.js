@@ -199,6 +199,7 @@ setTimeout(async () => {
     let uncensorGraphicViolenceAutomatically = document.getElementById('uncensor-graphic-violence-automatically');
     let uncensorAdultContentAutomatically = document.getElementById('uncensor-adult-content-automatically');
     let uncensorSensitiveContentAutomatically = document.getElementById('uncensor-sensitive-content-automatically');
+    let useOldStyleReply = document.getElementById('use-old-style-reply');
 
     let root = document.querySelector(":root");
     {
@@ -320,6 +321,12 @@ setTimeout(async () => {
             let icon = document.getElementById('site-icon');
             icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
         });
+    });
+    useOldStyleReply.addEventListener('change', () => {
+        vars.useOldStyleReply = useOldStyleReply.checked;
+        chrome.storage.sync.set({
+            useOldStyleReply: useOldStyleReply.checked
+        }, () => { });
     });
     useOldDefaultProfileImage.addEventListener('change', () => {
         vars.useOldDefaultProfileImage = useOldDefaultProfileImage.checked;
@@ -624,6 +631,7 @@ setTimeout(async () => {
     uncensorAdultContentAutomatically.checked = !!vars.uncensorAdultContentAutomatically;
     uncensorGraphicViolenceAutomatically.checked = !!vars.uncensorGraphicViolenceAutomatically;
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
+    useOldStyleReply.checked = !!vars.useOldStyleReply;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

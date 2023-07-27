@@ -458,5 +458,6 @@
     "tweet_and_timeline": { "message":"Tweet & Timeline", "description":"Setting Text"},
     "dark_mode_setting": { "message": "Dark mode", "description":"Setting Text"},
     "old_twitter_look": {"message": "Old twitter look", "description":"Setting Text"},
-    "content_you_see": {"message": "Content you see", "description":"Setting Text"}
+    "content_you_see": {"message": "Content you see", "description":"Setting Text"},
+    "use_old_style_reply": {"message": "Displays the recipient as a mention. (Not a real mention)"}
 }
