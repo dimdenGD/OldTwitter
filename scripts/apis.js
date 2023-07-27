@@ -4161,7 +4161,7 @@ const API = {
                     resolve(
                         data.data.viewer.list_management_timeline
                             .timeline.instructions.find(i => i.entries)
-                            .entries.find(i => i.entryId === 'ownedSubscribedListModule')
+                            .entries.find(i => i.entryId.startsWith('owned-subscribed-list-module'))
                             .content.items.map(i => i.item.itemContent.list)
                     );
                 }).catch(e => {
