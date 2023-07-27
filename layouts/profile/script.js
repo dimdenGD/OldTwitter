@@ -48,6 +48,7 @@ function updateSubpage() {
 function updateSelection() {
     document.getElementById('style-hide-retweets').innerHTML = '';
     document.getElementById('tweet-nav-more-menu-hr').checked = false;
+    document.getElementById('tweet-nav-more-menu-hnr').checked = false;
     
     let activeStats = Array.from(document.getElementsByClassName('profile-stat-active'));
     for(let i in activeStats) {
@@ -1466,9 +1467,16 @@ setTimeout(async () => {
     });
     let tweetNavMoreMenu = document.getElementById('tweet-nav-more-menu');
     let tweetNavClicked = false;
+    let tweetNavMoreMenuHR = document.getElementById('tweet-nav-more-menu-hr');
+    let tweetNavMoreMenuHNR = document.getElementById('tweet-nav-more-menu-hnr');
     document.getElementById('tweet-nav-more').addEventListener('click', () => {
         if (tweetNavMoreMenu.hidden) {
             tweetNavMoreMenu.hidden = false;
+            if(subpage === 'replies') {
+                tweetNavMoreMenu.style.height = '77px';
+                tweetNavMoreMenuHNR.hidden = false;
+                document.getElementById('tweet-nav-more-menu-hnr-label').hidden = false;
+            }
         }
         if(tweetNavClicked) return;
         tweetNavClicked = true;
@@ -1478,19 +1486,29 @@ setTimeout(async () => {
                     return;
                 }
                 tweetNavClicked = false;
-                setTimeout(() => tweetNavMoreMenu.hidden = true, 50);
+                setTimeout(() => {
+                    tweetNavMoreMenu.hidden = true;
+                    tweetNavMoreMenu.style.height = '';
+                    tweetNavMoreMenuHNR.hidden = true;
+                    document.getElementById('tweet-nav-more-menu-hnr-label').hidden = true;
+                }, 50);
                 document.body.removeEventListener('click', closeMenu);
             }
             document.body.addEventListener('click', closeMenu);
         }, 50);
     });
-    document.getElementById('tweet-nav-more-menu-hr').addEventListener('change', e => {
-        if(e.target.checked) {
-            document.getElementById('style-hide-retweets').innerHTML = `.tweet-top-retweet-label { display: none !important; }`;
-        } else {
-            document.getElementById('style-hide-retweets').innerHTML = '';
+    function updateHideStyle() {
+        let style = '';
+        if(tweetNavMoreMenuHR.checked) {
+            style += `.tweet-top-retweet-label { display: none !important; }`;
         }
-    });
+        if(tweetNavMoreMenuHNR.checked) {
+            style += `.tweet-non-reply { display: none !important; }`;
+        }
+        document.getElementById('style-hide-retweets').innerHTML = style;
+    }
+    tweetNavMoreMenuHR.addEventListener('change', updateHideStyle);
+    tweetNavMoreMenuHNR.addEventListener('change', updateHideStyle);
     document.getElementById('wtf-refresh').addEventListener('click', async () => {
         renderDiscovery(false);
     });

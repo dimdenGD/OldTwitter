@@ -1249,6 +1249,9 @@ const API = {
                                 let tweet = parseTweet(result);
                                 if(tweet) {
                                     tweet.hasModeratedReplies = entry.content.itemContent.hasModeratedReplies;
+                                    if(replies) {
+                                        tweet.nonReply = true;
+                                    }
                                     tweets.push(tweet);
                                 }
                             } else if(entry.entryId.startsWith("profile-conversation-")) {

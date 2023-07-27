@@ -464,5 +464,6 @@
     "export_style_settings": { "message": "Экспорт стиля" },
     "reset_settings": { "message": "Сбросить все настройки" },
     "reset_settings_sure": { "message": "Вы уверены что хотите сбросить все настройки?" },
-    "clear_caches": { "message": "Очистить кэши" }
+    "clear_caches": { "message": "Очистить кэши" },
+    "hide_non_replies": { "message": "Скрывать не-ответы" }
 }
