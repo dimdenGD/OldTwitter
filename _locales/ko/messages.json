@@ -474,5 +474,6 @@
     "reset_settings": { "message": "설정 초기화" },
     "reset_settings_sure": { "message": "모든 설정을 초기화하시겠습니까?" },
     "clear_caches": { "message": "캐시 비우기" },
-    "hide_non_replies": { "message": "답글만 보이기" }
+    "hide_non_replies": { "message": "답글만 보이기" },
+    "interested_in_traslate": { "message": "OldTwitter를 번역하는 것에 관심이 있나요?" }
 }
