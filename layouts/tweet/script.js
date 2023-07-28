@@ -479,19 +479,21 @@ async function appendComposeComponent(container, replyTweet) {
                     <h3 class="nice-header">${LOC.replying_to.message}</h3>
                     <div class="new-tweet-mentions-modal-item">
                         <input type="checkbox" id="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}" checked disabled>
-                        <label for="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}">@${replyTweet.user.screen_name} (${replyTweet.user.name})</label>
+                        <label for="new-tweet-mentions-modal-item-${replyTweet.user.screen_name}">@${replyTweet.user.name} (${replyTweet.user.screen_name})</label>
                     </div>
                     ${mentions.map(m => {
                         let u = Object.values(users).find(u => u.screen_name === m);
                         if(!u) return '';
                         return /*html*/`
                         <div class="new-tweet-mentions-modal-item">
-                            <input type="checkbox" data-user-id="${u.id_str}" id="new-tweet-mentions-modal-item-${m}"${excludeUserMentions.includes(u.id_str) ? '' : ' checked'}>
-                            <label for="new-tweet-mentions-modal-item-${m}">@${m} (${u.name})</label>
+                            <input type="checkbox" data-user-id="${u.id_str}" id="new-tweet-mentions-modal-item-${m}"${excludeUserMentions.includes(u.id_str) ? '' : ' checked'}${user.screen_name === m ? ' hidden' : ''}>
+                            <label for="new-tweet-mentions-modal-item-${m}"${user.screen_name === m ? ' hidden' : ''}>${u.name} (@${m})</label>
                         </div>
                     `}).join('\n')}
                     <br>
-                    <button class="nice-button" id="new-tweet-mentions-modal-button">Save</button>
+                    <div style="display:inline-block;float: right;">
+                        <button class="nice-button" id="new-tweet-mentions-modal-button">${LOC.save.message}</button>
+                    </div>
                 </div>
             `);
             document.getElementById('new-tweet-mentions-modal-button').addEventListener('click', () => {

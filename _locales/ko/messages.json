@@ -368,7 +368,7 @@
     "round_avatars": { "message": "둥근 프로필 사진을 사용합니다" },
     "search_user_tweets": { "message": "사용자의 트윗을 검색하기" },
     "no_tl_tweets": { "message": "당신은 아무도 팔로우하고 있지 않기 때문에 타임라인 트윗을 볼 수 없습니다. <a href='https://twitter.com/old/settings'>OldTwitter 설정</a>에서 타임라인 유형을 '추천'으로 변경해주세요!" },
-    "replying_to": { "message": "맨션 to", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2", "placeholders": { "screen_name": { "content": "CoolPerson2000" } }  },
+    "replying_to": { "message": "답글을 받는 사람", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2", "placeholders": { "screen_name": { "content": "CoolPerson2000" } }  },
     "display": { "message": "디스플레이", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Twitter Blue 인증마크를 표시합니다" },
     "retweet_hotkey_warn": { "message": "당신은 리트윗 버튼를 눌렀습니다. 이 트윗을 정말 리트윗하시겠습니까? 확인을 누르면 이 경고는 더 이상 표시되지 않습니다" },
