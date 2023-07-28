@@ -475,5 +475,6 @@
     "reset_settings_sure": { "message": "Are you sure you want to reset all settings?" },
     "clear_caches": { "message": "Clear caches" },
     "hide_non_replies": { "message": "Hide non-replies" },
-    "interested_in_traslate": { "message": "Are you interested in translating OldTwitter?", "description":"English actually never shows this message" }
+    "interested_in_traslate": { "message": "Are you interested in translating OldTwitter?", "description":"English actually never shows this message" },
+    "replying_to_multi":  { "message": ", ", "description":"For some language which using address terms" }
 }

@@ -876,6 +876,8 @@ class TweetViewer {
             }
         }
         let followUserText, unfollowUserText, blockUserText, unblockUserText;
+        let mentionedUserText = ``;
+        let quoteMentionedUserText = ``;
         if(
             LOC.follow_user.message.includes('$SCREEN_NAME$') && LOC.unfollow_user.message.includes('$SCREEN_NAME$') &&
             LOC.block_user.message.includes('$SCREEN_NAME$') && LOC.unblock_user.message.includes('$SCREEN_NAME$')
@@ -890,6 +892,16 @@ class TweetViewer {
             blockUserText = `${LOC.block_user.message} @${t.user.screen_name}`;
             unblockUserText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
         }
+        if(t.in_reply_to_screen_name) {
+            t.entities.user_mentions.forEach(user_mention => {
+                mentionedUserText += `<a href="https://twitter.com/${user_mention.screen_name}">@${user_mention.screen_name}</a> `
+            });
+        }
+        if(t.quoted_status && t.quoted_status.in_reply_to_screen_name) {
+            t.quoted_status.entities.user_mentions.forEach(user_mention => {
+                quoteMentionedUserText += `@${user_mention.screen_name} `
+            });
+        }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
             <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
@@ -902,7 +914,7 @@ class TweetViewer {
             </div>
             <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
-                <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.in_reply_to_screen_name && vars.useOldStyleReply ? /*html*/`<a href="https://twitter.com/${t.in_reply_to_screen_name}">@${t.in_reply_to_screen_name}</a> `: ''}${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
+                <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${t.in_reply_to_screen_name && vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
                 ${!isEnglish ? /*html*/`
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
@@ -942,9 +954,9 @@ class TweetViewer {
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
                     ${t.quoted_status.in_reply_to_screen_name && !vars.useOldStyleReply ? /*html*/`
-                    <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', '@'+t.quoted_status.in_reply_to_screen_name)}</span>
+                    <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replace(` `,LOC.replying_to_multi.message))}</span>
                     ` : ''}
-                    <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.in_reply_to_screen_name && vars.useOldStyleReply? `${'@'+t.quoted_status.in_reply_to_screen_name} ` : ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
+                    <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.in_reply_to_screen_name && vars.useOldStyleReply? quoteMentionedUserText : ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`
                     <div class="tweet-media-quote">
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
