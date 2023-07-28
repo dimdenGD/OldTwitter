@@ -407,7 +407,7 @@ const API = {
                     for (let i = 0; i < entries.length; i++) {
                         let e = entries[i].content.item;
                         if(!e || !e.content || !e.content.tweet) continue;
-                        if(e.content.tweet.promotedMetadata) continue;
+                        if(e.content.tweet.promotedMetadata && !vars.enableAd) continue;
                         let tweet = tweets[e.content.tweet.id];
                         if(!tweet) continue;
                         let user = users[tweet.user_id_str];
@@ -416,7 +416,8 @@ const API = {
                         tweet.id_str = e.content.tweet.id;
                         if(
                             tweet.source && 
-                            (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface'))
+                            (tweet.source.includes('Twitter for Advertisers') || tweet.source.includes('advertiser-interface')) &&
+                            !vars.enableAd
                         ) continue;
                         if(e.feedbackInfo) {
                             tweet.feedback = e.feedbackInfo.feedbackKeys.map(f => data.timeline.responseObjects.feedbackActions[f]);
