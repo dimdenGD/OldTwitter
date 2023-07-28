@@ -756,8 +756,10 @@ const API = {
                         trends.forEach(trend => {
                             if(!trend.item || !trend.item.content || !trend.item.content.trend) return;
                             let desc = trend.item.content.trend.trendMetadata.domainContext;
+                            if(String(desc).includes("undefined")) { desc = ``;}//maybe promotioned trends?
+                            else { desc += ` • `; }
                             if(trend.item.content.trend.trendMetadata.metaDescription) {
-                                desc += ` • ${trend.item.content.trend.trendMetadata.metaDescription}`;
+                                desc += trend.item.content.trend.trendMetadata.metaDescription;
                             }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,
