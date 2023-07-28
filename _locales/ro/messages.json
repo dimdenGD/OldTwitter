@@ -467,5 +467,6 @@
     "export_style_settings": { "message": "Exportă stil" },
     "reset_settings": { "message": "Resetă setările" },
     "reset_settings_sure": { "message": "Sigur vreți să resetați toate setările?" },
-    "clear_caches": { "message": "Șterge cache" }
+    "clear_caches": { "message": "Șterge cache" },
+    "hide_non_replies": { "message": "Ascunde non-răspunsuri" }
 }
