@@ -412,8 +412,8 @@
     "logout_desc_2": { "message": "Se você não tiver nenhuma outra conta na lista, você será redirecionado para a página de login. Tem certeza?" },
     "logout_button": { "message": "Sair" },
     "disable_personalized_trends": { "message": "Desativar trends personalizadas" },
-    "show_bookmark_count": { "message": "Mostrar contagem de bookmark nos tweets" },
-    "bookmarks_count": { "message": "Bookmarks", "description": "Used for bookmarks count." },
-    "remove_bookmark": { "message": "Remover bookmark" },
+    "show_bookmark_count": { "message": "Mostrar contagem de itens salvos nos tweets" },
+    "bookmarks_count": { "message": "Itens salvos", "description": "Used for bookmarks count." },
+    "remove_bookmark": { "message": "Remover dos itens salvos" },
     "hide_community_notes": { "message": "Esconder notas da comunidade" }
 }
