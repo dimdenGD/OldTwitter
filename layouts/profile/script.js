@@ -186,7 +186,7 @@ function updateSelection() {
 
 function updateUserData() {
     return new Promise(async (resolve, reject) => {
-        document.getElementsByTagName('title')[0].innerText = `${user_handle} - OldTwitter`;
+        document.getElementsByTagName('title')[0].innerText = `${user_handle} - ` + LOC.twitter.message;
         let [pageUserData, followersYouFollowData, oldUser, u] = await Promise.allSettled([
             API.user.getV2(user_handle),
             API.user.friendsFollowing(user_handle, false),

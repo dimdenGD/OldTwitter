@@ -1,5 +1,6 @@
 {
     "ext_description": { "message": "옛 트위터의 모습으로 되돌리는 확장 기능" },
+    "twitter": {"message": "트위터"},
     "timeline": { "message": "타임라인" },
     "loading": { "message": "로딩 중" },
     "tweets": { "message": "트윗" },

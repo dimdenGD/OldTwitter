@@ -1,5 +1,6 @@
 {
     "ext_description": { "message": "A new extension that returns old Twitter's look." },
+    "twitter": {"message": "Twitter"},
     "timeline": { "message": "Timeline" },
     "loading": { "message": "Loading" },
     "tweets": { "message": "Tweets" },
