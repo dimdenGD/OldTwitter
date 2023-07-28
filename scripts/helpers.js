@@ -1582,12 +1582,18 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         if(t.in_reply_to_screen_name) {
             t.entities.user_mentions.forEach(user_mention => {
-                mentionedUserText += `<a href="https://twitter.com/${user_mention.screen_name}">@${user_mention.screen_name}</a> `
+                if(user_mention.indices[0]<t.display_text_range[0]){
+                    mentionedUserText += `<a href="https://twitter.com/${user_mention.screen_name}">@${user_mention.screen_name}</a> `
+                }
+                //else this is not reply but mention
             });
         }
         if(t.quoted_status && t.quoted_status.in_reply_to_screen_name) {
             t.quoted_status.entities.user_mentions.forEach(user_mention => {
-                quoteMentionedUserText += `@${user_mention.screen_name} `
+                if(user_mention.indices[0]<t.display_text_range[0]){
+                    quoteMentionedUserText += `@${user_mention.screen_name} `
+                }
+                //else this is not reply but mention
             });
         }
         // i fucking hate this thing
@@ -1620,6 +1626,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 !options.threadContinuation &&
                 !options.noTop &&
                 !location.pathname.includes('/status/') &&
+                mentionedUserText !== `` &&
                 !vars.useOldStyleReply ? /*html*/`
             <div class="tweet-reply-to"><span>${LOC.replying_to_user.message.replace('$SCREEN_NAME$', mentionedUserText.trim().replace(`> <`,`>${LOC.replying_to_multi.message}<`))}</span></div>
             `: ''}
@@ -1663,7 +1670,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         </span>
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
-                    ${t.quoted_status.in_reply_to_screen_name && !vars.useOldStyleReply? /*html*/`
+                    ${t.quoted_status.in_reply_to_screen_name && !vars.useOldStyleReply && quoteMentionedUserText !== `` ? /*html*/`
                     <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replace(` `,LOC.replying_to_multi.message))}</span>
                     ` : ''}
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${t.quoted_status.in_reply_to_screen_name && vars.useOldStyleReply? quoteMentionedUserText: ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
