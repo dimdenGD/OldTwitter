@@ -1985,6 +1985,7 @@ emoji-picker {
     margin-right: 5px;
 }
 
+/* Mobile UI */
 @media screen and (max-width: 590px) {
     .nav-text, #navbar-tweet-button-text {
         display: none;

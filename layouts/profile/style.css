@@ -1529,6 +1529,7 @@ a:hover,
 }
 
 @media screen and (max-width: 950px) {
+/* Mobile UI */
     .content {
         display: grid;
     }
