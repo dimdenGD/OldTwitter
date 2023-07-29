@@ -988,6 +988,9 @@ const getLinkColors = ids => {
                 let res = await fetch("https://dimden.dev/services/twitter_link_colors/v2/get_multiple/"+toFetch.join(","));
                 let json = await res.json();
                 for(let id in json) {
+                    if(json[id] === 'none' || json[id] === '4595b5') {
+                        continue;
+                    }
                     fetched.push({id, color: json[id]});
                     linkColors[id] = json[id];
                 }
@@ -1005,6 +1008,59 @@ const getLinkColors = ids => {
                 return resolve(fetched);
             } catch(e) {
                 return resolve(fetched);
+            }
+        });
+    });
+}
+
+function getOtAuthToken(cache = true) {
+    return new Promise((resolve, reject) => {
+        chrome.storage.local.get(['otPrivateTokens'], async data => {
+            if(!data.otPrivateTokens) {
+                data.otPrivateTokens = {};
+            }
+            if(data.otPrivateTokens[user.id_str] && cache) {
+                resolve(data.otPrivateTokens[user.id_str]);
+            } else {
+                let tokens = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/request_token`, {method: 'post'}).then(r => r.json());
+                let tweet;
+                try {
+                    tweet = await API.tweet.postV2({
+                        status: `otauth=${tokens.public_token}`
+                    });
+                    let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/verify_token`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            tweet,
+                            public_token: tokens.public_token,
+                            private_token: tokens.private_token
+                        })
+                    }).then(i => i.text());
+                    if(res === 'success') {
+                        data.otPrivateTokens[user.id_str] = tokens.private_token;
+                        chrome.storage.local.set({otPrivateTokens: data.otPrivateTokens}, () => {
+                            resolve(tokens.private_token);
+                        });
+                    } else {
+                        console.error(res);
+                        alert(res);
+                        reject(res);
+                    }
+                } catch(e) {
+                    console.error(e);
+                    alert(e);
+                    reject(e);
+                } finally {
+                    API.tweet.delete(tweet.id_str).catch(e => {
+                        console.error(e);
+                        setTimeout(() => {
+                            API.tweet.delete(tweet.id_str);
+                        }, 1000);
+                    });
+                }
             }
         });
     });

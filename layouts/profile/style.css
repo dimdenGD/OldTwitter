@@ -1486,14 +1486,14 @@ a:hover,
 .profile-style-active:before {
     color: var(--link-color);
 }
-#color-sync-box {
+#styling > div {
     max-width: 280px;
     margin-bottom: 10px;
     color: var(--almost-black);
     padding: 10px;
     font-size: 14px;
 }
-#color-sync-box > div {
+#styling > div > div {
     margin-bottom: 10px;
 }
 #color-preview div {
@@ -1513,4 +1513,17 @@ a:hover,
 }
 #color-preview-black {
     background-color: black;
+}
+.styling-textarea {
+    width: 230px;
+    min-width: 230px;
+    max-width: 230px;
+    height: 50px;
+    max-height: 400px;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+#custom-css-eligible button {
+    padding: 4px 10px;
+    margin-top: 5px;
 }
