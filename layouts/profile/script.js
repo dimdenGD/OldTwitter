@@ -358,7 +358,7 @@ function updateUserData() {
                         adminControls.innerHTML = `
                             <br>
                             Eligible for custom profile CSS: <span id="admin-css-eligible">${data.css_eligible ? 'yes' : 'no'}</span><br>
-                            Eligible for custom profile CSS (auto): <span id="admin-css-eligible-auto">${data.css_eligible_auto ? 'yes' : 'no'}</span><br>
+                            Can get access automatically: <span id="admin-css-eligible-auto">${data.css_eligible_auto ? 'yes' : 'no'}</span><br>
                             Has custom profile CSS: ${data.css || data.css_vars_dark || data.css_vars_light ? 'yes' : 'no'}<br>
                             Has custom color: ${data.color !== 'none' ? 'yes' : 'no'}<br><br>
                             <button id="admin-controls-switch" style="background-color: var(--menu-bg);border: 1px solid var(--border);color: var(--almost-black);cursor: pointer;">Switch</button>
@@ -935,7 +935,9 @@ async function renderProfile() {
             profileStyleActive = !profileStyleActive;
             styling.hidden = !profileStyleActive;
         });
-        document.getElementById('private-profile-warn').hidden = !user.protected;
+        chrome.storage.local.get(['otPrivateTokens'], data => {
+            document.getElementById('private-profile-warn').hidden = !user.protected || (data.otPrivateTokens && data.otPrivateTokens[user.id_str]);
+        });
     } else {
         document.getElementById('private-profile-warn').hidden = true;
         styling.hidden = true;
