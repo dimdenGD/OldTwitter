@@ -496,7 +496,6 @@
     "error_setting_css": { "message": "CSS 설정 에러" },
     "load": { "message": "불러오기" },
     "disable_profile_customizations": { "message": "프로필 커스텀화를 비활성화합니다" },
-    "interested_in_traslate": { "message": "OldTwitter를 번역하는 것에 관심이 있나요?" },
     "replying_to_and":  { "message": " 님과 ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": " 님, ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "트위터"}

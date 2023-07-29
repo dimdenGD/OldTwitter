@@ -1683,7 +1683,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 !options.noTop &&
                 !location.pathname.includes('/status/') &&
                 !vars.useOldStyleReply ? /*html*/`
-            <div class="tweet-reply-to"><span>${LOC.replying_to_user.message.replace('$SCREEN_NAME$', mentionedUserText.trim().replaceAll(`> <`,`>${LOC.replying_to_comma.message}<`).replace(`>${LOC.replying_to_comma.message}<`,`>${LOC.replying_to_and.message}<`))}</span></div>
+            <div class="tweet-reply-to"><span>${LOC.replying_to_user.message.replace('$SCREEN_NAME$', mentionedUserText.trim().replaceAll(`> <`, `>${LOC.replying_to_comma.message}<`).replace(`>${LOC.replying_to_comma.message}<`, `>${LOC.replying_to_and.message}<`))}</span></div>
             `: ''}
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 <span class="tweet-body-text ${vars.noBigFont || t.full_text.length > 280 || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
