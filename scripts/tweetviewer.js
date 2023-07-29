@@ -962,7 +962,7 @@ class TweetViewer {
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
                     ${quoteMentionedUserText !== `` && !vars.useOldStyleReply ? /*html*/`
-                    <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replace(` `,LOC.replying_to_and.message).replaceAll(` `,LOC.replying_to_comma.message))}</span>
+                    <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replaceAll(` `,LOC.replying_to_comma.message).replace(LOC.replying_to_comma.message,LOC.replying_to_and.message))}</span>
                     ` : ''}
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText : ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`

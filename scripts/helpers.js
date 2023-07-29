@@ -1683,7 +1683,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 !options.noTop &&
                 !location.pathname.includes('/status/') &&
                 !vars.useOldStyleReply ? /*html*/`
-            <div class="tweet-reply-to"><span>${LOC.replying_to_user.message.replace('$SCREEN_NAME$', mentionedUserText.trim().replace(`> <`,`>${LOC.replying_to_and.message}<`).replaceAll(`> <`,`>${LOC.replying_to_comma.message}<`))}</span></div>
+            <div class="tweet-reply-to"><span>${LOC.replying_to_user.message.replace('$SCREEN_NAME$', mentionedUserText.trim().replaceAll(`> <`,`>${LOC.replying_to_comma.message}<`).replace(`>${LOC.replying_to_comma.message}<`,`>${LOC.replying_to_and.message}<`))}</span></div>
             `: ''}
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 <span class="tweet-body-text ${vars.noBigFont || t.full_text.length > 280 || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
@@ -1726,7 +1726,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </div>
                     <span class="tweet-time-quote" data-timestamp="${new Date(t.quoted_status.created_at).getTime()}" title="${new Date(t.quoted_status.created_at).toLocaleString()}">${timeElapsed(new Date(t.quoted_status.created_at).getTime())}</span>
                     ${quoteMentionedUserText !== `` && !vars.useOldStyleReply ? /*html*/`
-                    <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replace(` `,LOC.replying_to_multi.message).replace(` `,LOC.replying_to_and.message).replaceAll(` `,LOC.replying_to_comma.message))}</span>
+                    <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replaceAll(` `,LOC.replying_to_comma.message).replace(LOC.replying_to_comma.message,LOC.replying_to_and.message))}</span>
                     ` : ''}
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText: ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `
