@@ -66,6 +66,7 @@ setTimeout(() => {
                             <li>Added support for Community Notes.</li>
                             <li>Added option to see bookmark count.</li>
                             <li>Added ability to pin Profile, Bookmarks and Lists on the navbar.</li>
+                            <li>Added <a href="https://dimden.dev/ot/custom-css/" target="_blank">custom profile CSS</a> for limited number of users.</li>
                             <li>Added option to disable GIF autoplay.</li>
                             <li>Added ability to pause GIFs.</li>
                             <li>Added ability to import and export settings and styles.</li>

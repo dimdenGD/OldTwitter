@@ -28,57 +28,6 @@ function updateUserData() {
         user = u;
         userDataFunction(u);
         renderUserData();
-        let profileLinkColor = document.getElementById('profile-link-color');
-        let colorPreviewDark = document.getElementById('color-preview-dark');
-        let colorPreviewLight = document.getElementById('color-preview-light');
-        let colorPreviewBlack = document.getElementById('color-preview-black');
-
-        let profileColor;
-        try {
-            profileColor = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/get/${user.id_str}`).then(res => res.text());
-        } catch(e) {};
-        if(profileColor) {
-            if(profileColor === 'none' && u.profile_link_color && u.profile_link_color.toUpperCase() !== "1DA1F2") {
-                profileColor = '#'+u.profile_link_color;
-            }
-            if(profileColor !== 'none') {
-                if(profileColor.length === 6) {
-                    profileColor = '#'+profileColor;
-                }
-                profileLinkColor.value = profileColor;
-        
-                let lightColor = makeSeeableColor(profileColor, "#ffffff");
-                colorPreviewLight.style.color = lightColor;
-                
-                let darkColor = makeSeeableColor(profileColor, "#1b2836");
-                colorPreviewDark.style.color = darkColor;
-
-                let blackColor = makeSeeableColor(profileColor, "#000000");
-                colorPreviewBlack.style.color = blackColor;
-
-                if(customVars['--background-color']) {
-                    document.getElementById("color-preview-custom").style.color = makeSeeableColor(profileColor, customVars['--background-color']);
-                    document.getElementById("color-preview-custom").hidden = false;
-                }
-            } else {
-                let col = `#4595b5`;
-                profileLinkColor.value = col;
-
-                let lightColor = makeSeeableColor(col, "#ffffff");
-                colorPreviewLight.style.color = lightColor;
-
-                let darkColor = makeSeeableColor(col, "#1b2836");
-                colorPreviewDark.style.color = darkColor;
-
-                let blackColor = makeSeeableColor(col, "#000000");
-                colorPreviewBlack.style.color = blackColor;
-                
-                if(customVars['--background-color']) {
-                    document.getElementById("color-preview-custom").style.color = makeSeeableColor(col, customVars['--background-color']);
-                    document.getElementById("color-preview-custom").hidden = false;
-                }
-            }
-        }
     }).catch(e => {
         if (e === "Not logged in") {
             window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
@@ -164,8 +113,6 @@ setTimeout(async () => {
     let fontElement = document.getElementById('font');
     let tweetFontElement = document.getElementById('tweet-font');
     let linkColor = document.getElementById('link-color');
-    let profileLinkColor = document.getElementById('profile-link-color');
-    let sync = document.getElementById('sync');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
     let enableTwemoji = document.getElementById('enable-twemoji');
@@ -176,9 +123,6 @@ setTimeout(async () => {
     let darkModeText = document.getElementById('dark-mode-text');
     let timeMode = document.getElementById('time-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
-    let colorPreviewDark = document.getElementById('color-preview-dark');
-    let colorPreviewLight = document.getElementById('color-preview-light');
-    let colorPreviewBlack = document.getElementById('color-preview-black');
     let disableHotkeys = document.getElementById('disable-hotkeys');
     let customCSS = document.getElementById('custom-css');
     let customCSSSave = document.getElementById('custom-css-save');
@@ -213,6 +157,7 @@ setTimeout(async () => {
     let uncensorSensitiveContentAutomatically = document.getElementById('uncensor-sensitive-content-automatically');
     let useOldStyleReply = document.getElementById('use-old-style-reply');
     let linkColorReset = document.getElementById('link-color-reset');
+    let disableProfileCustomizations = document.getElementById('disable-profile-customizations');
 
     let root = document.querySelector(":root");
     {
@@ -314,6 +259,11 @@ setTimeout(async () => {
     uncensorSensitiveContentAutomatically.addEventListener('change', () => {
         chrome.storage.sync.set({
             uncensorSensitiveContentAutomatically: uncensorSensitiveContentAutomatically.checked
+        }, () => { });
+    });
+    disableProfileCustomizations.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableProfileCustomizations: disableProfileCustomizations.checked
         }, () => { });
     });
     linkColorsInTL.addEventListener('change', () => {
@@ -530,23 +480,6 @@ setTimeout(async () => {
             timeMode: timeMode.checked
         }, () => { });
     });
-    profileLinkColor.addEventListener('change', () => {
-        let previewColor = profileLinkColor.value;
-        
-        let lightColor = makeSeeableColor(previewColor, "#ffffff");
-        colorPreviewLight.style.color = lightColor;
-        
-        let darkColor = makeSeeableColor(previewColor, "#1b2836");
-        colorPreviewDark.style.color = darkColor;
-
-        let blackColor = makeSeeableColor(previewColor, "#000000");
-        colorPreviewBlack.style.color = blackColor;
-
-        if(customVars['--background-color']) {
-            document.getElementById("color-preview-custom").style.color = makeSeeableColor(previewColor, customVars['--background-color']);
-            document.getElementById("color-preview-custom").hidden = false;
-        }
-    });
     copyLinksAs.addEventListener('change', () => {
         let val = copyLinksAs.value;
         if(val === 'custom') {
@@ -559,45 +492,6 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             copyLinksAs: val
         }, () => { });
-    });
-    sync.addEventListener('click', async () => {
-        sync.disabled = true;
-        let color = profileLinkColor.value;
-        if(color.startsWith('#')) color = color.slice(1);
-        let tweet;
-        try {
-            tweet = await API.tweet.postV2({
-                status: `link_color=${color}`
-            })
-            let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(tweet)
-            }).then(i => i.text());
-            if(res === 'error') {
-                alert(LOC.error_setting_color.message);
-            } else {
-                alert(LOC.link_color_set.message);
-                chrome.storage.local.get(["linkColors"], async lc => {
-                    let linkColors = lc.linkColors || {};
-                    linkColors[user.id_str] = color;
-                    chrome.storage.local.set({ linkColors });
-                });
-            }
-        } catch(e) {
-            console.error(e);
-            alert(LOC.error_setting_color.message);
-        } finally {
-            sync.disabled = false;
-            API.tweet.delete(tweet.id_str).catch(e => {
-                console.error(e);
-                setTimeout(() => {
-                    API.tweet.delete(tweet.id_str);
-                }, 1000);
-            });
-        }
     });
     customCSS.addEventListener('keydown', e => {
         if(e.key === "Tab") {
@@ -729,6 +623,7 @@ setTimeout(async () => {
         delete varsObj.linkColor;
         delete varsObj.font;
         delete varsObj.tweetFont;
+        delete varsObj.acknowledgedCssAccess;
 
         let a = document.createElement('a');
         a.href = URL.createObjectURL(new Blob([JSON.stringify(varsObj)], { type: 'application/json' }));
@@ -794,7 +689,7 @@ setTimeout(async () => {
         });
     });
     document.getElementById('clear-caches').addEventListener('click', () => {
-        chrome.storage.local.get(['extensiveLogging', 'hasRetweetedWithHotkey', 'installed', 'lastSearches', 'lastUserId', 'lastVersion', 'nextPlug', 'unfollows'], async data => {
+        chrome.storage.local.get(['adminpass', 'cssDraft', 'otPrivateTokens', 'extensiveLogging', 'hasRetweetedWithHotkey', 'installed', 'lastSearches', 'lastUserId', 'lastVersion', 'nextPlug', 'unfollows'], async data => {
             chrome.storage.local.clear(() => {
                 chrome.storage.local.set(data, () => {
                     location.reload();

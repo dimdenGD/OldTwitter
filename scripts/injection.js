@@ -165,7 +165,7 @@ function isDark() {
     let hours = date.getHours();
     return hours <= 9 || hours >= 19;
 }
-let customCSS;
+let customCSS, profileCSS = false;
 async function updateCustomCSS() {
     let data = await new Promise(resolve => {
         chrome.storage.sync.get(['customCSS'], data => {
@@ -173,6 +173,7 @@ async function updateCustomCSS() {
         });
     });
     if(!data.customCSS) data.customCSS = '';
+    if(profileCSS) return;
     if(customCSS) customCSS.remove();
     customCSS = document.createElement('style');
     customCSS.id = 'oldtwitter-custom-css';
@@ -194,6 +195,8 @@ async function updateCustomCSSVariables() {
             resolve(data);
         });
     });
+    root.style.setProperty('--font', vars.font);
+    root.style.setProperty('--tweet-font', vars.tweetFont);
     if(data.customCSSVariables) {
         let csv = parseVariables(data.customCSSVariables);
         for(let i in csv) {
@@ -272,7 +275,7 @@ function getThemeVariables(enabled) {
 }
 function parseVariables(vars) {
     let obj = {};
-    let styles = vars.split('\n').map(i => i.trim()).filter(i => i).map(i => i.split(':'));
+    let styles = vars.split('\n').map(i => i.trim()).filter(i => i).map(i => i.split(':')).filter(i => i.length === 2);
     styles.forEach(style => {
         if(style[1].endsWith(";")) style[1] = style[1].slice(0, -1);
         obj[style[0].trim()] = style[1].trim();
@@ -280,22 +283,22 @@ function parseVariables(vars) {
     return obj;
 }
 
-function switchDarkMode(enabled) {
+async function switchDarkMode(enabled) {
     let root = document.querySelector(":root");
     let theme = getThemeVariables(enabled);
     let themeVars = parseVariables(theme);
     for(let i in themeVars) {
         root.style.setProperty(i, themeVars[i]);
     }
-    updateCustomCSSVariables();
+    await updateCustomCSSVariables();
 
     if(document.body) {
-        document.body.id = enabled && vars.pitchBlack ? 'body-pitch-black' : enabled ? 'body-dark' : 'body-light';
+        document.body.className = enabled && vars.pitchBlack ? 'body-pitch-black body-dark' : enabled ? 'body-dark' : 'body-light';
     } else {
         let int = setInterval(() => {
             if(document.body) {
                 clearInterval(int);
-                document.body.id = enabled && vars.pitchBlack ? 'body-pitch-black' : enabled ? 'body-dark' : 'body-light';
+                document.body.className = enabled && vars.pitchBlack ? 'body-pitch-black body-dark' : enabled ? 'body-dark' : 'body-light';
             }
         }, 100);
     }

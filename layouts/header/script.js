@@ -1988,6 +1988,27 @@ setInterval(() => {
                         vars.extensiveLogging = !res.extensiveLogging;
                     });
                 });
+            } else if(keysHeld['Alt'] && keysHeld['Control'] && keysHeld['KeyM']) {
+                if(vars.developerMode) {
+                    let pass = prompt('Enter password');
+                    fetch(`https://dimden.dev/services/twitter_link_colors/v2/admin/verify`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            password: pass
+                        })
+                    }).then(res => res.text()).then(res => {
+                        if(res === "ok") {
+                            chrome.storage.local.set({ adminpass: pass }, () => {
+                                toast.success('Password set', 3000);
+                            });
+                        } else {
+                            toast.error('Wrong password', 3000);
+                        }
+                    });
+                }
             } else if(keysHeld['KeyG'] && keysHeld['KeyH']) {
                 location.href = '/';
             } else if(keysHeld['KeyG'] && keysHeld['KeyN']) {

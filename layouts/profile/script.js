@@ -10,6 +10,7 @@ let averageLikeCount = 1;
 let pinnedTweet, followersYouFollow;
 let previousLastTweet, stopLoad = false;
 let tweetsCursor, favoritesCursor, followingCursor, followersCursor, followersYouKnowCursor, mediaCursor;
+let cssEligibleAuto = false, cssEligible = false;
 
 // Util
 
@@ -248,12 +249,18 @@ function updateUserData() {
             customSet = true;
             r.style.setProperty('--link-color', sc);
             usedProfileColor = oldUser.profile_link_color;
+            document.getElementById('color-years-ago').hidden = false;
+        } else {
+            document.getElementById('color-years-ago').hidden = true;
         }
-        let colorPreviewLight = document.getElementById('color-preview-light');
-        let colorPreviewDark = document.getElementById('color-preview-dark');
-        let colorPreviewBlack = document.getElementById('color-preview-black');
-        let profileLinkColor = document.getElementById('profile-link-color');
-        let colorSyncButton = document.getElementById('color-sync-button');
+
+        const profileLinkColor = document.getElementById('profile-link-color');
+        const colorPreviewLight = document.getElementById('color-preview-light');
+        const colorPreviewDark = document.getElementById('color-preview-dark');
+        const colorPreviewBlack = document.getElementById('color-preview-black');
+        const darkModeVars = document.getElementById('dark-mode-vars');
+        const lightModeVars = document.getElementById('light-mode-vars');
+        const cssTextArea = document.getElementById('profile-css-textarea');
 
         profileLinkColor.value = `#${usedProfileColor}`;
         profileLinkColor.addEventListener('input', () => {
@@ -267,49 +274,48 @@ function updateUserData() {
             colorPreviewDark.style.color = makeSeeableColor(`#${color}`, "#1b2836");
             colorPreviewBlack.style.color = makeSeeableColor(`#${color}`, "#000000");
         });
-        colorSyncButton.addEventListener('click', async () => {
-            colorSyncButton.disabled = true;
-            let color = profileLinkColor.value;
-            if(color.startsWith('#')) color = color.slice(1);
-            let tweet;
-            try {
-                tweet = await API.tweet.postV2({
-                    status: `link_color=${color}`
-                })
-                let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/set`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(tweet)
-                }).then(i => i.text());
-                if(res === 'error') {
-                    alert(LOC.error_setting_color.message);
-                } else {
-                    alert(LOC.link_color_set.message);
-                    chrome.storage.local.get(["linkColors"], async lc => {
-                        let linkColors = lc.linkColors || {};
-                        linkColors[user.id_str] = color;
-                        chrome.storage.local.set({ linkColors });
-                    });
-                }
-            } catch(e) {
-                console.error(e);
-                alert(LOC.error_setting_color.message);
-            } finally {
-                colorSyncButton.disabled = false;
-                API.tweet.delete(tweet.id_str).catch(e => {
-                    console.error(e);
-                    setTimeout(() => {
-                        API.tweet.delete(tweet.id_str);
-                    }, 1000);
-                });
-            }
-        });
 
         colorPreviewLight.style.color = makeSeeableColor(`#${usedProfileColor}`, "#ffffff");
         colorPreviewDark.style.color = makeSeeableColor(`#${usedProfileColor}`, "#1b2836");
         colorPreviewBlack.style.color = makeSeeableColor(`#${usedProfileColor}`, "#000000");
+
+        let profileCustomCSSData = {};
+        let pccss = await new Promise(resolve => {
+            chrome.storage.local.get(["profileCustomCSS"], async data => {
+                if(!data.profileCustomCSS) {
+                    data.profileCustomCSS = {};
+                }
+                profileCustomCSSData = data.profileCustomCSS;
+                if(data.profileCustomCSS[pageUser.id_str]) {
+                    resolve(data.profileCustomCSS[pageUser.id_str]);
+                } else {
+                    resolve({});
+                }
+            });
+        });
+        if(pccss.darkModeVars && isDarkModeEnabled) {
+            let vars = parseVariables(pccss.darkModeVars);
+            for(let i in vars) {
+                r.style.setProperty(i, vars[i]);
+            }
+        } else if(pccss.lightModeVars && !isDarkModeEnabled) {
+            let vars = parseVariables(pccss.lightModeVars);
+            for(let i in vars) {
+                r.style.setProperty(i, vars[i]);
+            }
+        } else {
+            await switchDarkMode(isDarkModeEnabled);
+        }
+        if(pccss.css) {
+            if(!customCSS) {
+                customCSS = document.createElement('style');
+                customCSS.id = 'oldtwitter-custom-css';
+                document.head.appendChild(customCSS);
+            }
+            customCSS.innerHTML = pccss.css;
+        } else {
+            updateCustomCSS();
+        }
 
         getLinkColors(pageUserData.id_str).then(data => {
             let color = data[0];
@@ -321,26 +327,138 @@ function updateUserData() {
                 r.style.setProperty('--link-color', sc);
                 usedProfileColor = color;
             }
-            fetch("https://dimden.dev/services/twitter_link_colors/v2/get/"+pageUserData.id_str).then(r => r.text()).then(data => {
-                if(data !== 'none') {
-                    if(data !== color) {
+            fetch("https://dimden.dev/services/twitter_link_colors/v2/get_data/"+pageUserData.id_str).then(r => r.json()).then(async data => {
+                if(data.color !== 'none' && data.color !== '4595b5') {
+                    if(data.color !== color) {
                         chrome.storage.local.get(["linkColors"], async lc => {
                             let linkColors = lc.linkColors || {};
-                            linkColors[pageUserData.id_str] = data;
+                            linkColors[pageUserData.id_str] = data.color;
                             chrome.storage.local.set({ linkColors });
                         });
-                        let sc = makeSeeableColor(data);
+                        let sc = makeSeeableColor(data.color);
                         customSet = true;
-                        usedProfileColor = data;
+                        usedProfileColor = data.color;
                         r.style.setProperty('--link-color', sc);
                     }
-                    let pc = `#${data}`;
+                    let pc = `#${data.color}`;
 
                     profileLinkColor.value = pc;
 
                     colorPreviewLight.style.color = makeSeeableColor(pc, "#ffffff");
                     colorPreviewDark.style.color = makeSeeableColor(pc, "#1b2836");
                     colorPreviewBlack.style.color = makeSeeableColor(pc, "#000000");
+                }
+                chrome.storage.local.get(["adminpass"], async a => {
+                    if(a.adminpass) {
+                        let adminControls = document.getElementById('admin-controls');
+                        if(adminControls) adminControls.remove();
+                        adminControls = document.createElement('div');
+                        adminControls.id = 'admin-controls';
+                        console.log(data.css_eligible);
+                        adminControls.innerHTML = `
+                            <br>
+                            Eligible for custom profile CSS: <span id="admin-css-eligible">${data.css_eligible ? 'yes' : 'no'}</span><br>
+                            Eligible for custom profile CSS (auto): <span id="admin-css-eligible-auto">${data.css_eligible_auto ? 'yes' : 'no'}</span><br>
+                            Has custom profile CSS: ${data.css || data.css_vars_dark || data.css_vars_light ? 'yes' : 'no'}<br>
+                            Has custom color: ${data.color !== 'none' ? 'yes' : 'no'}<br><br>
+                            <button id="admin-controls-switch" style="background-color: var(--menu-bg);border: 1px solid var(--border);color: var(--almost-black);cursor: pointer;">Switch</button>
+                            <br><br>
+                        `;
+                        document.getElementById('about').appendChild(adminControls);
+                        document.getElementById('admin-controls-switch').addEventListener('click', () => {
+                            fetch(`https://dimden.dev/services/twitter_link_colors/v2/admin/switch_access`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    password: a.adminpass,
+                                    user: pageUserData.id_str
+                                })
+                            }).then(r => r.json()).then(data => {
+                                if(data.error) {
+                                    return alert(data.error);
+                                }
+                                if(data.eligible) {
+                                    document.getElementById('admin-css-eligible').innerText = 'yes';
+                                    document.getElementById('admin-css-eligible-auto').innerText = 'no';
+                                } else {
+                                    document.getElementById('admin-css-eligible').innerText = 'no';
+                                    document.getElementById('admin-css-eligible-auto').innerText = 'no';
+                                }
+                            });
+                        });
+                    } 
+                });
+                if(data.css_eligible && !vars.disableProfileCustomizations) {
+                    if(pccss.css !== data.css || pccss.darkModeVars !== data.css_vars_dark || pccss.lightModeVars !== data.css_vars_light) {
+                        pccss.css = data.css;
+                        pccss.darkModeVars = data.css_vars_dark;
+                        pccss.lightModeVars = data.css_vars_light;
+                        profileCustomCSSData[pageUser.id_str] = pccss;
+                        chrome.storage.local.set({ profileCustomCSS: profileCustomCSSData });
+                    }
+                    if(data.css) {
+                        profileCSS = true;
+                        if(!customCSS) {
+                            customCSS = document.createElement('style');
+                            customCSS.id = 'oldtwitter-custom-css';
+                            document.head.appendChild(customCSS);
+                        }
+                        customCSS.innerHTML = data.css;
+                    }
+                    if(data.css_vars_dark && isDarkModeEnabled) {
+                        let vars = parseVariables(data.css_vars_dark);
+                        for(let i in vars) {
+                            r.style.setProperty(i, vars[i]);
+                        }
+                    } else if(data.css_vars_light && !isDarkModeEnabled) {
+                        let vars = parseVariables(data.css_vars_light);
+                        for(let i in vars) {
+                            r.style.setProperty(i, vars[i]);
+                        }
+                    } else {
+                        await switchDarkMode(isDarkModeEnabled);
+                    }
+                } else {
+                    if(profileCustomCSSData[pageUser.id_str]) {
+                        delete profileCustomCSSData[pageUser.id_str];
+                        chrome.storage.local.set({ profileCustomCSS: profileCustomCSSData });
+                        updateCustomCSS();
+                    }
+                    await switchDarkMode(isDarkModeEnabled);
+                }
+                if(pageUserData.id_str === user.id_str) {
+                    darkModeVars.value = data.css_vars_dark || '';
+                    lightModeVars.value = data.css_vars_light || '';
+                    cssTextArea.value = data.css || '';
+                    cssEligibleAuto = data.css_eligible_auto;
+                    cssEligible = data.css_eligible;
+                    if(data.css_eligible || (data.css_eligible_auto && user.followers_count >= 5000)) {
+                        document.getElementById('custom-css-eligible').hidden = false;
+                        document.getElementById('custom-css-not-eligible').hidden = true;
+                        if(!vars.acknowledgedCssAccess) {
+                            let modal = createModal(`
+                                <div style="color:var(--almost-black);max-width:500px">
+                                    <h2 class="nice-header">${LOC.profile_custom_css.message}</h2><br>
+                                    <span>${LOC.pccss_congrats.message}</span>
+                                    <br><br>
+                                    <button class="nice-button">${LOC.yay.message}</button>
+                                </div>
+                            `, 'css-congrats-modal', () => {
+                                chrome.storage.sync.set({ acknowledgedCssAccess: true });
+                            }, () => false);
+                            modal.querySelector('button').addEventListener('click', () => {
+                                modal.removeModal();
+                            });
+                        }
+                    } else {
+                        document.getElementById('custom-css-eligible').hidden = true;
+                        document.getElementById('custom-css-not-eligible').hidden = false;
+                    }
+                } else {
+                    document.getElementById('custom-css-eligible').hidden = true;
+                    document.getElementById('custom-css-not-eligible').hidden = true;
                 }
             });
         });
@@ -804,6 +922,7 @@ async function renderProfile() {
     let buttonsElement = document.getElementById('profile-nav-buttons');
     document.getElementById('pin-profile').classList.toggle('menu-active', pageUser.id_str === user.id_str && !location.pathname.includes('/lists'));
     document.getElementById('pin-lists').classList.toggle('menu-active', location.pathname.startsWith(`/${pageUser.screen_name}/lists`));
+    let styling = document.getElementById('styling');
     if(pageUser.id_str === user.id_str) {
         buttonsElement.innerHTML = /*html*/`
             <a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>
@@ -811,13 +930,15 @@ async function renderProfile() {
         `;
         let profileStyleActive = false;
         let profileStyle = document.getElementById('profile-style');
-        let colorSyncBox = document.getElementById('color-sync-box');
         profileStyle.addEventListener('click', () => {
             profileStyle.classList.toggle('profile-style-active');
             profileStyleActive = !profileStyleActive;
-            colorSyncBox.hidden = !profileStyleActive;
+            styling.hidden = !profileStyleActive;
         });
+        document.getElementById('private-profile-warn').hidden = !user.protected;
     } else {
+        document.getElementById('private-profile-warn').hidden = true;
+        styling.hidden = true;
         document.getElementById('tweet-to-bg').hidden = false;
         buttonsElement.innerHTML = /*html*/`
             <button ${(pageUser.blocking || pageUser.blocked_by)  ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? LOC.follow_request_sent.message : LOC.following_btn.message) : LOC.follow.message}</button>
@@ -1763,6 +1884,246 @@ setTimeout(async () => {
             } else {
                 appendTweet(tweet, document.getElementById('timeline'), { prepend: true, bigFont: tweet.favorite_count > averageLikeCount*1.2 && tweet.favorite_count > 3 });
             }
+        }
+    });
+
+    // Customization
+    let r = document.querySelector(':root');
+    let profileLinkColor = document.getElementById('profile-link-color');
+    let colorSyncButton = document.getElementById('color-sync-button');
+    let cssSyncButton = document.getElementById('css-sync-button');
+    let cssLoadButton = document.getElementById('css-load-button');
+    let darkModeVars = document.getElementById('dark-mode-vars');
+    let lightModeVars = document.getElementById('light-mode-vars');
+    let cssTextArea = document.getElementById('profile-css-textarea');
+    let saveDraft = document.getElementById('save-draft');
+    let loadDraft = document.getElementById('load-draft');
+
+    darkModeVars.addEventListener('change', async () => {
+        if(isDarkModeEnabled) {
+            await switchDarkMode(true);
+            let vars = parseVariables(darkModeVars.value);
+            for(let i in vars) {
+                if(r.style.getPropertyValue(i)) r.style.setProperty(i, vars[i]);
+            }
+        }
+    });
+    lightModeVars.addEventListener('change', async () => {
+        if(!isDarkModeEnabled) {
+            await switchDarkMode(false);
+            let vars = parseVariables(lightModeVars.value);
+            for(let i in vars) {
+                if(r.style.getPropertyValue(i)) r.style.setProperty(i, vars[i]);
+            }
+        }
+    });
+    cssTextArea.addEventListener('change', () => {
+        if(!customCSS) {
+            customCSS = document.createElement('style');
+            customCSS.id = 'oldtwitter-custom-css';
+            document.head.appendChild(customCSS);
+        }
+        customCSS.innerHTML = cssTextArea.value;
+    });
+    darkModeVars.addEventListener('keydown', async e => {
+         if(e.keyCode === 83 && e.ctrlKey) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if(isDarkModeEnabled) {
+                await switchDarkMode(true);
+                let vars = parseVariables(darkModeVars.value);
+                for(let i in vars) {
+                    if(r.style.getPropertyValue(i)) r.style.setProperty(i, vars[i]);
+                }
+            }
+         }
+    });
+    lightModeVars.addEventListener('keydown', async e => {
+        if(e.keyCode === 83 && e.ctrlKey) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if(!isDarkModeEnabled) {
+                await switchDarkMode(false);
+                let vars = parseVariables(lightModeVars.value);
+                for(let i in vars) {
+                    if(r.style.getPropertyValue(i)) r.style.setProperty(i, vars[i]);
+                }
+            }
+        }
+    });
+    cssTextArea.addEventListener('keydown', e => {
+        if(e.key === "Tab") {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            let pos = cssTextArea.selectionStart;
+            cssTextArea.value = cssTextArea.value.slice(0, pos) + "  " + cssTextArea.value.slice(pos);
+            cssTextArea.selectionStart = cssTextArea.selectionEnd = pos + 2;
+        } else if(e.keyCode === 83 && e.ctrlKey) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if(!customCSS) {
+                customCSS = document.createElement('style');
+                customCSS.id = 'oldtwitter-custom-css';
+                document.head.appendChild(customCSS);
+            }
+            customCSS.innerHTML = cssTextArea.value;
+        }
+    });
+    saveDraft.addEventListener('click', () => {
+        chrome.storage.local.set({
+            cssDraft: {
+                darkVars: darkModeVars.value,
+                lightVars: lightModeVars.value,
+                css: cssTextArea.value
+            }
+        });
+        toast.info(LOC.draft_saved.message);
+    });
+    loadDraft.addEventListener('click', () => {
+        chrome.storage.local.get(['cssDraft'], async d => {
+            if(d.cssDraft) {
+                if(!d.cssDraft.darkVars && !d.cssDraft.lightVars && !d.cssDraft.css) return toast.error(LOC.no_draft.message);
+                darkModeVars.value = d.cssDraft.darkVars;
+                lightModeVars.value = d.cssDraft.lightVars;
+                cssTextArea.value = d.cssDraft.css;
+                toast.info(LOC.draft_loaded.message);
+
+                if(!customCSS) {
+                    customCSS = document.createElement('style');
+                    customCSS.id = 'oldtwitter-custom-css';
+                    document.head.appendChild(customCSS);
+                }
+                customCSS.innerHTML = cssTextArea.value;
+
+                if(isDarkModeEnabled) {
+                    await switchDarkMode(true);
+                    let vars = parseVariables(darkModeVars.value);
+                    for(let i in vars) {
+                        if(r.style.getPropertyValue(i)) r.style.setProperty(i, vars[i]);
+                    }
+                } else {
+                    await switchDarkMode(false);
+                    let vars = parseVariables(lightModeVars.value);
+                    for(let i in vars) {
+                        if(r.style.getPropertyValue(i)) r.style.setProperty(i, vars[i]);
+                    }
+                }
+            } else {
+                toast.error(LOC.no_draft.message);
+            }
+        });
+    });
+    cssSyncButton.addEventListener('click', async () => {
+        cssSyncButton.disabled = true;
+        try {
+            let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/setcss`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    css: cssTextArea.value,
+                    dark_mode_vars: darkModeVars.value,
+                    light_mode_vars: lightModeVars.value,
+                    private_token: await getOtAuthToken(!(user.followers_count >= 5000 && cssEligibleAuto && !cssEligible))
+                })
+            }).then(i => i.text());
+            if(res === 'auth_error') {
+                chrome.storage.local.get(["otPrivateTokens"], data => {
+                    delete data.otPrivateTokens[pageUser.id_str];
+                    chrome.storage.local.set({ otPrivateTokens: data.otPrivateTokens });
+                    cssSyncButton.disabled = false;
+                    alert(LOC.invalid_auth_token.message);
+                });
+            } else if(res === 'set') {
+                chrome.storage.local.get(["profileCustomCSS"], async data => {
+                    if(!data.profileCustomCSS) {
+                        data.profileCustomCSS = {};
+                    }
+                    data.profileCustomCSS[pageUser.id_str] = {
+                        css: cssTextArea.value,
+                        darkModeVars: darkModeVars.value,
+                        lightModeVars: lightModeVars.value
+                    };
+                    chrome.storage.local.set({ profileCustomCSS: data.profileCustomCSS });
+                });
+                alert(LOC.css_set.message);
+            } else {
+                alert(res);
+            }
+        } catch(e) {
+            console.error(e);
+            alert(LOC.error_setting_css.message);
+        } finally {
+            cssSyncButton.disabled = false;
+        }
+    });
+    cssLoadButton.addEventListener('click', async () => {
+        fetch(`https://dimden.dev/services/twitter_link_colors/v2/get_data/${pageUser.id_str}`).then(r => r.json()).then(data => {
+            cssTextArea.value = data.css;
+            darkModeVars.value = data.css_vars_dark;
+            lightModeVars.value = data.css_vars_light;
+
+            if(data.css) {
+                if(!customCSS) {
+                    customCSS = document.createElement('style');
+                    customCSS.id = 'oldtwitter-custom-css';
+                    document.head.appendChild(customCSS);
+                }
+                customCSS.innerHTML = data.css;
+            }
+            if(data.css_vars_dark && isDarkModeEnabled) {
+                let vars = parseVariables(data.css_vars_dark);
+                for(let i in vars) {
+                    r.style.setProperty(i, vars[i]);
+                }
+            } else if(data.css_vars_light && !isDarkModeEnabled) {
+                let vars = parseVariables(data.css_vars_light);
+                for(let i in vars) {
+                    r.style.setProperty(i, vars[i]);
+                }
+            } else {
+                switchDarkMode(isDarkModeEnabled);
+            }
+        });
+    });
+    colorSyncButton.addEventListener('click', async () => {
+        colorSyncButton.disabled = true;
+        let color = profileLinkColor.value;
+        if(color.startsWith('#')) color = color.slice(1);
+        try {
+            let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/setcolor`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    color,
+                    private_token: await getOtAuthToken()
+                })
+            }).then(i => i.text());
+            if(res === 'auth_error') {
+                chrome.storage.local.get(["otPrivateTokens"], data => {
+                    delete data.otPrivateTokens[pageUser.id_str];
+                    chrome.storage.local.set({ otPrivateTokens: data.otPrivateTokens });
+                    colorSyncButton.disabled = false;
+                    alert(LOC.invalid_auth_token.message);
+                });
+            } else if(res === 'error') {
+                alert(LOC.error_setting_color.message);
+            } else {
+                alert(LOC.link_color_set.message);
+                chrome.storage.local.get(["linkColors"], async lc => {
+                    let linkColors = lc.linkColors || {};
+                    linkColors[user.id_str] = color;
+                    chrome.storage.local.set({ linkColors });
+                });
+            }
+        } catch(e) {
+            console.error(e);
+            alert(LOC.error_setting_color.message);
+        } finally {
+            colorSyncButton.disabled = false;
         }
     });
 
