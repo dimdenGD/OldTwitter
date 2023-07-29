@@ -389,7 +389,7 @@
     "black_mode_link": { "message": "Enlace en modo oscuro" },
     "custom_mode_link": { "message": "Enlace en modo personalizado" },
     "tweet_verb": { "message": "Twittear", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "Quieres twittear \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } }
+    "do_you_want_to_tweet": { "message": "Quieres twittear \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
 	"user_protected" : { "message": "Los tweets de esta cuenta están protegidos." },
     "follow_to_see": { "message": "Solo los seguidores aprobados pueden ver los Tweets de @$SCREEN_NAME$'s. Para solicitar acceso, haz click en \"Seguir\".", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Copiar enlaces de tweets como", "example": "->Copy links as<- vxtwitter.com" },
