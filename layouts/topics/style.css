@@ -899,3 +899,17 @@ a:hover,
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+@media screen and (max-width: 1004px) {
+    #right-cell {
+        display: none;
+    }
+}
+@media screen and (max-width: 900px) {
+    #left-cell {
+        display: none;
+    }
+    #topic-div {
+        width: 100%;
+    }
+}
