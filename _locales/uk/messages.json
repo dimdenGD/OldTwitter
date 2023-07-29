@@ -486,5 +486,8 @@
     "css_set": { "message": "CSS було збережено!" },
     "error_setting_css": { "message": "Помилка збереження CSS" },
     "load": { "message": "Завантажити" },
-    "disable_profile_customizations": { "message": "Виключити кастомізацію профілю" }
+    "disable_profile_customizations": { "message": "Виключити кастомізацію профілю" },
+    "replying_to_and":  { "message": " та ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
+    "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
+    "twitter": {"message": "Твіттер"}
 }

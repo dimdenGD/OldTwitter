@@ -126,7 +126,7 @@ input, textarea {
 #messages:before {
     content: "\f054";
 }
-#pin-profile, #pin-bookmarks, #pin-lists {
+#pin-lists {
     background-color: var(--background-color);
 }
 #pin-profile:before {

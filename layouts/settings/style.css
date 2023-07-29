@@ -368,22 +368,20 @@ select, input, textarea {
     margin-left: 1px;
     vertical-align: initial;
 }
-#language-warning-button {
-    color: white;
-    background-color: rgb(255, 83, 83);
-    border-radius: 50%;
-    padding: 0px 5px;
-    font-weight: bold;
-    cursor: pointer;
-    margin-left: 3px;
-    vertical-align: initial;
-}
 .help-modal > div {
     margin-bottom: 10px;
 }
 #advanced-settings > button {
     margin-top: 5px;
 }
-#color-preview-custom[hidden] {
-    display: none;
+#color-preview-custom[hidden], #language-warning[hidden] {
+    display: none !important;
+}
+#language-warning {
+    display: block;
+    margin-top: 10px;
+}
+#language-warning-button {
+    color: var(--link-color);
+    cursor: pointer;
 }

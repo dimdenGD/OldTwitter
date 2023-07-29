@@ -604,10 +604,8 @@ setTimeout(async () => {
     LOC_EN_DATA = Object.keys(LOC_EN_DATA);
     let diff = LOC_EN_DATA.length - LOC_DATA.length;
     if(diff > 0) {
-        document.getElementById('language-warning-button').hidden = false;
         document.getElementById('language-warning').hidden = false;
     } else {
-        document.getElementById('language-warning-button').hidden = true;
         document.getElementById('language-warning').hidden = true;
     }
     document.getElementById('language-warning-button').addEventListener('click', () => {
