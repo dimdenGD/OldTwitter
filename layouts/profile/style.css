@@ -1532,15 +1532,16 @@ a:hover,
     .content {
         display: grid;
     }
-    #center-cell > div {
+    #timeline {
+        margin: 0;
         width: 100%;
     }
     #profile-banner-sticky {
         position: initial;
     }
     #left-cell {
-        margin-top: 100px;
-        margin-bottom: -200px;
+        margin-top: 95px;
+        margin-bottom: -225px;
         width: 100%;
         margin-left: 0;
         margin-right: 0;
@@ -1549,7 +1550,7 @@ a:hover,
     #profile-info {
         padding-left: 20px;
         pointer-events: auto;
-        bottom: 268px;
+        bottom: 257px;
         width: fit-content
     }
     #profile-info-text {
@@ -1577,7 +1578,11 @@ a:hover,
         margin-left: unset;
     }
     #profile-nav-buttons {
-        display: none;
+        position: absolute;
+        right: 26px;
+        margin-top: 12px;
+        pointer-events: auto;
+        z-index: 1;
     }
     #profile-avatar {
         width: 100px;
@@ -1589,6 +1594,21 @@ a:hover,
     #profile-nav-center-cell {
         position: absolute;
         right: 14px;
-        top: 304px;
+        top: 303px;
+    }
+    #following-list, #followers-list,  #followers_you_follow-list, #lists-list {
+        width: calc(100% - 22px);
+    }
+    #following-more, #followers-more, #followers_you_follow-more, #lists-more {
+        width: calc(100% - 100px);
+    }
+    #no-tweets {
+        width: calc(100% - 40px);
+        padding: 20px;
+    }
+    #profile-settings-div {
+        margin-left: 0;
+        position: absolute;
+        right: 0;
     }
 }

@@ -2049,6 +2049,9 @@ emoji-picker {
     .modal .new-tweet-emojis {
         left: -9px;
     }
+    .modal .new-tweet-mentions {
+        left: 11px;
+    }
     .name-top, .home-top {
         width: calc(100% - 42px);
     }
