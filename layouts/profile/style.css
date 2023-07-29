@@ -1546,6 +1546,12 @@ a:hover,
         width: 590px;
         
         pointer-events: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #center-cell {  
+        margin-left: auto;
+        margin-right: auto;
     }
     #profile-info {
         padding-left: 20px;
