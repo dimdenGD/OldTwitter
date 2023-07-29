@@ -1096,3 +1096,9 @@ a:hover,
     border-right: 1px solid var(--border);
     border-top: 1px solid var(--border);
 }
+
+@media screen and (max-width: 590px) {
+    #new-tweet {
+        width: unset;
+    }
+}
