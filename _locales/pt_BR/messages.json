@@ -51,7 +51,7 @@
     "follow": { "message": "Seguir" },
     "unfollow": { "message": "Deixar de seguir" },
     "follow_user": { "message": "Seguir", "example": "->Follow<- @CoolPerson2000" },
-    "unfollow_user": { "message": "Parar de seguir", "example": "->Unfollow<- @CoolPerson2000" },
+    "unfollow_user": { "message": "Deixar de seguir", "example": "->Unfollow<- @CoolPerson2000" },
     "thank_you_follow": { "message": "Obrigado por me seguir!" },
     "loading_tweets": { "message": "Carregando tweets..." },
     "retweeted": { "message": "retweetou", "example": "CoolPerson2000 ->retweeted<-" },
