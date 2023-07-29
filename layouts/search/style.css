@@ -536,6 +536,12 @@ a:hover,
     #wtf {
         display: none
     }
+    #save-search-left {
+        display: block;
+    }
+    #save-search-right {
+        display: none;
+    }
 }
 @media screen and (max-width: 1060px) {
     .search-switch {
@@ -791,7 +797,10 @@ a:hover,
     width: 100%
 }
 
-#save-search {
+#save-search-left {
+    margin-top: 0
+}
+#save-search-right {
     margin-top: 0
 }
 
