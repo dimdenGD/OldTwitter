@@ -210,7 +210,7 @@ for(let localeName of locales) {
     try {
         locale = JSON.parse(fs.readFileSync(path.join(__dirname, '_locales', localeName, 'messages.json')));
     } catch(e) {
-        console.error(`(Critical) Error parsing _locales/${localeName}/messages.json`, e);
+        console.error(`❌ (Critical) Error parsing _locales/${localeName}/messages.json`, e);
         errors = true;
         continue;
     }

@@ -151,7 +151,10 @@ const TRANSLATORS = {
         ["Nyankodasu", "https://github.com/Nyankodasu"],
         ["han_eirin", "https://twitter.com/han_eirin"]
     ],
-    "pl": ["lele"],
+    "pl": [
+        ["lele"],
+        ["nomi", "https://twitter.com/nomisigns"]
+    ],
     "vi": ["btmxh", "https://github.com/btmxh"],
     "zh_CN": ["am1006", "https://github.com/am1006"],
     "cs": ["Menal"]
