@@ -1609,6 +1609,9 @@ a:hover,
     .content {
         display: grid;
     }
+    #left-cell {
+        margin-bottom: -225px !important;
+    }
     #timeline {
         margin: 0;
         width: 100%;
@@ -1618,7 +1621,7 @@ a:hover,
     }
     #left-cell {
         margin-top: 95px;
-        margin-bottom: -225px;
+        margin-bottom: -190px;
         width: 100%;
         margin-left: 0;
         margin-right: 0;
@@ -1665,7 +1668,7 @@ a:hover,
         width: 100px;
         height: 100px;
     }
-    #profile-stat-media-link, #profile-stat-tweets-link {
+    #profile-stat-media-link, #profile-stat-tweets-link, #profile-style {
         display: none;
     }
     #profile-nav-center-cell {
@@ -1688,5 +1691,22 @@ a:hover,
         position: absolute;
         right: 0;
     }
-    
+}
+
+
+@media screen and (max-width: 400px) {
+    .profile-stat {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+    #profile-avatar {
+        width: 64px;
+        height: 64px;
+    }
+    #profile-info {
+        bottom: 240px;
+    }
+    #profile-info-text {
+        padding-top: 30px;
+    }
 }

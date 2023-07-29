@@ -532,35 +532,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        display: none
-    }
-    #save-search-left {
-        display: block;
-    }
-    #save-search-right {
-        display: none;
-    }
-}
-@media screen and (max-width: 1060px) {
-    .search-switch {
-        font-size: 15px;
-        padding-right: 50px !important;
-    }
-    .search-switches {
-        width: 200px !important;
-    }
-    #trends {
-        width: 200px;
-    }
-}
-@media screen and (max-width: 1012px) {
-    #about {
-        display: none
-    }
-}
-
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px
@@ -821,4 +792,55 @@ a:hover,
     border-bottom: 1px solid var(--border) !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+@media screen and (max-width: 1195px) {
+    #wtf {
+        display: none
+    }
+    #save-search-left {
+        display: block;
+    }
+    #save-search-right {
+        display: none;
+    }
+}
+@media screen and (max-width: 1060px) {
+    .search-switch {
+        font-size: 15px;
+        padding-right: 50px;
+    }
+    .search-switches {
+        width: 200px;
+    }
+    #trends {
+        width: 200px;
+    }
+}
+@media screen and (max-width: 1012px) {
+    #about {
+        display: none
+    }
+}
+
+
+@media screen and (max-width: 882px) {
+    #trends {
+        display: none;
+    }
+    #content {
+        display: grid;
+    }
+    .tweet {
+        width: unset;
+    }
+    #left-cell {
+        position: relative;
+    }
+    .search-switches {
+        width: calc(100% - 20px);
+    }
+    .search-switch {
+        padding-right: calc(100% - 150px);
+    }
 }

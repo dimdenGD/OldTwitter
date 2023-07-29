@@ -895,3 +895,22 @@ a:hover,
 .user-item-btn {
     bottom: 47px !important;
 }
+
+@media screen and (max-width: 1214px) {
+    #right-cell {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 890px) {
+    #left-cell {
+        display: none;
+    }
+    #itl {
+        width: calc(100% - 20px);
+    }
+    #center-cell {
+        margin: 0 auto;
+        margin-top: 50px;
+    }
+}
