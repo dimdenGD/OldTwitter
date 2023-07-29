@@ -143,7 +143,7 @@
     },
     "retweeted": {
         "example": "CoolPerson2000 ->retweeted<-",
-        "message": "צויץ מחדש"
+        "message": "צייץ מחדש"
     },
     "see_new_tweets": {
         "message": "ראה ציוצים חדשים"
@@ -198,7 +198,7 @@
         "message": "מחק רשימה"
     },
     "delete_list_sure": {
-        "message": "האם אתם בטוחים שברצונכם למחוק רשימה זו?"
+        "message": "האם אתם בטוח/חה שברצונך למחוק רשימה זו?"
     },
     "unsubscribe": {
         "message": "הסר רישום"
@@ -217,20 +217,20 @@
     },
     "tweeted_like": {
         "example": "CoolPerson2000 ->tweeted something you might like<-",
-        "message": "צייצו משהו שאולי תאהבו "
+        "message": "צייץ משהו שאולי תאהב/י"
     },
     "favorites": {
         "message": "מועדפים"
     },
     "follows_you": {
-        "message": "עוקבים אחריך"
+        "message": "עוקב אחריך"
     },
     "tweet_to_user": {
         "message": "צייץ למשתמש"
     },
     "followers_you_know": {
         "example": "123 ->followers you know<-",
-        "message": "עוקבים שאתם מכירים "
+        "message": "עוקבים שאת/ה מכיר/ה"
     },
     "photos_and_videos": {
         "message": "תמונות וסרטונים"
@@ -243,7 +243,7 @@
     },
     "you_may_also_like": {
         "description": "Max 19 characters, you can use word 'People' if no space",
-        "message": "אולי תאהבו גם "
+        "message": "אולי תאהב/י גם "
     },
     "user_was_suspended": {
         "message": "משתמש הושעה"
@@ -282,7 +282,7 @@
                 "content": "1"
             }
         },
-        "message": "ינואר $NUMBER$"
+        "message": "לינואר $NUMBER$"
     },
     "february": {
         "placeholders": {
@@ -290,7 +290,7 @@
                 "content": "1"
             }
         },
-        "message": "פברואר $NUMBER$"
+        "message": "לפברואר $NUMBER$"
     },
     "march": {
         "placeholders": {
@@ -298,7 +298,7 @@
                 "content": "1"
             }
         },
-        "message": "מרץ $NUMBER$"
+        "message": "למרץ $NUMBER$"
     },
     "april": {
         "placeholders": {
@@ -306,7 +306,7 @@
                 "content": "1"
             }
         },
-        "message": "אפריל $NUMBER$"
+        "message": "לאפריל $NUMBER$"
     },
     "may": {
         "placeholders": {
@@ -314,7 +314,7 @@
                 "content": "1"
             }
         },
-        "message": "מאי $NUMBER$"
+        "message": "למאי $NUMBER$"
     },
     "june": {
         "placeholders": {
@@ -322,7 +322,7 @@
                 "content": "1"
             }
         },
-        "message": "יוני $NUMBER$"
+        "message": "ליוני $NUMBER$"
     },
     "july": {
         "placeholders": {
@@ -330,7 +330,7 @@
                 "content": "1"
             }
         },
-        "message": "יולי $NUMBER$"
+        "message": "ליולי $NUMBER$"
     },
     "august": {
         "placeholders": {
@@ -338,7 +338,7 @@
                 "content": "1"
             }
         },
-        "message": "אוגוסט $NUMBER$"
+        "message": "לאוגוסט $NUMBER$"
     },
     "september": {
         "placeholders": {
@@ -346,7 +346,7 @@
                 "content": "1"
             }
         },
-        "message": "ספטמבר $NUMBER$"
+        "message": "לספטמבר $NUMBER$"
     },
     "october": {
         "placeholders": {
@@ -354,7 +354,7 @@
                 "content": "1"
             }
         },
-        "message": "אוקטובר $NUMBER$"
+        "message": "לאוקטובר $NUMBER$"
     },
     "november": {
         "placeholders": {
@@ -362,7 +362,7 @@
                 "content": "1"
             }
         },
-        "message": "נובמבר $NUMBER$"
+        "message": "לנובמבר $NUMBER$"
     },
     "december": {
         "placeholders": {
@@ -370,7 +370,7 @@
                 "content": "1"
             }
         },
-        "message": "דצמבר $NUMBER$"
+        "message": "לדצמבר $NUMBER$"
     },
     "tweet_to": {
         "example": "->Tweet to<- @CoolPerson2000",
@@ -395,7 +395,7 @@
     },
     "block_user": {
         "example": "->Block<- @CoolPerson2000",
-        "message": "התעלם"
+        "message": "חסום"
     },
     "unblock": {
         "example": "->Unblock<- @CoolPerson2000",
@@ -403,10 +403,10 @@
     },
     "block": {
         "example": "->Block<- @CoolPerson2000",
-        "message": "התעלם"
+        "message": "חסום"
     },
     "unmute": {
-        "message": "הסר התעלמות"
+        "message": "הורד השתקה"
     },
     "see_lists": {
         "message": "ראה רשימות "
@@ -434,14 +434,14 @@
     },
     "block_sure": {
         "example": "->Are you sure you want to block<- @CoolPerson2000?",
-        "message": "האם אתם בטוחים שברצונכם לחסום?"
+        "message": "האם אתה בטוח/ה לחסום משתמש זה?"
     },
     "add": {
         "message": "הוסף"
     },
     "joined": {
         "example": "->Joined<- April 30, 2019",
-        "message": "היום הצטרפות "
+        "message": "יום הצטרפות"
     },
     "pinned_tweet": {
         "message": "ציוץ מודבק "
@@ -468,7 +468,7 @@
         "message": "כל האנשים "
     },
     "people_yk": {
-        "message": "אנשים שאתם מכירים "
+        "message": "אנשים שאת/ה מכירים "
     },
     "everywhere": {
         "message": "בכל מקום "
@@ -504,7 +504,7 @@
         "message": "חיפוש לפי ביטוי מדויק"
     },
     "exact_phrase_example": {
-        "message": "דוגמא: זמן שמח - כולל \"זמן שמח\""
+        "message": "דוגמא: זמן שמח - כולל \"ח\""
     },
     "any_words": {
         "message": "כל אחד מהמילים האלו"
@@ -642,7 +642,7 @@
         "message": "קישור מצב כהה"
     },
     "custom_css": {
-        "message": " CSS מותאם אישית"
+        "message": "מותאם אישית CSS"
     },
     "css_var_override": {
         "message": "מחליף את משתני CSS של ברירת המחדל. רשמו אותם כ ..."
@@ -713,19 +713,19 @@
         "message": "אין ביכולתך לשלוח הודעות למשתמש זה "
     },
     "gifs_max": {
-        "message": " גיפים חייבים להיות 15MB או פחות"
+        "message": "גיפים חייבים להיות פחות מ15 מגהבייט"
     },
     "videos_max": {
-        "message": "סרטונים חייבים להיות 500 MB או פחות"
+        "message": "סרטונים חייבים להיות 500 מגהבייט או פחות"
     },
     "images_max": {
-        "message": "תמונות חייבות להיות 5MB או פחות"
+        "message": "תמונות חייבות להיות 5 מיגהבייט או פחות"
     },
     "max_count": {
-        "message": "אתם יכולים להעלות עד ל4 תמונות או סרטון/גיף אחד"
+        "message": "את/ה יכול/ה להעלות עד ל4 תמונות או סרטון/גיף אחד"
     },
     "alt_text": {
-        "message": "רשמו טקסט חלופי לתמונה"
+        "message": "רשום טקסט חלופי לתמונה"
     },
     "vote": {
         "example": "1 ->vote<-",
@@ -743,7 +743,7 @@
         "message": "ראה תרגום"
     },
     "unsupported_video": {
-        "message": "הדפדפן שלכם לא תומך בסרטון זה"
+        "message": "הדפדפן שלך לא תומך בסרטון זה"
     },
     "views": {
         "example": "10 ->views<-",
@@ -842,7 +842,7 @@
         "message": " שגיאה בעת שליחת הציוץ"
     },
     "retweet_sure": {
-        "message": "האם אתם בטוחים שברצונכם לצייץ את זה מחדש?"
+        "message": "האם את/ה בטוח/חה שברצונך לצייץ את זה מחדש?"
     },
     "unretweet": {
         "message": "הסר ציוץ מחדש"
@@ -851,10 +851,10 @@
         "message": "צייץ מחדש "
     },
     "delete_sure": {
-        "message": "האם אתם בטוחים שברצונכם למחוק ציוץ זה?"
+        "message": "האם אתם בטוח/חה שברצונך למחוק ציוץ זה?"
     },
     "long_vid": {
-        "message": "הסרטון ארוך מ10 שניות. האם אתם בטוחים שברצונכם להמיר אותו, האיכות עשויה להיפגע "
+        "message": "הסרטון ארוך מ10 שניות. האם אתם בטוח/חה שברצונך להמיר אותו, האיכות אלולה להיפגע "
     },
     "feedback_thanks": {
         "message": "תודה על חוות הדעת!"
@@ -885,15 +885,15 @@
     "topic": { "message": "נושא" },
     "not_interested": { "message": "לא מעוניין/ת" },
     "cancel": { "message": "ביטול" },
-    "youre_not_interested": { "message": "אתם לא מעוניינים בנושא זה" },
+    "youre_not_interested": { "message": "את/ה לא מעוניין/ת בנושא זה" },
     "autoplay_videos": { "message": "התחל סרטונים אוטומטית" },
     "turn_on_retweets": { "message": "הצג ציוצים מחדש בציר הזמן" },
     "turn_off_retweets": { "message": "הסתר ציוצים מחדש בציר הזמן " },
-    "you_can_reply": { "message": "(אתם יכולים להגיב)" },
+    "you_can_reply": { "message": "(את/ה יכולים להגיב)" },
     "audience": { "message": "קהל" },
     "who_can_reply": { "message": "מי יכול להגיב" },
-    "people_you_follow": { "message": "אנשים שאתם עוקבים אחריהם " },
-    "people_you_mention": { "message": "אנשים שאתם מאזכרים" },
+    "people_you_follow": { "message": "אנשים שאת/ה עוקב/ת אחריהם " },
+    "people_you_mention": { "message": "אנשים שאת/ה מאזכרים" },
     "new_version": { "message": "עודכן לגרסא החדשה" },
     "display_sensitive_content": { "message": "הצג תוכן שעשוי להיות רגיש" },
     "is_private": { "message": "פרטי" },
