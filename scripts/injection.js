@@ -112,7 +112,8 @@ const TRANSLATORS = {
     "uk": ["dimden", "https://dimden.dev/"],
     "fr": [
         ["Aurore C.", "https://asuure.com/"],
-        ["zdimension", "https://twitter.com/zdimension_"]
+        ["zdimension", "https://twitter.com/zdimension_"],
+        ["Pikatchoum", "https://twitter.com/applitom45"]
     ],
     "pt_BR": [
         ["dzshn", "https://dzshn.xyz/"],

@@ -496,7 +496,7 @@
     "error_setting_css": { "message": "Error al configurar el CSS" },
     "load": { "message": "Cargar" },
     "disable_profile_customizations": { "message": "Desactivar personalización de perfil" },
-    "replying_to_and":  { "message": " y a ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
-    "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
+    "replying_to_and":  { "message": " y a ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B, @C" },
+    "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B->, <-@C" },
     "twitter": {"message": "Twitter"}
 }
