@@ -1529,7 +1529,83 @@ a:hover,
 }
 
 @media screen and (max-width: 950px) {
+    .content {
+        display: grid;
+    }
+    #timeline {
+        margin: 0;
+        width: 590px
+    }
+    #profile-banner-sticky {
+        position: initial;
+    }
+    #left-cell {  
+        margin-top: 95px;
+        margin-bottom: -225px;
+        position: unset;
+        width: 590px;
+        
+        pointer-events: none;
+    }
+    #profile-info {
+        padding-left: 20px;
+        pointer-events: auto;
+        bottom: 257px;
+        width: fit-content
+    }
+    #profile-info-text {
+        margin-left: 0;
+        padding: 20px;
+        padding-top: 0;
+        padding-bottom: 0;
+        pointer-events: auto;
+        margin-top: 0;
+    }
+    #tweet-nav {
+        width: 590px !important;
+    }
+    #profile-banner {
+        height: 300px;
+    }
+    #profile-nav {
+        position: initial;
+    }
+    #tweet-nav-more-menu {
+        float: right;
+        right: 0;
+        margin-left: unset;
+    }
+    #profile-nav-buttons {
+        position: absolute;
+        right: 26px;
+        margin-top: 12px;
+        pointer-events: auto;
+        z-index: 1;
+    }
+    #profile-nav-center-cell {
+        position: absolute;
+        right: 14px;
+        top: 303px;
+    }
+    #following-list, #followers-list,  #followers_you_follow-list, #lists-list {
+        width: calc(100% - 22px);
+    }
+    #following-more, #followers-more, #followers_you_follow-more, #lists-more {
+        width: calc(100% - 100px);
+    }
+    #no-tweets {
+        width: calc(100% - 40px);
+        padding: 20px;
+    }
+    #profile-settings-div {
+        margin-left: 0;
+        position: absolute;
+        right: 0;
+    }
+}
+
 /* Mobile UI */
+@media screen and (max-width: 590px) {
     .content {
         display: grid;
     }
@@ -1612,4 +1688,5 @@ a:hover,
         position: absolute;
         right: 0;
     }
+    
 }
