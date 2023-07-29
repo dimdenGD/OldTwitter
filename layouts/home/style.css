@@ -666,16 +666,16 @@ a:hover,
 
 #new-tweet {
     background-color: var(--new-tweet-over);
-    border-bottom: none !important;
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+    border-bottom: none;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     padding: 10px;
 }
 
 #new-tweet-container {
     background-color: var(--link-color);
-    border-bottom-left-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
     border-radius: 5px;
     width: 590px;
 }

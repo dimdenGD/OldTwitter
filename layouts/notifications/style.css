@@ -846,7 +846,7 @@ a:hover,
         display: unset;
     }
     #notification-switches {
-        width: 540px !important;
+        width: 540px;
         margin: 0 auto;
         position: relative;
         top: 57px;
@@ -871,4 +871,28 @@ a:hover,
 }
 #notifs-loading {
     text-align: center;
+}
+
+@media screen and (max-width: 590px) {
+    #notification-switches {
+        width: calc(100% - 22px);
+        margin: 0;
+        border-radius: 0;
+    }
+    .notification-switch {
+        padding-right: calc(100% - 200px);
+    }
+    #notifications-div {
+        width: 100%;
+    }
+    .notification-avatars, .notification-text {
+        width: calc(100% - 56px);
+    }
+    .notification-header {
+        width: calc(100% - 100px);
+    }
+    #notifications-div > :first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
 }

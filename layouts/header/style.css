@@ -953,7 +953,7 @@ input, textarea {
 }
 
 .name-top {
-    width: 618px !important;
+    width: 618px;
     background-color: rgba(0, 0, 0, 0) !important;
 }
 .navbar-new-tweet-user-search {
@@ -1983,4 +1983,91 @@ emoji-picker {
 .tweet-quote-reply-to::before, .tweet-time-quote::before {
     content: "\00b7";
     margin-right: 5px;
+}
+
+@media screen and (max-width: 590px) {
+    .nav-text, #navbar-tweet-button-text {
+        display: none;
+    }
+    .tweet-body {
+        min-width: unset;
+    }
+    #timeline {
+        width: 100%;
+    }
+    #new-tweet-text {
+        width: calc(100% - 88px);
+    }
+    #new-tweet-container {
+        width: 100%;
+        border-radius: 0;
+    }
+    #new-tweet {
+        border-radius: 0;
+    }
+    .tweet-media-element {
+        max-width: calc(100% - 100px);
+    }
+    .modal .tweet-media-element {
+        max-width: calc(100% - 200px);
+    }
+    #right-cell {
+        display: none;
+    }
+    #center-cell {
+        margin-top: 47px;
+    }
+    #timeline-type-center {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        margin-bottom: 0;
+    }
+    .tweet-interact-views {
+        display: none !important;
+    }
+    #navbar-links a {
+        padding: 13px 8px;
+    }
+    .modal-content {
+        min-width: unset;
+        margin: unset;
+        top: 10%;
+    }
+    .tweet-viewer {
+        width: calc(100% - 42px);
+    }
+    .new-tweet-view, .new-tweet-container {
+        width: 100%;
+    }
+    .modal .new-tweet-text {
+        width: calc(100% - 103px);
+    }
+    .modal .new-tweet-media-div {
+        right: 27px;
+    }
+    .modal .new-tweet-emojis {
+        left: -9px;
+    }
+    .name-top, .home-top {
+        width: calc(100% - 42px);
+    }
+    .message-new-input {
+        width: calc(100% - 190px);
+    }
+    .name-top-background {
+        width: calc(100% - 20px);
+    }
+    .message-element {
+        width: 100%;
+    }
+    .inbox-message {
+        width: 100%;
+    }
+    .inbox-text {
+        width: calc(100% - 64px);
+    }
+    .inbox-modal {
+        width: calc(100% - 42px);
+    }
 }
