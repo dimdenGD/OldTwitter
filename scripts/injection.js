@@ -138,7 +138,10 @@ const TRANSLATORS = {
         ["Chazuru", "https://twitter.com/AIWMD"],
         ["Nyankodasu", "https://github.com/Nyankodasu"]
     ],
-    "tr": ["KayrabCebll", "https://steamcommunity.com/id/KayrabCebll"],
+    "tr": [
+        ["KayrabCebll", "https://steamcommunity.com/id/KayrabCebll"],
+        ["YordemEren", "https://twitter.com/YordemEren"]
+    ],
     "it": ["krek", "https://twitter.com/CactusInc420"],
     "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
