@@ -30,10 +30,12 @@ If you like this extension please consider donating:
 - Removes all ads  
 - Easy download of videos and GIFs  
 - Translate tweets without having to open them  
+- Shows why tweets were added to algorthimical timeline  
 - Set users to autotranslate their tweets  
 - Dark mode support  
 - Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change default link color and font  
 - Lot of hotkeys  
+- Mobile support with Kiwi Browser or Firefox  
 - Custom CSS support  
   
 ## Manual installation
@@ -61,6 +63,9 @@ For stable version:
 **Installing this way on Firefox will remove it after closing browser.**
   
 ## FAQ
+#### Can you use this extension on phones?
+Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/).  
+  
 #### Is this extension safe?
 The code is open source so you can check everything yourself. It never sends any of your personal info anywhere.  
 
