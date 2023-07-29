@@ -374,8 +374,8 @@ select, input, textarea {
 #advanced-settings > button {
     margin-top: 5px;
 }
-#color-preview-custom[hidden] {
-    display: none;
+#color-preview-custom[hidden], #language-warning[hidden] {
+    display: none !important;
 }
 #language-warning {
     display: block;
