@@ -385,6 +385,7 @@ setTimeout(async () => {
         });
     }, 60000);
 
+
     // Run
     updateSubpage();
     updateUserData();
@@ -404,4 +405,6 @@ setTimeout(async () => {
         }
         updateNotifications(false, true);
     }, 20000);
+
+    document.getElementById('loading-box').hidden = true;
 }, 50);
