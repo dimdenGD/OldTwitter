@@ -908,3 +908,28 @@ a:hover,
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+@media screen and (max-width: 1046px) {
+    #left-cell, #right-cell {
+        display: none;
+    }
+    #center-cell {
+        margin: 0 auto;
+        width: 100%;
+        margin-top: 70px !important;
+    }
+    #bookmarks {
+        width: 100%;
+        padding: 0;
+    }
+    #bookmarks > h1 {
+        margin-left: 10px;
+    }
+    #delete-all {
+        margin-right: 10px;
+    }
+    .tweet:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
