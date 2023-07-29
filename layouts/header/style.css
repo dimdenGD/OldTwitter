@@ -2070,4 +2070,13 @@ emoji-picker {
     .inbox-modal {
         width: calc(100% - 42px);
     }
+    #search-input {
+        width: 30px;
+    }
+    #search-input:focus {
+        width: 120px;
+    }
+    #pin-profile {
+        display: none;
+    }
 }

@@ -1436,6 +1436,9 @@ let userDataFunction = async user => {
         });
     });
     searchIcon.addEventListener('click', () => {
+        if(!searchInput.value) {
+            return searchInput.focus();
+        }
         lastSearches.push(searchInput.value);
         if(lastSearches.length > 5) {
             lastSearches.shift();

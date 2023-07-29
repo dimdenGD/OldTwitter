@@ -1527,3 +1527,68 @@ a:hover,
     padding: 4px 10px;
     margin-top: 5px;
 }
+
+@media screen and (max-width: 950px) {
+    .content {
+        display: grid;
+    }
+    #center-cell > div {
+        width: 100%;
+    }
+    #profile-banner-sticky {
+        position: initial;
+    }
+    #left-cell {
+        margin-top: 100px;
+        margin-bottom: -200px;
+        width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+        pointer-events: none;
+    }
+    #profile-info {
+        padding-left: 20px;
+        pointer-events: auto;
+        bottom: 268px;
+        width: fit-content
+    }
+    #profile-info-text {
+        margin-left: 0;
+        padding: 20px;
+        padding-top: 0;
+        padding-bottom: 0;
+        pointer-events: auto;
+        margin-top: 0;
+    }
+    #tweet-nav {
+        width: unset !important;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+    #profile-banner {
+        height: 300px;
+    }
+    #profile-nav {
+        position: initial;
+    }
+    #tweet-nav-more-menu {
+        float: right;
+        right: 0;
+        margin-left: unset;
+    }
+    #profile-nav-buttons {
+        display: none;
+    }
+    #profile-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    #profile-stat-media-link, #profile-stat-tweets-link {
+        display: none;
+    }
+    #profile-nav-center-cell {
+        position: absolute;
+        right: 14px;
+        top: 304px;
+    }
+}
