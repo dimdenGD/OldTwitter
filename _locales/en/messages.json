@@ -476,6 +476,7 @@
     "clear_caches": { "message": "Clear caches" },
     "hide_non_replies": { "message": "Hide non-replies" },
     "interested_in_traslate": { "message": "Are you interested in translating OldTwitter?", "description":"English actually never shows this message" },
-    "replying_to_multi":  { "message": ", ", "description":"For some language which using address terms" },
+    "replying_to_and":  { "message": " and ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
+    "replying_to_comma":  { "message": " , ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Twitter"}
 }
