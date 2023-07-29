@@ -157,6 +157,7 @@ setTimeout(async () => {
     let uncensorSensitiveContentAutomatically = document.getElementById('uncensor-sensitive-content-automatically');
     let useOldStyleReply = document.getElementById('use-old-style-reply');
     let linkColorReset = document.getElementById('link-color-reset');
+    let enableAd = document.getElementById('enable-promotion');
     let disableProfileCustomizations = document.getElementById('disable-profile-customizations');
 
     let root = document.querySelector(":root");
@@ -305,6 +306,12 @@ setTimeout(async () => {
         vars.useOldStyleReply = useOldStyleReply.checked;
         chrome.storage.sync.set({
             useOldStyleReply: useOldStyleReply.checked
+        }, () => { });
+    });
+    enableAd.addEventListener('change', () => {
+        vars.enableAd = enableAd.checked;
+        chrome.storage.sync.set({
+            enableAd: enableAd.checked
         }, () => { });
     });
     useOldDefaultProfileImage.addEventListener('change', () => {
@@ -560,6 +567,7 @@ setTimeout(async () => {
     uncensorGraphicViolenceAutomatically.checked = !!vars.uncensorGraphicViolenceAutomatically;
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
     useOldStyleReply.checked = !!vars.useOldStyleReply;
+    enableAd.checked = !!vars.enableAd;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
@@ -597,8 +605,10 @@ setTimeout(async () => {
     let diff = LOC_EN_DATA.length - LOC_DATA.length;
     if(diff > 0) {
         document.getElementById('language-warning-button').hidden = false;
+        document.getElementById('language-warning').hidden = false;
     } else {
         document.getElementById('language-warning-button').hidden = true;
+        document.getElementById('language-warning').hidden = true;
     }
     document.getElementById('language-warning-button').addEventListener('click', () => {
         let lang = document.querySelector(`option[value="${LANGUAGE}"]`).innerText;

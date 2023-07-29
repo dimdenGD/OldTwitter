@@ -457,6 +457,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             useOldStyleReply: false
         }, () => {});
     }
+    if(typeof(vars.enableAd) !== 'boolean') {
+        vars.enableAd = false;
+        chrome.storage.sync.set({
+            enableAd: false
+        }, () => {});
+    }
     if(typeof(vars.useOldDefaultProfileImage) !== 'boolean') {
         vars.useOldDefaultProfileImage = true;
         chrome.storage.sync.set({

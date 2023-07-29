@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>__MSG_settings__ - Twitter</title>
+    <title>__MSG_settings__ - __MSG_twitter__</title>
     <link rel="preconnect" href="https://twitter.com">
 </head>
 <body>
@@ -82,7 +82,7 @@
                             <option value="he">עִברִית (Hebrew)</option>
                             <option value="ne">नेपाली (Nepali)</option>
                         </select>
-                        <span id="language-warning-button" hidden>!</span>
+                        <br><span id="language-warning" hidden>__MSG_interested_in_traslate__ </span><span id="language-warning-button" hidden>!</span>
                     </div>
                     
                     <h2>__MSG_content_you_see__</h2><br>
@@ -236,6 +236,9 @@
                     <div class="setting">
                         <input type="checkbox" id="enable-hashflags"> <label for="enable-hashflags">__MSG_enable_hashflags__</label>
                     </div>
+                    <div class="setting">
+                        <input type="checkbox" id="enable-promotion" hidden> <label for="enable-promotion" hidden>Show Promotion Tweet (Only works for algo V1) (And No one likes)</label>
+                    </div>
                     
 
                     <h2>__MSG_font__</h2><br>
@@ -282,8 +285,8 @@
                         <button class="nice-button" id="import-style">__MSG_import_style_settings__</button>
                         <button class="nice-button" id="export-style">__MSG_export_style_settings__</button>
                         <br>
-                        <button class="nice-button" id="reset-settings">__MSG_reset_settings__</button>
-                        <button class="nice-button" id="clear-caches">__MSG_clear_caches__</button>
+                        <button class="nice-button nice-red-button" id="reset-settings">__MSG_reset_settings__</button>
+                        <button class="nice-button nice-red-button" id="clear-caches">__MSG_clear_caches__</button>
                     </div>
                 </div>
             </div>

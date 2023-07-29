@@ -187,17 +187,23 @@ async function updateSavedButton() {
     API.search.getSaved().then(savedSearches => {
         saved = savedSearches.find(s => s.query === searchParams.q);
         if(saved) {
-            document.getElementById('save-search').innerText = LOC.remove_search.message;
-            document.getElementById('save-search').classList.add('saved');
+            document.getElementById('save-search-right').innerText = LOC.remove_search.message;
+            document.getElementById('save-search-right').classList.add('saved');
+            document.getElementById('save-search-left').innerText = LOC.remove_search.message;
+            document.getElementById('save-search-left').classList.add('saved');
         } else {
-            document.getElementById('save-search').innerText = LOC.save_search.message;
-            document.getElementById('save-search').classList.remove('saved');
+            document.getElementById('save-search-right').innerText = LOC.save_search.message;
+            document.getElementById('save-search-right').classList.remove('saved');
+            document.getElementById('save-search-left').innerText = LOC.save_search.message;
+            document.getElementById('save-search-left').classList.remove('saved');
         }
-        document.getElementById('save-search').addEventListener('click', async () => {
+        document.getElementById('save-search-right').addEventListener('click', async () => {
             if(saved) {
                 await API.search.deleteSaved(saved.id_str);
-                document.getElementById('save-search').innerText = LOC.save_search.message;
-                document.getElementById('save-search').classList.remove('saved');
+                document.getElementById('save-search-right').innerText = LOC.save_search.message;
+                document.getElementById('save-search-right').classList.remove('saved');
+                document.getElementById('save-search-left').innerText = LOC.save_search.message;
+                document.getElementById('save-search-left').classList.remove('saved');
                 savedSearches = savedSearches.filter(s => s.id_str !== saved.id_str);
                 chrome.storage.local.set({savedSearches: {
                     date: Date.now(),
@@ -212,8 +218,37 @@ async function updateSavedButton() {
                     data: savedSearches
                 }}, () => {});
                 saved = saveData;
-                document.getElementById('save-search').innerText = LOC.remove_search.message;
-                document.getElementById('save-search').classList.add('saved');
+                document.getElementById('save-search-right').innerText = LOC.remove_search.message;
+                document.getElementById('save-search-right').classList.add('saved');
+                document.getElementById('save-search-left').innerText = LOC.remove_search.message;
+                document.getElementById('save-search-left').classList.add('saved');
+            }
+        });
+        document.getElementById('save-search-left').addEventListener('click', async () => {
+            if(saved) {
+                await API.search.deleteSaved(saved.id_str);
+                document.getElementById('save-search-right').innerText = LOC.save_search.message;
+                document.getElementById('save-search-right').classList.remove('saved');
+                document.getElementById('save-search-left').innerText = LOC.save_search.message;
+                document.getElementById('save-search-left').classList.remove('saved');
+                savedSearches = savedSearches.filter(s => s.id_str !== saved.id_str);
+                chrome.storage.local.set({savedSearches: {
+                    date: Date.now(),
+                    data: savedSearches
+                }}, () => {});
+                saved = undefined;
+            } else {
+                let saveData = await API.search.save(searchParams.q);
+                savedSearches.push(saveData);
+                chrome.storage.local.set({savedSearches: {
+                    date: Date.now(),
+                    data: savedSearches
+                }}, () => {});
+                saved = saveData;
+                document.getElementById('save-search-right').innerText = LOC.remove_search.message;
+                document.getElementById('save-search-right').classList.add('saved');
+                document.getElementById('save-search-left').innerText = LOC.remove_search.message;
+                document.getElementById('save-search-left').classList.add('saved');
             }
         });
     }).catch(() => {});

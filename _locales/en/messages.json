@@ -495,5 +495,9 @@
     "css_set": { "message": "CSS was successfully set!" },
     "error_setting_css": { "message": "Error setting CSS" },
     "load": { "message": "Load" },
-    "disable_profile_customizations": { "message": "Disable profile customizations" }
+    "disable_profile_customizations": { "message": "Disable profile customizations" },
+    "interested_in_traslate": { "message": "Are you interested in translating OldTwitter?", "description":"English actually never shows this message" },
+    "replying_to_and":  { "message": " and ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
+    "replying_to_comma":  { "message": " , ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
+    "twitter": {"message": "Twitter"}
 }
