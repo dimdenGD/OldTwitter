@@ -2993,14 +2993,14 @@ const API = {
                     });
                     entries = entries.addEntries.entries;
                     let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('tweet-'));
-                    let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
-                    if(!cursor) {
+                    let newCursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
+                    if(!newCursor) {
                         let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace.includes('sq-cursor-bottom') || i.replaceEntry.entryIdToReplace.includes('cursor-bottom')));
                         if(entries) {
-                            cursor = entries.replaceEntry.entry.content.operation.cursor.value;
+                            newCursor = entries.replaceEntry.entry.content.operation.cursor.value;
                         }
                     } else {
-                        cursor = cursor.content.operation.cursor.value;
+                        newCursor = newCursor.content.operation.cursor.value;
                     }
                     let out = {
                         list: list.map(e => {
@@ -3013,7 +3013,7 @@ const API = {
                             tweet.user = user;
                             return tweet;
                         }),
-                        cursor
+                        cursor: newCursor
                     };
                     debugLog('tweet.getQuotes', 'end', id, out);
                     return resolve(out);
