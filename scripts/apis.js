@@ -764,7 +764,7 @@ const API = {
                             }
                             else {
                                 if(trend.item.content.trend.trendMetadata.metaDescription) {
-                                    desc += ` • ${trend.item.content.trend.trendMetadata.metaDescription}`;
+                                    desc += ` · ${trend.item.content.trend.trendMetadata.metaDescription}`;
                                 }
                             }
                             data.push({trend:{
