@@ -56,10 +56,12 @@ setTimeout(() => {
                 !data.lastVersion ||
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')
             ) {
+                let opened = Date.now();
                 createModal(/*html*/`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li><b><a href="https://github.com/dimdenGD/OldTwitter#can-you-use-this-extension-on-phones" target="_blank">Added support for mobile phones!</a></b></li>
                             <li>Added user-friendly color customization for all colors in the extension.</li>
                             <li>Added support for new algorithmical timeline (V2) and timeline descriptions.</li>
                             <li>Fixed Reverse chronological timeline with friends likes not working properly.</li>
@@ -91,7 +93,7 @@ setTimeout(() => {
                             Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a>
                         </p>
                     </span>
-                `, 'changelog-modal', () => {});
+                `, 'changelog-modal', () => {}, () => Date.now() - opened > 1750);
                 let changelog = document.getElementById('changelog');
                 let text = changelog.innerText;
                 let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
