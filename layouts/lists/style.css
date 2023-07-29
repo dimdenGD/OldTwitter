@@ -819,3 +819,35 @@ a:hover,
 #loading-box-error {
     color: var(--almost-black)
 }
+@media screen and (max-width: 1060px) {
+    #right-cell {
+        display: none;
+    }
+}
+@media screen and (max-width: 920px) {
+    #content {
+        display: block;
+    }
+    #center-cell {
+        width: 100%;
+    }
+    #list-div, .list-top {
+        width: calc(100% - 22px);
+        margin: 0 auto;
+    }
+    .tweet-body {
+        min-width: unset;
+    }
+    #left-cell {
+        position: relative;
+    }
+    #list-info, #list-banner {
+        width: 100%;
+    }
+    #list-name, #list-stats {
+        width: calc(100% - 82px);
+    }
+    .list-switches {
+        width: calc(100% - 22px) !important;
+    }
+}
