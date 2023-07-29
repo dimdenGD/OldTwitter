@@ -385,3 +385,20 @@ select, input, textarea {
     color: var(--link-color);
     cursor: pointer;
 }
+
+@media screen and (max-width: 1046px) {
+    #left-cell, #right-cell {
+        display: none;
+    }
+    #center-cell {
+        margin: 0 auto;
+        width: 100%;
+    }
+    #settings {
+        width: calc(100% - 40px);
+        padding: 20px;
+    }
+    #custom-css {
+        width: 100% !important
+    }
+}
