@@ -133,7 +133,10 @@ const TRANSLATORS = {
     ],
     "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
     "lv": ["yourfriend", "https://3.141.lv/"],
-    "he": ["ugh"],
+    "he": [
+        ["ugh"],
+        ["kriterin", "https://twitter.com/kriterin"]
+    ],
     "ne": ["DimeDead", "https://dimedead.neocities.org/"],
     "nl": ["Puka1611"],
     "ja": [

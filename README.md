@@ -132,7 +132,7 @@ Greek - [VasilisTheChu](https://pikachu.systems/)
 Romanian - [Skyrina](https://skyrina.dev/), [AlexSem](https://twitter.com/AlexSem5399)  
 Tagalog - [Eurasian](https://twitter.com/NotPROxV)  
 Latvian - [yourfriend](https://3.141.lv/)  
-Hebrew - "ugh", qqqq  
+Hebrew - "ugh", qqqq, [kriterin](https://twitter.com/kriterin)  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
 Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234)  
