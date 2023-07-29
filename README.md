@@ -125,14 +125,14 @@ These will work when reply/quote/new tweet modal is focused.
 English - [dimden](https://dimden.dev/)  
 Russian - [dimden](https://dimden.dev/)  
 Ukrainian - [dimden](https://dimden.dev/)  
-French - [Aurore C.](https://asuure.com/), [zdimension](https://twitter.com/zdimension_)  
+French - [Aurore C.](https://asuure.com/), [zdimension](https://twitter.com/zdimension_), [Pikatchoum](https://twitter.com/applitom45)  
 Portuguese (Brazil) - [dzshn](https://dzshn.xyz/), [kigidere](https://twitter.com/kigidere), [umgustavo](https://github.com/umgustavo)  
-Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitter.com/gaelcoral), [hue](https://twitter.com/huey1116), Beelzenef  
+Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitter.com/gaelcoral), [hue](https://twitter.com/huey1116), Beelzenef, [elderreka](https://twitter.com/elderreka)  
 Greek - [VasilisTheChu](https://pikachu.systems/)  
 Romanian - [Skyrina](https://skyrina.dev/), [AlexSem](https://twitter.com/AlexSem5399)  
 Tagalog - [Eurasian](https://twitter.com/NotPROxV)  
 Latvian - [yourfriend](https://3.141.lv/)  
-Hebrew - "ugh", qqqq  
+Hebrew - "ugh", qqqq, [kriterin](https://twitter.com/kriterin)  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
 Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234)  
@@ -141,7 +141,7 @@ Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren]
 Italian - [krek](https://twitter.com/CactusInc420)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
 Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)  
-Polish - lele  
+Polish - lele, [nomi](https://twitter.com/youmaynomi)
 Vietnamese - [btmxh](https://github.com/btmxh)  
 Chinese - [am1006](https://github.com/am1006)  
 Czech - Menal  

@@ -210,7 +210,7 @@ for(let localeName of locales) {
     try {
         locale = JSON.parse(fs.readFileSync(path.join(__dirname, '_locales', localeName, 'messages.json')));
     } catch(e) {
-        console.error(`(Critical) Error parsing _locales/${localeName}/messages.json`, e);
+        console.error(`❌ (Critical) Error parsing _locales/${localeName}/messages.json`, e);
         errors = true;
         continue;
     }
@@ -221,38 +221,38 @@ for(let localeName of locales) {
         if(diff !== 0) {
             if(diff < 10) {
                 let missing = englishLocaleArray.filter(key => !array.includes(key));
-                console.log(`Missing ${diff} keys in _locales/${localeName}/messages.json (${languageCodes.find(l => l.code === localeName)?.name}): ${missing.join(', ')}`);
+                console.log(`❌ Missing ${diff} keys in _locales/${localeName}/messages.json (${languageCodes.find(l => l.code === localeName)?.name}): ${missing.join(', ')}`);
             } else {
-                console.log(`Missing ${diff} keys in _locales/${localeName}/messages.json (${languageCodes.find(l => l.code === localeName)?.name})`);
+                console.log(`❌ Missing ${diff} keys in _locales/${localeName}/messages.json (${languageCodes.find(l => l.code === localeName)?.name})`);
             }
         } else {
-            console.log(`All keys present in _locales/${localeName}/messages.json (${languageCodes.find(l => l.code === localeName)?.name})`);
+            console.log(`✅ All keys present in _locales/${localeName}/messages.json (${languageCodes.find(l => l.code === localeName)?.name})`);
         }
     }
     
     let keys = Object.keys(locale);
     for(let key of keys) {
         if(!englishLocale[key]) {
-            console.error(`Key "${key}" is not present in English for _locales/${localeName}/messages.json`);
+            console.error(`❌ Key "${key}" is not present in English for _locales/${localeName}/messages.json`);
             errors = true;
         }
         if(!validKey.test(key)) {
-            console.error(`Invalid key "${key}" in _locales/${localeName}/messages.json`);
+            console.error(`❌ Invalid key "${key}" in _locales/${localeName}/messages.json`);
             errors = true;
         }
         if(key.length > 80) {
-            console.error(`Key "${key}" is too long in _locales/${localeName}/messages.json`);
+            console.error(`❌ Key "${key}" is too long in _locales/${localeName}/messages.json`);
             errors = true;
         }
     }
 
     if(!locale.ext_description) {
-        console.error(`Missing "ext_description" in _locales/${localeName}/messages.json`);
+        console.error(`❌ Missing "ext_description" in _locales/${localeName}/messages.json`);
         errors = true;
     }
 
     if(locale.ext_description.length > 132) {
-        console.error(`"ext_description" is too long in _locales/${localeName}/messages.json`);
+        console.error(`❌ "ext_description" is too long in _locales/${localeName}/messages.json`);
         errors = true;
     }
 
@@ -262,30 +262,30 @@ for(let localeName of locales) {
         
         for(let key of keys) {
             if(!validFieldKeys.includes(key)) {
-                console.error(`Invalid key "${key}" on "${fieldName}" in _locales/${localeName}/messages.json`);
+                console.error(`❌ Invalid key "${key}" on "${fieldName}" in _locales/${localeName}/messages.json`);
                 errors = true;
             }
         }
 
         if(typeof field.message !== 'string') {
-            console.error(`Missing "message" on "${fieldName}" in _locales/${localeName}/messages.json`);
+            console.error(`❌ Missing "message" on "${fieldName}" in _locales/${localeName}/messages.json`);
             errors = true;
         }
 
         let placeholders = field.message.match(placeholdersRegex);
         if(placeholders) {
             if(!field.placeholders) {
-                console.error(`Missing "placeholders" on "${fieldName}" in _locales/${localeName}/messages.json`);
+                console.error(`❌ Missing "placeholders" on "${fieldName}" in _locales/${localeName}/messages.json`);
                 errors = true;
             } else {
                 placeholders = placeholders.map(placeholder => placeholder.slice(1, -1).toLowerCase());
                 for(let placeholder of placeholders) {
                     if(!field.placeholders[placeholder]) {
-                        console.error(`Missing placeholder "${placeholder}" on "${fieldName}" in _locales/${localeName}/messages.json`);
+                        console.error(`❌ Missing placeholder "${placeholder}" on "${fieldName}" in _locales/${localeName}/messages.json`);
                         errors = true;
                     }
                     if(!field.placeholders[placeholder].content) {
-                        console.error(`Missing placeholder content "${placeholder}" on "${fieldName}" in _locales/${localeName}/messages.json`);
+                        console.error(`❌ Missing placeholder content "${placeholder}" on "${fieldName}" in _locales/${localeName}/messages.json`);
                         errors = true;
                     }
                 }
@@ -297,5 +297,5 @@ for(let localeName of locales) {
 if(errors) {
     process.exit(1);
 } else {
-    console.log('\nAll locale files are valid.');
+    console.log('\n✅ All locale files are valid.');
 }

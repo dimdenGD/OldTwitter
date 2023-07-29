@@ -386,7 +386,7 @@
     "recent_unfollow_update": { "message": "Unfollows were updated less than 15 minutes ago." },
     "deleted_accounts": { "message": "Seems like everyone in this list deleted their account." },
     "open_tweet_newtwitter": { "message": "Open tweet in new Twitter" },
-    "black_mode_link": { "message": "Black mode link" },
+    "black_mode_link": { "message": "Black mode link", "note": "You can name this OLED mode too" },
     "custom_mode_link": { "message": "Custom mode link" },
     "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "Do you want to tweet \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
@@ -496,7 +496,7 @@
     "error_setting_css": { "message": "Error setting CSS" },
     "load": { "message": "Load" },
     "disable_profile_customizations": { "message": "Disable profile customizations" },
-    "replying_to_and":  { "message": " and ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
-    "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
+    "replying_to_and":  { "message": " and ", "description":"For some languages that use address terms", "example": "Replying to @A-> and <-@B, @C" },
+    "replying_to_comma":  { "message": ", ", "description":"For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
     "twitter": {"message": "Twitter"}
 }

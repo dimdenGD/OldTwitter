@@ -112,7 +112,8 @@ const TRANSLATORS = {
     "uk": ["dimden", "https://dimden.dev/"],
     "fr": [
         ["Aurore C.", "https://asuure.com/"],
-        ["zdimension", "https://twitter.com/zdimension_"]
+        ["zdimension", "https://twitter.com/zdimension_"],
+        ["Pikatchoum", "https://twitter.com/applitom45"]
     ],
     "pt_BR": [
         ["dzshn", "https://dzshn.xyz/"],
@@ -122,7 +123,8 @@ const TRANSLATORS = {
     "es": [
         ["Ruchi", "https://twitter.com/anbulansia"],
         ["gaelcoral", "https://twitter.com/gaelcoral"],
-        ["hue", "https://twitter.com/huey1116"]
+        ["hue", "https://twitter.com/huey1116"],
+        ["elderreka", "https://twitter.com/elderreka"]
     ],
     "el": ["VasilisTheChu", "https://pikachu.systems/"],
     "ro": [
@@ -131,7 +133,10 @@ const TRANSLATORS = {
     ],
     "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
     "lv": ["yourfriend", "https://3.141.lv/"],
-    "he": ["ugh"],
+    "he": [
+        ["ugh"],
+        ["kriterin", "https://twitter.com/kriterin"]
+    ],
     "ne": ["DimeDead", "https://dimedead.neocities.org/"],
     "nl": ["Puka1611"],
     "ja": [
@@ -149,7 +154,10 @@ const TRANSLATORS = {
         ["Nyankodasu", "https://github.com/Nyankodasu"],
         ["han_eirin", "https://twitter.com/han_eirin"]
     ],
-    "pl": ["lele"],
+    "pl": [
+        ["lele"],
+        ["nomi", "https://twitter.com/nomisigns"]
+    ],
     "vi": ["btmxh", "https://github.com/btmxh"],
     "zh_CN": ["am1006", "https://github.com/am1006"],
     "cs": ["Menal"]
