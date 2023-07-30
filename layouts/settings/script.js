@@ -612,7 +612,7 @@ setTimeout(async () => {
     LOC_DATA = Object.keys(LOC_DATA);
     LOC_EN_DATA = Object.keys(LOC_EN_DATA);
     let diff = LOC_EN_DATA.length - LOC_DATA.length;
-    if(diff > 0) {
+    if(diff > 5) {
         document.getElementById('language-warning').hidden = false;
     } else {
         document.getElementById('language-warning').hidden = true;

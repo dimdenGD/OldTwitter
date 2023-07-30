@@ -150,3 +150,4 @@ Polish - lele, [nomi](https://twitter.com/youmaynomi)
 Vietnamese - [btmxh](https://github.com/btmxh)  
 Chinese - [am1006](https://github.com/am1006)  
 Czech - Menal  
+German - [basti564](https://twitter.com/basti564)  
