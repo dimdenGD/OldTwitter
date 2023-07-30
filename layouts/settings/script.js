@@ -600,7 +600,6 @@ setTimeout(async () => {
                 <div><b>${LOC.chrono_no_retweets.message}</b> - ${LOC.chrono_no_retweets_help.message}</div>
                 <div><b>${LOC.chrono_retweets.message}</b> - ${LOC.chrono_retweets_help.message}</div>
                 <div><b>${LOC.chrono_social.message}</b> - ${LOC.chrono_social_help.message}</div>
-                <div><b>${LOC.algo.message}</b> - ${LOC.algo_help.message}</div>
                 <div><b>${LOC.algov2.message}</b> - ${LOC.algov2_help.message}</div>
             </div>
         `)

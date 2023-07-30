@@ -141,8 +141,7 @@ async function updateTimeline() {
     }
     let fn;
     switch(vars.timelineType) {
-        case 'algo': fn = API.timeline.getAlgorithmical; break;
-        case 'algov2': fn = API.timeline.getAlgorithmicalV2; break;
+        case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
         case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
         case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
         case 'chrono-social': fn = API.timeline.getMixed; break;
@@ -431,8 +430,7 @@ setTimeout(async () => {
             let tl;
             try {
                 switch(vars.timelineType) {
-                    case 'algo': tl = await API.timeline.getAlgorithmical(algoCursor, 50); break;
-                    case 'algov2': tl = await API.timeline.getAlgorithmicalV2(algoCursor, 50); break;
+                    case 'algo': tl = await API.timeline.getAlgorithmicalV2(algoCursor, 50); break;
                     default: tl = await API.timeline.getChronologicalV2(algoCursor); break;
                 }
                 algoCursor = tl.cursor;

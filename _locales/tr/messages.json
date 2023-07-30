@@ -782,7 +782,7 @@
 		"description": "Setting Text"
 	},
 	"use_old_style_reply": { "message": "Eski stil yanıtları kullan" },
-	"algov2": { "message": "Algoritmik V2 (\"Senin için\")" },
+	"algov2": { "message": "Algoritmik (\"Senin için\")" },
 	"chrono_help": {
 		"message": "Klasik ters kronoloji (\"Takip edilenler\"), en son tweetleri ve retweetleri başka hiçbir şey eklemeden en üstte gösterir."
 	},
@@ -799,7 +799,7 @@
 		"message": "Eski algoritmik zaman akışı, Twitter'ın beğeneceğini düşündüğü tweetleri gösterir. Sürüm 1, bu zaman akışının eski sürümüdür, herhangi bir ratelimit yok gibi görünmektedir (veya çok büyüktür), ancak tweet'in zaman akışına neden eklendiğine dair bilgi yoktur."
 	},
 	"algov2_help": {
-		"message": "Twitter'ın şuan kullandığı algoritma (\"Senin için\"), biraz ratelimit var ama tweetin neden zaman akışına eklendiğini gösteriyor."
+		"message": "Algoritmik zaman akışı, Twitter'ın beğeneceğini düşündüğü tweetleri gösterir."
 	},
 	"import_settings": { "message": "İçe aktarma ayarları" },
 	"export_settings": { "message": "Dışa aktarma ayarları" },

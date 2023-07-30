@@ -441,6 +441,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             timelineType: type
         }, () => {});
     }
+    if(vars.timelineType === 'algov2') {
+        vars.timelineType = 'algo';
+        chrome.storage.sync.set({
+            timelineType: 'algo'
+        }, () => {});
+    }
     if(typeof(vars.showTopicTweets) !== 'boolean') {
         vars.showTopicTweets = true;
         chrome.storage.sync.set({
