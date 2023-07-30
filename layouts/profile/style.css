@@ -1616,7 +1616,7 @@ a:hover,
         display: grid;
     }
     #left-cell {
-        margin-bottom: -225px !important;
+        margin-bottom: -275px !important;
     }
     #timeline {
         margin: 0;
@@ -1626,7 +1626,7 @@ a:hover,
         position: initial;
     }
     #left-cell {
-        margin-top: 95px;
+        margin-top: 150px;
         margin-bottom: -190px;
         width: 100%;
         margin-left: 0;
