@@ -395,7 +395,7 @@ function renderUserData() {
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
-    twemoji.parse(document.getElementById('user-name'));
+    if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
     document.getElementById('loading-box').hidden = true;
 
     if(document.getElementById('user-stats').clientWidth > 300) {

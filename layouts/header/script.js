@@ -113,12 +113,15 @@ let userDataFunction = async user => {
     userAvatar.src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace('_normal.', '_bigger.');
     document.getElementById('navbar-user-menu-profile').href = `/${user.screen_name}`;
     document.getElementById('navbar-user-menu-lists').href = `/${user.screen_name}/lists`;
-    document.getElementById('navbar-user-menu-username').innerText = user.name;
+    let menuUserName = document.getElementById('navbar-user-menu-username');
+    menuUserName.innerText = user.name;
     document.getElementById('pin-profile').hidden = !vars.pinProfileOnNavbar;
     document.getElementById('pin-bookmarks').hidden = !vars.pinBookmarksOnNavbar;
     document.getElementById('pin-lists').hidden = !vars.pinListsOnNavbar;
     document.getElementById('pin-profile').href = `/${user.screen_name}`;
     document.getElementById('pin-lists').href = `/${user.screen_name}/lists`;
+
+    if(vars.enableTwemoji) twemoji.parse(menuUserName);
 
     let root = document.querySelector(":root");
 
