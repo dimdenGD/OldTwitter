@@ -2181,28 +2181,30 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
         // community notes
         if(t.birdwatch && !vars.hideCommunityNotes) {
-            let div = document.createElement('div');
-            div.classList.add('tweet-birdwatch', 'box');
-            let text = Array.from(escapeHTML(t.birdwatch.subtitle.text));
-            for(let e = t.birdwatch.subtitle.entities.length - 1; e >= 0; e--) {
-                let entity = t.birdwatch.subtitle.entities[e];
-                if(!entity.ref) continue;
-                text = arrayInsert(text, entity.toIndex, '</a>');
-                text = arrayInsert(text, entity.fromIndex, `<a href="${entity.ref.url}" target="_blank">`);
+            if(t.birdwatch.subtitle) {
+                let div = document.createElement('div');
+                div.classList.add('tweet-birdwatch', 'box');
+                let text = Array.from(escapeHTML(t.birdwatch.subtitle.text));
+                for(let e = t.birdwatch.subtitle.entities.length - 1; e >= 0; e--) {
+                    let entity = t.birdwatch.subtitle.entities[e];
+                    if(!entity.ref) continue;
+                    text = arrayInsert(text, entity.toIndex, '</a>');
+                    text = arrayInsert(text, entity.fromIndex, `<a href="${entity.ref.url}" target="_blank">`);
+                }
+                text = text.join('');
+                
+                div.innerHTML = /*html*/`
+                    <div class="tweet-birdwatch-header">
+                        <span class="tweet-birdwatch-title">${escapeHTML(t.birdwatch.title)}</span>
+                    </div>
+                    <div class="tweet-birdwatch-body">
+                        <span class="tweet-birdwatch-subtitle">${text}</span>
+                    </div>
+                `;
+    
+                if(tweetFooter) tweetFooter.before(div);
+                else tweetInteract.before(div);
             }
-            text = text.join('');
-            
-            div.innerHTML = /*html*/`
-                <div class="tweet-birdwatch-header">
-                    <span class="tweet-birdwatch-title">${escapeHTML(t.birdwatch.title)}</span>
-                </div>
-                <div class="tweet-birdwatch-body">
-                    <span class="tweet-birdwatch-subtitle">${text}</span>
-                </div>
-            `;
-
-            if(tweetFooter) tweetFooter.before(div);
-            else tweetInteract.before(div);
         }
 
         // rtl languages

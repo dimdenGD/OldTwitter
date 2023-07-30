@@ -996,6 +996,7 @@ a:hover,
 }
 .profile-additional-birth-me {
     background-color: currentColor;
+    text-shadow: none !important;
 }
 .profile-additional-birth-me:hover {
     background-color: var(--darker-background-color);
