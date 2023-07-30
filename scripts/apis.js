@@ -1013,6 +1013,12 @@ const API = {
                                     tweet.quoted_status.user = data.globalObjects.users[tweet.quoted_status.user_id_str];
                                 }
                             }
+                            if(tweet.retweeted_status_id_str) {
+                                tweet.retweeted_status = data.globalObjects.tweets[tweet.retweeted_status_id_str];
+                                if(tweet.retweeted_status) {
+                                    tweet.retweeted_status.user = data.globalObjects.users[tweet.retweeted_status.user_id_str];
+                                }
+                            }
                             tl.push({data: tweet, type: 'tweet'});
                         } else if(e.entryId.startsWith('main-tweet-')) {
                             let id = e.content.timelineModule.items[0].item.content.tweet.id;
@@ -1022,6 +1028,12 @@ const API = {
                                 tweet.quoted_status = data.globalObjects.tweets[tweet.quoted_status_id_str];
                                 if(tweet.quoted_status) {
                                     tweet.quoted_status.user = data.globalObjects.users[tweet.quoted_status.user_id_str];
+                                }
+                            }
+                            if(tweet.retweeted_status_id_str) {
+                                tweet.retweeted_status = data.globalObjects.tweets[tweet.retweeted_status_id_str];
+                                if(tweet.retweeted_status) {
+                                    tweet.retweeted_status.user = data.globalObjects.users[tweet.retweeted_status.user_id_str];
                                 }
                             }
                             tl.push({data: tweet, type: 'tweet'});
