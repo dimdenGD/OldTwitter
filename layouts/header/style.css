@@ -1996,6 +1996,7 @@ emoji-picker {
     }
     #timeline {
         width: 100%;
+        overflow-x: hidden;
     }
     #new-tweet-text {
         width: calc(100% - 88px);
@@ -2023,7 +2024,18 @@ emoji-picker {
         border-radius: 0;
         border-left: none;
         border-right: none;
-        margin-bottom: 0;
+        margin-bottom: 8px;
+        margin-top: 8px;
+        padding: 5px;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        -ms-appearance: none !important;
+        -o-appearance: none !important;
+        appearance: none !important;
+        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNSIgaGVpZ2h0PSIyNSIgZmlsbD0ibm9uZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2U9IiNiYmIiPjxwYXRoIGQ9Ik02IDlsNiA2IDYtNiIvPjwvc3ZnPg==) !important;
+        background-repeat: no-repeat !important;
+        background-position-x: 100% !important;
+        background-position-y: 50% !important;
     }
     .tweet-interact-views {
         display: none !important;
@@ -2059,6 +2071,11 @@ emoji-picker {
     }
     .modal .tweet-header-name-main {
         max-width: calc(100% - 192px);
+    }
+    .modal .tweet-reply-text, .modal .tweet-quote-text {
+        width: 100%;
+        min-width: unset;
+        margin-bottom: 21px;
     }
     .name-top, .home-top {
         width: calc(100% - 42px);
@@ -2102,5 +2119,14 @@ emoji-picker {
         position: absolute;
         right: 0;
         bottom: 65px;
+    }
+    .tweet-interact {
+        display: flex;
+    }
+    .tweet-self-thread-button.tweet-thread-right {
+        display: none;
+    }
+    .tweet-interact span {
+        margin-right: 14px;
     }
 }
