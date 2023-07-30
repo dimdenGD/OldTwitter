@@ -159,6 +159,7 @@ setTimeout(async () => {
     let linkColorReset = document.getElementById('link-color-reset');
     let enableAd = document.getElementById('enable-promotion');
     let disableProfileCustomizations = document.getElementById('disable-profile-customizations');
+    let moveNavbarToBottom = document.getElementById('move-navbar-to-bottom');
 
     let root = document.querySelector(":root");
     {
@@ -240,6 +241,13 @@ setTimeout(async () => {
             pinListsOnNavbar: pinListsOnNavbar.checked
         }, () => {
             document.getElementById('pin-lists').hidden = !pinListsOnNavbar.checked;
+        });
+    });
+    moveNavbarToBottom.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            moveNavbarToBottom: moveNavbarToBottom.checked
+        }, () => {
+            document.body.classList.toggle('move-navbar-to-bottom', moveNavbarToBottom.checked);
         });
     });
     heartsNotStars.addEventListener('change', () => {
@@ -568,6 +576,7 @@ setTimeout(async () => {
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
     useOldStyleReply.checked = !!vars.useOldStyleReply;
     enableAd.checked = !!vars.enableAd;
+    moveNavbarToBottom.checked = !!vars.moveNavbarToBottom;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

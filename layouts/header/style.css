@@ -2006,10 +2006,10 @@ emoji-picker {
         border-radius: 0;
     }
     .tweet-media-element {
-        max-width: calc(100% - 100px);
+        max-width: calc(100% - 50px);
     }
     .modal .tweet-media-element {
-        max-width: calc(100% - 200px);
+        max-width: calc(100% - 170px);
     }
     #right-cell {
         display: none;
@@ -2052,6 +2052,12 @@ emoji-picker {
     .modal .new-tweet-mentions {
         left: 11px;
     }
+    .modal .tweet-header-info-main {
+        width: 100px;
+    }
+    .modal .tweet-header-name-main {
+        max-width: calc(100% - 192px);
+    }
     .name-top, .home-top {
         width: calc(100% - 42px);
     }
@@ -2081,5 +2087,18 @@ emoji-picker {
     }
     #pin-profile {
         display: none;
+    }
+    body.move-navbar-to-bottom #navbar-line {
+        display: none;
+    }
+    body.move-navbar-to-bottom #navbar {
+        top: unset;
+        bottom: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    body.move-navbar-to-bottom #navbar-user-menu {
+        position: absolute;
+        right: 0;
+        bottom: 65px;
     }
 }

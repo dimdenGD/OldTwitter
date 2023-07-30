@@ -385,6 +385,9 @@ select, input, textarea {
     color: var(--link-color);
     cursor: pointer;
 }
+#move-navbar-to-bottom-div {
+    display: none;
+}
 
 @media screen and (max-width: 1046px) {
     #left-cell, #right-cell {
@@ -393,6 +396,7 @@ select, input, textarea {
     #center-cell {
         margin: 0 auto;
         width: 100%;
+        margin-top: 50px;
     }
     #settings {
         width: calc(100% - 40px);
@@ -400,5 +404,8 @@ select, input, textarea {
     }
     #custom-css {
         width: 100% !important
+    }
+    #move-navbar-to-bottom-div {
+        display: block;
     }
 }

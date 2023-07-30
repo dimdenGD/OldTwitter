@@ -304,12 +304,16 @@ async function switchDarkMode(enabled) {
     await updateCustomCSSVariables();
 
     if(document.body) {
-        document.body.className = enabled && vars.pitchBlack ? 'body-pitch-black body-dark' : enabled ? 'body-dark' : 'body-light';
+        document.body.classList.toggle('body-dark', enabled);
+        document.body.classList.toggle('body-pitch-black', enabled && vars.pitchBlack);        
+        document.body.classList.toggle('body-light', !enabled);
     } else {
         let int = setInterval(() => {
             if(document.body) {
                 clearInterval(int);
-                document.body.className = enabled && vars.pitchBlack ? 'body-pitch-black body-dark' : enabled ? 'body-dark' : 'body-light';
+                document.body.classList.toggle('body-dark', enabled);
+                document.body.classList.toggle('body-pitch-black', enabled && vars.pitchBlack);        
+                document.body.classList.toggle('body-light', !enabled);
             }
         }, 100);
     }
@@ -581,6 +585,9 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     };
 
     document.documentElement.innerHTML = html;
+    if(vars.moveNavbarToBottom) {
+        document.body.classList.add('move-navbar-to-bottom');
+    }
 
     observer.disconnect();
 

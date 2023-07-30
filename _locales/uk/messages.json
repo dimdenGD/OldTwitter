@@ -489,5 +489,6 @@
     "disable_profile_customizations": { "message": "Виключити кастомізацію профілю" },
     "replying_to_and":  { "message": " та ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
-    "twitter": {"message": "Твіттер"}
+    "twitter": {"message": "Твіттер"},
+    "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"}
 }
