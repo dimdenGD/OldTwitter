@@ -846,6 +846,7 @@ let userDataFunction = async user => {
             let message = newMediaInput.value;
             if (message.length === 0 && mediaToUpload.length === 0) return;
             newSend.disabled = true;
+            newInput.value = "";
             let uploadedMedia = [];
             for (let i in mediaToUpload) {
                 let media = mediaToUpload[i];
@@ -876,7 +877,6 @@ let userDataFunction = async user => {
             try {
                 let sentMessage = await API.inbox.send(obj);
                 newSend.disabled = false;
-                newInput.value = "";
                 mediaToUpload = [];
                 newMedia.innerHTML = "";
                 sentMessage.conversation_id = lastConvo.conversation_id;
