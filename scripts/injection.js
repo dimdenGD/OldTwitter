@@ -57,6 +57,9 @@ let realPath = location.pathname.split('?')[0].split('#')[0];
 if (realPath.endsWith("/") && realPath !== "/") {
     location.replace(realPath.slice(0, -1));
 }
+if(location.hash.startsWith('#!/')) {
+    location.replace(location.hash.slice(2));
+}
 
 if (realPath.startsWith("/i/user/")) {
     let id = realPath.split("/i/user/")[1];
