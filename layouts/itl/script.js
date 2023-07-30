@@ -92,9 +92,21 @@ async function renderLikesTimeline() {
     for(let i in tl) {
         let d = tl[i];
         if(d.type === 'tweet') {
-            await appendTweet(d.data, tweetContainer, {
-                bigFont: d.data.full_text.length < 75
-            });
+            if (d.data.retweeted_status) {
+                await appendTweet(d.data.retweeted_status, tweetContainer, {
+                    bigFont: false,
+                    top: {
+                        text: `<a href="https://twitter.com/${d.data.user.screen_name}">${escapeHTML(d.data.user.name)}</a> ${LOC.retweeted.message}`,
+                        icon: "\uf006",
+                        color: "#77b255",
+                        class: 'retweet-label'
+                    }
+                });
+            } else {
+                await appendTweet(d.data, tweetContainer, {
+                    bigFont: d.data.full_text.length < 75
+                });
+            }
         } else if(d.type === 'user') {
             await appendUser(d.data, userContainer);
         }
