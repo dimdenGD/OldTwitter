@@ -74,7 +74,6 @@ Extension won't be pixel perfect copy of old Twitter. I just took general look a
 
 #### I installed extension and my timeline is feels kinda unusual
 You had algorithmical timeline enabled. By default OldTwitter turns on reverse chronological timeline. If you really want algo timeline back go to [extension settings](https://twitter.com/old/settings).  
-*Fun fact: algo timeline is around 5 times slower than reverse chronological one*  
 
 #### How do I visit original Twitter client after installing extension?
 You need to add `?newtwitter=true` to end of your current URL. There's also a "Open this page in new Twitter" button on all pages on bottom right.  
