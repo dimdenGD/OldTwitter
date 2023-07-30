@@ -63,7 +63,6 @@ setTimeout(() => {
                         <ul>
                             <li><b><a href="https://github.com/dimdenGD/OldTwitter#can-you-use-this-extension-on-phones" target="_blank">Added support for mobile phones!</a></b></li>
                             <li>Added user-friendly color customization for all colors in the extension.</li>
-                            <li>Added support for new algorithmical timeline (V2) and timeline descriptions.</li>
                             <li>Fixed Reverse chronological timeline with friends likes not working properly.</li>
                             <li>Added support for Community Notes.</li>
                             <li>Added option to see bookmark count.</li>
