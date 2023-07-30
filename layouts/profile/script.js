@@ -406,6 +406,9 @@ function updateUserData() {
                             document.head.appendChild(customCSS);
                         }
                         customCSS.innerHTML = data.css;
+                    } else {
+                        profileCSS = false;
+                        updateCustomCSS();
                     }
                     if(data.css_vars_dark && isDarkModeEnabled) {
                         let vars = parseVariables(data.css_vars_dark);
@@ -421,11 +424,12 @@ function updateUserData() {
                         await switchDarkMode(isDarkModeEnabled);
                     }
                 } else {
+                    profileCSS = false;
                     if(profileCustomCSSData[pageUser.id_str]) {
                         delete profileCustomCSSData[pageUser.id_str];
                         chrome.storage.local.set({ profileCustomCSS: profileCustomCSSData });
-                        updateCustomCSS();
                     }
+                    updateCustomCSS();
                     await switchDarkMode(isDarkModeEnabled);
                 }
                 if(pageUserData.id_str === user.id_str) {
