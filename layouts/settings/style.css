@@ -392,6 +392,9 @@ select, input, textarea {
     #about {
         display: none;
     }
+    #left-cell {
+        width: 260px;/* there's strange bug*/
+    }
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {
