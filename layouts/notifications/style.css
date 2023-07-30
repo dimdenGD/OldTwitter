@@ -873,6 +873,7 @@ a:hover,
     text-align: center;
 }
 
+/* Mobile UI */
 @media screen and (max-width: 590px) {
     #notification-switches {
         width: calc(100% - 22px);

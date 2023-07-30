@@ -443,7 +443,9 @@ function updateUserData() {
                                     <h2 class="nice-header">${LOC.profile_custom_css.message}</h2><br>
                                     <span>${LOC.pccss_congrats.message}</span>
                                     <br><br>
-                                    <button class="nice-button">${LOC.yay.message}</button>
+                                    <div style="display:inline-block;float: right;">
+                                        <button class="nice-button">${LOC.yay.message}</button>
+                                    </div>
                                 </div>
                             `, 'css-congrats-modal', () => {
                                 chrome.storage.sync.set({ acknowledgedCssAccess: true });
