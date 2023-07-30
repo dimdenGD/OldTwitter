@@ -433,7 +433,7 @@
     "uncensor_graphic_violence_automatically": { "message": "Автоматично розкривати цензуру з медіа з насильством" },
     "uncensor_adult_content_automatically": { "message": "Автоматично розкривати цензуру з медіа з контентом для дорослих" },
     "uncensor_sensitive_content_automatically": { "message": "Автоматично розкривати цензуру з медіа з делікатним контентом" },
-    "replying_to_user": { "message": "Відповідь $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "replying_to_user": { "message": "У відповідь $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "content_warnings": { "message": "Зміст" },
     "transparency": { "message": "Прозорість" },
     "reset": { "message": "Скинути" },
@@ -490,5 +490,6 @@
     "replying_to_and":  { "message": " та ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Твіттер"},
-    "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"}
+    "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"},
+    "styled_profile": {"message": "Стилізований профіль"}
 }

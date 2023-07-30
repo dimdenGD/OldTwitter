@@ -922,6 +922,9 @@ a:hover,
 .profile-additional-joined:before {
     content: "\f177"
 }
+.profile-additional-styled:before {
+    content: "\f112";
+}
 .profile-additional-birth:before {
     content: "\f033"
 }

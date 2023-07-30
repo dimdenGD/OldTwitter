@@ -1980,7 +1980,9 @@ emoji-picker {
     content: "\00b7";
     margin-right: 5px;
 }
-
+.tweet-player {
+    width: 100%;
+}
 @media screen and (max-width: 780px) {
     #search-input {
         width: 124px;
@@ -2139,6 +2141,6 @@ emoji-picker {
 }
 @media screen and (max-width: 370px) {
     #pin-profile {
-        display: none;
+        display: none; 
     }
 }

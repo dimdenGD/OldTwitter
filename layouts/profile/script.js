@@ -406,6 +406,12 @@ function updateUserData() {
                             document.head.appendChild(customCSS);
                         }
                         customCSS.innerHTML = data.css;
+                        if(pageUser.id_str !== user.id_str) {
+                            let additionalThing = document.createElement("span");
+                            additionalThing.innerHTML = `<a href="https://dimden.dev/ot/custom-css/" target="_blank">${LOC.styled_profile.message}</a>`;
+                            additionalThing.className = "profile-additional-thing profile-additional-styled";
+                            document.getElementById("profile-additional").appendChild(additionalThing);
+                        }
                     } else {
                         profileCSS = false;
                         updateCustomCSS();
