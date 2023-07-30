@@ -1114,9 +1114,9 @@ setTimeout(async () => {
         delete newTweetText.dataset.blurSince;
     });
 
-    document.getElementById('timeline-type-left').value = vars.timelineType;
+    document.getElementById('timeline-type-right').value = vars.timelineType;
     document.getElementById('timeline-type-center').value = vars.timelineType;
-    document.getElementById('timeline-type-left').addEventListener('change', e => {
+    document.getElementById('timeline-type-right').addEventListener('change', e => {
         chrome.storage.sync.set({
             timelineType: e.target.value
         }, () => {
@@ -1139,7 +1139,7 @@ setTimeout(async () => {
             timelineType: e.target.value
         }, () => {
             vars.timelineType = e.target.value;
-            document.getElementById('timeline-type-left').value = vars.timelineType;
+            document.getElementById('timeline-type-right').value = vars.timelineType;
             timeline.data = [];
             timeline.dataToUpdate = [];
             timeline.toBeUpdated = [];
