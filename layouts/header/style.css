@@ -1163,7 +1163,8 @@ span.tweet-body-text {
     vertical-align: text-top !important;
 }
 
-#user-name .emoji {
+#user-name .emoji,
+#profile-name .emoji {
     width: 26px !important;
     height: 26px !important;
 }

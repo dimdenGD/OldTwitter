@@ -829,7 +829,7 @@ async function renderProfile() {
         document.getElementById('profile-bio').append(document.createElement('br'), translateBtn);
     }
     
-    if(vars.enableTwemoji) twemoji.parse(document.getElementById('profile-info'));
+    if(vars.enableTwemoji) twemoji.parse(document.getElementById('profile-name'));
 
     document.getElementById('profile-stat-tweets-value').innerText = Number(pageUser.statuses_count).toLocaleString().replace(/\s/g, ',');
     document.getElementById('profile-stat-following-value').innerText = Number(pageUser.friends_count).toLocaleString().replace(/\s/g, ',');
