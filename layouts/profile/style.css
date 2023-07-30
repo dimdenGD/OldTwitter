@@ -494,40 +494,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-
-    #profile-nav-right-cell,
-    #profile-nav-center-cell {
-        width: fit-content
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
-@media screen and (max-width: 1052px) {
-    #trends {
-        display: none;
-    }
-}
-@media screen and (max-width: 994px) {
-    #about {
-        display: none;
-    }
-}
-.wtf-user {
-    display: inline-block;
-    margin-bottom: 5px
-}
-
 .wtf-user-name {
     display: inline-block;
     overflow: hidden;
@@ -1532,7 +1498,42 @@ a:hover,
     margin-top: 5px;
 }
 
-@media screen and (max-width: 950px) {
+.wtf-user {
+    display: inline-block;
+    margin-bottom: 5px
+}
+/* A little smaller UI */
+@media screen and (max-width: 1195px) {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+
+    #profile-nav-right-cell,
+    #profile-nav-center-cell {
+        width: fit-content
+    }
+}
+/* no right-cell */
+@media screen and (max-width: 1167px) {
+    #wtf {
+        display: none;
+    }
+    #trends {
+        display: none;
+    }
+    #about {
+        display: none;
+    }
+    #left-cell {
+        width: 260px;
+    }
+}
+/* no left-cell */
+@media screen and (max-width: 880px) {
     .content {
         display: grid;
     }
@@ -1643,14 +1644,6 @@ a:hover,
         bottom: 257px;
         width: fit-content
     }
-    #profile-info-text {
-        margin-left: 0;
-        padding: 20px;
-        padding-top: 0;
-        padding-bottom: 0;
-        pointer-events: auto;
-        margin-top: 0;
-    }
     #tweet-nav {
         width: unset !important;
         border-top-left-radius: 0;
@@ -1658,57 +1651,29 @@ a:hover,
     }
     #profile-banner {
         height: 300px;
-    }
-    #profile-nav {
-        position: initial;
-    }
-    #tweet-nav-more-menu {
-        float: right;
-        right: 0;
-        margin-left: unset;
-    }
-    #profile-nav-buttons {
-        position: absolute;
-        right: 26px;
-        margin-top: 12px;
-        pointer-events: auto;
-        z-index: 1;
-    }
+    } 
     #profile-avatar {
         width: 100px;
         height: 100px;
     }
-    #profile-stat-media-link, #profile-stat-tweets-link, #profile-style {
+    #profile-style {
         display: none;
     }
-    #profile-nav-center-cell {
-        position: absolute;
-        right: 14px;
-        top: 303px;
+}
+@media screen and (max-width: 550px) {
+    #profile-stat-media-link {
+        display: none;
     }
-    #following-list, #followers-list,  #followers_you_follow-list, #lists-list {
-        width: calc(100% - 22px);
-    }
-    #following-more, #followers-more, #followers_you_follow-more, #lists-more {
-        width: calc(100% - 100px);
-    }
-    #no-tweets {
-        width: calc(100% - 40px);
-        padding: 20px;
-    }
-    #profile-settings-div {
-        margin-left: 0;
-        position: absolute;
-        right: 0;
+}
+@media screen and (max-width: 470px) {
+    .profile-stat {
+        padding-left: 7px;
+        padding-right: 7px;
     }
 }
 
-
 @media screen and (max-width: 400px) {
-    .profile-stat {
-        padding-left: 3px;
-        padding-right: 3px;
-    }
+
     #profile-avatar {
         width: 64px;
         height: 64px;
@@ -1718,5 +1683,15 @@ a:hover,
     }
     #profile-info-text {
         padding-top: 30px;
+    }
+    .profile-stat {
+        padding-left: 3px;
+        padding-right: 3px;
+    }
+}
+@media screen and (max-width: 350px) {
+
+    #profile-stat-tweets-link {
+        display: none;
     }
 }

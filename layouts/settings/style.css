@@ -128,7 +128,7 @@ body {
     margin-right: 10px;
 }
 #settings {
-    width: 560px;
+    width: 568px;
     margin-bottom: 10px;
     min-height: 700px;
     padding: 10px;
@@ -188,29 +188,6 @@ body {
     text-decoration: underline;
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-    #user-banner {
-        width: 258px;
-    }
-    .user-stat-div>h2 {
-        font-size: 12px;
-    }
-    .user-stat-div>h1 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px;
@@ -388,8 +365,49 @@ select, input, textarea {
 #move-navbar-to-bottom-div {
     display: none;
 }
-
-@media screen and (max-width: 1046px) {
+/* A little smaller UI */
+@media screen and (max-width: 1195px) {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+    #user-banner {
+        width: 258px;
+    }
+    .user-stat-div>h2 {
+        font-size: 12px;
+    }
+    .user-stat-div>h1 {
+        font-size: 18px;
+    }
+}
+/* no right-cell */
+@media screen and (max-width: 1167px) {
+    #wtf {
+        display: none;
+    }
+    #about {
+        display: none;
+    }
+    #left-cell {
+        width: 260px;/* there's strange bug*/
+    }
+}
+/* no left-cell */
+@media screen and (max-width: 880px) {
+    #left-cell, #right-cell {
+        display: none;
+    }
+    #center-cell {
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+/* Mobile UI */
+@media screen and (max-width: 590px) {
     #left-cell, #right-cell {
         display: none;
     }

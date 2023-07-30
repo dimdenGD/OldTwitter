@@ -134,7 +134,7 @@ body {
 
 #notifications-div {
     margin-bottom: 10px;
-    width: 560px
+    width: 590px
 }
 
 .tweet,
@@ -745,7 +745,8 @@ a:hover,
 
 #notification-switches {
     padding: 10px;
-    width: 300px
+    width: 280px
+    /*with padding: width:300px */
 }
 
 #notification-switches>hr {
@@ -801,7 +802,15 @@ a:hover,
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+#content {
+    min-height: 800px;
+}
+#notifs-loading {
+    text-align: center;
+}
 
+
+/* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #wtf {
         width: fit-content;
@@ -810,29 +819,28 @@ a:hover,
     .wtf-user-name, .wtf-user-handle {
         font-size: 12px;
     }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
-@media screen and (max-width: 1075px) {
     .notification-switch {
         padding-right: 100px;
     }
     #notification-switches {
-        width: 200px;
+        width: 238px;
+        /*with padding: 258px*/
     }
     #trends {
-        width: 200px;
+        width: 238px;
     }
 }
-@media screen and (max-width: 966px) {
+/* no right-cell */
+@media screen and (max-width: 1167px) {
+    #wtf {
+        display: none;
+    }
     #about {
         display: none;
     }
 }
-@media screen and (max-width: 850px) {
+/* no left-cell */
+@media screen and (max-width: 880px) {
     #trends {
         display: none;
     }
@@ -846,7 +854,7 @@ a:hover,
         display: unset;
     }
     #notification-switches {
-        width: 540px;
+        width: 570px;
         margin: 0 auto;
         position: relative;
         top: 57px;
@@ -866,13 +874,6 @@ a:hover,
         padding-right: 400px;
     }
 }
-#content {
-    min-height: 800px;
-}
-#notifs-loading {
-    text-align: center;
-}
-
 /* Mobile UI */
 @media screen and (max-width: 590px) {
     #notification-switches {

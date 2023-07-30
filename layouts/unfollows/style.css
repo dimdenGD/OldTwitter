@@ -139,7 +139,7 @@ body {
 #timeline {
     padding: 10px;
     margin-bottom: 10px;
-    width: 540px;
+    width: 570px;
 }
 
 .tweet {
@@ -516,44 +516,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-    #user-banner {
-        width: 258px;
-    }
-    .user-stat-div>h2 {
-        font-size: 12px;
-    }
-    .user-stat-div>h1 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
-@media screen and (max-width: 1002px) {
-    #about {
-        display: none;
-    }
-}
-@media screen and (max-width: 880px) {
-    #left-cell {
-        display: none;
-    }
-    #center-cell {
-        margin-right: auto;
-        margin-left: auto;
-    }
-}
-
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px
@@ -711,7 +673,7 @@ a:hover,
     border-bottom-left-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     padding: 10px;
-    width: 568px
+    width: 590px
 }
 
 #new-tweet-container {
@@ -1006,10 +968,11 @@ a:hover,
 }
 
 #unfollows {
-    width: 562px;
+    width: 590px;
     margin-bottom: 10px;
     min-height: 700px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 #unfollows hr {
     border-top: var(--border);
@@ -1029,12 +992,56 @@ a:hover,
 #update-btn {
     float: right;
 }
-
-@media screen and (max-width: 616px) {
+/* A little smaller UI */
+@media screen and (max-width: 1195px) {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+    #user-banner {
+        width: 258px;
+    }
+    .user-stat-div>h2 {
+        font-size: 12px;
+    }
+    .user-stat-div>h1 {
+        font-size: 18px;
+    }
+}
+/* no right-cell */
+@media screen and (max-width: 1167px) {
+    #wtf {
+        display: none;
+    }
+    #about {
+        display: none;
+    }
+    #left-cell {
+        width: 260px;/* there's strange bug*/
+    }
+}
+/* no left-cell */
+@media screen and (max-width: 880px) {
+    #left-cell {
+        display: none;
+    }
+    #center-cell {
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
+/* Mobile UI */
+@media screen and (max-width: 590px) {
     #unfollows {
         width: 100%;
     }
     #center-cell {
-        width: calc(100% - 90px);
+        width: calc(100%);
+    }
+    #timeline {
+        width: calc(100%-20px);
     }
 }

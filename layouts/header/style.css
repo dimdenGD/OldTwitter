@@ -1808,11 +1808,6 @@ emoji-picker {
     margin-left: 5px;
 }
 
-@media screen and (max-width: 780px) {
-    #search-input {
-        width: 124px;
-    }
-}
 
 .tweet-media-video-overlay {
     position: absolute;
@@ -1985,7 +1980,14 @@ emoji-picker {
     content: "\00b7";
     margin-right: 5px;
 }
-
+.tweet-player {
+    width: 100%;
+}
+@media screen and (max-width: 780px) {
+    #search-input {
+        width: 124px;
+    }
+}
 /* Mobile UI */
 @media screen and (max-width: 590px) {
     .nav-text, #navbar-tweet-button-text {
@@ -2104,9 +2106,6 @@ emoji-picker {
     #search-input:focus {
         width: 120px;
     }
-    #pin-profile {
-        display: none;
-    }
     body.move-navbar-to-bottom #navbar-line {
         display: none;
     }
@@ -2129,7 +2128,19 @@ emoji-picker {
     .tweet-interact span {
         margin-right: 14px;
     }
-    .tweet-player {
-        width: 100%;
+}
+@media screen and (max-width: 460px) {
+    #pin-lists {
+        display: none;
+    }
+}
+@media screen and (max-width: 425px) {
+    #pin-bookmarks {
+        display: none;
+    }
+}
+@media screen and (max-width: 370px) {
+    #pin-profile {
+        display: none; 
     }
 }
