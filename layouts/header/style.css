@@ -2129,4 +2129,7 @@ emoji-picker {
     .tweet-interact span {
         margin-right: 14px;
     }
+    .tweet-player {
+        width: 100%;
+    }
 }
