@@ -731,30 +731,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-    #user-banner {
-        width: 258px;
-    }
-    .user-stat-div>h2 {
-        font-size: 12px;
-    }
-    .user-stat-div>h1 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
-
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px
@@ -898,6 +874,30 @@ a:hover,
     border-bottom: 1px solid var(--border) !important;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+@media screen and (max-width: 1195px) {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+    #user-banner {
+        width: 258px;
+    }
+    .user-stat-div>h2 {
+        font-size: 12px;
+    }
+    .user-stat-div>h1 {
+        font-size: 18px;
+    }
+}
+@media screen and (max-width: 1073px) {
+    #wtf {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 1004px) {

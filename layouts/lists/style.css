@@ -536,13 +536,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-
-    #wtf {
-        display: none
-    }
-}
-
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px
@@ -819,12 +812,76 @@ a:hover,
 #loading-box-error {
     color: var(--almost-black)
 }
-@media screen and (max-width: 1060px) {
+/* A little smaller UI */
+@media screen and (max-width: 1195px) {
+    #list-info, #list-banner {
+        width: 258px;
+    }
+    #list-name, #list-stats {
+        width: calc(258px - 82px);
+    }
+    .list-switches {
+        width: calc(258px - 22px) !important;
+    }
+    .list-stat-div>h2 {
+        font-size: 12px;
+    }
+    .list-stat-div>h1 {
+        font-size: 18px;
+    }
+}
+/* no right-cell */
+@media screen and (max-width: 1167px) {
     #right-cell {
         display: none;
     }
 }
-@media screen and (max-width: 920px) {
+/* no left-cell */
+@media screen and (max-width: 880px) {
+    #content {
+        display: grid;
+    }
+    #left-cell {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #center-cell {
+        width: 590px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .list-top {
+        width: calc(590px - 22px);
+        margin: 0 auto;
+    }
+    #list-div {
+        width: calc(590px);
+        margin: 0 auto;
+    }
+    .tweet-body {
+        min-width: unset;
+    }
+    #left-cell {
+        position: relative;
+    }
+    #list-info, #list-banner {
+        width: 590px;
+    }
+    #list-name, #list-stats {
+        width: calc(590px - 82px);
+    }
+    .list-switches {
+        width: calc(590px - 22px) !important;
+    }
+    .list-stat-div>h2 {
+        font-size: 14px;
+    }
+    .list-stat-div>h1 {
+        font-size: 20px;
+    }
+}
+/* Mobile UI */
+@media screen and (max-width: 590px) {
     #content {
         display: block;
     }
@@ -832,7 +889,7 @@ a:hover,
         width: 100%;
     }
     #list-div, .list-top {
-        width: calc(100% - 22px);
+        width: calc(100%);
         margin: 0 auto;
     }
     .tweet-body {
@@ -849,5 +906,9 @@ a:hover,
     }
     .list-switches {
         width: calc(100% - 22px) !important;
+    }
+    .tweet:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 }

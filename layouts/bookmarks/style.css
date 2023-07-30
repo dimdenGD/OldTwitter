@@ -129,10 +129,11 @@ body {
     margin-right: 10px;
 }
 #bookmarks {
-    width: 560px;
+    width: 590px;
     margin-bottom: 10px;
     min-height: 700px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 #bookmarks hr {
     border-top: var(--border);
@@ -211,29 +212,6 @@ body {
     text-decoration: underline;
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-    #user-banner {
-        width: 258px;
-    }
-    .user-stat-div>h2 {
-        font-size: 12px;
-    }
-    .user-stat-div>h1 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px;
@@ -735,30 +713,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-    #user-banner {
-        width: 258px;
-    }
-    .user-stat-div>h2 {
-        font-size: 12px;
-    }
-    .user-stat-div>h1 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
-
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px
@@ -908,19 +862,59 @@ a:hover,
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-
-@media screen and (max-width: 1046px) {
+/* A little smaller UI */
+@media screen and (max-width: 1195px) {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+    #user-banner {
+        width: 258px;
+    }
+    .user-stat-div>h2 {
+        font-size: 12px;
+    }
+    .user-stat-div>h1 {
+        font-size: 18px;
+    }
+}
+/* no right-cell */
+@media screen and (max-width: 1167px) {
+    #wtf {
+        display: none;
+    }
+    #about {
+        display: none;
+    }
+}
+/* no left-cell */
+@media screen and (max-width: 880px) {
     #left-cell, #right-cell {
         display: none;
     }
     #center-cell {
         margin: 0 auto;
-        width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        width: 590px;
         margin-top: 70px !important;
     }
     #bookmarks {
-        width: 100%;
+        width: 590px;
         padding: 0;
+    }
+}
+/* Mobile UI */
+@media screen and (max-width: 590px) {
+    #center-cell {
+        margin: 0 auto;
+        width: 100%;
+    }
+    #bookmarks {
+        width: 100%;
     }
     #bookmarks > h1 {
         margin-left: 10px;

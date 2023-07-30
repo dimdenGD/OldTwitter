@@ -210,29 +210,6 @@ body {
     text-decoration: underline;
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-    #user-banner {
-        width: 258px;
-    }
-    .user-stat-div>h2 {
-        font-size: 12px;
-    }
-    .user-stat-div>h1 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px;
@@ -734,30 +711,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-    #user-banner {
-        width: 258px;
-    }
-    .user-stat-div>h2 {
-        font-size: 12px;
-    }
-    .user-stat-div>h1 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
-
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px
@@ -895,14 +848,39 @@ a:hover,
 .user-item-btn {
     bottom: 47px !important;
 }
-
-@media screen and (max-width: 1214px) {
+/* A little smaller UI */
+@media screen and (max-width: 1195px) {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+    #user-banner {
+        width: 258px;
+    }
+    .user-stat-div>h2 {
+        font-size: 12px;
+    }
+    .user-stat-div>h1 {
+        font-size: 18px;
+    }
+}
+/* no right-cell */
+@media screen and (max-width: 1167px) {
     #right-cell {
         display: none;
     }
 }
 
-@media screen and (max-width: 890px) {
+@media screen and (max-width: 1073px) {
+    #wtf {
+        display: none;
+    }
+}
+/* no left-cell */
+@media screen and (max-width: 880px) {
     #left-cell {
         display: none;
     }

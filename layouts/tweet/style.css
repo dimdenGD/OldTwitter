@@ -547,44 +547,6 @@ a:hover,
     content: "\f204"
 }
 
-@media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
-    .wtf-user-name, .wtf-user-handle {
-        font-size: 12px;
-    }
-    #user-banner {
-        width: 258px;
-    }
-    .user-stat-div>h2 {
-        font-size: 12px;
-    }
-    .user-stat-div>h1 {
-        font-size: 18px;
-    }
-}
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
-    }
-}
-@media screen and (max-width: 982px) {
-    #about {
-        display: none;
-    }
-}
-@media screen and (max-width: 872px) {
-    #left-cell {
-        display: none;
-    }
-    #center-cell {
-        margin: 0 auto;
-        margin-top: 55px;
-    }
-}
-
 .wtf-user {
     display: inline-block;
     margin-bottom: 5px
@@ -1097,6 +1059,44 @@ a:hover,
     border-top: 1px solid var(--border);
 }
 
+/* A little smaller UI */
+@media screen and (max-width: 1195px) {
+    #wtf {
+        width: fit-content;
+        max-width: 250px;
+    }
+    .wtf-user-name, .wtf-user-handle {
+        font-size: 12px;
+    }
+    #user-banner {
+        width: 258px;
+    }
+    .user-stat-div>h2 {
+        font-size: 12px;
+    }
+    .user-stat-div>h1 {
+        font-size: 18px;
+    }
+}
+/* no right-cell */
+@media screen and (max-width: 1167px) {
+    #wtf {
+        display: none;
+    }
+    #about {
+        display: none;
+    }
+}
+/* no left-cell */
+@media screen and (max-width: 880px) {
+    #left-cell {
+        display: none;
+    }
+    #center-cell {
+        margin-right: auto;
+        margin-left: auto;
+    }
+}
 /* Mobile UI */
 @media screen and (max-width: 590px) {
     #new-tweet {

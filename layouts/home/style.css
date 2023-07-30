@@ -971,6 +971,12 @@ a:hover,
     #about {
         display: none;
     }
+    #user-banner {
+        width: 258px;
+    }
+    #left-cell {
+        width: 260px;/* there's strange bug*/
+    }
     #timeline-type-right {
         display: none;
     }
@@ -978,7 +984,7 @@ a:hover,
         display: inline-block;
     }
 }
-/* no right-cell */
+/* no left-cell */
 @media screen and (max-width: 880px) {
     #left-cell {
         display: none;

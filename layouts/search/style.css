@@ -156,7 +156,7 @@ body {
     cursor: pointer;
     min-height: 50px;
     padding: 10px;
-    width: 600px;
+    width: 568px;
     margin-bottom: 0 !important;
 }
 
@@ -772,6 +772,7 @@ a:hover,
     margin-top: 0
 }
 #save-search-right {
+    width: 250px;
     margin-top: 0
 }
 
@@ -793,9 +794,25 @@ a:hover,
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
-
+/* A little smaller UI */
 @media screen and (max-width: 1195px) {
+    .search-switch {
+        font-size: 15px;
+        padding-right: 50px;
+    }
+    .search-switches {
+        width: 238px;
+    }
+    #trends {
+        width: 238px;
+    }
+}
+/* no right-cell */
+@media screen and (max-width: 1167px) {
     #wtf {
+        display: none
+    }
+    #about {
         display: none
     }
     #save-search-left {
@@ -805,25 +822,6 @@ a:hover,
         display: none;
     }
 }
-@media screen and (max-width: 1060px) {
-    .search-switch {
-        font-size: 15px;
-        padding-right: 50px;
-    }
-    .search-switches {
-        width: 200px;
-    }
-    #trends {
-        width: 200px;
-    }
-}
-@media screen and (max-width: 1012px) {
-    #about {
-        display: none
-    }
-}
-
-
 @media screen and (max-width: 882px) {
     #trends {
         display: none;
