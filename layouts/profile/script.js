@@ -451,7 +451,7 @@ function updateUserData() {
                     if(data.css_eligible || (data.css_eligible_auto && user.followers_count >= 5000)) {
                         document.getElementById('custom-css-eligible').hidden = false;
                         document.getElementById('custom-css-not-eligible').hidden = true;
-                        if(!vars.acknowledgedCssAccess) {
+                        if(!vars.acknowledgedCssAccess && !data.css && !data.css_vars_dark && !data.css_vars_light) {
                             let modal = createModal(`
                                 <div style="color:var(--almost-black);max-width:500px">
                                     <h2 class="nice-header">${LOC.profile_custom_css.message}</h2><br>
