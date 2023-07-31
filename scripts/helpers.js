@@ -1470,7 +1470,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
         if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments")) {
             tweet.addEventListener('click', async e => {
-                if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact')) {
+                if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                     document.getElementById('loading-box').hidden = false;
                     savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
@@ -1499,7 +1499,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweet.addEventListener('mousedown', e => {
                 if(e.button === 1) {
                     e.preventDefault();
-                    if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact')) {
+                    if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                         openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     }
                 }
@@ -1507,7 +1507,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         } else {
             if(!options.mainTweet) {
                 tweet.addEventListener('click', e => {
-                    if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact')) {
+                    if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                         let tweetData = t;
                         if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
                         tweet.classList.add('tweet-preload');
