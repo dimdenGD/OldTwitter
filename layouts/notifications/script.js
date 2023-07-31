@@ -375,6 +375,8 @@ setTimeout(async () => {
         updateNotifications();
     });
 
+    
+
     // Update dates every minute
     setInterval(() => {
         let tweetDates = Array.from(document.getElementsByClassName('tweet-time'));
