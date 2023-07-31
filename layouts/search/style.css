@@ -615,6 +615,7 @@ a:hover,
     margin-top: 5px;
     padding: 10px 3px;
     padding-right: 0;
+    word-break: keep-all;
 }
 
 .about-links a,
@@ -822,6 +823,7 @@ a:hover,
         display: none;
     }
 }
+/* no left-cell */
 @media screen and (max-width: 882px) {
     #trends {
         display: none;

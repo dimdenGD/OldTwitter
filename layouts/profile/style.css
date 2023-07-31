@@ -582,6 +582,7 @@ a:hover,
     font-size: 12px;
     color: var(--light-gray);
     padding-right: 0;
+    word-break: keep-all;
 }
 
 .about-links a,
@@ -886,6 +887,7 @@ a:hover,
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
     border-top: 1px solid var(--border);
+    word-break: keep-all;
     display: flex
 }
 

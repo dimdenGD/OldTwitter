@@ -155,7 +155,7 @@ const TRANSLATORS = {
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
     "ko": [
         ["Nyankodasu", "https://github.com/Nyankodasu"],
-        ["han_eirin", "https://twitter.com/han_eirin"]
+        ["한예림", "https://twitter.com/han_eirin"]
     ],
     "pl": [
         ["lele"],
