@@ -197,7 +197,7 @@
     "color_sync": { "message": "Sincronizacion de color de enlace" },
     "by_pressing_sync": { "message": "Al presionar el botón 'Sincronizar', el color del enlace de tu perfil se enviará a la base de datos de colores y será mostrado a otros usuarios con la extensión." },
     "color_years_ago": { "message": "Si ya tenías un color anteriormente (hace años, cuando aún existía), sobreescribirá ese color." },
-    "sync": { "message": "Sincronizar", "note": "Try to keep this short" }
+    "sync": { "message": "Sincronizar", "note": "Try to keep this short" },
     "profile_link_color": { "message": "Color de enlace del perfil" },
     "light_mode_link": { "message": "Enlace en modo claro" },
     "dark_mode_link": { "message": "Enlace en modo oscuro" },
