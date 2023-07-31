@@ -500,5 +500,6 @@
     "replying_to_comma":  { "message": " 님, ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "트위터"},
     "move_navbar_to_bottom": {"message": "상단바를 아래로 이동"},
-    "styled_profile": {"message": "꾸며진 프로필"}
+    "styled_profile": {"message": "꾸며진 프로필"},
+    "open_notifs_as_modal": {"message": "알림을 모달 창으로 엽니다"}
 }
