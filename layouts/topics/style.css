@@ -824,7 +824,7 @@ a:hover,
     margin-left: 5px
 }
 
-#.about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
