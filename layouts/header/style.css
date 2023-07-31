@@ -2002,6 +2002,9 @@ emoji-picker {
     #new-tweet-text {
         width: calc(100% - 88px);
     }
+    #center-cell {
+        width: 100%;
+    }
     #new-tweet-container {
         width: 100%;
         border-radius: 0;
