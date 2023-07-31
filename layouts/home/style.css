@@ -547,7 +547,7 @@ a:hover,
     border: 2px var(--dark-background-color) solid !important
 }
 
-#about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
@@ -945,6 +945,9 @@ a:hover,
     text-align: center;
 }
 
+#about-left {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #wtf {
@@ -969,8 +972,11 @@ a:hover,
     #wtf {
         display: none;
     }
-    #about {
+    #about-right {
         display: none;
+    }
+    #about-left {
+        display: block;
     }
     #user-banner {
         width: 258px;

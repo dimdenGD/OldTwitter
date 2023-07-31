@@ -249,7 +249,7 @@ body {
     vertical-align: text-bottom;
 }
 
-#about {
+.about {
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
@@ -805,7 +805,7 @@ a:hover,
     margin-left: 5px
 }
 
-#about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
@@ -863,6 +863,9 @@ a:hover,
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+#about-left {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #wtf {
@@ -887,8 +890,14 @@ a:hover,
     #wtf {
         display: none;
     }
-    #about {
+    #about-right {
         display: none;
+    }
+    #about-left {
+        display: block;
+    }
+    #left-cell {
+        width: 260px;/* there's strange bug*/
     }
 }
 /* no left-cell */

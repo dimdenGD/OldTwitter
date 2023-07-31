@@ -248,7 +248,7 @@ body {
     vertical-align: text-bottom;
 }
 
-#about {
+.about {
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
@@ -804,7 +804,7 @@ a:hover,
     margin-left: 5px
 }
 
-#about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
@@ -850,6 +850,9 @@ a:hover,
 .user-item-btn {
     bottom: 47px !important;
 }
+#about-left {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #wtf {
@@ -873,6 +876,9 @@ a:hover,
 @media screen and (max-width: 1167px) {
     #right-cell {
         display: none;
+    }
+    #about-left {
+        display: block;
     }
 }
 

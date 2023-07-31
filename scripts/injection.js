@@ -611,6 +611,10 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     if (version) {
         version.innerText = chrome.runtime.getManifest().version;
     }
+    let version2 = document.getElementById('oldtwitter-version-left');
+    if (version2) {
+        version2.innerText = chrome.runtime.getManifest().version;
+    }
 
     let style = document.createElement("style");
     style.innerHTML = css;

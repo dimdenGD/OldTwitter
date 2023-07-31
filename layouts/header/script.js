@@ -1912,47 +1912,64 @@ setInterval(() => {
     }, 1750);
     setTimeout(() => {
         let version = document.getElementById('oldtwitter-version');
+        let version2 = document.getElementById('oldtwitter-version-left');
         if(version) {
             fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`).then(res => res.json()).then(res => {
                 version.innerText += ` (${LOC.last_version.message}: ${res.version})`;
+                version2.innerText += ` (${LOC.last_version.message}: ${res.version})`;
                 if(TRANSLATORS[LANGUAGE]) {
                     let translated_by = document.createElement('span');
+                    let translated_by_2 = document.createElement('span');
                     if(typeof TRANSLATORS[LANGUAGE][0] === 'object') {
                         let as = [];
                         for(let translator of TRANSLATORS[LANGUAGE]) {
                             as.push(`<a${translator[1] ? ` target="_blank" href="${translator[1]}"` : ''}>${translator[0]}</a>`);
                         }
                         translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
+                        translated_by_2.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
                     } else {
                         translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
+                        translated_by_2.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
                     }
-                    document.getElementById('about').children[0].append(translated_by);
+                    document.getElementById('about-right').children[0].append(translated_by);
+                    document.getElementById('about-left').children[0].append(translated_by_2);
                 } else {
-                    document.getElementById('about').children[0].append(document.createElement('br'));
+                    document.getElementById('about-right').children[0].append(document.createElement('br'));
+                    document.getElementById('about-right').children[0].append(document.createElement('br'));
                 }
             });
         }
-        let about = document.getElementById('about');
-        if(about && !location.pathname.startsWith('/old/') && !location.pathname.startsWith('/i/timeline')) {
+        let about_left = document.getElementById('about-left');
+        let about_right = document.getElementById('about-right');
+        if(about_left && about_right && !location.pathname.startsWith('/old/') && !location.pathname.startsWith('/i/timeline')) {
             let a = document.createElement('a');
+            let a2 = document.createElement('a');
             let hrefUrl = new URL(location.href);
             let searchParams = new URLSearchParams(hrefUrl.search);
             searchParams.set('newtwitter', 'true');
             hrefUrl.search = searchParams.toString();
             a.href = hrefUrl.toString();
+            a2.href = hrefUrl.toString();
             setInterval(() => {
                 let hrefUrl = new URL(location.href);
                 let searchParams = new URLSearchParams(hrefUrl.search);
                 searchParams.set('newtwitter', 'true');
                 hrefUrl.search = searchParams.toString();
                 a.href = hrefUrl.toString();
+                a2.href = hrefUrl.toString();
             }, 500);
             a.innerText = `[${LOC.open_newtwitter.message}]`;
             a.addEventListener('click', e => {
                 e.stopImmediatePropagation();
             });
+            a2.innerText = `[${LOC.open_newtwitter.message}]`;
+            a2.addEventListener('click', e => {
+                e.stopImmediatePropagation();
+            });
             a.style.color = 'var(--light-gray)';
-            about.appendChild(a);
+            a2.style.color = 'var(--light-gray)';
+            about_left.appendChild(a);
+            about_right.appendChild(a2);
         }
         if(Math.random() > 0.99) {
             document.getElementById('donate-button').innerHTML += ' <span style="vertical-align: middle;">🥺</span>';

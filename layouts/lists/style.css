@@ -614,7 +614,7 @@ a:hover,
     border: 2px var(--dark-background-color) solid !important
 }
 
-#about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
@@ -813,6 +813,9 @@ a:hover,
 #loading-box-error {
     color: var(--almost-black)
 }
+#about-left {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #list-info, #list-banner {
@@ -836,6 +839,9 @@ a:hover,
     #right-cell {
         display: none;
     }
+    #about-left {
+        display: block;
+    }
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {
@@ -845,6 +851,9 @@ a:hover,
     #left-cell {
         margin-left: auto;
         margin-right: auto;
+    }
+    #about-left {
+        display: none;
     }
     #center-cell {
         width: 590px;

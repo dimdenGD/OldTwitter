@@ -444,7 +444,8 @@ body {
 }
 
 .trend {
-    font-size: 13px
+    font-size: 13px;
+    max-width: 280px
 }
 
 #wtf-refresh,
@@ -576,13 +577,17 @@ a:hover,
     margin-left: 5px
 }
 
-#about {
+.about {
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
     color: var(--light-gray);
     padding-right: 0;
     word-break: keep-all;
+}
+#about-right{
+    
+    max-width: 280px
 }
 
 .about-links a,
@@ -1504,6 +1509,10 @@ a:hover,
     display: inline-block;
     margin-bottom: 5px
 }
+#about-left {
+    margin-top: -255px;
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #wtf {
@@ -1518,6 +1527,10 @@ a:hover,
     #profile-nav-center-cell {
         width: fit-content
     }
+    .profile-media-preview {
+        width: 70px;
+        height: 70px;
+    }
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
@@ -1527,8 +1540,11 @@ a:hover,
     #trends {
         display: none;
     }
-    #about {
+    #about-right {
         display: none;
+    }
+    #about-left {
+        display: block;
     }
     #left-cell {
         width: 260px;
@@ -1565,6 +1581,7 @@ a:hover,
         pointer-events: auto;
         bottom: 257px;
         width: fit-content
+        
     }
     #profile-info-text {
         margin-left: 0;
@@ -1614,6 +1631,9 @@ a:hover,
         margin-left: 0;
         position: absolute;
         right: 0;
+    }
+    #about-left {
+        display: none;
     }
 }
 

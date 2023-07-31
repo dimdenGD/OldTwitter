@@ -224,7 +224,7 @@ body {
     margin-right: 7px;
     vertical-align: text-bottom;
 }
-#about {
+.about {
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
@@ -366,6 +366,9 @@ select, input, textarea {
 #move-navbar-to-bottom-div {
     display: none;
 }
+#about-left {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #wtf {
@@ -390,8 +393,11 @@ select, input, textarea {
     #wtf {
         display: none;
     }
-    #about {
+    #about-right {
         display: none;
+    }
+    #about-left {
+        display: block;
     }
     #left-cell {
         width: 260px;/* there's strange bug*/
