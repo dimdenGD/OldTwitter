@@ -160,6 +160,7 @@ setTimeout(async () => {
     let enableAd = document.getElementById('enable-promotion');
     let disableProfileCustomizations = document.getElementById('disable-profile-customizations');
     let moveNavbarToBottom = document.getElementById('move-navbar-to-bottom');
+    let openNotifsAsModal = document.getElementById('open-notifs-as-modal');
 
     let root = document.querySelector(":root");
     {
@@ -248,6 +249,13 @@ setTimeout(async () => {
             moveNavbarToBottom: moveNavbarToBottom.checked
         }, () => {
             document.body.classList.toggle('move-navbar-to-bottom', moveNavbarToBottom.checked);
+        });
+    });
+    openNotifsAsModal.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            openNotifsAsModal: openNotifsAsModal.checked
+        }, () => {
+            vars.openNotifsAsModal = openNotifsAsModal.checked;
         });
     });
     heartsNotStars.addEventListener('change', () => {
@@ -577,6 +585,7 @@ setTimeout(async () => {
     useOldStyleReply.checked = !!vars.useOldStyleReply;
     enableAd.checked = !!vars.enableAd;
     moveNavbarToBottom.checked = !!vars.moveNavbarToBottom;
+    openNotifsAsModal.checked = !!vars.openNotifsAsModal;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

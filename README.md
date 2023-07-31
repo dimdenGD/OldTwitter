@@ -150,4 +150,4 @@ Vietnamese - [btmxh](https://github.com/btmxh)
 Chinese - [am1006](https://github.com/am1006)  
 Czech - Menal  
 German - [basti564](https://twitter.com/basti564)  
-Catalan - elmees21  
+Catalan - [elmees21](https://twitter.com/elmees21)  

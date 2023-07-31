@@ -2355,6 +2355,16 @@ setInterval(() => {
         }
     }
 
+    document.getElementById('notifications').addEventListener('click', e => {
+        if(vars.openNotifsAsModal) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            createModal(`
+                <iframe src="/notifications?nonavbar=1" id="notifications-iframe"></iframe>
+            `, 'notifications-modal');
+        }
+    });
+
     switchDarkMode(vars.darkMode || (vars.timeMode && isDark()));
     updateCustomCSS();
     

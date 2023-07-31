@@ -8,12 +8,16 @@
                 {
                     "header": "content-security-policy",
                     "operation": "remove"
+                },
+                {
+                    "header": "x-frame-options",
+                    "operation": "remove"
                 }
             ]
         },
         "condition": {
             "urlFilter": "*://twitter.com/*",
-            "resourceTypes": ["main_frame", "sub_frame"]
+            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
     },
     {

@@ -375,7 +375,17 @@ setTimeout(async () => {
         updateNotifications();
     });
 
-    
+    let search = new URLSearchParams(location.search);
+    if(search.get('nonavbar') === '1') {
+        document.getElementById('navbar').hidden = true;
+        document.getElementById('navbar-line').hidden = true;
+        document.getElementById('notification-switches').style.top = '5px';
+        document.getElementById('notifications-div').style.marginTop = '16px';
+        
+        let root = document.querySelector(":root");
+        let bg = root.style.getPropertyValue('--background-color');
+        root.style.setProperty('--darker-background-color', bg);
+    }
 
     // Update dates every minute
     setInterval(() => {

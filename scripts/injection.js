@@ -165,7 +165,7 @@ const TRANSLATORS = {
     "zh_CN": ["am1006", "https://github.com/am1006"],
     "cs": ["Menal"],
     "de": ["basti564", "https://twitter.com/basti564"],
-    "ca": ["elmees21"]
+    "ca": ["elmees21", "https://twitter.com/elmees21"]
 };
 let LOC = {};
 let LOC_EN = {};
@@ -457,6 +457,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         vars.savePreferredQuality = false;
         chrome.storage.sync.set({
             savePreferredQuality: false
+        }, () => {});
+    }
+    if(typeof(vars.openNotifsAsModal) !== 'boolean') {
+        vars.openNotifsAsModal = window.innerWidth < 650;
+        chrome.storage.sync.set({
+            openNotifsAsModal: window.innerWidth < 650
         }, () => {});
     }
     if(typeof(vars.font) !== 'string') {
