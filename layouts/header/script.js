@@ -2342,9 +2342,18 @@ setInterval(() => {
         if(vars.openNotifsAsModal) {
             e.preventDefault();
             e.stopImmediatePropagation();
+            let timeout = setTimeout(() => {
+                notifElement.hidden = true;
+                icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
+                if(document.title.startsWith("(")) {
+                    document.title = document.title.split(') ').slice(1).join(') ');
+                };
+            }, 1500);
             createModal(`
                 <iframe src="/notifications?nonavbar=1" id="notifications-iframe"></iframe>
-            `, 'notifications-modal');
+            `, 'notifications-modal', () => {
+                clearTimeout(timeout);
+            });
         }
     });
 

@@ -1,4 +1,4 @@
-let xi = setInterval(() => {
+setInterval(() => {
     let xIcon = document.querySelector('a[href^="https://twitter.com/home"] > div > svg');
     if(xIcon) {
         let parent = xIcon.parentElement;
@@ -7,9 +7,15 @@ let xi = setInterval(() => {
         img.style.cssText = 'width: 2em;height: 2em;image-rendering: -webkit-optimize-contrast;filter: brightness(99);';
         parent.appendChild(img);
         xIcon.remove();
-        clearInterval(xi);
     };
-});
+
+    let title = document.querySelector('title');
+    if(title) {
+        if(title.innerText.endsWith(' / X')) {
+            title.innerText = title.innerText.replace(' / X', ' / Twitter');
+        }
+    }
+}, 200);
 
 function removeAndReplaceX(element) {
     if(element) {
