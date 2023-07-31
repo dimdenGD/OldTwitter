@@ -3,7 +3,7 @@
         "message": "תוסף חדש שמחזיר לטוויטר את המראה הישן"
     },
     "timeline": {
-        "message": "ציר זמן"
+        "message": "בית"
     },
     "loading": {
         "message": "טוען"
@@ -13,11 +13,11 @@
     },
     "following": {
         "description": "Try to keep this word equal or less than 9 characters",
-        "message": "נעקבים"
+        "message": "במעקב"
     },
     "following_btn": {
         "description": "Try to keep this word equal or less than 9 characters",
-        "message": "נעקבים"
+        "message": "במעקב"
     },
     "followers": {
         "description": "Try to keep this word equal or less than 9 characters",
@@ -34,7 +34,7 @@
     },
     "who_to_follow": {
         "description": "Max 19 characters, you can use word 'People' if no space",
-        "message": "עקבו אחרי "
+        "message": "למי לעקוב"
     },
     "refresh": {
         "message": "רענן"
@@ -198,7 +198,7 @@
         "message": "מחק רשימה"
     },
     "delete_list_sure": {
-        "message": "האם אתם בטוח/חה שברצונך למחוק רשימה זו?"
+        "message": "האם אתם בטוח/ה שברצונך למחוק רשימה זו?"
     },
     "unsubscribe": {
         "message": "הסר רישום"
@@ -842,7 +842,7 @@
         "message": " שגיאה בעת שליחת הציוץ"
     },
     "retweet_sure": {
-        "message": "האם את/ה בטוח/חה שברצונך לצייץ את זה מחדש?"
+        "message": "האם את/ה בטוח/ה שברצונך לצייץ את זה מחדש?"
     },
     "unretweet": {
         "message": "הסר ציוץ מחדש"
@@ -851,10 +851,10 @@
         "message": "צייץ מחדש "
     },
     "delete_sure": {
-        "message": "האם אתם בטוח/חה שברצונך למחוק ציוץ זה?"
+        "message": "האם אתם בטוח/ה שברצונך למחוק ציוץ זה?"
     },
     "long_vid": {
-        "message": "הסרטון ארוך מ10 שניות. האם אתם בטוח/חה שברצונך להמיר אותו, האיכות אלולה להיפגע "
+        "message": "הסרטון ארוך מ10 שניות. האם אתם בטוח/ה שברצונך להמיר אותו, האיכות אלולה להיפגע "
     },
     "feedback_thanks": {
         "message": "תודה על חוות הדעת!"

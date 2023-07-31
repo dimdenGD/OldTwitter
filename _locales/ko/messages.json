@@ -460,7 +460,7 @@
     "old_twitter_look": {"message": "옛날 트위터처럼 설정하기", "description":"Setting Text"},
     "content_you_see": {"message": "표시되는 콘텐츠", "description":"Setting Text"},
     "use_old_style_reply": {"message": "구답장 스타일을 사용합니다"},
-    "algov2": { "message": "나를 위한 추천 (추천 V2)" },
+    "algov2": { "message": "나를 위한 추천" },
     "chrono_help": { "message": "고전적인 최신순 타임라인 (\"팔로우 중\"), 다른 콘텐츠를 추가하지 않고 가장 최신의 트윗과 리트윗만을 표시합니다." },
     "chrono_no_retweets_help": { "message": "처음 것과 같지만 리트윗을 표시하지 않습니다." },
     "chrono_retweets_help": { "message": "처음 것과 같지만 리트윗을 표시합니다 않습니다." },

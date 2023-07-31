@@ -19,4 +19,6 @@ When you're finished you can send me your messages.json file to these places:
 - discord: https://discord.gg/k4u7ddk
 - github issues: https://github.com/dimdenGD/OldTwitter/issues
 
+You can also include your Twitter profile to get credited.
+
 Thank you!

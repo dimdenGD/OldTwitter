@@ -57,6 +57,9 @@ let realPath = location.pathname.split('?')[0].split('#')[0];
 if (realPath.endsWith("/") && realPath !== "/") {
     location.replace(realPath.slice(0, -1));
 }
+if(location.hash.startsWith('#!/')) {
+    location.replace(location.hash.slice(2));
+}
 
 if (realPath.startsWith("/i/user/")) {
     let id = realPath.split("/i/user/")[1];
@@ -106,7 +109,7 @@ if(
 ) {
     location.replace(location.href.replace('twitter.com', 'mobile.twitter.com'));
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "cs", "de"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "cs", "de", "ca"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -161,7 +164,8 @@ const TRANSLATORS = {
     "vi": ["btmxh", "https://github.com/btmxh"],
     "zh_CN": ["am1006", "https://github.com/am1006"],
     "cs": ["Menal"],
-    "de": ["basti564", "https://twitter.com/basti564"]
+    "de": ["basti564", "https://twitter.com/basti564"],
+    "ca": ["elmees21"]
 };
 let LOC = {};
 let LOC_EN = {};
@@ -435,6 +439,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         vars.timelineType = type;
         chrome.storage.sync.set({
             timelineType: type
+        }, () => {});
+    }
+    if(vars.timelineType === 'algov2') {
+        vars.timelineType = 'algo';
+        chrome.storage.sync.set({
+            timelineType: 'algo'
         }, () => {});
     }
     if(typeof(vars.showTopicTweets) !== 'boolean') {

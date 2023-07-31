@@ -398,7 +398,9 @@ function updateUserData() {
                         profileCustomCSSData[pageUser.id_str] = pccss;
                         chrome.storage.local.set({ profileCustomCSS: profileCustomCSSData });
                     }
+                    let styled = false;
                     if(data.css) {
+                        styled = true;
                         profileCSS = true;
                         if(!customCSS) {
                             customCSS = document.createElement('style');
@@ -406,28 +408,30 @@ function updateUserData() {
                             document.head.appendChild(customCSS);
                         }
                         customCSS.innerHTML = data.css;
-                        if(pageUser.id_str !== user.id_str) {
-                            let additionalThing = document.createElement("span");
-                            additionalThing.innerHTML = `<a href="https://dimden.dev/ot/custom-css/" target="_blank">${LOC.styled_profile.message}</a>`;
-                            additionalThing.className = "profile-additional-thing profile-additional-styled";
-                            document.getElementById("profile-additional").appendChild(additionalThing);
-                        }
                     } else {
                         profileCSS = false;
                         updateCustomCSS();
                     }
                     if(data.css_vars_dark && isDarkModeEnabled) {
+                        styled = true;
                         let vars = parseVariables(data.css_vars_dark);
                         for(let i in vars) {
                             r.style.setProperty(i, vars[i]);
                         }
                     } else if(data.css_vars_light && !isDarkModeEnabled) {
+                        styled = true;
                         let vars = parseVariables(data.css_vars_light);
                         for(let i in vars) {
                             r.style.setProperty(i, vars[i]);
                         }
                     } else {
                         await switchDarkMode(isDarkModeEnabled);
+                    }
+                    if(pageUser.id_str !== user.id_str && styled) {
+                        let additionalThing = document.createElement("span");
+                        additionalThing.innerHTML = `<a href="https://dimden.dev/ot/custom-css/" target="_blank">${LOC.styled_profile.message}</a>`;
+                        additionalThing.className = "profile-additional-thing profile-additional-styled";
+                        document.getElementById("profile-additional").appendChild(additionalThing);
                     }
                 } else {
                     profileCSS = false;
@@ -447,7 +451,7 @@ function updateUserData() {
                     if(data.css_eligible || (data.css_eligible_auto && user.followers_count >= 5000)) {
                         document.getElementById('custom-css-eligible').hidden = false;
                         document.getElementById('custom-css-not-eligible').hidden = true;
-                        if(!vars.acknowledgedCssAccess) {
+                        if(!vars.acknowledgedCssAccess && !data.css && !data.css_vars_dark && !data.css_vars_light) {
                             let modal = createModal(`
                                 <div style="color:var(--almost-black);max-width:500px">
                                     <h2 class="nice-header">${LOC.profile_custom_css.message}</h2><br>

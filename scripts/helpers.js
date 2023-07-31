@@ -1636,17 +1636,17 @@ async function appendTweet(t, timelineContainer, options = {}) {
             blockUserText = `${LOC.block_user.message} @${t.user.screen_name}`;
             unblockUserText = `${LOC.unblock_user.message} @${t.user.screen_name}`;
         }
-        if(t.in_reply_to_screen_name) {
+        if(t.in_reply_to_screen_name && t.display_text_range) {
             t.entities.user_mentions.forEach(user_mention => {
-                if(user_mention.indices[0]<t.display_text_range[0]){
+                if(user_mention.indices[0] < t.display_text_range[0]){
                     mentionedUserText += `<a href="https://twitter.com/${user_mention.screen_name}">@${user_mention.screen_name}</a> `
                 }
                 //else this is not reply but mention
             });
         }
-        if(t.quoted_status && t.quoted_status.in_reply_to_screen_name) {
+        if(t.quoted_status && t.quoted_status.in_reply_to_screen_name && t.display_text_range) {
             t.quoted_status.entities.user_mentions.forEach(user_mention => {
-                if(user_mention.indices[0]<t.display_text_range[0]){
+                if(user_mention.indices[0] < t.display_text_range[0]){
                     quoteMentionedUserText += `@${user_mention.screen_name} `
                 }
                 //else this is not reply but mention
