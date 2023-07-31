@@ -40,7 +40,13 @@
     "remove_poll": { "message": "Eliminați sondajul" },
     "open_newtwitter": { "message": "Deschideți această pagină în Twitter-ul nou" },
     "last_version": { "message": "last version" },
-    "thank_you": {"message": "Mulțumesc că ați intstalat OldTwitter!! Sper că o să vă placă. Verificați $AT1$Setările extensiei$AT2$!", "placeholders": { "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" }, "at2": { "content": "</a>" } } },
+    "thank_you": {
+        "message": "Mulțumesc că ați intstalat OldTwitter!! Sper că o să vă placă. Verificați $AT1$Setările extensiei$AT2$!", 
+        "placeholders": { 
+            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" }, 
+            "at2": { "content": "</a>" }     
+        } 
+    },
     "follow_mb": { "message": "Să mă urmărești, poate?" },
     "follow": { "message": "Urmărește" },
     "unfollow": { "message": "Dezurmărește" },
