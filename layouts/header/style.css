@@ -1998,6 +1998,7 @@ emoji-picker {
     }
     #timeline {
         width: 100%;
+        overflow-x: clip;
     }
     #new-tweet-text {
         width: calc(100% - 88px);

@@ -63,8 +63,8 @@ For stable version:
 **Installing this way on Firefox will remove it after closing browser.**
   
 ## FAQ
-#### Can you use this extension on phones?
-Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/).  
+#### Can you use this extension on Android?
+Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox Nightly to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/) ([follow these steps for Firefox](https://www.androidpolice.com/install-add-on-extension-mozilla-firefox-android/)).  
   
 #### Is this extension safe?
 The code is open source so you can check everything yourself. It never sends any of your personal info anywhere.  
