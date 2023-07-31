@@ -868,10 +868,6 @@ a:hover,
 }
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
     .wtf-user-name, .wtf-user-handle {
         font-size: 12px;
     }
