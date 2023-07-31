@@ -165,7 +165,7 @@ const TRANSLATORS = {
     "zh_CN": ["am1006", "https://github.com/am1006"],
     "cs": ["Menal"],
     "de": ["basti564", "https://twitter.com/basti564"],
-    "ca": ["elmees21"]
+    "ca": ["elmees21", "https://twitter.com/elmees21"]
 };
 let LOC = {};
 let LOC_EN = {};
