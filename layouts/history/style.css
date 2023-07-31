@@ -248,7 +248,7 @@ body {
     margin-right: 7px;
     vertical-align: text-bottom;
 }
-#about {
+.about {
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
@@ -804,7 +804,7 @@ a:hover,
     margin-left: 5px
 }
 
-#about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
