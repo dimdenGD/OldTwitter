@@ -273,6 +273,7 @@ body {
     padding: 10px 3px;
     font-size: 12px;
     color: var(--light-gray);
+    word-break: keep-all;
 }
 .about-links a, .about-links span {
     color: var(--light-gray);

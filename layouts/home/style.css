@@ -553,6 +553,7 @@ a:hover,
     margin-top: 5px;
     padding: 10px 3px;
     padding-right: 0;
+    word-break: keep-all;
 }
 
 .about-links a,
