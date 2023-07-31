@@ -824,7 +824,7 @@ a:hover,
     }
 }
 /* no left-cell */
-@media screen and (max-width: 882px) {
+@media screen and (max-width: 880px) {
     #trends {
         display: none;
     }
@@ -836,6 +836,31 @@ a:hover,
     }
     #left-cell {
         position: relative;
+        width: 590px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .search-switches {
+        width: 568px;
+    }
+    #center-cell {
+        width: 590px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+}
+/* Mobile UI */
+@media screen and (max-width: 590px) {
+    #left-cell {
+        width: 100%;
+        padding-bottom:8px/* weired bug fix*/
+    }
+    .search-switches {
+        width: 100% ;
+    }
+    #center-cell {
+        width: 100%;
     }
     .search-switches {
         width: calc(100% - 20px);
