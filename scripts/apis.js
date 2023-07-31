@@ -1017,13 +1017,13 @@ const API = {
                             if(tweets[i].retweeted_status) tweets[i].retweeted_status.user = data.globalObjects.users[tweets[i].retweeted_status.user_id_str];
                         }
                     }
-                    let cursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
-                    if(cursor) {
-                        cursor = cursor.content.operation.cursor.value;
+                    let newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    if(newCursor) {
+                        newCursor = newCursor.content.operation.cursor.value;
                     }
                     let out = {
                         list: tweets,
-                        cursor
+                        cursor: newCursor
                     };
                     debugLog('notifications.getDeviceFollowTweets', 'end', out);
                     resolve(out)
