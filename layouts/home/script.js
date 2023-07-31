@@ -77,8 +77,9 @@ setTimeout(() => {
                             <li>Added ability to hide replies.</li>
                             <li>Added option to disable personalized trends.</li>
                             <li>Added option to show media count in profiles.</li>
+                            <li>Added option to view notifications in a modal.</li>
                             <li>Added hotkey to bookmark tweets.</li>
-                            <li>Added German translation.</li>
+                            <li>Added German and Catalan translations.</li>
                             <li>Made extension remove X logo in new Twitter too.</li>
                             <li>Fixed refreshing new Twitter redirecting you back to OldTwitter.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>

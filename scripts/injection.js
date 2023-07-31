@@ -459,6 +459,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             savePreferredQuality: false
         }, () => {});
     }
+    if(typeof(vars.openNotifsAsModal) !== 'boolean') {
+        vars.openNotifsAsModal = window.innerWidth < 650;
+        chrome.storage.sync.set({
+            openNotifsAsModal: window.innerWidth < 650
+        }, () => {});
+    }
     if(typeof(vars.font) !== 'string') {
         vars.font = 'Arial';
         chrome.storage.sync.set({
