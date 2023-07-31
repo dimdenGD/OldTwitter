@@ -842,16 +842,16 @@ a:hover,
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {
-    #trends {
-        display: none;
+    #content {
+        display: unset;
     }
     #center-cell {
         margin-top: 10px;
     }
-    .cell {
-        display: unset;
+    #trends {
+        display: none;
     }
-    #content {
+    .cell {
         display: unset;
     }
     #notification-switches {
@@ -868,11 +868,12 @@ a:hover,
     #left-cell {
         top: unset;
         position: unset;
+        margin: 0 auto;
         margin-left: auto;
         margin-right: auto;
     }
     .notification-switch {
-        padding-right: 400px;
+       
     }
 }
 /* Mobile UI */

@@ -823,6 +823,7 @@ a:hover,
         display: none;
     }
 }
+/* no left-cell */
 @media screen and (max-width: 882px) {
     #trends {
         display: none;

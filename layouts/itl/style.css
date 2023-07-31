@@ -129,10 +129,11 @@ body {
     margin-right: 10px;
 }
 #itl {
-    width: 560px;
+    width: 590px;
     margin-bottom: 10px;
     min-height: 800px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 #itl hr {
     border-top: var(--border);
@@ -889,7 +890,12 @@ a:hover,
         width: calc(100% - 20px);
     }
     #center-cell {
-        margin: 0 auto;
         margin-top: 50px;
+    }
+}
+/* Mobile UI */
+@media screen and (max-width: 590px) {
+    #itl {
+        width: calc(100%);
     }
 }
