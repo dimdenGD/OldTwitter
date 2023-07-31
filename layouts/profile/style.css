@@ -1661,6 +1661,9 @@ a:hover,
     #profile-style {
         display: none;
     }
+    #profile-name {
+        width: calc(100% - 190px);
+    }
 }
 @media screen and (max-width: 550px) {
     #profile-stat-media-link {
@@ -1689,6 +1692,9 @@ a:hover,
     .profile-stat {
         padding-left: 3px;
         padding-right: 3px;
+    }
+    #profile-name {
+        font-size: 20px;
     }
 }
 @media screen and (max-width: 350px) {
