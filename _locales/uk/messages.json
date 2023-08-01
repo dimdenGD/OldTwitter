@@ -492,5 +492,6 @@
     "twitter": {"message": "Твіттер"},
     "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"},
     "styled_profile": {"message": "Стилізований профіль"},
-    "open_notifs_as_modal": {"message": "Відкривати сповіщення в модальному вікні"}
+    "open_notifs_as_modal": {"message": "Відкривати сповіщення в модальному вікні"},
+    "clear_ot_token": {"message": "Очистити токен OldTwitter"}
 }

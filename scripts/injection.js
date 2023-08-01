@@ -465,6 +465,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             openNotifsAsModal: window.innerWidth < 650
         }, () => {});
     }
+    if(typeof(vars.noBigFont) !== 'boolean') {
+        vars.noBigFont = window.innerWidth < 650;
+        chrome.storage.sync.set({
+            noBigFont: window.innerWidth < 650
+        }, () => {});
+    }
     if(typeof(vars.font) !== 'string') {
         vars.font = 'Arial';
         chrome.storage.sync.set({

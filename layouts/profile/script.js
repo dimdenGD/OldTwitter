@@ -449,7 +449,7 @@ function updateUserData() {
                     cssTextArea.value = data.css || '';
                     cssEligibleAuto = data.css_eligible_auto;
                     cssEligible = data.css_eligible;
-                    if(data.css_eligible || (data.css_eligible_auto && user.followers_count >= 5000)) {
+                    if(data.css_eligible || (data.css_eligible_auto && user.followers_count >= data.auto_requirement)) {
                         document.getElementById('custom-css-eligible').hidden = false;
                         document.getElementById('custom-css-not-eligible').hidden = true;
                         if(!vars.acknowledgedCssAccess && !data.css && !data.css_vars_dark && !data.css_vars_light) {

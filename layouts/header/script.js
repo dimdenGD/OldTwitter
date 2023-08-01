@@ -2255,7 +2255,11 @@ setInterval(() => {
             }
         });
         let searchInput = document.getElementById('search-input');
+        let lastAltKeyPos = 1;
         document.addEventListener('keydown', e => {
+            if(e.key === 'Alt') {
+                lastAltKeyPos = e.location || e.keyLocation;
+            }
             if(document.activeElement === searchInput && e.altKey && e.keyCode === 70) { // Alt+F
                 // blur search bar
                 e.preventDefault();
@@ -2278,7 +2282,7 @@ setInterval(() => {
                     removeBtn.click();
                 }
             }
-            if(e.target.id === 'new-tweet-text' && e.altKey) {
+            if(e.target.id === 'new-tweet-text' && e.altKey && lastAltKeyPos === 1) {
                 if(e.keyCode === 77) { // ALT+M
                     // upload media
                     let tweetUpload = document.getElementById('new-tweet-media');

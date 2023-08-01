@@ -71,6 +71,22 @@ function renderUserData() {
         style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
         document.head.appendChild(style);
     }
+
+    let clearOtToken = document.getElementById('clear-ot-token');
+    chrome.storage.local.get(['otPrivateTokens'], data => {
+        if(!data.otPrivateTokens) {
+            return clearOtToken.hidden = true;
+        }
+        if(data.otPrivateTokens[user.id_str]) {
+            clearOtToken.hidden = false;
+            clearOtToken.addEventListener('click', () => {
+                delete data.otPrivateTokens[user.id_str];
+                chrome.storage.local.set(data, () => {
+                    location.reload();
+                });
+            });
+        }
+    });
 }
 
 setTimeout(async () => {

@@ -1998,6 +1998,7 @@ emoji-picker {
     height: 100%;
     overflow: hidden;
     top: 5%;
+    min-width: 600px;
 }
 
 /* Mobile UI */
@@ -2026,10 +2027,8 @@ emoji-picker {
         border-radius: 0;
     }
     .tweet-media-element {
-        max-width: calc(100% - 50px);
-    }
-    .modal .tweet-media-element {
-        max-width: calc(100% - 170px);
+        max-width: unset;
+        width: calc(100% - 15px);
     }
     #right-cell {
         display: none;
@@ -2067,6 +2066,7 @@ emoji-picker {
     }
     .tweet-viewer {
         width: calc(100% - 42px);
+        overflow-x: clip;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;
@@ -2148,7 +2148,17 @@ emoji-picker {
         margin-right: 14px;
     }
     .notifications-modal {
+        top: 4%;
         width: calc(100% - 43px);
+    }
+    .tweet-body {
+        width: calc(100% - 80px);
+    }
+    .modal .tweet-body {
+        width: calc(100% - 80px);
+    }
+    .modal .tweet-media-element {
+        width: 100%;
     }
 }
 @media screen and (max-width: 460px) {

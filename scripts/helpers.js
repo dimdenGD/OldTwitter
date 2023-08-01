@@ -1676,7 +1676,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
                 ${location.pathname.split("?")[0].split("#")[0] === '/i/bookmarks' ? `<span class="tweet-delete-bookmark${!isEnglish ? ' tweet-delete-bookmark-lower' : ''}">&times;</span>` : ''}
                 ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
-                ${!options.mainTweet && !isEnglish ? `<span class="tweet-translate-after">${`${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 ? LOC.view_translation.message : ''}</span>` : ''}
+                ${!options.mainTweet && !isEnglish ? `<span class="tweet-translate-after">${`${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 && innerWidth > 650 ? LOC.view_translation.message : ''}</span>` : ''}
             </div>
             ${mentionedUserText !== `` &&
                 !options.threadContinuation &&
@@ -2384,7 +2384,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             if(typeof pageUser !== 'undefined' && !location.pathname.includes("/likes")) {
                 let profileMediaDiv = document.getElementById('profile-media-div');
-                if(!options || !options.top || !options.top.text || !options.top.text.includes('retweeted')) t.extended_entities.media.forEach(m => {
+                if(!options || !options.top || !options.top.text) t.extended_entities.media.forEach(m => {
                     if(profileMediaDiv.children.length >= 6) return;
                     let ch = Array.from(profileMediaDiv.children);
                     if(ch.find(c => c.src === m.media_url_https)) return;

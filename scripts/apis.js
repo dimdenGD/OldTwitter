@@ -1277,7 +1277,8 @@ const API = {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                        "x-twitter-auth-type": "OAuth2Session"
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include"
                 }).then(r => {
@@ -1635,7 +1636,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
@@ -1710,7 +1712,6 @@ const API = {
                 });
             });
         },
-        
         getFollowers: (id, cursor, count = 100) => {
             return new Promise((resolve, reject) => {
                 let obj = {
@@ -2133,7 +2134,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json; charset=utf-8"
+                        "content-type": "application/json; charset=utf-8",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include",
                     body: JSON.stringify({
@@ -2178,7 +2180,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json; charset=utf-8"
+                        "content-type": "application/json; charset=utf-8",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include",
                     body: JSON.stringify(data)
@@ -2312,6 +2315,7 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.oauth_key,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
@@ -2353,6 +2357,7 @@ const API = {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
+                            "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
@@ -2664,6 +2669,7 @@ const API = {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
+                            "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
@@ -3037,7 +3043,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/x-www-form-urlencoded"
+                        "content-type": "application/x-www-form-urlencoded",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include",
                 }).then(i => i.json()).then(data => {
@@ -3295,7 +3302,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/x-www-form-urlencoded"
+                        "content-type": "application/x-www-form-urlencoded",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
@@ -3446,7 +3454,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
@@ -3624,7 +3633,8 @@ const API = {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.oauth_key,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                            "x-twitter-auth-type": "OAuth2Session"
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
@@ -3667,7 +3677,8 @@ const API = {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.oauth_key,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                        "x-twitter-auth-type": "OAuth2Session"
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
@@ -3716,7 +3727,8 @@ const API = {
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
-                            "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220811153004 web/"
+                            "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220811153004 web/",
+                            "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                         },
                         credentials: "include",
                     }).then(i => i.json()).then(data => {
@@ -3783,7 +3795,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
@@ -3837,7 +3850,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include",
                     method: 'post',
@@ -3879,7 +3893,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
@@ -4022,7 +4037,8 @@ const API = {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
-                            "content-type": "application/json"
+                            "content-type": "application/json",
+                            "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
