@@ -116,8 +116,7 @@ const TRANSLATORS = {
     "fr": [
         ["Aurore C.", "https://asuure.com/"],
         ["zdimension", "https://twitter.com/zdimension_"],
-        ["Pikatchoum", "https://twitter.com/applitom45"],
-        ["Adrien D", "https://twitter.com/_adriend_"]
+        ["Pikatchoum", "https://twitter.com/applitom45"]
     ],
     "pt_BR": [
         ["dzshn", "https://dzshn.xyz/"],
