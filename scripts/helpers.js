@@ -2384,7 +2384,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             if(typeof pageUser !== 'undefined' && !location.pathname.includes("/likes")) {
                 let profileMediaDiv = document.getElementById('profile-media-div');
-                if(!options || !options.top || !options.top.text || !options.top.text.includes('retweeted')) t.extended_entities.media.forEach(m => {
+                if(!options || !options.top || !options.top.text) t.extended_entities.media.forEach(m => {
                     if(profileMediaDiv.children.length >= 6) return;
                     let ch = Array.from(profileMediaDiv.children);
                     if(ch.find(c => c.src === m.media_url_https)) return;

@@ -1009,8 +1009,8 @@ a:hover,
 .profile-media-preview {
     cursor: pointer;
     vertical-align: text-top;
-    width: 76px;
-    height: 76px;
+    width: 75px;
+    height: 75px;
     margin: 3px
 }
 .profile-media-preview:hover {
