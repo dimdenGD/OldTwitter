@@ -973,12 +973,13 @@ a:hover,
     }
     #about-left {
         display: block;
+        width: 238px
+    }
+    #trends {
+        width: 238px
     }
     #user-banner {
         width: 258px;
-    }
-    #left-cell {
-        width: 260px;/* there's strange bug*/
     }
     #timeline-type-right {
         display: none;

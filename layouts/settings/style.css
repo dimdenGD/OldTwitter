@@ -395,8 +395,12 @@ select, input, textarea {
     #about-left {
         display: block;
     }
-    #left-cell {
-        width: 260px;/* there's strange bug*/
+    #about-left {
+        display: block;
+        width: 238px
+    }
+    #trends {
+        width: 238px
     }
 }
 /* no left-cell */

@@ -136,10 +136,7 @@ body {
     top: 55px
 }
 
-#timeline,
-#retweets,
-#retweets_with_comments,
-#likes {
+#timeline {
     margin-bottom: 10px;
     width: 590px
 }
@@ -147,7 +144,9 @@ body {
 #retweets,
 #retweets_with_comments,
 #likes {
-    padding: 10px
+    margin-bottom: 10px;
+    width: 570px;
+    padding: 9px
 }
 
 .tweet {
@@ -642,8 +641,9 @@ a:hover,
 
 #trends {
     margin-top: 10px;
-    padding: 10px
+    padding: 10px;
 }
+
 
 .trend {
     margin-top: 10px
@@ -1088,7 +1088,12 @@ a:hover,
     }
     #about-left {
         display: block;
+        width: 238px
     }
+    #trends {
+        width: 238px
+    }
+    
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {
