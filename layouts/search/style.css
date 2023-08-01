@@ -804,10 +804,9 @@ a:hover,
         font-size: 15px;
         padding-right: 50px;
     }
-    .search-switches {
-        width: 238px;
-    }
-    #trends {
+    .search-switches,
+    #trends,
+    #save-search-left {
         width: 238px;
     }
 }
@@ -821,6 +820,7 @@ a:hover,
     }
     #about-left {
         display: block;
+        width: 238px;
     }
     #save-search-left {
         display: block;
@@ -846,7 +846,8 @@ a:hover,
         margin-left: auto;
         margin-right: auto;
     }
-    .search-switches {
+    .search-switches,
+    #save-search-left  {
         width: 568px;
     }
     #center-cell {
