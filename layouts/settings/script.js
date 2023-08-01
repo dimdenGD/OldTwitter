@@ -25,7 +25,6 @@ function getAllCSSVariables() {
 
 function updateUserData() {
     API.account.verifyCredentials().then(async u => {
-        console.log(u);
         user = u;
         userDataFunction(u);
         renderUserData();
