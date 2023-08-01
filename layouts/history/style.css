@@ -876,6 +876,7 @@ a:hover,
     }
     .user-stat-div>h2 {
         font-size: 12px;
+        margin: 0px 8px;
     }
     .user-stat-div>h1 {
         font-size: 18px;

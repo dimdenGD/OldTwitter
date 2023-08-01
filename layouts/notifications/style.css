@@ -832,15 +832,12 @@ a:hover,
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
-    #wtf {
-        display: none;
-    }
-    #about-right {
+    #right-cell {
         display: none;
     }
     #about-left {
         display: block;
-        width: 256px;
+        width: 254px;
     }
 }
 /* no left-cell */

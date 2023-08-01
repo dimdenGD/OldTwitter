@@ -1542,17 +1542,12 @@ a:hover,
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
-    #wtf {
-        display: none;
-    }
-    #trends {
-        display: none;
-    }
-    #about-right {
+    #right-cell {
         display: none;
     }
     #about-left {
         display: block;
+        width: 254px;
     }
     #left-cell {
         width: 260px;

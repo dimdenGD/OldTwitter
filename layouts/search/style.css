@@ -812,15 +812,12 @@ a:hover,
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
-    #wtf {
-        display: none
-    }
-    #about-right {
-        display: none
+    #right-cell {
+        display: none;
     }
     #about-left {
         display: block;
-        width: 238px;
+        width: 254px;
     }
     #save-search-left {
         display: block;

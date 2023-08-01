@@ -863,9 +863,13 @@ a:hover,
     }
     .user-stat-div>h2 {
         font-size: 12px;
+        margin: 0px 8px;
     }
     .user-stat-div>h1 {
         font-size: 18px;
+    }
+    #trends {
+        width: 238px
     }
 }
 /* no right-cell */
@@ -875,12 +879,7 @@ a:hover,
     }
     #about-left {
         display: block;
-    }
-}
-
-@media screen and (max-width: 1073px) {
-    #wtf {
-        display: none;
+        width: 254px;
     }
 }
 /* no left-cell */

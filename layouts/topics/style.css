@@ -886,33 +886,28 @@ a:hover,
     }
     .user-stat-div>h2 {
         font-size: 12px;
+        margin: 0px 8px;
     }
     .user-stat-div>h1 {
         font-size: 18px;
-    }
-}
-/* no right-cell */
-@media screen and (max-width: 1167px) {
-    #wtf {
-        display: none;
-    }
-    #about-right {
-        display: none;
-    }
-    #about-left {
-        display: block;
-    }
-    #about-left {
-        display: block;
-        width: 238px
     }
     #trends {
         width: 238px
     }
 }
+/* no right-cell */
+@media screen and (max-width: 1167px) {
+    #right-cell {
+        display: none;
+    }
+    #about-left {
+        display: block;
+        width: 254px;
+    }
+}
 /* no left-cell */
 @media screen and (max-width: 880px) {
-    #left-cell, #right-cell {
+    #left-cell {
         display: none;
     }
     #center-cell {

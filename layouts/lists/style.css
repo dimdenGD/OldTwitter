@@ -841,6 +841,7 @@ a:hover,
     }
     #about-left {
         display: block;
+        width: 254px;
     }
 }
 /* no left-cell */
