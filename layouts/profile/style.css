@@ -1374,9 +1374,6 @@ a:hover,
 .list-creator-modal {
     color: var(--default-text-color);
 }
-#navbar-right {
-    margin-right: 25px !important;
-}
 .tweet:not(.tweet-view):last-child {
     border-bottom: 1px solid var(--border) !important;
     border-bottom-left-radius: 5px;
