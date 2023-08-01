@@ -17,6 +17,8 @@
   "host_permissions": [
     "*://*.twitter.com/*",
     "*://twitter.com/*",
+    "*://*.x.com/*",
+    "*://x.com/*",
     "*://twimg.com/*",
     "*://*.twimg.com/*"
   ],

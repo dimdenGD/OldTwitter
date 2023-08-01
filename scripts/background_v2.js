@@ -11,6 +11,10 @@ chrome.webRequest.onBeforeRequest.addListener(
             return {
                 redirectUrl: chrome.runtime.getURL('images/logo32_new_notification.png')
             };
+        } else if (details.url.includes('x.com')) {
+            return {
+                redirectUrl: chrome.runtime.getURL(details.url.replace('x.com', 'twitter.com')) // https://i.insider.com/5d5302c6cd97841bc207b2e4?format=jpeg
+            }
         }
         return {
             cancel:
