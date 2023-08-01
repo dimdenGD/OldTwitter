@@ -65,6 +65,7 @@ setTimeout(() => {
                             <li>Added user-friendly color customization for all colors in the extension.</li>
                             <li>Fixed Reverse chronological timeline with friends likes not working properly.</li>
                             <li>Added support for Community Notes.</li>
+                            <li>Made notifications load much faster.</li>
                             <li>Added option to see bookmark count.</li>
                             <li>Added ability to pin Profile, Bookmarks and Lists on the navbar.</li>
                             <li>Added <a href="https://dimden.dev/ot/custom-css/" target="_blank">custom profile CSS</a> for limited number of users.</li>

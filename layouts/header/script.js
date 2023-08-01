@@ -969,6 +969,10 @@ let userDataFunction = async user => {
             }
         }
     }, 5000);
+    API.notifications.get();
+    setInterval(() => {
+        API.notifications.get();
+    }, 30000);
     
     // tweet
     document.getElementById('navbar-tweet-button').addEventListener('click', () => {
@@ -2343,7 +2347,7 @@ setInterval(() => {
     }
 
     document.getElementById('notifications').addEventListener('click', e => {
-        if(vars.openNotifsAsModal) {
+        if(vars.openNotifsAsModal && location.pathname !== '/notifications' && location.pathname !== '/notifications/mentions') {
             e.preventDefault();
             e.stopImmediatePropagation();
             let timeout = setTimeout(() => {

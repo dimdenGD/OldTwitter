@@ -1139,29 +1139,6 @@ function getTimeZone() {
     return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
 }
 
-const mediaClasses = [
-    undefined,
-    'tweet-media-element-one',
-    'tweet-media-element-two',
-    'tweet-media-element-three',
-    'tweet-media-element-two',
-];
-const sizeFunctions = [
-    undefined,
-    (w, h) => [w > 450 ? 450 : w < 150 ? 150 : w, h > 500 ? 500 : h < 150 ? 150 : h],
-    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
-    (w, h) => [150, h > 250 ? 250 : h < 150 ? 150 : h],
-    // (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
-];
-const quoteSizeFunctions = [
-    undefined,
-    (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
-    (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-    (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
-    (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
-];
-
 async function renderTrends(compact = false, cache = true) {
     if(vars.hideTrends) return;
     let [trendsData, hashflags] = await Promise.allSettled([API.discover[vars.disablePersonalizedTrends ? 'getTrends' : 'getTrendsV2'](cache), API.discover.getHashflags()]);
@@ -1263,7 +1240,6 @@ async function renderDiscovery(cache = true) {
         console.warn(e);
     }
 }
-
 function renderMedia(t) {
     let html = '';
     if(!t.extended_entities || !t.extended_entities.media) return '';
@@ -1401,8 +1377,28 @@ async function appendUser(u, container, label) {
     container.appendChild(userElement);
     if(vars.enableTwemoji) twemoji.parse(userElement);
 }
-
 let lastTweetErrorDate = 0;
+const mediaClasses = [
+    undefined,
+    'tweet-media-element-one',
+    'tweet-media-element-two',
+    'tweet-media-element-three',
+    'tweet-media-element-two',
+];
+const sizeFunctions = [
+    undefined,
+    (w, h) => [w > 450 ? 450 : w < 150 ? 150 : w, h > 500 ? 500 : h < 150 ? 150 : h],
+    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
+    (w, h) => [150, h > 250 ? 250 : h < 150 ? 150 : h],
+    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
+];
+const quoteSizeFunctions = [
+    undefined,
+    (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
+    (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
+    (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
+    (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
+];
 async function appendTweet(t, timelineContainer, options = {}) {
     if(typeof t !== 'object') {
         console.error('Tweet is undefined', t, timelineContainer, options);
@@ -3222,6 +3218,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
         });
 
+        if(options.noInsert) {
+            return tweet;
+        }
+
         if(options.after) {
             options.after.after(tweet);
         } else if (options.before) {
@@ -3246,6 +3246,171 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </span>
                     <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">
                         ${escapeHTML(e.stack ? e.stack : String(e))} at ${t.id_str} (OldTwitter v${chrome.runtime.getManifest().version})
+                    </div>
+                </div>
+            `);
+        }
+        return null;
+    }
+}
+let lastNotificationErrorDate = 0;
+const iconClasses = {
+    'heart_icon': 'ni-favorite',
+    'person_icon': 'ni-follow',
+    'retweet_icon': 'ni-retweet',
+    'recommendation_icon': 'ni-recommend',
+    'lightning_bolt_icon': 'ni-bolt',
+    'bird_icon': 'ni-twitter',
+    'security_alert_icon': 'ni-alert',
+    'bell_icon': 'ni-bell',
+    'list_icon': 'ni-list'
+};
+let aRegex = /<a[^>]*>([\s\S]*?)<\/a>/g;
+function renderNotification(n, options = {}) {
+    if(typeof n !== 'object') {
+        console.error('Notification is undefined', t);
+        return;
+    }
+
+    try {
+        let notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.dataset.notificationId = n.id;
+    
+        if(options.unread) {
+            notification.classList.add('notification-unread');
+        }
+    
+        let notificationHeader = n.message.text;
+        if (n.message.entities) {
+            let additionalLength = 0;
+            let matches = 0;
+            n.message.entities.forEach(e => {
+                if(!e.ref || !e.ref.user) return;
+                let user = n.users[e.ref.user.id];
+                notificationHeader = Array.from(notificationHeader);
+                notificationHeader = arrayInsert(notificationHeader, e.toIndex+additionalLength, '</a>');
+                notificationHeader = arrayInsert(notificationHeader, e.fromIndex+additionalLength, `<a href="/dimdenEFF">`);
+                notificationHeader = notificationHeader.join('');
+                additionalLength += `<a href="/dimdenEFF"></a>`.length;
+                let mi = 0;
+                let newText = notificationHeader.replace(aRegex, (_, m) => {
+                    if(mi++ !== matches) return _;
+                    return `<a href="/${user.screen_name}"${user.verified ? 'class="user-verified"' : ''}>${escapeHTML(m)}</a>`;
+                });
+                additionalLength += newText.length - notificationHeader.length;
+                notificationHeader = newText;
+                matches++;
+            });
+        };
+    
+        notification.addEventListener('click', e => {
+            if(e.target.closest('.notification') && e.target.tagName !== 'IMG' && e.target.tagName !== 'A' && e.target.className !== 'notification-feedback') {
+                if(n.icon.id === "bell_icon") {
+                    location.href = `https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`;
+                } else if(n.icon.id === "heart_icon") {
+                    if(notificationHeader.toLowerCase().includes('tweets') || notificationHeader.toLowerCase().includes('posts')) {
+                        location.href = `https://twitter.com/i/timeline?page=likes&nid=${n.id}`;
+                    } else {
+                        new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
+                    }
+                } else if(n.icon.id === "list_icon") {
+                    location.href = n.entry.content.notification.url.url;
+                } else if(n.tweet && n.tweet.user) {
+                    new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
+                }
+            }
+        });
+        notification.addEventListener('mousedown', e => {
+            if(e.target.tagName === 'A' || e.target.className === 'notification-avatar-img') {
+                let url = new URL(e.target.href);
+                if(isProfilePath(url.pathname)) {
+                    return;
+                }
+            };
+            if(e.button === 1) {
+                e.preventDefault();
+                if(n.icon.id === "bell_icon") {
+                    openInNewTab(`https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`);
+                } else if(n.icon.id === "heart_icon") {
+                    openInNewTab(`https://twitter.com/i/timeline?page=likes&nid=${n.id}`);
+                } else if(n.icon.id === "list_icon") {
+                    openInNewTab(n.entry.content.notification.url.url);
+                } else if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
+                    if(n.tweet.retweeted_status) {
+                        openInNewTab(`https://twitter.com/${n.tweet.retweeted_status.user.screen_name}/status/${n.tweet.retweeted_status.id_str}`);
+                    } else {
+                        openInNewTab(`https://twitter.com/${n.tweet.user.screen_name}/status/${n.tweet.id_str}`);
+                    }
+                }
+            }
+        });
+    
+        let users = n.template.aggregateUserActionsV1.fromUsers.map(u => n.users[u.user.id]);
+        if(n.icon.id === 'recommendation_icon') {
+            notificationHeader = `<b><a href="https://twitter.com/${users[0].screen_name}">${escapeHTML(notificationHeader)}</a></b>`;
+        }
+        if(!iconClasses[n.icon.id]) {
+            console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
+        }
+        if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
+            notificationHeader = notificationHeader.replace(' liked ', ' favorited ');
+        }
+        notification.innerHTML = /*html*/`
+            <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
+            <div class="notification-header">
+                ${notificationHeader} ${n.feedback ? `<span class="notification-feedback">[${n.feedback.prompt}]</span>` : ''}
+            </div>
+            <div class="notification-text">${escapeHTML(n.tweet.full_text.replace(/^(@[\w+]{1,15}\b\s)((@[\w+]{1,15}\b\s)+)/g, '$1'))}</div>
+            <div class="notification-avatars">
+                ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img class="notification-avatar-img" src="${`${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
+            </div>
+        `;
+        let notifText = notification.querySelector('.notification-text');
+        if(n.tweet.entities && n.tweet.entities.urls) {
+            for(let url of n.tweet.entities.urls) {
+                notifText.innerText = notifText.innerText.replace(new RegExp(url.url, "g"), url.display_url);
+            }
+        }
+    
+        if(n.feedback) {
+            let feedbackBtn = notificationDiv.querySelector('.notification-feedback');
+            feedbackBtn.addEventListener('click', () => {
+                fetch('/i/api/2/notifications/feedback.json?' + n.feedback.feedbackUrl.split('?').slice(1).join('?'), {
+                    headers: {
+                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "content-type": "application/x-www-form-urlencoded",
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "x-twitter-client-language": LANGUAGE || navigator.language,
+                        "x-twitter-active-user": "yes"
+                    },
+                    method: 'post',
+                    credentials: 'include',
+                    body: `feedback_type=${n.feedback.feedbackType}&feedback_metadata=${n.feedback.metadata}&undo=false`
+                }).then(i => i.text()).then(i => {
+                    notificationDiv.remove();
+                    alert(n.feedback.confirmation);
+                });
+            });
+        }
+
+        if(vars.enableTwemoji) twemoji.parse(notification);
+    
+        return notification;
+    } catch(e) {
+        console.error(e);
+        if(Date.now() - lastNotificationErrorDate > 1000) {
+            lastNotificationErrorDate = Date.now();
+            createModal(`
+                <div style="max-width:700px">
+                    <span style="font-size:14px;color:var(--default-text-color)">
+                        <h2 style="margin-top: 0">${LOC.something_went_wrong.message}</h2>
+                        ${LOC.notifications_error.message}<br>
+                        ${LOC.error_instructions.message.replace('$AT1$', "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>").replace(/\$AT2\$/g, '</a>').replace("$AT3$", "<a target='_blank' href='mailto:admin@dimden.dev'>")}
+                    </span>
+                    <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">
+                        ${escapeHTML(e.stack ? e.stack : String(e))} (OldTwitter v${chrome.runtime.getManifest().version})
                     </div>
                 </div>
             `);
