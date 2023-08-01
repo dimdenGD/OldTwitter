@@ -971,7 +971,7 @@ let userDataFunction = async user => {
     }, 5000);
     API.notifications.get();
     setInterval(() => {
-        API.notifications.get();
+        API.notifications.get(undefined, false, false);
     }, 30000);
     
     // tweet
