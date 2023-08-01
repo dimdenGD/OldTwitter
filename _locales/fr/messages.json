@@ -489,5 +489,8 @@
     "disable_profile_customizations": { "message": "Désactiver les modifications de profil." },
     "replying_to_and":  { "message": " et ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B, @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B->, <-@C" },
-    "twitter": {"message": "Twitter"}
+    "twitter": {"message": "Twitter"},
+    "move_navbar_to_bottom": {"message": "Déplacer la barre de navigation vers le bas"},
+    "styled_profile": {"message": "Profil stylisé"},
+    "open_notifs_as_modal": {"message": "Ouvrir les notifications dans une pop-up"}
 }
