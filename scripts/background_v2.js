@@ -47,13 +47,12 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
 );
 chrome.webRequest.onHeadersReceived.addListener(
     function(details) {
-        for (let i = 0; i < details.responseHeaders.length; ++i) {
+        for (let i = details.responseHeaders.length - 1; i >= 0; i--) {
             if (
                 details.responseHeaders[i].name.toLowerCase() === 'content-security-policy' ||
                 details.responseHeaders[i].name.toLowerCase() === 'x-frame-options'
             ) {
                 details.responseHeaders.splice(i, 1);
-                break;
             }
         }
         if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.responseHeaders.push({

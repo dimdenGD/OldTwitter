@@ -1345,12 +1345,14 @@ const API = {
                         }
                         let pinEntry = instructions.find(e => e.type === "TimelinePinEntry");
                         let pinnedTweet;
-                        if(pinEntry) {
+                        if(pinEntry && pinEntry.entry && pinEntry.entry.content) {
                             let result = pinEntry.entry.content.itemContent.tweet_results.result;
                             pinnedTweet = parseTweet(result);
                             if(pinnedTweet) {
                                 pinnedTweet.hasModeratedReplies = pinEntry.entry.content.itemContent.hasModeratedReplies;
                             }
+                        } else if(pinEntry) {
+                            console.error("Weird bug, pinEntry is there but no entry or content", pinEntry);
                         }
             
                         const out = {

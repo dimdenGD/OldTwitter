@@ -61,7 +61,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li><b><a href="https://github.com/dimdenGD/OldTwitter#can-you-use-this-extension-on-phones" target="_blank">Added support for mobile phones!</a></b></li>
+                            <li><b><a href="https://github.com/dimdenGD/OldTwitter#can-you-use-this-extension-on-android" target="_blank">Added support for mobile phones!</a></b></li>
                             <li>Added user-friendly color customization for all colors in the extension.</li>
                             <li>Fixed Reverse chronological timeline with friends likes not working properly.</li>
                             <li>Added support for Community Notes.</li>
