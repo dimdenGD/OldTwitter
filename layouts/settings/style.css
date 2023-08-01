@@ -383,6 +383,9 @@ select, input, textarea {
     .user-stat-div>h1 {
         font-size: 18px;
     }
+    #trends {
+        width: 238px
+    }
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
@@ -397,9 +400,6 @@ select, input, textarea {
     }
     #about-left {
         display: block;
-        width: 238px
-    }
-    #trends {
         width: 238px
     }
 }
