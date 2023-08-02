@@ -196,7 +196,7 @@
     "font": { "message": "字体" },
     "color_sync": { "message": "链接颜色同步" },
     "by_pressing_sync": { "message": "按下同步按钮后，你设置的个人资料链接颜色将发送到颜色数据库，并显示给其他使用 OldTwitter 扩展的用户。" },
-    "color_years_ago": { "message": "如果你之前设置过 Twitter 链接颜色（那是很多年以前还有这个设置的时候），同步将会将覆盖你以前设置的颜色。" },
+    "color_years_ago": { "message": "如果你之前设置过 Twitter 链接颜色（那是很多年以前还有这个设置的时候），同步将会覆盖你以前设置的颜色。" },
     "sync": { "message": "同步" },
     "profile_link_color": { "message": "个人资料链接颜色" },
     "light_mode_link": { "message": "浅色模式链接颜色" },
