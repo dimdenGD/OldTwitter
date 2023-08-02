@@ -2101,6 +2101,9 @@ emoji-picker {
 .wtf-user-name {
     max-width: 180px;
 }
+.notification-unread .tweet-self-thread-line-dots {
+    border: 2px var(--dark-background-color) solid !important
+}
 
 /* Mobile UI */
 @media screen and (max-width: 590px) {
