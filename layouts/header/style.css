@@ -2267,6 +2267,9 @@ emoji-picker {
     .tweet .tweet-header-name {
         max-width: calc(100% - 65px);
     }
+    body.move-navbar-to-bottom #center-cell {
+        margin-top: 0;
+    }
 }
 @media screen and (max-width: 460px) {
     #pin-lists {
