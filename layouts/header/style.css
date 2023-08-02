@@ -2098,6 +2098,9 @@ emoji-picker {
     color: #00aced;
     content: "\f012"
 }
+.wtf-user-name {
+    max-width: 180px;
+}
 
 /* Mobile UI */
 @media screen and (max-width: 590px) {
