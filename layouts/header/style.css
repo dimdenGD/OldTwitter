@@ -98,7 +98,7 @@ input, textarea {
     vertical-align: sub;
     font-family: RosettaIcons;
     font-size: 22px;
-    color: #1da1f2;
+    color: var(--link-color);
 }
 .center-text {
     background-color: var(--background-color);

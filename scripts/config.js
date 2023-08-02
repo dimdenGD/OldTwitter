@@ -24,7 +24,8 @@ async function loadVars() {
             'extensiveLogging', 'disablePersonalizedTrends', 'showBookmarkCount', 'hideCommunityNotes', 'disableGifAutoplay', 'showMediaCount',
             'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont', 'useOldDefaultProfileImage', 'enableHashflags',
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
-            'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'moveNavbarToBottom', 'openNotifsAsModal', 'enableIframeNavigation'
+            'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'moveNavbarToBottom', 'openNotifsAsModal', 'enableIframeNavigation',
+            'acknowledgedCustomizationButton'
         ], data => {
             resolve(data);
             varsResolve(data);

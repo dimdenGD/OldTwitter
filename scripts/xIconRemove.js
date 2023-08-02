@@ -4,7 +4,7 @@ setInterval(() => {
         let parent = xIcon.parentElement;
         let img = document.createElement('img');
         img.src = chrome.runtime.getURL('images/logo32_new.png');
-        img.style.cssText = 'width: 2em;height: 2em;image-rendering: -webkit-optimize-contrast;filter: brightness(99);';
+        img.style.cssText = 'width: 2em;height: 2em;image-rendering: -webkit-optimize-contrast;';
         parent.appendChild(img);
         xIcon.remove();
     };
@@ -22,7 +22,7 @@ function removeAndReplaceX(element) {
         let parent = element.parentElement;
         let img = document.createElement('img');
         img.src = chrome.runtime.getURL('images/logo32_new.png');
-        img.style.cssText = 'width: 2em;height: 2em;image-rendering: -webkit-optimize-contrast;filter: brightness(99);display: block;top: 50%;position: absolute;left: 50%;transform: translate(-50%, -50%);';
+        img.style.cssText = 'width: 2em;height: 2em;image-rendering: -webkit-optimize-contrast;display: block;top: 50%;position: absolute;left: 50%;transform: translate(-50%, -50%);';
         parent.appendChild(img);
         element.remove();
         xObserver.disconnect();
