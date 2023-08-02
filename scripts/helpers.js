@@ -3374,7 +3374,7 @@ function renderNotification(n, options = {}) {
         }
     
         if(n.feedback) {
-            let feedbackBtn = notificationDiv.querySelector('.notification-feedback');
+            let feedbackBtn = notification.querySelector('.notification-feedback');
             feedbackBtn.addEventListener('click', () => {
                 fetch('/i/api/2/notifications/feedback.json?' + n.feedback.feedbackUrl.split('?').slice(1).join('?'), {
                     headers: {
@@ -3389,7 +3389,7 @@ function renderNotification(n, options = {}) {
                     credentials: 'include',
                     body: `feedback_type=${n.feedback.feedbackType}&feedback_metadata=${n.feedback.metadata}&undo=false`
                 }).then(i => i.text()).then(i => {
-                    notificationDiv.remove();
+                    notification.remove();
                     alert(n.feedback.confirmation);
                 });
             });
