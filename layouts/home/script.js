@@ -83,6 +83,7 @@ setTimeout(() => {
                             <li>Added German and Catalan translations.</li>
                             <li>Made extension remove X logo in new Twitter too.</li>
                             <li>Fixed refreshing new Twitter redirecting you back to OldTwitter.</li>
+                            <li>Fixed videos continuing to play even after scrolling by.</li>
                             <li>Fixed right-to-left language tweets not showing properly.</li>
                             <li>Fixed feedback not being sent properly.</li>
                             <li>Fixed thread tweets in lists.</li>
@@ -402,13 +403,13 @@ setTimeout(async () => {
                     activeTweet.classList.remove('tweet-active');
                 }
                 if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
-                    if(activeTweet) {
-                        let video = activeTweet.querySelector('.tweet-media > video[controls]');
-                        if(video) {
-                            video.pause();
-                        }
+                if(activeTweet) {
+                    let video = activeTweet.querySelector('.tweet-media > video[controls]');
+                    if(video) {
+                        video.pause();
                     }
+                }
+                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
                     if(newActiveTweet) {
                         let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
                         let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
