@@ -811,11 +811,13 @@ const API = {
                                 if(trend.item.content.trend.trendMetadata.metaDescription) {
                                     desc += trend.item.content.trend.trendMetadata.metaDescription;
                                 }
-                            }
-                            else {
+                            } else {
                                 if(trend.item.content.trend.trendMetadata.metaDescription) {
                                     desc += ` · ${trend.item.content.trend.trendMetadata.metaDescription}`;
                                 }
+                            }
+                            if(desc.startsWith('Promoted by')) {
+                                return;
                             }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,
@@ -937,27 +939,117 @@ const API = {
                 });
             });
         },
-        get: (cursor, onlyMentions = false) => {
+        get: (cursor, onlyMentions = false, cache = true) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/2/notifications/${onlyMentions ? 'mentions' : 'all'}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=50&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control${cursor ? `&cursor=${cursor}` : ''}`, {
-                    headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
-                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                        "x-twitter-auth-type": "OAuth2Session",
-                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
-                    },
-                    credentials: "include",
-                }).then(i => i.json()).then(data => {
-                    debugLog('notifications.get', {cursor, onlyMentions, data});
-                    if (data.errors && data.errors[0].code === 32) {
-                        return reject("Not logged in");
+                chrome.storage.local.get(['notifications'], d => {
+                    if(d.notifications && Date.now() - d.notifications.date < 60000 && !cursor && !onlyMentions && cache) {
+                        debugLog('notifications.get', 'cache', d.notifications.data);
+                        return resolve(d.notifications.data);
                     }
-                    if (data.errors && data.errors[0]) {
-                        return reject(data.errors[0].message);
-                    }
-                    resolve(data);
-                }).catch(e => {
-                    reject(e);
+                    fetch(`https://twitter.com/i/api/2/notifications/${onlyMentions ? 'mentions' : 'all'}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&requestContext=launch&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl${cursor ? `&cursor=${cursor}` : ''}`, {
+                        headers: {
+                            "authorization": OLDTWITTER_CONFIG.oauth_key,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+                        },
+                        credentials: "include",
+                    }).then(i => i.json()).then(data => {
+                        debugLog('notifications.get', 'start', {cursor, onlyMentions, data});
+                        if (data.errors && data.errors[0].code === 32) {
+                            return reject("Not logged in");
+                        }
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+
+                        let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
+                        let cursorTop = entries.find(e => e.entryId.startsWith('cursor-top-')).content.operation.cursor.value;
+                        let cursorBottom = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value;
+                        let unreadBefore = +data.timeline.instructions.find(i => i.markEntriesUnreadGreaterThanSortIndex).markEntriesUnreadGreaterThanSortIndex.sortIndex;
+                        let unreadNotifications = 0;
+                        let res = [];
+                        for(let i in entries) {
+                            if(!entries[i].entryId.startsWith('notification-')) continue;
+                            let e = entries[i].content.item;
+
+                            if(e.content.notification) {
+                                let n = data.globalObjects.notifications[e.content.notification.id];
+                                if(!n) continue;
+                                if(e.feedbackInfo) {
+                                    n.feedback = data.timeline.responseObjects.feedbackActions[e.feedbackInfo.feedbackKeys[0]];
+                                    if(n.feedback) n.feedback.metadata = e.feedbackInfo.feedbackMetadata;
+                                }
+                                let tweet = n.template.aggregateUserActionsV1.targetObjects[0] ? data.globalObjects.tweets[n.template.aggregateUserActionsV1.targetObjects[0].tweet.id] : { full_text: '' };
+                                if(tweet && tweet.user_id_str) {;
+                                    if(tweet.quoted_status_id_str) {
+                                        tweet.quoted_status = data.globalObjects.tweets[tweet.quoted_status_id_str];
+                                        if(tweet.quoted_status) {
+                                            tweet.quoted_status.user = data.globalObjects.users[tweet.quoted_status.user_id_str];
+                                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                                        }
+                                    }
+                                    if(tweet.retweeted_status_id_str) {
+                                        tweet.retweeted_status = data.globalObjects.tweets[tweet.retweeted_status_id_str];
+                                        if(tweet.retweeted_status) {
+                                            tweet.retweeted_status.user = data.globalObjects.users[tweet.retweeted_status.user_id_str];
+                                            tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+                                        }
+                                    }
+                                    let user = tweet ? data.globalObjects.users[tweet.user_id_str] : undefined;
+                                    user.id_str = tweet.user_id_str;
+                                    tweet.user = user;
+                                }
+
+                                n.entry = e;
+                                n.tweet = tweet;
+                                n.users = data.globalObjects.users;
+                                n.type = 'notification';
+                                if(+entries[i].sortIndex > unreadBefore) {
+                                    unreadNotifications++;
+                                    n.unread = true;
+                                }
+
+                                res.push(n);
+                            } else if(e.content.tweet) {
+                                let t = data.globalObjects.tweets[e.content.tweet.id];
+                                if(!t) continue;
+
+                                t.user = data.globalObjects.users[t.user_id_str];
+                                if(t.quoted_status_id_str) {
+                                    t.quoted_status = data.globalObjects.tweets[t.quoted_status_id_str];
+                                    t.quoted_status.user = data.globalObjects.users[t.quoted_status.user_id_str];
+                                }
+
+                                t.type = 'tweet';
+                                if(+entries[i].sortIndex > unreadBefore) {
+                                    unreadNotifications++;
+                                    t.unread = true;
+                                }
+
+                                res.push(t);
+                            }
+                        }
+
+                        let out = {
+                            list: res,
+                            cursorTop,
+                            cursorBottom,
+                            unreadBefore,
+                            unreadNotifications
+                        };
+                        debugLog('notifications.get', 'end', out);
+                        resolve(out);
+
+                        if(!cursor && !onlyMentions) {
+                            chrome.storage.local.set({notifications: {
+                                date: Date.now(),
+                                data: out
+                            }}, () => {});
+                        }
+                    }).catch(e => {
+                        reject(e);
+                    });
                 });
             });
         },

@@ -969,6 +969,10 @@ let userDataFunction = async user => {
             }
         }
     }, 5000);
+    API.notifications.get();
+    setInterval(() => {
+        API.notifications.get(undefined, false, false);
+    }, 30000);
     
     // tweet
     document.getElementById('navbar-tweet-button').addEventListener('click', () => {
@@ -1410,7 +1414,21 @@ let userDataFunction = async user => {
         if(query.length === 0) {
             return loadDefaultSearches();
         }
-        let search = await API.search.typeahead(query);
+        let search;
+
+        if(isFinite(parseInt(query)) && query.length >= 5) {
+            let user = await API.user.get(query);
+            if(user) {
+                search = {
+                    topics: [],
+                    users: [user]
+                }
+            } else {
+                search = await API.search.typeahead(query);
+            }
+        } else {
+            search = await API.search.typeahead(query);
+        }
         searchResults.innerHTML = '';
         search.topics.forEach(({topic}) => {
             let topicElement = document.createElement('a');
@@ -2360,7 +2378,7 @@ setInterval(() => {
     }
 
     document.getElementById('notifications').addEventListener('click', e => {
-        if(vars.openNotifsAsModal) {
+        if(vars.openNotifsAsModal && location.pathname !== '/notifications' && location.pathname !== '/notifications/mentions') {
             e.preventDefault();
             e.stopImmediatePropagation();
             let timeout = setTimeout(() => {

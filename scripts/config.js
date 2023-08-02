@@ -8,6 +8,8 @@ const OLDTWITTER_CONFIG = {
     }
 };
 
+let LANGUAGE = navigator.language.replace("-", "_");
+
 // variables
 let vars;
 let varsResolve, varsPromise = new Promise(resolve => varsResolve = resolve);

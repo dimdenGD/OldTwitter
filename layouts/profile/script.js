@@ -1563,13 +1563,13 @@ setTimeout(async () => {
                     activeTweet.classList.remove('tweet-active');
                 }
                 if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
-                    if(activeTweet) {
-                        let video = activeTweet.querySelector('.tweet-media > video[controls]');
-                        if(video) {
-                            video.pause();
-                        }
+                if(activeTweet) {
+                    let video = activeTweet.querySelector('.tweet-media > video[controls]');
+                    if(video) {
+                        video.pause();
                     }
+                }
+                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
                     if(newActiveTweet) {
                         let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
                         let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');

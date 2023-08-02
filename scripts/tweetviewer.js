@@ -744,18 +744,9 @@ class TweetViewer {
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
     }
+    // what dumbfuck thought having 2 almost identical functions was a good idea (me)
     async appendTweet(t, timelineContainer, options = {}) {
         if(this.seenReplies.includes(t.id_str)) return;
-        // if(t.entities && t.entities.urls) {
-            // let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
-            // if(webUrl) {
-            //     try {
-            //         let source = t.source;
-            //         t = await API.tweet.getV2(t.id_str);
-            //         t.source = source;
-            //     } catch(e) {}
-            // }
-        // }
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
         }
