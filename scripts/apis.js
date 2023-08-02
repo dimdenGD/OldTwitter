@@ -811,11 +811,13 @@ const API = {
                                 if(trend.item.content.trend.trendMetadata.metaDescription) {
                                     desc += trend.item.content.trend.trendMetadata.metaDescription;
                                 }
-                            }
-                            else {
+                            } else {
                                 if(trend.item.content.trend.trendMetadata.metaDescription) {
                                     desc += ` · ${trend.item.content.trend.trendMetadata.metaDescription}`;
                                 }
+                            }
+                            if(desc.startsWith('Promoted by')) {
+                                return;
                             }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,
