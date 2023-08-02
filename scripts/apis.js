@@ -816,7 +816,8 @@ const API = {
                                     desc += ` · ${trend.item.content.trend.trendMetadata.metaDescription}`;
                                 }
                             }
-                            if(desc.startsWith('Promoted by')) {
+                            if((desc.startsWith('Promoted by') || /*en*/
+                            desc.endsWith('님이 프로모션함')/*ko*/) && !vars.enableAd) {
                                 return;
                             }
                             data.push({trend:{
