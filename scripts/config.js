@@ -9,6 +9,7 @@ const OLDTWITTER_CONFIG = {
 };
 
 let LANGUAGE = navigator.language.replace("-", "_");
+const insideIframe = window !== window.top;
 
 // variables
 let vars;

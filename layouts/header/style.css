@@ -2059,6 +2059,11 @@ emoji-picker {
     color: var(--favorite-icon-color);
     content: var(--favorite-icon-content-notif)
 }
+.notification-unread .tweet-interact-reply[data-val="0"],
+.notification-unread .tweet-interact-retweet[data-val="0"],
+.notification-unread .tweet-interact-favorite[data-val="0"] {
+    color: var(--dark-background-color);
+}
 
 .ni-follow:before {
     color: #55acee;

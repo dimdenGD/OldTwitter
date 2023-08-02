@@ -164,7 +164,7 @@ class TweetViewer {
         }
         let tl, tweetLikers;
         try {
-            let [tlData, tweetLikersData] = await Promise.allSettled([API.tweet.getRepliesV2(id, c), API.tweet.getLikers(id)]);
+            let [tlData, tweetLikersData] = await Promise.allSettled([API.tweet.getRepliesV2(id, c), API.tweet.getLikers(id, undefined, 40)]);
             if(!tlData.value) {
                 this.cursor = undefined;
                 return console.error(tlData.reason);
@@ -273,7 +273,7 @@ class TweetViewer {
             tweetLikers = this.mainTweetLikers;
         } else {
             try {
-                tweetLikers = await API.tweet.getLikers(id, c);
+                tweetLikers = await API.tweet.getLikers(id, c, 40);
                 this.likeCursor = tweetLikers.cursor;
                 tweetLikers = tweetLikers.list;
                 if(!c) this.mainTweetLikers = tweetLikers;

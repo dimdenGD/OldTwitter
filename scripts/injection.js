@@ -53,12 +53,15 @@ let pages = [
     }
 ];
 
-let realPath = location.pathname.split('?')[0].split('#')[0];
+let realPath = location.pathname;
 if (realPath.endsWith("/") && realPath !== "/") {
     location.replace(realPath.slice(0, -1));
 }
 if(location.hash.startsWith('#!/')) {
     location.replace(location.hash.slice(2));
+}
+if(realPath === '/') {
+    location.replace('/home');
 }
 
 if (realPath.startsWith("/i/user/")) {
@@ -470,9 +473,9 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }, () => {});
     }
     if(typeof(vars.openNotifsAsModal) !== 'boolean') {
-        vars.openNotifsAsModal = window.innerWidth < 650;
+        vars.openNotifsAsModal = true;
         chrome.storage.sync.set({
-            openNotifsAsModal: window.innerWidth < 650
+            openNotifsAsModal: true
         }, () => {});
     }
     if(typeof(vars.noBigFont) !== 'boolean') {
@@ -659,7 +662,8 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             "libraries/viewer.min.js",
             "libraries/custom-elements.min.js",
             "libraries/emojipicker.js",
-            "libraries/tinytoast.js"
+            "libraries/tinytoast.js",
+            "libraries/iframeNavigation.js",
         ]
     });
 })();

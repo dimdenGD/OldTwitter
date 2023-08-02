@@ -971,10 +971,12 @@ let userDataFunction = async user => {
             }
         }
     }, 5000);
-    API.notifications.get();
-    setInterval(() => {
-        API.notifications.get(undefined, false, false);
-    }, 30000);
+    if(!insideIframe) {
+        API.notifications.get();
+        setInterval(() => {
+            API.notifications.get(undefined, false, false);
+        }, 30000);
+    }
     
     // tweet
     document.getElementById('navbar-tweet-button').addEventListener('click', () => {
@@ -1459,7 +1461,7 @@ let userDataFunction = async user => {
         });
     });
     searchIcon.addEventListener('click', () => {
-        if(!searchInput.value || innerWidth < 650) {
+        if(!searchInput.value || searchInput.value === 'undefined') {
             return searchInput.focus();
         }
         lastSearches.push(searchInput.value);
@@ -1475,7 +1477,11 @@ let userDataFunction = async user => {
                 let event = new Event('newSearch');
                 document.dispatchEvent(event);
             } else {
-                location.href = `/search?q=${encodeURIComponent(searchInput.value)}`;
+                let a = document.createElement('a');
+                a.href = `/search?q=${encodeURIComponent(searchInput.value)}`;
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
             }
         });
     });
@@ -2366,6 +2372,7 @@ setInterval(() => {
         if(vars.openNotifsAsModal && location.pathname !== '/notifications' && location.pathname !== '/notifications/mentions') {
             e.preventDefault();
             e.stopImmediatePropagation();
+            console.log(1, e);
 
             let modal = createModal(`
                 <div class="nav-notifications-loading">
@@ -2457,6 +2464,8 @@ setInterval(() => {
                     let notifs = data.list;
                     for(let n of notifs) {
                         if(n.type === 'notification') {
+                            let notificationsWithSameId = document.querySelectorAll(`div[data-notification-id="${n.id}"]`);
+                            notificationsWithSameId.forEach(nd => nd.remove());
                             let nd = renderNotification(n, { unread: true });
                             divs.push(nd);
                         } else if(n.type === 'tweet') {

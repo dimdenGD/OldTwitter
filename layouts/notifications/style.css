@@ -163,12 +163,6 @@ body {
     color: var(--dark-background-color);
 }
 
-.notification-unread .tweet-interact-reply[data-val="0"],
-.notification-unread .tweet-interact-retweet[data-val="0"],
-.notification-unread .tweet-interact-favorite[data-val="0"] {
-    color: var(--dark-background-color);
-}
-
 
 .tweet-avatar-link {
     float: left;
