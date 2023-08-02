@@ -1414,7 +1414,21 @@ let userDataFunction = async user => {
         if(query.length === 0) {
             return loadDefaultSearches();
         }
-        let search = await API.search.typeahead(query);
+        let search;
+
+        if(isFinite(parseInt(query)) && query.length >= 5) {
+            let user = await API.user.get(query);
+            if(user) {
+                search = {
+                    topics: [],
+                    users: [user]
+                }
+            } else {
+                search = await API.search.typeahead(query);
+            }
+        } else {
+            search = await API.search.typeahead(query);
+        }
         searchResults.innerHTML = '';
         search.topics.forEach(({topic}) => {
             let topicElement = document.createElement('a');

@@ -80,6 +80,15 @@ if (realPath === '/intent/user') {
         location.replace("/" + user.screen_name);
     });
 }
+if (realPath.startsWith('/i/web/status/')) {
+    let id = location.pathname.split('/i/web/status/')[1];
+    API.tweet.get(id).then(tweet => {
+        if (tweet.error) {
+            return;
+        }
+        location.replace("/" + tweet.user.screen_name + "/status/" + tweet.id_str);
+    });
+}
 if(/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
     location.href = `https://twitter.com/${realPath.split("/direct_messages/create/")[1]}#dm`;
 }
@@ -169,13 +178,14 @@ const TRANSLATORS = {
 };
 let LOC = {};
 let LOC_EN = {};
-let LANGUAGE = navigator.language.replace("-", "_");
+
 if(!LANGUAGES.includes(LANGUAGE)) {
     LANGUAGE = LANGUAGE.split("_")[0];
     if(!LANGUAGES.includes(LANGUAGE)) {
         LANGUAGE = "en";
     }
 }
+
 function isDark() {
     let date = new Date();
     let hours = date.getHours();

@@ -940,7 +940,7 @@ const API = {
         get: (cursor, onlyMentions = false, cache = true) => {
             return new Promise((resolve, reject) => {
                 chrome.storage.local.get(['notifications'], d => {
-                    if(d.notifications && Date.now() - d.notifications.date < 35000 && !cursor && !onlyMentions && cache) {
+                    if(d.notifications && Date.now() - d.notifications.date < 60000 && !cursor && !onlyMentions && cache) {
                         debugLog('notifications.get', 'cache', d.notifications.data);
                         return resolve(d.notifications.data);
                     }
