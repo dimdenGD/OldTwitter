@@ -137,8 +137,7 @@ body {
     width: 590px
 }
 
-.tweet,
-.notification {
+.tweet {
     background-color: var(--background-color);
     border-left: 1px solid var(--border);
     border-right: 1px solid var(--border);
@@ -148,9 +147,7 @@ body {
     padding: 10px
 }
 
-.tweet:hover,
-.notification:hover,
-.notification-unread {
+.tweet:hover {
     background-color: var(--dark-background-color)
 }
 
@@ -645,93 +642,6 @@ a:hover,
     vertical-align: text-bottom;
 }
 
-.notification-icon {
-    bottom: -1px;
-    display: inline-block;
-    font: 16px RosettaIcons;
-    left: 31px;
-    margin-right: 5px;
-    position: relative;
-    vertical-align: top;
-}
-
-.notification-header {
-    display: inline;
-    font-size: 14px;
-    left: 31px;
-    position: relative;
-    color: var(--default-text-color);
-    width: 90%;
-    display: inline-block;
-}
-
-.notification-text {
-    color: var(--light-gray);
-    font-size: 14px;
-    left: 57px;
-    position: relative;
-    width: 475px
-}
-
-.notification-avatars {
-    left: 54px;
-    position: relative
-}
-
-.notification-header a {
-    color: var(--default-text-color);
-    font-weight: 700
-}
-
-.ni-favorite:before {
-    color: var(--favorite-icon-color);
-    content: var(--favorite-icon-content-notif)
-}
-
-.ni-follow:before {
-    color: #55acee;
-    content: "\f002"
-}
-
-.ni-retweet:before {
-    color: #5c913b;
-    content: "\f006"
-}
-.ni-recommend:before {
-    color: #ca4e4e;
-    content: "\f011"
-}
-.ni-bolt:before {
-    color: #fbff00;
-    content: "\f017"
-}
-.ni-twitter:before {
-    color: #00aced;
-    content: "\f014"
-}
-.ni-alert:before {
-    color: #ff0000;
-    content: "\f182"
-}
-.ni-bell:before {
-    color: #9900ff;
-    content: "\f000";
-}
-.ni-list:before {
-    color: #00aced;
-    content: "\f012"
-}
-
-.notification-avatar {
-    display: inline-block;
-    margin: 2px;
-    margin-top: 10px
-}
-
-.notification-avatar img {
-    border-radius: 5px
-}
-
 .center-text {
     background-color: var(--background-color);
     border: 1px solid var(--border);
@@ -872,9 +782,6 @@ a:hover,
         margin-left: auto;
         margin-right: auto;
     }
-    .notification-switch {
-       
-    }
 }
 /* Mobile UI */
 @media screen and (max-width: 590px) {
@@ -888,12 +795,6 @@ a:hover,
     }
     #notifications-div {
         width: 100%;
-    }
-    .notification-avatars, .notification-text {
-        width: calc(100% - 56px);
-    }
-    .notification-header {
-        width: calc(100% - 100px);
     }
     #notifications-div > :first-child {
         border-top-left-radius: 0;
