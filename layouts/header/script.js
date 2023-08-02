@@ -2372,7 +2372,6 @@ setInterval(() => {
         if(vars.openNotifsAsModal && location.pathname !== '/notifications' && location.pathname !== '/notifications/mentions') {
             e.preventDefault();
             e.stopImmediatePropagation();
-            console.log(1, e);
 
             let modal = createModal(`
                 <div class="nav-notifications-loading">

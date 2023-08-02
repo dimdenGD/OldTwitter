@@ -74,6 +74,7 @@ setTimeout(() => {
                             <li>Added ability to import and export settings and styles.</li>
                             <li>Added ability to reset settings and clear caches.</li>
                             <li>Added support for media content warnings.</li>
+                            <li>Added experimental option to be able to click on links and be able to go back to timeline without refreshing.</li>
                             <li>Added ability to hide non-replies in profile tweets & replies page.</li>
                             <li>Added ability to hide replies.</li>
                             <li>Added option to disable personalized trends.</li>

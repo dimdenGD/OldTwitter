@@ -19,6 +19,8 @@ window.addEventListener('unload', () => {
 
 function useIframeNavigation(e) {
     if(e.defaultPrevented) return;
+    if(typeof vars === 'undefined') return;
+    if(!vars.enableIframeNavigation) return;
 
     let a = e.target.closest('a');
     if(!a || !a.href || a.href.startsWith('#') || a.href.startsWith('javascript:')) return;
