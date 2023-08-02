@@ -239,6 +239,8 @@ let userDataFunction = async user => {
         });
     }
     async function updateInboxData() {
+        let inboxModal = document.getElementsByClassName('inbox-modal')[0];
+        if(inboxModal && inboxModal.scrollTop > 600 && cursor) return;
         inboxData = await API.inbox.get();
         if(inboxData.status === "HAS_MORE" && !cursor) {
             cursor = inboxData.min_entry_id;
