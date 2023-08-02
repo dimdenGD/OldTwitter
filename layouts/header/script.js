@@ -2366,16 +2366,7 @@ setInterval(() => {
         if(vars.openNotifsAsModal && location.pathname !== '/notifications' && location.pathname !== '/notifications/mentions') {
             e.preventDefault();
             e.stopImmediatePropagation();
-            let timeout = setTimeout(() => {
-                let notifElement = document.getElementById('notifications-count');
-                let icon = document.getElementById('site-icon');
 
-                notifElement.hidden = true;
-                icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
-                if(document.title.startsWith("(")) {
-                    document.title = document.title.split(') ').slice(1).join(') ');
-                };
-            }, 1500);
             let modal = createModal(`
                 <div class="nav-notifications-loading">
                     <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
@@ -2383,7 +2374,6 @@ setInterval(() => {
                 <div class="nav-notification-list"></div>
                 <div class="nav-notification-more center-text" hidden>${LOC.load_more.message}</div>
             `, 'notifications-modal', () => {
-                clearTimeout(timeout);
                 clearInterval(ui);
             });
 
@@ -2423,7 +2413,11 @@ setInterval(() => {
                     if(data.cursorTop !== cursorTop) {
                         setTimeout(() => {
                             API.notifications.markAsRead(cursorTop);
-                            document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
+
+                            let notifElement = document.getElementById('notifications-count');
+                            let icon = document.getElementById('site-icon');
+                            notifElement.hidden = true;
+                            icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
                             let newTitle = document.title;
                             if(document.title.startsWith('(')) {
                                 newTitle = document.title.split(') ')[1];
