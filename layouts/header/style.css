@@ -2156,7 +2156,8 @@ emoji-picker {
         display: none !important;
     }
     #navbar-links a {
-        padding: 13px 8px;
+        padding-left: 11px;
+        padding-right: 3px;
     }
     .modal-content {
         min-width: unset;
@@ -2228,6 +2229,10 @@ emoji-picker {
         bottom: 0;
         border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
+    body.move-navbar-to-bottom #search-results {
+        position: absolute;
+        bottom: 60px;
+    }
     #navbar-user-menu {
         position: absolute;
         right: 0;
@@ -2258,6 +2263,9 @@ emoji-picker {
     }
     .modal .tweet-media-element {
         width: 100%;
+    }
+    .tweet .tweet-header-name {
+        max-width: calc(100% - 65px);
     }
 }
 @media screen and (max-width: 460px) {

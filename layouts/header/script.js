@@ -1459,7 +1459,7 @@ let userDataFunction = async user => {
         });
     });
     searchIcon.addEventListener('click', () => {
-        if(!searchInput.value) {
+        if(!searchInput.value || innerWidth < 650) {
             return searchInput.focus();
         }
         lastSearches.push(searchInput.value);
