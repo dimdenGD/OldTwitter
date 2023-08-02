@@ -985,7 +985,7 @@ const API = {
                                     if(tweet.quoted_status_id_str) {
                                         tweet.quoted_status = data.globalObjects.tweets[tweet.quoted_status_id_str];
                                         if(tweet.quoted_status) {
-                                            tweet.quoted_status.user = data.globalObjects.users[replyTweet.quoted_status.user_id_str];
+                                            tweet.quoted_status.user = data.globalObjects.users[tweet.quoted_status.user_id_str];
                                             tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
                                         }
                                     }
