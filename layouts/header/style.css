@@ -2289,6 +2289,28 @@ emoji-picker {
     .navbar-new-tweet-text {
         width: calc(100% - 98px);
     }
+    .tweet-footer {
+        border: 1px solid var(--border);
+    }
+    .tweet-footer-stats {
+        border-right: none;
+        width: 100%;
+        border-bottom: 1px solid var(--border);
+    }
+    .tweet-footer-stat {
+        width: 100%;
+        text-align: center;
+    }
+    .tweet-footer-stat-text {
+        padding: 7px 7px 0px 7px;
+    }
+    .tweet-footer-favorites {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 8px;
+        margin-left: 0;
+    }
 }
 @media screen and (max-width: 460px) {
     #pin-lists {
