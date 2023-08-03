@@ -1505,6 +1505,7 @@ let userDataFunction = async user => {
     let userPreviewTimeouts = [];
     let leavePreviewTimeout;
     document.addEventListener('mouseover', e => {
+        if(innerWidth < 650) return;
         for(let timeout of userPreviewTimeouts) {
             clearTimeout(timeout);
         }
