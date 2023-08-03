@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "只有通过确认的关注者才能访问 @$SCREEN_NAME$ 的推文和完整个人资料。点击“关注”按钮以发送请求。", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "将推特链接以此域名复制：", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "标签页图标使用新版Logo（当然，不是X）" },
-    "update_timeline_automatically": { "message": "在有新推文时自动更新时间线<br>实验性功能：可能会产生错误。仅在您需要实时刷新时间线时启用。<br>在向下滚动超过约15条推文时会暂停自动更新。" },
+    "update_timeline_automatically": { "message": "在有新推文时自动更新时间线<br><b>实验性功能：</b>可能会产生错误。仅在您需要实时刷新时间线时启用。<br>在向下滚动超过约15条推文时会暂停自动更新。" },
     "chrono_no_retweets": { "message": "时间线（不含转推）" },
     "chrono_retweets": { "message": "时间线（仅有转推）" },
     "hide_trends": { "message": "隐藏趋势" },
@@ -502,5 +502,7 @@
     "move_navbar_to_bottom": { "message": "将导航栏移至底部" },
     "styled_profile": { "message": "自定义个人资料样式" },
     "open_notifs_as_modal": { "message": "将【通知】以弹窗形式打开", "description": "Modal is a small window that opens on top of page" },
-    "clear_ot_token": { "message": "清除 OldTwitter 令牌" }
+    "clear_ot_token": { "message": "清除 OldTwitter 令牌" },
+    "enable_iframe_navigation": {"message": "启用无刷新跳转<br>启用后可以在不刷新标签页的情况下返回之前的页面。<br><b>实验性功能：</b>可能会产生错误并延迟加载速度。"},
+    "style_your_profile": {"message": "在这里自定义你的个人资料样式！"}
 }
