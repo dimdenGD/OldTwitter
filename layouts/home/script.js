@@ -135,7 +135,7 @@ function updateUserData() {
         console.error(e);
     });
 }
-async function updateTimeline() {
+async function updateTimeline(saveCursor = true) {
     seenThreads = [];
     if (timeline.data.length === 0) {
         document.getElementById('timeline').innerHTML = ``;
@@ -157,7 +157,7 @@ async function updateTimeline() {
         return;
     }
     s = s.value; tl = tl.value;
-    algoCursor = tl.cursor;
+    if(saveCursor) algoCursor = tl.cursor;
     tl = tl.list;
     if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
         for(let t of tl) {
@@ -1206,7 +1206,7 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') setInterval(updateTimeline, 60000);
+    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline(false), 60000);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 50);
