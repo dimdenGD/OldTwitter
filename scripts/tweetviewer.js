@@ -16,7 +16,7 @@ class TweetViewer {
             <div class="likes-more center-text" hidden>${LOC.load_more.message}</div>
         `, 'tweet-viewer', () => {
             this.close();
-            history.pushState({}, null, previousLocation);
+            if((location.pathname + location.search) !== previousLocation) history.pushState({}, null, previousLocation);
         });
         this.tweetData = tweetData;
         this.id = tweetData.id_str;

@@ -2373,6 +2373,7 @@ setInterval(() => {
             e.preventDefault();
             e.stopImmediatePropagation();
 
+            let previousLocation = location.href;
             let modal = createModal(`
                 <div class="nav-notifications-loading">
                     <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
@@ -2381,6 +2382,7 @@ setInterval(() => {
                 <div class="nav-notification-more center-text" hidden>${LOC.load_more.message}</div>
             `, 'notifications-modal', () => {
                 clearInterval(ui);
+                if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
             });
 
             history.pushState({}, null, `https://twitter.com/notifications`);
