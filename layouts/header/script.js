@@ -1673,12 +1673,12 @@ let userDataFunction = async user => {
                     .user-stat-div>h2 {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0 10px;text-transform: uppercase;white-space: nowrap;}
                     .user-stat-div>h1 {color: var(--link-color);font-size: 20px;margin: 0 10px }
                     .user-stat-div {text-decoration: none !important;}
-                    .follow{border: 1px solid var(--link-color) !important;color:var(--link-color) !important;background-image: var(--background-color) !important;background-color: var(--background-color) !important;}
                     ${modernButtonsEnabled ? /*html*/`
                     .nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: var(--link-color);background-color: var(--link-color);background-repeat: no-repeat;border: none;border-radius: 999px;color: white;cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}
                     .nice-button:hover:not([disabled]) {filter: brightness(0.9);}
                     .nice-button:disabled {opacity:0.6;}
-                    .nice-button:disabled:before {opacity:0.6;}`:/*html*/`
+                    .nice-button:disabled:before {opacity:0.6;}
+                    .follow{border: 1px solid var(--link-color) !important;color:var(--link-color) !important;background-image: var(--background-color) !important;background-color: var(--background-color) !important;}`:/*html*/`
                     .nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: linear-gradient(var(--background-color),var(--darker-background-color));background-repeat: no-repeat;border: 1px solid var(--border);border-radius: 4px;color: var(--darker-gray);cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}
                     .nice-button:hover:not([disabled]) {color: var(--almost-black);text-decoration: none;background-color: var(--border);background-image: linear-gradient(var(--background-color),var(--border));border-color: var(--border);}
                     .nice-button:disabled {color: lightgray !important;cursor: not-allowed;}
