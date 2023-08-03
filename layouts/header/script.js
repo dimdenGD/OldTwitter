@@ -2383,6 +2383,8 @@ setInterval(() => {
                 clearInterval(ui);
             });
 
+            history.pushState({}, null, `https://twitter.com/notifications`);
+
             let notifLoading = modal.getElementsByClassName('nav-notifications-loading')[0];
             let notifList = modal.getElementsByClassName('nav-notification-list')[0];
             let notifMore = modal.getElementsByClassName('nav-notification-more')[0];
@@ -2494,6 +2496,15 @@ setInterval(() => {
                 updateNotifications({ mode: 'append', quiet: true });
             });
         }
+    });
+    window.addEventListener('popstate', () => {
+        let nm = document.querySelector('.notifications-modal');
+        if(nm) {
+            let tv = document.querySelector('.tweet-viewer');
+            if(!tv) {
+                nm.parentElement.removeModal();
+            }
+        }   
     });
 
     switchDarkMode(vars.darkMode || (vars.timeMode && isDark()));
