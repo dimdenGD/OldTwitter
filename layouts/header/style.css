@@ -4,6 +4,7 @@
     --icon-font: "RosettaIcons";
     --tweet-font: Arial, sans-serif;
     --favorite-icon-content: "\f147";
+    --favorite-icon-content-click: "\f147";
     --favorite-icon-content-notif: "\f001";
     --favorite-icon-color: #ffac33;
     --video-cover: contain;
@@ -123,6 +124,12 @@ input, textarea {
 #home:before {
     content: "\f053";
 }
+/*
+New Symbol Test
+.menu-active#home:before {
+    content: "\f553";
+}
+*/
 
 #notifications:before {
     content: "\f055";

@@ -497,7 +497,10 @@ body {
 .tweet-interact-favorite:hover {
     color: var(--favorite-icon-color) !important
 }
-
+.tweet-interact-favorited,
+.tweet-interact-favorited:before{
+    content: var(--favorite-icon-content-click) !important
+}
 .tweet-reply-text:focus,
 .tweet-quote-text:focus {
     outline: none

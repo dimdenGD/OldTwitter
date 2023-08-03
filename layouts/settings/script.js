@@ -220,11 +220,11 @@ setTimeout(async () => {
         }, () => { });
     }); 
     iconFontElement.addEventListener('change', () => {
-        vars.iconFontElement = iconFontElement.checked;
+        vars.iconFont = iconFontElement.checked;
         chrome.storage.sync.set({
-            iconFontElement: iconFontElement.checked
+            iconFont: iconFontElement.checked
         }, () => {});
-        if(vars.iconFontElement){
+        if(vars.iconFont){
             root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
         }
         else{
@@ -600,7 +600,7 @@ setTimeout(async () => {
         tweetFontElement.value = vars.tweetFont;
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
-    if(vars.iconFontElement){
+    if(vars.iconFont){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
     }
     heartsNotStars.checked = !!vars.heartsNotStars;
@@ -611,7 +611,7 @@ setTimeout(async () => {
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
-    iconFontElement.checked = !!vars.iconFontElement;
+    iconFontElement.checked = !!vars.iconFont;
     timeMode.checked = !!vars.timeMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
