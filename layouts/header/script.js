@@ -586,6 +586,25 @@ let userDataFunction = async user => {
                     gifElement.classList.add('message-element-media');
                     messageElement.append(document.createElement('br'), gifElement);
                 }
+                if(attachment.video) {
+                    console.log(attachment.video);
+                    let video = attachment.video;
+                    let videoElement = document.createElement('video');
+                    videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
+                    videoElement.controls = true;
+                    if(video.original_info.width > 200) {
+                        videoElement.width = 200;
+                    } else {
+                        videoElement.width = video.original_info.width;
+                    }
+                    if(video.original_info.height > 100) {
+                        videoElement.height = 100;
+                    } else {
+                        videoElement.height = video.original_info.height;
+                    }
+                    videoElement.classList.add('message-element-media');
+                    messageElement.append(document.createElement('br'), videoElement);
+                }
             }
             let span = messageElement.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
