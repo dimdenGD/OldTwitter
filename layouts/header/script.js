@@ -135,7 +135,8 @@ function switchModernButtons(enabled) {
             .tweet-quote-button:before,
             .follow:before,
             .following:before,
-            #edit-profile:before  {
+            #edit-profile:before,
+            #control-unblock:before  {
                 content: "";
                 margin-right: 0;
             }
@@ -143,7 +144,8 @@ function switchModernButtons(enabled) {
             #message-user:before,
             #edit-profile:before, 
             #edit-profile, 
-            #profile-style
+            #profile-style, 
+            #see-tweet-btn
             {
                 border: 1px solid var(--link-color); !important;
                 color:var(--link-color);
