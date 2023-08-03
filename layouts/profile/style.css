@@ -1009,7 +1009,7 @@ a:hover,
 .profile-media-preview {
     cursor: pointer;
     vertical-align: text-top;
-    width: 75px;
+    width: 75px !important;
     height: 75px;
     margin: 3px
 }
@@ -1688,6 +1688,9 @@ a:hover,
     }
     #profile-name {
         width: calc(100% - 190px);
+    }
+    #profile-media {
+        margin-bottom: 40px;
     }
 }
 @media screen and (max-width: 550px) {

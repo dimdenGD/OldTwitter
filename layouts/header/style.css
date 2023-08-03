@@ -2140,6 +2140,9 @@ emoji-picker {
         max-width: unset;
         width: calc(100% - 15px);
     }
+    .tweet-body-quote {
+        width: 100%;
+    }
     #right-cell {
         display: none;
     }
@@ -2270,7 +2273,7 @@ emoji-picker {
         width: calc(100% - 80px);
     }
     .modal .tweet-body {
-        width: calc(100% - 80px);
+        width: 100%;
     }
     .modal .tweet-media-element {
         width: 100%;

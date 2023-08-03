@@ -454,7 +454,7 @@
     "sidebar": { "message":"Pasek boczny", "description":"Setting Text"},
     "advanced_options": { "message":"Opcje zaanwansowane", "description":"Setting Text"},
     "advanced_colors": { "message":"Kolory zaanwansowane", "description":"Setting Text"},
-    "accssibility": { "message":"Dostępność", "description":"Setting Text"},
+    "accessibility": { "message":"Dostępność", "description":"Setting Text"},
     "tweets_and_timeline": { "message":"Tweety i strona główna", "description":"Setting Text"},
     "dark_mode_setting": { "message": "Tryb ciemny", "description":"Setting Text"},
     "old_twitter_look": {"message": "Wygląd starego twittera", "description":"Setting Text"},
