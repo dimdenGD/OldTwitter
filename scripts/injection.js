@@ -226,7 +226,7 @@ async function updateCustomCSSVariables() {
     });
     root.style.setProperty('--font', vars.font);
     root.style.setProperty('--tweet-font', vars.tweetFont);
-    if(vars.iconFont){
+    if(vars.iconFont || vars.modernUI){
         root.style.setProperty('--tweet-font', `"edgeicons", "RosettaIcons"`);
     }
     if(data.customCSSVariables) {
@@ -539,12 +539,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         vars.roundAvatars = false;
         chrome.storage.sync.set({
             roundAvatars: false
-        }, () => {});
-    }
-    if(typeof(vars.modernButtons) !== 'boolean') {
-        vars.modernButtons = false;
-        chrome.storage.sync.set({
-            modernButtons: false
         }, () => {});
     }
     if(typeof(vars.modernUI) !== 'boolean') {

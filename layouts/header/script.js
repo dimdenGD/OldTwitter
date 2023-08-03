@@ -42,10 +42,6 @@ const roundAvatarBus = new BroadcastChannel('round_avatar_bus');
 roundAvatarBus.onmessage = function (e) {
     switchRoundAvatars(e.data);
 }
-const modernButtonsBus = new BroadcastChannel('modern_buttons_bus');
-modernButtonsBus.onmessage = function (e) {
-    switchModernButtons(e.data);
-}
 const modernUIBus = new BroadcastChannel('modern_ui_bus');
 modernUIBus.onmessage = function (e) {
     switchUIButtons(e.data);
@@ -83,13 +79,14 @@ function switchRoundAvatars(enabled) {
 }
 
 
-let modernButtonsEnabled = false;
-function switchModernButtons(enabled) {
-    modernButtonsEnabled = enabled;
+let modernUIEnabled = false;
+function switchModernUI(enabled) {
+    modernUIEnabled = enabled;
     if(enabled) {
         let style = document.createElement('style');
-        style.id = 'modern-buttons';
+        style.id = 'modern-ui';
         style.innerHTML = `
+            /* buttons */
             .nice-button {
                 border-radius: 999px !important;
                 background-image: var(--link-color);
@@ -181,29 +178,15 @@ function switchModernButtons(enabled) {
             #edit-profile:before  {
                 width: auto;
             }
+            /* DM */
             .message-element .message-body {
                 border-radius: 15px 15px 0 15px;
             }
             .message-element-other .message-body {
                 border-radius: 15px 15px 15px 0 !important;
             }
-        `;
-        document.head.appendChild(style);
-    } else {
-        let style = document.getElementById('modern-buttons');
-        if(style) style.remove();
-    }
-}
-
-
-let modernUIEnabled = false;
-function switchModernUI(enabled) {
-    modernUIEnabled = enabled;
-    if(enabled) {
-        let style = document.createElement('style');
-        style.id = 'modern-ui';
-        style.innerHTML = `
-        #wtf h1,
+            /* Sidebar or else */
+            #wtf h1,
             #trends h1,
             #settings h1 {
                 color: var(--almost-black);
@@ -291,14 +274,14 @@ let userDataFunction = async user => {
     if(vars.tweetFont) {
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
-    if(vars.iconFont){
+    if(vars.iconFont || vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
     }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
         root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');
         root.style.setProperty('--favorite-icon-color', 'rgb(249, 24, 128)');
-        if(vars.iconFont){//Rosetta doesnt have
+        if(vars.iconFont || vars.modernUI){//Rosetta doesnt have
             root.style.setProperty('--favorite-icon-content-click', '"\\f015"');
         }
         else{
@@ -308,16 +291,13 @@ let userDataFunction = async user => {
     else{   
         //edgeIcon Font does not have this font
         //We need to make newone?
-        if(vars.iconFont){
+        if(vars.iconFont || vars.modernUI){
             root.style.setProperty('--favorite-icon-content-notif', '"\\f147"');
         }
     }
 
     if(vars.roundAvatars) {
         switchRoundAvatars(true);
-    }
-    if(vars.modernButtons) {
-        switchModernButtons(true);
     }
     if(vars.modernUI) {
         switchModernUI(true);
@@ -1752,7 +1732,7 @@ let userDataFunction = async user => {
                     .user-stat-div>h2 {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0 10px;text-transform: uppercase;white-space: nowrap;}
                     .user-stat-div>h1 {color: var(--link-color);font-size: 20px;margin: 0 10px }
                     .user-stat-div {text-decoration: none !important;}
-                    ${modernButtonsEnabled ? /*html*/`
+                    ${modernUIEnabled ? /*html*/`
                     .nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: var(--link-color);background-color: var(--link-color);background-repeat: no-repeat;border: none;border-radius: 999px;color: white;cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}
                     .nice-button:hover:not([disabled]) {filter: brightness(0.9);}
                     .nice-button:disabled {opacity:0.6;}
@@ -2207,7 +2187,6 @@ setInterval(() => {
     document.addEventListener('customCSS', updateCustomCSS);
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
     document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
-    document.addEventListener('modernButtons', e => switchModernButtons(e.detail));
     document.addEventListener('modernUI', e => switchModernUIZ(e.detail));
 
     // hotkeys

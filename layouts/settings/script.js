@@ -145,7 +145,6 @@ setTimeout(async () => {
     let customCSSSave = document.getElementById('custom-css-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
     let roundAvatars = document.getElementById('round-avatars-switch');
-    let modernButtons = document.getElementById('modern-buttons-switch');
     let modernUI = document.getElementById('modern-ui-switch');
     let showOriginalImages = document.getElementById('show-original-images');
     let noBigFont = document.getElementById('no-big-font');
@@ -220,11 +219,11 @@ setTimeout(async () => {
         }, () => { });
     }); 
     iconFontElement.addEventListener('change', () => {
-        vars.iconFont = iconFontElement.checked;
+        vars.iconFont = !!iconFontElement.checked;
         chrome.storage.sync.set({
             iconFont: iconFontElement.checked
         }, () => {});
-        if(vars.iconFont){
+        if(vars.iconFont || vars.modernUI){
             root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
         }
         else{
@@ -400,21 +399,20 @@ setTimeout(async () => {
             roundAvatarBus.postMessage(roundAvatars.checked);
         });
     });
-    modernButtons.addEventListener('change', () => {
-        chrome.storage.sync.set({
-            modernButtons: modernButtons.checked
-        }, () => {
-            switchModernButtons(modernButtons.checked);
-            modernButtonsBus.postMessage(modernButtons.checked);
-        });
-    });
     modernUI.addEventListener('change', () => {
+        vars.modernUI = !!modernUI.checked;
         chrome.storage.sync.set({
             modernUI: modernUI.checked
         }, () => {
             switchModernUI(modernUI.checked);
             modernUIBus.postMessage(modernUI.checked);
-        });
+        });  
+        if(vars.iconFont || vars.modernUI){
+            root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+        }
+        else{
+            root.style.setProperty('--icon-font', `"RosettaIcons"`)
+        }
     });
     noBigFont.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -600,7 +598,7 @@ setTimeout(async () => {
         tweetFontElement.value = vars.tweetFont;
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
-    if(vars.iconFont){
+    if(vars.iconFont || vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
     }
     heartsNotStars.checked = !!vars.heartsNotStars;
@@ -650,7 +648,6 @@ setTimeout(async () => {
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
     roundAvatars.checked = !!vars.roundAvatars;
-    modernButtons.checked = !!vars.modernButtons;
     modernUI.checked = !!vars.modernUI;
     language.value = vars.language ? vars.language : 'en';
     copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
