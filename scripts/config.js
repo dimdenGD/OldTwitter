@@ -25,7 +25,7 @@ async function loadVars() {
             'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont', 'useOldDefaultProfileImage', 'enableHashflags',
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'moveNavbarToBottom', 'openNotifsAsModal', 'enableIframeNavigation',
-            'acknowledgedCustomizationButton', 'modernButtons'
+            'acknowledgedCustomizationButton', 'modernButtons', 'modernUI'
         ], data => {
             resolve(data);
             varsResolve(data);

@@ -46,6 +46,10 @@ const modernButtonsBus = new BroadcastChannel('modern_buttons_bus');
 modernButtonsBus.onmessage = function (e) {
     switchModernButtons(e.data);
 }
+const modernUIBus = new BroadcastChannel('modern_ui_bus');
+modernUIBus.onmessage = function (e) {
+    switchUIButtons(e.data);
+}
 
 let roundAvatarsEnabled = false;
 function switchRoundAvatars(enabled) {
@@ -140,37 +144,83 @@ function switchModernButtons(enabled) {
                 content: "";
                 margin-right: 0;
             }
+            /* some white button */
             .follow,
             #message-user,
-            #edit-profile:before, 
             #edit-profile, 
             #profile-style, 
-            #see-tweet-btn
+            #see-tweet-btn,
+            .inbox-refresh,
+            .inbox-readall
             {
                 border: 1px solid var(--link-color); !important;
                 color:var(--link-color);
                 background-image: var(--background-color) !important;
                 background-color: var(--background-color) !important;
             }
-            .follow:hover:not([disabled]) {
+            .follow:hover:not([disabled]),
+            #message-user:hover:not([disabled]),
+            #edit-profile:hover:not([disabled]), 
+            #profile-style:hover:not([disabled]), 
+            #see-tweet-btn:hover:not([disabled]),
+            .inbox-refresh:hover:not([disabled]),
+            .inbox-readall:hover:not([disabled]) {
                 filter: brightness(0.9);
                 border: 1px solid var(--link-color); !important;
                 color:var(--link-color);
                 background-image: var(--background-color) !important;
                 background-color: var(--background-color) !important;
             }
+            #message-user:before,
+            #message-user:hover:before,
+            #profile-style:before,
+            .inbox-refresh-icon:before,
+            .inbox-readall-icon:before  {
+                color:var(--link-color);
+            } 
             #edit-profile:before  {
                 width: auto;
             }
-            #message-user:before,
-            #message-user:hover:before,
-            #profile-style:before  {
-                color:var(--link-color);
-            } 
         `;
         document.head.appendChild(style);
     } else {
         let style = document.getElementById('modern-buttons');
+        if(style) style.remove();
+    }
+}
+
+
+let modernUIEnabled = false;
+function switchModernUI(enabled) {
+    modernUIEnabled = enabled;
+    if(enabled) {
+        let style = document.createElement('style');
+        style.id = 'modern-ui';
+        style.innerHTML = `
+        #wtf h1,
+            #trends h1,
+            #settings h1 {
+                color: var(--almost-black);
+                font-size: 18px;
+                font-weight: 600;
+            
+            }
+            #settings h2 {
+                color: var(--almost-black);
+                font-size: 16px;
+                font-weight: 400;
+            
+            }
+            .cool-header,
+            .nice-header {
+                color: var(--almost-black);
+                font-size: 22px !important;
+                font-weight: 600;
+            }
+        `;
+        document.head.appendChild(style);
+    } else {
+        let style = document.getElementById('modern-ui');
         if(style) style.remove();
     }
 }
@@ -246,6 +296,9 @@ let userDataFunction = async user => {
     }
     if(vars.modernButtons) {
         switchModernButtons(true);
+    }
+    if(vars.modernUI) {
+        switchModernUI(true);
     }
 
     if(vars.disableHotkeys) {
@@ -2129,6 +2182,7 @@ setInterval(() => {
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
     document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
     document.addEventListener('modernButtons', e => switchModernButtons(e.detail));
+    document.addEventListener('modernUI', e => switchModernUI(e.detail));
 
     // hotkeys
     if(!vars.disableHotkeys) {

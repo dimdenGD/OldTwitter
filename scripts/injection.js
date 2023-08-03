@@ -544,6 +544,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             modernButtons: false
         }, () => {});
     }
+    if(typeof(vars.modernUI) !== 'boolean') {
+        vars.modernUI = false;
+        chrome.storage.sync.set({
+            modernUI: false
+        }, () => {});
+    }
     
     if(typeof(vars.darkMode) !== 'boolean' && document.body) {
         let bg = document.body.style.backgroundColor;
