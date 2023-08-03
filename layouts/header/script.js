@@ -649,16 +649,15 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" width="26" height="26"></a>
+                    <div style="width:28px;height: 100%;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" width="26" height="26"></a></div>
                     <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
-                    <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
                 ` : `
                     <span class="message-menu-open"></span>
                     <div class="message-menu" hidden>
                         <span class="message-menu-delete">Delete for you</span>
                     </div>
-                    <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
                     <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
+                    
                 `}
             `;
             let menuOpen = messageElement.querySelector('.message-menu-open');
@@ -760,6 +759,7 @@ let userDataFunction = async user => {
                     messageElement.append(document.createElement('br'), gifElement);
                 }
             }
+            messageElement.innerHTML += `<br><span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>`;
             let span = messageElement.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
                 span.remove();
