@@ -290,6 +290,7 @@ let userDataFunction = async user => {
     }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
+        root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');
         root.style.setProperty('--favorite-icon-color', 'rgb(249, 24, 128)');
         if(vars.iconFont){//Rosetta doesnt have
             root.style.setProperty('--favorite-icon-content-click', '"\\f015"');
