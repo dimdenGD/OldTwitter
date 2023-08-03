@@ -1406,6 +1406,13 @@ a:hover,
     font-size: 14px;
     line-height: 20px;
 }
+.profile-settings-blocked {
+    margin-top: unset;
+    margin-bottom: 8px;
+}
+.profile-settings-div-blocked {
+    margin-left: 0 !important;
+}
 .profile-stat-disabled {
     cursor: not-allowed;
 }

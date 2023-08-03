@@ -1060,6 +1060,8 @@ async function renderProfile() {
                 e.target.innerText = LOC.turn_off_retweets.message;
             }
         });
+        document.getElementById("profile-settings").classList.toggle('profile-settings-blocked', pageUser.blocked_by);
+        document.getElementById("profile-settings-div").classList.toggle('profile-settings-div-blocked', pageUser.blocked_by);
         document.getElementById('profile-settings').addEventListener('click', () => {
             document.getElementById('profile-settings-div').hidden = false;
             setTimeout(() => {
