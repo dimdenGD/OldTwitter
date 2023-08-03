@@ -548,15 +548,10 @@ let userDataFunction = async user => {
                     let photoElement = document.createElement('img');
                     photoElement.src = photo.media_url_https;
                     photoElement.classList.add('message-element-media');
-                    if(photo.original_info.width > 200) {
-                        photoElement.width = 200;
+                    if(photo.original_info.width > 400) {
+                        photoElement.width = 400;
                     } else {
                         photoElement.width = photo.original_info.width;
-                    }
-                    if(photo.original_info.height > 100) {
-                        photoElement.height = 100;
-                    } else {
-                        photoElement.height = photo.original_info.height;
                     }
                     photoElement.addEventListener('click', e => {
                         new Viewer(photoElement, {
@@ -573,15 +568,10 @@ let userDataFunction = async user => {
                     gifElement.muted = true;
                     gifElement.loop = true;
                     gifElement.autoplay = true;
-                    if(gif.original_info.width > 200) {
-                        gifElement.width = 200;
+                    if(gif.original_info.width > 400) {
+                        gifElement.width = 400;
                     } else {
                         gifElement.width = gif.original_info.width;
-                    }
-                    if(gif.original_info.height > 100) {
-                        gifElement.height = 100;
-                    } else {
-                        gifElement.height = gif.original_info.height;
                     }
                     gifElement.classList.add('message-element-media');
                     messageElement.append(document.createElement('br'), gifElement);
@@ -591,15 +581,10 @@ let userDataFunction = async user => {
                     let videoElement = document.createElement('video');
                     videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
                     videoElement.controls = true;
-                    if(video.original_info.width > 200) {
-                        videoElement.width = 200;
+                    if(video.original_info.width > 400) {
+                        videoElement.width = 400;
                     } else {
                         videoElement.width = video.original_info.width;
-                    }
-                    if(video.original_info.height > 100) {
-                        videoElement.height = 100;
-                    } else {
-                        videoElement.height = video.original_info.height;
                     }
                     videoElement.classList.add('message-element-media');
                     messageElement.append(document.createElement('br'), videoElement);

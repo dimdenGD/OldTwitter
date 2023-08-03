@@ -674,9 +674,6 @@ input, textarea {
     color: var(--almost-black);
     font-size: 16px;
 }
-.larger {
-    font-size: 24px !important;
-}
 .inbox-message {
     border-bottom: 1px solid var(--border);
     padding-top: 10px;
@@ -815,6 +812,8 @@ input, textarea {
     object-fit: cover;
     max-width: fit-content;
     border-radius: 5px;
+    border: 1px solid var(--border);
+    max-height: 500px;
 }
 .message-time {
     color: var(--light-gray);
@@ -2104,7 +2103,9 @@ emoji-picker {
 .notification-unread .tweet-self-thread-line-dots {
     border: 2px var(--dark-background-color) solid !important
 }
-
+.larger {
+    font-size: 24px;
+}
 /* Mobile UI */
 @media screen and (max-width: 590px) {
     .notification-avatars, .notification-text {
@@ -2310,6 +2311,17 @@ emoji-picker {
         text-align: center;
         margin-bottom: 8px;
         margin-left: 0;
+    }
+    .message-element-media {
+        width: calc(100% - 50px);
+    }
+    .message-header-name {
+        font-size: 18px !important;
+        margin-bottom: 0;
+    }
+    .message-leave {
+        bottom: 32px;
+        z-index: 5;
     }
 }
 @media screen and (max-width: 460px) {
