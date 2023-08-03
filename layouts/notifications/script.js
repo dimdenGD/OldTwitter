@@ -35,7 +35,6 @@ function renderUserData() {
 
 let cursorTop = undefined;
 let cursorBottom = undefined;
-let firstRender = true;
 
 async function updateNotifications(options = { mode: 'rewrite', quiet: false }) {
     if(options.mode === 'rewrite' && !options.quiet) {
@@ -66,7 +65,6 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
             setTimeout(() => {
                 API.notifications.markAsRead(cursorTop);
                 if(windowFocused) {
-                    firstRender = false;
                     document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
                     let newTitle = document.title;
                     if(document.title.startsWith('(')) {
@@ -88,7 +86,6 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
 
     if(options.mode === 'append' || options.mode === 'rewrite') {
         if(options.mode === 'rewrite') {
-            firstRender = true;
             notificationsContainer.innerHTML = '';
         }
 
@@ -111,6 +108,8 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
         let notifs = data.list;
         for(let n of notifs) {
             if(n.type === 'notification') {
+                let notificationsWithSameId = document.querySelectorAll(`div[data-notification-id="${n.id}"]`);
+                notificationsWithSameId.forEach(nd => nd.remove());
                 let nd = renderNotification(n, { unread: true });
                 divs.push(nd);
             } else if(n.type === 'tweet') {
@@ -127,7 +126,6 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
     document.getElementById('notifications-more').hidden = false;
     document.getElementById('notifications-more').innerText = LOC.load_more.message;
     loadingMore = false;
-    firstRender = false;
     document.getElementById('loading-box').hidden = true;
 }
 

@@ -98,7 +98,7 @@ input, textarea {
     vertical-align: sub;
     font-family: RosettaIcons;
     font-size: 22px;
-    color: #1da1f2;
+    color: var(--link-color);
 }
 .center-text {
     background-color: var(--background-color);
@@ -642,6 +642,7 @@ input, textarea {
 .inbox-modal {
     max-width: 600px !important;
     width: 600px;
+    top: 15%;
 }
 .inbox-modal hr {
     border-color: var(--border);
@@ -1228,7 +1229,7 @@ span.tweet-body-text {
     background-color: var(--link-color) !important;
     color: var(--background-color) !important
 }
-.tweet-viewer {
+.tweet-viewer, .notifications-modal {
     width: 580px;
     max-height: unset !important;
 }
@@ -1988,21 +1989,130 @@ emoji-picker {
         width: 124px;
     }
 }
-#notifications-iframe {
-    border: none;
-    width: 100%;
-    height: 100%;
+.notification {
+    background-color: var(--background-color);
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    cursor: pointer;
+    min-height: 50px;
+    padding: 10px
+}
+.notification:hover,
+.notification-unread {
+    background-color: var(--dark-background-color)
+}
+.notification-icon {
+    bottom: -1px;
+    display: inline-block;
+    font: 16px RosettaIcons;
+    left: 31px;
+    margin-right: 5px;
+    position: relative;
+    vertical-align: top;
+}
+
+.notification-header {
+    display: inline;
+    font-size: 14px;
+    left: 31px;
+    position: relative;
+    color: var(--default-text-color);
+    width: 90%;
+    display: inline-block;
+}
+
+.notification-text {
+    color: var(--light-gray);
+    font-size: 14px;
+    left: 57px;
+    position: relative;
+    width: 475px
+}
+
+.notification-avatars {
+    left: 54px;
+    position: relative
+}
+.notification-header a {
+    color: var(--default-text-color);
+    font-weight: 700
+}
+
+.notification-avatar {
+    display: inline-block;
+    margin: 2px;
+    margin-top: 10px
+}
+
+.notification-avatar img {
+    border-radius: 5px
 }
 .notifications-modal {
-    max-height: 80%;
-    height: 100%;
-    overflow: hidden;
     top: 5%;
-    min-width: 600px;
+    overflow-x: clip;
+}
+.nav-notifications-loading {
+    text-align: center;
+}
+.ni-favorite:before {
+    color: var(--favorite-icon-color);
+    content: var(--favorite-icon-content-notif)
+}
+.notification-unread .tweet-interact-reply[data-val="0"],
+.notification-unread .tweet-interact-retweet[data-val="0"],
+.notification-unread .tweet-interact-favorite[data-val="0"] {
+    color: var(--dark-background-color);
+}
+
+.ni-follow:before {
+    color: #55acee;
+    content: "\f002"
+}
+
+.ni-retweet:before {
+    color: #5c913b;
+    content: "\f006"
+}
+.ni-recommend:before {
+    color: #ca4e4e;
+    content: "\f011"
+}
+.ni-bolt:before {
+    color: #fbff00;
+    content: "\f017"
+}
+.ni-twitter:before {
+    color: #00aced;
+    content: "\f014"
+}
+.ni-alert:before {
+    color: #ff0000;
+    content: "\f182"
+}
+.ni-bell:before {
+    color: #9900ff;
+    content: "\f000";
+}
+.ni-list:before {
+    color: #00aced;
+    content: "\f012"
+}
+.wtf-user-name {
+    max-width: 180px;
+}
+.notification-unread .tweet-self-thread-line-dots {
+    border: 2px var(--dark-background-color) solid !important
 }
 
 /* Mobile UI */
 @media screen and (max-width: 590px) {
+    .notification-avatars, .notification-text {
+        width: calc(100% - 56px);
+    }
+    .notification-header {
+        width: calc(100% - 100px);
+    }
     .nav-text, #navbar-tweet-button-text {
         display: none;
     }
@@ -2057,7 +2167,8 @@ emoji-picker {
         display: none !important;
     }
     #navbar-links a {
-        padding: 13px 8px;
+        padding-left: 11px;
+        padding-right: 3px;
     }
     .modal-content {
         min-width: unset;
@@ -2129,6 +2240,10 @@ emoji-picker {
         bottom: 0;
         border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
+    body.move-navbar-to-bottom #search-results {
+        position: absolute;
+        bottom: 60px;
+    }
     #navbar-user-menu {
         position: absolute;
         right: 0;
@@ -2159,6 +2274,12 @@ emoji-picker {
     }
     .modal .tweet-media-element {
         width: 100%;
+    }
+    .tweet .tweet-header-name {
+        max-width: calc(100% - 65px);
+    }
+    body.move-navbar-to-bottom #center-cell {
+        margin-top: 0;
     }
 }
 @media screen and (max-width: 460px) {

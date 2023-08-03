@@ -177,6 +177,7 @@ setTimeout(async () => {
     let disableProfileCustomizations = document.getElementById('disable-profile-customizations');
     let moveNavbarToBottom = document.getElementById('move-navbar-to-bottom');
     let openNotifsAsModal = document.getElementById('open-notifs-as-modal');
+    let enableIframeNavigation = document.getElementById('enable-iframe-navigation');
 
     let root = document.querySelector(":root");
     {
@@ -273,6 +274,11 @@ setTimeout(async () => {
         }, () => {
             vars.openNotifsAsModal = openNotifsAsModal.checked;
         });
+    });
+    enableIframeNavigation.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            enableIframeNavigation: enableIframeNavigation.checked
+        }, () => { });
     });
     heartsNotStars.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -602,6 +608,7 @@ setTimeout(async () => {
     enableAd.checked = !!vars.enableAd;
     moveNavbarToBottom.checked = !!vars.moveNavbarToBottom;
     openNotifsAsModal.checked = !!vars.openNotifsAsModal;
+    enableIframeNavigation.checked = !!vars.enableIframeNavigation;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

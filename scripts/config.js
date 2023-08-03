@@ -9,6 +9,7 @@ const OLDTWITTER_CONFIG = {
 };
 
 let LANGUAGE = navigator.language.replace("-", "_");
+const insideIframe = window !== window.top;
 
 // variables
 let vars;
@@ -23,7 +24,8 @@ async function loadVars() {
             'extensiveLogging', 'disablePersonalizedTrends', 'showBookmarkCount', 'hideCommunityNotes', 'disableGifAutoplay', 'showMediaCount',
             'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont', 'useOldDefaultProfileImage', 'enableHashflags',
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
-            'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'moveNavbarToBottom', 'openNotifsAsModal'
+            'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'moveNavbarToBottom', 'openNotifsAsModal', 'enableIframeNavigation',
+            'acknowledgedCustomizationButton'
         ], data => {
             resolve(data);
             varsResolve(data);

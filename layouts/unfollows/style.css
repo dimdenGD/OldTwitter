@@ -3,7 +3,7 @@
     height: 100%;
     position: fixed;
     width: 100%;
-    z-index: 1000
+    z-index: 200
 }
 
 #loading-box-text:before {
@@ -75,7 +75,6 @@ body {
     width: 195px;
     overflow-x: hidden;
     overflow-y: hidden;
-    height: 30px;
     white-space: nowrap;
 }
 

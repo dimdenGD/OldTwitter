@@ -1,5 +1,5 @@
 #loading-box {
-    z-index: 1000;
+    z-index: 200;
     width: 100%;
     height: 100%;
     background-color: var(--background-color);
@@ -1500,6 +1500,31 @@ a:hover,
 #custom-css-eligible button {
     padding: 4px 10px;
     margin-top: 5px;
+}
+.style-your-profile {
+    position: absolute;
+    background: var(--link-color);
+    color: var(--background-color);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-top: -39px;
+    text-align: center;
+    pointer-events: none;
+    font-weight: 100;
+    white-space: nowrap;
+    box-shadow: 0px 0px 6px 1px black;
+}
+.style-your-profile::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-left: -6px;
+    margin-top: -13px;
+    border-width: 9px;
+    border-style: solid;
+    rotate: 152deg;
+    border-color: var(--link-color) transparent transparent transparent;
 }
 
 .wtf-user {

@@ -80,7 +80,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         },
         {
           "matches": ["https://twitter.com/home", "https://twitter.com/home?*", "https://twitter.com/", "https://twitter.com/?*", "https://twitter.com/home/", "https://twitter.com/home/?*"],
-          "js": ["layouts/home/script.js"],
+          "js": ["layouts/home/script.js", "libraries/iframeNavigation.js"],
           "all_frames": true,
           "run_at": "document_idle"
         },

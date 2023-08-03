@@ -2965,11 +2965,11 @@ const API = {
                 });
             });
         },
-        getLikers: (id, cursor) => {
+        getLikers: (id, cursor, count = 10) => {
             return new Promise((resolve, reject) => {
                 let obj = {
                     "tweetId": id,
-                    "count": 10,
+                    "count": count,
                     "includePromotedContent": false,
                     "withSuperFollowsUserFields": true,
                     "withDownvotePerspective": false,

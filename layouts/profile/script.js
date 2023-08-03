@@ -449,6 +449,17 @@ function updateUserData() {
                     cssTextArea.value = data.css || '';
                     cssEligibleAuto = data.css_eligible_auto;
                     cssEligible = data.css_eligible;
+                    
+                    if(innerWidth > 800 && !vars.acknowledgedCustomizationButton && !data.css && !data.css_vars_dark && !data.css_vars_light) {
+                        let profileStyle = document.getElementById('profile-style');
+                        if(profileStyle) {
+                            let span = document.createElement('span');
+                            span.innerText = LOC.style_your_profile.message;
+                            span.className = 'style-your-profile';
+                            profileStyle.appendChild(span);
+                        }
+                    }
+
                     if(data.css_eligible || (data.css_eligible_auto && user.followers_count >= data.auto_requirement)) {
                         document.getElementById('custom-css-eligible').hidden = false;
                         document.getElementById('custom-css-not-eligible').hidden = true;
@@ -949,6 +960,11 @@ async function renderProfile() {
         let profileStyle = document.getElementById('profile-style');
         profileStyle.addEventListener('click', () => {
             profileStyle.classList.toggle('profile-style-active');
+            if(!vars.acknowledgedCustomizationButton) {
+                vars.acknowledgedCustomizationButton = true;
+                chrome.storage.sync.set({acknowledgedCustomizationButton: true}, () => {});
+                if(document.getElementsByClassName("style-your-profile")[0]) document.getElementsByClassName("style-your-profile")[0].hidden = true;
+            }
             profileStyleActive = !profileStyleActive;
             styling.hidden = !profileStyleActive;
         });
