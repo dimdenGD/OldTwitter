@@ -124,32 +124,44 @@ input, textarea {
 #home:before {
     content: "\f053";
 }
-/*
-New Symbol Test
+/*New Symbol Test
 .menu-active#home:before {
     content: "\f553";
-}
-*/
-
+}*/
 #notifications:before {
     content: "\f055";
 }
-
+/*New Symbol Test
+.menu-active#messages:before {
+    content: "\f019";
+}*/
 #messages:before {
     content: "\f054";
 }
+/*New Symbol Test
+.menu-active#messages:before {
+    content: "\f554";
+}*/
 #pin-lists {
     background-color: var(--background-color);
 }
 #pin-profile:before {
     content: "\f056";
 }
+/*New Symbol Test
+.menu-active#messages:before {
+    content: "\f002";
+}*/
 #pin-bookmarks:before {
     content: "\f093";
 }
 #pin-lists:before {
     content: "\f094";
 }
+/*New Symbol Test
+.menu-active#messages:before {
+    content: "\f012";
+}*/
 
 #navbar a:before {
     vertical-align: sub;
