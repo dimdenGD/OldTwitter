@@ -587,7 +587,6 @@ let userDataFunction = async user => {
                     messageElement.append(document.createElement('br'), gifElement);
                 }
                 if(attachment.video) {
-                    console.log(attachment.video);
                     let video = attachment.video;
                     let videoElement = document.createElement('video');
                     videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
