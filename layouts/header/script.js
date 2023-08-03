@@ -139,11 +139,12 @@ function switchModernButtons(enabled) {
                 content: "";
                 margin-right: 0;
             }
-            #edit-profile:before  {
-                width: auto;
-            }
             .follow,
-            #profile-nav-buttons *{
+            #message-user:before,
+            #edit-profile:before, 
+            #edit-profile, 
+            #profile-style
+            {
                 border: 1px solid var(--link-color); !important;
                 color:var(--link-color);
                 background-image: var(--background-color) !important;
@@ -155,6 +156,9 @@ function switchModernButtons(enabled) {
                 color:var(--link-color);
                 background-image: var(--background-color) !important;
                 background-color: var(--background-color) !important;
+            }
+            #edit-profile:before  {
+                width: auto;
             }
             #message-user:before,
             #message-user:hover:before,
