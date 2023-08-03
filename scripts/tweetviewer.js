@@ -1074,8 +1074,10 @@ class TweetViewer {
         // video
         let vidOverlay = tweet.getElementsByClassName('tweet-media-video-overlay')[0];
         if(vidOverlay) {
-            vidOverlay.addEventListener('click', () => {
+            vidOverlay.addEventListener('click',async () => {
                 let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
+                let res = await fetch(vid.currentSrc);
+                if(!res.headers.get('content-length')) await sleep(1000);
                 vid.play();
                 vid.controls = true;
                 vid.classList.remove('tweet-media-element-censor');
