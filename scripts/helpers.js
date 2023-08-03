@@ -554,8 +554,9 @@ function generatePoll(tweet, tweetElement, user) {
     let choices = Object.keys(poll).filter(key => key.endsWith('label')).map((key, i) => ({
         label: poll[key].string_value,
         count: poll[key.replace('label', 'count')] ? +poll[key.replace('label', 'count')].string_value : 0,
-        id: i+1
+        id: parseInt(key.replace(/[^0-9]/g, ''))
     }));
+    choices.sort((a, b) => a.id - b.id);
     let voteCount = choices.reduce((acc, cur) => acc + cur.count, 0);
     if(poll.selected_choice || user.id_str === tweet.user.id_str || (poll.counts_are_final && poll.counts_are_final.boolean_value)) {
         for(let i in choices) {
