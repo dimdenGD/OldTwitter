@@ -504,5 +504,6 @@
     "open_notifs_as_modal": {"message": "Open notifications as modal", "description": "Modal is a small window that opens on top of page"},
     "clear_ot_token": {"message": "Clear OldTwitter token"},
     "enable_iframe_navigation": {"message": "Enable experimental page-preserving navigation, this will make it possible to click on links and go back to previous page without reloads. This is experimental and might break and be laggy."},
-    "style_your_profile": {"message": "Style your profile here!"}
+    "style_your_profile": {"message": "Style your profile here!"},
+    "modern_buttons": { "message": "Round and modern buttons" }
 }

@@ -144,6 +144,7 @@ setTimeout(async () => {
     let customCSSSave = document.getElementById('custom-css-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
     let roundAvatars = document.getElementById('round-avatars-switch');
+    let modernButtons = document.getElementById('modern-buttons-switch');
     let showOriginalImages = document.getElementById('show-original-images');
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
@@ -386,6 +387,14 @@ setTimeout(async () => {
             roundAvatarBus.postMessage(roundAvatars.checked);
         });
     });
+    modernButtons.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            modernButtons: modernButtons.checked
+        }, () => {
+            switchModernButtons(modernButtons.checked);
+            modernButtonsBus.postMessage(modernButtons.checked);
+        });
+    });
     noBigFont.addEventListener('change', () => {
         chrome.storage.sync.set({
             noBigFont: noBigFont.checked
@@ -616,6 +625,7 @@ setTimeout(async () => {
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
     roundAvatars.checked = !!vars.roundAvatars;
+    modernButtons.checked = !!vars.modernButtons;
     language.value = vars.language ? vars.language : 'en';
     copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
     if(vars.timeMode) {

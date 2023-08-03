@@ -335,13 +335,13 @@ body {
     padding: 8px 16px
 }
 .nice-red-button {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #6F0D1C) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #6F0D1C);
 }
 
 .nice-red-button:hover:not([disabled]) {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #4B0E17) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #4B0E17);
 }
 
 .nice-button:hover:not([disabled]) {

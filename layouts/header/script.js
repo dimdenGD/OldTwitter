@@ -42,6 +42,10 @@ const roundAvatarBus = new BroadcastChannel('round_avatar_bus');
 roundAvatarBus.onmessage = function (e) {
     switchRoundAvatars(e.data);
 }
+const modernButtonsBus = new BroadcastChannel('modern_buttons_bus');
+modernButtonsBus.onmessage = function (e) {
+    switchModernButtons(e.data);
+}
 
 let roundAvatarsEnabled = false;
 function switchRoundAvatars(enabled) {
@@ -70,6 +74,97 @@ function switchRoundAvatars(enabled) {
         document.head.appendChild(style);
     } else {
         let style = document.getElementById('round-avatars');
+        if(style) style.remove();
+    }
+}
+
+
+let modernButtonsEnabled = false;
+function switchModernButtons(enabled) {
+    modernButtonsEnabled = enabled;
+    if(enabled) {
+        let style = document.createElement('style');
+        style.id = 'modern-buttons';
+        style.innerHTML = `
+            .nice-button {
+                border-radius: 999px !important;
+                background-image: var(--link-color);
+                background-color: var(--link-color);
+                border: none;
+                color: white;
+            }
+            .nice-button:hover:not([disabled]) {
+                filter: brightness(0.9);
+                background-image: var(--link-color);
+                background-color: var(--link-color);
+                color: white;
+            }
+            .nice-button:disabled {
+                color: white !important;
+                opacity:0.6;
+            }
+            .nice-button:disabled:before {
+                color: white !important;
+                opacity:0.6;
+            }
+            .nice-red-button {
+                color: #white !important;
+                background-image: #BA172C !important;
+                background-color: #BA172C !important;
+            }
+            .nice-red-button:hover:not([disabled]) {
+                color: white !important;
+                background-image: #BA172C !important;
+                background-color: #BA172C !important;
+            }
+            #navbar-tweet-button {
+                border-radius: 999px !important;
+                background-image: var(--link-color);
+                background-color: var(--link-color);
+                border: none !important;
+                color: white;
+                font-weight: bold;
+
+            }
+            /* Remove Icon */
+            #navbar-tweet-button:before,
+            .navbar-new-tweet-button:before,
+            .new-tweet-button:before,
+            #new-tweet-button:before,
+            .tweet-reply-button:before,
+            .tweet-quote-button:before,
+            .follow:before,
+            .following:before,
+            #edit-profile:before  {
+                content: "";
+                margin-right: 0;
+            }
+            #edit-profile:before  {
+                width: auto;
+            }
+            .follow,
+            #profile-nav-buttons *{
+                border: 1px solid var(--link-color); !important;
+                color:var(--link-color);
+                background-image: var(--background-color) !important;
+                background-color: var(--background-color) !important;
+            }
+            .follow:hover:not([disabled]) {
+                filter: brightness(0.9);
+                border: 1px solid var(--link-color); !important;
+                color:var(--link-color);
+                background-image: var(--background-color) !important;
+                background-color: var(--background-color) !important;
+            }
+            #message-user:before,
+            #message-user:hover:before,
+            #profile-style:before  {
+                color:var(--link-color);
+            } 
+        `;
+        document.head.appendChild(style);
+    } else {
+        let style = document.getElementById('modern-buttons');
         if(style) style.remove();
     }
 }
@@ -142,6 +237,9 @@ let userDataFunction = async user => {
 
     if(vars.roundAvatars) {
         switchRoundAvatars(true);
+    }
+    if(vars.modernButtons) {
+        switchModernButtons(true);
     }
 
     if(vars.disableHotkeys) {
@@ -2018,6 +2116,7 @@ setInterval(() => {
     document.addEventListener('customCSS', updateCustomCSS);
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
     document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
+    document.addEventListener('modernButtons', e => switchModernButtons(e.detail));
 
     // hotkeys
     if(!vars.disableHotkeys) {
