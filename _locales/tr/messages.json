@@ -764,7 +764,7 @@
 		"message": "Gelişmiş renkler",
 		"description": "Setting Text"
 	},
-	"accssibility": { "message": "Erişilebilirlik", "description": "Setting Text" },
+	"accessibility": { "message": "Erişilebilirlik", "description": "Setting Text" },
 	"tweets_and_timeline": {
 		"message": "Tweetler & Zaman Akışı",
 		"description": "Setting Text"

@@ -454,7 +454,7 @@
     "sidebar": { "message":"Thanh bên", "description":"Setting Text"},
     "advanced_options": { "message":"Cài đặt nâng cao", "description":"Setting Text"},
     "advanced_colors": { "message":"Màu nâng cao", "description":"Setting Text"},
-    "accssibility": { "message":"Khả năng tiệp cận", "description":"Setting Text"},
+    "accessibility": { "message":"Khả năng tiệp cận", "description":"Setting Text"},
     "tweets_and_timeline": { "message":"Tweets và dòng thời gian", "description":"Setting Text"},
     "dark_mode_setting": { "message": "Giao diện tối", "description":"Setting Text"},
     "old_twitter_look": {"message": "Giao điện OldTwitter", "description":"Setting Text"},
