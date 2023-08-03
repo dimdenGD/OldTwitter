@@ -460,16 +460,6 @@ async function renderTweetBodyHTML(t, is_quoted) {
 
     full_text_array = Array.from(t.full_text);
 
-    if (t.entities.hashtags) {
-        t.entities.hashtags.forEach(hashtag => {
-            let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
-            index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
-                `#${escapeHTML(hashtag.text)}`+
-                `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
-            `</a>`];
-        });
-    }
-
     if (t.entities.richtext) {
         t.entities.richtext.forEach(snippet => {
             index_map[snippet.from_index] = [
@@ -486,12 +476,31 @@ async function renderTweetBodyHTML(t, is_quoted) {
     }
 
     if (is_quoted) { // for quoted tweet we need only hashflags and readable urls
+        if (t.entities.hashtags) {
+            t.entities.hashtags.forEach(hashtag => {
+                let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text =>
+                    `#${escapeHTML(hashtag.text)}`+
+                    `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`];
+            });
+        };
+
         if (t.entities.urls) {
             t.entities.urls.forEach(url => {
                 index_map[url.indices[0]] = [url.indices[1], text => `${escapeHTML(url.display_url)}`];
             });
         };
     } else {
+        if (t.entities.hashtags) {
+            t.entities.hashtags.forEach(hashtag => {
+                let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
+                    `#${escapeHTML(hashtag.text)}`+
+                    `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
+                `</a>`];
+            });
+        };
+
         if (t.entities.symbols) {
             t.entities.symbols.forEach(symbol => {
                 index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="https://twitter.com/search?q=%24${escapeHTML(symbol.text)}">`+
