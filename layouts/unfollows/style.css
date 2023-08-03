@@ -9,7 +9,7 @@
 #loading-box-text:before {
     color: #1da1f2;
     content: "\f179";
-    font: 64px RosettaIcons;
+    font: 64px var(--icon-font);;
     margin-left: 20px;
     vertical-align: sub
 }
@@ -276,7 +276,7 @@ body {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px RosettaIcons;
+    font: 400 16px var(--icon-font);;
     margin-right: 10px;
     vertical-align: sub
 }
@@ -545,7 +545,7 @@ a:hover,
 .follow:before {
     color: var(--light-gray);
     content: "\f175";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -553,7 +553,7 @@ a:hover,
 .following:before {
     color: var(--link-color);
     content: "\f176";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -698,7 +698,7 @@ a:hover,
 #new-tweet-media:before {
     color: var(--link-color);
     content: "\f110";
-    font: 20px RosettaIcons
+    font: 20px var(--icon-font);
 }
 
 #new-tweet-button {
@@ -723,7 +723,7 @@ a:hover,
 .tweet-quote-button:before {
     color: var(--link-color);
     content: "\f029";
-    font: 14px RosettaIcons;
+    font: 14px var(--icon-font);;
     margin-right: 5px;
     vertical-align: bottom
 }
@@ -768,7 +768,7 @@ a:hover,
 .new-tweet-media-img-remove:before {
     color: white;
     content: "\f045";
-    font: 13px RosettaIcons;
+    font: 13px var(--icon-font);;
     margin-bottom: 2px
 }
 
@@ -799,7 +799,7 @@ a:hover,
 }
 .tweet-translate:before {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
 }
@@ -842,7 +842,7 @@ a:hover,
 #new-tweet-poll-btn:before {
     color: var(--link-color);
     content: "\f199";
-    font: 20px RosettaIcons;
+    font: 20px var(--icon-font);;
 }
 #new-tweet-emoji-btn {
     float: right;
@@ -854,7 +854,7 @@ a:hover,
 #new-tweet-emoji-btn:before {
     color: var(--link-color);
     content: "\f033";
-    font: 20px RosettaIcons;
+    font: 20px var(--icon-font);;
 }
 #new-tweet-schedule-btn {
     float: right;
@@ -866,7 +866,7 @@ a:hover,
 #new-tweet-schedule-btn:before {
     color: var(--link-color);
     content: "\f203";
-    font: 20px RosettaIcons;
+    font: 20px var(--icon-font);;
 }
 .poll-question, .poll-date {
     border: 1px solid var(--border);

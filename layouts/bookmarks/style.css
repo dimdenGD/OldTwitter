@@ -8,7 +8,7 @@
 #loading-box-text:before {
     content: "\f179";
     vertical-align: sub;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-size: 64px;
     color: #1da1f2;
     margin-left: 20px;
@@ -235,14 +235,14 @@ body {
 }
 .follow:before {
     color: var(--light-gray);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     content: "\f175";
     margin-right: 7px;
     vertical-align: text-bottom;
 }
 .following:before {
     color: var(--link-color);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     content: "\f176";
     margin-right: 7px;
     vertical-align: text-bottom;
@@ -475,7 +475,7 @@ body {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px RosettaIcons;
+    font: 400 16px var(--icon-font);;
     margin-right: 10px;
     vertical-align: sub
 }
@@ -743,7 +743,7 @@ a:hover,
 .follow:before {
     color: var(--light-gray);
     content: "\f175";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -751,7 +751,7 @@ a:hover,
 .following:before {
     color: var(--link-color);
     content: "\f176";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -793,14 +793,14 @@ a:hover,
 .user-verified::after {
     color: #55acee;
     content: "\f099";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 
 .user-protected::after {
     color: #ddd22b;
     content: "\f096";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 

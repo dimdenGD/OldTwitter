@@ -8,7 +8,7 @@
 #loading-box-text:before {
     content: "\f179";
     vertical-align: sub;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-size: 64px;
     color: #1da1f2;
     margin-left: 20px;
@@ -212,14 +212,14 @@ body {
 }
 .follow:before {
     color: var(--light-gray);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     content: "\f175";
     margin-right: 7px;
     vertical-align: text-bottom;
 }
 .following:before {
     color: var(--link-color);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     content: "\f176";
     margin-right: 7px;
     vertical-align: text-bottom;
@@ -504,7 +504,7 @@ select, input, textarea {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px RosettaIcons;
+    font: 400 16px var(--icon-font);;
     margin-right: 10px;
     vertical-align: sub
 }

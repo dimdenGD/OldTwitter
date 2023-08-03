@@ -1,6 +1,7 @@
 :root {
     --link-color: #4bacd2;
     --font: Arial, sans-serif;
+    --icon-font: "RosettaIcons";
     --tweet-font: Arial, sans-serif;
     --favorite-icon-content: "\f147";
     --favorite-icon-content-notif: "\f001";
@@ -27,6 +28,10 @@
 @font-face {
     font-family: 'RosettaIcons';
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
+}
+@font-face {
+    font-family: "edgeicons";
+    src: url(chrome-extension://__MSG_@@extension_id__/fonts/edge-icons-Regular.woff);
 }
 h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizeLegibility;
@@ -96,7 +101,7 @@ input, textarea {
 #twitter-logo:before {
     content: "\f179";
     vertical-align: sub;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-size: 22px;
     color: var(--link-color);
 }
@@ -142,7 +147,7 @@ input, textarea {
 #navbar a:before {
     vertical-align: sub;
     margin-right: 7px;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-size: 20px;
 }
 
@@ -261,7 +266,7 @@ input, textarea {
 #search-icon:before, #user-search-icon:before {
     content: "\f058";
     vertical-align: sub;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-size: 13px;
     color: var(--darker-gray);
 }
@@ -350,7 +355,7 @@ input, textarea {
 }
 #navbar-tweet-button:before {
     content: "\f029";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--background-color);
     font-size: 20px;
     vertical-align: sub;
@@ -421,7 +426,7 @@ input, textarea {
 }
 .navbar-new-tweet-media:before {
     content: "\f110";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--link-color);
     font-size: 20px;
 }
@@ -433,7 +438,7 @@ input, textarea {
 }
 .navbar-new-tweet-button:before, .new-tweet-button:before {
     content: "\f029";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--link-color);
     font-size: 14px;
     margin-right: 5px;
@@ -473,7 +478,7 @@ input, textarea {
 }
 .new-tweet-media-img-remove:before {
     content: "\f045";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-bottom: 2px;
     color: white;
     font-size: 13px;
@@ -594,7 +599,7 @@ input, textarea {
 .search-result-item-verified::after {
     content: "\f099";
     color: #55acee;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px;
 }
 #search-results {
@@ -657,20 +662,20 @@ input, textarea {
 }
 .inbox-new-icon:before {
     content: "\f035";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-bottom: 2px;
     color: var(--background-color) !important;
     font-size: 16px;
 }
 .inbox-readall-icon:before {
     content: "\f036";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--almost-black);
     font-size: 16px;
 }
 .inbox-refresh-icon:before {
     content: "\f189";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--almost-black);
     font-size: 16px;
 }
@@ -806,7 +811,7 @@ input, textarea {
 .message-header-back:before {
     content: "\f172";
     color: var(--light-gray);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
 }
 .message-element-media {
     margin-left: 30px;
@@ -827,7 +832,7 @@ input, textarea {
     color: var(--background-color);
     font-size: 12px;
     content: "\f150";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 5px;
 }
 .message-element:hover .message-menu-open:before {
@@ -838,7 +843,7 @@ input, textarea {
 }
 .message-menu-delete:before {
     content: "\f154";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--light-gray);
     margin-right: 5px;
 }
@@ -892,7 +897,7 @@ input, textarea {
 }
 .message-new-media-btn:before {
     content: "\f110";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--link-color);
     font-size: 22px;
     margin-right: 5px;
@@ -903,7 +908,7 @@ input, textarea {
 }
 .message-emoji-btn:before {
     content: "\f033";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--link-color);
     font-size: 22px;
     margin-right: 5px;
@@ -939,7 +944,7 @@ input, textarea {
 }
 .message-leave:before {
     content: "\f154";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--light-gray);
     margin-right: 5px;
 }
@@ -986,7 +991,7 @@ input, textarea {
 }
 .choice-selected:before {
     content: "\f043";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--default-text-color);
     font-size: 13px;
     vertical-align: baseline;
@@ -1014,7 +1019,7 @@ input, textarea {
 #navbar-new-tweet-poll-btn:before {
     color: var(--link-color);
     content: "\f199";
-    font: 20px RosettaIcons;
+    font: 20px var(--icon-font);;
 }
 #navbar-new-tweet-emoji-btn {
     float: right;
@@ -1026,7 +1031,7 @@ input, textarea {
 #navbar-new-tweet-emoji-btn:before {
     color: var(--link-color);
     content: "\f033";
-    font: 20px RosettaIcons;
+    font: 20px var(--icon-font);;
 }
 .navbar-poll-question, .navbar-poll-date {
     border: 1px solid var(--border);
@@ -1302,7 +1307,7 @@ span.tweet-body-text {
 .new-tweet-media:before {
     color: var(--link-color);
     content: "\f159";
-    font: 20px RosettaIcons
+    font: 20px var(--icon-font);
 }
 
 .new-tweet-button {
@@ -1516,7 +1521,7 @@ span.tweet-body-text {
 }
 .tweet-translate-after::after {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-left: 5px;
     vertical-align: text-bottom;
     visibility: visible;
@@ -1565,7 +1570,7 @@ emoji-picker {
 .new-tweet-emojis:before {
     color: var(--link-color);
     content: "\f033";
-    font: 20px RosettaIcons;
+    font: 20px var(--icon-font);;
 }
 .new-tweet-mentions {
     float: right;
@@ -1577,7 +1582,7 @@ emoji-picker {
 .new-tweet-mentions:before {
     color: var(--link-color);
     content: "\f050";
-    font: 20px RosettaIcons;
+    font: 20px var(--icon-font);;
 }
 
 .tweet-reply-char,
@@ -1764,7 +1769,7 @@ emoji-picker {
 }
 
 .tweet-top-icon {
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 10px;
     vertical-align: text-bottom;
 }
@@ -1777,7 +1782,7 @@ emoji-picker {
 .user-verified::after {
     content: "\f099";
     color: #ee55a1;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 .user-verified-blue::after {
@@ -1805,7 +1810,7 @@ emoji-picker {
 .user-protected::after {
     content: "\f096";
     color: #ddd22b;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px;
 }
 
@@ -1960,7 +1965,7 @@ emoji-picker {
 .tweet-birdwatch-title::before {
     content: "\f182";
     color: #ffac33;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     vertical-align: text-bottom;
     margin-right: 5px;
 }
@@ -2005,7 +2010,7 @@ emoji-picker {
 .notification-icon {
     bottom: -1px;
     display: inline-block;
-    font: 16px RosettaIcons;
+    font: 16px var(--icon-font);;
     left: 31px;
     margin-right: 5px;
     position: relative;

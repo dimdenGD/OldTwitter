@@ -11,7 +11,7 @@
     vertical-align: sub;
     color: #1da1f2;
     margin-left: 20px;
-    font: 64px RosettaIcons
+    font: 64px var(--icon-font);
 }
 
 #loading-box-container {
@@ -249,7 +249,7 @@ body {
     color: #ccd6dd;
     cursor: pointer;
     vertical-align: sub;
-    font: 400 16px RosettaIcons
+    font: 400 16px var(--icon-font);
 }
 
 .tweet-interact-reply:before {
@@ -518,7 +518,7 @@ a:hover,
     content: "\f175";
     margin-right: 7px;
     vertical-align: text-bottom;
-    font: 17px RosettaIcons
+    font: 17px var(--icon-font);
 }
 
 .following:before {
@@ -526,7 +526,7 @@ a:hover,
     content: "\f176";
     margin-right: 7px;
     vertical-align: text-bottom;
-    font: 17px RosettaIcons
+    font: 17px var(--icon-font);
 }
 
 .tweet-self-thread-button {
@@ -566,14 +566,14 @@ a:hover,
 .user-protected::after {
     content: "\f096";
     color: #ddd22b;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 
 .user-muted::after {
     content: "\f101";
     color: #f33939;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 
@@ -665,7 +665,7 @@ a:hover,
 #new-tweet-media:before {
     content: "\f159";
     color: var(--link-color);
-    font: 20px RosettaIcons
+    font: 20px var(--icon-font);
 }
 
 #new-tweet-button {
@@ -692,7 +692,7 @@ a:hover,
     color: var(--link-color);
     margin-right: 5px;
     vertical-align: bottom;
-    font: 14px RosettaIcons
+    font: 14px var(--icon-font);
 }
 
 #new-tweet-media-c {
@@ -736,7 +736,7 @@ a:hover,
     content: "\f045";
     margin-bottom: 2px;
     color: white;
-    font: 13px RosettaIcons
+    font: 13px var(--icon-font);
 }
 
 .new-tweet-media-img-alt {
@@ -766,7 +766,7 @@ a:hover,
 }
 .tweet-translate:before {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
 }
@@ -845,7 +845,7 @@ a:hover,
 }
 .translate-bio:before {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
 }
@@ -919,7 +919,7 @@ a:hover,
     display: inline-block;
     width: 20px;
     text-align: center;
-    font: 18px RosettaIcons
+    font: 18px var(--icon-font);
 }
 
 .profile-additional-location:before {
@@ -1136,7 +1136,7 @@ a:hover,
     display: inline-block;
     width: 20px;
     text-align: center;
-    font: 18px RosettaIcons
+    font: 18px var(--icon-font);
 }
 
 #profile-settings-div {
@@ -1217,7 +1217,7 @@ a:hover,
 
 #control-unblock:before {
     content: "\f056";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 5px;
     vertical-align: bottom
 }
@@ -1423,7 +1423,7 @@ a:hover,
 #tweet-nav-more:before {
     content: "\f150";
     color: var(--light-gray);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
 }
 #tweet-nav-more-menu {
     position: absolute;

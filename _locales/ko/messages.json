@@ -506,5 +506,6 @@
     "enable_iframe_navigation": {"message": "실험적인 페이지 유지 탐색을 활성화 합니다. 링크를 클릭후 새로고침 없이 이전 페이지로 돌아갈 수 있게 됩니다. 이 기능은 실험적이고, 불안정할 수 있습니다."},
     "style_your_profile": {"message": "여기서 당신의 프로필을 꾸미세요!"},
     "modern_buttons": { "message": "둥글고 최신적인 버튼을 사용합니다" },
-    "modern_ui": { "message": "사이드바에 2019년 UI의 굵은 글꼴을 사용합니다." }
+    "modern_ui": { "message": "사이드바에 2019년 UI의 굵은 글꼴을 사용합니다." },
+    "icon_font": { "message": "새로운 텍스트 심볼을 사용합니다" }
 }

@@ -9,7 +9,7 @@
 #loading-box-text:before {
     color: #1da1f2;
     content: "\f179";
-    font: 64px RosettaIcons;
+    font: 64px var(--icon-font);;
     margin-left: 20px;
     vertical-align: sub
 }
@@ -284,7 +284,7 @@ body {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px RosettaIcons;
+    font: 400 16px var(--icon-font);;
     margin-right: 10px;
     vertical-align: sub
 }
@@ -562,7 +562,7 @@ a:hover,
 .follow:before {
     color: var(--light-gray);
     content: "\f175";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -570,7 +570,7 @@ a:hover,
 .following:before {
     color: var(--link-color);
     content: "\f176";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -641,7 +641,7 @@ a:hover,
 }
 .tweet-translate:before {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
 }
@@ -702,7 +702,7 @@ a:hover,
 .search-switch:before {
     color: var(--background-color);
     content: "\f170";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-weight: 100;
     margin-left: 2px;
     margin-right: 5px;
@@ -717,7 +717,7 @@ a:hover,
 .search-switch-active:before {
     color: var(--link-color);
     content: "\f170";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-weight: 100;
     margin-right: 5px
 }

@@ -226,6 +226,9 @@ async function updateCustomCSSVariables() {
     });
     root.style.setProperty('--font', vars.font);
     root.style.setProperty('--tweet-font', vars.tweetFont);
+    if(vars.iconFontElement){
+        root.style.setProperty('--tweet-font', `"edgeicons", "RosettaIcons"`);
+    }
     if(data.customCSSVariables) {
         let csv = parseVariables(data.customCSSVariables);
         for(let i in csv) {
@@ -548,6 +551,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         vars.modernUI = false;
         chrome.storage.sync.set({
             modernUI: false
+        }, () => {});
+    }
+    if(typeof(vars.iconFontElement) !== 'boolean') {
+        vars.iconFontElement = false;
+        chrome.storage.sync.set({
+            iconFontElement: false
         }, () => {});
     }
     

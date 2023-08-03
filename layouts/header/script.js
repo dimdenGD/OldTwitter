@@ -285,6 +285,9 @@ let userDataFunction = async user => {
     if(vars.tweetFont) {
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
+    if(vars.iconFontElement){
+        root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+    }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
         root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');
@@ -1740,7 +1743,7 @@ let userDataFunction = async user => {
                     a {color: var(--link-color);text-decoration: none }
                     a:hover {text-decoration: underline;}
                     .profile-additional-thing{font-size:14px;color: var(--darker-gray);font-weight:400;line-height:20px;left: 10px;position: relative;display: block;overflow: hidden;}
-                    .profile-additional-thing::before{margin-right:5px;vertical-align:sub;color:var(--light-gray);display:inline-block;width:20px;text-align:center;font: 18px 'RosettaIcons'}
+                    .profile-additional-thing::before{margin-right:5px;vertical-align:sub;color:var(--light-gray);display:inline-block;width:20px;text-align:center;font: 18px var(--icon-font)}
                     .profile-additional-location::before{content:"\\f031"}
                     .profile-additional-joined::before{content:"\\f177"}
                     .profile-additional-birth::before{content:"\\f033"}
@@ -2182,7 +2185,7 @@ setInterval(() => {
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
     document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
     document.addEventListener('modernButtons', e => switchModernButtons(e.detail));
-    document.addEventListener('modernUI', e => switchModernUI(e.detail));
+    document.addEventListener('modernUI', e => switchModernUIZ(e.detail));
 
     // hotkeys
     if(!vars.disableHotkeys) {

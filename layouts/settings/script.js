@@ -128,6 +128,7 @@ setTimeout(async () => {
     })();
     let fontElement = document.getElementById('font');
     let tweetFontElement = document.getElementById('tweet-font');
+    let iconFontElement = document.getElementById('icon-font');
     let linkColor = document.getElementById('link-color');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
@@ -217,8 +218,19 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             tweetFont: font
         }, () => { });
+    }); 
+    iconFontElement.addEventListener('change', () => {
+        vars.iconFontElement = iconFontElement.checked;
+        chrome.storage.sync.set({
+            iconFontElement: iconFontElement.checked
+        }, () => {});
+        if(vars.iconFontElement){
+            root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+        }
+        else{
+            root.style.setProperty('--icon-font', `"RosettaIcons"`)
+        }
     });
-
     linkColor.addEventListener('input', () => {
         let color = linkColor.value;
         root.style.setProperty('--link-color', color);
@@ -588,6 +600,9 @@ setTimeout(async () => {
         tweetFontElement.value = vars.tweetFont;
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
+    if(vars.iconFontElement){
+        root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+    }
     heartsNotStars.checked = !!vars.heartsNotStars;
     linkColorsInTL.checked = !!vars.linkColorsInTL;
     enableTwemoji.checked = !!vars.enableTwemoji;
@@ -596,6 +611,7 @@ setTimeout(async () => {
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
+    iconFontElement.checked = !!vars.iconFontElement;
     timeMode.checked = !!vars.timeMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
