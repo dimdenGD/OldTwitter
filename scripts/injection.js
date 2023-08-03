@@ -538,6 +538,12 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             roundAvatars: false
         }, () => {});
     }
+    if(typeof(vars.modernButtons) !== 'boolean') {
+        vars.modernButtons = false;
+        chrome.storage.sync.set({
+            modernButtons: false
+        }, () => {});
+    }
     
     if(typeof(vars.darkMode) !== 'boolean' && document.body) {
         let bg = document.body.style.backgroundColor;
