@@ -181,6 +181,12 @@ function switchModernButtons(enabled) {
             #edit-profile:before  {
                 width: auto;
             }
+            .message-element .message-body {
+                border-radius: 15px 15px 0 15px;
+            }
+            .message-element-other .message-body {
+                border-radius: 15px 15px 15px 0 !important;
+            }
         `;
         document.head.appendChild(style);
     } else {
@@ -649,25 +655,25 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <div style="width:28px;height: 100%;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" width="26" height="26"></a></div>
-                    <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
+                    <div style="width:28px;height:inherit;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" width="26" height="26"></a></div>
+                    <div class="message-block" style="float:left"><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
                 ` : `
-                    <span class="message-menu-open"></span>
+                    <div class="message-block"><span class="message-menu-open"></span>
                     <div class="message-menu" hidden>
                         <span class="message-menu-delete">Delete for you</span>
-                    </div>
-                    <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
+                    </div><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
                     
                 `}
             `;
-            let menuOpen = messageElement.querySelector('.message-menu-open');
+            let messageBlock = messageElement.querySelector('.message-block');
+            let menuOpen = messageBlock.querySelector('.message-menu-open');
             if(menuOpen) {
-                let menu = messageElement.querySelector('.message-menu');
-                let menuDelete = messageElement.querySelector('.message-menu-delete');
+                let menu = messageBlock.querySelector('.message-menu');
+                let menuDelete = messageBlock.querySelector('.message-menu-delete');
 
                 menuDelete.addEventListener('click', () => {
                     API.inbox.deleteMessage(m.id);
-                    messageElement.remove();
+                    messageBlock.remove();
                 });
 
                 let clicked;
@@ -686,7 +692,7 @@ let userDataFunction = async user => {
                     }, 100);
                 });
             }
-            let as = Array.from(messageElement.getElementsByTagName('a'));
+            let as = Array.from(messageBlock.getElementsByTagName('a'));
             if(m.message_data.entities && m.message_data.entities.urls) {
                 m.message_data.entities.urls.forEach(url => {
                     let a = as.find(a => a.href === url.url);
@@ -736,7 +742,7 @@ let userDataFunction = async user => {
                         });
                         e.target.click();
                     })
-                    messageElement.append(document.createElement('br'), photoElement);
+                    messageBlock.append(document.createElement('br'), photoElement);
                 }
                 if(attachment.animated_gif) {
                     let gif = attachment.animated_gif;
@@ -756,16 +762,20 @@ let userDataFunction = async user => {
                         gifElement.height = gif.original_info.height;
                     }
                     gifElement.classList.add('message-element-media');
-                    messageElement.append(document.createElement('br'), gifElement);
+                    messageBlock.append(document.createElement('br'), gifElement);
                 }
             }
-            messageElement.innerHTML += `<br><span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>`;
-            let span = messageElement.getElementsByClassName('message-body')[0];
+            timestamp=document.createElement('span');
+            timestamp.classList.add('message-time');
+            timestamp["data-timestamp"] = "${m.time}";
+            timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
+            messageBlock.append(document.createElement('br'),timestamp);
+            let span = messageBlock.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
                 span.remove();
             }
             if(vars.enableTwemoji) {
-                twemoji.parse(messageElement);
+                twemoji.parse(messageBlock);
             }
             messageElements.push(messageElement);
         }
