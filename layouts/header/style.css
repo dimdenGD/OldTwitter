@@ -2178,6 +2178,7 @@ emoji-picker {
     .tweet-viewer {
         width: calc(100% - 42px);
         overflow-x: clip;
+        margin-bottom: 95px;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;
@@ -2265,12 +2266,10 @@ emoji-picker {
     .notifications-modal {
         top: 4%;
         width: calc(100% - 43px);
+        margin-bottom: 65px;
     }
-    .tweet-body {
+    .tweet-body:not(.tweet-body-main) {
         width: calc(100% - 80px);
-    }
-    .modal .tweet-body {
-        width: 100%;
     }
     .modal .tweet-media-element {
         width: 100%;
@@ -2280,6 +2279,15 @@ emoji-picker {
     }
     body.move-navbar-to-bottom #center-cell {
         margin-top: 0;
+    }
+    .navbar-new-tweet-modal {
+        width: calc(100% - 42px);
+    }
+    .navbar-new-tweet {
+        width: calc(100% - 10px);
+    }
+    .navbar-new-tweet-text {
+        width: calc(100% - 98px);
     }
 }
 @media screen and (max-width: 460px) {

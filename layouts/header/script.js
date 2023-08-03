@@ -1000,7 +1000,7 @@ let userDataFunction = async user => {
                     </div>
                 </div>
             </div>
-        `);
+        `, "navbar-new-tweet-modal");
         const newTweet = modal.getElementsByClassName('navbar-new-tweet-container')[0];
         const newTweetText = modal.getElementsByClassName('navbar-new-tweet-text')[0];
         const newTweetChar = modal.getElementsByClassName('navbar-new-tweet-char')[0];
