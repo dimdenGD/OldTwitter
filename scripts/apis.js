@@ -842,6 +842,9 @@ const API = {
                             ) && !vars.enableAd) {
                                 return;
                             }
+                            if(desc.endsWith(' Posts')) {
+                                desc = desc.replace(` Posts`, ` ${LOC.tweets.message}`)
+                            }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,
                                 meta_description: desc,
