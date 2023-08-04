@@ -1034,7 +1034,7 @@ a:hover,
 }
 #new-tweet-mentions:before {
     color: var(--link-color);
-    content: "\f050";
+    content: var(--at-icon);
     font: 20px var(--icon-font);;
 }
 .tweet:first-child {

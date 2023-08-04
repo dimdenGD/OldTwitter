@@ -192,13 +192,14 @@ function switchModernUI(enabled) {
                 color: var(--almost-black);
                 font-size: 18px;
                 font-weight: 600;
-            
             }
             #settings h2 {
                 color: var(--almost-black);
                 font-size: 16px;
                 font-weight: 400;
-            
+            }
+            .nav-text {
+                font-weight: 600;
             }
             .cool-header,
             .nice-header {
@@ -206,6 +207,29 @@ function switchModernUI(enabled) {
                 font-size: 22px !important;
                 font-weight: 600;
             }
+            /* No round */
+            .box,
+            #user-banner,
+            #timeline-type-center,
+            #timeline-type-left,
+            #notifications-div>:first-child{
+                border-radius: 0px;
+            }
+            .about {
+                background-color: var(--background-color);
+                border: 1px solid var(--border);
+                color: var(--light-gray);
+            }
+            /* More Round */
+            #new-tweet-text{
+                border-radius: 8px;
+            }
+            .tweet-media-element,
+            .tweet-body-quote,
+            .tweet-media-video-overlay {
+                border-radius: 15px;
+            }
+
         `;
         document.head.appendChild(style);
     } else {
@@ -276,6 +300,14 @@ let userDataFunction = async user => {
     }
     if(vars.iconFont || vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+        root.style.setProperty('--home-icon-active', '"\\f553"');
+        root.style.setProperty('--notification-icon-active', '"\\f019"');
+        root.style.setProperty('--messages-icon-active', '"\\f554"');/* By the way, this never active*/
+        root.style.setProperty('--profile-icon-active', '"\\f002"');
+        //root.style.setProperty('--bookmark-icon-active', '"\\f093"');/* Not exist */
+        root.style.setProperty('--lists-icon-active', '"\\f012"');
+        root.style.setProperty('--at-icon', '"\\f064"');
+
     }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
