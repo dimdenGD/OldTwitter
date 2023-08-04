@@ -128,6 +128,7 @@ setTimeout(async () => {
     })();
     let fontElement = document.getElementById('font');
     let tweetFontElement = document.getElementById('tweet-font');
+    let iconFontElement = document.getElementById('icon-font');
     let linkColor = document.getElementById('link-color');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
@@ -144,6 +145,7 @@ setTimeout(async () => {
     let customCSSSave = document.getElementById('custom-css-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
     let roundAvatars = document.getElementById('round-avatars-switch');
+    let modernUI = document.getElementById('modern-ui-switch');
     let showOriginalImages = document.getElementById('show-original-images');
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
@@ -215,8 +217,36 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             tweetFont: font
         }, () => { });
+    }); 
+    iconFontElement.addEventListener('change', () => {
+        vars.iconFont = !!iconFontElement.checked;
+        chrome.storage.sync.set({
+            iconFont: iconFontElement.checked
+        }, () => {});
+        if(vars.iconFont || vars.modernUI){
+            root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+        }
+        else{
+            root.style.setProperty('--icon-font', `"RosettaIcons"`)
+        }
     });
-
+    modernUI.addEventListener('change', () => {
+        vars.modernUI = !!modernUI.checked;
+        chrome.storage.sync.set({
+            modernUI: modernUI.checked
+        }, () => {
+            switchModernUI(modernUI.checked);
+            modernUIBus.postMessage(modernUI.checked);
+            themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
+            switchDarkMode(isDarkModeEnabled);
+        });  
+        if(vars.iconFont || vars.modernUI){
+            root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+        }
+        else{
+            root.style.setProperty('--icon-font', `"RosettaIcons"`)
+        }
+    });
     linkColor.addEventListener('input', () => {
         let color = linkColor.value;
         root.style.setProperty('--link-color', color);
@@ -231,8 +261,8 @@ setTimeout(async () => {
         });
     });
     linkColorReset.addEventListener('click', async () => {
-        let color = '#4BACD2';
-        linkColor.value=color;
+        let color = vars.modernUI ? '#1DA1F3' : '#4BACD2';
+        linkColor.value = color;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
@@ -570,6 +600,9 @@ setTimeout(async () => {
         tweetFontElement.value = vars.tweetFont;
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
+    if(vars.iconFont || vars.modernUI){
+        root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+    }
     heartsNotStars.checked = !!vars.heartsNotStars;
     linkColorsInTL.checked = !!vars.linkColorsInTL;
     enableTwemoji.checked = !!vars.enableTwemoji;
@@ -578,6 +611,7 @@ setTimeout(async () => {
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
+    iconFontElement.checked = !!vars.iconFont;
     timeMode.checked = !!vars.timeMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
@@ -616,6 +650,7 @@ setTimeout(async () => {
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
     roundAvatars.checked = !!vars.roundAvatars;
+    modernUI.checked = !!vars.modernUI;
     language.value = vars.language ? vars.language : 'en';
     copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
     if(vars.timeMode) {

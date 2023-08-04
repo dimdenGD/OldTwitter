@@ -42,6 +42,10 @@ const roundAvatarBus = new BroadcastChannel('round_avatar_bus');
 roundAvatarBus.onmessage = function (e) {
     switchRoundAvatars(e.data);
 }
+const modernUIBus = new BroadcastChannel('modern_ui_bus');
+modernUIBus.onmessage = function (e) {
+    switchUIButtons(e.data);
+}
 
 let roundAvatarsEnabled = false;
 function switchRoundAvatars(enabled) {
@@ -63,13 +67,209 @@ function switchRoundAvatars(enabled) {
             #list-avatar,
             .message-element > a > img,
             .notification-avatar-img,
-            #nav-profile-avatar {
+            #nav-profile-avatar,
+            .message-avatar {
                 border-radius: 50% !important;
             }
         `;
         document.head.appendChild(style);
     } else {
         let style = document.getElementById('round-avatars');
+        if(style) style.remove();
+    }
+}
+
+
+let modernUIEnabled = false;
+function switchModernUI(enabled) {
+    modernUIEnabled = enabled;
+    if(enabled) {
+        let style = document.createElement('style');
+        style.id = 'modern-ui';
+        style.innerHTML = /*css*/`
+            /* buttons */
+            .nice-button {
+                border-radius: 999px !important;
+                background-image: var(--link-color);
+                background-color: var(--link-color);
+                border: none;
+                color: white;
+            }
+            .nice-button:hover:not([disabled]) {
+                filter: brightness(0.9);
+                background-image: var(--link-color);
+                background-color: var(--link-color);
+                color: white;
+            }
+            .nice-button:disabled {
+                color: white !important;
+                opacity:0.6;
+            }
+            .nice-button:disabled:before {
+                color: white !important;
+                opacity:0.6;
+            }
+            .nice-red-button {
+                color: #white !important;
+                background-image: #BA172C !important;
+                background-color: #BA172C !important;
+            }
+            .nice-red-button:hover:not([disabled]) {
+                color: white !important;
+                background-image: #BA172C !important;
+                background-color: #BA172C !important;
+            }
+            #navbar-tweet-button {
+                border-radius: 999px !important;
+                background-image: var(--link-color);
+                background-color: var(--link-color);
+                border: none !important;
+                color: white;
+                font-weight: bold;
+
+            }
+            /* Remove Icon */
+            #navbar-tweet-button:before,
+            .navbar-new-tweet-button:before,
+            .new-tweet-button:before,
+            #new-tweet-button:before,
+            .tweet-reply-button:before,
+            .tweet-quote-button:before,
+            .follow:before,
+            .following:before,
+            #edit-profile:before,
+            #control-unblock:before  {
+                content: "";
+                margin-right: 0;
+            }
+            /* some white button */
+            .follow,
+            #message-user,
+            #edit-profile, 
+            #profile-style, 
+            #see-tweet-btn,
+            .inbox-refresh,
+            .inbox-readall
+            {
+                border: 1px solid var(--link-color); !important;
+                color:var(--link-color);
+                background-image: var(--background-color) !important;
+                background-color: var(--background-color) !important;
+            }
+            .follow:hover:not([disabled]),
+            #message-user:hover:not([disabled]),
+            #edit-profile:hover:not([disabled]), 
+            #profile-style:hover:not([disabled]), 
+            #see-tweet-btn:hover:not([disabled]),
+            .inbox-refresh:hover:not([disabled]),
+            .inbox-readall:hover:not([disabled]) {
+                filter: brightness(0.9);
+                border: 1px solid var(--link-color); !important;
+                color:var(--link-color);
+                background-image: var(--background-color) !important;
+                background-color: var(--background-color) !important;
+            }
+            #message-user:before,
+            #message-user:hover:before,
+            #profile-style:before,
+            .inbox-refresh-icon:before,
+            .inbox-readall-icon:before  {
+                color:var(--link-color);
+            } 
+            #edit-profile:before  {
+                width: auto;
+            }
+            /* DM */
+            .message-element .message-body {
+                border-radius: 15px 15px 0 15px;
+            }
+            .message-element-other .message-body {
+                border-radius: 15px 15px 15px 0 !important;
+            }
+            /* Sidebar or else */
+            #wtf h1,
+            #trends h1,
+            #settings h1 {
+                color: var(--almost-black);
+                font-size: 18px;
+                font-weight: 600;
+            }
+            #settings h2 {
+                color: var(--almost-black);
+                font-size: 16px;
+                font-weight: 400;
+            }
+            .cool-header,
+            .nice-header {
+                color: var(--almost-black);
+                font-size: 22px !important;
+                font-weight: 600;
+            }
+            /* Bold Text */
+            .user-stat-div > h2,
+            .nav-text,
+            #tweet-nav-tweets,
+            #tweet-nav-replies,
+            #tweet-nav-media,
+            .profile-stat-text {
+                font-weight: 600;
+            }
+            /* No round */
+            .box,
+            #user-banner,
+            #timeline-type-center,
+            #timeline-type-right,
+            #notifications-div>:first-child,
+            .tweet:first-child,
+            #tweet-nav,
+            #save-search-right,
+            #save-search-left {
+                border-radius: 0px;
+            }
+            .about,
+            .about-links a,
+            .about-links span,
+            .open-new-twitter {
+                color: var(--darker-gray)
+            }
+            /* More Round */
+            #new-tweet-text{
+                border-radius: 8px;
+            }
+            .tweet-media-element,
+            .tweet-body-quote,
+            .tweet-media-video-overlay,
+            .tweet-card-link.box {
+                border-radius: 15px;
+            }
+            /* No UpperCase */
+            .user-stat-div > h2,
+            .profile-stat-text  {
+                text-transform: none;
+            }
+            /* Profile */
+            .profile-stat-text {
+                font-size: 12px;
+            }
+            .profile-stat-value {
+                font-weight: bolder;
+                color: var(--darker-gray);
+            }
+            .profile-stat-active > .profile-stat-value,
+            .profile-stat:hover > .profile-stat-value {
+                color: var(--link-color);
+            }
+
+            @media screen and (max-width: 590px) {
+                #navbar-tweet-button:before  {
+                    content: "\\f029" !important;
+                }
+            }
+
+        `;
+        document.head.appendChild(style);
+    } else {
+        let style = document.getElementById('modern-ui');
         if(style) style.remove();
     }
 }
@@ -134,14 +334,44 @@ let userDataFunction = async user => {
     if(vars.tweetFont) {
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
+    if(vars.iconFont || vars.modernUI){
+        root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+        root.style.setProperty('--home-icon-active', '"\\f553"');
+        root.style.setProperty('--notification-icon-active', '"\\f019"');
+        root.style.setProperty('--messages-icon-active', '"\\f554"');
+        root.style.setProperty('--profile-icon-active', '"\\f002"');
+        //root.style.setProperty('--bookmark-icon-active', '"\\f093"');/* Not exist */
+        root.style.setProperty('--lists-icon-active', '"\\f012"');
+        root.style.setProperty('--at-icon', '"\\f064"');
+        root.style.setProperty('--add-media-icon', '"\\f027"');
+        root.style.setProperty('--birthday-icon', '"\\f092"');
+        root.style.setProperty('--joined-icon', '"\\f203"');
+
+    }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
         root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');
         root.style.setProperty('--favorite-icon-color', 'rgb(249, 24, 128)');
+        if(vars.iconFont || vars.modernUI){//Rosetta doesnt have
+            root.style.setProperty('--favorite-icon-content-click', '"\\f015"');
+        }
+        else{
+            root.style.setProperty('--favorite-icon-content-click', '"\\f148"');
+        }
+    }
+    else{   
+        //edgeIcon Font does not have this font
+        //We need to make newone?
+        if(vars.iconFont || vars.modernUI){
+            root.style.setProperty('--favorite-icon-content-notif', '"\\f147"');
+        }
     }
 
     if(vars.roundAvatars) {
         switchRoundAvatars(true);
+    }
+    if(vars.modernUI) {
+        switchModernUI(true);
     }
 
     if(vars.disableHotkeys) {
@@ -476,26 +706,25 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" width="26" height="26"></a>
-                    <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
-                    <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
+                    <div style="width:34px;height:inherit;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="30" height="30"></a></div>
+                    <div class="message-block" style="float:left"><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
                 ` : `
-                    <span class="message-menu-open"></span>
+                    <div class="message-block"><span class="message-menu-open"></span>
                     <div class="message-menu" hidden>
                         <span class="message-menu-delete">Delete for you</span>
-                    </div>
-                    <span class="message-time" data-timestamp="${m.time}">${timeElapsed(new Date(+m.time))}</span>
-                    <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
+                    </div><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
+                    
                 `}
             `;
-            let menuOpen = messageElement.querySelector('.message-menu-open');
+            let messageBlock = messageElement.querySelector('.message-block');
+            let menuOpen = messageBlock.querySelector('.message-menu-open');
             if(menuOpen) {
-                let menu = messageElement.querySelector('.message-menu');
-                let menuDelete = messageElement.querySelector('.message-menu-delete');
+                let menu = messageBlock.querySelector('.message-menu');
+                let menuDelete = messageBlock.querySelector('.message-menu-delete');
 
                 menuDelete.addEventListener('click', () => {
                     API.inbox.deleteMessage(m.id);
-                    messageElement.remove();
+                    messageBlock.remove();
                 });
 
                 let clicked;
@@ -514,7 +743,7 @@ let userDataFunction = async user => {
                     }, 100);
                 });
             }
-            let as = Array.from(messageElement.getElementsByTagName('a'));
+            let as = Array.from(messageBlock.getElementsByTagName('a'));
             if(m.message_data.entities && m.message_data.entities.urls) {
                 m.message_data.entities.urls.forEach(url => {
                     let a = as.find(a => a.href === url.url);
@@ -559,7 +788,7 @@ let userDataFunction = async user => {
                         });
                         e.target.click();
                     })
-                    messageElement.append(document.createElement('br'), photoElement);
+                    messageBlock.append(document.createElement('br'), photoElement);
                 }
                 if(attachment.animated_gif) {
                     let gif = attachment.animated_gif;
@@ -574,7 +803,7 @@ let userDataFunction = async user => {
                         gifElement.width = gif.original_info.width;
                     }
                     gifElement.classList.add('message-element-media');
-                    messageElement.append(document.createElement('br'), gifElement);
+                    messageBlock.append(document.createElement('br'), gifElement);
                 }
                 if(attachment.video) {
                     let video = attachment.video;
@@ -590,12 +819,17 @@ let userDataFunction = async user => {
                     messageElement.append(document.createElement('br'), videoElement);
                 }
             }
-            let span = messageElement.getElementsByClassName('message-body')[0];
+            timestamp=document.createElement('span');
+            timestamp.classList.add('message-time');
+            timestamp["data-timestamp"] = "${m.time}";
+            timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
+            messageBlock.append(document.createElement('br'),timestamp);
+            let span = messageBlock.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
                 span.remove();
             }
             if(vars.enableTwemoji) {
-                twemoji.parse(messageElement);
+                twemoji.parse(messageBlock);
             }
             messageElements.push(messageElement);
         }
@@ -1574,18 +1808,24 @@ let userDataFunction = async user => {
                     .user-stat-div>h2 {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0 10px;text-transform: uppercase;white-space: nowrap;}
                     .user-stat-div>h1 {color: var(--link-color);font-size: 20px;margin: 0 10px }
                     .user-stat-div {text-decoration: none !important;}
+                    ${modernUIEnabled ? /*html*/`
+                    .nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: var(--link-color);background-color: var(--link-color);background-repeat: no-repeat;border: none;border-radius: 999px;color: white;cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}
+                    .nice-button:hover:not([disabled]) {filter: brightness(0.9);}
+                    .nice-button:disabled {opacity:0.6;}
+                    .nice-button:disabled:before {opacity:0.6;}
+                    .follow{border: 1px solid var(--link-color) !important;color:var(--link-color) !important;background-image: var(--background-color) !important;background-color: var(--background-color) !important;}`:/*html*/`
                     .nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: linear-gradient(var(--background-color),var(--darker-background-color));background-repeat: no-repeat;border: 1px solid var(--border);border-radius: 4px;color: var(--darker-gray);cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}
                     .nice-button:hover:not([disabled]) {color: var(--almost-black);text-decoration: none;background-color: var(--border);background-image: linear-gradient(var(--background-color),var(--border));border-color: var(--border);}
                     .nice-button:disabled {color: lightgray !important;cursor: not-allowed;}
-                    .nice-button:disabled:before {color: lightgray !important;}
+                    .nice-button:disabled:before {color: lightgray !important;}`}
                     .emoji {height: 16px;margin-left: 2px;margin-right: 2px;vertical-align: text-top;width: 16px;}
                     a {color: var(--link-color);text-decoration: none }
                     a:hover {text-decoration: underline;}
                     .profile-additional-thing{font-size:14px;color: var(--darker-gray);font-weight:400;line-height:20px;left: 10px;position: relative;display: block;overflow: hidden;}
-                    .profile-additional-thing::before{margin-right:5px;vertical-align:sub;color:var(--light-gray);display:inline-block;width:20px;text-align:center;font: 18px 'RosettaIcons'}
+                    .profile-additional-thing::before{margin-right:5px;vertical-align:sub;color:var(--light-gray);display:inline-block;width:20px;text-align:center;font: 18px var(--icon-font)}
                     .profile-additional-location::before{content:"\\f031"}
-                    .profile-additional-joined::before{content:"\\f177"}
-                    .profile-additional-birth::before{content:"\\f033"}
+                    .profile-additional-joined::before{content:var(--joined-icon)}
+                    .profile-additional-birth::before{content:var(--birthday-icon)}
                     .profile-additional-professional::before{content:"\\f204"}
                     .profile-additional-url::before{content:"\\f098"}
                     .preview-user-additional-info{margin-top:10px}
@@ -1943,47 +2183,64 @@ setInterval(() => {
     }, 1750);
     setTimeout(() => {
         let version = document.getElementById('oldtwitter-version');
+        let version2 = document.getElementById('oldtwitter-version-left');
         if(version) {
             fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`).then(res => res.json()).then(res => {
-                version.innerText += ` (${LOC.last_version.message}: ${res.version})`;
+                version.innerHTML+= ` <div style="display:inline;white-space : nowrap;">(${LOC.last_version.message}: ${res.version})</div>`;
+                version2.innerHTML +=  ` <div style="display:inline;white-space : nowrap;">(${LOC.last_version.message}: ${res.version})</div>`;
                 if(TRANSLATORS[LANGUAGE]) {
                     let translated_by = document.createElement('span');
+                    let translated_by_2 = document.createElement('span');
                     if(typeof TRANSLATORS[LANGUAGE][0] === 'object') {
                         let as = [];
                         for(let translator of TRANSLATORS[LANGUAGE]) {
                             as.push(`<a${translator[1] ? ` target="_blank" href="${translator[1]}"` : ''}>${translator[0]}</a>`);
                         }
                         translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
+                        translated_by_2.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
                     } else {
                         translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
+                        translated_by_2.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
                     }
-                    document.getElementById('about').children[0].append(translated_by);
+                    document.getElementById('about-right').children[0].append(translated_by);
+                    document.getElementById('about-left').children[0].append(translated_by_2);
                 } else {
-                    document.getElementById('about').children[0].append(document.createElement('br'));
+                    document.getElementById('about-right').children[0].append(document.createElement('br'));
+                    document.getElementById('about-left').children[0].append(document.createElement('br'));
                 }
             });
         }
-        let about = document.getElementById('about');
-        if(about && !location.pathname.startsWith('/old/') && !location.pathname.startsWith('/i/timeline')) {
+        let about_left = document.getElementById('about-left');
+        let about_right = document.getElementById('about-right');
+        if(about_left && about_right && !location.pathname.startsWith('/old/') && !location.pathname.startsWith('/i/timeline')) {
             let a = document.createElement('a');
+            let a2 = document.createElement('a');
             let hrefUrl = new URL(location.href);
             let searchParams = new URLSearchParams(hrefUrl.search);
             searchParams.set('newtwitter', 'true');
             hrefUrl.search = searchParams.toString();
             a.href = hrefUrl.toString();
+            a2.href = hrefUrl.toString();
             setInterval(() => {
                 let hrefUrl = new URL(location.href);
                 let searchParams = new URLSearchParams(hrefUrl.search);
                 searchParams.set('newtwitter', 'true');
                 hrefUrl.search = searchParams.toString();
                 a.href = hrefUrl.toString();
+                a2.href = hrefUrl.toString();
             }, 500);
+            a.className = "open-new-twitter";
             a.innerText = `[${LOC.open_newtwitter.message}]`;
             a.addEventListener('click', e => {
                 e.stopImmediatePropagation();
             });
-            a.style.color = 'var(--light-gray)';
-            about.appendChild(a);
+            a2.className = "open-new-twitter";
+            a2.innerText = `[${LOC.open_newtwitter.message}]`;
+            a2.addEventListener('click', e => {
+                e.stopImmediatePropagation();
+            });
+            about_left.appendChild(a);
+            about_right.appendChild(a2);
         }
         if(Math.random() > 0.99) {
             document.getElementById('donate-button').innerHTML += ' <span style="vertical-align: middle;">🥺</span>';
@@ -2006,6 +2263,7 @@ setInterval(() => {
     document.addEventListener('customCSS', updateCustomCSS);
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
     document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
+    document.addEventListener('modernUI', e => switchModernUIZ(e.detail));
 
     // hotkeys
     if(!vars.disableHotkeys) {

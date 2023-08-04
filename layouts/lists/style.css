@@ -9,7 +9,7 @@
 #loading-box-text:before {
     color: #1da1f2;
     content: "\f179";
-    font: 64px RosettaIcons;
+    font: 64px var(--icon-font);;
     margin-left: 20px;
     vertical-align: sub
 }
@@ -284,7 +284,7 @@ body {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px RosettaIcons;
+    font: 400 16px var(--icon-font);;
     margin-right: 10px;
     vertical-align: sub
 }
@@ -306,6 +306,10 @@ body {
 .tweet-interact-favorite:hover:before,
 .tweet-interact-favorite:hover {
     color: var(--favorite-icon-color) !important
+}
+.tweet-interact-favorited,
+.tweet-interact-favorited:before{
+    content: var(--favorite-icon-content-click) !important
 }
 
 .tweet-reply-text:focus,
@@ -335,13 +339,13 @@ body {
     padding: 8px 16px
 }
 .nice-red-button {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #6F0D1C) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #6F0D1C);
 }
 
 .nice-red-button:hover:not([disabled]) {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #4B0E17) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #4B0E17);
 }
 
 .nice-button:hover:not([disabled]) {
@@ -537,6 +541,7 @@ a:hover,
 }
 
 .wtf-user {
+    width:100%;
     display: inline-block;
     margin-bottom: 5px
 }
@@ -566,7 +571,7 @@ a:hover,
 .follow:before {
     color: var(--light-gray);
     content: "\f175";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -574,7 +579,7 @@ a:hover,
 .following:before {
     color: var(--link-color);
     content: "\f176";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -614,7 +619,7 @@ a:hover,
     border: 2px var(--dark-background-color) solid !important
 }
 
-#about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
@@ -622,6 +627,12 @@ a:hover,
     padding-right: 0;
     word-break: keep-all;
 }
+#about-right{
+    box-sizing: border-box;
+    max-width: 272px
+}
+
+
 
 .about-links a,
 .about-links span {
@@ -646,7 +657,7 @@ a:hover,
 }
 .tweet-translate:before {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
 }
@@ -704,7 +715,7 @@ a:hover,
 .list-switch:after {
     content: "\f173";
     float: right;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-top: -2px;
 }
 
@@ -813,6 +824,9 @@ a:hover,
 #loading-box-error {
     color: var(--almost-black)
 }
+#about-left {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #list-info, #list-banner {
@@ -836,6 +850,11 @@ a:hover,
     #right-cell {
         display: none;
     }
+    #about-left {
+        display: block;
+        box-sizing: border-box; 
+        width: 260px;
+    }
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {
@@ -845,6 +864,9 @@ a:hover,
     #left-cell {
         margin-left: auto;
         margin-right: auto;
+    }
+    #about-left {
+        display: none;
     }
     #center-cell {
         width: 590px;

@@ -8,7 +8,7 @@
 #loading-box-text:before {
     content: "\f179";
     vertical-align: sub;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-size: 64px;
     color: #1da1f2;
     margin-left: 20px;
@@ -181,13 +181,13 @@ body {
 }
 
 .nice-red-button {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #6F0D1C) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #6F0D1C);
 }
 
 .nice-red-button:hover:not([disabled]) {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #4B0E17) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #4B0E17);
 }
 
 #wtf {
@@ -212,6 +212,7 @@ body {
 }
 
 .wtf-user {
+    width:100%;
     display: inline-block;
     margin-bottom: 5px;
 }
@@ -235,26 +236,32 @@ body {
 }
 .follow:before {
     color: var(--light-gray);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     content: "\f175";
     margin-right: 7px;
     vertical-align: text-bottom;
 }
 .following:before {
     color: var(--link-color);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     content: "\f176";
     margin-right: 7px;
     vertical-align: text-bottom;
 }
 
-#about {
+.about {
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
     color: var(--light-gray);
     word-break: keep-all;
 }
+#about-right{
+    box-sizing: border-box;
+    max-width: 272px
+}
+
+
 .about-links a, .about-links span {
     color: var(--light-gray);
     margin-right: 8px;
@@ -475,7 +482,7 @@ body {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px RosettaIcons;
+    font: 400 16px var(--icon-font);;
     margin-right: 10px;
     vertical-align: sub
 }
@@ -498,7 +505,10 @@ body {
 .tweet-interact-favorite:hover {
     color: var(--favorite-icon-color) !important
 }
-
+.tweet-interact-favorited,
+.tweet-interact-favorited:before{
+    content: var(--favorite-icon-content-click) !important
+}
 .tweet-reply-text:focus,
 .tweet-quote-text:focus {
     outline: none
@@ -743,7 +753,7 @@ a:hover,
 .follow:before {
     color: var(--light-gray);
     content: "\f175";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -751,7 +761,7 @@ a:hover,
 .following:before {
     color: var(--link-color);
     content: "\f176";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -793,18 +803,18 @@ a:hover,
 .user-verified::after {
     color: #55acee;
     content: "\f099";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 
 .user-protected::after {
     color: #ddd22b;
     content: "\f096";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 
-#about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
@@ -862,12 +872,11 @@ a:hover,
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+#about-left {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
     .wtf-user-name, .wtf-user-handle {
         font-size: 12px;
     }
@@ -876,23 +885,29 @@ a:hover,
     }
     .user-stat-div>h2 {
         font-size: 12px;
+        margin: 0px 8px;
     }
     .user-stat-div>h1 {
         font-size: 18px;
     }
+    #trends {
+        width: 238px
+    }
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
-    #wtf {
+    #right-cell {
         display: none;
     }
-    #about {
-        display: none;
+    #about-left {
+        display: block;
+        box-sizing: border-box; 
+        width: 260px;
     }
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {
-    #left-cell, #right-cell {
+    #left-cell {
         display: none;
     }
     #center-cell {

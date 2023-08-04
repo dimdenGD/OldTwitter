@@ -827,8 +827,32 @@ const API = {
                                     desc += ` · ${trend.item.content.trend.trendMetadata.metaDescription}`;
                                 }
                             }
-                            if(desc.startsWith('Promoted by')) {
+                            if((desc.startsWith('Promoted by') || /*en*/
+                            desc.startsWith('Promocionado por') || /*es*/
+                            desc.startsWith('Gesponsert von') || /*de*/
+                            desc.startsWith('Реклама от') || /*ru*/
+                            desc.endsWith('によるプロモーション') || /*jp*/
+                            desc.endsWith('님이 프로모션함')||/*ko*/
+                            desc.startsWith('Sponsorisé par') || /*fr*/
+                            desc.endsWith('sponsorluğunda') || /*tr*/
+                            desc.endsWith('مُروَّج بواسطة') || /*ar*/
+                            desc.startsWith('Promowane przez') || /*pl*/
+                            desc.startsWith('Реклама від') || /*uk*/
+                            desc.startsWith('Sponsorizzato da') || /*it*/
+                            desc.startsWith('Promovat de') || /*ro*/
+                            desc.startsWith('โฆษณาโดย') || /*th*/
+                            desc.startsWith('Được quảng bá bởi') || /*vi*/
+                            desc.startsWith('Sponzoruje') || /*cs*/
+                            desc.startsWith('Προώθηση από') || /*el*/
+                            desc.startsWith('Promoted door') || /*nl*/
+                            desc.startsWith('Promoted ni') || /*tl*/
+                            desc.startsWith('מקודם על-ידי') || /*he*/
+                            desc.startsWith('Patrocinat per') /*ca*/
+                            ) && !vars.enableAd) {
                                 return;
+                            }
+                            if(desc.endsWith(' Posts')) {
+                                desc = desc.replace(` Posts`, ` ${LOC.tweets.message}`)
                             }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,

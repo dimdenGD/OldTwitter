@@ -500,5 +500,10 @@
     "replying_to_comma":  { "message": " 님, ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "트위터"},
     "move_navbar_to_bottom": {"message": "상단바를 아래로 이동"},
-    "styled_profile": {"message": "꾸며진 프로필"}
+    "styled_profile": {"message": "꾸며진 프로필"},
+    "open_notifs_as_modal": {"message": "알림을 모달 창으로 엽니다"},
+    "clear_ot_token": {"message": "OldTwitter 토큰 초기화"},
+    "enable_iframe_navigation": {"message": "실험적인 페이지 유지 탐색을 활성화 합니다. 링크를 클릭후 새로고침 없이 이전 페이지로 돌아갈 수 있게 됩니다. 이 기능은 실험적이고, 불안정할 수 있습니다."},
+    "style_your_profile": {"message": "여기서 당신의 프로필을 꾸미세요!"},
+    "modern_ui": { "message": "2018년 트위터 디자인을 사용합니다 둥글고 버튼과 새로운 심벌을 포함합니다" }
 }
