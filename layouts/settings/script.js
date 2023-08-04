@@ -244,7 +244,7 @@ setTimeout(async () => {
         });
     });
     linkColorReset.addEventListener('click', async () => {
-        let color = '#4BACD2';
+        let color = vars.ModernUI ? '#1DA1F3' : '#4BACD2';
         linkColor.value=color;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({

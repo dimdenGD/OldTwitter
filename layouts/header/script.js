@@ -211,7 +211,7 @@ function switchModernUI(enabled) {
             .box,
             #user-banner,
             #timeline-type-center,
-            #timeline-type-left,
+            #timeline-type-right,
             #notifications-div>:first-child{
                 border-radius: 0px;
             }

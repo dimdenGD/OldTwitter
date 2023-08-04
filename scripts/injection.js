@@ -265,7 +265,13 @@ function getThemeVariables(enabled) {
             theme = `
                 --background-color: #1b2836;
                 --dark-background-color: #171f2a;
-                --darker-background-color: #141d26;
+                `;
+            if(vars.modernUI){  //2017 Style
+                theme += `--darker-background-color: #2c3c52;`
+            } else {            //2015 Style
+                theme += `--darker-background-color: #141d26;`
+            }
+                theme += `
                 --almost-black: #d4e3ed;
                 --border: #2c3c52;
                 --darker-gray: #c9c9c9;
@@ -279,14 +285,20 @@ function getThemeVariables(enabled) {
                 --choice-bg: rgb(44 62 71);
                 --list-actions-bg: #19212b;
                 --menu-bg: rgba(34,46,60,0.98);
-            `;
+            `
         }
     } else {
         // Light theme
         theme = `
             --background-color: white;
             --dark-background-color: #f5f8fa;
-            --darker-background-color: #f5f8fa;
+            `;
+        if(vars.modernUI){  //2017 Style
+            theme += `--darker-background-color: #e1e8ed;`
+        } else {            //2015 Style
+            theme += `--darker-background-color: #f5f8fa;`
+        }
+            theme += `
             --almost-black: #292f33;
             --border: #e1e8ed;
             --darker-gray: #66757f;
