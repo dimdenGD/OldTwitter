@@ -2218,7 +2218,7 @@ emoji-picker {
     .tweet-viewer {
         width: calc(100% - 42px);
         overflow-x: clip;
-        margin-bottom: 95px;
+        margin-bottom: 120px;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;

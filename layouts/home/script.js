@@ -70,6 +70,7 @@ setTimeout(() => {
                             <li>Improved media in messages.</li>
                             <li>Added option to view notifications in a modal.</li>
                             <li>Made videos pause when scroll from sight.</li>
+                            <li>Fixed media uploads in messages.</li>
                             <li>Fixed messages repeating when scrolling them after some time.</li>
                             <li>Fixed new tweet notifications page.</li>
                             <li>Added button to clear OldTwitter token.</li>
