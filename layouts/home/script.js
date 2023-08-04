@@ -68,7 +68,6 @@ setTimeout(() => {
                             <li>Added experimental option to be able to click on links and be able to go back to timeline without refreshing.</li>
                             <li>Added support for videos in messages.</li>
                             <li>Improved media in messages.</li>
-                            <li>Added a possible fix for videos breaking sometimes, not sure if it works yet.</li>
                             <li>Added option to view notifications in a modal.</li>
                             <li>Made videos pause when scroll from sight.</li>
                             <li>Fixed messages repeating when scrolling them after some time.</li>

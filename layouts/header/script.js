@@ -272,9 +272,13 @@ function switchModernUI(enabled) {
 
         `;
         document.head.appendChild(style);
+        document.body.classList.add('body-modern-ui');
+        document.body.classList.remove('body-old-ui');
     } else {
         let style = document.getElementById('modern-ui');
         if(style) style.remove();
+        document.body.classList.remove('body-modern-ui');
+        document.body.classList.add('body-old-ui');
     }
 }
 
