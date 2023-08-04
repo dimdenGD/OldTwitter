@@ -221,7 +221,9 @@ function switchModernUI(enabled) {
             #timeline-type-right,
             #notifications-div>:first-child,
             .tweet:first-child,
-            #tweet-nav{
+            #tweet-nav,
+            #save-search-right,
+            #save-search-left {
                 border-radius: 0px;
             }
             .about {
