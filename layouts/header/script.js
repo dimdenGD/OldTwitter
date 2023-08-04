@@ -234,7 +234,8 @@ function switchModernUI(enabled) {
             #new-tweet-text,
             .message-new-input,
             #tweet-to,
-            #tweet-to-div,{
+            .new-tweet-text,
+            #tweet-to-div{
                 border-radius: 8px;
             }
             .tweet-media-element,
