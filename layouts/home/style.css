@@ -658,7 +658,7 @@ a:hover,
 
 #new-tweet-media:before {
     color: var(--link-color);
-    content: "\f110";
+    content: var(--add-media-icon);
     font: 20px var(--icon-font);
 }
 

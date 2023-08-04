@@ -930,13 +930,13 @@ a:hover,
 }
 
 .profile-additional-joined:before {
-    content: "\f177"
+    content: var(--joined-icon)
 }
 .profile-additional-styled:before {
     content: "\f112";
 }
 .profile-additional-birth:before {
-    content: "\f033"
+    content: var(--birthday-icon);
 }
 .profile-additional-professional:before {
     content: "\f204";
@@ -985,7 +985,7 @@ a:hover,
 }
 
 #profile-media-text:before {
-    content: "\f110"
+    content: var(--add-media-icon)
 }
 
 #profile-settings:before {

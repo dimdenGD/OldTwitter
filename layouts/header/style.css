@@ -36,6 +36,9 @@
     --bookmark-icon-active: "\f093";
     --lists-icon-active: "\f094";
     --at-icon: "\f050";
+    --add-media-icon: "\f110";
+    --birthday-icon: "\f033";
+    --joined-icon: "\f177";
 }
 
 @font-face {
@@ -454,7 +457,7 @@ input, textarea {
     bottom: 112px;
 }
 .navbar-new-tweet-media:before {
-    content: "\f110";
+    content: var(--add-media-icon);
     font-family: var(--icon-font);
     color: var(--link-color);
     font-size: 20px;
@@ -924,7 +927,7 @@ input, textarea {
     vertical-align: sub;
 }
 .message-new-media-btn:before {
-    content: "\f110";
+    content: var(--add-media-icon);
     font-family: var(--icon-font);
     color: var(--link-color);
     font-size: 22px;

@@ -249,6 +249,12 @@ function switchModernUI(enabled) {
                 text-transform: none;
             }
 
+            @media screen and (max-width: 590px) {
+                #navbar-tweet-button:before  {
+                    content: "\\f029" !important;
+                }
+            }
+
         `;
         document.head.appendChild(style);
     } else {
@@ -321,11 +327,14 @@ let userDataFunction = async user => {
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
         root.style.setProperty('--home-icon-active', '"\\f553"');
         root.style.setProperty('--notification-icon-active', '"\\f019"');
-        root.style.setProperty('--messages-icon-active', '"\\f554"');/* By the way, this never active*/
+        root.style.setProperty('--messages-icon-active', '"\\f554"');
         root.style.setProperty('--profile-icon-active', '"\\f002"');
         //root.style.setProperty('--bookmark-icon-active', '"\\f093"');/* Not exist */
         root.style.setProperty('--lists-icon-active', '"\\f012"');
         root.style.setProperty('--at-icon', '"\\f064"');
+        root.style.setProperty('--add-media-icon', '"\\f027"');
+        root.style.setProperty('--birthday-icon', '"\\f092"');
+        root.style.setProperty('--joined-icon', '"\\f203"');
 
     }
     if(vars.heartsNotStars) {
