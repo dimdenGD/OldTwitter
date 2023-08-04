@@ -1017,7 +1017,7 @@ a:hover,
 .profile-media-preview {
     cursor: pointer;
     vertical-align: text-top;
-    width: 75px !important;
+    width: 75px;
     height: 75px;
     margin: 3px
 }
@@ -1723,6 +1723,10 @@ a:hover,
     }
     #profile-media {
         margin-bottom: 40px;
+    }
+    .profile-media-preview {
+        width: 75px !important;
+        height: 75px;
     }
 }
 @media screen and (max-width: 550px) {

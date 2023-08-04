@@ -68,7 +68,8 @@ function switchRoundAvatars(enabled) {
             .message-element > a > img,
             .notification-avatar-img,
             #nav-profile-avatar,
-            .message-avatar {
+            .message-avatar,
+            .profile-friends-avatar {
                 border-radius: 50% !important;
             }
         `;
@@ -179,7 +180,7 @@ function switchModernUI(enabled) {
             #edit-profile:before  {
                 width: auto;
             }
-            /* DM */
+            /* DM message bubble */
             .message-element .message-body {
                 border-radius: 15px 15px 0 15px;
             }
@@ -226,14 +227,14 @@ function switchModernUI(enabled) {
             #save-search-left {
                 border-radius: 0px;
             }
-            .about,
-            .about-links a,
-            .about-links span,
-            .open-new-twitter {
-                color: var(--darker-gray)
+            .profile-media-preview {
+                border-radius: 0px !important;
             }
             /* More Round */
-            #new-tweet-text{
+            #new-tweet-text,
+            .message-new-input,
+            #tweet-to,
+            #tweet-to-div,{
                 border-radius: 8px;
             }
             .tweet-media-element,
@@ -263,7 +264,13 @@ function switchModernUI(enabled) {
                 box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
                 border-bottom: none;
             }
-
+            .about,
+            .about-links a,
+            .about-links span,
+            .open-new-twitter {
+                color: var(--darker-gray)
+            }
+            /* Mobile UI */
             @media screen and (max-width: 590px) {
                 #navbar-tweet-button:before  {
                     content: "\\f029" !important;
