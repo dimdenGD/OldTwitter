@@ -198,13 +198,14 @@ function switchModernUI(enabled) {
                 font-size: 16px;
                 font-weight: 400;
             }
-            .nav-text {
-                font-weight: 600;
-            }
             .cool-header,
             .nice-header {
                 color: var(--almost-black);
                 font-size: 22px !important;
+                font-weight: 600;
+            }
+            .user-stat-div > h2,
+            .nav-text {
                 font-weight: 600;
             }
             /* No round */
@@ -212,7 +213,9 @@ function switchModernUI(enabled) {
             #user-banner,
             #timeline-type-center,
             #timeline-type-right,
-            #notifications-div>:first-child{
+            #notifications-div>:first-child,
+            .tweet:first-child,
+            tweet-nav{
                 border-radius: 0px;
             }
             .about {
@@ -228,6 +231,12 @@ function switchModernUI(enabled) {
             .tweet-body-quote,
             .tweet-media-video-overlay {
                 border-radius: 15px;
+            }
+            /* No UpperCase */
+            .user-stat-div > h2,
+            .follows-you-label,
+            .profile-stat-text  {
+                text-transform: none;
             }
 
         `;

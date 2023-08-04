@@ -230,6 +230,23 @@ setTimeout(async () => {
             root.style.setProperty('--icon-font', `"RosettaIcons"`)
         }
     });
+    modernUI.addEventListener('change', () => {
+        vars.modernUI = !!modernUI.checked;
+        chrome.storage.sync.set({
+            modernUI: modernUI.checked
+        }, () => {
+            switchModernUI(modernUI.checked);
+            modernUIBus.postMessage(modernUI.checked);
+            themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
+            switchDarkMode(isDarkModeEnabled);
+        });  
+        if(vars.iconFont || vars.modernUI){
+            root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
+        }
+        else{
+            root.style.setProperty('--icon-font', `"RosettaIcons"`)
+        }
+    });
     linkColor.addEventListener('input', () => {
         let color = linkColor.value;
         root.style.setProperty('--link-color', color);
@@ -244,8 +261,8 @@ setTimeout(async () => {
         });
     });
     linkColorReset.addEventListener('click', async () => {
-        let color = vars.ModernUI ? '#1DA1F3' : '#4BACD2';
-        linkColor.value=color;
+        let color = vars.modernUI ? '#1DA1F3' : '#4BACD2';
+        linkColor.value = color;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
@@ -398,21 +415,6 @@ setTimeout(async () => {
             switchRoundAvatars(roundAvatars.checked);
             roundAvatarBus.postMessage(roundAvatars.checked);
         });
-    });
-    modernUI.addEventListener('change', () => {
-        vars.modernUI = !!modernUI.checked;
-        chrome.storage.sync.set({
-            modernUI: modernUI.checked
-        }, () => {
-            switchModernUI(modernUI.checked);
-            modernUIBus.postMessage(modernUI.checked);
-        });  
-        if(vars.iconFont || vars.modernUI){
-            root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
-        }
-        else{
-            root.style.setProperty('--icon-font', `"RosettaIcons"`)
-        }
     });
     noBigFont.addEventListener('change', () => {
         chrome.storage.sync.set({
