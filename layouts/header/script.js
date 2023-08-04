@@ -1464,7 +1464,8 @@ let userDataFunction = async user => {
         });
     });
     searchIcon.addEventListener('click', () => {
-        if(!searchInput.value || searchInput.value === 'undefined') {
+        let searchParams = new URLSearchParams(location.search);
+        if(!searchInput.value || searchInput.value === 'undefined' || searchInput.value === searchParams.get('q')) {
             return searchInput.focus();
         }
         lastSearches.push(searchInput.value);

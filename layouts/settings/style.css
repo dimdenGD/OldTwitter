@@ -706,7 +706,7 @@ select, input, textarea {
     #center-cell {
         margin: 0 auto;
         width: 100%;
-        margin-top: 50px;
+        margin-top: 55px;
     }
     #settings {
         width: calc(100% - 40px);
