@@ -2223,6 +2223,10 @@ setInterval(() => {
                     document.getElementById('about-right').children[0].append(document.createElement('br'));
                     document.getElementById('about-left').children[0].append(document.createElement('br'));
                 }
+                if(vars.modernUI){
+                    document.getElementById('twitter-copyright-right').innerText = document.getElementById('twitter-copyright-right').innerText.replace('2015','2018');
+                    document.getElementById('twitter-copyright-left').innerText = document.getElementById('twitter-copyright-left').innerText.replace('2015','2018');
+                }
             });
         }
         let about_left = document.getElementById('about-left');
