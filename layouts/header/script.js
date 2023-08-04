@@ -222,6 +222,9 @@ function switchModernUI(enabled) {
                 background-color: var(--background-color);
                 border: 1px solid var(--border);
                 color: var(--light-gray);
+                padding: 10px;
+                margin-top: 10px;
+                line-height: 1.5;
             }
             /* More Round */
             #new-tweet-text{
@@ -229,7 +232,8 @@ function switchModernUI(enabled) {
             }
             .tweet-media-element,
             .tweet-body-quote,
-            .tweet-media-video-overlay {
+            .tweet-media-video-overlay,
+            .tweet-card-link.box {
                 border-radius: 15px;
             }
             /* No UpperCase */

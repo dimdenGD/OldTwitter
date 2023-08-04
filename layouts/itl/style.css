@@ -258,6 +258,11 @@ body {
     color: var(--light-gray);
     margin-right: 8px;
 }
+#about-right{
+    box-sizing: border-box;
+    max-width: 272px
+}
+
 
 #trends {
     margin-top: 10px;
@@ -813,6 +818,11 @@ a:hover,
     margin-top: 5px;
     padding: 10px 3px;
 }
+#about-right{
+    box-sizing: border-box;
+    max-width: 272px
+}
+
 
 .about-links a,
 .about-links span {
@@ -882,7 +892,8 @@ a:hover,
     }
     #about-left {
         display: block;
-        width: 254px;
+        box-sizing: border-box; 
+        width: 260px;
     }
 }
 /* no left-cell */

@@ -271,6 +271,11 @@ body {
     color: var(--light-gray);
     word-break: keep-all;
 }
+#about-right{
+    max-width: 272px;
+    box-sizing: border-box; 
+}
+
 .about-links a, .about-links span {
     color: var(--light-gray);
     margin-right: 8px;
@@ -829,6 +834,10 @@ a:hover,
     margin-top: 5px;
     padding: 10px 3px;
 }
+#about-right{
+    max-width: 272px;
+    box-sizing: border-box; 
+}
 
 .about-links a,
 .about-links span {
@@ -905,7 +914,8 @@ a:hover,
     }
     #about-left {
         display: block;
-        width: 254px;
+        box-sizing: border-box; 
+        width: 260px;
     }
 }
 /* no left-cell */

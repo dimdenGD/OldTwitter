@@ -236,6 +236,10 @@ body {
     color: var(--light-gray);
     margin-right: 8px;
 }
+#about-right{
+    max-width: 272px;
+    box-sizing: border-box; 
+}
 
 #trends {
     margin-top: 10px;
@@ -690,7 +694,8 @@ select, input, textarea {
     }
     #about-left {
         display: block;
-        width: 254px;
+        box-sizing: border-box; 
+        width: 260px;
     }
 }
 /* no left-cell */

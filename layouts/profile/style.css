@@ -589,8 +589,8 @@ a:hover,
     word-break: keep-all;
 }
 #about-right{
-    
-    max-width: 280px
+    max-width: 280px;
+    box-sizing: border-box; 
 }
 
 .about-links a,
@@ -1535,7 +1535,7 @@ a:hover,
     margin-bottom: 5px
 }
 #about-left {
-    margin-top: -255px;
+    margin-top: -245px;
     display: none;
 }
 /* A little smaller UI */
@@ -1547,7 +1547,7 @@ a:hover,
         width: 230px;
     }
     .about {
-        width: 250px;
+        width: 272px;
     }
     .wtf-user-name, .wtf-user-handle {
         font-size: 12px;
@@ -1572,7 +1572,8 @@ a:hover,
     }
     #about-left {
         display: block;
-        width: 254px;
+        box-sizing: border-box; 
+        width: 260px;
     }
     #left-cell {
         width: 260px;
