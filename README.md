@@ -19,6 +19,7 @@ If you like this extension please consider donating:
 ![Tweet](https://lune.dimden.dev/9acc5de7ad.png)  
 ![Notifications](https://lune.dimden.dev/73938743da.png)  
 ![Search](https://lune.dimden.dev/575b9d30f1.png)  
+![Modern home](https://lune.dimden.dev/e1cf7d3fa61.png)  
   
 ## Features
 - Almost all of Twitter functionality is implemented  

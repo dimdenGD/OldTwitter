@@ -11,7 +11,7 @@
     vertical-align: sub;
     color: #1da1f2;
     margin-left: 20px;
-    font: 64px RosettaIcons
+    font: 64px var(--icon-font);
 }
 
 #loading-box-container {
@@ -249,7 +249,7 @@ body {
     color: #ccd6dd;
     cursor: pointer;
     vertical-align: sub;
-    font: 400 16px RosettaIcons
+    font: 400 16px var(--icon-font);
 }
 
 .tweet-interact-reply:before {
@@ -270,7 +270,10 @@ body {
 .tweet-interact-favorite:hover {
     color: var(--favorite-icon-color) !important
 }
-
+.tweet-interact-favorited,
+.tweet-interact-favorited:before{
+    content: var(--favorite-icon-content-click) !important
+}
 .tweet-reply-text:focus,
 .tweet-quote-text:focus {
     outline: none
@@ -314,13 +317,13 @@ body {
 }
 
 .nice-red-button {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #6F0D1C) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #6F0D1C);
 }
 
 .nice-red-button:hover:not([disabled]) {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #4B0E17) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #4B0E17);
 }
 
 .tweet-top {
@@ -444,7 +447,8 @@ body {
 }
 
 .trend {
-    font-size: 13px
+    font-size: 13px;
+    max-width: 280px
 }
 
 #wtf-refresh,
@@ -517,7 +521,7 @@ a:hover,
     content: "\f175";
     margin-right: 7px;
     vertical-align: text-bottom;
-    font: 17px RosettaIcons
+    font: 17px var(--icon-font);
 }
 
 .following:before {
@@ -525,7 +529,7 @@ a:hover,
     content: "\f176";
     margin-right: 7px;
     vertical-align: text-bottom;
-    font: 17px RosettaIcons
+    font: 17px var(--icon-font);
 }
 
 .tweet-self-thread-button {
@@ -565,24 +569,28 @@ a:hover,
 .user-protected::after {
     content: "\f096";
     color: #ddd22b;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 
 .user-muted::after {
     content: "\f101";
     color: #f33939;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-left: 5px
 }
 
-#about {
+.about {
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
     color: var(--light-gray);
     padding-right: 0;
     word-break: keep-all;
+}
+#about-right{
+    max-width: 280px;
+    box-sizing: border-box; 
 }
 
 .about-links a,
@@ -660,7 +668,7 @@ a:hover,
 #new-tweet-media:before {
     content: "\f159";
     color: var(--link-color);
-    font: 20px RosettaIcons
+    font: 20px var(--icon-font);
 }
 
 #new-tweet-button {
@@ -687,7 +695,7 @@ a:hover,
     color: var(--link-color);
     margin-right: 5px;
     vertical-align: bottom;
-    font: 14px RosettaIcons
+    font: 14px var(--icon-font);
 }
 
 #new-tweet-media-c {
@@ -731,7 +739,7 @@ a:hover,
     content: "\f045";
     margin-bottom: 2px;
     color: white;
-    font: 13px RosettaIcons
+    font: 13px var(--icon-font);
 }
 
 .new-tweet-media-img-alt {
@@ -761,7 +769,7 @@ a:hover,
 }
 .tweet-translate:before {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
 }
@@ -840,7 +848,7 @@ a:hover,
 }
 .translate-bio:before {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
 }
@@ -914,7 +922,7 @@ a:hover,
     display: inline-block;
     width: 20px;
     text-align: center;
-    font: 18px RosettaIcons
+    font: 18px var(--icon-font);
 }
 
 .profile-additional-location:before {
@@ -922,13 +930,13 @@ a:hover,
 }
 
 .profile-additional-joined:before {
-    content: "\f177"
+    content: var(--joined-icon)
 }
 .profile-additional-styled:before {
     content: "\f112";
 }
 .profile-additional-birth:before {
-    content: "\f033"
+    content: var(--birthday-icon);
 }
 .profile-additional-professional:before {
     content: "\f204";
@@ -977,7 +985,7 @@ a:hover,
 }
 
 #profile-media-text:before {
-    content: "\f110"
+    content: var(--add-media-icon)
 }
 
 #profile-settings:before {
@@ -1131,7 +1139,7 @@ a:hover,
     display: inline-block;
     width: 20px;
     text-align: center;
-    font: 18px RosettaIcons
+    font: 18px var(--icon-font);
 }
 
 #profile-settings-div {
@@ -1212,7 +1220,7 @@ a:hover,
 
 #control-unblock:before {
     content: "\f056";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 5px;
     vertical-align: bottom
 }
@@ -1369,9 +1377,6 @@ a:hover,
 .list-creator-modal {
     color: var(--default-text-color);
 }
-#navbar-right {
-    margin-right: 25px !important;
-}
 .tweet:not(.tweet-view):last-child {
     border-bottom: 1px solid var(--border) !important;
     border-bottom-left-radius: 5px;
@@ -1428,7 +1433,7 @@ a:hover,
 #tweet-nav-more:before {
     content: "\f150";
     color: var(--light-gray);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
 }
 #tweet-nav-more-menu {
     position: absolute;
@@ -1533,34 +1538,50 @@ a:hover,
 }
 
 .wtf-user {
+    width:100%;
     display: inline-block;
     margin-bottom: 5px
+}
+#about-left {
+    margin-top: -245px;
+    display: none;
 }
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #wtf {
-        width: fit-content;
-        max-width: 250px;
+        width: 250px;
+    }
+    .trend {
+        width: 230px;
+    }
+    .about {
+        width: 272px;
     }
     .wtf-user-name, .wtf-user-handle {
         font-size: 12px;
+    }
+    #left-cell {
+        width: 260px;
     }
 
     #profile-nav-right-cell,
     #profile-nav-center-cell {
         width: fit-content
     }
+    .profile-media-preview {
+        width: 70px;
+        height: 70px;
+    }
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
-    #wtf {
+    #right-cell {
         display: none;
     }
-    #trends {
-        display: none;
-    }
-    #about {
-        display: none;
+    #about-left {
+        display: block;
+        box-sizing: border-box; 
+        width: 260px;
     }
     #left-cell {
         width: 260px;
@@ -1597,6 +1618,7 @@ a:hover,
         pointer-events: auto;
         bottom: 257px;
         width: fit-content
+        
     }
     #profile-info-text {
         margin-left: 0;
@@ -1646,6 +1668,9 @@ a:hover,
         margin-left: 0;
         position: absolute;
         right: 0;
+    }
+    #about-left {
+        display: none;
     }
 }
 
