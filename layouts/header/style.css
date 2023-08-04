@@ -2142,6 +2142,9 @@ emoji-picker {
 .larger {
     font-size: 24px;
 }
+.open-new-twitter {
+    color: var(--light-gray);
+}
 /* Mobile UI */
 @media screen and (max-width: 590px) {
     .notification-avatars, .notification-text {

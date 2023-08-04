@@ -86,7 +86,7 @@ function switchModernUI(enabled) {
     if(enabled) {
         let style = document.createElement('style');
         style.id = 'modern-ui';
-        style.innerHTML = `
+        style.innerHTML = /*css*/`
             /* buttons */
             .nice-button {
                 border-radius: 999px !important;
@@ -226,13 +226,11 @@ function switchModernUI(enabled) {
             #save-search-left {
                 border-radius: 0px;
             }
-            .about {
-                background-color: var(--background-color);
-                border: 1px solid var(--border);
-                color: var(--light-gray);
-                padding: 10px;
-                margin-top: 10px;
-                line-height: 1.5;
+            .about,
+            .about-links a,
+            .about-links span,
+            .open-new-twitter {
+                color: var(--darker-gray)
             }
             /* More Round */
             #new-tweet-text{
@@ -246,9 +244,20 @@ function switchModernUI(enabled) {
             }
             /* No UpperCase */
             .user-stat-div > h2,
-            .follows-you-label,
             .profile-stat-text  {
                 text-transform: none;
+            }
+            /* Profile */
+            .profile-stat-text {
+                font-size: 12px;
+            }
+            .profile-stat-value {
+                font-weight: bolder;
+                color: var(--darker-gray);
+            }
+            .profile-stat-active > .profile-stat-value,
+            .profile-stat:hover > .profile-stat-value {
+                color: var(--link-color);
             }
 
             @media screen and (max-width: 590px) {
@@ -2219,16 +2228,16 @@ setInterval(() => {
                 a.href = hrefUrl.toString();
                 a2.href = hrefUrl.toString();
             }, 500);
+            a.className = "open-new-twitter";
             a.innerText = `[${LOC.open_newtwitter.message}]`;
             a.addEventListener('click', e => {
                 e.stopImmediatePropagation();
             });
+            a2.className = "open-new-twitter";
             a2.innerText = `[${LOC.open_newtwitter.message}]`;
             a2.addEventListener('click', e => {
                 e.stopImmediatePropagation();
             });
-            a.style.color = 'var(--light-gray)';
-            a2.style.color = 'var(--light-gray)';
             about_left.appendChild(a);
             about_right.appendChild(a2);
         }
