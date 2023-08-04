@@ -548,15 +548,10 @@ let userDataFunction = async user => {
                     let photoElement = document.createElement('img');
                     photoElement.src = photo.media_url_https;
                     photoElement.classList.add('message-element-media');
-                    if(photo.original_info.width > 200) {
-                        photoElement.width = 200;
+                    if(photo.original_info.width > 400) {
+                        photoElement.width = 400;
                     } else {
                         photoElement.width = photo.original_info.width;
-                    }
-                    if(photo.original_info.height > 100) {
-                        photoElement.height = 100;
-                    } else {
-                        photoElement.height = photo.original_info.height;
                     }
                     photoElement.addEventListener('click', e => {
                         new Viewer(photoElement, {
@@ -573,18 +568,26 @@ let userDataFunction = async user => {
                     gifElement.muted = true;
                     gifElement.loop = true;
                     gifElement.autoplay = true;
-                    if(gif.original_info.width > 200) {
-                        gifElement.width = 200;
+                    if(gif.original_info.width > 400) {
+                        gifElement.width = 400;
                     } else {
                         gifElement.width = gif.original_info.width;
                     }
-                    if(gif.original_info.height > 100) {
-                        gifElement.height = 100;
-                    } else {
-                        gifElement.height = gif.original_info.height;
-                    }
                     gifElement.classList.add('message-element-media');
                     messageElement.append(document.createElement('br'), gifElement);
+                }
+                if(attachment.video) {
+                    let video = attachment.video;
+                    let videoElement = document.createElement('video');
+                    videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
+                    videoElement.controls = true;
+                    if(video.original_info.width > 400) {
+                        videoElement.width = 400;
+                    } else {
+                        videoElement.width = video.original_info.width;
+                    }
+                    videoElement.classList.add('message-element-media');
+                    messageElement.append(document.createElement('br'), videoElement);
                 }
             }
             let span = messageElement.getElementsByClassName('message-body')[0];
@@ -1000,7 +1003,7 @@ let userDataFunction = async user => {
                     </div>
                 </div>
             </div>
-        `);
+        `, "navbar-new-tweet-modal");
         const newTweet = modal.getElementsByClassName('navbar-new-tweet-container')[0];
         const newTweetText = modal.getElementsByClassName('navbar-new-tweet-text')[0];
         const newTweetChar = modal.getElementsByClassName('navbar-new-tweet-char')[0];
@@ -1461,7 +1464,8 @@ let userDataFunction = async user => {
         });
     });
     searchIcon.addEventListener('click', () => {
-        if(!searchInput.value || searchInput.value === 'undefined') {
+        let searchParams = new URLSearchParams(location.search);
+        if(!searchInput.value || searchInput.value === 'undefined' || searchInput.value === searchParams.get('q')) {
             return searchInput.focus();
         }
         lastSearches.push(searchInput.value);
@@ -1505,6 +1509,7 @@ let userDataFunction = async user => {
     let userPreviewTimeouts = [];
     let leavePreviewTimeout;
     document.addEventListener('mouseover', e => {
+        if(innerWidth < 650) return;
         for(let timeout of userPreviewTimeouts) {
             clearTimeout(timeout);
         }
@@ -2373,6 +2378,7 @@ setInterval(() => {
             e.preventDefault();
             e.stopImmediatePropagation();
 
+            let previousLocation = location.href;
             let modal = createModal(`
                 <div class="nav-notifications-loading">
                     <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
@@ -2381,7 +2387,10 @@ setInterval(() => {
                 <div class="nav-notification-more center-text" hidden>${LOC.load_more.message}</div>
             `, 'notifications-modal', () => {
                 clearInterval(ui);
+                if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
             });
+
+            history.pushState({}, null, `https://twitter.com/notifications`);
 
             let notifLoading = modal.getElementsByClassName('nav-notifications-loading')[0];
             let notifList = modal.getElementsByClassName('nav-notification-list')[0];
@@ -2494,6 +2503,15 @@ setInterval(() => {
                 updateNotifications({ mode: 'append', quiet: true });
             });
         }
+    });
+    window.addEventListener('popstate', () => {
+        let nm = document.querySelector('.notifications-modal');
+        if(nm) {
+            let tv = document.querySelector('.tweet-viewer');
+            if(!tv) {
+                nm.parentElement.removeModal();
+            }
+        }   
     });
 
     switchDarkMode(vars.darkMode || (vars.timeMode && isDark()));

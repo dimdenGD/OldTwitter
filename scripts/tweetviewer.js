@@ -16,7 +16,7 @@ class TweetViewer {
             <div class="likes-more center-text" hidden>${LOC.load_more.message}</div>
         `, 'tweet-viewer', () => {
             this.close();
-            history.pushState({}, null, previousLocation);
+            if((location.pathname + location.search) !== previousLocation) history.pushState({}, null, previousLocation);
         });
         this.tweetData = tweetData;
         this.id = tweetData.id_str;
@@ -756,6 +756,7 @@ class TweetViewer {
         this.tweets.push(['tweet', t, options]);
         this.seenReplies.push(t.id_str);
         const tweet = document.createElement('div');
+        tweet.tweet = t;
         t.options = options;
         t.element = tweet;
         if(!options.mainTweet) {
@@ -1074,8 +1075,10 @@ class TweetViewer {
         // video
         let vidOverlay = tweet.getElementsByClassName('tweet-media-video-overlay')[0];
         if(vidOverlay) {
-            vidOverlay.addEventListener('click', () => {
+            vidOverlay.addEventListener('click', async () => {
                 let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
+                let res = await fetch(vid.currentSrc);
+                if(!res.headers.get('content-length')) await sleep(1000);
                 vid.play();
                 vid.controls = true;
                 vid.classList.remove('tweet-media-element-censor');
@@ -1099,7 +1102,7 @@ class TweetViewer {
                         vid.currentTime = time;
                         if(!paused) vid.play();
                         Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
-                            if(el.dataset.url === src.split('&ttd=')[0]) el.classList.add('tweet-video-quality-current');
+                            if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
                             else el.classList.remove('tweet-video-quality-current');
                         });
                     }
@@ -1123,7 +1126,7 @@ class TweetViewer {
                     }
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
                         ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
-                            ${m.video_info.variants.map(v => `<source src="${v.url}&ttd=${Date.now()}" type="${v.content_type}">`).join('\n')}
+                            ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     `;
@@ -1133,7 +1136,7 @@ class TweetViewer {
                         vid.currentTime = time;
                         if(!paused) vid.play();
                         Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
-                            if(el.dataset.url === src.split('&ttd=')[0]) el.classList.add('tweet-video-quality-current');
+                            if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
                             else el.classList.remove('tweet-video-quality-current');
                         });
                     }

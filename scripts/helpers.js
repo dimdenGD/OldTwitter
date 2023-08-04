@@ -460,16 +460,6 @@ async function renderTweetBodyHTML(t, is_quoted) {
 
     full_text_array = Array.from(t.full_text);
 
-    if (t.entities.hashtags) {
-        t.entities.hashtags.forEach(hashtag => {
-            let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
-            index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
-                `#${escapeHTML(hashtag.text)}`+
-                `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
-            `</a>`];
-        });
-    }
-
     if (t.entities.richtext) {
         t.entities.richtext.forEach(snippet => {
             index_map[snippet.from_index] = [
@@ -486,12 +476,31 @@ async function renderTweetBodyHTML(t, is_quoted) {
     }
 
     if (is_quoted) { // for quoted tweet we need only hashflags and readable urls
+        if (t.entities.hashtags) {
+            t.entities.hashtags.forEach(hashtag => {
+                let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text =>
+                    `#${escapeHTML(hashtag.text)}`+
+                    `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`];
+            });
+        };
+
         if (t.entities.urls) {
             t.entities.urls.forEach(url => {
                 index_map[url.indices[0]] = [url.indices[1], text => `${escapeHTML(url.display_url)}`];
             });
         };
     } else {
+        if (t.entities.hashtags) {
+            t.entities.hashtags.forEach(hashtag => {
+                let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
+                    `#${escapeHTML(hashtag.text)}`+
+                    `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
+                `</a>`];
+            });
+        };
+
         if (t.entities.symbols) {
             t.entities.symbols.forEach(symbol => {
                 index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="https://twitter.com/search?q=%24${escapeHTML(symbol.text)}">`+
@@ -1469,6 +1478,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
         const tweet = document.createElement('div');
+        tweet.tweet = t;
         t.element = tweet;
         t.options = options;
 
@@ -1864,8 +1874,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
         // video
         let vidOverlay = tweet.getElementsByClassName('tweet-media-video-overlay')[0];
         if(vidOverlay) {
-            vidOverlay.addEventListener('click', () => {
+            vidOverlay.addEventListener('click', async () => {
                 let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
+                let res = await fetch(vid.currentSrc); // weird problem with vids breaking cuz twitter sometimes doesnt send content-length
+                if(!res.headers.get('content-length')) await sleep(1000);
                 vid.play();
                 vid.controls = true;
                 vid.classList.remove('tweet-media-element-censor');
@@ -1897,7 +1909,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         vid.currentTime = time;
                         if(!paused) vid.play();
                         Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
-                            if(el.dataset.url === src.split('&ttd=')[0]) el.classList.add('tweet-video-quality-current');
+                            if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
                             else el.classList.remove('tweet-video-quality-current');
                         });
                     }
@@ -1921,7 +1933,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     }
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
                         ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
-                            ${m.video_info.variants.map(v => `<source src="${v.url}&ttd=${Date.now()}" type="${v.content_type}">`).join('\n')}
+                            ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     `;
@@ -1931,7 +1943,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         vid.currentTime = time;
                         if(!paused) vid.play();
                         Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
-                            if(el.dataset.url === src.split('&ttd=')[0]) el.classList.add('tweet-video-quality-current');
+                            if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
                             else el.classList.remove('tweet-video-quality-current');
                         });
                     }

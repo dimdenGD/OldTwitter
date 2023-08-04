@@ -844,3 +844,14 @@ a:hover,
         padding-right: calc(100% - 150px);
     }
 }
+@media screen and (max-width: 590px) {
+    body.move-navbar-to-bottom #left-cell {
+        top: 0;
+    }
+    body.move-navbar-to-bottom #center-cell {
+        margin-top: 0 !important
+    }
+    .modal .tweet {
+        width: unset;
+    }
+}

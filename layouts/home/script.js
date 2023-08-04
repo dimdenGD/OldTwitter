@@ -135,29 +135,29 @@ function updateUserData() {
         console.error(e);
     });
 }
-async function updateTimeline() {
+async function updateTimeline(saveCursor = true) {
     seenThreads = [];
     if (timeline.data.length === 0) {
         document.getElementById('timeline').innerHTML = ``;
         document.getElementById('tweets-loading').hidden = false;
         document.getElementById('load-more').hidden = true;
     }
-    let fn;
+    let fn, args = [];
     switch(vars.timelineType) {
         case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
         case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
         case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-        case 'chrono-social': fn = API.timeline.getMixed; break;
+        case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
         default: fn = API.timeline.getChronologicalV2; break;
     }
-    let [tl, s] = await Promise.allSettled([fn(), API.account.getSettings()]);
+    let [tl, s] = await Promise.allSettled([fn(...args), API.account.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
         document.getElementById('tweets-loading').hidden = true;
         return;
     }
     s = s.value; tl = tl.value;
-    algoCursor = tl.cursor;
+    if(saveCursor) algoCursor = tl.cursor;
     tl = tl.list;
     if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
         for(let t of tl) {
@@ -381,10 +381,24 @@ function renderNewTweetsButton() {
 }
 
 let activeTweet;
+let seenAlgoTweets = [], algoTweetsChanged = false;
+setInterval(() => {
+    if(!algoTweetsChanged) return;
+    algoTweetsChanged = false;
+    chrome.storage.local.set({seenAlgoTweets}, () => {});
+}, 20000);
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
     }
+    await new Promise(resolve => {
+        chrome.storage.local.get(['seenAlgoTweets'], data => {
+            if(data.seenAlgoTweets) {
+                seenAlgoTweets = data.seenAlgoTweets;
+            };
+            resolve();
+        });
+    });
 
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
@@ -393,7 +407,7 @@ setTimeout(async () => {
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
         // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 50) {
+        if(Date.now() - lastTweetDate > 100) {
             lastTweetDate = Date.now();
             let tweets = Array.from(document.getElementsByClassName('tweet'));
 
@@ -402,14 +416,19 @@ setTimeout(async () => {
             if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
                 if(activeTweet) {
                     activeTweet.classList.remove('tweet-active');
-                }
-                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(activeTweet) {
                     let video = activeTweet.querySelector('.tweet-media > video[controls]');
                     if(video) {
                         video.pause();
                     }
+                    if(activeTweet.tweet && activeTweet.tweet.algo) {
+                        if(!seenAlgoTweets.includes(activeTweet.tweet.id_str)) seenAlgoTweets.push(activeTweet.tweet.id_str);
+                        if(seenAlgoTweets.length > 100) {
+                            seenAlgoTweets.shift();
+                        }
+                        algoTweetsChanged = true;
+                    }
                 }
+                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
                 if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
                     if(newActiveTweet) {
                         let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
@@ -437,17 +456,14 @@ setTimeout(async () => {
                     default: tl = await API.timeline.getChronologicalV2(algoCursor); break;
                 }
                 algoCursor = tl.cursor;
-                if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
-                    tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
-                    for(let t of tl) {
-                        seenTweets.push(t.id_str);
-                    }
-                } else if(vars.timelineType === 'chrono-retweets') {
-                    tl = tl.list.slice(1).filter(t => t.retweeted_status);
+                tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
+                for(let t of tl) {
+                    seenTweets.push(t.id_str);
+                }
+                if(vars.timelineType === 'chrono-retweets') {
+                    tl = tl.filter(t => t.retweeted_status);
                 } else if(vars.timelineType === 'chrono-no-retweets') {
-                    tl = tl.list.slice(1).filter(t => !t.retweeted_status);
-                } else {
-                    tl = tl.list.slice(1);
+                    tl = tl.filter(t => !t.retweeted_status);
                 }
             } catch (e) {
                 console.error(e);
@@ -539,14 +555,10 @@ setTimeout(async () => {
         let tl;
         try {
             tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronologicalV2(algoCursor);
-            if(vars.timelineType === 'algo') {
-                algoCursor = tl.cursor;
-                tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
-                for(let t of tl) {
-                    seenTweets.push(t.id_str);
-                }
-            } else {
-                tl = tl.slice(1);
+            algoCursor = tl.cursor;
+            tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
+            for(let t of tl) {
+                seenTweets.push(t.id_str);
             }
         } catch (e) {
             console.error(e);
@@ -1213,7 +1225,7 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') setInterval(updateTimeline, 60000);
+    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline(false), 60000);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 50);

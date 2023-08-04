@@ -23,7 +23,7 @@ function useIframeNavigation(e) {
     if(!vars.enableIframeNavigation) return;
 
     let a = e.target.closest('a');
-    if(!a || !a.href || a.href.startsWith('#') || a.href.startsWith('javascript:')) return;
+    if(!a || !a.href || a.href.startsWith('#') || a.href.startsWith('javascript:') || a.href.startsWith('blob:')) return;
     if(a.href.startsWith('http') && !a.href.startsWith(location.origin)) return;
 
     let depth = getFrameDepth(window);
@@ -81,11 +81,21 @@ function useIframeNavigation(e) {
             
             if(iframe) iframe.remove();
         } else {
-            useIframeNavigation({
-                target: { closest: () => ({ href: location.href }) },
-                preventDefault: () => {},
-                stopImmediatePropagation: () => {}
-            });
+            if(location.pathname === '/notifications' || location.pathname.includes('/status/')) {
+                let we = window.top.windows[Math.max(window.top.windows.length - 2, 0)];
+                let iframe = we.document.getElementsByClassName('iframe-navigation')[0];
+                window.top.windows = window.top.windows.slice(0, window.top.windows.length - 1);
+                we.document.body.style.overflow = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
+                we.focus();
+
+                if(iframe) iframe.remove();
+            } else {
+                useIframeNavigation({
+                    target: { closest: () => ({ href: location.href }) },
+                    preventDefault: () => {},
+                    stopImmediatePropagation: () => {}
+                });
+            }
         }
     });
 }
