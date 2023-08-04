@@ -1,5 +1,5 @@
 # OldTwitter (2023)
-Browser extension to return old Twitter layout from 2015.  
+Browser extension to return old Twitter layout from 2015 (and option to use 2018 design).  
 This extension doesn't add any CSS on top of original Twitter. It's fully original client that replaces Twitter, making it much faster than alternatives.  
   
 ## Installation
@@ -78,7 +78,13 @@ You had algorithmical timeline enabled. By default OldTwitter turns on reverse c
 
 #### How do I visit original Twitter client after installing extension?
 You need to add `?newtwitter=true` to end of your current URL. There's also a "Open this page in new Twitter" button on all pages on bottom right.  
-  
+
+#### Where are the extension settings?
+Click on your profile picture on top-right and then Settings button.
+
+#### I don't like 2015 design, can I have something more modern
+There's a setting to use design from 2018.
+
 ## Hotkeys
 You can disable all hotkeys in settings.  
   
