@@ -1538,6 +1538,7 @@ a:hover,
 }
 
 .wtf-user {
+    width:100%;
     display: inline-block;
     margin-bottom: 5px
 }
