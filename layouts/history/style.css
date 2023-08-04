@@ -128,10 +128,11 @@ body {
     margin-right: 10px;
 }
 #bookmarks {
-    width: 560px;
+    width: 590px;
     margin-bottom: 10px;
     min-height: 700px;
-    padding: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 #bookmarks hr {
     border-top: var(--border);
@@ -872,11 +873,11 @@ a:hover,
     border-bottom-right-radius: 5px;
 }
 
+#about-left {
+    display: none;
+}
+/* A little smaller UI */
 @media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
     .wtf-user-name, .wtf-user-handle {
         font-size: 12px;
     }
@@ -890,9 +891,55 @@ a:hover,
     .user-stat-div>h1 {
         font-size: 18px;
     }
+    #trends {
+        width: 238px
+    }
 }
-@media screen and (max-width: 1073px) {
-    #wtf {
+/* no right-cell */
+@media screen and (max-width: 1167px) {
+    #right-cell {
         display: none;
+    }
+    #about-left {
+        display: block;
+        box-sizing: border-box; 
+        width: 260px;
+    }
+}
+/* no left-cell */
+@media screen and (max-width: 880px) {
+    #left-cell {
+        display: none;
+    }
+    #center-cell {
+        margin: 0 auto;
+        margin-left: auto;
+        margin-right: auto;
+        width: 590px;
+        margin-top: 70px !important;
+    }
+    #bookmarks {
+        width: 590px;
+        padding: 0;
+    }
+}
+/* Mobile UI */
+@media screen and (max-width: 590px) {
+    #center-cell {
+        margin: 0 auto;
+        width: 100%;
+    }
+    #bookmarks {
+        width: 100%;
+    }
+    #bookmarks > h1 {
+        margin-left: 10px;
+    }
+    #delete-all {
+        margin-right: 10px;
+    }
+    .tweet:first-child {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
     }
 }
