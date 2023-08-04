@@ -877,7 +877,8 @@ a:hover,
     .search-switches {
         width: 100% ;
     }
-    #center-cell {
+    #center-cell,
+    #save-search-left {
         width: 100%;
     }
     .search-switches {
