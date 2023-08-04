@@ -259,6 +259,10 @@ function switchModernUI(enabled) {
             .profile-stat:hover > .profile-stat-value {
                 color: var(--link-color);
             }
+            #profile-nav {
+                box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
+                border-bottom: none;
+            }
 
             @media screen and (max-width: 590px) {
                 #navbar-tweet-button:before  {
@@ -2263,7 +2267,7 @@ setInterval(() => {
     document.addEventListener('customCSS', updateCustomCSS);
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
     document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
-    document.addEventListener('modernUI', e => switchModernUIZ(e.detail));
+    document.addEventListener('modernUI', e => switchModernUI(e.detail));
 
     // hotkeys
     if(!vars.disableHotkeys) {

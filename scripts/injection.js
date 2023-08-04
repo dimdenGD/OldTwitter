@@ -265,15 +265,15 @@ function getThemeVariables(enabled) {
             theme = `
                 --background-color: #1b2836;
                 --dark-background-color: #171f2a;
-                `;
-            if(vars.modernUI){  //2017 Style
-                theme += `--darker-background-color: #2c3c52;`
-            } else {            //2015 Style
-                theme += `--darker-background-color: #141d26;`
-            }
-                theme += `
+                --darker-background-color: #141d26;
                 --almost-black: #d4e3ed;
-                --border: #2c3c52;
+            `;
+            if(vars.modernUI){  //2018 Style
+                theme += `--border: #141d26;`
+            } else {            //2015 Style
+                theme += `--border: #2c3c52;`
+            }
+            theme += `
                 --darker-gray: #c9c9c9;
                 --lil-darker-gray: #8394a1;
                 --light-gray: #8394a1;
@@ -293,7 +293,7 @@ function getThemeVariables(enabled) {
             --background-color: white;
             --dark-background-color: #f5f8fa;
             `;
-        if(vars.modernUI){  //2017 Style
+        if(vars.modernUI){  //2018 Style
             theme += `--darker-background-color: #e1e8ed;`
         } else {            //2015 Style
             theme += `--darker-background-color: #f5f8fa;`
