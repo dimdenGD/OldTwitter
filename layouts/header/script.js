@@ -67,7 +67,8 @@ function switchRoundAvatars(enabled) {
             #list-avatar,
             .message-element > a > img,
             .notification-avatar-img,
-            #nav-profile-avatar {
+            #nav-profile-avatar,
+            .message-avatar {
                 border-radius: 50% !important;
             }
         `;
@@ -204,8 +205,13 @@ function switchModernUI(enabled) {
                 font-size: 22px !important;
                 font-weight: 600;
             }
+            /* Bold Text */
             .user-stat-div > h2,
-            .nav-text {
+            .nav-text,
+            #tweet-nav-tweets,
+            #tweet-nav-replies,
+            #tweet-nav-media,
+            .profile-stat-text {
                 font-weight: 600;
             }
             /* No round */
@@ -215,7 +221,7 @@ function switchModernUI(enabled) {
             #timeline-type-right,
             #notifications-div>:first-child,
             .tweet:first-child,
-            tweet-nav{
+            #tweet-nav{
                 border-radius: 0px;
             }
             .about {
@@ -680,7 +686,7 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <div style="width:28px;height:inherit;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" width="26" height="26"></a></div>
+                    <div style="width:34px;height:inherit;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="30" height="30"></a></div>
                     <div class="message-block" style="float:left"><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
                 ` : `
                     <div class="message-block"><span class="message-menu-open"></span>
