@@ -817,7 +817,27 @@ const API = {
                                 }
                             }
                             if((desc.startsWith('Promoted by') || /*en*/
-                            desc.endsWith('님이 프로모션함')/*ko*/) && !vars.enableAd) {
+                            desc.startsWith('Promocionado por') || /*es*/
+                            desc.startsWith('Gesponsert von') || /*de*/
+                            desc.startsWith('Реклама от') || /*ru*/
+                            desc.endsWith('によるプロモーション') || /*jp*/
+                            desc.endsWith('님이 프로모션함')||/*ko*/
+                            desc.startsWith('Sponsorisé par') || /*fr*/
+                            desc.endsWith('sponsorluğunda') || /*tr*/
+                            desc.endsWith('مُروَّج بواسطة') || /*ar*/
+                            desc.startsWith('Promowane przez') || /*pl*/
+                            desc.startsWith('Реклама від') || /*uk*/
+                            desc.startsWith('Sponsorizzato da') || /*it*/
+                            desc.startsWith('Promovat de') || /*ro*/
+                            desc.startsWith('โฆษณาโดย') || /*th*/
+                            desc.startsWith('Được quảng bá bởi') || /*vi*/
+                            desc.startsWith('Sponzoruje') || /*cs*/
+                            desc.startsWith('Προώθηση από') || /*el*/
+                            desc.startsWith('Promoted door') || /*nl*/
+                            desc.startsWith('Promoted ni') || /*tl*/
+                            desc.startsWith('מקודם על-ידי') || /*he*/
+                            desc.startsWith('Patrocinat per') /*ca*/
+                            ) && !vars.enableAd) {
                                 return;
                             }
                             data.push({trend:{
