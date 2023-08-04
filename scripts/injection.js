@@ -192,7 +192,7 @@ if(!LANGUAGES.includes(LANGUAGE)) {
 function isDark() {
     let date = new Date();
     let hours = date.getHours();
-    return hours <= 9 || hours >= 19;
+    return hours < 9 || hours >= 19;
 }
 let customCSS, profileCSS = false;
 async function updateCustomCSS() {
