@@ -190,7 +190,8 @@ function switchModernUI(enabled) {
             /* Sidebar or else */
             #wtf h1,
             #trends h1,
-            #settings h1 {
+            #settings h1,
+            #bookmarks h1 {
                 color: var(--almost-black);
                 font-size: 18px;
                 font-weight: 600;
