@@ -2174,8 +2174,8 @@ setInterval(() => {
         let version2 = document.getElementById('oldtwitter-version-left');
         if(version) {
             fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`).then(res => res.json()).then(res => {
-                version.innerText += ` (${LOC.last_version.message}: ${res.version})`;
-                version2.innerText += ` (${LOC.last_version.message}: ${res.version})`;
+                version.innerHTML+= ` <div style="display:inline;white-space : nowrap;">(${LOC.last_version.message}: ${res.version})</div>`;
+                version2.innerHTML +=  ` <div style="display:inline;white-space : nowrap;">(${LOC.last_version.message}: ${res.version})</div>`;
                 if(TRANSLATORS[LANGUAGE]) {
                     let translated_by = document.createElement('span');
                     let translated_by_2 = document.createElement('span');
@@ -2194,7 +2194,7 @@ setInterval(() => {
                     document.getElementById('about-left').children[0].append(translated_by_2);
                 } else {
                     document.getElementById('about-right').children[0].append(document.createElement('br'));
-                    document.getElementById('about-right').children[0].append(document.createElement('br'));
+                    document.getElementById('about-left').children[0].append(document.createElement('br'));
                 }
             });
         }
