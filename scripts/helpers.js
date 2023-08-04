@@ -1478,6 +1478,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
         const tweet = document.createElement('div');
+        tweet.tweet = t;
         t.element = tweet;
         t.options = options;
 

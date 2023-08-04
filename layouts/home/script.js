@@ -142,15 +142,15 @@ async function updateTimeline(saveCursor = true) {
         document.getElementById('tweets-loading').hidden = false;
         document.getElementById('load-more').hidden = true;
     }
-    let fn;
+    let fn, args = [];
     switch(vars.timelineType) {
         case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
         case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
         case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-        case 'chrono-social': fn = API.timeline.getMixed; break;
+        case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
         default: fn = API.timeline.getChronologicalV2; break;
     }
-    let [tl, s] = await Promise.allSettled([fn(), API.account.getSettings()]);
+    let [tl, s] = await Promise.allSettled([fn(...args), API.account.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
         document.getElementById('tweets-loading').hidden = true;
@@ -381,10 +381,24 @@ function renderNewTweetsButton() {
 }
 
 let activeTweet;
+let seenAlgoTweets = [], algoTweetsChanged = false;
+setInterval(() => {
+    if(!algoTweetsChanged) return;
+    algoTweetsChanged = false;
+    chrome.storage.local.set({seenAlgoTweets}, () => {});
+}, 20000);
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
     }
+    await new Promise(resolve => {
+        chrome.storage.local.get(['seenAlgoTweets'], data => {
+            if(data.seenAlgoTweets) {
+                seenAlgoTweets = data.seenAlgoTweets;
+            };
+            resolve();
+        });
+    });
 
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
@@ -393,7 +407,7 @@ setTimeout(async () => {
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
         // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 50) {
+        if(Date.now() - lastTweetDate > 100) {
             lastTweetDate = Date.now();
             let tweets = Array.from(document.getElementsByClassName('tweet'));
 
@@ -402,14 +416,19 @@ setTimeout(async () => {
             if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
                 if(activeTweet) {
                     activeTweet.classList.remove('tweet-active');
-                }
-                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(activeTweet) {
                     let video = activeTweet.querySelector('.tweet-media > video[controls]');
                     if(video) {
                         video.pause();
                     }
+                    if(activeTweet.tweet && activeTweet.tweet.algo) {
+                        if(!seenAlgoTweets.includes(activeTweet.tweet.id_str)) seenAlgoTweets.push(activeTweet.tweet.id_str);
+                        if(seenAlgoTweets.length > 100) {
+                            seenAlgoTweets.shift();
+                        }
+                        algoTweetsChanged = true;
+                    }
                 }
+                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
                 if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
                     if(newActiveTweet) {
                         let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');

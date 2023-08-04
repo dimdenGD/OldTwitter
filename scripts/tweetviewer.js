@@ -756,6 +756,7 @@ class TweetViewer {
         this.tweets.push(['tweet', t, options]);
         this.seenReplies.push(t.id_str);
         const tweet = document.createElement('div');
+        tweet.tweet = t;
         t.options = options;
         t.element = tweet;
         if(!options.mainTweet) {

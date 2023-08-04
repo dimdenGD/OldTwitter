@@ -574,12 +574,13 @@ const API = {
                 });
             });
         },
-        getAlgorithmicalV2: (cursor, count = 40) => {
+        getAlgorithmicalV2: (cursor, count = 40, seenTweetIds = []) => {
             return new Promise((resolve, reject) => {
                 let variables = {
                     includePromotedContent: false,
                     latestControlAvailable: true,
-                    count
+                    count,
+                    seenTweetIds
                 };
                 if(cursor) {
                     variables.cursor = cursor;
@@ -612,6 +613,9 @@ const API = {
                         list: parseHomeTimeline(entries, data),
                         cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                     }
+                    for(let tweet of out.list) {
+                        tweet.algo = true;
+                    }
                     debugLog('timeline.getAlgorithmicalV2', 'end', {cursor, count, out});
                     return resolve(out);
                 }).catch(e => {
@@ -619,14 +623,19 @@ const API = {
                 });
             });
         },
-        getAlgorithmicalV2WithCache: () => {
+        getAlgorithmicalV2WithCache: (seenTweetIds = []) => {
             return new Promise((resolve, reject) => {
                 chrome.storage.local.get(['algoTimeline'], d => {
                     if(d.algoTimeline && Date.now() - d.algoTimeline.date < 60000*3) {
-                        debugLog('timeline.getAlgorithmicalV2WithCache', 'cache', d.algoTimeline.data);
-                        return resolve(d.algoTimeline.data);
+                        if(d.algoTimeline.data && d.algoTimeline.data.list) {
+                            d.algoTimeline.data.list = d.algoTimeline.data.list.filter(t => !seenTweetIds.includes(t.id_str));
+                            if(d.algoTimeline.data.list.length > 5) {
+                                debugLog('timeline.getAlgorithmicalV2WithCache', 'cache', d.algoTimeline.data, seenTweetIds);
+                                return resolve(d.algoTimeline.data);
+                            }
+                        }
                     }
-                    API.timeline.getAlgorithmicalV2().then(data => {
+                    API.timeline.getAlgorithmicalV2(undefined, 40, seenTweetIds).then(data => {
                         chrome.storage.local.set({
                             algoTimeline: {
                                 date: Date.now(),
@@ -640,8 +649,8 @@ const API = {
                 });
             });
         },
-        getMixed: async () => {
-            let [chrono, algo] = await Promise.allSettled([API.timeline.getChronologicalV2(), API.timeline.getAlgorithmicalV2WithCache()]);
+        getMixed: async (seenTweetIds = []) => {
+            let [chrono, algo] = await Promise.allSettled([API.timeline.getChronologicalV2(), API.timeline.getAlgorithmicalV2WithCache(seenTweetIds)]);
             debugLog('timeline.getMixed', 'start', {chrono, algo});
             if(chrono.reason) {
                 throw chrono.reason;
