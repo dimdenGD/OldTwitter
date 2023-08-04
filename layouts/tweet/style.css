@@ -9,7 +9,7 @@
 #loading-box-text:before {
     color: #1da1f2;
     content: "\f179";
-    font: 64px RosettaIcons;
+    font: 64px var(--icon-font);;
     margin-left: 20px;
     vertical-align: sub
 }
@@ -135,10 +135,7 @@ body {
     top: 55px
 }
 
-#timeline,
-#retweets,
-#retweets_with_comments,
-#likes {
+#timeline {
     margin-bottom: 10px;
     width: 590px
 }
@@ -146,7 +143,9 @@ body {
 #retweets,
 #retweets_with_comments,
 #likes {
-    padding: 10px
+    margin-bottom: 10px;
+    width: 570px;
+    padding: 9px
 }
 
 .tweet {
@@ -294,7 +293,7 @@ body {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px RosettaIcons;
+    font: 400 16px var(--icon-font);;
     margin-right: 10px;
     vertical-align: sub
 }
@@ -316,6 +315,10 @@ body {
 .tweet-interact-favorite:hover:before,
 .tweet-interact-favorite:hover {
     color: var(--favorite-icon-color) !important
+}
+.tweet-interact-favorited,
+.tweet-interact-favorited:before{
+    content: var(--favorite-icon-content-click) !important
 }
 
 .tweet-reply-text:focus,
@@ -360,13 +363,13 @@ body {
     color: lightgray !important
 }
 .nice-red-button {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #6F0D1C) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #6F0D1C);
 }
 
 .nice-red-button:hover:not([disabled]) {
-    color: #d4e3ed !important;
-    background-image: linear-gradient(#BA172C, #4B0E17) !important;
+    color: #d4e3ed;
+    background-image: linear-gradient(#BA172C, #4B0E17);
 }
 .tweet-top {
     font-size: 13px;
@@ -547,6 +550,7 @@ a:hover,
 }
 
 .wtf-user {
+    width:100%;
     display: inline-block;
     margin-bottom: 5px
 }
@@ -576,7 +580,7 @@ a:hover,
 .follow:before {
     color: var(--light-gray);
     content: "\f175";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -584,7 +588,7 @@ a:hover,
 .following:before {
     color: var(--link-color);
     content: "\f176";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     margin-right: 7px;
     vertical-align: text-bottom
 }
@@ -624,13 +628,17 @@ a:hover,
     border: 2px var(--dark-background-color) solid !important
 }
 
-#about {
+.about {
     color: var(--light-gray);
     font-size: 12px;
     margin-top: 5px;
     padding: 10px 3px;
     padding-right: 0;
     word-break: keep-all;
+}
+#about-right{
+    max-width: 272px;
+    box-sizing: border-box; 
 }
 
 .about-links a,
@@ -641,8 +649,9 @@ a:hover,
 
 #trends {
     margin-top: 10px;
-    padding: 10px
+    padding: 10px;
 }
+
 
 .trend {
     margin-top: 10px
@@ -719,7 +728,7 @@ a:hover,
 #new-tweet-media:before {
     color: var(--link-color);
     content: "\f159";
-    font: 20px RosettaIcons
+    font: 20px var(--icon-font);
 }
 
 #new-tweet-button {
@@ -730,7 +739,7 @@ a:hover,
 }
 #new-tweet-button:before {
     content: "\f029";
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     color: var(--link-color);
     font-size: 14px;
     margin-right: 5px;
@@ -752,7 +761,7 @@ a:hover,
 .tweet-quote-button:before {
     color: var(--link-color);
     content: "\f029";
-    font: 14px RosettaIcons;
+    font: 14px var(--icon-font);;
     margin-right: 5px;
     vertical-align: bottom
 }
@@ -797,7 +806,7 @@ a:hover,
 .new-tweet-media-img-remove:before {
     color: white;
     content: "\f045";
-    font: 13px RosettaIcons;
+    font: 13px var(--icon-font);;
     margin-bottom: 2px
 }
 
@@ -828,7 +837,7 @@ a:hover,
 }
 .tweet-translate:before {
     content: "\f089";
-    font: 12px RosettaIcons;
+    font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
 }
@@ -1019,7 +1028,7 @@ a:hover,
 #new-tweet-emojis:before {
     color: var(--link-color);
     content: "\f033";
-    font: 20px RosettaIcons;
+    font: 20px var(--icon-font);;
 }
 #new-tweet-mentions {
     float: right;
@@ -1030,8 +1039,8 @@ a:hover,
 }
 #new-tweet-mentions:before {
     color: var(--link-color);
-    content: "\f050";
-    font: 20px RosettaIcons;
+    content: var(--at-icon);
+    font: 20px var(--icon-font);;
 }
 .tweet:first-child {
     border-top: 1px solid var(--border) !important;
@@ -1059,12 +1068,11 @@ a:hover,
     border-top: 1px solid var(--border);
 }
 
+#about-left {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
     .wtf-user-name, .wtf-user-handle {
         font-size: 12px;
     }
@@ -1073,19 +1081,26 @@ a:hover,
     }
     .user-stat-div>h2 {
         font-size: 12px;
+        margin: 0px 8px;
     }
     .user-stat-div>h1 {
         font-size: 18px;
     }
+    #trends {
+        width: 238px
+    }
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
-    #wtf {
+    #right-cell {
         display: none;
     }
-    #about {
-        display: none;
+    #about-left {
+        display: block;
+        box-sizing: border-box; 
+        width: 260px;
     }
+    
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {

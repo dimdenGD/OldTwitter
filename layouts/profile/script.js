@@ -364,7 +364,8 @@ function updateUserData() {
                             <button id="admin-controls-switch" style="background-color: var(--menu-bg);border: 1px solid var(--border);color: var(--almost-black);cursor: pointer;">Switch</button>
                             <br><br>
                         `;
-                        document.getElementById('about').appendChild(adminControls);
+                        document.getElementById('about-right').appendChild(adminControls);
+                        document.getElementById('about-left').appendChild(adminControls);
                         document.getElementById('admin-controls-switch').addEventListener('click', () => {
                             fetch(`https://dimden.dev/services/twitter_link_colors/v2/admin/switch_access`, {
                                 method: 'POST',

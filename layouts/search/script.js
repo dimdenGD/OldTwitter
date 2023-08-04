@@ -79,7 +79,7 @@ async function renderSearch(c, force = false) {
     if(newSearch === lastSearch && !force) return;
     lastSearch = newSearch;
     updateSavedButton();
-    document.getElementsByTagName('title')[0].innerText = `"${searchParams.q}" - OldTwitter Search`;
+    document.getElementsByTagName('title')[0].innerText = `"${searchParams.q}" ${LOC.twitter.message} ${LOC.search.message} - ${LOC.twitter.message}`;
     let searchDiv = document.getElementById('timeline');
     let search;
     let currentCursor = cursor;

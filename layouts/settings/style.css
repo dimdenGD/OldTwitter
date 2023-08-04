@@ -8,7 +8,7 @@
 #loading-box-text:before {
     content: "\f179";
     vertical-align: sub;
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     font-size: 64px;
     color: #1da1f2;
     margin-left: 20px;
@@ -189,6 +189,7 @@ body {
 }
 
 .wtf-user {
+    width:100%;
     display: inline-block;
     margin-bottom: 5px;
 }
@@ -212,19 +213,19 @@ body {
 }
 .follow:before {
     color: var(--light-gray);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     content: "\f175";
     margin-right: 7px;
     vertical-align: text-bottom;
 }
 .following:before {
     color: var(--link-color);
-    font-family: RosettaIcons;
+    font-family: var(--icon-font);
     content: "\f176";
     margin-right: 7px;
     vertical-align: text-bottom;
 }
-#about {
+.about {
     margin-top: 5px;
     padding: 10px 3px;
     font-size: 12px;
@@ -235,6 +236,10 @@ body {
 .about-links a, .about-links span {
     color: var(--light-gray);
     margin-right: 8px;
+}
+#about-right{
+    max-width: 272px;
+    box-sizing: border-box; 
 }
 
 #trends {
@@ -364,6 +369,9 @@ select, input, textarea {
     cursor: pointer;
 }
 #move-navbar-to-bottom-div {
+    display: none;
+}
+#about-left {
     display: none;
 }
 .tweet {
@@ -501,7 +509,7 @@ select, input, textarea {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px RosettaIcons;
+    font: 400 16px var(--icon-font);;
     margin-right: 10px;
     vertical-align: sub
 }
@@ -523,6 +531,10 @@ select, input, textarea {
 .tweet-interact-favorite:hover:before,
 .tweet-interact-favorite:hover {
     color: var(--favorite-icon-color) !important
+}
+.tweet-interact-favorited,
+.tweet-interact-favorited:before{
+    content: var(--favorite-icon-content-click) !important
 }
 
 .tweet-reply-text:focus,
@@ -659,10 +671,6 @@ select, input, textarea {
 }
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
-    #wtf {
-        width: fit-content;
-        max-width: 250px;
-    }
     .wtf-user-name, .wtf-user-handle {
         font-size: 12px;
     }
@@ -671,26 +679,29 @@ select, input, textarea {
     }
     .user-stat-div>h2 {
         font-size: 12px;
+        margin: 0px 8px;
     }
     .user-stat-div>h1 {
         font-size: 18px;
     }
+    #trends {
+        width: 238px
+    }
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
-    #wtf {
+    #right-cell {
         display: none;
     }
-    #about {
-        display: none;
-    }
-    #left-cell {
-        width: 260px;/* there's strange bug*/
+    #about-left {
+        display: block;
+        box-sizing: border-box; 
+        width: 260px;
     }
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {
-    #left-cell, #right-cell {
+    #left-cell {
         display: none;
     }
     #center-cell {
