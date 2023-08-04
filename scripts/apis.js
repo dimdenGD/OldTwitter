@@ -37,13 +37,15 @@ function debugLog(...args) {
 // extract full text and url entities from "note_tweet"
 function parseNoteTweet(result) {
     let text, entities;
-    if(result.note_tweet.note_tweet_results.entity_set) {
-        entities = result.note_tweet.note_tweet_results.entity_set;
-    }
-    text = result.note_tweet.note_tweet_results.text;
-    if(typeof text !== "string") {
+    if(result.note_tweet.note_tweet_results.result) {
         text = result.note_tweet.note_tweet_results.result.text;
         entities = result.note_tweet.note_tweet_results.result.entity_set;
+        if(result.note_tweet.note_tweet_results.result.richtext?.richtext_tags.length) {
+            entities.richtext = result.note_tweet.note_tweet_results.result.richtext.richtext_tags // logically, richtext is an entity, right?
+        }
+    } else {
+        text = result.note_tweet.note_tweet_results.text;
+        entities = result.note_tweet.note_tweet_results.entity_set;
     }
     return {text, entities};
 }

@@ -135,7 +135,7 @@ function updateUserData() {
         console.error(e);
     });
 }
-async function updateTimeline() {
+async function updateTimeline(saveCursor = true) {
     seenThreads = [];
     if (timeline.data.length === 0) {
         document.getElementById('timeline').innerHTML = ``;
@@ -157,7 +157,7 @@ async function updateTimeline() {
         return;
     }
     s = s.value; tl = tl.value;
-    algoCursor = tl.cursor;
+    if(saveCursor) algoCursor = tl.cursor;
     tl = tl.list;
     if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
         for(let t of tl) {
@@ -437,17 +437,14 @@ setTimeout(async () => {
                     default: tl = await API.timeline.getChronologicalV2(algoCursor); break;
                 }
                 algoCursor = tl.cursor;
-                if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
-                    tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
-                    for(let t of tl) {
-                        seenTweets.push(t.id_str);
-                    }
-                } else if(vars.timelineType === 'chrono-retweets') {
-                    tl = tl.list.slice(1).filter(t => t.retweeted_status);
+                tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
+                for(let t of tl) {
+                    seenTweets.push(t.id_str);
+                }
+                if(vars.timelineType === 'chrono-retweets') {
+                    tl = tl.filter(t => t.retweeted_status);
                 } else if(vars.timelineType === 'chrono-no-retweets') {
-                    tl = tl.list.slice(1).filter(t => !t.retweeted_status);
-                } else {
-                    tl = tl.list.slice(1);
+                    tl = tl.filter(t => !t.retweeted_status);
                 }
             } catch (e) {
                 console.error(e);
@@ -539,14 +536,10 @@ setTimeout(async () => {
         let tl;
         try {
             tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronologicalV2(algoCursor);
-            if(vars.timelineType === 'algo') {
-                algoCursor = tl.cursor;
-                tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
-                for(let t of tl) {
-                    seenTweets.push(t.id_str);
-                }
-            } else {
-                tl = tl.slice(1);
+            algoCursor = tl.cursor;
+            tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
+            for(let t of tl) {
+                seenTweets.push(t.id_str);
             }
         } catch (e) {
             console.error(e);
@@ -1213,7 +1206,7 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') setInterval(updateTimeline, 60000);
+    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline(false), 60000);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 50);

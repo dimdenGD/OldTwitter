@@ -711,9 +711,6 @@ input, textarea {
     color: var(--almost-black);
     font-size: 16px;
 }
-.larger {
-    font-size: 24px !important;
-}
 .inbox-message {
     border-bottom: 1px solid var(--border);
     padding-top: 10px;
@@ -851,6 +848,8 @@ input, textarea {
     object-fit: cover;
     max-width: fit-content;
     border-radius: 5px;
+    border: 1px solid var(--border);
+    max-height: 500px;
 }
 .message-time {
     color: var(--light-gray);
@@ -2140,7 +2139,9 @@ emoji-picker {
 .notification-unread .tweet-self-thread-line-dots {
     border: 2px var(--dark-background-color) solid !important
 }
-
+.larger {
+    font-size: 24px;
+}
 /* Mobile UI */
 @media screen and (max-width: 590px) {
     .notification-avatars, .notification-text {
@@ -2176,6 +2177,9 @@ emoji-picker {
         max-width: unset;
         width: calc(100% - 15px);
     }
+    .tweet-body-quote {
+        width: 100%;
+    }
     #right-cell {
         display: none;
     }
@@ -2199,9 +2203,6 @@ emoji-picker {
         background-position-x: 100% !important;
         background-position-y: 50% !important;
     }
-    .tweet-interact-views {
-        display: none !important;
-    }
     #navbar-links a {
         padding-left: 11px;
         padding-right: 3px;
@@ -2214,6 +2215,7 @@ emoji-picker {
     .tweet-viewer {
         width: calc(100% - 42px);
         overflow-x: clip;
+        margin-bottom: 95px;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;
@@ -2301,11 +2303,9 @@ emoji-picker {
     .notifications-modal {
         top: 4%;
         width: calc(100% - 43px);
+        margin-bottom: 65px;
     }
-    .tweet-body {
-        width: calc(100% - 80px);
-    }
-    .modal .tweet-body {
+    .tweet-body:not(.tweet-body-main) {
         width: calc(100% - 80px);
     }
     .modal .tweet-media-element {
@@ -2316,6 +2316,48 @@ emoji-picker {
     }
     body.move-navbar-to-bottom #center-cell {
         margin-top: 0;
+    }
+    .navbar-new-tweet-modal {
+        width: calc(100% - 42px);
+    }
+    .navbar-new-tweet {
+        width: calc(100% - 10px);
+    }
+    .navbar-new-tweet-text {
+        width: calc(100% - 98px);
+    }
+    .tweet-footer {
+        border: 1px solid var(--border);
+    }
+    .tweet-footer-stats {
+        border-right: none;
+        width: 100%;
+        border-bottom: 1px solid var(--border);
+    }
+    .tweet-footer-stat {
+        width: 100%;
+        text-align: center;
+    }
+    .tweet-footer-stat-text {
+        padding: 7px 7px 0px 7px;
+    }
+    .tweet-footer-favorites {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 8px;
+        margin-left: 0;
+    }
+    .message-element-media {
+        width: calc(100% - 50px);
+    }
+    .message-header-name {
+        font-size: 18px !important;
+        margin-bottom: 0;
+    }
+    .message-leave {
+        bottom: 32px;
+        z-index: 5;
     }
 }
 @media screen and (max-width: 460px) {

@@ -81,11 +81,21 @@ function useIframeNavigation(e) {
             
             if(iframe) iframe.remove();
         } else {
-            useIframeNavigation({
-                target: { closest: () => ({ href: location.href }) },
-                preventDefault: () => {},
-                stopImmediatePropagation: () => {}
-            });
+            if(location.pathname === '/notifications' || location.pathname.includes('/status/')) {
+                let we = window.top.windows[Math.max(window.top.windows.length - 2, 0)];
+                let iframe = we.document.getElementsByClassName('iframe-navigation')[0];
+                window.top.windows = window.top.windows.slice(0, window.top.windows.length - 1);
+                we.document.body.style.overflow = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
+                we.focus();
+
+                if(iframe) iframe.remove();
+            } else {
+                useIframeNavigation({
+                    target: { closest: () => ({ href: location.href }) },
+                    preventDefault: () => {},
+                    stopImmediatePropagation: () => {}
+                });
+            }
         }
     });
 }

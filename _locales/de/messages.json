@@ -456,7 +456,7 @@
     "sidebar": {"message": "Seitenleiste", "description": "Text für Einstellung"},
     "advanced_options": {"message": "Erweiterte Optionen", "description": "Text für Einstellung"},
     "advanced_colors": {"message": "Erweiterte Farben", "description": "Text für Einstellung"},
-    "accssibility": {"message": "Barrierefreiheit", "description": "Text für Einstellung"},
+    "accessibility": {"message": "Barrierefreiheit", "description": "Text für Einstellung"},
     "tweets_and_timeline": {"message": "Tweets & Timeline", "description": "Text für Einstellung"},
     "dark_mode_setting": {"message": "Dunkler Modus", "description": "Text für Einstellung"},
     "old_twitter_look": {"message": "Altes Twitter-Design", "description": "Text für Einstellung"},

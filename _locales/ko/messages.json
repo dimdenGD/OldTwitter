@@ -454,7 +454,7 @@
     "sidebar": { "message":"사이드바", "description":"Setting Text"},
     "advanced_options": { "message":"고급 설정", "description":"Setting Text"},
     "advanced_colors": { "message":"고급 색상", "description":"Setting Text"},
-    "accssibility": { "message":"접근성", "description":"Setting Text"},
+    "accessibility": { "message":"접근성", "description":"Setting Text"},
     "tweets_and_timeline": { "message":"트윗과 타임라인", "description":"Setting Text"},
     "dark_mode_setting": { "message": "다크 모드", "description":"Setting Text"},
     "old_twitter_look": {"message": "옛날 트위터처럼 설정하기", "description":"Setting Text"},

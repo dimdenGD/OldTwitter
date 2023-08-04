@@ -16,7 +16,7 @@ class TweetViewer {
             <div class="likes-more center-text" hidden>${LOC.load_more.message}</div>
         `, 'tweet-viewer', () => {
             this.close();
-            history.pushState({}, null, previousLocation);
+            if((location.pathname + location.search) !== previousLocation) history.pushState({}, null, previousLocation);
         });
         this.tweetData = tweetData;
         this.id = tweetData.id_str;
@@ -913,7 +913,7 @@ class TweetViewer {
             </div>
             <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
-                <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(full_text, t.entities, t.display_text_range) : ''}</span>
+                <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(t) : ''}</span>
                 ${!isEnglish ? /*html*/`
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
@@ -955,7 +955,7 @@ class TweetViewer {
                     ${quoteMentionedUserText !== `` && !vars.useOldStyleReply ? /*html*/`
                     <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replaceAll(` `, LOC.replying_to_comma.message).replace(LOC.replying_to_comma.message, LOC.replying_to_and.message))}</span>
                     ` : ''}
-                    <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText : ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t.quoted_status.full_text, t.quoted_status.entities, t.quoted_status.display_text_range, true) : ''}</span>
+                    <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText : ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`
                     <div class="tweet-media-quote">
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' ? '</video>' : ''}`).join('\n')}
@@ -1074,8 +1074,10 @@ class TweetViewer {
         // video
         let vidOverlay = tweet.getElementsByClassName('tweet-media-video-overlay')[0];
         if(vidOverlay) {
-            vidOverlay.addEventListener('click', () => {
+            vidOverlay.addEventListener('click', async () => {
                 let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
+                let res = await fetch(vid.currentSrc);
+                if(!res.headers.get('content-length')) await sleep(1000);
                 vid.play();
                 vid.controls = true;
                 vid.classList.remove('tweet-media-element-censor');
@@ -1099,7 +1101,7 @@ class TweetViewer {
                         vid.currentTime = time;
                         if(!paused) vid.play();
                         Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
-                            if(el.dataset.url === src.split('&ttd=')[0]) el.classList.add('tweet-video-quality-current');
+                            if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
                             else el.classList.remove('tweet-video-quality-current');
                         });
                     }
@@ -1123,7 +1125,7 @@ class TweetViewer {
                     }
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = /*html*/`
                         ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
-                            ${m.video_info.variants.map(v => `<source src="${v.url}&ttd=${Date.now()}" type="${v.content_type}">`).join('\n')}
+                            ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
                     `;
@@ -1133,7 +1135,7 @@ class TweetViewer {
                         vid.currentTime = time;
                         if(!paused) vid.play();
                         Array.from(tweet.getElementsByClassName('tweet-video-quality')).forEach(el => {
-                            if(el.dataset.url === src.split('&ttd=')[0]) el.classList.add('tweet-video-quality-current');
+                            if(el.dataset.url === src) el.classList.add('tweet-video-quality-current');
                             else el.classList.remove('tweet-video-quality-current');
                         });
                     }
@@ -1430,10 +1432,14 @@ class TweetViewer {
             } else {
                 translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
             }
+            let translatedT = {
+                full_text: translated.text,
+                entities: translated.entities
+            }
             tweetBodyText.innerHTML += `<br>`+
             `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
             `<br>`+
-            `<span class="tweet-translated-text">${await renderTweetBodyHTML(translated.text, translated.entities)}</span>`;
+            `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
             if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
         });
 

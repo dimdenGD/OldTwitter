@@ -454,7 +454,7 @@
     "sidebar": { "message":"Barra lateral", "description":"Setting Text"},
     "advanced_options": { "message":"Opções avançadas", "description":"Setting Text"},
     "advanced_colors": { "message":"Cores avançadas", "description":"Setting Text"},
-    "accssibility": { "message":"Accessibilidade", "description":"Setting Text"},
+    "accessibility": { "message":"Accessibilidade", "description":"Setting Text"},
     "tweets_and_timeline": { "message":"Tweets & Linha do tempo", "description":"Setting Text"},
     "dark_mode_setting": { "message": "Modo escuro", "description":"Setting Text"},
     "old_twitter_look": {"message": "Estilo do Old twitter", "description":"Setting Text"},
@@ -498,5 +498,11 @@
     "disable_profile_customizations": { "message": "Disabilitar customizações do perfil" },
     "replying_to_and":  { "message": " e ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
-    "twitter": {"message": "Twitter"}
+    "twitter": {"message": "Twitter"},
+    "move_navbar_to_bottom": {"message": "Mover barra de navegação para baixo"},
+    "styled_profile": {"message": "Perfil estilizado"},
+    "open_notifs_as_modal": {"message": "Abrir notificações como pop-up", "description": "Modal is a small window that opens on top of page"},
+    "clear_ot_token": {"message": "Apagar token do OldTwitter"},
+    "enable_iframe_navigation": {"message": "Habilitar navegação preservadora de página experimental, isso faz com que você possa clicar em links e voltar para a página anterior sem recarregar. Isso é experimental e pode quebrar e ser lento."},
+    "style_your_profile": {"message": "Estilize o seu perfil aqui!"}
 }
