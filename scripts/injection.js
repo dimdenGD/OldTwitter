@@ -227,7 +227,7 @@ async function updateCustomCSSVariables() {
     root.style.setProperty('--font', vars.font);
     root.style.setProperty('--tweet-font', vars.tweetFont);
     if(vars.iconFont || vars.modernUI){
-        root.style.setProperty('--tweet-font', `"edgeicons", "RosettaIcons"`);
+        root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
     }
     if(data.customCSSVariables) {
         let csv = parseVariables(data.customCSSVariables);
