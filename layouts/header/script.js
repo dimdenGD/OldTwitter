@@ -1812,8 +1812,8 @@ let userDataFunction = async user => {
                     .profile-additional-thing{font-size:14px;color: var(--darker-gray);font-weight:400;line-height:20px;left: 10px;position: relative;display: block;overflow: hidden;}
                     .profile-additional-thing::before{margin-right:5px;vertical-align:sub;color:var(--light-gray);display:inline-block;width:20px;text-align:center;font: 18px var(--icon-font)}
                     .profile-additional-location::before{content:"\\f031"}
-                    .profile-additional-joined::before{content:"\\f177"}
-                    .profile-additional-birth::before{content:"\\f033"}
+                    .profile-additional-joined::before{content:var(--joined-icon)}
+                    .profile-additional-birth::before{content:var(--birthday-icon)}
                     .profile-additional-professional::before{content:"\\f204"}
                     .profile-additional-url::before{content:"\\f098"}
                     .preview-user-additional-info{margin-top:10px}
