@@ -61,36 +61,19 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li><b><a href="https://github.com/dimdenGD/OldTwitter#can-you-use-this-extension-on-android" target="_blank">Added support for mobile phones!</a></b></li>
-                            <li>Added user-friendly color customization for all colors in the extension.</li>
-                            <li>Fixed Reverse chronological timeline with friends likes not working properly.</li>
-                            <li>Added support for Community Notes.</li>
+                            <li>Added option to use 2018 layout.</li>
+                            <li>Lot of improvements for mobile version.</li>
+                            <li>Fixed repeating tweets in timeline.</li>
                             <li>Made notifications load much faster.</li>
-                            <li>Added option to see bookmark count.</li>
-                            <li>Added ability to pin Profile, Bookmarks and Lists on the navbar.</li>
-                            <li>Added <a href="https://dimden.dev/ot/custom-css/" target="_blank">custom profile CSS</a> for limited number of users.</li>
-                            <li>Added option to disable GIF autoplay.</li>
-                            <li>Added ability to pause GIFs.</li>
-                            <li>Added ability to import and export settings and styles.</li>
-                            <li>Added ability to reset settings and clear caches.</li>
-                            <li>Added support for media content warnings.</li>
                             <li>Added experimental option to be able to click on links and be able to go back to timeline without refreshing.</li>
-                            <li>Added ability to hide non-replies in profile tweets & replies page.</li>
-                            <li>Added ability to hide replies.</li>
-                            <li>Added option to disable personalized trends.</li>
-                            <li>Added option to show media count in profiles.</li>
+                            <li>Added support for videos in messages.</li>
+                            <li>Improved media in messages.</li>
+                            <li>Added a possible fix for videos breaking sometimes, not sure if it works yet.</li>
                             <li>Added option to view notifications in a modal.</li>
-                            <li>Added hotkey to bookmark tweets.</li>
-                            <li>Added German and Catalan translations.</li>
-                            <li>Made extension remove X logo in new Twitter too.</li>
-                            <li>Fixed refreshing new Twitter redirecting you back to OldTwitter.</li>
-                            <li>Fixed videos continuing to play even after scrolling by.</li>
-                            <li>Fixed right-to-left language tweets not showing properly.</li>
-                            <li>Fixed feedback not being sent properly.</li>
-                            <li>Fixed thread tweets in lists.</li>
-                            <li>Fixed links not showing in long tweets.</li>
-                            <li>Fixed sensitive content not being censored in profile previews.</li>
-                            <li>Lot of fixes about some pages just not loading.</li>
+                            <li>Made videos pause when scroll from sight.</li>
+                            <li>Fixed messages repeating when scrolling them after some time.</li>
+                            <li>Fixed new tweet notifications page.</li>
+                            <li>Added button to clear OldTwitter token.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
