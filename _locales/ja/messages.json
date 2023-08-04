@@ -496,5 +496,4 @@
     "clear_ot_token": {"message": "OldTwitter トークンをクリアする"},
     "enable_iframe_navigation": {"message": "実験的なページ保存ナビゲーションを有効にすると、リロードせずにリンクをクリックして前のページに戻ることができます。 これは実験的なものであり、破損したり、遅延したりする可能性があります。"},
     "style_your_profile": {"message": "プロフィールはこちらから！"}
-
 }
