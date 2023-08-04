@@ -491,8 +491,8 @@
     "replying_to_comma":  { "message": ", ", "description":"For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
     "twitter": {"message": "Twitter"},
     "move_navbar_to_bottom": {"message": "メニューバーを下に表示する"},
-    "open_notifs_as_modal": {"message": "通知をモーダルウィンドウで表示する", "description": "Modal is a small window that opens on top of page"},    "styled_profile": {"message": "Styled profile"},
     "open_notifs_as_modal": {"message": "通知をモーダルウィンドウで表示する", "description": "Modal is a small window that opens on top of page"},
+    "styled_profile": {"message": "Styled profile"},
     "clear_ot_token": {"message": "OldTwitter トークンをクリアする"},
     "enable_iframe_navigation": {"message": "実験的なページ保存ナビゲーションを有効にすると、リロードせずにリンクをクリックして前のページに戻ることができます。 これは実験的なものであり、破損したり、遅延したりする可能性があります。"},
     "style_your_profile": {"message": "プロフィールはこちらから！"}
