@@ -1876,8 +1876,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(vidOverlay) {
             vidOverlay.addEventListener('click', async () => {
                 let vid = Array.from(tweet.getElementsByClassName('tweet-media')[0].children).filter(e => e.tagName === 'VIDEO')[0];
-                let res = await fetch(vid.currentSrc); // weird problem with vids breaking cuz twitter sometimes doesnt send content-length
-                if(!res.headers.get('content-length')) await sleep(1000);
+                try {
+                    let res = await fetch(vid.currentSrc); // weird problem with vids breaking cuz twitter sometimes doesnt send content-length
+                    if(!res.headers.get('content-length')) await sleep(1000);
+                } catch(e) {
+                    console.error(e);
+                }
                 vid.play();
                 vid.controls = true;
                 vid.classList.remove('tweet-media-element-censor');
