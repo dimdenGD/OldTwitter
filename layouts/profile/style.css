@@ -1586,6 +1586,9 @@ a:hover,
         box-sizing: border-box; 
         width: 260px;
     }
+    #profile-style {
+        display: none;
+    }
     #left-cell {
         width: 260px;
     }
@@ -1748,9 +1751,6 @@ a:hover,
     #profile-avatar {
         width: 100px;
         height: 100px;
-    }
-    #profile-style {
-        display: none;
     }
     #profile-name {
         width: calc(100% - 190px);
