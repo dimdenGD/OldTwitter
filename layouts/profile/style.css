@@ -1572,6 +1572,10 @@ a:hover,
         width: 70px;
         height: 70px;
     }
+    .profile-friends-avatar{
+        width:42px !important;
+        height:42px !important;
+    }
 }
 /* no right-cell */
 @media screen and (max-width: 1167px) {
@@ -1672,6 +1676,14 @@ a:hover,
     #about-left {
         display: none;
     }
+    .profile-friends-avatar{
+        width:45px !important;
+        height:45px !important;
+    }
+    .profile-media-preview {
+        width: 75px !important;
+        height: 75px;
+    }
 }
 
 /* Mobile UI */
@@ -1723,10 +1735,6 @@ a:hover,
     }
     #profile-media {
         margin-bottom: 40px;
-    }
-    .profile-media-preview {
-        width: 75px !important;
-        height: 75px;
     }
 }
 @media screen and (max-width: 550px) {
