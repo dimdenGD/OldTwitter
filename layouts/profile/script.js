@@ -973,7 +973,7 @@ async function renderProfile() {
     } else {
         document.getElementById('private-profile-warn').hidden = true;
         styling.hidden = true;
-        document.getElementById('tweet-to-bg').hidden = false;
+        document.getElementById('tweet-to-bg').hidden = pageUser.blocked_by? true : false;
         buttonsElement.innerHTML = /*html*/`
             <button ${(pageUser.blocking || pageUser.blocked_by)  ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? LOC.follow_request_sent.message : LOC.following_btn.message) : LOC.follow.message}</button>
             <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>${LOC.unblock.message}</button>
