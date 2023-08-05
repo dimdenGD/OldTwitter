@@ -191,7 +191,8 @@ function switchModernUI(enabled) {
             #wtf h1,
             #trends h1,
             #settings h1,
-            #bookmarks h1 {
+            #bookmarks h1,
+            #unfollows h1 {
                 color: var(--almost-black);
                 font-size: 18px;
                 font-weight: 600;
@@ -207,15 +208,38 @@ function switchModernUI(enabled) {
                 font-size: 22px !important;
                 font-weight: 600;
             }
+            .tweet-interact span,
+            .tweet-interact span:before {
+                color: var(--darker-gray);
+
+            }
             /* Bold Text */
             .user-stat-div > h2,
             .nav-text,
             #tweet-nav-tweets,
             #tweet-nav-replies,
             #tweet-nav-media,
-            .profile-stat-text {
+            .profile-stat-text,
+            .tweet-top-text,
+            .trend-description,
+            .tweet-header-handle {
                 font-weight: 600;
             }
+            
+            .trend-description {
+                font-size: 12px;
+            }
+
+            .tweet-top-icon  {
+                color: var(--light-gray) !important;
+            }
+            #search-input, #user-search-input {
+                background-color: var(--dark-background-color);
+            }
+            #wtf-refresh, #wtf-viewall, #trends-refresh, #trends-viewall {
+                color: var(--link-color);
+            }
+
             /* No round */
             .box,
             #user-banner,
@@ -276,6 +300,7 @@ function switchModernUI(enabled) {
             @media screen and (max-width: 590px) {
                 #navbar-tweet-button:before  {
                     content: "\\f029" !important;
+                    color: white;
                 }
             }
 
