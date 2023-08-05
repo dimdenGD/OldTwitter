@@ -4848,11 +4848,19 @@ const API = {
                         resolve(i.media_id_string);
                     }
                     if (i.processing_info.state === "failed") {
-                        reject(i.processing_info.error.message);
+                        if(i.processing_info.error.message) {
+                            reject(i.processing_info.error.message);
+                        } else {
+                            reject(`Twitter API rejected your media with code ${i.processing_info.error.code} (${i.processing_info.error.name})`);
+                        }
                     }
                     if(i.processing_info.state === "in_progress") {
                         if(!i.processing_info.check_after_secs && i.processing_info.error) {
-                            return reject(i.processing_info.error.message);
+                            if(i.processing_info.error.message) {
+                                return reject(i.processing_info.error.message);
+                            } else {
+                                return reject(`Twitter API rejected your media with code ${i.processing_info.error.code} (${i.processing_info.error.name})`);
+                            }
                         }
                         setTimeout(checkStatus, i.processing_info.check_after_secs*1000);
                         if(data.loadCallback) {
