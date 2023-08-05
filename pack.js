@@ -66,7 +66,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         {
           "matches": ["https://twitter.com/*"],
           "exclude_matches": ["https://twitter.com/*?*newtwitter=true*", "https://twitter.com/settings/download_your_data", "https://twitter.com/i/flow/login*"],
-          "js": ["scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/injection.js", "libraries/parseCssColor.js", "libraries/twemoji.min.js", "libraries/custom-elements.min.js", "libraries/emojipicker.js"],
+          "js": ["scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/injection.js", "libraries/twemoji.min.js", "libraries/custom-elements.min.js", "libraries/emojipicker.js"],
           "all_frames": true,
           "run_at": "document_start"
         },
@@ -95,7 +95,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         },
         {
           "matches": ["https://twitter.com/old/settings", "https://twitter.com/old/settings/", "https://twitter.com/old/settings?*", "https://twitter.com/old/settings/?*"],
-          "js": ["libraries/coloris.min.js", "layouts/settings/script.js", "libraries/viewer.min.js"],
+          "js": ["libraries/parseCssColor.js", "libraries/coloris.min.js", "layouts/settings/script.js", "libraries/viewer.min.js"],
           "all_frames": true,
           "run_at": "document_idle"
         },
