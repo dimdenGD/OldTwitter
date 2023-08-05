@@ -693,6 +693,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         data: [
             "libraries/parseCssColor.js",
             "libraries/twemoji.min.js",
+            (page.name === 'settings' ? 'libraries/coloris.min.js' : ''),
             "layouts/header/script.js",
             `layouts/${page.name}/script.js`,
             "scripts/tweetviewer.js",
@@ -702,6 +703,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             "libraries/emojipicker.js",
             "libraries/tinytoast.js",
             "libraries/iframeNavigation.js",
-        ]
+        ].filter(i => i)
     });
 })();

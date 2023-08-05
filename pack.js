@@ -95,7 +95,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         },
         {
           "matches": ["https://twitter.com/old/settings", "https://twitter.com/old/settings/", "https://twitter.com/old/settings?*", "https://twitter.com/old/settings/?*"],
-          "js": ["layouts/settings/script.js", "libraries/viewer.min.js"],
+          "js": ["libraries/coloris.min.js", "layouts/settings/script.js", "libraries/viewer.min.js"],
           "all_frames": true,
           "run_at": "document_idle"
         },
