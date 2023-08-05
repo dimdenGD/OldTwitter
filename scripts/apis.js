@@ -668,9 +668,10 @@ const API = {
                     if(chrono.list.map(t => t.id_str).includes(social[social.length-1].id_str)) {
                         social.pop();
                     } else {
-                        if(!chrono.list[chrono.list.length-i].threadContinuation) {
-                            chrono.list.splice(chrono.list.length-i, 0, social.pop());
+                        if(chrono.list[chrono.list.length-i] && !chrono.list[chrono.list.length-i].threadContinuation) {
+                            continue;
                         }
+                        chrono.list.splice(chrono.list.length-i, 0, social.pop());
                     }
                 }
             }
