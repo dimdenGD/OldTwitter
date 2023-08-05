@@ -4832,6 +4832,9 @@ const API = {
                         reject(i.processing_info.error.message);
                     }
                     if(i.processing_info.state === "in_progress") {
+                        if(!i.processing_info.check_after_secs && i.processing_info.error) {
+                            return reject(i.processing_info.error.message);
+                        }
                         setTimeout(checkStatus, i.processing_info.check_after_secs*1000);
                         if(data.loadCallback) {
                             data.loadCallback({

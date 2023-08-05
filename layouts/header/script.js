@@ -259,6 +259,10 @@ function switchModernUI(enabled) {
             .profile-stat:hover > .profile-stat-value {
                 color: var(--link-color);
             }
+            #profile-nav {
+                box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
+                border-bottom: none;
+            }
 
             @media screen and (max-width: 590px) {
                 #navbar-tweet-button:before  {
@@ -268,9 +272,13 @@ function switchModernUI(enabled) {
 
         `;
         document.head.appendChild(style);
+        document.body.classList.add('body-modern-ui');
+        document.body.classList.remove('body-old-ui');
     } else {
         let style = document.getElementById('modern-ui');
         if(style) style.remove();
+        document.body.classList.remove('body-modern-ui');
+        document.body.classList.add('body-old-ui');
     }
 }
 
@@ -1097,7 +1105,7 @@ let userDataFunction = async user => {
                     let mediaId = await API.uploadMedia({
                         media_type: media.type,
                         media: media.data,
-                        cw: media.cw,
+                        cw: [],
                         loadCallback: data => {
                             media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
                         }
@@ -2263,7 +2271,7 @@ setInterval(() => {
     document.addEventListener('customCSS', updateCustomCSS);
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
     document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
-    document.addEventListener('modernUI', e => switchModernUIZ(e.detail));
+    document.addEventListener('modernUI', e => switchModernUI(e.detail));
 
     // hotkeys
     if(!vars.disableHotkeys) {

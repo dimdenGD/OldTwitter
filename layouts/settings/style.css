@@ -729,4 +729,16 @@ select, input, textarea {
     #move-navbar-to-bottom-div {
         display: block;
     }
+    .color-transparency {
+        width: 40px;
+    }
+    .color-value {
+        width: 32px;
+    }
+    .color-reset {
+        padding: 0 8px 0 6px;
+    }
+    .color-name {
+        font-size: 12px !important;
+    }
 }

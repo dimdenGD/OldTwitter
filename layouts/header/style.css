@@ -2218,13 +2218,13 @@ emoji-picker {
     .tweet-viewer {
         width: calc(100% - 42px);
         overflow-x: clip;
-        margin-bottom: 95px;
+        margin-bottom: 120px;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;
     }
     .modal .new-tweet-text {
-        width: calc(100% - 103px);
+        width: calc(100% - 100px);
     }
     .modal .new-tweet-media-div {
         right: 27px;
@@ -2295,7 +2295,10 @@ emoji-picker {
         bottom: 65px;
     }
     .tweet-interact {
-        display: flex;
+        display: block;
+    }
+    .tweet-interact-more {
+        margin-right: 0;
     }
     .tweet-self-thread-button.tweet-thread-right {
         display: none;
@@ -2361,6 +2364,9 @@ emoji-picker {
     .message-leave {
         bottom: 32px;
         z-index: 5;
+    }
+    .body-old-ui #navbar-tweet-button {
+        padding-right: 7px;
     }
 }
 @media screen and (max-width: 460px) {
