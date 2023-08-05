@@ -1589,16 +1589,13 @@ a:hover,
     #left-cell {
         width: 260px;
     }
-    .container{
-        width:870px
-    }
     #profile-nav-center-cell{
         width:auto;
     }
     #profile-nav-right-cell{
         width: fit-content;
         position: absolute;
-        right: max(14px, calc(50% - 425px));
+        right: max(14px, calc(100% - 868px));
         top: 12px;
     }
 }
