@@ -365,7 +365,6 @@ function updateUserData() {
                             <br><br>
                         `;
                         document.getElementById('about-right').appendChild(adminControls);
-                        document.getElementById('about-left').appendChild(adminControls);
                         document.getElementById('admin-controls-switch').addEventListener('click', () => {
                             fetch(`https://dimden.dev/services/twitter_link_colors/v2/admin/switch_access`, {
                                 method: 'POST',
