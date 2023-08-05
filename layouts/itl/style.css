@@ -902,11 +902,10 @@ a:hover,
     #left-cell {
         display: none;
     }
-    #itl {
-        width: calc(100% - 20px);
-    }
     #center-cell {
         margin-top: 50px;
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 /* Mobile UI */

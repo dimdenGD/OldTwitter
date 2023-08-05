@@ -192,7 +192,8 @@ function switchModernUI(enabled) {
             #trends h1,
             #settings h1,
             #bookmarks h1,
-            #unfollows h1 {
+            #unfollows h1,
+            #itl h1 {
                 color: var(--almost-black);
                 font-size: 18px;
                 font-weight: 600;
