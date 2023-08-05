@@ -1564,9 +1564,8 @@ a:hover,
         width: 260px;
     }
 
-    #profile-nav-right-cell,
-    #profile-nav-center-cell {
-        width: fit-content
+    #profile-nav-left-cell{
+        width: 260px;
     }
     .profile-media-preview {
         width: 70px;
@@ -1590,9 +1589,24 @@ a:hover,
     #left-cell {
         width: 260px;
     }
+    .container{
+        width:870px
+    }
+    #profile-nav-center-cell{
+        width:auto;
+    }
+    #profile-nav-right-cell{
+        width: fit-content;
+        position: absolute;
+        right: max(14px, calc(50% - 425px));
+        top: 12px;
+    }
 }
 /* no left-cell */
 @media screen and (max-width: 880px) {
+    .container{
+        width:600px
+    }
     .content {
         display: grid;
     }
@@ -1655,19 +1669,17 @@ a:hover,
     }
     #profile-nav-center-cell {
         position: absolute;
-        right: 14px;
+        right: max(14px, calc(50% - 295px));
         top: 303px;
     }
-    #following-list, #followers-list,  #followers_you_follow-list, #lists-list {
-        width: calc(100% - 22px);
+    #profile-nav-right-cell{
+        position: absolute;
+        right: max(6px, calc(50% - 289px));
+        margin-right: 0px;
+        top: 369px;
+        width: 272px
     }
-    #following-more, #followers-more, #followers_you_follow-more, #lists-more {
-        width: calc(100% - 100px);
-    }
-    #no-tweets {
-        width: calc(100% - 40px);
-        padding: 20px;
-    }
+    
     #profile-settings-div {
         margin-left: 0;
         position: absolute;
@@ -1688,6 +1700,9 @@ a:hover,
 
 /* Mobile UI */
 @media screen and (max-width: 590px) {
+    .container{
+        width:100%;
+    }
     .content {
         display: grid;
     }
@@ -1700,6 +1715,16 @@ a:hover,
     }
     #profile-banner-sticky {
         position: initial;
+    }
+    #following-list, #followers-list,  #followers_you_follow-list, #lists-list {
+        width: calc(100% - 22px);
+    }
+    #following-more, #followers-more, #followers_you_follow-more, #lists-more {
+        width: calc(100% - 100px);
+    }
+    #no-tweets {
+        width: calc(100% - 40px);
+        padding: 20px;
     }
     #left-cell {
         margin-top: 150px;
