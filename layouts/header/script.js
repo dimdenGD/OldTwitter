@@ -713,6 +713,8 @@ let userDataFunction = async user => {
             messageElement.classList.add('message-element');
             if(sender.id_str !== user.id_str) {
                 messageElement.classList.add('message-element-other');
+            } else {
+                messageElement.classList.add('message-element-self');
             }
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
@@ -834,7 +836,7 @@ let userDataFunction = async user => {
             timestamp.classList.add('message-time');
             timestamp["data-timestamp"] = "${m.time}";
             timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
-            messageBlock.append(document.createElement('br'),timestamp);
+            messageBlock.append(timestamp);
             let span = messageBlock.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
                 span.remove();
