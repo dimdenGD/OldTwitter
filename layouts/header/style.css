@@ -684,6 +684,7 @@ input, textarea {
 .inbox-modal hr {
     border-color: var(--border);
     border-bottom: none;
+    margin-bottom: 0;
 }
 .inbox-buttons {
     float: right;
@@ -990,7 +991,7 @@ input, textarea {
 
 .name-top {
     width: 618px;
-    background-color: rgba(0, 0, 0, 0) !important;
+    background-color: var(--background-color) !important;
 }
 .navbar-new-tweet-user-search {
     background-color: var(--background-color);
@@ -1259,6 +1260,10 @@ span.tweet-body-text {
     padding: 2px
 }
 
+.tweet, .notification {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .new-tweet-user-search span:hover,
 .search-result-item-active {
     background-color: var(--link-color) !important;
@@ -1447,6 +1452,18 @@ span.tweet-body-text {
 }
 .message-element .emoji {
     vertical-align: middle;
+}
+.message-element-self .message-body,
+.message-element-self .message-element-media {
+    float: right;
+}
+.message-element-self .message-time {
+    position: relative;
+    top: 3px;
+    right: 3px;
+}
+.message-element-other .message-time {
+    margin-left: 3px;
 }
 .changelog-modal {
     max-width: 800px;
@@ -2145,6 +2162,10 @@ emoji-picker {
 .open-new-twitter {
     color: var(--light-gray);
 }
+.tweet-main {
+    cursor: unset;
+}
+
 /* Mobile UI */
 @media screen and (max-width: 590px) {
     .notification-avatars, .notification-text {
@@ -2218,7 +2239,7 @@ emoji-picker {
     .tweet-viewer {
         width: calc(100% - 42px);
         overflow-x: clip;
-        margin-bottom: 120px;
+        margin-bottom: 150px;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;
@@ -2258,6 +2279,9 @@ emoji-picker {
     .message-element {
         width: 100%;
     }
+    .message-block {
+        max-width: calc(100% - 37px)
+    }
     .inbox-message {
         width: 100%;
     }
@@ -2266,6 +2290,11 @@ emoji-picker {
     }
     .inbox-modal {
         width: calc(100% - 42px);
+        max-height: 80%;
+        top: 5%;
+    }
+    .inbox-top h1 {
+        font-size: 16px !important;
     }
     #search-input {
         width: 30px;

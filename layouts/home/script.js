@@ -71,6 +71,7 @@ setTimeout(() => {
                             <li>Added option to view notifications in a modal.</li>
                             <li>Made videos pause when scroll from sight.</li>
                             <li>Improved color pickers.</li>
+                            <li>Fixed tweets opening when selecting text.</li>
                             <li>Fixed big video uploads lagging/crashing the site.</li>
                             <li>Fixed media uploads in messages.</li>
                             <li>Fixed messages repeating when scrolling them after some time.</li>

@@ -12,6 +12,9 @@ chrome.webRequest.onBeforeRequest.addListener(
                 redirectUrl: chrome.runtime.getURL('images/logo32_new_notification.png')
             };
         }
+        if(details.url.includes("twitter.com/manifest.json") || details.url.includes("/sw.js")) {
+            return { cancel: true };
+        }
         return {
             cancel:
                 ( // excludes
@@ -21,9 +24,7 @@ chrome.webRequest.onBeforeRequest.addListener(
                     !details.originUrl.includes("/settings/download_your_data")
                 ) && 
                 ( // includes
-                    details.url.includes("twitter.com/manifest.json") ||
-                    details.url.includes("abs.twimg.com/responsive-web/client-web/") ||
-                    details.url.includes("/sw.js")
+                    details.url.includes("abs.twimg.com/responsive-web/client-web/")
                 )
         };
     }, {
@@ -61,7 +62,7 @@ chrome.webRequest.onHeadersReceived.addListener(
         }
         if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.responseHeaders.push({
             name: "access-control-allow-origin",
-            value: "*"
+            value: "https://twitter.com"
         });
         if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-headers')) details.responseHeaders.push({
             name: "access-control-allow-headers",

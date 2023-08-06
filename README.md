@@ -73,7 +73,7 @@ The code is open source so you can check everything yourself. It never sends any
 #### [insert thing] doesn't look like it was in 2015 Twitter!
 Extension won't be pixel perfect copy of old Twitter. I just took general look and feel of it.
 
-#### I installed extension and my timeline is feels kinda unusual
+#### I installed extension and my timeline feels kinda unusual
 You had algorithmical timeline enabled. By default OldTwitter turns on reverse chronological timeline. If you really want algo timeline back go to [extension settings](https://twitter.com/old/settings).  
 
 #### How do I visit original Twitter client after installing extension?
