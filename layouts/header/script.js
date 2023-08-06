@@ -127,7 +127,9 @@ function switchModernUI(enabled) {
                 border: none !important;
                 color: white;
                 font-weight: bold;
-
+            }
+            .tweet-header-follow {
+                padding: 7px 12px 11px 12px !important;
             }
             /* Remove Icon */
             #navbar-tweet-button:before,
