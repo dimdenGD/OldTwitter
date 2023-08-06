@@ -684,7 +684,7 @@ const API = {
                     if(chrono.list.map(t => t.id_str).includes(social[social.length-1].id_str)) {
                         social.pop();
                     } else {
-                        if(chrono.list[chrono.list.length-i] && !chrono.list[chrono.list.length-i].threadContinuation) {
+                        if(chrono.list[chrono.list.length-i+1] && !chrono.list[chrono.list.length-i+1].threadContinuation) {
                             continue;
                         }
                         chrono.list.splice(chrono.list.length-i, 0, social.pop());
@@ -2663,6 +2663,12 @@ const API = {
                             return resolve(out);
                         }
                         let entries = ae.addEntries.entries;
+
+                        let newCursor;
+                        try {
+                            newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value;
+                        } catch(e) {}
+
                         let list = [];
                         for (let i = 0; i < entries.length; i++) {
                             let e = entries[i];
@@ -2741,6 +2747,9 @@ const API = {
                                     });
                                 }
                             } else if(e.entryId.startsWith('cursor-showmorethreadsprompt')) {
+                                if(newCursor === e.content.itemContent.value) {
+                                    continue;
+                                }
                                 list.push({
                                     type: 'showMore',
                                     data: {
@@ -2751,10 +2760,6 @@ const API = {
                                 });
                             }
                         }
-                        let newCursor;
-                        try {
-                            newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value;
-                        } catch(e) {}
                         resolve({
                             list,
                             cursor: newCursor,
@@ -2848,6 +2853,12 @@ const API = {
                         let entries = ae.entries;
                         let list = [];
                         let users = {};
+
+                        let newCursor;
+                        try {
+                            newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.itemContent.value;
+                        } catch(e) {};
+
                         for (let i = 0; i < entries.length; i++) {
                             let e = entries[i];
                             if (e.entryId.startsWith('tweet-')) {
@@ -2878,6 +2889,7 @@ const API = {
                                 let tweet = parseTweet(tweetData);
         
                                 if(tweet) {
+                                    if(tweet.user.blocking || tweet.user.muting) continue;
                                     tweet.hasModeratedReplies = e.content.itemContent.hasModeratedReplies;
                                     list.push({
                                         type: tweet.id_str === id ? 'mainTweet' : 'tweet',
@@ -2959,6 +2971,7 @@ const API = {
                                     let tweet = parseTweet(tweetData);
                                     
                                     if(tweet) {
+                                        if(tweet.user.blocking || tweet.user.muting) continue;
                                         tweet.hasModeratedReplies = ic.hasModeratedReplies;
                                         threadList.push(tweet);
                                     }
@@ -2975,6 +2988,9 @@ const API = {
                                     });
                                 }
                             } else if(e.entryId.startsWith('cursor-showmorethreadsprompt') || e.entryId.startsWith('cursor-showmorethreads-')) {
+                                if(newCursor === e.content.itemContent.value) {
+                                    continue;
+                                }
                                 list.push({
                                     type: 'showMore',
                                     data: {
@@ -2985,10 +3001,6 @@ const API = {
                                 });
                             }
                         }
-                        let newCursor;
-                        try {
-                            newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.itemContent.value;
-                        } catch(e) {};
         
                         const out = {
                             list,
