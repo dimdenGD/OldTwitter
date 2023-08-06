@@ -1434,7 +1434,7 @@ let userDataFunction = async user => {
         });
         let mediaToUpload = []; 
         newTweet.addEventListener('drop', e => {
-            document.getElementById('new-tweet').click();
+            if(document.getElementById('new-tweet')) document.getElementById('new-tweet').click();
             newTweetPoll.innerHTML = '';
             newTweetPoll.hidden = true;
             newTweetPoll.style.width = "0";
