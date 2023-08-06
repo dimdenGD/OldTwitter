@@ -2889,6 +2889,7 @@ const API = {
                                 let tweet = parseTweet(tweetData);
         
                                 if(tweet) {
+                                    if(tweet.user.blocking || tweet.user.muting) continue;
                                     tweet.hasModeratedReplies = e.content.itemContent.hasModeratedReplies;
                                     list.push({
                                         type: tweet.id_str === id ? 'mainTweet' : 'tweet',
@@ -2970,6 +2971,7 @@ const API = {
                                     let tweet = parseTweet(tweetData);
                                     
                                     if(tweet) {
+                                        if(tweet.user.blocking || tweet.user.muting) continue;
                                         tweet.hasModeratedReplies = ic.hasModeratedReplies;
                                         threadList.push(tweet);
                                     }
