@@ -669,6 +669,16 @@ select, input, textarea {
 .tweet-interact-more-menu-embed:before {
     content: "\f204"
 }
+.color-value, #link-color {
+    width: 40px;
+    cursor: pointer;
+}
+.color-div {
+    margin-bottom: 7px;
+}
+button[aria-labelledby="clr-open-label"] {
+    display: none;
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     .wtf-user-name, .wtf-user-handle {
@@ -731,9 +741,6 @@ select, input, textarea {
     }
     .color-transparency {
         width: 40px;
-    }
-    .color-value {
-        width: 32px;
     }
     .color-reset {
         padding: 0 8px 0 6px;

@@ -749,9 +749,15 @@ class TweetViewer {
         if(this.seenReplies.includes(t.id_str)) return;
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
+            t.user.verified = true;
         }
         if(t.user.ext && t.user.ext.verifiedType && t.user.ext.verifiedType.r && t.user.ext.verifiedType.r.ok) {
             t.user.verified_type = t.user.ext.verifiedType.r.ok;
+            t.user.verified = true;
+        }
+        if(!vars.twitterBlueCheckmarks && t.user.verified_type === "Blue") {
+            delete t.user.verified_type;
+            t.user.verified = false;
         }
         this.tweets.push(['tweet', t, options]);
         this.seenReplies.push(t.id_str);

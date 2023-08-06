@@ -1208,6 +1208,10 @@ async function renderDiscovery(cache = true) {
             if(userData.ext && userData.ext.verifiedType && userData.ext.verifiedType.r && userData.ext.verifiedType.r.ok) {
                 userData.verified_type = userData.ext.verifiedType.r.ok;
             }
+            if(!vars.twitterBlueCheckmarks && userData.verified_type === "Blue") {
+                delete userData.verified_type;
+                userData.verified = false;
+            }
             let udiv = document.createElement('div');
             udiv.className = 'wtf-user';
             udiv.dataset.userId = userId;
@@ -1353,6 +1357,10 @@ async function appendUser(u, container, label) {
     if(u.ext && u.ext.verifiedType && u.ext.verifiedType.r && u.ext.verifiedType.r.ok) {
         u.verified_type = u.ext.verifiedType.r.ok;
     }
+    if(!vars.twitterBlueCheckmarks && u.verified_type === "Blue") {
+        delete u.verified_type;
+        u.verified = false;
+    }
     userElement.innerHTML = `
         <div>
             <a href="https://twitter.com/${u.screen_name}" class="user-item-link">
@@ -1478,9 +1486,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
+            t.user.verified = true;
         }
         if(t.user && t.user.ext && t.user.ext.verifiedType && t.user.ext.verifiedType.r && t.user.ext.verifiedType.r.ok) {
             t.user.verified_type = t.user.ext.verifiedType.r.ok;
+            t.user.verified = true;
+        }
+        if(!vars.twitterBlueCheckmarks && t.user.verified_type === "Blue") {
+            delete t.user.verified_type;
+            t.user.verified = false;
         }
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
         const tweet = document.createElement('div');

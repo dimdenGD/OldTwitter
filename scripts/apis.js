@@ -65,6 +65,10 @@ function parseTweet(res) {
     if(!res.core) return;
     tweet.user = res.core.user_results.result.legacy;
     tweet.user.id_str = tweet.user_id_str;
+    if(res.core.user_results.result.is_blue_verified) {
+        tweet.user.verified = true;
+        tweet.user.verified_type = "Blue";
+    }
     if(tweet.retweeted_status_result) {
         let result = tweet.retweeted_status_result.result;
         if(result.limitedActionResults) {
@@ -84,6 +88,10 @@ function parseTweet(res) {
             if(result.legacy.quoted_status) {
                 result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
                 result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+                if(result.quoted_status_result.result.core.user_results.result.is_blue_verified) {
+                    result.legacy.quoted_status.user.verified = true;
+                    result.legacy.quoted_status.user.verified_type = "Blue";
+                }
             } else {
                 console.warn("No retweeted quoted status", result);
             }
@@ -92,6 +100,10 @@ function parseTweet(res) {
         if(tweet.retweeted_status && result.core.user_results.result.legacy) {
             tweet.retweeted_status.user = result.core.user_results.result.legacy;
             tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
+            if(result.core.user_results.result.is_blue_verified) {
+                tweet.retweeted_status.user.verified = true;
+                tweet.retweeted_status.user.verified_type = "Blue";
+            }
             tweet.retweeted_status.ext = {};
             if(result.views) {
                 tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
@@ -130,6 +142,10 @@ function parseTweet(res) {
         if(tweet.quoted_status) {
             tweet.quoted_status.user = result.core.user_results.result.legacy;
             tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+            if(result.core.user_results.result.is_blue_verified) {
+                tweet.quoted_status.user.verified = true;
+                tweet.quoted_status.user.verified_type = "Blue";
+            }
             tweet.quoted_status.ext = {};
             if(result.views) {
                 tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
@@ -668,6 +684,9 @@ const API = {
                     if(chrono.list.map(t => t.id_str).includes(social[social.length-1].id_str)) {
                         social.pop();
                     } else {
+                        if(chrono.list[chrono.list.length-i] && !chrono.list[chrono.list.length-i].threadContinuation) {
+                            continue;
+                        }
                         chrono.list.splice(chrono.list.length-i, 0, social.pop());
                     }
                 }
@@ -4829,11 +4848,19 @@ const API = {
                         resolve(i.media_id_string);
                     }
                     if (i.processing_info.state === "failed") {
-                        reject(i.processing_info.error.message);
+                        if(i.processing_info.error.message) {
+                            reject(i.processing_info.error.message);
+                        } else {
+                            reject(`Twitter API rejected your media with code ${i.processing_info.error.code} (${i.processing_info.error.name})`);
+                        }
                     }
                     if(i.processing_info.state === "in_progress") {
                         if(!i.processing_info.check_after_secs && i.processing_info.error) {
-                            return reject(i.processing_info.error.message);
+                            if(i.processing_info.error.message) {
+                                return reject(i.processing_info.error.message);
+                            } else {
+                                return reject(`Twitter API rejected your media with code ${i.processing_info.error.code} (${i.processing_info.error.name})`);
+                            }
                         }
                         setTimeout(checkStatus, i.processing_info.check_after_secs*1000);
                         if(data.loadCallback) {

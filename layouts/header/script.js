@@ -68,8 +68,8 @@ function switchRoundAvatars(enabled) {
             .message-element > a > img,
             .notification-avatar-img,
             #nav-profile-avatar,
-            .message-avatar,
-            .profile-friends-avatar {
+            .profile-friends-avatar,
+            .message-avatar {
                 border-radius: 50% !important;
             }
         `;

@@ -104,6 +104,12 @@ setTimeout(async () => {
         return;
     }
 
+    let colorisCss = await (await fetch(chrome.runtime.getURL('libraries/coloris.min.css'))).text();
+    let colorisStyle = document.createElement('style');
+    colorisStyle.innerHTML = colorisCss;
+    colorisStyle.id = 'coloris-style';
+    document.head.appendChild(colorisStyle);
+
     const fontCheck = new Set([
         // Windows 10
       'Arial', 'Arial Black', 'Bahnschrift', 'Calibri', 'Cambria', 'Cambria Math', 'Candara', 'Comic Sans MS', 'Consolas', 'Constantia', 'Corbel', 'Courier New', 'Ebrima', 'Franklin Gothic Medium', 'Gabriola', 'Gadugi', 'Georgia', 'HoloLens MDL2 Assets', 'Impact', 'Ink Free', 'Javanese Text', 'Leelawadee UI', 'Lucida Console', 'Lucida Sans Unicode', 'Malgun Gothic', 'Marlett', 'Microsoft Himalaya', 'Microsoft JhengHei', 'Microsoft New Tai Lue', 'Microsoft PhagsPa', 'Microsoft Sans Serif', 'Microsoft Tai Le', 'Microsoft YaHei', 'Microsoft Yi Baiti', 'MingLiU-ExtB', 'Mongolian Baiti', 'MS Gothic', 'MS UI Gothic', 'MV Boli', 'Myanmar Text', 'Nirmala UI', 'Palatino Linotype', 'Segoe MDL2 Assets', 'Segoe Print', 'Segoe Script', 'Segoe UI', 'Segoe UI Historic', 'Segoe UI Emoji', 'Segoe UI Symbol', 'SimSun', 'Sitka', 'Sylfaen', 'Symbol', 'Tahoma', 'Times New Roman', 'Trebuchet MS', 'Verdana', 'Webdings', 'Wingdings', 'Yu Gothic',
@@ -247,8 +253,16 @@ setTimeout(async () => {
             root.style.setProperty('--icon-font', `"RosettaIcons"`)
         }
     });
+    linkColor.addEventListener('click', e => {
+        Coloris({
+            alpha: false,
+            themeMode: isDarkModeEnabled ? 'dark' : 'light'
+        });
+    });
     linkColor.addEventListener('input', () => {
         let color = linkColor.value;
+        linkColor.style.color = color;
+        linkColor.style.backgroundColor = color;
         root.style.setProperty('--link-color', color);
     });
     linkColor.addEventListener('change', () => {
@@ -263,6 +277,8 @@ setTimeout(async () => {
     linkColorReset.addEventListener('click', async () => {
         let color = vars.modernUI ? '#1DA1F3' : '#4BACD2';
         linkColor.value = color;
+        linkColor.style.color = color;
+        linkColor.style.backgroundColor = color;
         root.style.setProperty('--link-color', color);
         chrome.storage.sync.set({
             linkColor: color
@@ -588,9 +604,13 @@ setTimeout(async () => {
     });
     if(vars.linkColor) {
         linkColor.value = vars.linkColor;
+        linkColor.style.color = vars.linkColor;
+        linkColor.style.backgroundColor = vars.linkColor;
         root.style.setProperty('--link-color', vars.linkColor);
     } else {
         linkColor.value = '#4bacd2';
+        linkColor.style.color = '#4bacd2';
+        linkColor.style.backgroundColor = '#4bacd2';
     }
     if(vars.font) {
         fontElement.value = vars.font;
@@ -795,17 +815,15 @@ setTimeout(async () => {
             let div = document.createElement('div');
             div.classList.add('color-div');
             div.innerHTML = /*html*/`
-                <input class="color-value" type="color" data-var="${v}" value="${rgb2hex(...color.values)}">
-                <input class="color-transparency" title="${LOC.transparency.message}" type="range" min="0" max="1" step="0.01" value="${color.alpha}">
+                <input data-coloris class="color-value" type="text" data-var="${v}" value="${rgb2hex(...color.values)}${Math.round(color.alpha*255).toString(16).padStart(2, '0')}">
                 <span class="color-name">${v[2].toUpperCase() + v.slice(3).replace(/-/g, ' ')}</span>
                 <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>${LOC.reset.message}</button>
             `;
             colorsDiv.append(div);
             function colorUpdate() {
                 let colorValue = div.querySelector('.color-value');
-                let colorTransparency = div.querySelector('.color-transparency');
 
-                customVars[colorValue.dataset.var] = `rgba(${hex2rgb(colorValue.value).join(', ')}, ${colorTransparency.value})`;
+                customVars[colorValue.dataset.var] = colorValue.value;
                 let css = Object.entries(customVars).map(([k, v]) => `${k}: ${v};`).join('\n');
                 chrome.storage.sync.set({
                     customCSSVariables: css
@@ -820,8 +838,23 @@ setTimeout(async () => {
                     }
                 });
             }
-            div.querySelector('.color-value').addEventListener('change', colorUpdate);
-            div.querySelector('.color-transparency').addEventListener('change', colorUpdate);
+            let colorValue = div.querySelector('.color-value');
+            colorValue.style.color = colorValue.value;
+            colorValue.style.backgroundColor = colorValue.value;
+            colorValue.addEventListener('click', e => {
+                Coloris({
+                    alpha: true,
+                    themeMode: isDarkModeEnabled ? 'dark' : 'light',
+                    swatches: []
+                });
+            });
+            colorValue.addEventListener('change', colorUpdate);
+            colorValue.addEventListener('input', e => {
+                colorValue.style.color = colorValue.value;
+                colorValue.style.backgroundColor = colorValue.value;
+
+                root.style.setProperty(colorValue.dataset.var, colorValue.value);
+            });
             div.querySelector('.color-reset').addEventListener('click', () => {
                 delete customVars[v];
                 let css = Object.entries(customVars).map(([k, v]) => `${k}: ${v};`).join('\n');
@@ -833,8 +866,9 @@ setTimeout(async () => {
                     customCSSBus.postMessage({type: 'vars'});
                     div.querySelector('.color-reset').disabled = true;
                     let defColor = parseCssColor(defaultVars[v]);
-                    div.querySelector('.color-value').value = rgb2hex(...defColor.values);
-                    div.querySelector('.color-transparency').value = defColor.alpha;
+                    colorValue.value = rgb2hex(...defColor.values) + Math.round(defColor.alpha*255).toString(16).padStart(2, '0');
+                    colorValue.style.color = colorValue.value;
+                    colorValue.style.backgroundColor = colorValue.value;
                     if(v === '--background-color') {
                         document.getElementById("color-preview-custom").hidden = true;
                     }
