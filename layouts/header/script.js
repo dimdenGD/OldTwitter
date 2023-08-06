@@ -2209,12 +2209,11 @@ let userDataFunction = async user => {
                             let notifElement = document.getElementById('notifications-count');
                             let icon = document.getElementById('site-icon');
                             notifElement.hidden = true;
-                            icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
+                            icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
                             let newTitle = document.title;
                             if(document.title.startsWith('(')) {
                                 newTitle = document.title.split(') ')[1];
                             }
-                            newTitle = `(${data.unreadNotifications}) ${newTitle}`;
                             if(document.title !== newTitle) {
                                 document.title = newTitle;
                             }
