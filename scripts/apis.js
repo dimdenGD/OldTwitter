@@ -684,7 +684,7 @@ const API = {
                     if(chrono.list.map(t => t.id_str).includes(social[social.length-1].id_str)) {
                         social.pop();
                     } else {
-                        if(chrono.list[chrono.list.length-i] && !chrono.list[chrono.list.length-i].threadContinuation) {
+                        if(chrono.list[chrono.list.length-i+1] && !chrono.list[chrono.list.length-i+1].threadContinuation) {
                             continue;
                         }
                         chrono.list.splice(chrono.list.length-i, 0, social.pop());
