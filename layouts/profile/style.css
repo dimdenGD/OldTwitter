@@ -1549,6 +1549,12 @@ a:hover,
 .body-modern-ui #wtf-list .follow, .body-modern-ui #wtf-list .following {
     padding: 0px 12px 5px 12px !important;
 }
+.body-modern-ui .user-item-btn {
+    padding: 3px 12px 8px 12px !important;
+}
+.body-modern-ui .user-item-text {
+    bottom: 8px !important;
+}
 
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {

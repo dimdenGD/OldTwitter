@@ -1938,7 +1938,7 @@ let userDataFunction = async user => {
             shadow.appendChild(div);
 
             if(isSticky(el)) {
-                el.parentElement.append(userPreview);
+                el.after(userPreview);
             } else {
                 let rects = el.getBoundingClientRect();
                 userPreview.style.top = `${rects.top + window.scrollY+ 20}px`;
