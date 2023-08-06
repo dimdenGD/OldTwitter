@@ -1259,6 +1259,10 @@ span.tweet-body-text {
     padding: 2px
 }
 
+.tweet, .notification {
+    -webkit-tap-highlight-color: transparent;
+}
+
 .new-tweet-user-search span:hover,
 .search-result-item-active {
     background-color: var(--link-color) !important;
