@@ -2148,6 +2148,140 @@ let userDataFunction = async user => {
             }, { once: true });
         }, 70);
     });
+
+    // notifications
+    document.getElementById('notifications').addEventListener('click', async e => {
+        if(vars.openNotifsAsModal && location.pathname !== '/notifications' && location.pathname !== '/notifications/mentions') {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+
+            let previousLocation = location.href;
+            let modal = createModal(`
+                <div class="nav-notifications-loading">
+                    <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
+                </div>
+                <div class="nav-notification-list"></div>
+                <div class="nav-notification-more center-text" hidden>${LOC.load_more.message}</div>
+            `, 'notifications-modal', () => {
+                clearInterval(ui);
+                if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
+            });
+
+            history.pushState({}, null, `https://twitter.com/notifications`);
+
+            let notifLoading = modal.getElementsByClassName('nav-notifications-loading')[0];
+            let notifList = modal.getElementsByClassName('nav-notification-list')[0];
+            let notifMore = modal.getElementsByClassName('nav-notification-more')[0];
+
+            let cursorTop = undefined;
+            let cursorBottom = undefined;
+            let loadingMore = false;
+
+            async function updateNotifications(options = { mode: 'rewrite', quiet: false }) {
+                if(options.mode === 'rewrite' && !options.quiet) {
+                    notifLoading.hidden = false;
+                    notifMore.hidden = true;
+                }
+                let data;
+                try {
+                    data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
+                } catch(e) {
+                    await sleep(2500);
+                    try {
+                        data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
+                    } catch(e) {
+                        notifLoading.hidden = true;
+                        notifMore.hidden = false;
+                        notifMore.innerText = LOC.load_more.message;
+                        loadingMore = false;
+                        console.error(e);
+                        return;
+                    }
+                }
+                if(options.mode === 'append' || options.mode === 'rewrite') {
+                    cursorBottom = data.cursorBottom;
+                }
+                if(options.mode === 'prepend' || options.mode === 'rewrite') {
+                    if(data.cursorTop !== cursorTop) {
+                        setTimeout(() => {
+                            API.notifications.markAsRead(cursorTop);
+
+                            let notifElement = document.getElementById('notifications-count');
+                            let icon = document.getElementById('site-icon');
+                            notifElement.hidden = true;
+                            icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
+                            let newTitle = document.title;
+                            if(document.title.startsWith('(')) {
+                                newTitle = document.title.split(') ')[1];
+                            }
+                            newTitle = `(${data.unreadNotifications}) ${newTitle}`;
+                            if(document.title !== newTitle) {
+                                document.title = newTitle;
+                            }
+                            notificationBus.postMessage({type: 'markAsRead', cursor: cursorTop});
+                        }, 500);
+                    }
+
+                    cursorTop = data.cursorTop;
+                }
+
+                if(options.mode === 'append' || options.mode === 'rewrite') {
+                    if(options.mode === 'rewrite') {
+                        notifList.innerHTML = '';
+                    }
+
+                    let notifs = data.list;
+                    for(let n of notifs) {
+                        if(n.type === 'notification') {
+                            let nd = renderNotification(n, { unread: n.unread });
+                            notifList.appendChild(nd);
+                        } else if(n.type === 'tweet') {
+                            let t = await appendTweet(n, notifList, { noInsert: true });
+                            if(n.unread) {
+                                t.classList.add('notification-unread');
+                            }
+                            notifList.appendChild(t);
+                        }
+                    }
+                } else if(options.mode === 'prepend') {
+                    let divs = [];
+                    
+                    let notifs = data.list;
+                    for(let n of notifs) {
+                        if(n.type === 'notification') {
+                            let notificationsWithSameId = document.querySelectorAll(`div[data-notification-id="${n.id}"]`);
+                            notificationsWithSameId.forEach(nd => nd.remove());
+                            let nd = renderNotification(n, { unread: true });
+                            divs.push(nd);
+                        } else if(n.type === 'tweet') {
+                            let t = await appendTweet(n, notifList, { noInsert: true });
+                            t.classList.add('notification-unread');
+                            divs.push(t);
+                        }
+                    }
+
+                    notifList.prepend(...divs);
+                }
+
+                notifLoading.hidden = true;
+                notifMore.hidden = false;
+                notifMore.innerText = LOC.load_more.message;
+                loadingMore = false;
+            }
+
+            await updateNotifications({ mode: 'rewrite', quiet: false });
+            await updateNotifications({ mode: 'prepend', quiet: true });
+            let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
+
+            notifMore.addEventListener('click', () => {
+                if(loadingMore) return;
+                loadingMore = true;
+                notifMore.innerText = LOC.loading.message;
+                updateNotifications({ mode: 'append', quiet: true });
+            });
+        }
+    });
+
     updateUnread();
     updateAccounts();
     updateInboxData();
@@ -2639,138 +2773,6 @@ setInterval(() => {
             if(style) style.remove();
         }
     }
-
-    document.getElementById('notifications').addEventListener('click', async e => {
-        if(vars.openNotifsAsModal && location.pathname !== '/notifications' && location.pathname !== '/notifications/mentions') {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-
-            let previousLocation = location.href;
-            let modal = createModal(`
-                <div class="nav-notifications-loading">
-                    <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
-                </div>
-                <div class="nav-notification-list"></div>
-                <div class="nav-notification-more center-text" hidden>${LOC.load_more.message}</div>
-            `, 'notifications-modal', () => {
-                clearInterval(ui);
-                if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
-            });
-
-            history.pushState({}, null, `https://twitter.com/notifications`);
-
-            let notifLoading = modal.getElementsByClassName('nav-notifications-loading')[0];
-            let notifList = modal.getElementsByClassName('nav-notification-list')[0];
-            let notifMore = modal.getElementsByClassName('nav-notification-more')[0];
-
-            let cursorTop = undefined;
-            let cursorBottom = undefined;
-            let loadingMore = false;
-
-            async function updateNotifications(options = { mode: 'rewrite', quiet: false }) {
-                if(options.mode === 'rewrite' && !options.quiet) {
-                    notifLoading.hidden = false;
-                    notifMore.hidden = true;
-                }
-                let data;
-                try {
-                    data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
-                } catch(e) {
-                    await sleep(2500);
-                    try {
-                        data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
-                    } catch(e) {
-                        notifLoading.hidden = true;
-                        notifMore.hidden = false;
-                        notifMore.innerText = LOC.load_more.message;
-                        loadingMore = false;
-                        console.error(e);
-                        return;
-                    }
-                }
-                if(options.mode === 'append' || options.mode === 'rewrite') {
-                    cursorBottom = data.cursorBottom;
-                }
-                if(options.mode === 'prepend' || options.mode === 'rewrite') {
-                    if(data.cursorTop !== cursorTop) {
-                        setTimeout(() => {
-                            API.notifications.markAsRead(cursorTop);
-
-                            let notifElement = document.getElementById('notifications-count');
-                            let icon = document.getElementById('site-icon');
-                            notifElement.hidden = true;
-                            icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
-                            let newTitle = document.title;
-                            if(document.title.startsWith('(')) {
-                                newTitle = document.title.split(') ')[1];
-                            }
-                            newTitle = `(${data.unreadNotifications}) ${newTitle}`;
-                            if(document.title !== newTitle) {
-                                document.title = newTitle;
-                            }
-                            notificationBus.postMessage({type: 'markAsRead', cursor: cursorTop});
-                        }, 500);
-                    }
-
-                    cursorTop = data.cursorTop;
-                }
-
-                if(options.mode === 'append' || options.mode === 'rewrite') {
-                    if(options.mode === 'rewrite') {
-                        notifList.innerHTML = '';
-                    }
-
-                    let notifs = data.list;
-                    for(let n of notifs) {
-                        if(n.type === 'notification') {
-                            let nd = renderNotification(n, { unread: n.unread });
-                            notifList.appendChild(nd);
-                        } else if(n.type === 'tweet') {
-                            let t = await appendTweet(n, notifList, { noInsert: true });
-                            if(n.unread) {
-                                t.classList.add('notification-unread');
-                            }
-                            notifList.appendChild(t);
-                        }
-                    }
-                } else if(options.mode === 'prepend') {
-                    let divs = [];
-                    
-                    let notifs = data.list;
-                    for(let n of notifs) {
-                        if(n.type === 'notification') {
-                            let notificationsWithSameId = document.querySelectorAll(`div[data-notification-id="${n.id}"]`);
-                            notificationsWithSameId.forEach(nd => nd.remove());
-                            let nd = renderNotification(n, { unread: true });
-                            divs.push(nd);
-                        } else if(n.type === 'tweet') {
-                            let t = await appendTweet(n, notifList, { noInsert: true });
-                            t.classList.add('notification-unread');
-                            divs.push(t);
-                        }
-                    }
-
-                    notifList.prepend(...divs);
-                }
-
-                notifLoading.hidden = true;
-                notifMore.hidden = false;
-                notifMore.innerText = LOC.load_more.message;
-                loadingMore = false;
-            }
-
-            await updateNotifications({ mode: 'rewrite', quiet: false });
-            await updateNotifications({ mode: 'prepend', quiet: true });
-            let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
-
-            notifMore.addEventListener('click', () => {
-                if(loadingMore) return;
-                loadingMore = true;
-                notifMore.innerText = LOC.loading.message;
-                updateNotifications({ mode: 'append', quiet: true });
-            });
-        }
-    });
     window.addEventListener('popstate', () => {
         let nm = document.querySelector('.notifications-modal');
         if(nm) {
