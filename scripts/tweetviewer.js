@@ -767,6 +767,10 @@ class TweetViewer {
         t.element = tweet;
         if(!options.mainTweet) {
             tweet.addEventListener('click', async e => {
+                let selection = window.getSelection();
+                if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`.tweet-id-${t.id_str}`)) {
+                    return;
+                }
                 if(e.target.className.startsWith('tweet tweet-view tweet-id-') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
                     this.savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);

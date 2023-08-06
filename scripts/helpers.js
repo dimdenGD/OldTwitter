@@ -1545,6 +1545,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         let tweetData = t;
                         if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
                         tweet.classList.add('tweet-preload');
+                        let selection = window.getSelection();
+                        if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`.tweet-id-${tweetData.id_str}`)) {
+                            return;
+                        }
                         new TweetViewer(user, tweetData);
                     }
                 });
