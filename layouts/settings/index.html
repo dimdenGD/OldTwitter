@@ -59,7 +59,7 @@
                         <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
                     </div>
                     <div class="about-links">
-                        <span>© 2015 Twitter</span> 
+                        <span id="twitter-copyright-left">© 2015 Twitter</span> 
                         <a href="/about">__MSG_about__</a>
                         <a href="https://support.twitter.com">__MSG_help__</a>
                         <a href="/tos">__MSG_terms__</a>
@@ -210,6 +210,9 @@
                     <div class="setting">
                         <input type="checkbox" id="hide-wtf"> <label for="hide-wtf">__MSG_hide_wtf__</label>
                     </div>
+                    <div class="setting">
+                        <input type="checkbox" id="hide-timeline-types"> <label for="hide-timeline-types">__MSG_hide_timeline_types__</label>
+                    </div>
                    <h2>__MSG_profile__</h2><br>
                     <div class="setting">
                         <input type="checkbox" id="twitter-blue-checkmarks"> <label for="twitter-blue-checkmarks">__MSG_twitter_blue_checkmarks__</label>
@@ -237,6 +240,9 @@
                     <div class="setting">
                         <input type="checkbox" id="hide-community-notes"> <label for="hide-community-notes">__MSG_hide_community_notes__</label>
                     </div>
+                    <div class="setting">
+                        <input type="checkbox" id="show-exact-values"> <label for="show-exact-values">__MSG_show_exact_values__</label>
+                    </div>
                     <h2>__MSG_old_twitter_look__</h2><br>
                     <div class="setting">
                         <input type="checkbox" id="modern-ui-switch"> <label for="modern-ui-switch">__MSG_modern_ui__</label>
@@ -262,14 +268,14 @@
                     <div class="setting">
                         <input type="checkbox" id="round-avatars-switch"> <label for="round-avatars-switch">__MSG_round_avatars__</label>
                     </div>
-                    <div class="setting" style="display: none;">
-                        <input type="checkbox" id="icon-font"> <label for="icon-font">Use new icons</label>
-                    </div>
                     <div class="setting">
                         <input type="checkbox" id="enable-twemoji"> <label for="enable-twemoji">__MSG_enable_twemoji__</label>
                     </div>
                     <div class="setting">
                         <input type="checkbox" id="enable-hashflags"> <label for="enable-hashflags">__MSG_enable_hashflags__</label>
+                    </div>
+                    <div class="setting" style="display: none;">
+                        <input type="checkbox" id="icon-font"> <label for="icon-font">Use new icons</label>
                     </div>
                     <div class="setting" style="display: none;">
                         <input type="checkbox" id="enable-promotion"> <label for="enable-promotion">(DEBUG) Show promoted tweets and trends (Only works for algo V1)</label>
@@ -346,7 +352,7 @@
                         <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
                     </div>
                     <div class="about-links">
-                        <span>© 2015 Twitter</span> 
+                        <span id="twitter-copyright-right">© 2015 Twitter</span> 
                         <a href="/about">__MSG_about__</a>
                         <a href="https://support.twitter.com">__MSG_help__</a>
                         <a href="/tos">__MSG_terms__</a>

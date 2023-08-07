@@ -378,8 +378,8 @@ function renderUserData() {
     document.getElementById('user-tweets-div').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
     document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
-    document.getElementById('user-tweets').innerText = Number(user.statuses_count).toLocaleString().replace(/\s/g, ',');
-    if(user.statuses_count >= 100000) {
+    document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
+    if(user.statuses_count >= 100000 && vars.showExactValues) {
         let style = document.createElement('style');
         style.innerText = `
             .user-stat-div > h1 { font-size: 18px !important }
@@ -387,8 +387,8 @@ function renderUserData() {
         `;
         document.head.appendChild(style);
     }
-    document.getElementById('user-following').innerText = Number(user.friends_count).toLocaleString().replace(/\s/g, ',');
-    document.getElementById('user-followers').innerText = Number(user.followers_count).toLocaleString().replace(/\s/g, ',');
+    document.getElementById('user-following').innerText = formatLargeNumber(user.friends_count).replace(/\s/g, ',');
+    document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     document.getElementById('user-avatar').src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_400x400");
     document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;

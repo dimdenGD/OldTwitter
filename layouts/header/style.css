@@ -2361,9 +2361,6 @@ emoji-picker {
     .navbar-new-tweet-text {
         width: calc(100% - 98px);
     }
-    .tweet-footer {
-        border: 1px solid var(--border);
-    }
     .tweet-footer-stats {
         border-right: none;
         width: 100%;

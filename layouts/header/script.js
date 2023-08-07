@@ -131,6 +131,27 @@ function switchModernUI(enabled) {
             .tweet-header-follow {
                 padding: 7px 12px 11px 12px !important;
             }
+            #tweet-to{
+                border-radius: 999px !important;
+                background-image: var(--link-color);
+                background-color: var(--link-color);
+                border: none;
+                color: white !important;
+                font-weight: bold;
+                text-align: center
+            }
+            #tweet-to:hover:not([disabled]){
+                filter: brightness(0.9);
+                background-image: var(--link-color);
+                background-color: var(--link-color);
+                color: white;
+            }
+            #tweet-to-div,
+            #tweet-to-bg{
+                padding: 0;
+                border: 0;
+                background-color: var(--darker-background-color);
+            }
             /* Remove Icon */
             #navbar-tweet-button:before,
             .navbar-new-tweet-button:before,
@@ -182,7 +203,7 @@ function switchModernUI(enabled) {
             #edit-profile:before  {
                 width: auto;
             }
-            /* DM */
+            /* DM message bubble */
             .message-element .message-body {
                 border-radius: 15px 15px 0 15px;
             }
@@ -192,7 +213,10 @@ function switchModernUI(enabled) {
             /* Sidebar or else */
             #wtf h1,
             #trends h1,
-            #settings h1 {
+            #settings h1,
+            #bookmarks h1,
+            #unfollows h1,
+            #itl h1 {
                 color: var(--almost-black);
                 font-size: 18px;
                 font-weight: 600;
@@ -208,6 +232,11 @@ function switchModernUI(enabled) {
                 font-size: 22px !important;
                 font-weight: 600;
             }
+            .tweet-interact span,
+            .tweet-interact span:before {
+                color: var(--darker-gray);
+
+            }
             /* Bold Text */
             .user-stat-div > h2,
             .nav-text,
@@ -217,6 +246,21 @@ function switchModernUI(enabled) {
             .profile-stat-text {
                 font-weight: 600;
             }
+            
+            .trend-description {
+                font-size: 12px;
+            }
+
+            .tweet-top-icon  {
+                color: var(--light-gray) !important;
+            }
+            #search-input, #user-search-input {
+                background-color: var(--dark-background-color);
+            }
+            #wtf-refresh, #wtf-viewall, #trends-refresh, #trends-viewall {
+                color: var(--link-color);
+            }
+
             /* No round */
             .box,
             #user-banner,
@@ -229,14 +273,14 @@ function switchModernUI(enabled) {
             #save-search-left {
                 border-radius: 0px;
             }
-            .about,
-            .about-links a,
-            .about-links span,
-            .open-new-twitter {
-                color: var(--darker-gray)
+            .profile-media-preview {
+                border-radius: 5px !important;
             }
             /* More Round */
-            #new-tweet-text{
+            #new-tweet-text,
+            .message-new-input,
+            #tweet-to,
+            .new-tweet-text{
                 border-radius: 8px;
             }
             .tweet-media-element,
@@ -266,10 +310,17 @@ function switchModernUI(enabled) {
                 box-shadow: 0 1px 3px 0 rgba(0,0,0,0.25);
                 border-bottom: none;
             }
-
+            .about,
+            .about-links a,
+            .about-links span,
+            .open-new-twitter {
+                color: var(--darker-gray)
+            }
+            /* Mobile UI */
             @media screen and (max-width: 590px) {
                 #navbar-tweet-button:before  {
                     content: "\\f029" !important;
+                    color: white;
                 }
             }
 
@@ -304,6 +355,11 @@ function hideStuff() {
             .tweet:hover .tweet-interact-favorite { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-retweet { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-reply { color: var(--dark-background-color) !important }
+        `;
+    }if(vars.hideTimelineTypes) {
+        hideStyle.innerHTML += `
+            #timeline-type-center { display: none !important; }
+            #timeline-type-right { display: none !important; }
         `;
     }
     if(vars.hideFollowers) {
@@ -1864,11 +1920,11 @@ let userDataFunction = async user => {
                     <div class="preview-user-stats">
                         <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
                             <h2>${LOC.following.message}</h2>
-                            <h1 class="preview-user-following">${Number(user.friends_count).toLocaleString().replace(/\s/g, ',')}</h1>
+                            <h1 class="preview-user-following">${formatLargeNumber(user.friends_count).replace(/\s/g, ',')}</h1>
                         </a>
                         <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/followers">
                             <h2>${LOC.followers.message}</h2>
-                            <h1 class="preview-user-followers">${Number(user.followers_count).toLocaleString().replace(/\s/g, ',')}</h1>
+                            <h1 class="preview-user-followers">${formatLargeNumber(user.followers_count).replace(/\s/g, ',')}</h1>
                         </a>
                     </div>
                 </div>
@@ -2353,6 +2409,10 @@ setInterval(() => {
                 } else {
                     document.getElementById('about-right').children[0].append(document.createElement('br'));
                     document.getElementById('about-left').children[0].append(document.createElement('br'));
+                }
+                if(vars.modernUI){
+                    document.getElementById('twitter-copyright-right').innerText = document.getElementById('twitter-copyright-right').innerText.replace('2015','2018');
+                    document.getElementById('twitter-copyright-left').innerText = document.getElementById('twitter-copyright-left').innerText.replace('2015','2018');
                 }
             });
         }

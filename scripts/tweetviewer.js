@@ -988,15 +988,15 @@ class TweetViewer {
                     <div class="tweet-footer-stats">
                         <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}" class="tweet-footer-stat tweet-footer-stat-o">
                             <span class="tweet-footer-stat-text">${LOC.replies.message}</span>
-                            <b class="tweet-footer-stat-count tweet-footer-stat-replies">${Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</b>
+                            <b class="tweet-footer-stat-count tweet-footer-stat-replies">${formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</b>
                         </a>
                         <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets" class="tweet-footer-stat tweet-footer-stat-r">
                             <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
-                            <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</b>
+                            <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</b>
                         </a>
                         <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
                             <span class="tweet-footer-stat-text">${vars.heartsNotStars ? LOC.likes.message : LOC.favorites.message}</span>
-                            <b class="tweet-footer-stat-count tweet-footer-stat-favorites">${Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</b>
+                            <b class="tweet-footer-stat-count tweet-footer-stat-favorites">${formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</b>
                         </a>
                     </div>
                     <div class="tweet-footer-favorites"></div>
@@ -1004,8 +1004,8 @@ class TweetViewer {
                 ` : ''}
                 <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source ? t.source.split('>')[1].split('<')[0] : 'Unknown'}</a>
                 <div class="tweet-interact">
-                    <span class="tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : Number(t.reply_count).toLocaleString().replace(/\s/g, ',')}</span>
-                    <span title="${LOC.retweet_btn.message}" class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : Number(t.retweet_count).toLocaleString().replace(/\s/g, ',')}</span>
+                    <span class="tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</span>
+                    <span title="${LOC.retweet_btn.message}" class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</span>
                     <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
                         <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? LOC.unretweet.message : LOC.retweet.message}</span>
                         <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span>
@@ -1014,10 +1014,10 @@ class TweetViewer {
                             <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span>
                         ` : ''}
                     </div>
-                    <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : Number(t.favorite_count).toLocaleString().replace(/\s/g, ',')}</span>
-                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${Number(t.ext.views.r.ok.count).toLocaleString().replace(/\s/g, ',')}</span>` : ''}
+                    <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
+                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ',')}</span>` : ''}
                     ${t.bookmark_count && vars.showBookmarkCount && options.mainTweet ? 
-                        /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',')}</span>` :
+                        /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
                     ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
@@ -1474,7 +1474,7 @@ class TweetViewer {
                     if(tweetInteractBookmark) {
                         tweetInteractBookmark.classList.remove('tweet-interact-bookmarked');
                         if(vars.bookmarkButton !== 'show_all_no_count') {
-                            tweetInteractBookmark.innerText = Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',');
+                            tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
                         }
                     }
                 }).catch(e => {
@@ -1492,7 +1492,7 @@ class TweetViewer {
                     if(tweetInteractBookmark) {
                         tweetInteractBookmark.classList.add('tweet-interact-bookmarked');
                         if(vars.bookmarkButton !== 'show_all_no_count') {
-                            tweetInteractBookmark.innerText = Number(t.bookmark_count).toLocaleString().replace(/\s/g, ',');
+                            tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
                         }
                     }
                 }).catch(e => {
@@ -1644,10 +1644,16 @@ class TweetViewer {
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
                 tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                tweetInteractReply.innerText = Number(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                if(!(tweetInteractReply.innerText.includes('K') || 
+                    tweetInteractReply.innerText.includes('M') || 
+                    tweetInteractReply.innerText.includes('B')))
+                    tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
                 tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                tweetFooterReplies.innerText = Number(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                if(!(tweetFooterReplies.innerText.includes('K') || 
+                    tweetFooterReplies.innerText.includes('M') || 
+                    tweetFooterReplies.innerText.includes('B')))
+                    tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetData._ARTIFICIAL = true;
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
@@ -1705,9 +1711,15 @@ class TweetViewer {
                 t.newTweetId = tweetData.id_str;
                 if(!options.mainTweet) {
                     tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                    tweetInteractRetweet.innerText = Number(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                    if(!(tweetInteractRetweet.innerText.includes('K') || 
+                        tweetInteractRetweet.innerText.includes('M') || 
+                        tweetInteractRetweet.innerText.includes('B')))
+                        tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 } else {
-                    tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                    if(!(tweetFooterRetweets.innerText.includes('K') || 
+                        tweetFooterRetweets.innerText.includes('M') || 
+                        tweetFooterRetweets.innerText.includes('B')))
+                        tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 }
                 let event = new CustomEvent('tweetAction', { detail: {
                     action: 'retweet',
@@ -1731,9 +1743,16 @@ class TweetViewer {
                 t.retweeted = false;
                 if(!options.mainTweet) {
                     tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                    tweetInteractRetweet.innerText = Number(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+                    tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
+                    if(!(tweetInteractRetweet.innerText.includes('K') || 
+                        tweetInteractRetweet.innerText.includes('M') || 
+                        tweetInteractRetweet.innerText.includes('B')))
+                        tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 } else {
-                    tweetFooterRetweets.innerText = Number(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+                    if(!(tweetFooterRetweets.innerText.includes('K') || 
+                        tweetFooterRetweets.innerText.includes('M') || 
+                        tweetFooterRetweets.innerText.includes('B')))
+                        tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 }
                 delete t.newTweetId;
                 let event = new CustomEvent('tweetAction', { detail: {
@@ -1902,14 +1921,20 @@ class TweetViewer {
                 t.favorite_count--;
                 if(!options.mainTweet) {
                     tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                    tweetInteractFavorite.innerText = Number(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+                    if(!(tweetInteractFavorite.innerText.includes('K') || 
+                        tweetInteractFavorite.innerText.includes('M') || 
+                        tweetInteractFavorite.innerText.includes('B')))
+                        tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');;
                 } else {
                     if(this.mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
                         this.mainTweetLikers.splice(this.mainTweetLikers.findIndex(liker => liker.id_str === user.id_str), 1);
                         let likerImg = footerFavorites.querySelector(`a[data-id="${user.id_str}"]`);
                         if(likerImg) likerImg.remove()
                     }
-                    tweetFooterFavorites.innerText = Number(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+                    if(!(tweetFooterFavorites.innerText.includes('K') || 
+                        tweetFooterFavorites.innerText.includes('M') || 
+                        tweetFooterFavorites.innerText.includes('B')))
+                        tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 }
                 tweetInteractFavorite.classList.remove('tweet-interact-favorited');
                 let event = new CustomEvent('tweetAction', { detail: {
@@ -1923,7 +1948,10 @@ class TweetViewer {
                 t.favorite_count++;
                 if(!options.mainTweet) {
                     tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                    tweetInteractFavorite.innerText = Number(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                    if(!(tweetInteractFavorite.innerText.includes('K') || 
+                        tweetInteractFavorite.innerText.includes('M') || 
+                        tweetInteractFavorite.innerText.includes('B')))
+                        tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
                 } else {
                     if(footerFavorites.children.length < 8 && !this.mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
                         let a = document.createElement('a');
@@ -1939,7 +1967,10 @@ class TweetViewer {
                         footerFavorites.appendChild(a);
                         this.mainTweetLikers.push(user);
                     }
-                    tweetFooterFavorites.innerText = Number(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                    if(!(tweetFooterFavorites.innerText.includes('K') || 
+                        tweetFooterFavorites.innerText.includes('M') || 
+                        tweetFooterFavorites.innerText.includes('B')))
+                        tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 }
                 tweetInteractFavorite.classList.add('tweet-interact-favorited');
                 let event = new CustomEvent('tweetAction', { detail: {
