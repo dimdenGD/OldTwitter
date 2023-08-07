@@ -2138,6 +2138,7 @@ const API = {
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
+                    debugLog('user.translateBio', id, data);
                     if (data.errors && data.errors[0].code === 32) {
                         return reject("Not logged in");
                     }
@@ -3336,6 +3337,7 @@ const API = {
                 chrome.storage.local.get([`translations`], d => {
                     if(!d.translations) d.translations = {};
                     if(d.translations[id] && Date.now() - d.translations[id].date < 60000*60*4) {
+                        debugLog('tweet.translate', 'cache', d.translations[id].data);
                         return resolve(d.translations[id].data);
                     }
                     fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
@@ -3347,24 +3349,23 @@ const API = {
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
+                        debugLog('tweet.translate', 'start', id, data);
                         if (data.errors && data.errors[0].code === 32) {
                             return reject("Not logged in");
                         }
                         if (data.errors && data.errors[0]) {
                             return reject(data.errors[0].message);
                         }
-                        resolve({
+                        let out = {
                             translated_lang: data.localizedSourceLanguage,
                             text: data.translation,
                             entities: data.entities
-                        });
+                        };
+                        debugLog('tweet.translate', 'end', id, out);
+                        resolve(out);
                         d.translations[id] = {
                             date: Date.now(),
-                            data: {
-                                translated_lang: data.localizedSourceLanguage,
-                                text: data.translation,
-                                entities: data.entities
-                            }
+                            data: out
                         };
                         chrome.storage.local.set({translations: d.translations}, () => {});
                     }).catch(e => {
