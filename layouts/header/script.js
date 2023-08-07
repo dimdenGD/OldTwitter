@@ -243,10 +243,7 @@ function switchModernUI(enabled) {
             #tweet-nav-tweets,
             #tweet-nav-replies,
             #tweet-nav-media,
-            .profile-stat-text,
-            .tweet-top-text,
-            .trend-description,
-            .tweet-header-handle {
+            .profile-stat-text {
                 font-weight: 600;
             }
             
