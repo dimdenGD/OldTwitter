@@ -42,7 +42,7 @@ function renderUserData() {
     document.getElementById('user-name').classList.toggle('user-protected', user.protected);
 
     document.getElementById('user-handle').innerText = `@${user.screen_name}`;
-    document.getElementById('user-tweets').innerText = Number(user.statuses_count).toLocaleString().replace(/\s/g, ',');
+    document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
     if(user.statuses_count >= 100000) {
         let style = document.createElement('style');
         style.innerText = `
@@ -51,8 +51,8 @@ function renderUserData() {
         `;
         document.head.appendChild(style);
     }
-    document.getElementById('user-following').innerText = Number(user.friends_count).toLocaleString().replace(/\s/g, ',');
-    document.getElementById('user-followers').innerText = Number(user.followers_count).toLocaleString().replace(/\s/g, ',');
+    document.getElementById('user-following').innerText = formatLargeNumber(user.friends_count).replace(/\s/g, ',');
+    document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
     document.getElementById('user-tweets-div').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
     document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;

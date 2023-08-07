@@ -1918,11 +1918,11 @@ let userDataFunction = async user => {
                     <div class="preview-user-stats">
                         <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
                             <h2>${LOC.following.message}</h2>
-                            <h1 class="preview-user-following">${Number(user.friends_count).toLocaleString().replace(/\s/g, ',')}</h1>
+                            <h1 class="preview-user-following">${formatLargeNumber(user.friends_count).replace(/\s/g, ',')}</h1>
                         </a>
                         <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/followers">
                             <h2>${LOC.followers.message}</h2>
-                            <h1 class="preview-user-followers">${Number(user.followers_count).toLocaleString().replace(/\s/g, ',')}</h1>
+                            <h1 class="preview-user-followers">${formatLargeNumber(user.followers_count).replace(/\s/g, ',')}</h1>
                         </a>
                     </div>
                 </div>

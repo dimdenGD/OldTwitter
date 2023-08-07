@@ -572,9 +572,9 @@ async function updateTimeline() {
             oldTweet.retweeted = t.retweeted;
         }
         if (tweetElement) {
-            tweetElement.querySelector('.tweet-interact-favorite ').innerText = t.favorite_count;
-            tweetElement.querySelector('.tweet-interact-retweet').innerText = t.retweet_count;
-            tweetElement.querySelector('.tweet-interact-reply').innerText = t.reply_count;
+            tweetElement.querySelector('.tweet-interact-favorite ').innerText = formatLargeNumber(t.favorite_count);
+            tweetElement.querySelector('.tweet-interact-retweet').innerText = formatLargeNumber(t.retweet_count);
+            tweetElement.querySelector('.tweet-interact-reply').innerText = formatLargeNumber(t.reply_count);
             tweetElement.querySelector('.tweet-interact-favorite').classList.toggle('tweet-interact-favorited', t.favorited);
             tweetElement.querySelector('.tweet-interact-retweet').classList.toggle('tweet-interact-retweeted', t.retweeted);
         }
@@ -851,12 +851,11 @@ async function renderProfile() {
     }
     
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('profile-name'));
-
-    document.getElementById('profile-stat-tweets-value').innerText = Number(pageUser.statuses_count).toLocaleString().replace(/\s/g, ',');
-    document.getElementById('profile-stat-following-value').innerText = Number(pageUser.friends_count).toLocaleString().replace(/\s/g, ',');
-    document.getElementById('profile-stat-followers-value').innerText = Number(pageUser.followers_count).toLocaleString().replace(/\s/g, ',');
-    document.getElementById('profile-stat-favorites-value').innerText = Number(pageUser.favourites_count).toLocaleString().replace(/\s/g, ',');
-    document.getElementById('profile-stat-media-value').innerText = Number(pageUser.media_count).toLocaleString().replace(/\s/g, ',');
+    document.getElementById('profile-stat-tweets-value').innerText = formatLargeNumber(pageUser.statuses_count).replace(/\s/g, ',');
+    document.getElementById('profile-stat-following-value').innerText = formatLargeNumber(pageUser.friends_count).replace(/\s/g, ',');
+    document.getElementById('profile-stat-followers-value').innerText = formatLargeNumber(pageUser.followers_count).replace(/\s/g, ',');
+    document.getElementById('profile-stat-favorites-value').innerText = formatLargeNumber(pageUser.favourites_count).replace(/\s/g, ',');
+    document.getElementById('profile-stat-media-value').innerText = formatLargeNumber(pageUser.media_count).replace(/\s/g, ',');
 
     document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_blocked_by || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
