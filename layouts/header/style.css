@@ -1131,7 +1131,7 @@ input, textarea {
     float: left;
     font-size: 10px;
     line-height: 16px;
-    padding: 7px 28px 0 0;
+    padding: 7px 0 0 0;
     text-transform: uppercase
 }
 
@@ -1143,7 +1143,8 @@ input, textarea {
     color: var(--link-color);
     font-size: 18px;
     font-weight: 500;
-    line-height: 20px
+    line-height: 20px;
+    padding-right: 26px;
 }
 
 .tweet-time[hidden] {
@@ -2372,6 +2373,9 @@ emoji-picker {
     }
     .tweet-footer-stat-text {
         padding: 7px 7px 0px 7px;
+    }
+    .tweet-footer-stat-count {
+        padding-right: 0;
     }
     .tweet-footer-favorites {
         display: block;

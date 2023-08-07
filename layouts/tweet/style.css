@@ -881,24 +881,8 @@ a:hover,
     margin-top: 12px
 }
 
-.tweet-footer-stat-text {
-    color: var(--light-gray);
-    float: left;
-    font-size: 10px;
-    line-height: 16px;
-    padding: 7px 28px 0 0;
-    text-transform: uppercase
-}
-
 .tweet-footer-stat:hover .tweet-footer-stat-text {
     color: var(--link-color)
-}
-
-.tweet-footer-stat-count {
-    color: var(--link-color);
-    font-size: 18px;
-    font-weight: 500;
-    line-height: 20px
 }
 
 .tweet-time[hidden] {
