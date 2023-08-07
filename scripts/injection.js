@@ -445,6 +445,18 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             enableHashflags: false
         }, () => {});
     }
+    if(typeof(vars.hideTimelineTypes) !== 'boolean') {
+        vars.hideTimelineTypes = false;
+        chrome.storage.sync.set({
+            hideTimelineTypes: false
+        }, () => {});
+    }
+    if(typeof(vars.showExactValues) !== 'boolean') {
+        vars.showExactValues = true;
+        chrome.storage.sync.set({
+            showExactValues: true
+        }, () => {});
+    }
     if(typeof(vars.customCSSVariables) !== 'string') {
         vars.customCSSVariables = '';
         chrome.storage.sync.set({

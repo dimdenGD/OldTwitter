@@ -505,5 +505,7 @@
     "clear_ot_token": {"message": "Clear OldTwitter token"},
     "enable_iframe_navigation": {"message": "Enable experimental page-preserving navigation, this will make it possible to click on links and go back to previous page without reloads. This is experimental and might break and be laggy."},
     "style_your_profile": {"message": "Style your profile here!"},
-    "modern_ui": { "message": "Use 2018 Twitter design, Includes round buttons and symbols" }
+    "modern_ui": { "message": "Use 2018 Twitter design, Includes round buttons and symbols" },
+    "show_exact_values": { "message": "Displays the exact values of retweets, likes, followers, etc." },
+    "hide_timeline_types": { "message": "Hide timeline types at home page" }
 }

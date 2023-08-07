@@ -26,7 +26,7 @@ function renderUserData() {
 
     document.getElementById('user-handle').innerText = `@${user.screen_name}`;
     document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
-    if(user.statuses_count >= 100000) {
+    if(user.statuses_count >= 100000 && vars.showExactValues) {
         let style = document.createElement('style');
         style.innerText = `
             .user-stat-div > h1 { font-size: 18px !important }

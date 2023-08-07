@@ -43,7 +43,7 @@ function renderUserData() {
 
     document.getElementById('user-handle').innerText = `@${user.screen_name}`;
     document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
-    if(user.statuses_count >= 100000) {
+    if(user.statuses_count >= 100000 && vars.showExactValues) {
         let style = document.createElement('style');
         style.innerText = `
             .user-stat-div > h1 { font-size: 18px !important }
@@ -186,6 +186,8 @@ setTimeout(async () => {
     let moveNavbarToBottom = document.getElementById('move-navbar-to-bottom');
     let openNotifsAsModal = document.getElementById('open-notifs-as-modal');
     let enableIframeNavigation = document.getElementById('enable-iframe-navigation');
+    let showExactValues = document.getElementById('show-exact-values');
+    let hideTimelineTypes = document.getElementById('hide-timeline-types');
 
     let root = document.querySelector(":root");
     {
@@ -365,6 +367,28 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             enableHashflags: enableHashflags.checked
         }, () => { });
+    });
+    hideTimelineTypes.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            hideTimelineTypes: hideTimelineTypes.checked
+        }, () => { });
+    });
+    showExactValues.addEventListener('change', () => {
+        vars.showExactValues = showExactValues.checked;
+        chrome.storage.sync.set({
+            showExactValues: showExactValues.checked
+        }, () => { });
+        document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
+        if(user.statuses_count >= 100000 && vars.showExactValues) {
+            let style = document.createElement('style');
+            style.innerText = `
+                .user-stat-div > h1 { font-size: 18px !important }
+                .user-stat-div > h2 { font-size: 13px !important }
+            `;
+            document.head.appendChild(style);
+        }
+        document.getElementById('user-following').innerText = formatLargeNumber(user.friends_count).replace(/\s/g, ',');
+        document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
     });
     timelineType.addEventListener('change', () => {
         document.getElementById('stt-div').hidden = timelineType.value !== 'algo' && timelineType.value !== 'algov2';
@@ -627,6 +651,8 @@ setTimeout(async () => {
     linkColorsInTL.checked = !!vars.linkColorsInTL;
     enableTwemoji.checked = !!vars.enableTwemoji;
     enableHashflags.checked = !!vars.enableHashflags;
+    showExactValues.checked = !!vars.showExactValues;
+    hideTimelineTypes.checked = !!vars.hideTimelineTypes;
     timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;

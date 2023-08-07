@@ -359,6 +359,11 @@ function hideStuff() {
             .tweet:hover .tweet-interact-retweet { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-reply { color: var(--dark-background-color) !important }
         `;
+    }if(vars.hideTimelineTypes) {
+        hideStyle.innerHTML += `
+            #timeline-type-center { display: none !important; }
+            #timeline-type-right { display: none !important; }
+        `;
     }
     if(vars.hideFollowers) {
         hideStyle.innerHTML += `

@@ -379,7 +379,7 @@ function renderUserData() {
     document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
     document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
     document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
-    if(user.statuses_count >= 100000) {
+    if(user.statuses_count >= 100000 && vars.showExactValues) {
         let style = document.createElement('style');
         style.innerText = `
             .user-stat-div > h1 { font-size: 18px !important }

@@ -1164,7 +1164,7 @@ function getTimeZone() {
 
 function formatLargeNumber(n) {
     let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
-    if (n >= 1e4 /* fix to another setting later */) return Number(n).toLocaleString('en-US',option)
+    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString('en-US',option)
     else return Number(n).toLocaleString()
 }
 

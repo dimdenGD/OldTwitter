@@ -505,5 +505,7 @@
     "clear_ot_token": {"message": "OldTwitter 토큰 초기화"},
     "enable_iframe_navigation": {"message": "실험적인 페이지 유지 탐색을 활성화 합니다. 링크를 클릭후 새로고침 없이 이전 페이지로 돌아갈 수 있게 됩니다. 이 기능은 실험적이고, 불안정할 수 있습니다."},
     "style_your_profile": {"message": "여기서 당신의 프로필을 꾸미세요!"},
-    "modern_ui": { "message": "2018년 트위터 디자인을 사용합니다 둥근 버튼과 새로운 심벌을 포함합니다" }
+    "modern_ui": { "message": "2018년 트위터 디자인을 사용합니다 둥근 버튼과 새로운 심벌을 포함합니다" },
+    "show_exact_values": { "message": "마음에 들어요, 리트윗, 팔로워 등의 정확한 값을 표시합니다." },
+    "hide_timeline_types": { "message": "홈페이지에서 타임라인 타입을 숨깁니다." }
 }
