@@ -277,7 +277,7 @@ function switchModernUI(enabled) {
                 border-radius: 0px;
             }
             .profile-media-preview {
-                border-radius: 0px !important;
+                border-radius: 5px !important;
             }
             /* More Round */
             #new-tweet-text,
