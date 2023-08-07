@@ -73,7 +73,7 @@ function renderUnfollows() {
             document.getElementById('update-btn').title = '';
         }
 
-        let unfollows = res[user.id_str][unfollowersPage ? 'unfollowers' : 'unfollowings'].sort((a, b) => b[1] - a[1]);
+        let unfollows = res[user.id_str][unfollowersPage ? 'unfollowers' : 'unfollowings'].sort((a, b) => b[1] - a[1]).slice(0, 100);
         let timeline = document.getElementById('timeline');
         timeline.innerHTML = '';
 

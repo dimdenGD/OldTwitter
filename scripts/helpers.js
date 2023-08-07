@@ -1138,21 +1138,15 @@ function updateUnfollows(res) {
     
         let unfollowers = data.followers.filter(f => !followers.includes(f));
         data.followers = followers;
-        if(unfollowers.length > 0 && unfollowers.length < 100) {
+        if(unfollowers.length > 0) {
             unfollowers = unfollowers.map(u => [u, Date.now()]);
             data.unfollowers = data.unfollowers.concat(unfollowers);
-            if(data.unfollowers.length > 100) {
-                data.unfollowers = data.unfollowers.slice(data.unfollowers.length - 100);
-            }
         }
         let unfollowings = data.following.filter(f => !following.includes(f));
         data.following = following;
-        if(unfollowings.length > 0 && unfollowings.length < 100) {
+        if(unfollowings.length > 0) {
             unfollowings = unfollowings.map(u => [u, Date.now()]);
             data.unfollowings = data.unfollowings.concat(unfollowings);
-            if(data.unfollowings.length > 100) {
-                data.unfollowings = data.unfollowings.slice(data.unfollowings.length - 100);
-            }
         }
         chrome.storage.local.set({unfollows: res}, () => resolve(res));
     });
