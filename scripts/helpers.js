@@ -627,24 +627,74 @@ function generateCard(tweet, tweetElement, user) {
     if(tweet.card.name === 'promo_image_convo' || tweet.card.name === 'promo_video_convo') {
         let vals = tweet.card.binding_values;
         let a = document.createElement('a');
-        a.href = vals.thank_you_url ? vals.thank_you_url.string_value : "#";
-        a.target = '_blank';
         a.title = vals.thank_you_text.string_value;
-        let img = document.createElement('img');
-        let imgValue = vals.promo_image;
-        if(!imgValue) {
-            imgValue = vals.cover_promo_image_original;
+        if(tweet.card.name === 'promo_image_convo') {
+            a.href = vals.thank_you_url ? vals.thank_you_url.string_value : "#";
+            a.target = '_blank';
+            let img = document.createElement('img');
+            let imgValue = vals.promo_image;
+            if(!imgValue) {
+                imgValue = vals.cover_promo_image_original;
+            }
+            if(!imgValue) {
+                imgValue = vals.cover_promo_image_large;
+            }
+            if(!imgValue) {
+                return;
+            }
+            img.src = imgValue.image_value.url;
+            let [w, h] = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height);
+            img.width = w;
+            img.height = h;
+            img.className = 'tweet-media-element';
+            a.append(img);
+        } else {
+            let overlay = document.createElement('div');
+            overlay.innerHTML = /*html*/`
+                <svg viewBox="0 0 24 24" class="tweet-media-video-overlay-play">
+                    <g>
+                        <path class="svg-play-path" d="M8 5v14l11-7z"></path>
+                        <path d="M0 0h24v24H0z" fill="none"></path>
+                    </g>
+                </svg>
+            `;
+            overlay.className = 'tweet-media-video-overlay';
+            overlay.addEventListener('click', async e => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                try {
+                    let res = await fetch(vid.currentSrc); // weird problem with vids breaking cuz twitter sometimes doesnt send content-length
+                    if(!res.headers.get('content-length')) await sleep(1000);
+                } catch(e) {
+                    console.error(e);
+                }
+                vid.play();
+                vid.controls = true;
+                vid.classList.remove('tweet-media-element-censor');
+                overlay.style.display = 'none';
+            });
+            let vid = document.createElement('video');
+            let [w, h] = sizeFunctions[1](vals.player_image_original.image_value.width, vals.player_image_original.image_value.height);
+            vid.width = w;
+            vid.height = h;
+            vid.preload = 'none';
+            vid.poster = vals.player_image_large.image_value.url;
+            vid.className = 'tweet-media-element';
+            vid.addEventListener('click', async e => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            });
+            fetch(vals.player_stream_url.string_value).then(res => res.text()).then(blob => {
+                let xml = new DOMParser().parseFromString(blob, 'text/xml');
+                let MediaFile = xml.getElementsByTagName('MediaFile')[0];
+                vid.src = MediaFile.textContent.trim();
+            });
+            let tweetMedia = document.createElement('div');
+            tweetMedia.className = 'tweet-media';
+            tweetMedia.style.right = 'unset';
+            tweetMedia.append(overlay, vid);
+            a.append(tweetMedia);
         }
-        if(!imgValue) {
-            imgValue = vals.cover_promo_image_large;
-        }
-        if(!imgValue) {
-            return;
-        }
-        img.src = imgValue.image_value.url;
-        img.width = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height)[0];
-        img.height = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height)[1];
-        img.className = 'tweet-media-element';
         let ctas = [];
         if(vals.cta_one) {
             ctas.push([vals.cta_one, vals.cta_one_tweet]);
@@ -684,7 +734,6 @@ function generateCard(tweet, tweetElement, user) {
             });
             buttonGroup.append(button);
         }
-        a.append(img);
         tweetElement.getElementsByClassName('tweet-card')[0].append(a);
         tweetElement.getElementsByClassName('tweet-card')[0].append(buttonGroup);
     } else if(tweet.card.name === "player") {
