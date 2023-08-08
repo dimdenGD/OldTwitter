@@ -498,5 +498,11 @@
     "style_your_profile": {"message": "Стилизируте ваш профиль тут!"},
     "modern_ui": { "message": "Использовать дизайн Твиттера из 2018" },
     "show_exact_values": { "message": "Показывать точное кол-во лайков, ретвитов, подписчиков, и т.д." },
-    "hide_timeline_types": { "message": "Скрыть переключатель типа ленты на главной странице" }
+    "hide_timeline_types": { "message": "Скрыть переключатель типа ленты на главной странице" },
+    "autotranslation": { "message": "Автоматический перевод" },
+    "autotranslation_mode": { "message": "Режим автоматического перевода твитов" },
+    "translate_in_list": { "message": "Переводить когда в списке языков" },
+    "translate_not_in_list": { "message": "Переводить когда не в списке языков" },
+    "language_list": { "message": "Список языков" },
+    "select_language": { "message": "Выберите язык" }
 }

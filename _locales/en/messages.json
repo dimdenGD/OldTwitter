@@ -513,5 +513,5 @@
     "translate_in_list": { "message": "Translate when in language list" },
     "translate_not_in_list": { "message": "Translate when not in language list" },
     "language_list": { "message": "Language list" },
-    "select": { "message": "Select" }
+    "select_language": { "message": "Select language" }
 }
