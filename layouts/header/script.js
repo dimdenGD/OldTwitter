@@ -2264,20 +2264,22 @@ let userDataFunction = async user => {
                 if(options.mode === 'prepend' || options.mode === 'rewrite') {
                     if(data.cursorTop !== cursorTop) {
                         setTimeout(() => {
-                            API.notifications.markAsRead(cursorTop);
+                            if(document.hasFocus()) {
+                                API.notifications.markAsRead(cursorTop);
 
-                            let notifElement = document.getElementById('notifications-count');
-                            let icon = document.getElementById('site-icon');
-                            notifElement.hidden = true;
-                            icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
-                            let newTitle = document.title;
-                            if(document.title.startsWith('(')) {
-                                newTitle = document.title.split(') ')[1];
+                                let notifElement = document.getElementById('notifications-count');
+                                let icon = document.getElementById('site-icon');
+                                notifElement.hidden = true;
+                                icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
+                                let newTitle = document.title;
+                                if(document.title.startsWith('(')) {
+                                    newTitle = document.title.split(') ')[1];
+                                }
+                                if(document.title !== newTitle) {
+                                    document.title = newTitle;
+                                }
+                                notificationBus.postMessage({type: 'markAsRead', cursor: cursorTop});
                             }
-                            if(document.title !== newTitle) {
-                                document.title = newTitle;
-                            }
-                            notificationBus.postMessage({type: 'markAsRead', cursor: cursorTop});
                         }, 500);
                     }
 
