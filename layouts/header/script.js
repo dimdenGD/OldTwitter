@@ -4,6 +4,7 @@ let inboxData = [];
 let followRequestsData = [];
 let customSet = false;
 let menuFn;
+let notificationsOpened = false;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 const keysHeld = {};
 const notificationBus = new BroadcastChannel('notification_bus');
@@ -2223,9 +2224,11 @@ let userDataFunction = async user => {
                 <div class="nav-notification-list"></div>
                 <div class="nav-notification-more center-text" hidden>${LOC.load_more.message}</div>
             `, 'notifications-modal', () => {
-                clearInterval(ui);
                 if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
+                setTimeout(() => notificationsOpened = false, 100);
+                clearInterval(ui);
             });
+            notificationsOpened = true;
 
             history.pushState({}, null, `https://twitter.com/notifications`);
 
