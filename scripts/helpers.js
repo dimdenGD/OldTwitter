@@ -3389,15 +3389,27 @@ function renderNotification(n, options = {}) {
         notification.addEventListener('click', e => {
             if(e.target.closest('.notification') && e.target.tagName !== 'IMG' && e.target.tagName !== 'A' && e.target.className !== 'notification-feedback') {
                 if(n.icon.id === "bell_icon") {
-                    location.href = `https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`;
+                    let a = document.createElement('a');
+                    a.href = `https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
                 } else if(n.icon.id === "heart_icon") {
-                    if(notificationHeader.toLowerCase().includes('tweets') || notificationHeader.toLowerCase().includes('posts')) {
-                        location.href = `https://twitter.com/i/timeline?page=likes&nid=${n.id}`;
+                    if(n.entry.clientEventInfo.element === "user_liked_multiple_tweets") {
+                        let a = document.createElement('a');
+                        a.href = `https://twitter.com/i/timeline?page=likes&nid=${n.id}`;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
                     } else {
                         new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
                     }
                 } else if(n.icon.id === "list_icon") {
-                    location.href = n.entry.content.notification.url.url;
+                    let a = document.createElement('a');
+                    a.href = n.entry.content.notification.url.url;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
                 } else if(n.tweet && n.tweet.user) {
                     new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
                 }
