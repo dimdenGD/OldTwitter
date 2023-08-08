@@ -209,7 +209,8 @@ class TweetViewer {
         }
         let mainTweet;
         let mainTweetIndex = tl.list.findIndex(t => t.type === 'mainTweet');
-        let tlContainer = document.getElementsByClassName('timeline')[0];
+        let tlContainer = this.container.getElementsByClassName('timeline')[0];
+        if(!tlContainer) return;
         for(let i in tl.list) {
             let t = tl.list[i];
             if(t.type === 'mainTweet') {

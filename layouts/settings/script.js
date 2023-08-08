@@ -347,7 +347,8 @@ setTimeout(async () => {
     });
     muteVideos.addEventListener('change', () => {
         chrome.storage.sync.set({
-            muteVideos: muteVideos.checked
+            muteVideos: muteVideos.checked,
+            volume: muteVideos.checked ? 0 : 1
         }, () => {
             vars.muteVideos = muteVideos.checked;
         });
