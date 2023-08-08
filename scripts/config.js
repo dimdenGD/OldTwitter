@@ -28,7 +28,7 @@ async function loadVars() {
             'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont', 'useOldDefaultProfileImage', 'enableHashflags',
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'moveNavbarToBottom', 'openNotifsAsModal', 'enableIframeNavigation',
-            'acknowledgedCustomizationButton', 'modernUI', 'iconFont', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 'autotranslateMode'
+            'acknowledgedCustomizationButton', 'modernUI', 'iconFont', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 'autotranslationMode'
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {
@@ -56,9 +56,9 @@ async function loadVars() {
                 }, () => {});
             }
             if(typeof(data.showExactValues) !== 'boolean') {
-                data.showExactValues = true;
+                data.showExactValues = window.innerWidth >= 590;
                 chrome.storage.sync.set({
-                    showExactValues: true
+                    showExactValues: window.innerWidth >= 590
                 }, () => {});
             }
             if(typeof(data.customCSSVariables) !== 'string') {
@@ -116,9 +116,9 @@ async function loadVars() {
                 }, () => {});
             }
             if(typeof(data.enableIframeNavigation) !== 'boolean') {
-                data.enableIframeNavigation = window.innerWidth < 650;
+                data.enableIframeNavigation = window.innerWidth < 590;
                 chrome.storage.sync.set({
-                    enableIframeNavigation: window.innerWidth < 650
+                    enableIframeNavigation: window.innerWidth < 590
                 }, () => {});
             }
             if(typeof(data.font) !== 'string') {
@@ -193,10 +193,10 @@ async function loadVars() {
                     autotranslateLanguages: []
                 }, () => {});
             }
-            if(typeof(data.autotranslateMode) !== 'string') {
-                data.autotranslateMode = 'whitelist';
+            if(typeof(data.autotranslationMode) !== 'string') {
+                data.autotranslationMode = 'whitelist';
                 chrome.storage.sync.set({
-                    autotranslateMode: 'whitelist'
+                    autotranslationMode: 'whitelist'
                 }, () => {});
             }
 

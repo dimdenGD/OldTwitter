@@ -168,7 +168,7 @@
                     <h2>__MSG_autotranslation__</h2><br>
                     <div class="setting">
                         <span>__MSG_autotranslation_mode__:</span>
-                        <select>
+                        <select id="autotranslation-mode">
                             <option value="whitelist">__MSG_translate_in_list__</option>
                             <option value="blacklist">__MSG_translate_not_in_list__</option>
                         </select>
@@ -181,7 +181,7 @@
                         <select id="autotranslate-language-list">
                             <option value="select">__MSG_select__</option>
                         </select>
-                        <button id="add-autotranslate-language">__MSG_add__</button>
+                        <button id="add-autotranslate-language" disabled>__MSG_add__</button>
                     </div>
                     <h2>__MSG_advanced_options__</h2><br>
                     <div class="setting">
@@ -299,7 +299,6 @@
                         <input type="checkbox" id="enable-promotion"> <label for="enable-promotion">(DEBUG) Show promoted tweets and trends (Only works for algo V1)</label>
                     </div>
                     
-
                     <h2>__MSG_font__</h2><br>
                     <div class="setting">
                         <select id="font"></select> <label for="font">__MSG_font__</label>

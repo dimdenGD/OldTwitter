@@ -30,7 +30,7 @@ If you like this extension please consider donating:
 - Track your unfollowers for free  
 - Removes all ads  
 - Easy download of videos and GIFs  
-- Translate tweets without having to open them  
+- Translate tweets without having to open them, also ability to set specific users/languages to autotranslate  
 - Shows why tweets were added to algorthimical timeline  
 - Set users to autotranslate their tweets  
 - Dark mode support  
@@ -65,7 +65,7 @@ For stable version:
   
 ## FAQ
 #### Can you use this extension on Android?
-Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox Nightly to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/) ([follow these steps for Firefox](https://www.androidpolice.com/install-add-on-extension-mozilla-firefox-android/)).  
+Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox Beta/Nightly to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/) ([follow these steps for Firefox](https://www.androidpolice.com/install-add-on-extension-mozilla-firefox-android/)).  
   
 #### Is this extension safe?
 The code is open source so you can check everything yourself. It never sends any of your personal info anywhere.  

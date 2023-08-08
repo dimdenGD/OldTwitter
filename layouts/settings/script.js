@@ -188,6 +188,10 @@ setTimeout(async () => {
     let enableIframeNavigation = document.getElementById('enable-iframe-navigation');
     let showExactValues = document.getElementById('show-exact-values');
     let hideTimelineTypes = document.getElementById('hide-timeline-types');
+    let autotranslationMode = document.getElementById('autotranslation-mode');
+    let autotranslateLanguages = document.getElementById('autotranslate-languages');
+    let autotranslateLanguageList = document.getElementById('autotranslate-language-list');
+    let addAutotranslateLanguage = document.getElementById('add-autotranslate-language');
 
     let root = document.querySelector(":root");
     {
@@ -321,6 +325,13 @@ setTimeout(async () => {
             openNotifsAsModal: openNotifsAsModal.checked
         }, () => {
             vars.openNotifsAsModal = openNotifsAsModal.checked;
+        });
+    });
+    autotranslationMode.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            autotranslationMode: autotranslationMode.value
+        }, () => {
+            vars.autotranslationMode = autotranslationMode.value;
         });
     });
     enableIframeNavigation.addEventListener('change', () => {
@@ -626,6 +637,57 @@ setTimeout(async () => {
             document.dispatchEvent(event);
         });
     });
+    autotranslateLanguageList.addEventListener('change', () => {
+        addAutotranslateLanguage.disabled = autotranslateLanguageList.value === 'select';
+    });
+    addAutotranslateLanguage.addEventListener('click', () => {
+        let lang = autotranslateLanguageList.value;
+        if(lang === 'select') {
+            return;
+        }
+        if(vars.autotranslateLanguages.includes(lang)) {
+            return;
+        }
+        vars.autotranslateLanguages.push(lang);
+        chrome.storage.sync.set({
+            autotranslateLanguages: vars.autotranslateLanguages
+        }, () => {
+            const langNames = new Intl.DisplayNames([LANGUAGE], {type: 'language'})
+            let ln = langNames.of(lang);
+            let div = document.createElement('div');
+            div.classList.add('autotranslate-language');
+            div.dataset.lang = lang;
+            div.innerHTML = `<span>${ln}</span><button class="remove-autotranslate-language nice-button">${LOC.remove.message}</button>`;
+            div.querySelector('button').addEventListener('click', () => {
+                vars.autotranslateLanguages = vars.autotranslateLanguages.filter(l => l !== lang);
+                chrome.storage.sync.set({
+                    autotranslateLanguages: vars.autotranslateLanguages
+                }, () => {
+                    div.remove();
+                });
+            });
+            autotranslateLanguages.appendChild(div);
+        });
+    });
+    for(let lang of vars.autotranslateLanguages) {
+        const langNames = new Intl.DisplayNames([LANGUAGE], {type: 'language'})
+        let ln = langNames.of(lang);
+        let div = document.createElement('div');
+        div.classList.add('autotranslate-language');
+        div.dataset.lang = lang;
+        div.innerHTML = `<span>${ln}</span><button class="remove-autotranslate-language nice-button">${LOC.remove.message}</button>`;
+        div.querySelector('button').addEventListener('click', () => {
+            vars.autotranslateLanguages = vars.autotranslateLanguages.filter(l => l !== lang);
+            chrome.storage.sync.set({
+                autotranslateLanguages: vars.autotranslateLanguages
+            }, () => {
+                div.remove();
+            });
+        });
+        autotranslateLanguages.appendChild(div);
+    }
+
+    // Set values
     if(vars.linkColor) {
         linkColor.value = vars.linkColor;
         linkColor.style.color = vars.linkColor;
@@ -698,6 +760,7 @@ setTimeout(async () => {
     roundAvatars.checked = !!vars.roundAvatars;
     modernUI.checked = !!vars.modernUI;
     language.value = vars.language ? vars.language : 'en';
+    autotranslationMode.value = vars.autotranslationMode;
     copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
     if(vars.timeMode) {
         darkMode.disabled = true;
@@ -717,6 +780,8 @@ setTimeout(async () => {
             </div>
         `)
     });
+
+    // Language
     let [LOC_DATA, LOC_EN_DATA] = await Promise.all([
         fetch(chrome.runtime.getURL(`_locales/${LANGUAGE}/messages.json`)).then(response => response.json()),
         fetch(chrome.runtime.getURL(`_locales/en/messages.json`)).then(response => response.json())
@@ -742,7 +807,22 @@ setTimeout(async () => {
         </div>
         `);
     });
+    const langNames = new Intl.DisplayNames([LANGUAGE], {type: 'language'})
+    for(let l of TRANSLATION_SUPPORTED_LANGUAGES) {
+        const langNames2 = new Intl.DisplayNames([l], {type: 'language'})
+        let ln = langNames.of(l);
+        let lne = langNames2.of(l);
+        let opt = document.createElement('option');
+        opt.value = l;
+        if(LANGUAGE === l) {
+            opt.innerText = ln;
+        } else {
+            opt.innerText = `${ln} (${lne})`;
+        }
+        autotranslateLanguageList.appendChild(opt);
+    }
 
+    // Import, export, reset
     document.getElementById('export-settings').addEventListener('click', () => {
         let varsObj = Object.assign({}, vars);
         delete varsObj.customCSSVariables;
@@ -949,7 +1029,6 @@ setTimeout(async () => {
         });
         input.click();
     });
-
 
     // Run
     updateUserData();

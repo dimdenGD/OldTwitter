@@ -154,7 +154,7 @@ input, textarea {
 .menu-active#messages:before {
     content: var(--messages-icon-active);
 }
-#pin-lists {
+#pin-lists, #pin-bookmarks, #pin-profile {
     background-color: var(--background-color);
 }
 #pin-profile:before {
