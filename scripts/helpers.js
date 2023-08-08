@@ -1599,16 +1599,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
         let full_text = t.full_text ? t.full_text : '';
-        let strippedDownText = full_text
-            .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
-            .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
-            .replace(/[\p{Extended_Pictographic}]/gu, '') //emojis (including ones that arent colored)
-            .replace(/[\u200B-\u200D\uFE0E\uFE0F]/g, '') //sometimes emojis leave these behind
-            .replace(/\d+/g, '') //numbers
-            .trim();
-        let detectedLanguage = strippedDownText.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(strippedDownText);
-        if(!detectedLanguage.languages[0]) detectedLanguage = {languages:[{language:t.lang, percentage:100}]}; //fallback to what twitter says
-        let isEnglish = detectedLanguage.languages[0] && detectedLanguage.languages[0].percentage > 60 && detectedLanguage.languages[0].language.startsWith(LANGUAGE);
+        let tweetLanguage = t.lang; // originally i used i18n api to detect languages simply because i didn't know of t.lang existence
+        if(tweetLanguage.includes('-')) {
+            let [lang, country] = tweetLanguage.split('-');
+            tweetLanguage = `${lang}_${country.toUpperCase()}`;
+        }
+        let isMatchingLanguage = tweetLanguage === LANGUAGE;
+        if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
+            isMatchingLanguage = true;
+        }
         let videos = t.extended_entities && t.extended_entities.media && t.extended_entities.media.filter(m => m.type === 'video');
         if(!videos || videos.length === 0) {
             videos = undefined;
@@ -1712,9 +1711,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-header-handle">@${t.user.screen_name}</span>
                 </a>
                 <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
-                ${location.pathname.split("?")[0].split("#")[0] === '/i/bookmarks' ? `<span class="tweet-delete-bookmark${!isEnglish ? ' tweet-delete-bookmark-lower' : ''}">&times;</span>` : ''}
+                ${location.pathname.split("?")[0].split("#")[0] === '/i/bookmarks' ? `<span class="tweet-delete-bookmark${!isMatchingLanguage ? ' tweet-delete-bookmark-lower' : ''}">&times;</span>` : ''}
                 ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
-                ${!options.mainTweet && !isEnglish ? `<span class="tweet-translate-after">${`${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 && innerWidth > 650 ? LOC.view_translation.message : ''}</span>` : ''}
+                ${!options.mainTweet && !isMatchingLanguage ? `<span class="tweet-translate-after">${`${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 && innerWidth > 650 ? LOC.view_translation.message : ''}</span>` : ''}
             </div>
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 ${mentionedUserText !== `` &&
@@ -1725,7 +1724,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <div class="tweet-reply-to"><span>${LOC.replying_to_user.message.replace('$SCREEN_NAME$', mentionedUserText.trim().replaceAll(`> <`, `>${LOC.replying_to_comma.message}<`).replace(`>${LOC.replying_to_comma.message}<`, `>${LOC.replying_to_and.message}<`))}</span></div>
                 `: ''}
                 <span class="tweet-body-text ${vars.noBigFont || t.full_text.length > 280 || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(t) : ''}</span>
-                ${!isEnglish && options.mainTweet ? /*html*/`
+                ${!isMatchingLanguage && options.mainTweet ? /*html*/`
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
                 ` : ``}

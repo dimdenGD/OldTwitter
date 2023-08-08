@@ -225,7 +225,7 @@ function switchModernUI(enabled) {
             #settings h2 {
                 color: var(--almost-black);
                 font-size: 16px;
-                font-weight: 400;
+                font-weight: 600;
             }
             .cool-header,
             .nice-header {
@@ -1278,7 +1278,7 @@ let userDataFunction = async user => {
             }
         }
     }, 5000);
-    if(!insideIframe) {
+    if(!INSIDE_IFRAME) {
         API.notifications.get();
         setInterval(() => {
             API.notifications.get(undefined, false, false);

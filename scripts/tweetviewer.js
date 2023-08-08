@@ -824,16 +824,15 @@ class TweetViewer {
             }
         }
         let full_text = t.full_text ? t.full_text : '';
-        let strippedDownText = full_text
-        .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
-        .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
-        .replace(/[\p{Extended_Pictographic}]/gu, '') //emojis (including ones that arent colored)
-        .replace(/[\u200B-\u200D\uFE0E\uFE0F]/g, '') //sometimes emojis leave these behind
-        .replace(/\d+/g, '') //numbers
-        .trim();
-        let detectedLanguage = strippedDownText.length < 1 ? {languages:[{language:LANGUAGE, percentage:100}]} : await chrome.i18n.detectLanguage(strippedDownText);
-        if(!detectedLanguage.languages[0]) detectedLanguage = {languages:[{language:t.lang, percentage:100}]}; //fallback to what twitter says
-        let isEnglish = detectedLanguage.languages[0] && detectedLanguage.languages[0].percentage > 60 && detectedLanguage.languages[0].language.startsWith(LANGUAGE);
+        let tweetLanguage = t.lang;
+        if(tweetLanguage.includes('-')) {
+            let [lang, country] = tweetLanguage.split('-');
+            tweetLanguage = `${lang}_${country.toUpperCase()}`;
+        }
+        let isMatchingLanguage = tweetLanguage === LANGUAGE;
+        if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
+            isMatchingLanguage = true;
+        }
         let videos = t.extended_entities && t.extended_entities.media && t.extended_entities.media.filter(m => m.type === 'video');
         if(!videos || videos.length === 0) {
             videos = undefined;
@@ -925,7 +924,7 @@ class TweetViewer {
             <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
             <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(t) : ''}</span>
-                ${!isEnglish ? /*html*/`
+                ${!isMatchingLanguage ? /*html*/`
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
                 ` : ``}

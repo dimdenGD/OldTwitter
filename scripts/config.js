@@ -7,9 +7,12 @@ const OLDTWITTER_CONFIG = {
         return csrf ? csrf[1] : "";
     }
 };
+// https://developer.twitter.com/en/docs/twitter-for-websites/supported-languages
+const TRANSLATION_SUPPORTED_LANGUAGES = ['en', 'ar', 'bn', 'cs', 'da', 'de', 'el', 'es', 'fa', 'fi', 'fil', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'ko', 'msa', 'nl', 'no', 'pl', 'pt', 'ro', 'ru', 'sv', 'th', 'tr', 'uk', 'ur', 'vi', 'zh-cn', 'zh-tw', 'pt-BR', 'pt'];
+
+const INSIDE_IFRAME = window !== window.top;
 
 let LANGUAGE = navigator.language.replace("-", "_");
-const insideIframe = window !== window.top;
 
 // variables
 let vars;
