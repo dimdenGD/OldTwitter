@@ -514,5 +514,6 @@
     "translate_not_in_list": { "message": "Translate when not in language list" },
     "language_list": { "message": "Language list" },
     "select_language": { "message": "Select language" },
-    "mute_videos": { "message": "Mute videos by default" }
+    "mute_videos": { "message": "Mute videos by default" },
+    "dont_pause_videos": { "message": "Don't pause videos when scrolling from view" }
 }
