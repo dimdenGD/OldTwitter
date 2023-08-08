@@ -830,6 +830,7 @@ class TweetViewer {
             tweetLanguage = `${lang}_${country.toUpperCase()}`;
         }
         let isMatchingLanguage = tweetLanguage === LANGUAGE;
+        // https://twittercommunity.com/t/unkown-language-code-qht-returned-by-api/172819/3
         if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
             isMatchingLanguage = true;
         }

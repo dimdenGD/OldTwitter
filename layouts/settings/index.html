@@ -165,6 +165,24 @@
                             <option value="custom">custom</option>
                         </select>
                     </div>
+                    <h2>__MSG_autotranslation__</h2><br>
+                    <div class="setting">
+                        <span>__MSG_autotranslation_mode__:</span>
+                        <select>
+                            <option value="whitelist">__MSG_translate_in_list__</option>
+                            <option value="blacklist">__MSG_translate_not_in_list__</option>
+                        </select>
+                    </div>
+                    <div class="setting">
+                        <span>__MSG_language_list__:</span>
+                        <div id="autotranslate-languages"></div>
+                    </div>
+                    <div class="setting">
+                        <select id="autotranslate-language-list">
+                            <option value="select">__MSG_select__</option>
+                        </select>
+                        <button id="add-autotranslate-language">__MSG_add__</button>
+                    </div>
                     <h2>__MSG_advanced_options__</h2><br>
                     <div class="setting">
                         <input type="checkbox" id="update-timeline-automatically"> <label for="update-timeline-automatically">__MSG_update_timeline_automatically__</label>
