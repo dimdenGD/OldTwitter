@@ -834,6 +834,7 @@ setTimeout(async () => {
 
     window.addEventListener("popstate", async () => {
         if(document.querySelector('.modal')) return;
+        if(notificationsOpened) return;
         // document.getElementById('loading-box').hidden = false;
         savePageData(currentLocation);
         updateSubpage();

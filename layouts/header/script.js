@@ -4,6 +4,7 @@ let inboxData = [];
 let followRequestsData = [];
 let customSet = false;
 let menuFn;
+let notificationsOpened = false;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 const keysHeld = {};
 const notificationBus = new BroadcastChannel('notification_bus');
@@ -235,7 +236,7 @@ function switchModernUI(enabled) {
             #settings h2 {
                 color: var(--almost-black);
                 font-size: 16px;
-                font-weight: 400;
+                font-weight: 600;
             }
             .cool-header,
             .nice-header {
@@ -1290,7 +1291,7 @@ let userDataFunction = async user => {
             }
         }
     }, 5000);
-    if(!insideIframe) {
+    if(!INSIDE_IFRAME) {
         API.notifications.get();
         setInterval(() => {
             API.notifications.get(undefined, false, false);
@@ -2236,9 +2237,11 @@ let userDataFunction = async user => {
                 <div class="nav-notification-list"></div>
                 <div class="nav-notification-more center-text" hidden>${LOC.load_more.message}</div>
             `, 'notifications-modal', () => {
-                clearInterval(ui);
                 if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
+                setTimeout(() => notificationsOpened = false, 100);
+                clearInterval(ui);
             });
+            notificationsOpened = true;
 
             history.pushState({}, null, `https://twitter.com/notifications`);
 
@@ -2277,20 +2280,22 @@ let userDataFunction = async user => {
                 if(options.mode === 'prepend' || options.mode === 'rewrite') {
                     if(data.cursorTop !== cursorTop) {
                         setTimeout(() => {
-                            API.notifications.markAsRead(cursorTop);
+                            if(document.hasFocus()) {
+                                API.notifications.markAsRead(cursorTop);
 
-                            let notifElement = document.getElementById('notifications-count');
-                            let icon = document.getElementById('site-icon');
-                            notifElement.hidden = true;
-                            icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
-                            let newTitle = document.title;
-                            if(document.title.startsWith('(')) {
-                                newTitle = document.title.split(') ')[1];
+                                let notifElement = document.getElementById('notifications-count');
+                                let icon = document.getElementById('site-icon');
+                                notifElement.hidden = true;
+                                icon.href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}.png`);
+                                let newTitle = document.title;
+                                if(document.title.startsWith('(')) {
+                                    newTitle = document.title.split(') ')[1];
+                                }
+                                if(document.title !== newTitle) {
+                                    document.title = newTitle;
+                                }
+                                notificationBus.postMessage({type: 'markAsRead', cursor: cursorTop});
                             }
-                            if(document.title !== newTitle) {
-                                document.title = newTitle;
-                            }
-                            notificationBus.postMessage({type: 'markAsRead', cursor: cursorTop});
                         }, 500);
                     }
 

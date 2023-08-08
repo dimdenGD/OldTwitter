@@ -16,6 +16,20 @@ if(!window._realPath) window._realPath = location.pathname;
 window.addEventListener('unload', () => {
     window.top.windows = window.top.windows.filter(w => w !== window);
 });
+if(window.top === window) {
+    setInterval(() => {
+        let iframe = document.getElementsByClassName('iframe-navigation')[0];
+        if(iframe) {
+            let path = iframe.contentWindow.location.pathname;
+            if(path === _realPath) {
+                document.body.style.overflowY = window.previousOverflow && window.previousOverflow !== 'hidden' ? window.previousOverflow : 'auto';
+                window.top.windows = [window];
+                iframe.remove();
+                window.focus();
+            }
+        }
+    }, 250);
+}
 
 function useIframeNavigation(e) {
     if(e.defaultPrevented) return;
@@ -36,7 +50,7 @@ function useIframeNavigation(e) {
         let we = window.top.windows[windowExists];
         let iframe = we.document.getElementsByClassName('iframe-navigation')[0];
         window.top.windows = window.top.windows.slice(0, windowExists + 1);
-        we.document.body.style.overflow = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
+        we.document.body.style.overflowY = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
         we.focus();
 
         window.top.history.pushState(null, null, a.href);
@@ -48,8 +62,8 @@ function useIframeNavigation(e) {
         e.preventDefault();
         e.stopImmediatePropagation();
 
-        window.previousOverflow = document.body.style.overflow;
-        document.body.style.overflow = 'hidden';
+        window.previousOverflow = document.body.style.overflowY;
+        document.body.style.overflowY = 'hidden';
 
         window.top.history.pushState(null, null, a.href);
 
@@ -76,7 +90,7 @@ function useIframeNavigation(e) {
             let we = window.top.windows[windowExists];
             let iframe = we.document.getElementsByClassName('iframe-navigation')[0];
             window.top.windows = window.top.windows.slice(0, windowExists + 1);
-            we.document.body.style.overflow = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
+            we.document.body.style.overflowY = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
             we.focus();
             
             if(iframe) iframe.remove();
@@ -85,7 +99,7 @@ function useIframeNavigation(e) {
                 let we = window.top.windows[Math.max(window.top.windows.length - 2, 0)];
                 let iframe = we.document.getElementsByClassName('iframe-navigation')[0];
                 window.top.windows = window.top.windows.slice(0, window.top.windows.length - 1);
-                we.document.body.style.overflow = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
+                we.document.body.style.overflowY = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
                 we.focus();
 
                 if(iframe) iframe.remove();
