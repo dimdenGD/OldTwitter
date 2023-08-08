@@ -2317,18 +2317,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetBodyQuoteText.classList.add('ltr');
             }
         }
-        if(tweetTranslate || tweetTranslateAfter) if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate)) {
-            onVisible(tweet, () => {
-                if(!t.translated) {
-                    if(tweetTranslate) tweetTranslate.click();
-                    else if(tweetTranslateAfter) tweetTranslateAfter.click();
-                }
-            })
-        }
 
         // Translate
         t.translated = false;
-        if(tweetTranslate || tweetTranslateAfter) (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
+        if(tweetTranslate || tweetTranslateAfter) {
+            (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
             if(t.translated) return;
             let translated = await API.tweet.translate(t.id_str);
             t.translated = true;
@@ -2348,7 +2341,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
             `<br>`+
             `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
             if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
-        });
+            });
+            if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {
+                onVisible(tweet, () => {
+                    if(!t.translated) {
+                        if(tweetTranslate) tweetTranslate.click();
+                        else if(tweetTranslateAfter) tweetTranslateAfter.click();
+                    }
+                })
+            }
+        }
 
         // Bookmarks
         let switchingBookmark = false;
