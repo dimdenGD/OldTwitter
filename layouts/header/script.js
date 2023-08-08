@@ -2198,9 +2198,13 @@ let userDataFunction = async user => {
         if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
             if(activeTweet) {
                 activeTweet.classList.remove('tweet-active');
-                let video = activeTweet.querySelector('.tweet-media > video[controls], .tweet-media-quote > video[controls]');
+                let video = activeTweet.querySelector('.tweet-media > video[controls]');
+                let qvideo = activeTweet.querySelector('.tweet-media-quote > video[controls]');
                 if(video) {
                     video.pause();
+                }
+                if(qvideo) {
+                    qvideo.pause();
                 }
                 if(activeTweet.tweet && activeTweet.tweet.algo) {
                     if(!seenAlgoTweets.includes(activeTweet.tweet.id_str)) seenAlgoTweets.push(activeTweet.tweet.id_str);
