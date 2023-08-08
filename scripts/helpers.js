@@ -2379,6 +2379,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             let translated = await API.tweet.translate(t.id_str);
             t.translated = true;
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
+            if(!translated.translated_lang) return;
             let translatedMessage;
             if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                 translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
