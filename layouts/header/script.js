@@ -210,6 +210,17 @@ function switchModernUI(enabled) {
             .message-element-other .message-body {
                 border-radius: 15px 15px 15px 0 !important;
             }
+            .message-element .message-body:after,
+            .message-element-other .message-body:after  {
+                margin-top: 0;
+                margin-left: 0;
+                margin-right: 0;
+                border: 0;
+
+            }
+            .profile-block-me{
+                display:none;
+            }
             /* Sidebar or else */
             #wtf h1,
             #trends h1,
@@ -775,10 +786,10 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <div style="width:34px;height:inherit;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="30" height="30"></a></div>
+                    <div class="profile-block" style="width:60px;height:inherit;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="48" height="48"></a></div>
                     <div class="message-block" style="float:left"><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
                 ` : `
-                <div style="width:34px;height:inherit;float:right"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="30" height="30"></a></div>
+                    <div class="profile-block profile-block-me" style="width:60px;height:inherit;float:right"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="48" height="48"></a></div>
                     <div class="message-block"style="float:right"><span class="message-menu-open"></span>
                     <div class="message-menu" hidden>
                         <span class="message-menu-delete">Delete for you</span>
