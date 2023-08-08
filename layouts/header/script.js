@@ -2200,11 +2200,13 @@ let userDataFunction = async user => {
                 activeTweet.classList.remove('tweet-active');
                 let video = activeTweet.querySelector('.tweet-media > video[controls]');
                 let qvideo = activeTweet.querySelector('.tweet-media-quote > video[controls]');
-                if(video) {
-                    video.pause();
-                }
-                if(qvideo) {
-                    qvideo.pause();
+                if(!vars.dontPauseVideos) {
+                    if(video) {
+                        video.pause();
+                    }
+                    if(qvideo) {
+                        qvideo.pause();
+                    }
                 }
                 if(activeTweet.tweet && activeTweet.tweet.algo) {
                     if(!seenAlgoTweets.includes(activeTweet.tweet.id_str)) seenAlgoTweets.push(activeTweet.tweet.id_str);
