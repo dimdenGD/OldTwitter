@@ -3410,6 +3410,12 @@ function renderNotification(n, options = {}) {
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
+                } else if(n.entry.clientEventInfo.element === "users_followed_you") {
+                    let a = document.createElement('a');
+                    a.href = `/${user.screen_name}/followers`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
                 } else if(n.tweet && n.tweet.user) {
                     new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
                 }
@@ -3430,6 +3436,8 @@ function renderNotification(n, options = {}) {
                     openInNewTab(`https://twitter.com/i/timeline?page=likes&nid=${n.id}`);
                 } else if(n.icon.id === "list_icon") {
                     openInNewTab(n.entry.content.notification.url.url);
+                } else if(n.entry.clientEventInfo.element === "users_followed_you") {
+                    openInNewTab(`/${user.screen_name}/followers`);
                 } else if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
                     if(n.tweet.retweeted_status) {
                         openInNewTab(`https://twitter.com/${n.tweet.retweeted_status.user.screen_name}/status/${n.tweet.retweeted_status.id_str}`);
