@@ -505,5 +505,6 @@
     "translate_not_in_list": { "message": "Перекладати коли не в списку мов" },
     "language_list": { "message": "Список мов" },
     "select_language": { "message": "Виберіть мову" },
-    "mute_videos": { "message": "Грати відео без звуку за замовчуванням" }
+    "mute_videos": { "message": "Грати відео без звуку за замовчуванням" },
+    "dont_pause_videos": { "message": "Не ставити відео на паузу при прокручуванні сторінки" }
 }

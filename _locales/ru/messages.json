@@ -505,5 +505,6 @@
     "translate_not_in_list": { "message": "Переводить когда не в списке языков" },
     "language_list": { "message": "Список языков" },
     "select_language": { "message": "Выберите язык" },
-    "mute_videos": { "message": "Воспроизводить видео без звука по умолчанию" }
+    "mute_videos": { "message": "Воспроизводить видео без звука по умолчанию" },
+    "dont_pause_videos": { "message": "Не ставить видео на паузу при скроллинге" }
 }
