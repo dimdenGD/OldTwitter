@@ -2,7 +2,6 @@ let user = {};
 let bookmarkCursor = null;
 let end = false;
 let linkColors = {};
-let activeTweet;
 
 function updateUserData() {
     API.account.verifyCredentials().then(async u => {
@@ -79,41 +78,6 @@ setTimeout(async () => {
         console.error(e);
         return;
     }
-    document.addEventListener('scroll', async () => {
-        lastScroll = Date.now();
-        // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 50) {
-            lastTweetDate = Date.now();
-            let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-            let scrollPoint = scrollY + innerHeight/2;
-            let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
-                if(activeTweet) {
-                    activeTweet.classList.remove('tweet-active');
-                }
-                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(activeTweet) {
-                    let video = activeTweet.querySelector('.tweet-media > video[controls]');
-                    if(video) {
-                        video.pause();
-                    }
-                }
-                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
-                    if(newActiveTweet) {
-                        let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
-                        let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
-                        if(newVideo && !newVideo.ended) {
-                            newVideo.play();
-                        } else if(newVideoOverlay && !newVideoOverlay.style.display) {
-                            newVideoOverlay.click();
-                        }
-                    }
-                }
-                activeTweet = newActiveTweet;
-            }
-        }
-    }, { passive: true });
     
     // Run
     updateUserData();

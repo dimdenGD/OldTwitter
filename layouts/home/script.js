@@ -366,7 +366,6 @@ function renderNewTweetsButton() {
     }
 }
 
-let activeTweet;
 let seenAlgoTweets = [], algoTweetsChanged = false;
 setInterval(() => {
     if(!algoTweetsChanged) return;
@@ -388,47 +387,9 @@ setTimeout(async () => {
 
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
-    let lastTweetDate = 0;
     let lastScroll = Date.now();
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
-        // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 100) {
-            lastTweetDate = Date.now();
-            let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-            let scrollPoint = scrollY + innerHeight/2;
-            let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
-                if(activeTweet) {
-                    activeTweet.classList.remove('tweet-active');
-                    let video = activeTweet.querySelector('.tweet-media > video[controls]');
-                    if(video) {
-                        video.pause();
-                    }
-                    if(activeTweet.tweet && activeTweet.tweet.algo) {
-                        if(!seenAlgoTweets.includes(activeTweet.tweet.id_str)) seenAlgoTweets.push(activeTweet.tweet.id_str);
-                        if(seenAlgoTweets.length > 100) {
-                            seenAlgoTweets.shift();
-                        }
-                        algoTweetsChanged = true;
-                    }
-                }
-                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
-                    if(newActiveTweet) {
-                        let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
-                        let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
-                        if(newVideo && !newVideo.ended) {
-                            newVideo.play();
-                        } else if(newVideoOverlay && !newVideoOverlay.style.display) {
-                            newVideoOverlay.click();
-                        }
-                    }
-                }
-                activeTweet = newActiveTweet;
-            }
-        }
 
         // loading new tweets
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {

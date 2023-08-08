@@ -2,7 +2,6 @@ let user = {};
 let bookmarkCursor = null;
 let end = false;
 let linkColors = {};
-let activeTweet;
 let unfollowersPage = location.pathname.includes('/followers');
 
 function updateUserData() {

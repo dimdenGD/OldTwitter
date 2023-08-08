@@ -253,8 +253,7 @@ async function updateSavedButton() {
         });
     }).catch(() => {});
 }
-let lastTweetDate = 0;
-let activeTweet;
+
 let loadingNewTweets = false;
 
 setTimeout(async () => {
@@ -283,38 +282,6 @@ setTimeout(async () => {
         renderSearch();
     });
     document.addEventListener('scroll', async () => {
-        // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 50) {
-            lastTweetDate = Date.now();
-            let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-            let scrollPoint = scrollY + innerHeight/2;
-            let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
-                if(activeTweet) {
-                    activeTweet.classList.remove('tweet-active');
-                }
-                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(activeTweet) {
-                    let video = activeTweet.querySelector('.tweet-media > video[controls]');
-                    if(video) {
-                        video.pause();
-                    }
-                }
-                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
-                    if(newActiveTweet) {
-                        let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
-                        let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
-                        if(newVideo && !newVideo.ended) {
-                            newVideo.play();
-                        } else if(newVideoOverlay && !newVideoOverlay.style.display) {
-                            newVideoOverlay.click();
-                        }
-                    }
-                }
-                activeTweet = newActiveTweet;
-            }
-        }
         // load more tweets
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
             if (loadingNewTweets || !cursor) return;
