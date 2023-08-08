@@ -778,7 +778,8 @@ let userDataFunction = async user => {
                     <div style="width:34px;height:inherit;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="30" height="30"></a></div>
                     <div class="message-block" style="float:left"><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
                 ` : `
-                    <div class="message-block"><span class="message-menu-open"></span>
+                <div style="width:34px;height:inherit;float:right"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="30" height="30"></a></div>
+                    <div class="message-block"style="float:right"><span class="message-menu-open"></span>
                     <div class="message-menu" hidden>
                         <span class="message-menu-delete">Delete for you</span>
                     </div><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
@@ -892,7 +893,7 @@ let userDataFunction = async user => {
             timestamp.classList.add('message-time');
             timestamp["data-timestamp"] = "${m.time}";
             timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
-            messageBlock.append(timestamp);
+            messageBlock.append(document.createElement('br'),timestamp);
             let span = messageBlock.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
                 span.remove();

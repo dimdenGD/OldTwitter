@@ -2166,7 +2166,9 @@ emoji-picker {
 .tweet-main {
     cursor: unset;
 }
-
+.message-time {
+    white-space:nowrap;
+}
 /* Mobile UI */
 @media screen and (max-width: 590px) {
     .notification-avatars, .notification-text {
