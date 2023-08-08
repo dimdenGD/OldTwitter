@@ -1132,6 +1132,7 @@ input, textarea {
     font-size: 10px;
     line-height: 16px;
     padding: 7px 0 0 0;
+    padding-right: 20px;
     text-transform: uppercase
 }
 
@@ -2374,7 +2375,8 @@ emoji-picker {
     .tweet-footer-stat-text {
         padding: 7px 7px 0px 7px;
     }
-    .tweet-footer-stat-count {
+    .tweet-footer-stat-count,
+    .tweet-footer-stat-text {
         padding-right: 0;
     }
     .tweet-footer-favorites {
