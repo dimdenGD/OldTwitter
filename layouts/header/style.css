@@ -925,9 +925,20 @@ input, textarea {
     cursor: pointer;
     margin-right: 20px;
 }
+.message-new-container {
+    border-radius: 5px;
+    background-color: var(--link-color);
+    width: 595px;
+    height: 60px;
+    z-index: 5;
+}
 .message-new {
-    position: fixed;
-    display: contents;
+    border-radius: 5px;
+    background-color: var(--new-tweet-over);
+    box-sizing: border-box;
+    padding: 10px;
+    width: 595px;
+    height: 60px;
 }
 .messages-list {
     margin-bottom: 20px;
@@ -1008,18 +1019,14 @@ input, textarea {
     margin-right: 5px;
 }
 
-.name-top-background {
-    position: fixed;
-    background-color: var(--background-color);
-    padding-top: 15px;
-    margin-top: -20px;
-    width: 595px;
-    height: 50px
-}
-
 .name-top {
-    width: 618px;
+    width: 595px;
+    height: 55px;
+    border-bottom: 1px solid rgb(0,0,0);
     background-color: var(--background-color) !important;
+}
+.name-top hr {
+    width: 100%;
 }
 .navbar-new-tweet-user-search {
     background-color: var(--background-color);
@@ -2301,8 +2308,14 @@ emoji-picker {
     .name-top, .home-top {
         width: calc(100% - 42px);
     }
+    .message-new-container{
+        width: 100%;
+    }
+    .message-new {
+        width: 100%;
+    }
     .message-new-input {
-        width: calc(100% - 190px);
+        width: calc(100% - 200px);
     }
     .name-top-background {
         width: calc(100% - 20px);
@@ -2311,7 +2324,7 @@ emoji-picker {
         width: 100%;
     }
     .message-block {
-        max-width: calc(100% - 37px)
+        max-width: calc(100% - 120px)
     }
     .inbox-message {
         width: 100%;

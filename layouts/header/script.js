@@ -1032,7 +1032,6 @@ let userDataFunction = async user => {
                 <div class="center-text load-more" ${cursor ? '' : 'hidden'}>${LOC.load_more.message}</div>
             </div>
             <div class="message-box" hidden>
-                <div class="name-top-background"></div><!-- ugly bug fix -->
                 <div class="inbox-top name-top">
                     <span class="message-header-back"></span>
                     <a class="message-header-link">
@@ -1040,18 +1039,20 @@ let userDataFunction = async user => {
                         <h1 class="larger message-header-name nice-header">${LOC.name.message}</h1>
                     </a>
                     <span class="message-leave"></span>
-                    <hr>
                 </div>
                 <br><br><br><br>
                 <div class="messages-load-more center-text" style="margin-top:-18px;">${LOC.load_more.message}</div>
                 <div class="messages-list"></div>
-                <div class="message-new">
-                    <div class="message-new-media"></div>
-                    <span class="message-new-media-btn"></span>
-                    <span class="message-emoji-btn"></span>
-                    <textarea type="text" class="message-new-input" placeholder="${LOC.type_message.message}"></textarea>
-                    <button class="nice-button message-new-send">${LOC.send.message}</button>
+                <div class="message-new-container">
+                    <div class="message-new">
+                        <div class="message-new-media"></div>
+                        <span class="message-new-media-btn"></span>
+                        <span class="message-emoji-btn"></span>
+                        <textarea type="text" class="message-new-input" placeholder="${LOC.type_message.message}"></textarea>
+                        <button class="nice-button message-new-send">${LOC.send.message}</button>
+                    </div>
                 </div>
+                
             </div>
             <div class="new-message-box" hidden>
                 <div class="inbox-top new-name-top">
