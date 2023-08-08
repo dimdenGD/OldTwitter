@@ -1358,6 +1358,7 @@ function renderMedia(t) {
                     width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
                     height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
                     loop
+                    disableRemotePlayback
                     onclick="if(this.paused) this.play(); else this.pause()"
                     ${vars.disableGifAutoplay ? '' : 'autoplay'}
                     muted
@@ -1375,6 +1376,7 @@ function renderMedia(t) {
                     width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
                     height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
                     preload="none"
+                    disableRemotePlayback
                     ${t.extended_entities.media.length > 1 ? 'controls' : ''}
                     poster="${m.media_url_https}"
                     class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"

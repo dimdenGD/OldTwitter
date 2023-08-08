@@ -2179,6 +2179,9 @@ emoji-picker {
 .tweet-main {
     cursor: unset;
 }
+video::-internal-media-controls-overlay-cast-button {
+    display: none;
+}
 
 /* Mobile UI */
 @media screen and (max-width: 590px) {
