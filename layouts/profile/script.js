@@ -748,6 +748,9 @@ let toAutotranslate = false;
 async function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     let attempts = 0;
+    document.getElementById('profile-avatar').addEventListener('click', e => {
+        openInNewTab(pageUser.profile_image_url_https.replace('_normal.', '.'));
+    });
     document.getElementById('profile-avatar').addEventListener('error', () => {
         if(attempts > 3) return document.getElementById('profile-avatar').src = `${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_400x400.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'}`;
         attempts++;
