@@ -1022,7 +1022,7 @@ input, textarea {
 .name-top {
     width: 595px;
     height: 55px;
-    border-bottom: 1px solid rgb(0,0,0);
+    border-bottom: 1px solid var(--border);
     background-color: var(--background-color) !important;
 }
 .name-top hr {
