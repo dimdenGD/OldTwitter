@@ -192,6 +192,7 @@ setTimeout(async () => {
     let autotranslateLanguages = document.getElementById('autotranslate-languages');
     let autotranslateLanguageList = document.getElementById('autotranslate-language-list');
     let addAutotranslateLanguage = document.getElementById('add-autotranslate-language');
+    let muteVideos = document.getElementById('mute-videos');
 
     let root = document.querySelector(":root");
     {
@@ -343,6 +344,13 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             heartsNotStars: heartsNotStars.checked
         }, () => { });
+    });
+    muteVideos.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            muteVideos: muteVideos.checked
+        }, () => {
+            vars.muteVideos = muteVideos.checked;
+        });
     });
     uncensorAdultContentAutomatically.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -751,6 +759,7 @@ setTimeout(async () => {
     moveNavbarToBottom.checked = !!vars.moveNavbarToBottom;
     openNotifsAsModal.checked = !!vars.openNotifsAsModal;
     enableIframeNavigation.checked = !!vars.enableIframeNavigation;
+    muteVideos.checked = !!vars.muteVideos;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

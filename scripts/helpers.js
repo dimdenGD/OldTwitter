@@ -1378,6 +1378,7 @@ function renderMedia(t) {
                     preload="none"
                     disableRemotePlayback
                     ${t.extended_entities.media.length > 1 ? 'controls' : ''}
+                    ${vars.muteVideos ? 'muted' : ''}
                     poster="${m.media_url_https}"
                     class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
                 >
@@ -2035,13 +2036,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }));
             };
             for(let vid of vids) {
-                if(typeof vars.volume === 'number') {
+                if(!vars.muteVideos && typeof vars.volume === 'number') {
                     vid.volume = vars.volume;
                 }
                 vid.onvolumechange = () => {
                     chrome.storage.sync.set({
                         volume: vid.volume
                     }, () => { });
+                    if(vars.muteVideos) return;
                     let allVids = document.getElementsByTagName('video');
                     for(let i = 0; i < allVids.length; i++) {
                         allVids[i].volume = vid.volume;

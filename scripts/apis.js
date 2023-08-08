@@ -2901,6 +2901,7 @@ const API = {
                                 if(e.content.item.content.tombstone.tweet) {
                                     let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
                                     let user = userData[tweet.user_id_str];
+                                    if(user.blocking || user.muting) continue;
                                     tweet.id_str = e.content.item.content.tombstone.tweet.id;
                                     tweet.user = user;
                                     if(tweet.quoted_status_id_str) {

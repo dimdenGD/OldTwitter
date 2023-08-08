@@ -504,5 +504,6 @@
     "translate_in_list": { "message": "Переводить когда в списке языков" },
     "translate_not_in_list": { "message": "Переводить когда не в списке языков" },
     "language_list": { "message": "Список языков" },
-    "select_language": { "message": "Выберите язык" }
+    "select_language": { "message": "Выберите язык" },
+    "mute_videos": { "message": "Воспроизводить видео без звука по умолчанию" }
 }
