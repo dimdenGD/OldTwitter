@@ -1816,6 +1816,18 @@ emoji-picker {
     vertical-align: bottom;
     white-space: nowrap;
 }
+.tweet-translate {
+    color: var(--light-gray);
+    cursor: pointer;
+    font-size: 12px;
+    margin-top: 2px
+}
+.tweet-translate:before {
+    content: "\f089";
+    font: 12px var(--icon-font);;
+    margin-right: 5px;
+    vertical-align: text-bottom;
+}
 
 .tweet-top-icon {
     font-family: var(--icon-font);
