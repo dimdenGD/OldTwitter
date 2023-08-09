@@ -62,6 +62,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added option to use 2018 layout.</li>
+                            <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
                             <li>Lot of improvements for mobile version.</li>
                             <li>Fixed repeating tweets in timeline.</li>
                             <li>Made notifications load much faster.</li>
@@ -69,11 +70,16 @@ setTimeout(() => {
                             <li>Added support for videos in messages.</li>
                             <li>Improved media in messages.</li>
                             <li>Added option to view notifications in a modal.</li>
+                            <li>Added option to play videos muted by default.</li>
+                            <li>Added option to not pause videos when you scroll from view.</li>
                             <li>Made videos pause when scroll from sight.</li>
+                            <li>Made OldTwitter store more than 100 unfollowers.</li>
+                            <li>Added mute icon for people you're muting.</li>
                             <li>Improved color pickers.</li>
                             <li>Fixed tweets opening when selecting text.</li>
                             <li>Fixed big video uploads lagging/crashing the site.</li>
                             <li>Fixed media uploads in messages.</li>
+                            <li>Fix blocked/muted people sometimes appearing in timeline and replies.</li>
                             <li>Fixed messages repeating when scrolling them after some time.</li>
                             <li>Fixed new tweet notifications page.</li>
                             <li>Added button to clear OldTwitter token.</li>
