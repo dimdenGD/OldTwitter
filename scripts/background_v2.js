@@ -58,10 +58,10 @@ chrome.webRequest.onHeadersReceived.addListener(
                 details.responseHeaders.splice(i, 1);
             }
         }
-        let parsedUrl = new URL(details.originUrl);
+        let origin = new URL(details.originUrl ? details.originUrl : details.url ? details.url : 'https://twitter.com').origin;
         if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.responseHeaders.push({
             name: "access-control-allow-origin",
-            value: parsedUrl.origin
+            value: origin
         });
         return {
             responseHeaders: details.responseHeaders
