@@ -670,7 +670,7 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             autotranslateLanguages: vars.autotranslateLanguages
         }, () => {
-            const langNames = new Intl.DisplayNames([LANGUAGE], {type: 'language'})
+            const langNames = new Intl.DisplayNames([LANGUAGE.replace('_', '-')], {type: 'language'})
             let ln = langNames.of(lang);
             let div = document.createElement('div');
             div.classList.add('autotranslate-language');
@@ -688,7 +688,7 @@ setTimeout(async () => {
         });
     });
     for(let lang of vars.autotranslateLanguages) {
-        const langNames = new Intl.DisplayNames([LANGUAGE], {type: 'language'})
+        const langNames = new Intl.DisplayNames([LANGUAGE.replace('_', '-')], {type: 'language'})
         let ln = langNames.of(lang);
         let div = document.createElement('div');
         div.classList.add('autotranslate-language');
@@ -827,7 +827,7 @@ setTimeout(async () => {
         </div>
         `);
     });
-    const langNames = new Intl.DisplayNames([LANGUAGE], {type: 'language'})
+    const langNames = new Intl.DisplayNames([LANGUAGE.replace('_', '-')], {type: 'language'})
     for(let l of TRANSLATION_SUPPORTED_LANGUAGES) {
         const langNames2 = new Intl.DisplayNames([l], {type: 'language'})
         let ln = langNames.of(l);

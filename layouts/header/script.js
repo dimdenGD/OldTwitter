@@ -910,7 +910,7 @@ let userDataFunction = async user => {
             }
             timestamp=document.createElement('span');
             timestamp.classList.add('message-time');
-            timestamp["data-timestamp"] = "${m.time}";
+            timestamp.setAttribute("data-timestamp", m.time);
             timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
             messageBlock.append(timestamp);
             let span = messageBlockInner.getElementsByClassName('message-body')[0];
@@ -945,7 +945,7 @@ let userDataFunction = async user => {
         }
     }
     function renderInboxMessages(inbox, inboxList) {
-        inbox.conversations = Object.values(inbox.conversations).sort((a, b) => (+b.sort_timestamp)-(+a.sort_timestamp));
+        inbox.conversations = inbox.conversations ? Object.values(inbox.conversations).sort((a, b) => (+b.sort_timestamp)-(+a.sort_timestamp)) : [];
         for(let i in inbox.conversations) {
             let c = inbox.conversations[i];
             let lastMessage = inbox.entries.find(e => (e.message && e.message.id === c.max_entry_id) || (e.trust_conversation && e.trust_conversation.id === c.max_entry_id));
@@ -1007,10 +1007,12 @@ let userDataFunction = async user => {
         }
         const messageHeaderBack = modal.querySelector('.message-header-back');
         messageHeaderBack.addEventListener('click', e => {
-            modal.remove();
+            modal.removeModal();
             chrome.storage.local.remove(['inboxData'], () => {});
             setTimeout(() => {
-                document.getElementById('messages').click();
+                if(!document.querySelector('.inbox-modal')) {
+                    document.getElementById('messages').click();
+                }
             }, 20);
         });
     }
@@ -1238,7 +1240,7 @@ let userDataFunction = async user => {
             if(moreInbox.status === "HAS_MORE") {
                 cursor = moreInbox.min_entry_id;
             } else {
-                cursor = undefined;
+                cursor = moreInbox.max_entry_id; //prevent looping around when loading more
             }
             renderInboxMessages(moreInbox, inboxList);
         });
@@ -1757,6 +1759,19 @@ let userDataFunction = async user => {
                 }
             } else {
                 search = await API.search.typeahead(query);
+            }
+        } else if(query.startsWith('[') && query.endsWith(']')) {
+            let ids = [];
+            try {
+                ids = JSON.parse(query);
+            } catch(e) {
+                return;
+            }
+            if(ids.length === 0) return;
+            let users = await API.user.lookup(ids);
+            search = {
+                topics: [],
+                users: users
             }
         } else {
             search = await API.search.typeahead(query);
@@ -2365,11 +2380,13 @@ let userDataFunction = async user => {
                             let nd = renderNotification(n, { unread: n.unread });
                             notifList.appendChild(nd);
                         } else if(n.type === 'tweet') {
-                            let t = await appendTweet(n, notifList, { noInsert: true });
-                            if(n.unread) {
-                                t.classList.add('notification-unread');
+                            let t = await appendTweet(n, notifList, { noInsert: true, ignoreSeen: true });
+                            if(t) {
+                                if(n.unread) {
+                                    t.classList.add('notification-unread');
+                                }
+                                notifList.appendChild(t);
                             }
-                            notifList.appendChild(t);
                         }
                     }
                 } else if(options.mode === 'prepend') {

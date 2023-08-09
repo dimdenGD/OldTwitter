@@ -1486,11 +1486,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
         return;
     }
     try {
-        if(typeof seenReplies !== 'undefined') {
+        if(typeof seenReplies !== 'undefined' && !options.ignoreSeen) {
             if(seenReplies.includes(t.id_str)) return;
             seenReplies.push(t.id_str);
         }
-        if(typeof seenThreads !== 'undefined') {
+        if(typeof seenThreads !== 'undefined' && !options.ignoreSeen) {
             if(seenThreads.includes(t.id_str)) return;
         }
         // if(t.entities && t.entities.urls) {
@@ -1542,13 +1542,17 @@ async function appendTweet(t, timelineContainer, options = {}) {
             delete t.user.verified_type;
             t.user.verified = false;
         }
+        if(!vars.twitterBlueCheckmarks && t.quoted_status && t.quoted_status.user.verified_type === "Blue") {
+            delete t.quoted_status.user.verified_type;
+            t.quoted_status.user.verified = false;
+        }
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
         const tweet = document.createElement('div');
         tweet.tweet = t;
         t.element = tweet;
         t.options = options;
 
-        if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments")) {
+        if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments") && !document.querySelector('.modal')) {
             tweet.addEventListener('click', async e => {
                 if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                     document.getElementById('loading-box').hidden = false;
@@ -1804,7 +1808,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
                         <span class="tweet-header-info-quote">
-                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified ? 'user-verified' : t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
+                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified ? 'user-verified' : t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''} ${t.quoted_status.user.verified_type === 'Government' ? 'user-verified-gray' : t.quoted_status.user.verified_type === 'Business' ? 'user-verified-yellow' : t.quoted_status.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                         </span>
                     </div>
