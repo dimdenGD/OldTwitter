@@ -59,7 +59,7 @@ chrome.webRequest.onHeadersReceived.addListener(
         }
         if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.responseHeaders.push({
             name: "access-control-allow-origin",
-            value: "https://twitter.com"
+            value: "*"
         });
         return {
             responseHeaders: details.responseHeaders
