@@ -2374,7 +2374,10 @@ video::-internal-media-controls-overlay-cast-button {
         width: 100%;
     }
     .message-block {
-        max-width: calc(100% - 120px)
+        max-width: calc(100% - 80px)
+    }
+    .message-body{
+        max-width: calc(100vw - 180px) !important;
     }
     .inbox-message {
         width: 100%;
