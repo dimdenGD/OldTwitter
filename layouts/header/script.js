@@ -801,7 +801,7 @@ let userDataFunction = async user => {
                 ` : `
                     <div class="message-block" style="margin-left: auto"><div class="message-block-inner" style="margin-left: auto"><span class="message-menu-open"></span>
                     <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span><div class="message-menu" hidden>
-                        <br><span class="message-menu-delete">Delete for you</span>
+                        <span class="message-menu-delete">${LOC.delete_for_you.message}</span>
                     </div></div></div>
                     <div class="profile-block profile-block-me" style="float:right"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar"></a><br>　</div>
                     

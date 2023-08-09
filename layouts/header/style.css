@@ -914,6 +914,9 @@ input, textarea {
 .message-element:hover .message-menu-open:before {
     color: var(--light-gray);
 }
+.message-menu {
+    position: absolute;
+}
 .message-menu-delete {
     cursor: pointer;
 }

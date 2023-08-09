@@ -515,5 +515,6 @@
     "language_list": { "message": "언어 목록" },
     "select_language": { "message": "언어를 선택하세요" },
     "mute_videos": { "message": "비디오를 기본적으로 음소거합니다" },
-    "dont_pause_videos": { "message": "스크롤 할 때 비디오를 일시정지 하지 않습니다" }
+    "dont_pause_videos": { "message": "스크롤 할 때 비디오를 일시정지 하지 않습니다" },
+    "delete_for_you":{ "message": "나에게서 삭제",  "description":"DM Message Delete menu"}
 }
