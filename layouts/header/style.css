@@ -817,6 +817,7 @@ input, textarea {
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
 	position: relative;
+    word-break: break-all;
 }
 .message-element .message-body:after  {
     content: '';
@@ -964,6 +965,7 @@ input, textarea {
 }
 .messages-container {
     overflow-y: scroll;
+    overflow-x: hidden;
     width:605px;
     height:calc(60vh - 130px);
     padding-bottom:0px;
