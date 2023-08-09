@@ -893,7 +893,7 @@ let userDataFunction = async user => {
             }
             timestamp=document.createElement('span');
             timestamp.classList.add('message-time');
-            timestamp["data-timestamp"] = "${m.time}";
+            timestamp.setAttribute("data-timestamp", m.time);
             timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
             messageBlock.append(timestamp);
             let span = messageBlock.getElementsByClassName('message-body')[0];
@@ -928,7 +928,7 @@ let userDataFunction = async user => {
         }
     }
     function renderInboxMessages(inbox, inboxList) {
-        inbox.conversations = Object.values(inbox.conversations).sort((a, b) => (+b.sort_timestamp)-(+a.sort_timestamp));
+        inbox.conversations = inbox.conversations ? Object.values(inbox.conversations).sort((a, b) => (+b.sort_timestamp)-(+a.sort_timestamp)) : [];
         for(let i in inbox.conversations) {
             let c = inbox.conversations[i];
             let lastMessage = inbox.entries.find(e => (e.message && e.message.id === c.max_entry_id) || (e.trust_conversation && e.trust_conversation.id === c.max_entry_id));
@@ -1221,7 +1221,7 @@ let userDataFunction = async user => {
             if(moreInbox.status === "HAS_MORE") {
                 cursor = moreInbox.min_entry_id;
             } else {
-                cursor = undefined;
+                cursor = moreInbox.max_entry_id; //prevent looping around when loading more
             }
             renderInboxMessages(moreInbox, inboxList);
         });

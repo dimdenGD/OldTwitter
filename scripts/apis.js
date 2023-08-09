@@ -2898,7 +2898,7 @@ const API = {
                                     });
                                 }
                             } else if (e.entryId.startsWith('tombstone-')) {
-                                if(e.content.item.content.tombstone.tweet) {
+                                if(e.content.item && e.content.item.content.tombstone.tweet) {
                                     let tweet = tweetData[e.content.item.content.tombstone.tweet.id];
                                     let user = userData[tweet.user_id_str];
                                     if(user.blocking || user.muting) continue;
@@ -2917,10 +2917,21 @@ const API = {
                                         type: tweet.id_str === id ? 'mainTweet' : 'tweet',
                                         data: tweet
                                     });
+                                } else if(e.content.itemContent && e.content.itemContent.tombstoneInfo) {
+                                    let richText = e.content.itemContent.tombstoneInfo.richText;
+                                    let text = richText.text;
+                                    if(richText.entities && richText.entities.length > 0) {
+                                        let en = richText.entities[0];
+                                        text = text.slice(0, en.fromIndex) + `<a href="${en.ref.url}" target="_blank">` + text.slice(en.fromIndex, en.toIndex) + "</a>" + text.slice(en.toIndex);
+                                    }
+                                    list.push({
+                                        type: 'tombstone',
+                                        data: text
+                                    });
                                 } else {
                                     list.push({
                                         type: 'tombstone',
-                                        data: e.content.item.content.tombstone.tombstoneInfo.text
+                                        data: 'This Tweet is unavailable.'
                                     });
                                 }
                             } else if(e.entryId.startsWith('conversationthread-')) {
