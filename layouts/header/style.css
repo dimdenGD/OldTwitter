@@ -770,6 +770,7 @@ input, textarea {
     margin-bottom: 5px;
 }
 .message-element {
+    display: flex;
     float: right;
     width: 564px;
     text-align: right;
@@ -884,6 +885,22 @@ input, textarea {
     color: var(--light-gray);
     font-size: 12px;
 }
+.profile-block{
+    align-self: flex-end;
+    font-size: 12px;
+    width:calc(48px + 12px);
+    height:inherit;
+}
+.profile-block>a>img{
+    width:48px;
+    height:48px;
+}
+.message-block{
+    align-self: flex-end;
+}
+.message-block-inner{
+    display: table;
+}
 .message-menu-open {
     cursor: pointer;
 }
@@ -907,7 +924,6 @@ input, textarea {
     margin-right: 5px;
 }
 .message-menu {
-    position: absolute;
     background-color: var(--background-color);
     border: 1px solid var(--light-gray);
     border-radius: 5px;
@@ -928,7 +944,7 @@ input, textarea {
 .message-new-container {
     border-radius: 5px;
     background-color: var(--link-color);
-    width: 595px;
+    width: 600px;
     height: 60px;
     z-index: 5;
 }
@@ -937,11 +953,18 @@ input, textarea {
     background-color: var(--new-tweet-over);
     box-sizing: border-box;
     padding: 10px;
-    width: 595px;
+    width: 600px;
     height: 60px;
 }
 .messages-list {
     margin-bottom: 20px;
+}
+.messages-container {
+    overflow-y: scroll;
+    width:600px;
+    height:calc(60vh - 130px);
+    padding-bottom:0px;
+    padding-right:20px;
     display: flow-root;
 }
 .message-new-input, .new-message-user-search, .circle-user-search {
@@ -1020,6 +1043,7 @@ input, textarea {
 }
 
 .name-top {
+    position: static;
     width: 595px;
     height: 55px;
     border-bottom: 1px solid var(--border);
@@ -2318,8 +2342,15 @@ emoji-picker {
         min-width: unset;
         margin-bottom: 21px;
     }
-    .name-top, .home-top {
+    .home-top {
         width: calc(100% - 42px);
+    }
+    .name-top {
+        width: calc(100%);
+    }
+    .messages-container{
+        width: 100%;
+        height: calc(80vh - 130px);;
     }
     .message-new-container{
         width: 100%;

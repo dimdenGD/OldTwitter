@@ -222,6 +222,13 @@ function switchModernUI(enabled) {
             .profile-block-me{
                 display:none;
             }
+            .profile-block{
+                width:calc(36px + 6px);
+            }
+            .profile-block>a>img{
+                width:36px;
+                height:36px;
+            }
             /* Sidebar or else */
             #wtf h1,
             #trends h1,
@@ -787,26 +794,27 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <div class="profile-block" style="width:60px;height:inherit;float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="48" height="48"></a></div>
-                    <div class="message-block" style="float:left"><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
+                    <div class="profile-block" style="float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar"></a><br>　</div>
+                    <div class="message-block" style="float:left"><div class="message-block-inner"><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div></div>
                 ` : `
-                    <div class="profile-block profile-block-me" style="width:60px;height:inherit;float:right"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar" width="48" height="48"></a></div>
-                    <div class="message-block"style="float:right"><span class="message-menu-open"></span>
-                    <div class="message-menu" hidden>
-                        <span class="message-menu-delete">Delete for you</span>
-                    </div><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div>
+                    <div class="message-block" style="margin-left: auto"><div class="message-block-inner" style="margin-left: auto"><span class="message-menu-open"></span>
+                    <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span><div class="message-menu" hidden>
+                        <br><span class="message-menu-delete">Delete for you</span>
+                    </div></div></div>
+                    <div class="profile-block profile-block-me" style="float:right"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar"></a><br>　</div>
                     
                 `}
             `;
+            let messageBlockInner = messageElement.querySelector('.message-block-inner');
             let messageBlock = messageElement.querySelector('.message-block');
-            let menuOpen = messageBlock.querySelector('.message-menu-open');
+            let menuOpen = messageBlockInner.querySelector('.message-menu-open');
             if(menuOpen) {
-                let menu = messageBlock.querySelector('.message-menu');
-                let menuDelete = messageBlock.querySelector('.message-menu-delete');
+                let menu = messageBlockInner.querySelector('.message-menu');
+                let menuDelete = messageBlockInner.querySelector('.message-menu-delete');
 
                 menuDelete.addEventListener('click', () => {
                     API.inbox.deleteMessage(m.id);
-                    messageBlock.remove();
+                    messageBlockInner.remove();
                 });
 
                 let clicked;
@@ -825,7 +833,7 @@ let userDataFunction = async user => {
                     }, 100);
                 });
             }
-            let as = Array.from(messageBlock.getElementsByTagName('a'));
+            let as = Array.from(messageBlockInner.getElementsByTagName('a'));
             if(m.message_data.entities && m.message_data.entities.urls) {
                 m.message_data.entities.urls.forEach(url => {
                     let a = as.find(a => a.href === url.url);
@@ -870,7 +878,7 @@ let userDataFunction = async user => {
                         });
                         e.target.click();
                     })
-                    messageBlock.append(document.createElement('br'), photoElement);
+                    messageBlockInner.append(document.createElement('br'), photoElement);
                 }
                 if(attachment.animated_gif) {
                     let gif = attachment.animated_gif;
@@ -885,7 +893,7 @@ let userDataFunction = async user => {
                         gifElement.width = gif.original_info.width;
                     }
                     gifElement.classList.add('message-element-media');
-                    messageBlock.append(document.createElement('br'), gifElement);
+                    messageBlockInner.append(document.createElement('br'), gifElement);
                 }
                 if(attachment.video) {
                     let video = attachment.video;
@@ -905,8 +913,8 @@ let userDataFunction = async user => {
             timestamp.classList.add('message-time');
             timestamp["data-timestamp"] = "${m.time}";
             timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
-            messageBlock.append(document.createElement('br'),timestamp);
-            let span = messageBlock.getElementsByClassName('message-body')[0];
+            messageBlock.append(timestamp);
+            let span = messageBlockInner.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
                 span.remove();
             }
@@ -1041,9 +1049,11 @@ let userDataFunction = async user => {
                     </a>
                     <span class="message-leave"></span>
                 </div>
-                <br><br><br><br>
-                <div class="messages-load-more center-text" style="margin-top:-18px;">${LOC.load_more.message}</div>
-                <div class="messages-list"></div>
+                <div class="messages-container">
+                    <br>
+                    <div class="messages-load-more center-text" style="margin-top:-18px;">${LOC.load_more.message}</div>
+                    <div class="messages-list"></div>
+                </div>
                 <div class="message-new-container">
                     <div class="message-new">
                         <div class="message-new-media"></div>
@@ -1053,7 +1063,6 @@ let userDataFunction = async user => {
                         <button class="nice-button message-new-send">${LOC.send.message}</button>
                     </div>
                 </div>
-                
             </div>
             <div class="new-message-box" hidden>
                 <div class="inbox-top new-name-top">
