@@ -1486,11 +1486,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
         return;
     }
     try {
-        if(typeof seenReplies !== 'undefined') {
+        if(typeof seenReplies !== 'undefined' && !options.ignoreSeen) {
             if(seenReplies.includes(t.id_str)) return;
             seenReplies.push(t.id_str);
         }
-        if(typeof seenThreads !== 'undefined') {
+        if(typeof seenThreads !== 'undefined' && !options.ignoreSeen) {
             if(seenThreads.includes(t.id_str)) return;
         }
         // if(t.entities && t.entities.urls) {

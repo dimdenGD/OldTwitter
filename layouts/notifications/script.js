@@ -95,11 +95,13 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
                 let nd = renderNotification(n, { unread: n.unread });
                 notificationsContainer.appendChild(nd);
             } else if(n.type === 'tweet') {
-                let t = await appendTweet(n, notificationsContainer, { noInsert: true });
-                if(n.unread) {
-                    t.classList.add('notification-unread');
+                let t = await appendTweet(n, notificationsContainer, { noInsert: true, ignoreSeen: true });
+                if(t) {
+                    if(n.unread) {
+                        t.classList.add('notification-unread');
+                    }
+                    notificationsContainer.appendChild(t);
                 }
-                notificationsContainer.appendChild(t);
             }
         }
     } else if(options.mode === 'prepend') {

@@ -2348,11 +2348,13 @@ let userDataFunction = async user => {
                             let nd = renderNotification(n, { unread: n.unread });
                             notifList.appendChild(nd);
                         } else if(n.type === 'tweet') {
-                            let t = await appendTweet(n, notifList, { noInsert: true });
-                            if(n.unread) {
-                                t.classList.add('notification-unread');
+                            let t = await appendTweet(n, notifList, { noInsert: true, ignoreSeen: true });
+                            if(t) {
+                                if(n.unread) {
+                                    t.classList.add('notification-unread');
+                                }
+                                notifList.appendChild(t);
                             }
-                            notifList.appendChild(t);
                         }
                     }
                 } else if(options.mode === 'prepend') {
