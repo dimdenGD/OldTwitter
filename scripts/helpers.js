@@ -213,9 +213,6 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                     div.append(img, progress, remove);
                     if (!file.type.includes('video')) {
                         img.addEventListener('click', () => {
-                            if(!img.src.endsWith('?name=orig') && !img.src.startsWith('data:')) {
-                                img.src += '?name=orig';
-                            }
                             new Viewer(mediaContainer, {
                                 transition: false
                             });
@@ -332,9 +329,6 @@ function getDMMedia(mediaArray, mediaContainer, modalElement) {
                         div.append(img, progress, remove);
                         if (!file.type.includes('video')) {
                             img.addEventListener('click', () => {
-                                if(!img.src.endsWith('?name=orig') && !img.src.startsWith('data:')) {
-                                    img.src += '?name=orig';
-                                }
                                 new Viewer(mediaContainer, {
                                     transition: false
                                 });
@@ -627,24 +621,74 @@ function generateCard(tweet, tweetElement, user) {
     if(tweet.card.name === 'promo_image_convo' || tweet.card.name === 'promo_video_convo') {
         let vals = tweet.card.binding_values;
         let a = document.createElement('a');
-        a.href = vals.thank_you_url ? vals.thank_you_url.string_value : "#";
-        a.target = '_blank';
         a.title = vals.thank_you_text.string_value;
-        let img = document.createElement('img');
-        let imgValue = vals.promo_image;
-        if(!imgValue) {
-            imgValue = vals.cover_promo_image_original;
+        if(tweet.card.name === 'promo_image_convo') {
+            a.href = vals.thank_you_url ? vals.thank_you_url.string_value : "#";
+            a.target = '_blank';
+            let img = document.createElement('img');
+            let imgValue = vals.promo_image;
+            if(!imgValue) {
+                imgValue = vals.cover_promo_image_original;
+            }
+            if(!imgValue) {
+                imgValue = vals.cover_promo_image_large;
+            }
+            if(!imgValue) {
+                return;
+            }
+            img.src = imgValue.image_value.url;
+            let [w, h] = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height);
+            img.width = w;
+            img.height = h;
+            img.className = 'tweet-media-element';
+            a.append(img);
+        } else {
+            let overlay = document.createElement('div');
+            overlay.innerHTML = /*html*/`
+                <svg viewBox="0 0 24 24" class="tweet-media-video-overlay-play">
+                    <g>
+                        <path class="svg-play-path" d="M8 5v14l11-7z"></path>
+                        <path d="M0 0h24v24H0z" fill="none"></path>
+                    </g>
+                </svg>
+            `;
+            overlay.className = 'tweet-media-video-overlay';
+            overlay.addEventListener('click', async e => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                try {
+                    let res = await fetch(vid.currentSrc); // weird problem with vids breaking cuz twitter sometimes doesnt send content-length
+                    if(!res.headers.get('content-length')) await sleep(1000);
+                } catch(e) {
+                    console.error(e);
+                }
+                vid.play();
+                vid.controls = true;
+                vid.classList.remove('tweet-media-element-censor');
+                overlay.style.display = 'none';
+            });
+            let vid = document.createElement('video');
+            let [w, h] = sizeFunctions[1](vals.player_image_original.image_value.width, vals.player_image_original.image_value.height);
+            vid.width = w;
+            vid.height = h;
+            vid.preload = 'none';
+            vid.poster = vals.player_image_large.image_value.url;
+            vid.className = 'tweet-media-element';
+            vid.addEventListener('click', async e => {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+            });
+            fetch(vals.player_stream_url.string_value).then(res => res.text()).then(blob => {
+                let xml = new DOMParser().parseFromString(blob, 'text/xml');
+                let MediaFile = xml.getElementsByTagName('MediaFile')[0];
+                vid.src = MediaFile.textContent.trim();
+            });
+            let tweetMedia = document.createElement('div');
+            tweetMedia.className = 'tweet-media';
+            tweetMedia.style.right = 'unset';
+            tweetMedia.append(overlay, vid);
+            a.append(tweetMedia);
         }
-        if(!imgValue) {
-            imgValue = vals.cover_promo_image_large;
-        }
-        if(!imgValue) {
-            return;
-        }
-        img.src = imgValue.image_value.url;
-        img.width = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height)[0];
-        img.height = sizeFunctions[1](imgValue.image_value.width, imgValue.image_value.height)[1];
-        img.className = 'tweet-media-element';
         let ctas = [];
         if(vals.cta_one) {
             ctas.push([vals.cta_one, vals.cta_one_tweet]);
@@ -684,7 +728,6 @@ function generateCard(tweet, tweetElement, user) {
             });
             buttonGroup.append(button);
         }
-        a.append(img);
         tweetElement.getElementsByClassName('tweet-card')[0].append(a);
         tweetElement.getElementsByClassName('tweet-card')[0].append(buttonGroup);
     } else if(tweet.card.name === "player") {
@@ -1309,6 +1352,7 @@ function renderMedia(t) {
                     width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
                     height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
                     loop
+                    disableRemotePlayback
                     onclick="if(this.paused) this.play(); else this.pause()"
                     ${vars.disableGifAutoplay ? '' : 'autoplay'}
                     muted
@@ -1326,7 +1370,9 @@ function renderMedia(t) {
                     width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
                     height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
                     preload="none"
+                    disableRemotePlayback
                     ${t.extended_entities.media.length > 1 ? 'controls' : ''}
+                    ${vars.muteVideos ? 'muted' : ''}
                     poster="${m.media_url_https}"
                     class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
                 >
@@ -1767,9 +1813,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-reply-to tweet-quote-reply-to">${LOC.replying_to_user.message.replace('$SCREEN_NAME$', quoteMentionedUserText.trim().replaceAll(` `,LOC.replying_to_comma.message).replace(LOC.replying_to_comma.message,LOC.replying_to_and.message))}</span>
                     ` : ''}
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText: ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
-                    ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? `
+                    ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                 </a>
@@ -1984,13 +2030,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }));
             };
             for(let vid of vids) {
-                if(typeof vars.volume === 'number') {
+                if(!vars.muteVideos && typeof vars.volume === 'number') {
                     vid.volume = vars.volume;
                 }
                 vid.onvolumechange = () => {
                     chrome.storage.sync.set({
                         volume: vid.volume
                     }, () => { });
+                    if(vars.muteVideos) return;
                     let allVids = document.getElementsByTagName('video');
                     for(let i = 0; i < allVids.length; i++) {
                         allVids[i].volume = vid.volume;
@@ -2299,10 +2346,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetBodyQuote.addEventListener('click', e => {
                     e.preventDefault();
                     if(e.target.className && e.target.className.includes('tweet-media-element')) {
-                        if(!e.target.src.endsWith('?name=orig') && !e.target.src.startsWith('data:')) {
+                        if(!e.target.src.endsWith('?name=orig') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
                             e.target.src += '?name=orig';
                         }
-                        new Viewer(e.target, {
+                        new Viewer(e.target.parentElement, {
                             transition: false
                         });
                         e.target.click();
@@ -2317,22 +2364,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetBodyQuoteText.classList.add('ltr');
             }
         }
-        if(tweetTranslate || tweetTranslateAfter) if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate)) {
-            onVisible(tweet, () => {
-                if(!t.translated) {
-                    if(tweetTranslate) tweetTranslate.click();
-                    else if(tweetTranslateAfter) tweetTranslateAfter.click();
-                }
-            })
-        }
 
         // Translate
         t.translated = false;
-        if(tweetTranslate || tweetTranslateAfter) (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
+        if(tweetTranslate || tweetTranslateAfter) {
+            (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
             if(t.translated) return;
             let translated = await API.tweet.translate(t.id_str);
             t.translated = true;
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
+            if(!translated.translated_lang) return;
             let translatedMessage;
             if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                 translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
@@ -2348,7 +2389,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
             `<br>`+
             `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
             if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
-        });
+            });
+            if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {
+                onVisible(tweet, () => {
+                    if(!t.translated) {
+                        if(tweetTranslate) tweetTranslate.click();
+                        else if(tweetTranslateAfter) tweetTranslateAfter.click();
+                    }
+                })
+            }
+        }
 
         // Bookmarks
         let switchingBookmark = false;
@@ -2421,7 +2471,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
-                    if(!e.target.src.endsWith('?name=orig') && !e.target.src.startsWith('data:')) {
+                    if(!e.target.src.endsWith('?name=orig') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
                         e.target.src += '?name=orig';
                     }
                     new Viewer(tweetMedia, {

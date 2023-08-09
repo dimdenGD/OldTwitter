@@ -2,14 +2,15 @@ let user = {};
 let bookmarkCursor = null;
 let end = false;
 let linkColors = {};
-let activeTweet;
 let unfollowersPage = location.pathname.includes('/followers');
+let lastPage = 0, loading = true;
 
 function updateUserData() {
     API.account.verifyCredentials().then(async u => {
         user = u;
         userDataFunction(u);
         renderUserData();
+        renderUnfollows();
     }).catch(e => {
         if (e === "Not logged in") {
             window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
@@ -54,8 +55,10 @@ function renderUserData() {
         document.head.appendChild(style);
     }
 }
-function renderUnfollows() {
+function renderUnfollows(page = 0) {
     chrome.storage.local.get(['unfollows'], async d => {
+        loading = true;
+
         let res = d.unfollows;
         if(!res) res = {};
         if(!res[user.id_str]) res[user.id_str] = {
@@ -73,9 +76,10 @@ function renderUnfollows() {
             document.getElementById('update-btn').title = '';
         }
 
-        let unfollows = res[user.id_str][unfollowersPage ? 'unfollowers' : 'unfollowings'].sort((a, b) => b[1] - a[1]).slice(0, 100);
+        let raw = res[user.id_str][unfollowersPage ? 'unfollowers' : 'unfollowings'].sort((a, b) => b[1] - a[1]);
+        let unfollows = raw.slice(page * 100, page * 100 + 100);
         let timeline = document.getElementById('timeline');
-        timeline.innerHTML = '';
+        if(page === 0) timeline.innerHTML = '';
 
         if(unfollows.length === 0) {
             return timeline.innerHTML = `<span style="color:var(--light-gray)">${unfollowersPage ? LOC.no_unfollowers.message : LOC.no_unfollowings.message}</span>`;
@@ -92,6 +96,9 @@ function renderUnfollows() {
                 return timeline.innerHTML = `<span style="color:#ff4545">${escapeHTML(String(e))}</span>`;
             }
         }
+        document.getElementById('load-more').hidden = raw.length < page * 100 + 100;
+        document.getElementById('load-more').innerText = LOC.load_more.message;
+        lastPage = page;
 
         for(let i = 0; i < unfollows.length; i++) {
             let user = userData.find(u => u.id_str === unfollows[i][0]);
@@ -105,6 +112,7 @@ function renderUnfollows() {
             
             appendUser(user, timeline, new Date(unfollows[i][1]).toLocaleString());
         }
+        loading = false;
     });
 }
 
@@ -137,13 +145,18 @@ setTimeout(async () => {
                 lastUpdate: 0
             };
             await updateUnfollows(res);
+            lastPage = 0;
             renderUnfollows();
         });
+    });
+    document.getElementById('load-more').addEventListener('click', () => {
+        if(loading) return;
+        document.getElementById('load-more').innerText = LOC.loading.message;
+        renderUnfollows(lastPage + 1)
     });
 
     // Run
     updateUserData();
-    renderUnfollows();
     renderDiscovery();
     renderTrends();
     document.getElementById('loading-box').hidden = true;

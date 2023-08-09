@@ -135,6 +135,12 @@
                         <input type="checkbox" id="disable-gif-autoplay"> <label for="disable-gif-autoplay">__MSG_disable_gif_autoplay__</label>
                     </div>
                     <div class="setting">
+                        <input type="checkbox" id="mute-videos"> <label for="mute-videos">__MSG_mute_videos__</label>
+                    </div>
+                    <div class="setting">
+                        <input type="checkbox" id="dont-pause-videos"> <label for="dont-pause-videos">__MSG_dont_pause_videos__</label>
+                    </div>
+                    <div class="setting">
                         <input type="checkbox" id="save-preferred-quality"> <label for="save-preferred-quality">__MSG_save_preferred_quality__</label>
                     </div>
                     <h2>__MSG_sensitive_content__</h2><br>
@@ -168,7 +174,7 @@
                     <h2>__MSG_autotranslation__</h2><br>
                     <div class="setting">
                         <span>__MSG_autotranslation_mode__:</span>
-                        <select>
+                        <select id="autotranslation-mode">
                             <option value="whitelist">__MSG_translate_in_list__</option>
                             <option value="blacklist">__MSG_translate_not_in_list__</option>
                         </select>
@@ -179,9 +185,9 @@
                     </div>
                     <div class="setting">
                         <select id="autotranslate-language-list">
-                            <option value="select">__MSG_select__</option>
+                            <option value="select">__MSG_select_language__</option>
                         </select>
-                        <button id="add-autotranslate-language">__MSG_add__</button>
+                        <button id="add-autotranslate-language" class="nice-button" disabled>__MSG_add__</button>
                     </div>
                     <h2>__MSG_advanced_options__</h2><br>
                     <div class="setting">
@@ -299,7 +305,6 @@
                         <input type="checkbox" id="enable-promotion"> <label for="enable-promotion">(DEBUG) Show promoted tweets and trends (Only works for algo V1)</label>
                     </div>
                     
-
                     <h2>__MSG_font__</h2><br>
                     <div class="setting">
                         <select id="font"></select> <label for="font">__MSG_font__</label>

@@ -62,6 +62,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added option to use 2018 layout.</li>
+                            <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
                             <li>Lot of improvements for mobile version.</li>
                             <li>Fixed repeating tweets in timeline.</li>
                             <li>Made notifications load much faster.</li>
@@ -69,11 +70,16 @@ setTimeout(() => {
                             <li>Added support for videos in messages.</li>
                             <li>Improved media in messages.</li>
                             <li>Added option to view notifications in a modal.</li>
+                            <li>Added option to play videos muted by default.</li>
+                            <li>Added option to not pause videos when you scroll from view.</li>
                             <li>Made videos pause when scroll from sight.</li>
+                            <li>Made OldTwitter store more than 100 unfollowers.</li>
+                            <li>Added mute icon for people you're muting.</li>
                             <li>Improved color pickers.</li>
                             <li>Fixed tweets opening when selecting text.</li>
                             <li>Fixed big video uploads lagging/crashing the site.</li>
                             <li>Fixed media uploads in messages.</li>
+                            <li>Fix blocked/muted people sometimes appearing in timeline and replies.</li>
                             <li>Fixed messages repeating when scrolling them after some time.</li>
                             <li>Fixed new tweet notifications page.</li>
                             <li>Added button to clear OldTwitter token.</li>
@@ -366,7 +372,6 @@ function renderNewTweetsButton() {
     }
 }
 
-let activeTweet;
 let seenAlgoTweets = [], algoTweetsChanged = false;
 setInterval(() => {
     if(!algoTweetsChanged) return;
@@ -388,47 +393,9 @@ setTimeout(async () => {
 
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
-    let lastTweetDate = 0;
     let lastScroll = Date.now();
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
-        // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 100) {
-            lastTweetDate = Date.now();
-            let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-            let scrollPoint = scrollY + innerHeight/2;
-            let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
-                if(activeTweet) {
-                    activeTweet.classList.remove('tweet-active');
-                    let video = activeTweet.querySelector('.tweet-media > video[controls]');
-                    if(video) {
-                        video.pause();
-                    }
-                    if(activeTweet.tweet && activeTweet.tweet.algo) {
-                        if(!seenAlgoTweets.includes(activeTweet.tweet.id_str)) seenAlgoTweets.push(activeTweet.tweet.id_str);
-                        if(seenAlgoTweets.length > 100) {
-                            seenAlgoTweets.shift();
-                        }
-                        algoTweetsChanged = true;
-                    }
-                }
-                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
-                    if(newActiveTweet) {
-                        let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
-                        let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
-                        if(newVideo && !newVideo.ended) {
-                            newVideo.play();
-                        } else if(newVideoOverlay && !newVideoOverlay.style.display) {
-                            newVideoOverlay.click();
-                        }
-                    }
-                }
-                activeTweet = newActiveTweet;
-            }
-        }
 
         // loading new tweets
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {

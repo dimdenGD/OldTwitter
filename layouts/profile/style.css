@@ -1596,7 +1596,7 @@ a:hover,
     #profile-nav-right-cell{
         width: fit-content;
         position: absolute;
-        right: max(14px, calc(100% - 868px));
+        right: max(6px, calc(100% - 868px));
         top: 12px;
     }
 }

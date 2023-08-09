@@ -19,8 +19,8 @@ let vars;
 let varsResolve, varsPromise = new Promise(resolve => varsResolve = resolve);
 async function loadVars() { 
     vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji',
-            'chronologicalTL', 'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 
+            'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
             'noBigFont', 'language', 'autoplayVideos', 'displaySensitiveContent', 'displaySensitiveContentMoved', 'volume', 'timeMode',
             'showOriginalImages', 'pitchBlack', 'seeTweetViews', 'autotranslateProfiles', 'roundAvatars', 'twitterBlueCheckmarks',
             'developerMode', 'copyLinksAs', 'useNewIcon', 'updateTimelineAutomatically', 'hideTrends', 'hideWtf', 'hideLikes', 'hideFollowers',
@@ -28,7 +28,8 @@ async function loadVars() {
             'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont', 'useOldDefaultProfileImage', 'enableHashflags',
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'moveNavbarToBottom', 'openNotifsAsModal', 'enableIframeNavigation',
-            'acknowledgedCustomizationButton', 'modernUI', 'iconFont', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 'autotranslateMode'
+            'acknowledgedCustomizationButton', 'modernUI', 'iconFont', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
+            'autotranslationMode', "muteVideos", "dontPauseVideos"
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {
@@ -56,9 +57,9 @@ async function loadVars() {
                 }, () => {});
             }
             if(typeof(data.showExactValues) !== 'boolean') {
-                data.showExactValues = true;
+                data.showExactValues = window.innerWidth >= 590;
                 chrome.storage.sync.set({
-                    showExactValues: true
+                    showExactValues: window.innerWidth >= 590
                 }, () => {});
             }
             if(typeof(data.customCSSVariables) !== 'string') {
@@ -116,9 +117,9 @@ async function loadVars() {
                 }, () => {});
             }
             if(typeof(data.enableIframeNavigation) !== 'boolean') {
-                data.enableIframeNavigation = window.innerWidth < 650;
+                data.enableIframeNavigation = window.innerWidth < 590;
                 chrome.storage.sync.set({
-                    enableIframeNavigation: window.innerWidth < 650
+                    enableIframeNavigation: window.innerWidth < 590
                 }, () => {});
             }
             if(typeof(data.font) !== 'string') {
@@ -193,10 +194,10 @@ async function loadVars() {
                     autotranslateLanguages: []
                 }, () => {});
             }
-            if(typeof(data.autotranslateMode) !== 'string') {
-                data.autotranslateMode = 'whitelist';
+            if(typeof(data.autotranslationMode) !== 'string') {
+                data.autotranslationMode = 'whitelist';
                 chrome.storage.sync.set({
-                    autotranslateMode: 'whitelist'
+                    autotranslationMode: 'whitelist'
                 }, () => {});
             }
 

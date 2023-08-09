@@ -341,6 +341,17 @@ select, input, textarea {
     padding-bottom: 3px !important;
     padding-top: 2px !important;
 }
+.remove-autotranslate-language, #add-autotranslate-language {
+    padding: 2px 8px 3px 8px !important;
+    margin-left: 8px;
+}
+#add-autotranslate-language {
+    margin-left: 0;
+}
+.autotranslate-language {
+    margin-bottom: 2px;
+    margin-top: 2px;
+}
 #tl-help {
     color: white;
     background-color: var(--light-gray);

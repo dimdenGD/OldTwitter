@@ -2,7 +2,6 @@ let user = {};
 let tlCursor = null;
 let end = false;
 let linkColors = {};
-let activeTweet;
 let subpage = new URLSearchParams(location.search).get('page');
 let nid = new URLSearchParams(location.search).get('nid');
 
@@ -113,9 +112,7 @@ async function renderLikesTimeline() {
     }
 }
 
-let lastScroll = Date.now();
 let loadingNewTweets = false;
-let lastTweetDate = 0;
 
 setTimeout(async () => {
     if(!vars) {
@@ -137,40 +134,6 @@ setTimeout(async () => {
         return;
     }
     document.addEventListener('scroll', async () => {
-        lastScroll = Date.now();
-        // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 50) {
-            lastTweetDate = Date.now();
-            let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-            let scrollPoint = scrollY + innerHeight/2;
-            let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
-                if(activeTweet) {
-                    activeTweet.classList.remove('tweet-active');
-                }
-                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(activeTweet) {
-                    let video = activeTweet.querySelector('.tweet-media > video[controls]');
-                    if(video) {
-                        video.pause();
-                    }
-                }
-                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
-                    if(newActiveTweet) {
-                        let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
-                        let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
-                        if(newVideo && !newVideo.ended) {
-                            newVideo.play();
-                        } else if(newVideoOverlay && !newVideoOverlay.style.display) {
-                            newVideoOverlay.click();
-                        }
-                    }
-                }
-                activeTweet = newActiveTweet;
-            }
-        }
-
         // loading new tweets
         if (subpage === 'device_follow' && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
             if (loadingNewTweets) return;

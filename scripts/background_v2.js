@@ -52,10 +52,7 @@ chrome.webRequest.onHeadersReceived.addListener(
             if (
                 details.responseHeaders[i].name.toLowerCase() === 'content-security-policy' ||
                 details.responseHeaders[i].name.toLowerCase() === 'x-frame-options' ||
-                details.responseHeaders[i].name.toLowerCase() === 'access-control-allow-origin' ||
-                details.responseHeaders[i].name.toLowerCase() === 'access-control-allow-headers' ||
-                details.responseHeaders[i].name.toLowerCase() === 'access-control-allow-methods' ||
-                details.responseHeaders[i].name.toLowerCase() === 'access-control-allow-credentials'
+                details.responseHeaders[i].name.toLowerCase() === 'access-control-allow-origin'
             ) {
                 details.responseHeaders.splice(i, 1);
             }
@@ -63,18 +60,6 @@ chrome.webRequest.onHeadersReceived.addListener(
         if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.responseHeaders.push({
             name: "access-control-allow-origin",
             value: "https://twitter.com"
-        });
-        if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-headers')) details.responseHeaders.push({
-            name: "access-control-allow-headers",
-            value: "*"
-        });
-        if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-methods')) details.responseHeaders.push({
-            name: "access-control-allow-methods",
-            value: "*"
-        });
-        if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-credentials')) details.responseHeaders.push({
-            name: "access-control-allow-credentials",
-            value: "true"
         });
         return {
             responseHeaders: details.responseHeaders

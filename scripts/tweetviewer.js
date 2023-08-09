@@ -209,7 +209,8 @@ class TweetViewer {
         }
         let mainTweet;
         let mainTweetIndex = tl.list.findIndex(t => t.type === 'mainTweet');
-        let tlContainer = document.getElementsByClassName('timeline')[0];
+        let tlContainer = this.container.getElementsByClassName('timeline')[0];
+        if(!tlContainer) return;
         for(let i in tl.list) {
             let t = tl.list[i];
             if(t.type === 'mainTweet') {
@@ -969,7 +970,7 @@ class TweetViewer {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText : ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                 </a>
@@ -1163,13 +1164,14 @@ class TweetViewer {
                 }));
             };
             for(let vid of vids) {
-                if(typeof vars.volume === 'number') {
+                if(!vars.muteVideos && typeof vars.volume === 'number') {
                     vid.volume = vars.volume;
                 }
                 vid.onvolumechange = () => {
                     chrome.storage.sync.set({
                         volume: vid.volume
                     }, () => { });
+                    if(vars.muteVideos) return;
                     let allVids = document.getElementsByTagName('video');
                     for(let i = 0; i < allVids.length; i++) {
                         allVids[i].volume = vid.volume;
@@ -1438,26 +1440,37 @@ class TweetViewer {
         }
     
         // Translate
-        if(tweetTranslate) tweetTranslate.addEventListener('click', async () => {
-            let translated = await API.tweet.translate(t.id_str);
-            tweetTranslate.hidden = true;
-            let translatedMessage;
-            if(LOC.translated_from.message.includes("$LANGUAGE$")) {
-                translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
-            } else {
-                translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+        if(tweetTranslate) {
+            tweetTranslate.addEventListener('click', async () => {
+                let translated = await API.tweet.translate(t.id_str);
+                tweetTranslate.hidden = true;
+                t.translated = true;
+                if(!translated.translated_lang) return;
+                let translatedMessage;
+                if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                    translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+                } else {
+                    translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                }
+                let translatedT = {
+                    full_text: translated.text,
+                    entities: translated.entities
+                }
+                tweetBodyText.innerHTML += `<br>`+
+                `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
+                `<br>`+
+                `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
+                if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
+            });
+            if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {
+                onVisible(tweet, () => {
+                    if(!t.translated) {
+                        if(tweetTranslate) tweetTranslate.click();
+                    }
+                });
             }
-            let translatedT = {
-                full_text: translated.text,
-                entities: translated.entities
-            }
-            tweetBodyText.innerHTML += `<br>`+
-            `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
-            `<br>`+
-            `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
-            if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
-        });
-
+        }
+        
         // Bookmarks
         let switchingBookmark = false;
         let switchBookmark = () => {
@@ -1513,7 +1526,7 @@ class TweetViewer {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
-                    if(!e.target.src.endsWith('?name=orig') && !e.target.src.startsWith('data:')) {
+                    if(!e.target.src.endsWith('?name=orig') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
                         e.target.src += '?name=orig';
                     }
                     new Viewer(tweetMedia, {

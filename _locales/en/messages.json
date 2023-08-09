@@ -509,9 +509,11 @@
     "show_exact_values": { "message": "Display the exact number of retweets, likes, followers, etc." },
     "hide_timeline_types": { "message": "Hide timeline type switch on home page" },
     "autotranslation": { "message": "Autotranslation" },
-    "autotranslation_mode": { "message": "Autotranslation mode" },
+    "autotranslation_mode": { "message": "Tweet autotranslation mode" },
     "translate_in_list": { "message": "Translate when in language list" },
     "translate_not_in_list": { "message": "Translate when not in language list" },
     "language_list": { "message": "Language list" },
-    "select": { "message": "Select" }
+    "select_language": { "message": "Select language" },
+    "mute_videos": { "message": "Mute videos by default" },
+    "dont_pause_videos": { "message": "Don't pause videos when scrolling from view" }
 }

@@ -748,6 +748,9 @@ let toAutotranslate = false;
 async function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     let attempts = 0;
+    document.getElementById('profile-avatar').addEventListener('click', e => {
+        openInNewTab(pageUser.profile_image_url_https.replace('_normal.', '.'));
+    });
     document.getElementById('profile-avatar').addEventListener('error', () => {
         if(attempts > 3) return document.getElementById('profile-avatar').src = `${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_400x400.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'}`;
         attempts++;
@@ -1526,8 +1529,6 @@ document.addEventListener('findActiveTweet', () => {
     }
 });
 let loadingNewTweets = true;
-let lastTweetDate = 0;
-let activeTweet;
 let tweetsToLoad = {};
 let lastScroll = Date.now();
 let loadingFollowing = false;
@@ -1567,38 +1568,6 @@ setTimeout(async () => {
     let navProfileInfo = document.getElementById('nav-profile-info');
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
-        // find active tweet by scroll amount
-        if(Date.now() - lastTweetDate > 50) {
-            lastTweetDate = Date.now();
-            let tweets = Array.from(document.getElementsByClassName('tweet'));
-
-            let scrollPoint = scrollY + innerHeight/2;
-            let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-            if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
-                if(activeTweet) {
-                    activeTweet.classList.remove('tweet-active');
-                }
-                if(newActiveTweet) newActiveTweet.classList.add('tweet-active');
-                if(activeTweet) {
-                    let video = activeTweet.querySelector('.tweet-media > video[controls]');
-                    if(video) {
-                        video.pause();
-                    }
-                }
-                if(vars.autoplayVideos && !document.getElementsByClassName('modal')[0]) {
-                    if(newActiveTweet) {
-                        let newVideo = newActiveTweet.querySelector('.tweet-media > video[controls]');
-                        let newVideoOverlay = newActiveTweet.querySelector('.tweet-media > .tweet-media-video-overlay');
-                        if(newVideo && !newVideo.ended) {
-                            newVideo.play();
-                        } else if(newVideoOverlay && !newVideoOverlay.style.display) {
-                            newVideoOverlay.click();
-                        }
-                    }
-                }
-                activeTweet = newActiveTweet;
-            }
-        }
 
         // make user nav appear
         if(window.scrollY >= 600) {

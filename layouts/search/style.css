@@ -858,25 +858,29 @@ a:hover,
 }
 /* Mobile UI */
 @media screen and (max-width: 590px) {
+    #content {
+        display: block !important;
+    }
     #left-cell {
         width: 100%;
-        padding-bottom:8px/* weired bug fix*/
+        padding-bottom: 8px;
+        padding-right: 0;
+        margin-right: 0;
     }
-    .search-switches {
-        width: 100% ;
+    #center-cell {
+        width: 100% !important;
     }
-    #center-cell,
+    .search-switches,
     #save-search-left {
-        width: 100%;
-    }
-    .search-switches {
-        width: calc(100% - 20px);
+        width: calc(100% - 12px);
+        margin-right: 0;
+        padding-right: 0;
     }
     .search-switch {
-        padding-right: calc(100% - 150px);
+        padding-right: unset;
+        display: block;
+        width: calc(100% - 20px);
     }
-}
-@media screen and (max-width: 590px) {
     body.move-navbar-to-bottom #left-cell {
         top: 0;
     }

@@ -18,15 +18,12 @@ window.addEventListener('unload', () => {
 });
 if(window.top === window) {
     setInterval(() => {
-        let iframe = document.getElementsByClassName('iframe-navigation')[0];
-        if(iframe) {
-            let path = iframe.contentWindow.location.pathname;
-            if(path === _realPath) {
-                document.body.style.overflowY = window.previousOverflow && window.previousOverflow !== 'hidden' ? window.previousOverflow : 'auto';
-                window.top.windows = [window];
-                iframe.remove();
-                window.focus();
-            }
+        if(window.top.windows.slice(1).some(w => w.location.pathname === '/home')) {
+            let iframe = document.getElementsByClassName('iframe-navigation')[0];
+            document.body.style.overflowY = window.previousOverflow && window.previousOverflow !== 'hidden' ? window.previousOverflow : 'auto';
+            window.top.windows = [window];
+            iframe.remove();
+            window.focus();
         }
     }, 250);
 }

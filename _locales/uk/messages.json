@@ -498,5 +498,13 @@
     "style_your_profile": {"message": "Стилізуйте ваш профіль тут!"},
     "modern_ui": { "message": "Використовувати дизайн Твіттера з 2018" },
     "show_exact_values": { "message": "Показувати точну кількість лайків, ретвітів, підписників і т.д." },
-    "hide_timeline_types": { "message": "Сховати перемикач типу стрічки на головній сторінці" }
+    "hide_timeline_types": { "message": "Сховати перемикач типу стрічки на головній сторінці" },
+    "autotranslation": { "message": "Автоматичний переклад" },
+    "autotranslation_mode": { "message": "Режим автоматичного перекладу твітів" },
+    "translate_in_list": { "message": "Перекладати коли в списку мов" },
+    "translate_not_in_list": { "message": "Перекладати коли не в списку мов" },
+    "language_list": { "message": "Список мов" },
+    "select_language": { "message": "Виберіть мову" },
+    "mute_videos": { "message": "Грати відео без звуку за замовчуванням" },
+    "dont_pause_videos": { "message": "Не ставити відео на паузу при прокручуванні сторінки" }
 }
