@@ -1033,7 +1033,6 @@ input, textarea {
     position: relative;
     bottom: 38px;
     font-size: 21px;
-    right: 25px;
 }
 .message-leave:before {
     content: "\f154";

@@ -936,7 +936,7 @@ let userDataFunction = async user => {
             }
         }
         if(newMessages) {
-            let modalElement = document.getElementsByClassName('modal-content')[0];
+            let modalElement = document.getElementsByClassName('messages-container')[0];
             modalElement.scrollTop = modalElement.scrollHeight;
         }
 
