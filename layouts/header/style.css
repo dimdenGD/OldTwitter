@@ -897,6 +897,7 @@ input, textarea {
 }
 .message-block{
     align-self: flex-end;
+    position: relative;
 }
 .message-block-inner{
     display: table;
@@ -914,11 +915,9 @@ input, textarea {
 .message-element:hover .message-menu-open:before {
     color: var(--light-gray);
 }
-.message-menu {
-    position: absolute;
-}
 .message-menu-delete {
     cursor: pointer;
+    white-space: nowrap;
 }
 .message-menu-delete:before {
     content: "\f154";
@@ -931,18 +930,19 @@ input, textarea {
     border: 1px solid var(--light-gray);
     border-radius: 5px;
     z-index: 5;
-    right: 63px;
+    left: 0px;
+    position: absolute;
 }
 .message-menu span {
     color: var(--light-gray);
     font-size: 12px;
     font-weight: bold;
     margin-left: 6px;
-    position: relative;
     top: -2px;
     text-decoration: none;
     cursor: pointer;
     margin-right: 20px;
+    white-space: nowrap;
 }
 .message-new-container {
     border-radius: 5px;
