@@ -961,10 +961,10 @@ input, textarea {
 }
 .messages-container {
     overflow-y: scroll;
-    width:600px;
+    width:605px;
     height:calc(60vh - 130px);
     padding-bottom:0px;
-    padding-right:20px;
+    padding-right:15px;
     display: flow-root;
 }
 .message-new-input, .new-message-user-search, .circle-user-search {
@@ -2352,8 +2352,8 @@ video::-internal-media-controls-overlay-cast-button {
         width: calc(100%);
     }
     .messages-container{
-        width: 100%;
-        height: calc(80vh - 130px);;
+        width: calc(100% + 5px);
+        height: calc(80vh - 130px);
     }
     .message-new-container{
         width: 100%;
