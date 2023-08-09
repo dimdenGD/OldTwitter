@@ -1548,7 +1548,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         t.element = tweet;
         t.options = options;
 
-        if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments")) {
+        if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments") && !document.querySelector('.modal')) {
             tweet.addEventListener('click', async e => {
                 if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                     document.getElementById('loading-box').hidden = false;
