@@ -926,18 +926,18 @@ let userDataFunction = async user => {
             messageElements = messageElements.reverse();
             for(let i in messageElements) {
                 if(i<messageElements.length-1){
-                    if(messageElements[i+1].querySelector("data-timestamp")
-                    - messageElements[i].querySelector("data-timestamp")<=100000)
-                        messageElements[i].querySelector("data-timestamp").hidden=true;
+                    if(messageElements[i+1].querySelector(".message-time")["data-timestamp"]
+                    - messageElements[i].querySelector(".message-time")["data-timestamp"]<=100000)
+                        messageElements[i].querySelector(".message-time").hidden=true;
                 }
                 messageBox.prepend(messageElements[i], document.createElement('br'));
             }
         } else {
             for(let i in messageElements) {
                 if(i<messageElements.length-1){
-                if(messageElements[i+1].querySelector("data-timestamp")
-                - messageElements[i].querySelector("data-timestamp")<=100000)
-                    messageElements[i].querySelector("data-timestamp").hidden=true;
+                if(messageElements[i+1].querySelector(".message-time")["data-timestamp"]
+                - messageElements[i].querySelector(".message-time")["data-timestamp"]<=100000)
+                    messageElements[i].querySelector(".message-time").hidden=true;
                 messageBox.append(messageElements[i], document.createElement('br'));
                 }
             }
