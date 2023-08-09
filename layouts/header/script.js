@@ -990,10 +990,12 @@ let userDataFunction = async user => {
         }
         const messageHeaderBack = modal.querySelector('.message-header-back');
         messageHeaderBack.addEventListener('click', e => {
-            modal.remove();
+            modal.removeModal();
             chrome.storage.local.remove(['inboxData'], () => {});
             setTimeout(() => {
-                document.getElementById('messages').click();
+                if(!document.querySelector('.inbox-modal')) {
+                    document.getElementById('messages').click();
+                }
             }, 20);
         });
     }
