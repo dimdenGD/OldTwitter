@@ -221,9 +221,6 @@ function switchModernUI(enabled) {
                 border: 0;
 
             }
-            .profile-block-me{
-                display:none;
-            }
             .profile-block{
                 width:calc(36px + 6px);
             }
