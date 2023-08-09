@@ -2507,4 +2507,7 @@ video::-internal-media-controls-overlay-cast-button {
     #pin-profile {
         display: none; 
     }
+    .profile-block-me{
+        display:none;
+    }
 }
