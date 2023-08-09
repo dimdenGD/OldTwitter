@@ -1741,6 +1741,19 @@ let userDataFunction = async user => {
             } else {
                 search = await API.search.typeahead(query);
             }
+        } else if(query.startsWith('[') && query.endsWith(']')) {
+            let ids = [];
+            try {
+                ids = JSON.parse(query);
+            } catch(e) {
+                return;
+            }
+            if(ids.length === 0) return;
+            let users = await API.user.lookup(ids);
+            search = {
+                topics: [],
+                users: users
+            }
         } else {
             search = await API.search.typeahead(query);
         }
