@@ -793,14 +793,14 @@ let userDataFunction = async user => {
             messageElement.id = `message-${m.id}`;
             messageElement.innerHTML = `
                 ${sender.id_str !== user.id_str ? `
-                    <div class="profile-block" style="float:left"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar"></a><br>　</div>
+                    <div class="profile-block" style="float:left"><a class="sender-profile-url" href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar"></a></div>
                     <div class="message-block" style="float:left"><div class="message-block-inner"><span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span></div></div>
                 ` : `
                     <div class="message-block" style="margin-left: auto"><div class="message-block-inner" style="margin-left: auto"><span class="message-menu-open"></span>
                     <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span><div class="message-menu" hidden>
                         <span class="message-menu-delete">${LOC.delete_for_you.message}</span>
                     </div></div></div>
-                    <div class="profile-block profile-block-me" style="float:right"><a href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar"></a><br>　</div>
+                    <div class="profile-block profile-block-me" style="float:right"><a class="sender-profile-url" href="https://twitter.com/${sender.screen_name}"><img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar"></a></div>
                     
                 `}
             `;
@@ -925,20 +925,27 @@ let userDataFunction = async user => {
         if(!newMessages) {
             messageElements = messageElements.reverse();
             for(let i in messageElements) {
-                if(i<messageElements.length-1){
-                    if(messageElements[i+1].querySelector(".message-time")["data-timestamp"]
-                    - messageElements[i].querySelector(".message-time")["data-timestamp"]<=100000)
-                        messageElements[i].querySelector(".message-time").hidden=true;
-                }
                 messageBox.prepend(messageElements[i], document.createElement('br'));
             }
         } else {
             for(let i in messageElements) {
-                if(i<messageElements.length-1){
-                if(messageElements[i+1].querySelector(".message-time")["data-timestamp"]
-                - messageElements[i].querySelector(".message-time")["data-timestamp"]<=100000)
-                    messageElements[i].querySelector(".message-time").hidden=true;
                 messageBox.append(messageElements[i], document.createElement('br'));
+                
+            }
+        }
+        messageLists=document.getElementsByClassName("message-element");
+        messageListsMax=messageLists.length;
+        for(let i=0 ; i < messageLists.length; i++) {
+            if(i<messageListsMax-1){
+                current = messageLists[i].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
+                next = messageLists[i + 1].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
+
+                current_profile = messageLists[i].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
+                next_profile = messageLists[i + 1].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
+                //if(next-current <= 10000 && current_profile === next_profile){
+                if(parseInt(current/(60*1000)) === parseInt(next/(60*1000)) && current_profile === next_profile){
+                    messageLists[i].getElementsByClassName('message-time')[0].hidden=true;
+                    messageLists[i].getElementsByClassName('message-avatar')[0].hidden=true;
                 }
             }
         }

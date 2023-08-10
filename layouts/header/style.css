@@ -895,6 +895,8 @@ input, textarea {
 .profile-block>a>img{
     width:48px;
     height:48px;
+    margin-bottom:18px;
+    margin-top:-18px;
 }
 .message-block{
     align-self: flex-end;
