@@ -152,7 +152,7 @@ Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren]
 Italian - [krek](https://twitter.com/CactusInc420)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
 Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)  
-Polish - lele, [nomi](https://twitter.com/youmaynomi)
+Polish - lele, [nomi](https://twitter.com/youmaynomi)  
 Vietnamese - [btmxh](https://github.com/btmxh)  
 Chinese - [am1006](https://github.com/am1006)  
 Czech - Menal  
