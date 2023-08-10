@@ -21,7 +21,8 @@ chrome.webRequest.onBeforeRequest.addListener(
                     details.originUrl &&
                     !details.originUrl.includes("newtwitter=true") &&
                     !details.originUrl.includes("/i/flow/login") &&
-                    !details.originUrl.includes("/settings/download_your_data")
+                    !details.originUrl.includes("/settings/download_your_data") &&
+                    !details.originUrl.includes("tweetdeck.twitter.com")
                 ) && 
                 ( // includes
                     details.url.includes("abs.twimg.com/responsive-web/client-web/")
@@ -57,9 +58,10 @@ chrome.webRequest.onHeadersReceived.addListener(
                 details.responseHeaders.splice(i, 1);
             }
         }
+        let origin = new URL(details.originUrl ? details.originUrl : details.url ? details.url : 'https://twitter.com').origin;
         if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.responseHeaders.push({
             name: "access-control-allow-origin",
-            value: "https://twitter.com"
+            value: origin
         });
         return {
             responseHeaders: details.responseHeaders

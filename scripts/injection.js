@@ -106,6 +106,9 @@ if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath))
 if(realPath === '/messages') {
     location.replace('/home#dm');
 }
+if(realPath === '/compose/tweet') {
+    location.replace('/home');
+}
 if(realPath === '/intent/tweet' || realPath === '/share') {
     location.replace('/home#' + location.search);
 }
@@ -420,11 +423,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             );
         });
     }
-
-    // invalidate manifest cache by blocking it
-    try {
-        fetch('/manifest.json').then(response => response.text()).catch(e => {});
-    } catch (e) {}
 
     // default variables
     if(typeof(vars.darkMode) !== 'boolean' && document.body) {
