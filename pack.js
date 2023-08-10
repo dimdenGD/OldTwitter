@@ -215,10 +215,21 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         let line = apis.split("\n").findIndex(l => l.includes("&& true") || l.includes("&& false") || l.includes("|| true") || l.includes("|| false") || l.includes("&&true") || l.includes("&&false") || l.includes("||true") || l.includes("||false"));
         console.warn("::warning file=scripts/api.js,line=" + (line+1) + "::Probably temporary boolean left in code.");
       } else {
-        for(let i = 0; i < 3; i++) {
+        for(let i = 0; i < 5; i++) {
           console.warn("\x1b[33m", "Warning: probably temporary boolean left in code.", '\x1b[0m');
         }
       }
+    }
+    if(args[0] !== '-a') {
+      try {
+        require('node-fetch')('https://twitter.com/manifest.json').then(res => res.text()).then(json => {
+          if(json.includes("content_security_policy")) {
+            for(let i = 0; i < 5; i++) {
+              console.warn("\x1b[33m", "Warning: Twitter returned CSP in manifest.json!!!!", '\x1b[0m');
+            }
+          }
+        });
+      } catch(e) {}
     }
 
     let background = fs.readFileSync('../OldTwitterFirefox/scripts/background_v2.js', 'utf8');
