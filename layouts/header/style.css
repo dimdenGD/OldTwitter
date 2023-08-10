@@ -819,7 +819,7 @@ input, textarea {
 	position: relative;
     overflow-wrap: anywhere;
 }
-.message-element .message-body:after  {
+.message-element-self .message-body:after  {
     content: '';
 	position: absolute;
 	right: 0;
@@ -853,6 +853,27 @@ input, textarea {
 	border-left: 0;
 	margin-top: -4px;
 	margin-left: -4px;
+}
+
+
+.message-element-self.message-element-continue .message-body:after,
+.message-element-other.message-element-continue .message-body:after { 
+    content: '';
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 0;
+	height: 0;
+	border: 0;
+	border-right: 0;
+	border-left: 0;
+	margin-top: 0;
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.message-element.message-element-continue {
+    margin-bottom: 2px;
 }
 .message-header-link {
     text-align: center;

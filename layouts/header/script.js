@@ -207,13 +207,13 @@ function switchModernUI(enabled) {
                 width: auto;
             }
             /* DM message bubble */
-            .message-element .message-body {
+            .message-element-self .message-body {
                 border-radius: 15px 15px 0 15px;
             }
             .message-element-other .message-body {
-                border-radius: 15px 15px 15px 0 !important;
+                border-radius: 15px 15px 15px 0;
             }
-            .message-element .message-body:after,
+            .message-element-self .message-body:after,
             .message-element-other .message-body:after  {
                 margin-top: 0;
                 margin-left: 0;
@@ -227,6 +227,10 @@ function switchModernUI(enabled) {
             .profile-block>a>img{
                 width:36px;
                 height:36px;
+            }
+            .message-element-self.message-element-continue .message-body,
+            .message-element-other.message-element-continue .message-body { 
+                border-radius: 15px 15px 15px 15px;
             }
             /* Sidebar or else */
             #wtf h1,
@@ -934,9 +938,8 @@ let userDataFunction = async user => {
             }
         }
         messageLists=document.getElementsByClassName("message-element");
-        messageListsMax=messageLists.length;
         for(let i=0 ; i < messageLists.length; i++) {
-            if(i<messageListsMax-1){
+            if(i<messageLists.length-1){
                 current = messageLists[i].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
                 next = messageLists[i + 1].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
 
@@ -946,6 +949,8 @@ let userDataFunction = async user => {
                 if(parseInt(current/(60*1000)) === parseInt(next/(60*1000)) && current_profile === next_profile){
                     messageLists[i].getElementsByClassName('message-time')[0].hidden=true;
                     messageLists[i].getElementsByClassName('message-avatar')[0].hidden=true;
+
+                    messageLists[i].className += ' message-element-continue';
                 }
             }
         }
