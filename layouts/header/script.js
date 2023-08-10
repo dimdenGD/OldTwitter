@@ -938,20 +938,18 @@ let userDataFunction = async user => {
             }
         }
         messageLists=document.getElementsByClassName("message-element");
-        for(let i=0 ; i < messageLists.length; i++) {
-            if(i<messageLists.length-1){
-                current = messageLists[i].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
-                next = messageLists[i + 1].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
+        for(let i=0 ; i < messageLists.length - 1; i++) {
+            
+            current_timestamp = messageLists[i].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
+            next_timestamp = messageLists[i + 1].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
 
-                current_profile = messageLists[i].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
-                next_profile = messageLists[i + 1].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
-                //if(next-current <= 10000 && current_profile === next_profile){
-                if(parseInt(current/(60*1000)) === parseInt(next/(60*1000)) && current_profile === next_profile){
-                    messageLists[i].getElementsByClassName('message-time')[0].hidden=true;
-                    messageLists[i].getElementsByClassName('message-avatar')[0].hidden=true;
-
-                    messageLists[i].className += ' message-element-continue';
-                }
+            current_profile = messageLists[i].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
+            next_profile = messageLists[i + 1].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
+            //if(next_timestamp - current_timestamp <= 10000 && current_profile === next_profile){
+            if(parseInt(current_timestamp/(60*1000)) === parseInt(next_timestamp/(60*1000)) && current_profile === next_profile){
+                messageLists[i].getElementsByClassName('message-time')[0].hidden=true;
+                messageLists[i].getElementsByClassName('message-avatar')[0].hidden=true;
+                messageLists[i].className += ' message-element-continue';
             }
         }
         if(newMessages) {
