@@ -770,6 +770,7 @@ input, textarea {
     margin-bottom: 5px;
 }
 .message-element {
+    display: flex;
     float: right;
     width: 564px;
     text-align: right;
@@ -809,20 +810,70 @@ input, textarea {
     color: var(--background-color);
     border-radius: 5px;
     font-size: 14px;
+    padding: 10px;
     margin: 0px;
-    padding: 5px;
     white-space: break-spaces;
     line-height: 1.2;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
+	position: relative;
+    overflow-wrap: anywhere;
+}
+.message-element-self .message-body:after  {
+    content: '';
+	position: absolute;
+	right: 0;
+	bottom: 10px;
+	width: 0;
+	height: 0;
+	border: 4px solid transparent;
+	border-left-color: var(--link-color);
+	border-right: 0;
+	margin-top: -4px;
+	margin-right: -4px;
 }
 .message-element-other {
     text-align: left;
     float: left;
 }
 .message-element-other .message-body {
+	position: relative;
     background-color: #d9e3eb;
     color: black;
+}
+.message-element-other .message-body:after {
+	content: '';
+	position: absolute;
+	left: 0;
+	bottom: 10px;
+	width: 0;
+	height: 0;
+	border: 4px solid transparent;
+	border-right-color: #d9e3eb;
+	border-left: 0;
+	margin-top: -4px;
+	margin-left: -4px;
+}
+
+
+.message-element-self.message-element-continue .message-body:after,
+.message-element-other.message-element-continue .message-body:after { 
+    content: '';
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 0;
+	height: 0;
+	border: 0;
+	border-right: 0;
+	border-left: 0;
+	margin-top: 0;
+	margin-right: 0;
+	margin-left: 0;
+}
+
+.message-element.message-element-continue {
+    margin-bottom: 2px;
 }
 .message-header-link {
     text-align: center;
@@ -856,6 +907,25 @@ input, textarea {
     color: var(--light-gray);
     font-size: 12px;
 }
+.profile-block{
+    align-self: flex-end;
+    font-size: 12px;
+    width:calc(48px + 12px);
+    height:inherit;
+}
+.profile-block>a>img{
+    width:48px;
+    height:48px;
+    margin-bottom:18px;
+    margin-top:-18px;
+}
+.message-block{
+    align-self: flex-end;
+    position: relative;
+}
+.message-block-inner{
+    display: table;
+}
 .message-menu-open {
     cursor: pointer;
 }
@@ -871,6 +941,7 @@ input, textarea {
 }
 .message-menu-delete {
     cursor: pointer;
+    white-space: nowrap;
 }
 .message-menu-delete:before {
     content: "\f154";
@@ -879,30 +950,49 @@ input, textarea {
     margin-right: 5px;
 }
 .message-menu {
-    position: absolute;
     background-color: var(--background-color);
     border: 1px solid var(--light-gray);
     border-radius: 5px;
     z-index: 5;
-    right: 63px;
+    left: 0px;
+    position: absolute;
 }
 .message-menu span {
     color: var(--light-gray);
     font-size: 12px;
     font-weight: bold;
     margin-left: 6px;
-    position: relative;
     top: -2px;
     text-decoration: none;
     cursor: pointer;
     margin-right: 20px;
+    white-space: nowrap;
+}
+.message-new-container {
+    border-radius: 5px;
+    background-color: var(--link-color);
+    width: 600px;
+    height: 60px;
+    z-index: 5;
 }
 .message-new {
-    position: fixed;
-    display: contents;
+    border-radius: 5px;
+    background-color: var(--new-tweet-over);
+    box-sizing: border-box;
+    padding: 10px;
+    width: 600px;
+    height: 60px;
 }
 .messages-list {
     margin-bottom: 20px;
+}
+.messages-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width:605px;
+    height:calc(60vh - 130px);
+    padding-bottom:0px;
+    padding-right:15px;
     display: flow-root;
 }
 .message-new-input, .new-message-user-search, .circle-user-search {
@@ -971,7 +1061,6 @@ input, textarea {
     position: relative;
     bottom: 38px;
     font-size: 21px;
-    right: 25px;
 }
 .message-leave:before {
     content: "\f154";
@@ -980,18 +1069,15 @@ input, textarea {
     margin-right: 5px;
 }
 
-.name-top-background {
-    position: fixed;
-    background-color: var(--background-color);
-    padding-top: 15px;
-    margin-top: -20px;
-    width: 595px;
-    height: 50px
-}
-
 .name-top {
-    width: 618px;
+    position: static;
+    width: 595px;
+    height: 55px;
+    border-bottom: 1px solid var(--border);
     background-color: var(--background-color) !important;
+}
+.name-top hr {
+    width: 100%;
 }
 .navbar-new-tweet-user-search {
     background-color: var(--background-color);
@@ -2179,6 +2265,9 @@ emoji-picker {
 .tweet-main {
     cursor: unset;
 }
+.message-time {
+    white-space:nowrap;
+}
 video::-internal-media-controls-overlay-cast-button {
     display: none;
 }
@@ -2284,11 +2373,24 @@ video::-internal-media-controls-overlay-cast-button {
         min-width: unset;
         margin-bottom: 21px;
     }
-    .name-top, .home-top {
+    .home-top {
         width: calc(100% - 42px);
     }
+    .name-top {
+        width: calc(100%);
+    }
+    .messages-container{
+        width: calc(100% + 5px);
+        height: calc(80vh - 130px);
+    }
+    .message-new-container{
+        width: 100%;
+    }
+    .message-new {
+        width: 100%;
+    }
     .message-new-input {
-        width: calc(100% - 190px);
+        width: calc(100% - 200px);
     }
     .name-top-background {
         width: calc(100% - 20px);
@@ -2297,7 +2399,10 @@ video::-internal-media-controls-overlay-cast-button {
         width: 100%;
     }
     .message-block {
-        max-width: calc(100% - 37px)
+        max-width: calc(100% - 80px)
+    }
+    .message-body{
+        max-width: calc(100vw - 180px) !important;
     }
     .inbox-message {
         width: 100%;
@@ -2429,5 +2534,8 @@ video::-internal-media-controls-overlay-cast-button {
 @media screen and (max-width: 370px) {
     #pin-profile {
         display: none; 
+    }
+    .profile-block-me{
+        display:none;
     }
 }

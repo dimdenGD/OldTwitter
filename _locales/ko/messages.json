@@ -507,5 +507,14 @@
     "style_your_profile": {"message": "여기서 당신의 프로필을 꾸미세요!"},
     "modern_ui": { "message": "2018년 트위터 디자인을 사용합니다 둥근 버튼과 새로운 심벌을 포함합니다" },
     "show_exact_values": { "message": "마음에 들어요, 리트윗, 팔로워 등의 정확한 값을 표시합니다." },
-    "hide_timeline_types": { "message": "홈페이지에서 타임라인 타입을 숨깁니다." }
+    "hide_timeline_types": { "message": "홈페이지에서 타임라인 타입을 숨깁니다." },
+    "autotranslation": { "message": "자동 번역" },
+    "autotranslation_mode": { "message": "다음의 트윗을 자동번역" },
+    "translate_in_list": { "message": "목록에 있는 언어만" },
+    "translate_not_in_list": { "message": "목록에 없는 언어만" },
+    "language_list": { "message": "언어 목록" },
+    "select_language": { "message": "언어를 선택하세요" },
+    "mute_videos": { "message": "비디오를 기본적으로 음소거합니다" },
+    "dont_pause_videos": { "message": "스크롤 할 때 비디오를 일시정지 하지 않습니다" },
+    "delete_for_you":{ "message": "나에게서 삭제",  "description":"DM Message Delete menu"}
 }
