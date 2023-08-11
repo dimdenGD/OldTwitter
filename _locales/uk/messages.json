@@ -507,6 +507,6 @@
     "select_language": { "message": "Виберіть мову" },
     "mute_videos": { "message": "Грати відео без звуку за замовчуванням" },
     "dont_pause_videos": { "message": "Не ставити відео на паузу при прокручуванні сторінки" },
-    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

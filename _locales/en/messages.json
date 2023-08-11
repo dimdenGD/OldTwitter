@@ -517,6 +517,6 @@
     "mute_videos": { "message": "Mute videos by default" },
     "dont_pause_videos": { "message": "Don't pause videos when scrolling from view" },
     "delete_for_you":{ "message": "Delete for you",  "description":"DM Message Delete menu"},
-    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

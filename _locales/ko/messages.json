@@ -517,6 +517,6 @@
     "mute_videos": { "message": "비디오를 기본적으로 음소거합니다" },
     "dont_pause_videos": { "message": "스크롤 할 때 비디오를 일시정지 하지 않습니다" },
     "delete_for_you":{ "message": "나에게서 삭제",  "description":"DM Message Delete menu"},
-    "mmdd":{ "message": "$MONTH$월 $DATE$일",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$YEAR$년 $MONTH$월 $DATE$일",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$MONTH$월 $DATE$일",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$YEAR$년 $MONTH$월 $DATE$일",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

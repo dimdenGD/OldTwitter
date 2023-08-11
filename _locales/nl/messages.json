@@ -285,6 +285,6 @@
     "people_you_follow": { "message": "Mensen die jij volgt" },
     "people_you_mention": { "message": "Mensen die jij noemt" },
     "new_version": { "message": "Bijgewerkt naar nieuwe versie" },
-    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

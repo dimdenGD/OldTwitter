@@ -501,6 +501,6 @@
     "replying_to_and": {"message": " und ", "description": "Für einige Sprachen, die Anrede verwenden", "example": "Antwort an @A-> und <-@B, @C"},
     "replying_to_comma": {"message": ", ", "description": "Für einige Sprachen, die Anrede verwenden", "example": "Antwort an @A und @B->, <-@C"},
     "twitter": {"message": "Twitter"},
-    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

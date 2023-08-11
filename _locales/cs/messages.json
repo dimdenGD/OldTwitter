@@ -393,6 +393,6 @@
     "user_protected" : { "message": "Tweety tohoto účtu jsou chráněny." },
     "follow_to_see": { "message": "Jen potvrzení sledující mají přístup k tweetům a kompletnímu profilu uživatele @$SCREEN_NAME$. Stiskněte tlačítko \"Sledovat\" k poslání žádosti o sledování.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Kopírovat odkaz na tweet jako", "example": "->Copy links as<- vxtwitter.com" },
-    "mmdd":{ "message": "$DATE$. $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$DATE$. $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$DATE$. $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$DATE$. $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

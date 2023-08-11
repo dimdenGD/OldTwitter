@@ -954,6 +954,6 @@
     "like_btn": { "message": "Μου αρέσει / Δεν μου αρέσει", "description": "Used for like button." },
     "favorite_btn": { "message": "Αγαπημένο / Μη αγαπημένο", "description": "Used for favorite button." },
     "views_count": { "message": "Προβολές", "description": "Used for views count." },
-    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
   }

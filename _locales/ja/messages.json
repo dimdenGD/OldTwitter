@@ -496,6 +496,6 @@
     "clear_ot_token": {"message": "OldTwitter トークンをクリアする"},
     "enable_iframe_navigation": {"message": "実験的なページ保存ナビゲーションを有効にすると、リロードせずにリンクをクリックして前のページに戻ることができます。 これは実験的なものであり、破損したり、遅延したりする可能性があります。"},
     "style_your_profile": {"message": "プロフィールはこちらから！"},
-    "mmdd":{ "message": "$MONTH$月 $DATE$日",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$YEAR$年 $MONTH$月 $DATE$日",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$MONTH$月 $DATE$日",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$YEAR$年 $MONTH$月 $DATE$日",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

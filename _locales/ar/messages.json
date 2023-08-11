@@ -331,6 +331,6 @@
     "see_scheduled": { "message": "أُنظُر الجدولة" },
     "user_protected" : { "message": "هذه التغريدات محمية" },
     "follow_to_see": { "message": "يمكن للمتابعين المعتدمين فقط مشاهدة تغريدات @$SCREEN_NAME$ لطلب حق الوصول انقر على متابعة", "placeholders": { "screen_name": { "content": "dimden" } } },
-    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

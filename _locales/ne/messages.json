@@ -377,6 +377,6 @@
     "custom_mode_link": { "message": "कस्टम मोडको लिँक" },
     "tweet_verb": { "message": "ट्वीट गर्न", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "\"$TWEET_TEXT$\" ट्वीट गर्न?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
-    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

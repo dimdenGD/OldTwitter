@@ -497,6 +497,6 @@
     "enable_iframe_navigation": {"message": "Activer la navigation expérimentale avec préservation de la page, cela permettra de cliquer sur des liens et de revenir à la page précédente sans rechargement. Il s'agit d'un système expérimental qui risque de ne pas fonctionner correctement et d'être lent."},
     "style_your_profile": {"message": "Modifiez votre profil ici!"},
     "modern_ui": { "message": "Utiliser le design 2018 de Twitter, y compris les boutons ronds et les symboles" },
-    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
-    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
+    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }
