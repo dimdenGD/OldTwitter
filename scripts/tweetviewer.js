@@ -1446,6 +1446,7 @@ class TweetViewer {
                 tweetTranslate.hidden = true;
                 t.translated = true;
                 if(!translated.translated_lang) return;
+                if(translated.text === t.full_text) return;
                 let translatedMessage;
                 if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                     translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);

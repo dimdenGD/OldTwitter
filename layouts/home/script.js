@@ -61,28 +61,21 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added option to use 2018 layout.</li>
+                            <li>Added support for PWA.</li>
                             <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
-                            <li>Lot of improvements for mobile version.</li>
-                            <li>Fixed repeating tweets in timeline.</li>
-                            <li>Made notifications load much faster.</li>
-                            <li>Added experimental option to be able to click on links and be able to go back to timeline without refreshing.</li>
-                            <li>Added support for videos in messages.</li>
-                            <li>Improved media in messages.</li>
-                            <li>Added option to view notifications in a modal.</li>
+                            <li>Updated DM UI.</li>
+                            <li>Fixed TweetDeck not working on Firefox.</li>
+                            <li>Fixed blocked/muted people sometimes appearing in timeline and replies.</li>
                             <li>Added option to play videos muted by default.</li>
                             <li>Added option to not pause videos when you scroll from view.</li>
-                            <li>Made videos pause when scroll from sight.</li>
+                            <li>Fixed quoted tweets videos not pausing when scrolling from view.</li>
+                            <li>Fixed updating avatar/banner not working on Firefox on new Twitter.</li>
+                            <li>Implemented silly video tweets with buttons.</li>
                             <li>Made OldTwitter store more than 100 unfollowers.</li>
                             <li>Added mute icon for people you're muting.</li>
-                            <li>Improved color pickers.</li>
-                            <li>Fixed tweets opening when selecting text.</li>
-                            <li>Fixed big video uploads lagging/crashing the site.</li>
-                            <li>Fixed media uploads in messages.</li>
-                            <li>Fix blocked/muted people sometimes appearing in timeline and replies.</li>
-                            <li>Fixed messages repeating when scrolling them after some time.</li>
-                            <li>Fixed new tweet notifications page.</li>
-                            <li>Added button to clear OldTwitter token.</li>
+                            <li>Fixes for iframe navigation.</li>
+                            <li>Made profile and tweet page not refresh when pressing back button from notifications modal.</li>
+                            <li>More style fixes for 2018 and mobile styles.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>

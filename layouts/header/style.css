@@ -680,6 +680,7 @@ input, textarea {
     max-width: 600px !important;
     width: 600px;
     top: 15%;
+    overflow-x: hidden;
 }
 .inbox-modal hr {
     border-color: var(--border);
