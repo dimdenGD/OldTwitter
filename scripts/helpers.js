@@ -379,9 +379,9 @@ function timeElapsed(targetTimestamp) {
         return LOC.d.message.replace('$NUMBER$', Math.floor(elapsed / (86400)));
     }
     if (elapsed < 2628000) { //<1 month
-        return MonthNames[targetDate.getMonth()].replace('$NUMBER$', targetDate.getDate());
+        return LOC.mmdd.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]);
     }
-    return `${MonthNames[targetDate.getMonth()].replace('$NUMBER$', targetDate.getDate())}, ${targetDate.getFullYear()}`; //more than a monh
+    return LOC.mmddyy.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]).replace('$YEAR$', targetDate.getFullYear());//more than a monh
 }
 function openInNewTab(href) {
     Object.assign(document.createElement('a'), {

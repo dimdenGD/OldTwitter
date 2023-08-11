@@ -150,53 +150,41 @@
 	"no_description": { "message": "Açıklama yok." },
 	"born": { "message": "Doğdu:" },
 	"january": {
-		"message": "$NUMBER$ Ocak'ta",
-		"description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Ocak'ta",
+		"description": "Used in 'Born January 1'. You can move on left if it sounds better in your language like that."
 	},
 	"february": {
-		"message": "$NUMBER$ Şubat'ta",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Şubat'ta"
 	},
 	"march": {
-		"message": "$NUMBER$ Mart'ta",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Mart'ta"
 	},
 	"april": {
-		"message": "$NUMBER$ Nisan'da",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Nisan'da"
 	},
 	"may": {
-		"message": "$NUMBER$ Mayıs'ta",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Mayıs'ta"
 	},
 	"june": {
-		"message": "$NUMBER$ Haziran'da",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Haziran'da"
 	},
 	"july": {
-		"message": "$NUMBER$ Temmuz'da",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Temmuz'da"
 	},
 	"august": {
-		"message": "$NUMBER$ Ağustos'ta",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Ağustos'ta"
 	},
 	"september": {
-		"message": "$NUMBER$ Eylül'de",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Eylül'de"
 	},
 	"october": {
-		"message": "$NUMBER$ Ekim'de",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Ekim'de"
 	},
 	"november": {
-		"message": "$NUMBER$ Kasım'da",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Kasım'da"
 	},
 	"december": {
-		"message": "$NUMBER$ Aralık'ta",
-		"placeholders": { "number": { "content": "1" } }
+		"message": "Aralık'ta"
 	},
 	"tweet_to": {
 		"message": "Tweetle:",
@@ -834,5 +822,7 @@
     "disable_profile_customizations": { "message": "Profil özelleştirmelerini devre dışı bırak" },
     "replying_to_and":  { "message": " ve ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
-    "twitter": {"message": "Twitter"}
+    "twitter": {"message": "Twitter"},
+    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
+    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
 }

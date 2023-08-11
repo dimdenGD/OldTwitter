@@ -293,101 +293,41 @@
         "message": "Dzimis"
     },
     "january": {
-        "message": "janvāris $NUMBER$",
-        "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "janvāris",
+        "description": "Used in 'Born January 1'. You can move on left if it sounds better in your language like that."
     },
     "february": {
-        "message": "februāris $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "februāris"
     },
     "march": {
-        "message": "marts $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "marts"
     },
     "april": {
-        "message": "aprīlis $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "aprīlis"
     },
     "may": {
-        "message": "maijs $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "maijs"
     },
     "june": {
-        "message": "Jūnijs $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "Jūnijs"
     },
     "july": {
-        "message": "Jūlijs $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "Jūlijs"
     },
     "august": {
-        "message": "augusts $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "augusts"
     },
     "september": {
-        "message": "Septembris $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "Septembris"
     },
     "october": {
-        "message": "oktobris $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "oktobris"
     },
     "november": {
-        "message": "Novembris $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "Novembris"
     },
     "december": {
-        "message": "decembris $NUMBER$",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
+        "message": "decembris"
     },
     "tweet_to": {
         "message": "Tvītot uz",
@@ -1093,5 +1033,7 @@
     "retweet_btn": { "message": "Retwīts / Citāta twīts", "description": "Used for retweet menu button." },
     "like_btn": { "message": "Laiks / Atlaikot", "description": "Used for like button." },
     "favorite_btn": { "message": "Favorīts / Atfavorītot", "description": "Used for favorite button." },
-    "views_count": { "message": "Skatijumi", "description": "Used for views count." }
+    "views_count": { "message": "Skatijumi", "description": "Used for views count." },
+    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "data": { "content": "1st" } }},
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "data": { "content": "1st" } }}
 }
