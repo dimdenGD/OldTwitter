@@ -1502,7 +1502,7 @@ const API = {
                         }
                         let pinEntry = instructions.find(e => e.type === "TimelinePinEntry");
                         let pinnedTweet;
-                        if(pinEntry && pinEntry.entry && pinEntry.entry.content) {
+                        if(pinEntry && pinEntry.entry && pinEntry.entry.content && pinEntry.entry.content.itemContent) {
                             let result = pinEntry.entry.content.itemContent.tweet_results.result;
                             pinnedTweet = parseTweet(result);
                             if(pinnedTweet) {
