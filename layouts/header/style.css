@@ -955,7 +955,6 @@ input, textarea {
     border: 1px solid var(--light-gray);
     border-radius: 5px;
     z-index: 5;
-    left: 0px;
     position: absolute;
 }
 .message-menu span {
@@ -1541,6 +1540,10 @@ span.tweet-body-text {
 }
 .message-element .emoji {
     vertical-align: middle;
+}
+.message-element-self .message-body,
+.message-element-self .message-element-media {
+    float: right;
 }
 .message-element-self .message-block-inner{
     text-align:right
