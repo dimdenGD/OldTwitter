@@ -863,6 +863,7 @@ let userDataFunction = async user => {
                     }
                 });
             }
+            let span = messageBlockInner.getElementsByClassName('message-body')[0];
             if(m.message_data.attachment) {
                 let attachment = m.message_data.attachment;
                 if(attachment.photo) {
@@ -881,7 +882,11 @@ let userDataFunction = async user => {
                         });
                         e.target.click();
                     })
-                    messageBlockInner.append(document.createElement('br'), photoElement);
+                    if(span.innerHTML === '' || span.innerHTML === ' ') 
+                        messageBlockInner.append(photoElement);
+                    else
+                        messageBlockInner.append(document.createElement('br'), photoElement);
+                    
                 }
                 if(attachment.animated_gif) {
                     let gif = attachment.animated_gif;
@@ -896,7 +901,10 @@ let userDataFunction = async user => {
                         gifElement.width = gif.original_info.width;
                     }
                     gifElement.classList.add('message-element-media');
-                    messageBlockInner.append(document.createElement('br'), gifElement);
+                    if(span.innerHTML === '' || span.innerHTML === ' ') 
+                        messageBlockInner.append(gifElement);
+                    else
+                        messageBlockInner.append(document.createElement('br'), gifElement);
                 }
                 if(attachment.video) {
                     let video = attachment.video;
@@ -909,7 +917,10 @@ let userDataFunction = async user => {
                         videoElement.width = video.original_info.width;
                     }
                     videoElement.classList.add('message-element-media');
-                    messageElement.append(document.createElement('br'), videoElement);
+                    if(span.innerHTML === '' || span.innerHTML === ' ') 
+                        messageBlockInner.append(videoElement);
+                    else
+                        messageBlockInner.append(document.createElement('br'), videoElement);
                 }
             }
             timestamp=document.createElement('span');
@@ -917,7 +928,6 @@ let userDataFunction = async user => {
             timestamp.setAttribute("data-timestamp", m.time);
             timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
             messageBlock.append(timestamp);
-            let span = messageBlockInner.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
                 span.remove();
             }

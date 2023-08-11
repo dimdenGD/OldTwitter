@@ -902,7 +902,7 @@ input, textarea {
     max-width: fit-content;
     border-radius: 5px;
     border: 1px solid var(--border);
-    max-height: 500px;
+    max-height: 300px;
 }
 .message-time {
     color: var(--light-gray);
@@ -1542,9 +1542,8 @@ span.tweet-body-text {
 .message-element .emoji {
     vertical-align: middle;
 }
-.message-element-self .message-body,
-.message-element-self .message-element-media {
-    float: right;
+.message-element-self .message-block-inner{
+    text-align:right
 }
 .message-element-self .message-time {
     position: relative;
