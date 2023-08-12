@@ -504,7 +504,7 @@
     "translate_not_in_list": { "message": "Traduire lorque ce n'est pas dans la liste de langue" },
     "language_list": { "message": "Liste de langue" },
     "select_language": { "message": "Sélectionner la langue" },
-    "mute_videos": { "message": "Rendre muet les vidéos par défaut" },
+    "mute_videos": { "message": "Rendre muette les vidéos par défaut" },
     "dont_pause_videos": { "message": "Ne pas mettre en pause les vidéos lors du défilement de la vue" },
     "delete_for_you":{ "message": "Supprimer pour vous",  "description":"DM Message Delete menu"}
 }
