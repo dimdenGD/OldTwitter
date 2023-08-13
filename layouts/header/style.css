@@ -1971,6 +1971,7 @@ emoji-picker {
     border-radius: 5px;
     z-index: 1;
     transition: 0.2s;
+    direction: ltr;
 }
 .tweet-media-video-overlay-play {
     width: 75px;
