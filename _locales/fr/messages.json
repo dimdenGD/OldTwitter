@@ -189,7 +189,7 @@
     "default_link_color": { "message": "Couleur des liens par défaut" },
     "font": { "message": "Police" },
     "color_sync": { "message": "Synchronisation de la couleur de lien" },
-    "by_pressing_sync": { "message": "En appuyant sur Synchronisation, votre couleur de lien de  sera enregistrée dans la base de donnée et pourra être visible aux autres utilisateurs de l'extension." },
+    "by_pressing_sync": { "message": "En appuyant sur Synchronisation, votre couleur de lien de profil sera enregistrée dans la base de donnée et pourra être visible aux autres utilisateurs de l'extension." },
     "color_years_ago": { "message": "Si vous avez déjà défini la couleur des liens de Twitter lorsque cette option existait encore, elle remplacera votre ancienne couleur." },
     "sync": { "message": "Synchronisation" },
     "profile_link_color": { "message": "Couleur des lien de profil" },
