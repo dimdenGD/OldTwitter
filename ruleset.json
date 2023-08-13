@@ -108,6 +108,26 @@
         "condition": {
             "urlFilter": "*://*.twimg.com/*",
             "initiatorDomains": ["twitter.com"],
+            "excludedInitiatorDomains": ["mobile.twitter.com", "tweetdeck.twitter.com"],
+            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
+        }
+    },
+    {
+        "id": 11,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "responseHeaders": [
+                {
+                    "header": "access-control-allow-origin",
+                    "operation": "set",
+                    "value": "https://tweetdeck.twitter.com"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "*://*.twimg.com/*",
+            "initiatorDomains": ["tweetdeck.twitter.com"],
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
     }
