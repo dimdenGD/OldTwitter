@@ -765,20 +765,6 @@ let userDataFunction = async user => {
             modal.getElementsByClassName('messages-load-more')[0].hidden = true;
             return;
         }
-        let missingUserIds = [];
-        for(let j in lastConvo.entries) {
-            let m = lastConvo.entries[j].message;
-            if(!m) continue;
-            if(!lastConvo.users[m.message_data.sender_id] && !missingUserIds.includes(m.message_data.sender_id)) {
-                missingUserIds.push(m.message_data.sender_id);
-            }
-        }
-        if(missingUserIds.length > 0) {
-            let foundUsers = await API.user.lookup(missingUserIds)
-            foundUsers.forEach(user => {
-                lastConvo.users[user.id_str] = user;
-            });
-        }
         lastConvo.entries = lastConvo.entries.reverse();
         let messageElements = [];
         for(let i in lastConvo.entries) {
