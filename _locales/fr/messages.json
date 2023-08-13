@@ -496,7 +496,7 @@
     "clear_ot_token": {"message": "Effacer la clé OldTwitter"},
     "enable_iframe_navigation": {"message": "Activer la navigation expérimentale avec préservation de la page, cela permettra de cliquer sur des liens et de revenir à la page précédente sans rechargement. Il s'agit d'un système expérimental qui risque de ne pas fonctionner correctement et d'être lent."},
     "style_your_profile": {"message": "Modifiez votre profil ici!"},
-    "modern_ui": { "message": "Utiliser le design 2018 de Twitter, y compris les boutons ronds et les symboles" }
+    "modern_ui": { "message": "Utiliser le design 2018 de Twitter, y compris les boutons ronds et les symboles" },
     "hide_timeline_types": { "message": "Cacher le bouton pour changer le type de chronologie sur la page d'accueil." },
     "autotranslation": { "message": "Traduction automatique" },
     "autotranslation_mode": { "message": "Mode de traduction automatique" },
