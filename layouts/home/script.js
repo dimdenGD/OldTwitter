@@ -269,6 +269,16 @@ async function renderTimeline(append = false, sliceAmount = 0) {
     let data = timeline.data.slice(sliceAmount, timeline.data.length);
     for(let i in data) {
         let t = data[i];
+        if(t.algo && t.favorited) {
+            if(!seenAlgoTweets.includes(t.id_str)) {
+                seenAlgoTweets.push(t.id_str);
+                if(seenAlgoTweets.length > 100) {
+                    seenAlgoTweets.shift();
+                }
+                algoTweetsChanged = true;
+            }
+            continue;
+        }
         if (t.retweeted_status) {
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
@@ -365,12 +375,6 @@ function renderNewTweetsButton() {
     }
 }
 
-let seenAlgoTweets = [], algoTweetsChanged = false;
-setInterval(() => {
-    if(!algoTweetsChanged) return;
-    algoTweetsChanged = false;
-    chrome.storage.local.set({seenAlgoTweets}, () => {});
-}, 20000);
 setTimeout(async () => {
     if(!vars) {
         await loadVars();

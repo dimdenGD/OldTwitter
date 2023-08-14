@@ -686,8 +686,7 @@ const API = {
                 if(social.length === 0) break;
                 if(i % 7 === 0) {
                     if(
-                        chrono.list.map(t => t.id_str).includes(social[social.length-1].id_str) ||
-                        social.favorited
+                        chrono.list.map(t => t.id_str).includes(social[social.length-1].id_str)
                     ) {
                         social.pop();
                         continue;

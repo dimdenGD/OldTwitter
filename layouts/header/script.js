@@ -7,6 +7,12 @@ let menuFn;
 let notificationsOpened = false;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 let activeTweet;
+let seenAlgoTweets = [], algoTweetsChanged = false;
+setInterval(() => {
+    if(!algoTweetsChanged) return;
+    algoTweetsChanged = false;
+    chrome.storage.local.set({seenAlgoTweets}, () => {});
+}, 20000);
 
 const keysHeld = {};
 const notificationBus = new BroadcastChannel('notification_bus');
