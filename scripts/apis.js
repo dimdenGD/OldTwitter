@@ -3858,7 +3858,7 @@ const API = {
         },
         getConversation: (id, max_id) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/dm/conversation/${id}.json?ext=altText${max_id ? `&max_id=${max_id}` : ''}&count=100&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                fetch(`https://api.twitter.com/1.1/dm/conversation/${id}.json?ext=altText${max_id ? `&max_id=${max_id}` : ''}&count=100&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&include_conversation_info=true`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.oauth_key,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
