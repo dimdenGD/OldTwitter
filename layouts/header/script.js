@@ -1863,7 +1863,7 @@ let userDataFunction = async user => {
     let userPreviewTimeouts = [];
     let leavePreviewTimeout;
     document.addEventListener('mouseover', e => {
-        if(innerWidth < 650) return;
+        if(innerWidth < 650 && !vars.showUserPreviewsOnMobile) return;
         for(let timeout of userPreviewTimeouts) {
             clearTimeout(timeout);
         }
@@ -1895,6 +1895,7 @@ let userDataFunction = async user => {
             if(username === pageUser.screen_name) return;
         }
         userPreviewTimeouts.push(setTimeout(async () => {
+            if(!document.hasFocus()) return;
             let userPreview = document.createElement('div');
             let shadow = userPreview.attachShadow({mode: 'closed'});
             userPreview.className = 'user-preview';
@@ -1909,6 +1910,17 @@ let userDataFunction = async user => {
                 }, 500);
             }
             el.addEventListener('mouseleave', leaveFunction);
+            if(innerWidth < 650) {
+                let mobileClickFunction = e => {
+                    if(e.target.closest('.user-preview')) return;
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    stopLoad = true;
+                    userPreview.remove();
+                    document.removeEventListener('click', mobileClickFunction, true);
+                }
+                document.addEventListener('click', mobileClickFunction, true);
+            }
 
             let user = await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;

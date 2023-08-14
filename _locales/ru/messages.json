@@ -507,5 +507,6 @@
     "select_language": { "message": "Выберите язык" },
     "mute_videos": { "message": "Воспроизводить видео без звука по умолчанию" },
     "dont_pause_videos": { "message": "Не ставить видео на паузу при пролистывании через ленту" },
-    "delete_for_you":{ "message": "Удалить для себя",  "description":"DM Message Delete menu"}
+    "delete_for_you":{ "message": "Удалить для себя",  "description":"DM Message Delete menu"},
+    "show_user_previews_on_mobile": { "message": "Показывать превью профиля при долгом нажатии (это может быть надоедливым)" }
 }

@@ -516,5 +516,6 @@
     "select_language": { "message": "Select language" },
     "mute_videos": { "message": "Mute videos by default" },
     "dont_pause_videos": { "message": "Don't pause videos when scrolling from view" },
-    "delete_for_you":{ "message": "Delete for you",  "description":"DM Message Delete menu"}
+    "delete_for_you":{ "message": "Delete for you",  "description":"DM Message Delete menu" },
+    "show_user_previews_on_mobile": { "message": "Show user previews on hold (this can be annoying)" }
 }

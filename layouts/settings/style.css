@@ -379,7 +379,8 @@ select, input, textarea {
     color: var(--link-color);
     cursor: pointer;
 }
-#move-navbar-to-bottom-div {
+#move-navbar-to-bottom-div,
+#show-user-previews-on-mobile-div {
     display: none;
 }
 #about-left {
@@ -747,7 +748,8 @@ button[aria-labelledby="clr-open-label"] {
     #custom-css {
         width: 100% !important
     }
-    #move-navbar-to-bottom-div {
+    #move-navbar-to-bottom-div,
+    #show-user-previews-on-mobile-div {
         display: block;
     }
     .color-transparency {

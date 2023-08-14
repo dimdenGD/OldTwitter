@@ -506,5 +506,6 @@
     "language_list": { "message": "Список мов" },
     "select_language": { "message": "Виберіть мову" },
     "mute_videos": { "message": "Грати відео без звуку за замовчуванням" },
-    "dont_pause_videos": { "message": "Не ставити відео на паузу при прокручуванні сторінки" }
+    "dont_pause_videos": { "message": "Не ставити відео на паузу при прокручуванні сторінки" },
+    "show_user_previews_on_mobile": { "message": "Показувати превью профіля при довгому натиску (це може бути набридливим)" }
 }
