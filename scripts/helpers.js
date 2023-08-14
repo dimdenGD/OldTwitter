@@ -2371,29 +2371,34 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
         // Translate
         t.translated = false;
+        let translating = false;
         if(tweetTranslate || tweetTranslateAfter) {
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
-            if(t.translated) return;
-            let translated = await API.tweet.translate(t.id_str);
-            t.translated = true;
-            (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
-            if(!translated.translated_lang) return;
-            if(translated.text === t.full_text) return;
-            let translatedMessage;
-            if(LOC.translated_from.message.includes("$LANGUAGE$")) {
-                translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
-            } else {
-                translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
-            }
-            let translatedT = {
-                full_text: translated.text,
-                entities: translated.entities
-            }
-            tweetBodyText.innerHTML += `<br>`+
-            `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
-            `<br>`+
-            `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
-            if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
+                if(t.translated || translating) return;
+                translating = true;
+                let translated = await API.tweet.translate(t.id_str);
+                translating = false;
+                t.translated = true;
+                (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
+                if(!translated.translated_lang || !translated.text) return;
+                let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                if(translated.text.trim() === tt) return;
+                if(translated.text.trim() === tt.replace(/(haha)|(hehe)/g, 'lol')) return; // lol
+                let translatedMessage;
+                if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                    translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+                } else {
+                    translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                }
+                let translatedT = {
+                    full_text: translated.text,
+                    entities: translated.entities
+                }
+                tweetBodyText.innerHTML += `<br>`+
+                `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
+                `<br>`+
+                `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
+                if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });
             if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {
                 onVisible(tweet, () => {

@@ -1440,13 +1440,20 @@ class TweetViewer {
         }
     
         // Translate
+        t.translated = false;
+        let translating = false;
         if(tweetTranslate) {
             tweetTranslate.addEventListener('click', async () => {
+                if(t.translated || translating) return;
+                translating = true;
                 let translated = await API.tweet.translate(t.id_str);
-                tweetTranslate.hidden = true;
                 t.translated = true;
-                if(!translated.translated_lang) return;
-                if(translated.text === t.full_text) return;
+                translating = false;
+                tweetTranslate.hidden = true;
+                if(!translated.translated_lang || !translated.text) return;
+                let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                if(translated.text.trim() === tt) return;
+                if(translated.text.trim() === tt.replace(/(haha)|(hehe)/g, 'lol')) return; // lol
                 let translatedMessage;
                 if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                     translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
