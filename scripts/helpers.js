@@ -2517,7 +2517,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     e.target.click();
                 }
             });
-            if(typeof pageUser !== 'undefined' && !location.pathname.includes("/likes")) {
+            if(typeof pageUser !== 'undefined' && !location.pathname.includes("/likes") && !options.noUserPreview) {
                 let profileMediaDiv = document.getElementById('profile-media-div');
                 if(!options || !options.top || !options.top.text) t.extended_entities.media.forEach(m => {
                     if(profileMediaDiv.children.length >= 6) return;
