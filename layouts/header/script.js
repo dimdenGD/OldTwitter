@@ -2406,7 +2406,7 @@ let userDataFunction = async user => {
                             let nd = renderNotification(n, { unread: n.unread });
                             notifList.appendChild(nd);
                         } else if(n.type === 'tweet') {
-                            let t = await appendTweet(n, notifList, { noInsert: true, ignoreSeen: true, noUserPreview: true });
+                            let t = await appendTweet(n, notifList, { noInsert: true, ignoreSeen: true });
                             if(t) {
                                 if(n.unread) {
                                     t.classList.add('notification-unread');
@@ -2426,7 +2426,7 @@ let userDataFunction = async user => {
                             let nd = renderNotification(n, { unread: true });
                             divs.push(nd);
                         } else if(n.type === 'tweet') {
-                            let t = await appendTweet(n, notifList, { noInsert: true, noUserPreview: true });
+                            let t = await appendTweet(n, notifList, { noInsert: true });
                             t.classList.add('notification-unread');
                             divs.push(t);
                         }

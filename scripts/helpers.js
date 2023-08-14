@@ -2517,7 +2517,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     e.target.click();
                 }
             });
-            if(typeof pageUser !== 'undefined' && !location.pathname.includes("/likes") && !options.noUserPreview) {
+            if(typeof pageUser !== 'undefined' && pageUser.id_str === t.user.id_str) {
                 let profileMediaDiv = document.getElementById('profile-media-div');
                 if(!options || !options.top || !options.top.text) t.extended_entities.media.forEach(m => {
                     if(profileMediaDiv.children.length >= 6) return;
@@ -2529,11 +2529,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     media.src = m.media_url_https;
                     if(m.ext_alt_text) media.alt = m.ext_alt_text;
                     media.addEventListener('click', async () => {
-                        if(subpage !== 'profile' && subpage !== 'media') {
-                            document.getElementById('profile-stat-tweets-link').click();
-                            while(!document.getElementsByClassName('tweet-id-' + t.id_str)[0]) await sleep(100);
-                        }
-                        document.getElementsByClassName('tweet-id-' + t.id_str)[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+                        new TweetViewer(user, t);
                     });
                     profileMediaDiv.appendChild(media);
                 });
