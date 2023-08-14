@@ -26,6 +26,7 @@ setInterval(() => {
 
 function debugLog(...args) {
     if(typeof vars === "object" && vars.developerMode) {
+        if(args[0] === 'notifications.get' && !document.querySelector('.notifications-modal') && !location.pathname.startsWith('/notifications')) return; 
         if(vars.extensiveLogging) {
             console.trace(...args);
         } else {

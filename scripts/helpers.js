@@ -1463,19 +1463,34 @@ const mediaClasses = [
     'tweet-media-element-three',
     'tweet-media-element-two',
 ];
+
+function newSizeFunction(x, y, max_x, max_y) {
+    let ratio = x / y;
+    if(x > max_x) {
+        x = max_x;
+        y = x / ratio;
+    }
+    if(y > max_y) {
+        y = max_y;
+        x = y * ratio;
+    }
+    return [parseInt(x), parseInt(y)];
+}
+
 const sizeFunctions = [
     undefined,
-    (w, h) => [w > 450 ? 450 : w < 150 ? 150 : w, h > 500 ? 500 : h < 150 ? 150 : h],
-    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
-    (w, h) => [150, h > 250 ? 250 : h < 150 ? 150 : h],
-    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
+    (w, h) => newSizeFunction(w, h, 450, 500),
+    (w, h) => newSizeFunction(w, h, 225, 400),
+    (w, h) => newSizeFunction(w, h, 150, 250),
+    (w, h) => newSizeFunction(w, h, 200, 400)
 ];
+
 const quoteSizeFunctions = [
     undefined,
-    (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
-    (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-    (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
-    (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
+    (w, h) => newSizeFunction(w, h, 400, 400),
+    (w, h) => newSizeFunction(w, h, 200, 400),
+    (w, h) => newSizeFunction(w, h, 125, 200),
+    (w, h) => newSizeFunction(w, h, 100, 150)
 ];
 async function appendTweet(t, timelineContainer, options = {}) {
     if(typeof t !== 'object') {

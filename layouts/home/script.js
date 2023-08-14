@@ -66,6 +66,7 @@ setTimeout(() => {
                             <li>Updated DM UI.</li>
                             <li>Fixed TweetDeck not working on Firefox.</li>
                             <li>Added option to enable user previews on mobile.</li>
+                            <li>Fixed tweets changing their size while media is loading.</li>
                             <li>Fixed blocked/muted people sometimes appearing in timeline and replies.</li>
                             <li>Added option to play videos muted by default.</li>
                             <li>Added option to not pause videos when you scroll from view.</li>
