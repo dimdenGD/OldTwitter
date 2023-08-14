@@ -141,14 +141,18 @@ function parseTweet(res) {
         tweet.quoted_status = result.legacy;
         if(tweet.quoted_status) {
             tweet.quoted_status.user = result.core.user_results.result.legacy;
-            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-            if(result.core.user_results.result.is_blue_verified) {
-                tweet.quoted_status.user.verified = true;
-                tweet.quoted_status.user.verified_type = "Blue";
-            }
-            tweet.quoted_status.ext = {};
-            if(result.views) {
-                tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+            if(!tweet.quoted_status.user) {
+                delete tweet.quoted_status;
+            } else {
+                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                if(result.core.user_results.result.is_blue_verified) {
+                    tweet.quoted_status.user.verified = true;
+                    tweet.quoted_status.user.verified_type = "Blue";
+                }
+                tweet.quoted_status.ext = {};
+                if(result.views) {
+                    tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                }
             }
         } else {
             console.warn("No quoted status", result);
