@@ -831,16 +831,8 @@ class TweetViewer {
             }
         }
         let full_text = t.full_text ? t.full_text : '';
-        let tweetLanguage = t.lang;
-        if(tweetLanguage.includes('-')) {
-            let [lang, country] = tweetLanguage.split('-');
-            tweetLanguage = `${lang}_${country.toUpperCase()}`;
-        }
-        let isMatchingLanguage = tweetLanguage === LANGUAGE;
-        // https://twittercommunity.com/t/unkown-language-code-qht-returned-by-api/172819/3
-        if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
-            isMatchingLanguage = true;
-        }
+        let isMatchingLanguage = languageMatches(t.lang);
+        let isQuoteMatchingLanguage = !!t.quoted_status && languageMatches(t.quoted_status.lang);
         let videos = t.extended_entities && t.extended_entities.media && t.extended_entities.media.filter(m => m.type === 'video');
         if(!videos || videos.length === 0) {
             videos = undefined;
@@ -979,6 +971,9 @@ class TweetViewer {
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
+                    ${!isQuoteMatchingLanguage ? /*html*/`
+                    <span class="tweet-quote-translate">${LOC.view_translation.message}</span>
+                    ` : ``}
                 </a>
                 ` : ``}
                 ${t.limited_actions === 'limit_trusted_friends_tweet' && options.mainTweet ? `
@@ -1292,6 +1287,7 @@ class TweetViewer {
         const tweetBody = tweet.getElementsByClassName('tweet-body')[0];
         const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
+        const tweetQuoteTranslate = tweet.getElementsByClassName('tweet-quote-translate')[0];
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
         const tweetBodyQuoteText = tweet.getElementsByClassName('tweet-body-text-quote')[0];
     
@@ -1443,6 +1439,41 @@ class TweetViewer {
             } else {
                 tweetBodyQuoteText.classList.add('ltr');
             }
+            if(tweetQuoteTranslate) {
+                let quoteTranslating = false;
+                tweetQuoteTranslate.addEventListener('click', async e => {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    if(t.quoted_status.translated || quoteTranslating) return;
+                    quoteTranslating = true;
+                    let translated = await API.tweet.translate(t.quoted_status.id_str);
+                    quoteTranslating = false;
+                    t.quoted_status.translated = true;
+                    tweetQuoteTranslate.hidden = true;
+                    if(!translated.translated_lang || !translated.text) return;
+                    let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                    if(translated.text.trim() === tt) return;
+                    if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                    let translatedMessage;
+                    if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                        translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+                    } else {
+                        translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                    }
+                    tweetBodyQuote.innerHTML += 
+                    `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
+                    `<span class="tweet-translated-text" style="color:var(--default-text-color)!important">${escapeHTML(translated.text)}</span>`;
+                    if(vars.enableTwemoji) twemoji.parse(tweetBodyQuote);
+                });
+                if(options.translate || vars.autotranslateProfiles.includes(t.quoted_status.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'blacklist')) {
+                    onVisible(tweet, () => {
+                        if(!t.quoted_status.translated) {
+                            if(tweetQuoteTranslate) tweetQuoteTranslate.click();
+                        }
+                    })
+                }
+            }
         }
     
         // Translate
@@ -1471,8 +1502,7 @@ class TweetViewer {
                     entities: translated.entities
                 }
                 tweetBodyText.innerHTML += `<br>`+
-                `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
-                `<br>`+
+                `<span class="translated-from">${translatedMessage}:</span>`+
                 `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
                 if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });

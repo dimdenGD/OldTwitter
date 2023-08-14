@@ -63,6 +63,7 @@ setTimeout(() => {
                         <ul>
                             <li>Added support for PWA.</li>
                             <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
+                            <li>Added translation button and autotranslation for quoted tweets.</li> 
                             <li>Updated DM UI.</li>
                             <li>Fixed TweetDeck not working on Firefox.</li>
                             <li>Added option to enable user previews on mobile.</li>
