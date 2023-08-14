@@ -1534,6 +1534,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 console.log(t.socialContext);
             }
         }
+
+        // verification
+        if(t.user.ext_verified_type) {
+            t.user.verified_type = t.user.ext_verified_type;
+            t.user.verified = true;
+        }
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
             t.user.verified = true;
@@ -1550,6 +1556,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             delete t.quoted_status.user.verified_type;
             t.quoted_status.user.verified = false;
         }
+
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
         const tweet = document.createElement('div');
         tweet.tweet = t;

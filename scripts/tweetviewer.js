@@ -748,6 +748,12 @@ class TweetViewer {
     // what dumbfuck thought having 2 almost identical functions was a good idea (me)
     async appendTweet(t, timelineContainer, options = {}) {
         if(this.seenReplies.includes(t.id_str)) return;
+
+        // verification
+        if(t.user.ext_verified_type) {
+            t.user.verified_type = t.user.ext_verified_type;
+            t.user.verified = true;
+        }
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
             t.user.verified = true;
