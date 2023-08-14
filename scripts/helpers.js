@@ -1201,8 +1201,9 @@ function getTimeZone() {
 
 function formatLargeNumber(n) {
     let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
-    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString('en-US',option)
-    else return Number(n).toLocaleString()
+    let specialLangs = ['zh_cn', 'zh_tw', 'ja', 'ko']; // these languages actually stay short
+    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString(specialLangs.includes(LANGUAGE.toLowerCase()) ? LANGUAGE.replace('_', '-') : 'en-US', option);
+    else return Number(n).toLocaleString();
 }
 
 async function renderTrends(compact = false, cache = true) {
@@ -2645,16 +2646,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
                 tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractReply.innerText.includes('K') || 
-                    tweetInteractReply.innerText.includes('M') || 
-                    tweetInteractReply.innerText.includes('B')))
-                    tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
                 tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetFooterReplies.innerText.includes('K') || 
-                    tweetFooterReplies.innerText.includes('M') || 
-                    tweetFooterReplies.innerText.includes('B')))
-                    tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetData._ARTIFICIAL = true;
             if(typeof timeline !== 'undefined') {
@@ -2703,14 +2698,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.newTweetId = tweetData.id_str;
             if(!options.mainTweet) {
                 tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractRetweet.innerText.includes('K') || 
-                    tweetInteractRetweet.innerText.includes('M') || 
-                    tweetInteractRetweet.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
-                if(!(tweetFooterRetweets.innerText.includes('K') || 
-                    tweetFooterRetweets.innerText.includes('M') || 
-                    tweetFooterRetweets.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
         }
@@ -2720,14 +2711,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.retweeted = false;
             if(!options.mainTweet) {
                 tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                if(!(tweetInteractRetweet.innerText.includes('K') || 
-                    tweetInteractRetweet.innerText.includes('M') || 
-                    tweetInteractRetweet.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             } else {
-                if(!(tweetFooterRetweets.innerText.includes('K') || 
-                    tweetFooterRetweets.innerText.includes('M') || 
-                    tweetFooterRetweets.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             }
             delete t.newTweetId;
@@ -2947,9 +2934,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.favorite_count--;
             if(!options.mainTweet) {
                 tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                if(!(tweetInteractFavorite.innerText.includes('K') || 
-                    tweetInteractFavorite.innerText.includes('M') || 
-                    tweetInteractFavorite.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');;
             } else {
                 if(mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
@@ -2957,9 +2942,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     let likerImg = footerFavorites.querySelector(`a[data-id="${user.id_str}"]`);
                     if(likerImg) likerImg.remove()
                 }
-                if(!(tweetFooterFavorites.innerText.includes('K') || 
-                    tweetFooterFavorites.innerText.includes('M') || 
-                    tweetFooterFavorites.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             }
             tweetInteractFavorite.classList.remove('tweet-interact-favorited');
@@ -2969,10 +2952,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.favorite_count++;
             if(!options.mainTweet) {
                 tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractFavorite.innerText.includes('K') || 
-                    tweetInteractFavorite.innerText.includes('M') || 
-                    tweetInteractFavorite.innerText.includes('B')))
-                    tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
+                if(vars.showExactValues) tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
             } else {
                 if(footerFavorites.children.length < 8 && !mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
                     let a = document.createElement('a');
@@ -2988,10 +2968,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     footerFavorites.appendChild(a);
                     mainTweetLikers.push(user);
                 }
-                if(!(tweetFooterFavorites.innerText.includes('K') || 
-                    tweetFooterFavorites.innerText.includes('M') || 
-                    tweetFooterFavorites.innerText.includes('B')))
-                    tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }
