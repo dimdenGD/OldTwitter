@@ -1482,7 +1482,7 @@ const sizeFunctions = [
     (w, h) => newSizeFunction(w, h, 450, 500),
     (w, h) => newSizeFunction(w, h, 225, 400),
     (w, h) => newSizeFunction(w, h, 150, 250),
-    (w, h) => newSizeFunction(w, h, 200, 400)
+    (w, h) => newSizeFunction(w, h, 225, 400)
 ];
 
 const quoteSizeFunctions = [

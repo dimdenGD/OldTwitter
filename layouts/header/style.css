@@ -2046,6 +2046,26 @@ emoji-picker {
 .ltr {
     direction: ltr;
 }
+.tweet-media-element-four {
+    max-height: 150px;
+    max-width: 100px
+}
+
+.tweet-media-element-three {
+    max-height: 250px;
+    max-width: 150px
+}
+
+.tweet-media-element-two {
+    max-height: 400px;
+    max-width: 225px
+}
+
+.tweet-media-element-one {
+    max-height: 500px;
+    max-width: 450px
+}
+
 .tweet-card {
     direction: ltr;
 }
