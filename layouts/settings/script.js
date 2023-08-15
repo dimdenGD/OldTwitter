@@ -194,6 +194,7 @@ setTimeout(async () => {
     let muteVideos = document.getElementById('mute-videos');
     let dontPauseVideos = document.getElementById('dont-pause-videos');
     let showUserPreviewsOnMobile = document.getElementById('show-user-previews-on-mobile');
+    let systemDarkMode = document.getElementById('system-dark-mode');
 
     let root = document.querySelector(":root");
     {
@@ -620,9 +621,44 @@ setTimeout(async () => {
             switchDarkMode(false);
         }
         vars.timeMode = timeMode.checked;
+        vars.systemDarkMode = false;
+        systemDarkMode.checked = false;
         chrome.storage.sync.set({
-            timeMode: timeMode.checked
+            timeMode: timeMode.checked,
+            systemDarkMode: false
         }, () => { });
+    });
+    systemDarkMode.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            systemDarkMode: systemDarkMode.checked,
+            timeMode: systemDarkMode.checked
+        }, () => {
+            vars.systemDarkMode = systemDarkMode.checked;
+            vars.timeMode = true;
+            let isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            timeMode.checked = false;
+            if(vars.systemDarkMode) {
+                darkMode.disabled = true;
+                darkModeText.style.color = 'var(--darker-gray)';
+                darkMode.checked = isSystemDark;
+                if(isSystemDark) {
+                    themeBus.postMessage([true, pitchBlackMode.checked]);
+                    isDarkModeEnabled = true;
+                    switchDarkMode(true);
+                } else {
+                    themeBus.postMessage([false, pitchBlackMode.checked]);
+                    isDarkModeEnabled = false;
+                    switchDarkMode(false);
+                }
+            } else {
+                darkMode.disabled = false;
+                darkModeText.style.color = 'unset';
+                darkMode.checked = false;
+                themeBus.postMessage([false, pitchBlackMode.checked]);
+                isDarkModeEnabled = false;
+                switchDarkMode(false);
+            }
+        });
     });
     copyLinksAs.addEventListener('change', () => {
         let val = copyLinksAs.value;
@@ -738,7 +774,8 @@ setTimeout(async () => {
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
     iconFontElement.checked = !!vars.iconFont;
-    timeMode.checked = !!vars.timeMode;
+    timeMode.checked = !!vars.timeMode && !vars.systemDarkMode;
+    systemDarkMode.checked = !!vars.systemDarkMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
     autoplayVideos.checked = !!vars.autoplayVideos;

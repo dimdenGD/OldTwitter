@@ -66,6 +66,7 @@ setTimeout(() => {
                             <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
                             <li>Added translation button and autotranslation for quoted tweets.</li> 
                             <li>Updated DM UI.</li>
+                            <li>Added option to follow system settings for dark mode.</li>
                             <li>Fixed TweetDeck not working on Firefox.</li>
                             <li>Added option to enable user previews on mobile.</li>
                             <li>Fixed tweets changing their size while media is loading.</li>

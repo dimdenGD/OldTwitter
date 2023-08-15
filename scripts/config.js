@@ -29,7 +29,7 @@ async function loadVars() {
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'openNotifsAsModal', 'enableIframeNavigation',
             'acknowledgedCustomizationButton', 'modernUI', 'iconFont', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
-            'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile'
+            'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode'
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {
