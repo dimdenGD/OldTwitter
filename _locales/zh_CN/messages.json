@@ -184,7 +184,7 @@
     "algo": { "message": "算法（为您推荐）" },
     "timeline_type": { "message": "时间线类型" },
     "show_topic_tweets": { "message": "显示话题推文（仅限算法）" },
-    "show_colors_in_timeline": { "message": "在主页时间线中显示用户各自的自定义链接颜色" },
+    "show_colors_in_timeline": { "message": "在主页时间线中显示用户的自定义链接颜色" },
     "enable_twemoji": { "message": "启用 Twemoji" },
     "hearts_instead_stars": { "message": "显示心形（喜欢）而不是星形（收藏）" },
     "dark_mode": { "message": "深色主题" },
