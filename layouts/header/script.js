@@ -2448,6 +2448,13 @@ let userDataFunction = async user => {
             await updateNotifications({ mode: 'prepend', quiet: true });
             let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
 
+            modal.addEventListener('scroll', () => {
+                if(loadingMore) return;
+                if(modal.scrollTop > modal.scrollHeight - modal.clientHeight - 300) {
+                    notifMore.click();
+                }
+            }, { passive: true });
+            
             notifMore.addEventListener('click', () => {
                 if(loadingMore) return;
                 loadingMore = true;
