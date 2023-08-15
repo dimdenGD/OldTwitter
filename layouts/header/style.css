@@ -973,7 +973,7 @@ input, textarea {
     border-radius: 5px;
     background-color: var(--link-color);
     width: 600px;
-    height: 60px;
+    min-height: 60px;
     z-index: 5;
 }
 .message-new {
@@ -982,7 +982,7 @@ input, textarea {
     box-sizing: border-box;
     padding: 10px;
     width: 600px;
-    height: 60px;
+    min-height: 60px;
 }
 .messages-list {
     margin-bottom: 20px;
