@@ -66,10 +66,11 @@ setTimeout(() => {
                             <li>Big mobile UI update.</li>
                             <li>Added translation button and autotranslation for quoted tweets.</li> 
                             <li>Updated DM UI.</li>
+                            <li>Added ability to upload videos to DMs.</li>
                             <li>Added option to follow system settings for dark mode.</li>
                             <li>Added option to enable user previews on mobile.</li>
                             <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
-                            <li>Fixed tweets changing their size while media is loading.</li>
+                            <li>Fixed tweets and messages changing their size while media is loading.</li>
                             <li>Fixed duplicate 'load more' buttons and these buttons disappearing when visiting replies.</li>
                         </ul>
                         <br>

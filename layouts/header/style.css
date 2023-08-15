@@ -681,7 +681,9 @@ input, textarea {
 .inbox-modal {
     max-width: 600px !important;
     width: 600px;
-    top: 15%;
+    top: 5%;
+    max-height: 80%;
+    height: 80%;
     overflow-x: hidden;
 }
 .inbox-modal hr {
@@ -973,18 +975,15 @@ input, textarea {
 }
 .message-new-container {
     border-radius: 5px;
-    background-color: var(--link-color);
     width: 600px;
-    height: 60px;
     z-index: 5;
 }
 .message-new {
     border-radius: 5px;
-    background-color: var(--new-tweet-over);
     box-sizing: border-box;
     padding: 10px;
+    padding-right: 0;
     width: 600px;
-    height: 60px;
 }
 .messages-list {
     margin-bottom: 20px;
@@ -993,7 +992,7 @@ input, textarea {
     overflow-y: scroll;
     overflow-x: hidden;
     width:605px;
-    height:calc(60vh - 130px);
+    height: calc(80vh - 130px);
     padding-bottom:0px;
     padding-right:15px;
     display: flow-root;
@@ -2459,8 +2458,6 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .inbox-modal {
         width: calc(100% - 42px);
-        max-height: 80%;
-        top: 5%;
     }
     .inbox-top h1 {
         font-size: 16px !important;

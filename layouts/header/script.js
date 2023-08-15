@@ -862,11 +862,9 @@ let userDataFunction = async user => {
                     let photoElement = document.createElement('img');
                     photoElement.src = photo.media_url_https;
                     photoElement.classList.add('message-element-media');
-                    if(photo.original_info.width > 400) {
-                        photoElement.width = 400;
-                    } else {
-                        photoElement.width = photo.original_info.width;
-                    }
+                    let [w, h] = calculateSize(photo.original_info.width, photo.original_info.height, 400, 500);
+                    photoElement.width = w;
+                    photoElement.height = h;
                     photoElement.addEventListener('click', e => {
                         new Viewer(photoElement, {
                             transition: false
@@ -882,11 +880,9 @@ let userDataFunction = async user => {
                     gifElement.muted = true;
                     gifElement.loop = true;
                     gifElement.autoplay = true;
-                    if(gif.original_info.width > 400) {
-                        gifElement.width = 400;
-                    } else {
-                        gifElement.width = gif.original_info.width;
-                    }
+                    let [w, h] = calculateSize(gif.original_info.width, gif.original_info.height, 400, 500);
+                    gifElement.width = w;
+                    gifElement.height = h;
                     gifElement.classList.add('message-element-media');
                     messageBlockInner.append(document.createElement('br'), gifElement);
                 }
@@ -895,13 +891,11 @@ let userDataFunction = async user => {
                     let videoElement = document.createElement('video');
                     videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
                     videoElement.controls = true;
-                    if(video.original_info.width > 400) {
-                        videoElement.width = 400;
-                    } else {
-                        videoElement.width = video.original_info.width;
-                    }
+                    let [w, h] = calculateSize(video.original_info.width, video.original_info.height, 400, 500);
+                    videoElement.width = w;
+                    videoElement.height = h;
                     videoElement.classList.add('message-element-media');
-                    messageElement.append(document.createElement('br'), videoElement);
+                    messageBlockInner.append(document.createElement('br'), videoElement);
                 }
             }
             timestamp=document.createElement('span');
@@ -1173,7 +1167,7 @@ let userDataFunction = async user => {
 
         let mediaToUpload = []; 
         newMediaButton.addEventListener('click', () => {
-            getDMMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
+            getMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
         });
         newInput.addEventListener('paste', event => {
             let items = (event.clipboardData || event.originalEvent.clipboardData).items;
