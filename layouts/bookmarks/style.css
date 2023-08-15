@@ -910,6 +910,7 @@ a:hover,
     }
     #bookmarks {
         width: 100%;
+        margin-top: 30px;
     }
     #bookmarks > h1 {
         margin-left: 10px;

@@ -1021,7 +1021,10 @@ a:hover,
     #center-cell {
         width: calc(100%);
     }
+    .center-text {
+        margin-bottom: 100px;
+    }
     #timeline {
-        width: calc(100%-20px);
+        width: calc(100% - 20px) !important;
     }
 }
