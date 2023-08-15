@@ -518,5 +518,11 @@
     "dont_pause_videos": { "message": "Don't pause videos when scrolling from view" },
     "delete_for_you":{ "message": "Delete for you",  "description":"DM Message Delete menu" },
     "show_user_previews_on_mobile": { "message": "Show user previews on hold (this can be annoying)", "description": "This option only appears on mobile" },
-    "separate_text": { "message": "Separate text", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" }
+    "separate_text": { "message": "Separate text", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
+	"leave_conversation": {"message":"Are you sure you want to leave/remove this conversation?"},
+	"autotranslation_help1": {"message": "This function can find the tweets and trigger translation automatically, without having to click the button manually."},
+	"autotranslation_help2": {"message": "To use it, select autotranslation mode and set the languange list. The tweets that meet the conditions will be automatically translated."},
+	"autotranslation_help3": {"message": "Specifically:"},
+	"autotranslation_help4": {"message": "\"Translate when in language list\" with no languages set cause function to be disabled (default);"},
+	"autotranslation_help5": {"message": "\"Translate when not in language list\" with no languages set cause every tweet to be translated. It's better to add languages you know to not needlessly translate them."}
 }
