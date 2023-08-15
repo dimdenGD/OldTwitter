@@ -2632,13 +2632,16 @@ video::-internal-media-controls-overlay-cast-button {
         bottom: 0px;
         height: 48px;
         background-color: var(--background-color);
+        border-top: 1px solid var(--border);
+    }
+    #search-input {
+        padding: 5px 27px 6px 5px;
+        margin-right: -5px;
     }
     #search-input:focus {
         width: 280px;
         margin-right: -5px;
-    }
-    #search-input {
-        margin-right: -5px;
+        padding: 5px 27px 6px 13px;
     }
     #search-results {
         margin-top: 5px;
