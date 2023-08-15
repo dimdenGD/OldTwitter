@@ -2469,27 +2469,27 @@ video::-internal-media-controls-overlay-cast-button {
     #search-input:focus {
         width: 120px;
     }
-    body.move-navbar-to-bottom #navbar-line {
+    /* body.move-navbar-to-bottom #navbar-line {
         display: none;
-    }
-    body.move-navbar-to-bottom #navbar {
+    } */
+    /* body.move-navbar-to-bottom #navbar {
         top: unset;
         bottom: 0;
         border-top: 1px solid rgba(0, 0, 0, 0.1);
-    }
-    body.move-navbar-to-bottom #search-results {
+    } */
+    /* body.move-navbar-to-bottom #search-results {
         position: absolute;
         bottom: 60px;
-    }
+    } */
     #navbar-user-menu {
         position: absolute;
         right: 0;
     }
-    body.move-navbar-to-bottom #navbar-user-menu {
+    /* body.move-navbar-to-bottom #navbar-user-menu {
         position: absolute;
         right: 0;
         bottom: 65px;
-    }
+    } */
     .tweet-interact {
         display: block;
     }
@@ -2516,9 +2516,9 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet .tweet-header-name {
         max-width: calc(100% - 65px);
     }
-    body.move-navbar-to-bottom #center-cell {
+    /* body.move-navbar-to-bottom #center-cell {
         margin-top: 0;
-    }
+    } */
     .navbar-new-tweet-modal {
         width: calc(100% - 42px);
     }
