@@ -1593,6 +1593,9 @@ span.tweet-body-text {
 .tweet-interact-more-menu-copy:before {
     content: "\f203"
 }
+.tweet-interact-more-menu-separate:before {
+    content: "\f183"
+}
 
 .tweet-interact-more-menu-share:before {
     content: "\f185"
@@ -2351,6 +2354,9 @@ video::-internal-media-controls-overlay-cast-button {
     #center-cell {
         margin-top: 47px;
     }
+    .tweet-interact-retweet-menu span, .tweet-interact-more-menu span {
+        padding: 9px 15px;
+    }
     #timeline-type-center {
         border-radius: 0;
         border-left: none;
@@ -2484,7 +2490,7 @@ video::-internal-media-controls-overlay-cast-button {
         display: block;
     }
     .tweet-interact-more {
-        margin-right: 0;
+        margin-right: 0 !important;
     }
     .tweet-self-thread-button.tweet-thread-right {
         display: none;
