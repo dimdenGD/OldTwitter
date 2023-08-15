@@ -1809,7 +1809,7 @@ a:hover,
         position: absolute;
         top: 56px;
         left: 12px;
-        background-color: var(--varchange);
+        background-color: var(--background-color);
         border-radius: 999px;
     }
     #nav-profile-info-text {
