@@ -1198,11 +1198,26 @@ function getTimeZone() {
     let offset = new Date().getTimezoneOffset(), o = Math.abs(offset);
     return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
 }
-
 function formatLargeNumber(n) {
     let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
-    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString('en-US',option)
-    else return Number(n).toLocaleString()
+    let specialLangs = ['zh_cn', 'zh_tw', 'ja', 'ko']; // these languages actually stay short
+    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString(specialLangs.includes(LANGUAGE.toLowerCase()) ? LANGUAGE.replace('_', '-') : 'en-US', option);
+    else return Number(n).toLocaleString();
+}
+function languageMatches(tweetLanguage) {
+    if(!tweetLanguage) return true;
+
+    if(tweetLanguage.includes('-')) {
+        let [lang, country] = tweetLanguage.split('-');
+        tweetLanguage = `${lang}_${country.toUpperCase()}`;
+    }
+    let isMatchingLanguage = tweetLanguage === LANGUAGE;
+    // https://twittercommunity.com/t/unkown-language-code-qht-returned-by-api/172819/3
+    if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
+        isMatchingLanguage = true;
+    }
+
+    return isMatchingLanguage;
 }
 
 async function renderTrends(compact = false, cache = true) {
@@ -1462,19 +1477,34 @@ const mediaClasses = [
     'tweet-media-element-three',
     'tweet-media-element-two',
 ];
+
+function newSizeFunction(x, y, max_x, max_y) {
+    let ratio = x / y;
+    if(x > max_x) {
+        x = max_x;
+        y = x / ratio;
+    }
+    if(y > max_y) {
+        y = max_y;
+        x = y * ratio;
+    }
+    return [parseInt(x), parseInt(y)];
+}
+
 const sizeFunctions = [
     undefined,
-    (w, h) => [w > 450 ? 450 : w < 150 ? 150 : w, h > 500 ? 500 : h < 150 ? 150 : h],
-    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
-    (w, h) => [150, h > 250 ? 250 : h < 150 ? 150 : h],
-    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
+    (w, h) => newSizeFunction(w, h, 450, 500),
+    (w, h) => newSizeFunction(w, h, 225, 400),
+    (w, h) => newSizeFunction(w, h, 150, 250),
+    (w, h) => newSizeFunction(w, h, 225, 400)
 ];
+
 const quoteSizeFunctions = [
     undefined,
-    (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
-    (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-    (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
-    (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
+    (w, h) => newSizeFunction(w, h, 400, 400),
+    (w, h) => newSizeFunction(w, h, 200, 400),
+    (w, h) => newSizeFunction(w, h, 125, 200),
+    (w, h) => newSizeFunction(w, h, 100, 150)
 ];
 async function appendTweet(t, timelineContainer, options = {}) {
     if(typeof t !== 'object') {
@@ -1526,9 +1556,19 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.top.text = t.socialContext.text;
                 options.top.icon = "\uf005";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
+            } else if(t.socialContext.contextType === "Sparkle") {
+                options.top.text = t.socialContext.text;
+                options.top.icon = "\uf011";
+                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else {
                 console.log(t.socialContext);
             }
+        }
+
+        // verification
+        if(t.user.ext_verified_type) {
+            t.user.verified_type = t.user.ext_verified_type;
+            t.user.verified = true;
         }
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
@@ -1546,6 +1586,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             delete t.quoted_status.user.verified_type;
             t.quoted_status.user.verified = false;
         }
+
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
         const tweet = document.createElement('div');
         tweet.tweet = t;
@@ -1654,11 +1695,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
             let [lang, country] = tweetLanguage.split('-');
             tweetLanguage = `${lang}_${country.toUpperCase()}`;
         }
-        let isMatchingLanguage = tweetLanguage === LANGUAGE;
-        // https://twittercommunity.com/t/unkown-language-code-qht-returned-by-api/172819/3
-        if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
-            isMatchingLanguage = true;
-        }
+        let isMatchingLanguage = languageMatches(t.lang);
+        let isQuoteMatchingLanguage = !!t.quoted_status && languageMatches(t.quoted_status.lang);
         let videos = t.extended_entities && t.extended_entities.media && t.extended_entities.media.filter(m => m.type === 'video');
         if(!videos || videos.length === 0) {
             videos = undefined;
@@ -1822,6 +1860,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
+                    ${!isQuoteMatchingLanguage ? /*html*/`
+                    <span class="tweet-quote-translate">${LOC.view_translation.message}</span>
+                    ` : ``}
                 </a>
                 ` : ``}
                 ${t.limited_actions === 'limit_trusted_friends_tweet' && (options.mainTweet || !location.pathname.includes('/status/')) ? /*html*/`
@@ -2179,6 +2220,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
         const tweetTranslateAfter = tweet.getElementsByClassName('tweet-translate-after')[0];
+        const tweetQuoteTranslate = tweet.getElementsByClassName('tweet-quote-translate')[0];
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
         const tweetMediaQuote = tweet.getElementsByClassName('tweet-media-quote')[0];
         const tweetBodyQuoteText = tweet.getElementsByClassName('tweet-body-text-quote')[0];
@@ -2367,33 +2409,72 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 tweetBodyQuoteText.classList.add('ltr');
             }
+            if(tweetQuoteTranslate) {
+                let quoteTranslating = false;
+                tweetQuoteTranslate.addEventListener('click', async e => {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    if(t.quoted_status.translated || quoteTranslating) return;
+                    quoteTranslating = true;
+                    let translated = await API.tweet.translate(t.quoted_status.id_str);
+                    quoteTranslating = false;
+                    t.quoted_status.translated = true;
+                    tweetQuoteTranslate.hidden = true;
+                    if(!translated.translated_lang || !translated.text) return;
+                    let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                    if(translated.text.trim() === tt) return;
+                    if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                    let translatedMessage;
+                    if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                        translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+                    } else {
+                        translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                    }
+                    tweetBodyQuote.innerHTML += 
+                    `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
+                    `<span class="tweet-translated-text" style="color:var(--default-text-color)!important">${escapeHTML(translated.text)}</span>`;
+                    if(vars.enableTwemoji) twemoji.parse(tweetBodyQuote);
+                });
+                if(options.translate || vars.autotranslateProfiles.includes(t.quoted_status.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'blacklist')) {
+                    onVisible(tweet, () => {
+                        if(!t.quoted_status.translated) {
+                            if(tweetQuoteTranslate) tweetQuoteTranslate.click();
+                        }
+                    })
+                }
+            }
         }
 
         // Translate
         t.translated = false;
+        let translating = false;
         if(tweetTranslate || tweetTranslateAfter) {
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
-            if(t.translated) return;
-            let translated = await API.tweet.translate(t.id_str);
-            t.translated = true;
-            (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
-            if(!translated.translated_lang) return;
-            if(translated.text === t.full_text) return;
-            let translatedMessage;
-            if(LOC.translated_from.message.includes("$LANGUAGE$")) {
-                translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
-            } else {
-                translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
-            }
-            let translatedT = {
-                full_text: translated.text,
-                entities: translated.entities
-            }
-            tweetBodyText.innerHTML += `<br>`+
-            `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
-            `<br>`+
-            `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
-            if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
+                if(t.translated || translating) return;
+                translating = true;
+                let translated = await API.tweet.translate(t.id_str);
+                translating = false;
+                t.translated = true;
+                (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
+                if(!translated.translated_lang || !translated.text) return;
+                let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                if(translated.text.trim() === tt) return;
+                if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                let translatedMessage;
+                if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                    translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+                } else {
+                    translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                }
+                let translatedT = {
+                    full_text: translated.text,
+                    entities: translated.entities
+                }
+                tweetBodyText.innerHTML += `<br>`+
+                `<span class="translated-from">${translatedMessage}:</span>`+
+                `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
+                if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });
             if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {
                 onVisible(tweet, () => {
@@ -2485,7 +2566,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     e.target.click();
                 }
             });
-            if(typeof pageUser !== 'undefined' && !location.pathname.includes("/likes")) {
+            if(typeof pageUser !== 'undefined' && pageUser.id_str === t.user.id_str) {
                 let profileMediaDiv = document.getElementById('profile-media-div');
                 if(!options || !options.top || !options.top.text) t.extended_entities.media.forEach(m => {
                     if(profileMediaDiv.children.length >= 6) return;
@@ -2497,11 +2578,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     media.src = m.media_url_https;
                     if(m.ext_alt_text) media.alt = m.ext_alt_text;
                     media.addEventListener('click', async () => {
-                        if(subpage !== 'profile' && subpage !== 'media') {
-                            document.getElementById('profile-stat-tweets-link').click();
-                            while(!document.getElementsByClassName('tweet-id-' + t.id_str)[0]) await sleep(100);
-                        }
-                        document.getElementsByClassName('tweet-id-' + t.id_str)[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+                        new TweetViewer(user, t);
                     });
                     profileMediaDiv.appendChild(media);
                 });
@@ -2629,16 +2706,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
                 tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractReply.innerText.includes('K') || 
-                    tweetInteractReply.innerText.includes('M') || 
-                    tweetInteractReply.innerText.includes('B')))
-                    tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
                 tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetFooterReplies.innerText.includes('K') || 
-                    tweetFooterReplies.innerText.includes('M') || 
-                    tweetFooterReplies.innerText.includes('B')))
-                    tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetData._ARTIFICIAL = true;
             if(typeof timeline !== 'undefined') {
@@ -2687,14 +2758,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.newTweetId = tweetData.id_str;
             if(!options.mainTweet) {
                 tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractRetweet.innerText.includes('K') || 
-                    tweetInteractRetweet.innerText.includes('M') || 
-                    tweetInteractRetweet.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
-                if(!(tweetFooterRetweets.innerText.includes('K') || 
-                    tweetFooterRetweets.innerText.includes('M') || 
-                    tweetFooterRetweets.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
         }
@@ -2704,14 +2771,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.retweeted = false;
             if(!options.mainTweet) {
                 tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                if(!(tweetInteractRetweet.innerText.includes('K') || 
-                    tweetInteractRetweet.innerText.includes('M') || 
-                    tweetInteractRetweet.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             } else {
-                if(!(tweetFooterRetweets.innerText.includes('K') || 
-                    tweetFooterRetweets.innerText.includes('M') || 
-                    tweetFooterRetweets.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             }
             delete t.newTweetId;
@@ -2931,9 +2994,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.favorite_count--;
             if(!options.mainTweet) {
                 tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                if(!(tweetInteractFavorite.innerText.includes('K') || 
-                    tweetInteractFavorite.innerText.includes('M') || 
-                    tweetInteractFavorite.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');;
             } else {
                 if(mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
@@ -2941,9 +3002,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     let likerImg = footerFavorites.querySelector(`a[data-id="${user.id_str}"]`);
                     if(likerImg) likerImg.remove()
                 }
-                if(!(tweetFooterFavorites.innerText.includes('K') || 
-                    tweetFooterFavorites.innerText.includes('M') || 
-                    tweetFooterFavorites.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             }
             tweetInteractFavorite.classList.remove('tweet-interact-favorited');
@@ -2953,10 +3012,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.favorite_count++;
             if(!options.mainTweet) {
                 tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractFavorite.innerText.includes('K') || 
-                    tweetInteractFavorite.innerText.includes('M') || 
-                    tweetInteractFavorite.innerText.includes('B')))
-                    tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
+                if(vars.showExactValues) tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
             } else {
                 if(footerFavorites.children.length < 8 && !mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
                     let a = document.createElement('a');
@@ -2972,10 +3028,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     footerFavorites.appendChild(a);
                     mainTweetLikers.push(user);
                 }
-                if(!(tweetFooterFavorites.innerText.includes('K') || 
-                    tweetFooterFavorites.innerText.includes('M') || 
-                    tweetFooterFavorites.innerText.includes('B')))
-                    tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }

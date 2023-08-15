@@ -80,7 +80,7 @@
     "mentions": { "message": "Menções" },
     "tweeted_like": { "message": "postou algo que você pode gostar", "example": "CoolPerson2000 ->tweeted something you might like<-" },
     "favorites": { "message": "Favoritos" },
-    "follows_you": { "message": "Seguem você" },
+    "follows_you": { "message": "Segue você" },
     "tweet_to_user": { "message": "Tweetar para usuário" },
     "followers_you_know": { "message": "Seguidores que conhece", "example": "123 ->followers you know<-" },
     "photos_and_videos": { "message": "Fotos e vídeos" },

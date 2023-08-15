@@ -7,6 +7,12 @@ let menuFn;
 let notificationsOpened = false;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 let activeTweet;
+let seenAlgoTweets = [], algoTweetsChanged = false;
+setInterval(() => {
+    if(!algoTweetsChanged) return;
+    algoTweetsChanged = false;
+    chrome.storage.local.set({seenAlgoTweets}, () => {});
+}, 20000);
 
 const keysHeld = {};
 const notificationBus = new BroadcastChannel('notification_bus');
@@ -764,20 +770,6 @@ let userDataFunction = async user => {
         if(!lastConvo.entries) {
             modal.getElementsByClassName('messages-load-more')[0].hidden = true;
             return;
-        }
-        let missingUserIds = [];
-        for(let j in lastConvo.entries) {
-            let m = lastConvo.entries[j].message;
-            if(!m) continue;
-            if(!lastConvo.users[m.message_data.sender_id] && !missingUserIds.includes(m.message_data.sender_id)) {
-                missingUserIds.push(m.message_data.sender_id);
-            }
-        }
-        if(missingUserIds.length > 0) {
-            let foundUsers = await API.user.lookup(missingUserIds)
-            foundUsers.forEach(user => {
-                lastConvo.users[user.id_str] = user;
-            });
         }
         lastConvo.entries = lastConvo.entries.reverse();
         let messageElements = [];
@@ -1879,7 +1871,7 @@ let userDataFunction = async user => {
     let userPreviewTimeouts = [];
     let leavePreviewTimeout;
     document.addEventListener('mouseover', e => {
-        if(innerWidth < 650) return;
+        if(innerWidth < 650 && !vars.showUserPreviewsOnMobile) return;
         for(let timeout of userPreviewTimeouts) {
             clearTimeout(timeout);
         }
@@ -1911,6 +1903,7 @@ let userDataFunction = async user => {
             if(username === pageUser.screen_name) return;
         }
         userPreviewTimeouts.push(setTimeout(async () => {
+            if(!document.hasFocus()) return;
             let userPreview = document.createElement('div');
             let shadow = userPreview.attachShadow({mode: 'closed'});
             userPreview.className = 'user-preview';
@@ -1925,6 +1918,17 @@ let userDataFunction = async user => {
                 }, 500);
             }
             el.addEventListener('mouseleave', leaveFunction);
+            if(innerWidth < 650) {
+                let mobileClickFunction = e => {
+                    if(e.target.closest('.user-preview')) return;
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    stopLoad = true;
+                    userPreview.remove();
+                    document.removeEventListener('click', mobileClickFunction, true);
+                }
+                document.addEventListener('click', mobileClickFunction, true);
+            }
 
             let user = await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;

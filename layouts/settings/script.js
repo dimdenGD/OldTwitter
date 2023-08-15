@@ -194,6 +194,7 @@ setTimeout(async () => {
     let addAutotranslateLanguage = document.getElementById('add-autotranslate-language');
     let muteVideos = document.getElementById('mute-videos');
     let dontPauseVideos = document.getElementById('dont-pause-videos');
+    let showUserPreviewsOnMobile = document.getElementById('show-user-previews-on-mobile');
 
     let root = document.querySelector(":root");
     {
@@ -292,6 +293,13 @@ setTimeout(async () => {
             linkColor: color
         }, () => {
             customCSSBus.postMessage({type: 'color', color: color});
+        });
+    });
+    showUserPreviewsOnMobile.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showUserPreviewsOnMobile: showUserPreviewsOnMobile.checked
+        }, () => {
+            vars.showUserPreviewsOnMobile = showUserPreviewsOnMobile.checked;
         });
     });
     pinProfileOnNavbar.addEventListener('change', () => {

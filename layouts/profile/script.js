@@ -1030,7 +1030,7 @@ async function renderProfile() {
                 controlFollow.innerText = LOC.follow.message;
                 pageUser.following = false;
                 document.getElementById("profile-settings-retweets").hidden = true;
-                document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+                if(vars.showExactValues) document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) - 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = true;
             } else {
                 try {
@@ -1047,7 +1047,7 @@ async function renderProfile() {
                 if(!pageUser.protected) {
                     document.getElementById('profile-settings-notifications').hidden = false;
                     document.getElementById("profile-settings-retweets").hidden = false;
-                    document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                    if(vars.showExactValues) document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
                 }
             }
         });

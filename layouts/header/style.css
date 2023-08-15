@@ -1902,17 +1902,31 @@ emoji-picker {
     vertical-align: bottom;
     white-space: nowrap;
 }
-.tweet-translate {
+.tweet-translate, .tweet-quote-translate {
     color: var(--light-gray);
     cursor: pointer;
     font-size: 12px;
     margin-top: 2px
 }
-.tweet-translate:before {
+.tweet-translate:before, .tweet-quote-translate:before, .translated-from:before {
     content: "\f089";
     font: 12px var(--icon-font);;
     margin-right: 5px;
     vertical-align: text-bottom;
+}
+.translated-from:before {
+    vertical-align: unset;
+    position: relative;
+    top: 1px;
+}
+.tweet-quote-translate:hover {
+    text-decoration: underline;
+}
+.translated-from {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: var(--light-gray);
 }
 
 .tweet-top-icon {
@@ -1970,6 +1984,7 @@ emoji-picker {
     border-radius: 5px;
     z-index: 1;
     transition: 0.2s;
+    direction: ltr;
 }
 .tweet-media-video-overlay-play {
     width: 75px;
@@ -2044,6 +2059,26 @@ emoji-picker {
 .ltr {
     direction: ltr;
 }
+.tweet-media-element-four {
+    max-height: 150px;
+    max-width: 100px
+}
+
+.tweet-media-element-three {
+    max-height: 250px;
+    max-width: 150px
+}
+
+.tweet-media-element-two {
+    max-height: 400px;
+    max-width: 225px
+}
+
+.tweet-media-element-one {
+    max-height: 500px;
+    max-width: 450px
+}
+
 .tweet-card {
     direction: ltr;
 }

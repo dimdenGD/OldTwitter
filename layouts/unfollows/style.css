@@ -418,26 +418,6 @@ body {
     object-fit: var(--video-cover);
 }
 
-.tweet-media-element-four {
-    max-height: 150px;
-    max-width: 100px
-}
-
-.tweet-media-element-three {
-    max-height: 250px;
-    max-width: 150px
-}
-
-.tweet-media-element-two {
-    max-height: 400px;
-    max-width: 200px
-}
-
-.tweet-media-element-one {
-    max-height: 500px;
-    max-width: 450px
-}
-
 .center-text {
     background-color: var(--background-color);
     border: 1px solid var(--border);

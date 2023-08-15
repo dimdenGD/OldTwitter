@@ -63,8 +63,11 @@ setTimeout(() => {
                         <ul>
                             <li>Added support for PWA.</li>
                             <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
+                            <li>Added translation button and autotranslation for quoted tweets.</li> 
                             <li>Updated DM UI.</li>
                             <li>Fixed TweetDeck not working on Firefox.</li>
+                            <li>Added option to enable user previews on mobile.</li>
+                            <li>Fixed tweets changing their size while media is loading.</li>
                             <li>Fixed blocked/muted people sometimes appearing in timeline and replies.</li>
                             <li>Added option to play videos muted by default.</li>
                             <li>Added option to not pause videos when you scroll from view.</li>
@@ -269,6 +272,16 @@ async function renderTimeline(append = false, sliceAmount = 0) {
     let data = timeline.data.slice(sliceAmount, timeline.data.length);
     for(let i in data) {
         let t = data[i];
+        if(t.algo && t.favorited) {
+            if(!seenAlgoTweets.includes(t.id_str)) {
+                seenAlgoTweets.push(t.id_str);
+                if(seenAlgoTweets.length > 100) {
+                    seenAlgoTweets.shift();
+                }
+                algoTweetsChanged = true;
+            }
+            continue;
+        }
         if (t.retweeted_status) {
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
@@ -365,12 +378,6 @@ function renderNewTweetsButton() {
     }
 }
 
-let seenAlgoTweets = [], algoTweetsChanged = false;
-setInterval(() => {
-    if(!algoTweetsChanged) return;
-    algoTweetsChanged = false;
-    chrome.storage.local.set({seenAlgoTweets}, () => {});
-}, 20000);
 setTimeout(async () => {
     if(!vars) {
         await loadVars();

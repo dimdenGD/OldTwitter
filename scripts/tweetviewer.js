@@ -748,6 +748,12 @@ class TweetViewer {
     // what dumbfuck thought having 2 almost identical functions was a good idea (me)
     async appendTweet(t, timelineContainer, options = {}) {
         if(this.seenReplies.includes(t.id_str)) return;
+
+        // verification
+        if(t.user.ext_verified_type) {
+            t.user.verified_type = t.user.ext_verified_type;
+            t.user.verified = true;
+        }
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
             t.user.verified = true;
@@ -825,16 +831,8 @@ class TweetViewer {
             }
         }
         let full_text = t.full_text ? t.full_text : '';
-        let tweetLanguage = t.lang;
-        if(tweetLanguage.includes('-')) {
-            let [lang, country] = tweetLanguage.split('-');
-            tweetLanguage = `${lang}_${country.toUpperCase()}`;
-        }
-        let isMatchingLanguage = tweetLanguage === LANGUAGE;
-        // https://twittercommunity.com/t/unkown-language-code-qht-returned-by-api/172819/3
-        if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
-            isMatchingLanguage = true;
-        }
+        let isMatchingLanguage = languageMatches(t.lang);
+        let isQuoteMatchingLanguage = !!t.quoted_status && languageMatches(t.quoted_status.lang);
         let videos = t.extended_entities && t.extended_entities.media && t.extended_entities.media.filter(m => m.type === 'video');
         if(!videos || videos.length === 0) {
             videos = undefined;
@@ -915,7 +913,7 @@ class TweetViewer {
         }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
-            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
+            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
                 <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
                     <b ${t.user.id_str === '1123203847776763904' ? 'title="Old Twitter Layout extension developer" ' : ''}class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.user.name)}</b>
@@ -973,6 +971,9 @@ class TweetViewer {
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
+                    ${!isQuoteMatchingLanguage ? /*html*/`
+                    <span class="tweet-quote-translate">${LOC.view_translation.message}</span>
+                    ` : ``}
                 </a>
                 ` : ``}
                 ${t.limited_actions === 'limit_trusted_friends_tweet' && options.mainTweet ? `
@@ -1286,6 +1287,7 @@ class TweetViewer {
         const tweetBody = tweet.getElementsByClassName('tweet-body')[0];
         const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
+        const tweetQuoteTranslate = tweet.getElementsByClassName('tweet-quote-translate')[0];
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
         const tweetBodyQuoteText = tweet.getElementsByClassName('tweet-body-text-quote')[0];
     
@@ -1437,16 +1439,58 @@ class TweetViewer {
             } else {
                 tweetBodyQuoteText.classList.add('ltr');
             }
+            if(tweetQuoteTranslate) {
+                let quoteTranslating = false;
+                tweetQuoteTranslate.addEventListener('click', async e => {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    if(t.quoted_status.translated || quoteTranslating) return;
+                    quoteTranslating = true;
+                    let translated = await API.tweet.translate(t.quoted_status.id_str);
+                    quoteTranslating = false;
+                    t.quoted_status.translated = true;
+                    tweetQuoteTranslate.hidden = true;
+                    if(!translated.translated_lang || !translated.text) return;
+                    let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                    if(translated.text.trim() === tt) return;
+                    if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                    let translatedMessage;
+                    if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                        translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+                    } else {
+                        translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                    }
+                    tweetBodyQuote.innerHTML += 
+                    `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
+                    `<span class="tweet-translated-text" style="color:var(--default-text-color)!important">${escapeHTML(translated.text)}</span>`;
+                    if(vars.enableTwemoji) twemoji.parse(tweetBodyQuote);
+                });
+                if(options.translate || vars.autotranslateProfiles.includes(t.quoted_status.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'blacklist')) {
+                    onVisible(tweet, () => {
+                        if(!t.quoted_status.translated) {
+                            if(tweetQuoteTranslate) tweetQuoteTranslate.click();
+                        }
+                    })
+                }
+            }
         }
     
         // Translate
+        t.translated = false;
+        let translating = false;
         if(tweetTranslate) {
             tweetTranslate.addEventListener('click', async () => {
+                if(t.translated || translating) return;
+                translating = true;
                 let translated = await API.tweet.translate(t.id_str);
-                tweetTranslate.hidden = true;
                 t.translated = true;
-                if(!translated.translated_lang) return;
-                if(translated.text === t.full_text) return;
+                translating = false;
+                tweetTranslate.hidden = true;
+                if(!translated.translated_lang || !translated.text) return;
+                let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                if(translated.text.trim() === tt) return;
+                if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
                 let translatedMessage;
                 if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                     translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
@@ -1458,8 +1502,7 @@ class TweetViewer {
                     entities: translated.entities
                 }
                 tweetBodyText.innerHTML += `<br>`+
-                `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
-                `<br>`+
+                `<span class="translated-from">${translatedMessage}:</span>`+
                 `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
                 if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });
@@ -1658,15 +1701,11 @@ class TweetViewer {
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
                 tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractReply.innerText.includes('K') || 
-                    tweetInteractReply.innerText.includes('M') || 
-                    tweetInteractReply.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
                 tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetFooterReplies.innerText.includes('K') || 
-                    tweetFooterReplies.innerText.includes('M') || 
-                    tweetFooterReplies.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetData._ARTIFICIAL = true;
@@ -1725,14 +1764,10 @@ class TweetViewer {
                 t.newTweetId = tweetData.id_str;
                 if(!options.mainTweet) {
                     tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                    if(!(tweetInteractRetweet.innerText.includes('K') || 
-                        tweetInteractRetweet.innerText.includes('M') || 
-                        tweetInteractRetweet.innerText.includes('B')))
+                    if(vars.showExactValues)
                         tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 } else {
-                    if(!(tweetFooterRetweets.innerText.includes('K') || 
-                        tweetFooterRetweets.innerText.includes('M') || 
-                        tweetFooterRetweets.innerText.includes('B')))
+                    if(vars.showExactValues)
                         tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 }
                 let event = new CustomEvent('tweetAction', { detail: {
@@ -1758,14 +1793,10 @@ class TweetViewer {
                 if(!options.mainTweet) {
                     tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
                     tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                    if(!(tweetInteractRetweet.innerText.includes('K') || 
-                        tweetInteractRetweet.innerText.includes('M') || 
-                        tweetInteractRetweet.innerText.includes('B')))
+                    if(vars.showExactValues)
                         tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 } else {
-                    if(!(tweetFooterRetweets.innerText.includes('K') || 
-                        tweetFooterRetweets.innerText.includes('M') || 
-                        tweetFooterRetweets.innerText.includes('B')))
+                    if(vars.showExactValues)
                         tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 }
                 delete t.newTweetId;
@@ -1935,9 +1966,7 @@ class TweetViewer {
                 t.favorite_count--;
                 if(!options.mainTweet) {
                     tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                    if(!(tweetInteractFavorite.innerText.includes('K') || 
-                        tweetInteractFavorite.innerText.includes('M') || 
-                        tweetInteractFavorite.innerText.includes('B')))
+                    if(vars.showExactValues)
                         tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');;
                 } else {
                     if(this.mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
@@ -1945,9 +1974,7 @@ class TweetViewer {
                         let likerImg = footerFavorites.querySelector(`a[data-id="${user.id_str}"]`);
                         if(likerImg) likerImg.remove()
                     }
-                    if(!(tweetFooterFavorites.innerText.includes('K') || 
-                        tweetFooterFavorites.innerText.includes('M') || 
-                        tweetFooterFavorites.innerText.includes('B')))
+                    if(vars.showExactValues)
                         tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 }
                 tweetInteractFavorite.classList.remove('tweet-interact-favorited');
@@ -1962,9 +1989,7 @@ class TweetViewer {
                 t.favorite_count++;
                 if(!options.mainTweet) {
                     tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                    if(!(tweetInteractFavorite.innerText.includes('K') || 
-                        tweetInteractFavorite.innerText.includes('M') || 
-                        tweetInteractFavorite.innerText.includes('B')))
+                    if(vars.showExactValues)
                         tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
                 } else {
                     if(footerFavorites.children.length < 8 && !this.mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
@@ -1981,9 +2006,7 @@ class TweetViewer {
                         footerFavorites.appendChild(a);
                         this.mainTweetLikers.push(user);
                     }
-                    if(!(tweetFooterFavorites.innerText.includes('K') || 
-                        tweetFooterFavorites.innerText.includes('M') || 
-                        tweetFooterFavorites.innerText.includes('B')))
+                    if(vars.showExactValues)
                         tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 }
                 tweetInteractFavorite.classList.add('tweet-interact-favorited');
