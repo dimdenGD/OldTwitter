@@ -1566,19 +1566,38 @@ setTimeout(async () => {
     // mouse
     let banner = document.getElementById('profile-banner');
     let navProfileInfo = document.getElementById('nav-profile-info');
+    let lastScrollAmount = window.scrollY;
+    if(innerWidth < 590) document.getElementById('nav-profile-name').addEventListener('click', e => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        
+        window.scrollTo(0, 0);
+    })
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
 
         // make user nav appear
         if(window.scrollY >= 600) {
             if(!navProfileInfo.style.opacity) {
-                navProfileInfo.style.opacity = 1;
+                console.log(lastScrollAmount, window.scrollY);
+                if(lastScrollAmount > window.scrollY) {
+                    navProfileInfo.style.opacity = 1;
+                } else {
+                    navProfileInfo.style.opacity = '';
+                }
+            } else {
+                if(lastScrollAmount > window.scrollY) {
+                    navProfileInfo.style.opacity = 1;
+                } else {
+                    navProfileInfo.style.opacity = '';
+                }
             }
         } else {
             if(navProfileInfo.style.opacity) {
                 navProfileInfo.style.opacity = '';
             }
         }
+        lastScrollAmount = window.scrollY;
         
         // banner scroll
         banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
