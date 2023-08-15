@@ -584,6 +584,7 @@ input, textarea {
 }
 #navbar-user-menu {
     min-width: 130px;
+    margin-left: -24px;
 }
 #navbar-user-menu hr {
     border-bottom: 1px solid var(--border);
@@ -603,6 +604,7 @@ input, textarea {
 .navbar-user-account {
     cursor: pointer;
     padding: 5px 15px 5px 20px;
+    white-space: nowrap;
 }
 .navbar-user-account:hover {
     background-color: var(--link-color);
