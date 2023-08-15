@@ -508,8 +508,6 @@
     "mute_videos": { "message": "Воспроизводить видео без звука по умолчанию" },
     "dont_pause_videos": { "message": "Не ставить видео на паузу при пролистывании через ленту" },
     "delete_for_you":{ "message": "Удалить для себя",  "description":"DM Message Delete menu"},
-    "show_user_previews_on_mobile": { "message": "<b>[Mobile]</b> Показывать превью профиля при долгом нажатии (это может быть надоедливым)" },
-    "separate_text": { "message": "Отделить текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" }
     "show_user_previews_on_mobile": { "message": "Показывать превью профиля при долгом нажатии (это может быть надоедливым)" },
     "separate_text": { "message": "Отделить текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
 	"leave_conversation": {"message":"Вы уверены что хотите выйти с этой переписки?"},
