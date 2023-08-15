@@ -50,9 +50,9 @@
     {
         "id": 5,
         "priority": 1,
-        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo128.png" } },
+        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo192.png" } },
         "condition": {
-            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default.522d363a.png",
+            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default.*.png",
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
     },
@@ -61,16 +61,16 @@
         "priority": 1,
         "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo192.png" } },
         "condition": {
-            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default.522d363a.png",
+            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default-maskable.*.png",
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
     },
     {
         "id": 7,
         "priority": 1,
-        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo192.png" } },
+        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo512.png" } },
         "condition": {
-            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default-maskable.bacea37a.png",
+            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default-large.*.png",
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
     },
@@ -79,21 +79,12 @@
         "priority": 1,
         "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo512.png" } },
         "condition": {
-            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default-large.9ab12c3a.png",
+            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default-maskable-large.*.png",
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
     },
     {
         "id": 9,
-        "priority": 1,
-        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo512.png" } },
-        "condition": {
-            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default-maskable-large.35928fda.png",
-            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
-        }
-    },
-    {
-        "id": 10,
         "priority": 1,
         "action": {
             "type": "modifyHeaders",
@@ -113,7 +104,7 @@
         }
     },
     {
-        "id": 11,
+        "id": 10,
         "priority": 1,
         "action": {
             "type": "modifyHeaders",
@@ -128,6 +119,15 @@
         "condition": {
             "urlFilter": "*://*.twimg.com/*",
             "initiatorDomains": ["tweetdeck.twitter.com"],
+            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
+        }
+    },
+    {
+        "id": 11,
+        "priority": 1,
+        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo512.png" } },
+        "condition": {
+            "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-ios.*.png",
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
     }

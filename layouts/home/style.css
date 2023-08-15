@@ -908,7 +908,8 @@ a:hover,
     margin-bottom: 10px;
     padding: 5px 2px;
     width: 100%;
-    max-width: 590px
+    max-width: 590px;
+    outline: none;
 }
 #content {
     min-height: 800px;

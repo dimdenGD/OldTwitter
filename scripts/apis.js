@@ -109,6 +109,10 @@ function parseTweet(res) {
             if(result.views) {
                 tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
             }
+            tweet.retweeted_status.res = res;
+            if(res.card && res.card.legacy && res.card.legacy.binding_values) {
+                tweet.retweeted_status.card = res.card.legacy;
+            }
         } else {
             console.warn("No retweeted status", result);
         }
@@ -179,6 +183,7 @@ function parseTweet(res) {
         tweet.birdwatch = res.birdwatch_pivot;
     }
 
+    tweet.res = res;
     tweetStorage[tweet.id_str] = tweet;
     return tweet;
 }
@@ -2839,7 +2844,7 @@ const API = {
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
-                        debugLog('tweet.getRepliesV2', 'start', data);
+                        debugLog('tweet.getRepliesV2', 'start', {cursor, data});
                         if (data.errors && data.errors[0]) {
                             if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[1](data.errors[0].message));
                             delete loadingReplies[id];

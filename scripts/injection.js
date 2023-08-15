@@ -193,6 +193,9 @@ if(!LANGUAGES.includes(LANGUAGE)) {
 }
 
 function isDark() {
+    if(vars.systemDarkMode) {
+        return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
     let date = new Date();
     let hours = date.getHours();
     return hours < 9 || hours >= 19;
@@ -406,6 +409,21 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         isDarkModeEnabled = true;
         switchDarkMode(true);
     }
+    if(vars.systemDarkMode) {
+        var matchMediaDark = window.matchMedia('(prefers-color-scheme: dark)');
+        var matchMediaLight = window.matchMedia('(prefers-color-scheme: light)');
+
+        matchMediaDark.addEventListener('change', e => {
+            if(e.matches && vars.systemDarkMode) {
+                switchDarkMode(true);
+            }
+        });
+        matchMediaLight.addEventListener('change', e => {
+            if(e.matches && vars.systemDarkMode) {
+                switchDarkMode(false);
+            }
+        });
+    }
     
     // disable twitters service worker
     if ('serviceWorker' in navigator) {
@@ -507,9 +525,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     document.documentElement.innerHTML = html;
     document.body.classList.add('body-old-ui');
-    if(vars.moveNavbarToBottom) {
-        document.body.classList.add('move-navbar-to-bottom');
-    }
 
     observer.disconnect();
 

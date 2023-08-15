@@ -895,7 +895,7 @@ a:hover,
     #list-name, #list-stats {
         width: calc(100% - 82px);
     }
-    .list-switches {
+    .list-switches, .list-top {
         width: calc(100% - 22px) !important;
     }
     .tweet:first-child {

@@ -9,6 +9,7 @@ let tweets = [];
 let currentLocation = location.pathname;
 let users = {};
 let excludeUserMentions = [];
+let insertedMores = [];
 
 // Util
 
@@ -47,6 +48,8 @@ async function restorePageData() {
                 await appendComposeComponent(tl, t[1]);
             } else if(t[0] === 'tombstone') {
                 await appendTombstone(tl, t[1], t[2]);
+            } else if(t[0] === 'showmore') {
+                await appendShowMore(tl, t[1], t[2]);
             }
         }
         let id = currentLocation.match(/status\/(\d{1,32})/)[1];
@@ -86,6 +89,7 @@ function updateSubpage() {
     tlDiv.hidden = true; rtDiv.hidden = true; rtwDiv.hidden = true; likesDiv.hidden = true;
     rtMore.hidden = true; rtwMore.hidden = true; likesMore.hidden = true;
     mediaToUpload = [];
+    insertedMores = [];
 
     if(path.split('/').length === 3) {
         subpage = 'tweet';
@@ -199,20 +203,7 @@ async function updateReplies(id, c) {
         } else if(t.type === 'tombstone') {
             appendTombstone(tlContainer, t.data, t.replyTweet);
         } else if(t.type === 'showMore') {
-            let div = document.createElement('div');
-            div.className = 'show-more';
-            div.innerHTML = `
-                <button class="show-more-button center-text">${t.data.labelText ? t.data.labelText : t.data.actionText}</button>
-            `;
-            let loading = false;
-            div.querySelector('.show-more-button').addEventListener('click', async () => {
-                if(loading) return;
-                loading = true;
-                div.children[0].innerText = LOC.loading_tweets.message;
-                await updateReplies(id, t.data.cursor);
-                div.remove();
-            });
-            tlContainer.appendChild(div);
+            appendShowMore(tlContainer, t.data, id);
         }
     }
     if(mainTweet) mainTweet.scrollIntoView();
@@ -404,6 +395,7 @@ function renderUserData() {
         document.head.appendChild(style);
     }
 }
+
 async function appendComposeComponent(container, replyTweet) {
     if(!replyTweet) return;
     if(!user || !user.screen_name) {
@@ -690,7 +682,6 @@ async function appendComposeComponent(container, replyTweet) {
         });
     });
 }
-
 async function appendTombstone(timelineContainer, text, replyTweet) {
     tweets.push(['tombstone', text, replyTweet]);
     let tombstone = document.createElement('div');
@@ -706,6 +697,26 @@ async function appendTombstone(timelineContainer, text, replyTweet) {
         `;
         tombstone.after(threadDiv);
     }
+}
+async function appendShowMore(container, data, id) {
+    if(insertedMores.includes(data.cursor)) return;
+    tweets.push(['showmore', data, id]);
+    insertedMores.push(data.cursor);
+    let div = document.createElement('div');
+    div.className = 'show-more';
+    div.innerHTML = `
+        <button class="show-more-button center-text">${data.labelText ? data.labelText : data.actionText}</button>
+    `;
+    let loading = false;
+    div.querySelector('.show-more-button').addEventListener('click', async () => {
+        if(loading) return;
+        loading = true;
+        div.children[0].innerText = LOC.loading_tweets.message;
+        await updateReplies(id, data.cursor);
+        div.remove();
+        tweets = tweets.filter(t => t[0] !== 'showmore' || t[1].cursor !== data.cursor);
+    });
+    container.appendChild(div);
 }
 
 // On scroll to end of timeline, load more tweets

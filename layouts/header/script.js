@@ -863,11 +863,9 @@ let userDataFunction = async user => {
                     let photoElement = document.createElement('img');
                     photoElement.src = photo.media_url_https;
                     photoElement.classList.add('message-element-media');
-                    if(photo.original_info.width > 400) {
-                        photoElement.width = 400;
-                    } else {
-                        photoElement.width = photo.original_info.width;
-                    }
+                    let [w, h] = calculateSize(photo.original_info.width, photo.original_info.height, 400, 500);
+                    photoElement.width = w;
+                    photoElement.height = h;
                     photoElement.addEventListener('click', e => {
                         new Viewer(photoElement, {
                             transition: false
@@ -887,11 +885,9 @@ let userDataFunction = async user => {
                     gifElement.muted = true;
                     gifElement.loop = true;
                     gifElement.autoplay = true;
-                    if(gif.original_info.width > 400) {
-                        gifElement.width = 400;
-                    } else {
-                        gifElement.width = gif.original_info.width;
-                    }
+                    let [w, h] = calculateSize(gif.original_info.width, gif.original_info.height, 400, 500);
+                    gifElement.width = w;
+                    gifElement.height = h;
                     gifElement.classList.add('message-element-media');
                     if(span.innerHTML === '' || span.innerHTML === ' ') 
                         messageBlockInner.append(gifElement);
@@ -903,11 +899,9 @@ let userDataFunction = async user => {
                     let videoElement = document.createElement('video');
                     videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
                     videoElement.controls = true;
-                    if(video.original_info.width > 400) {
-                        videoElement.width = 400;
-                    } else {
-                        videoElement.width = video.original_info.width;
-                    }
+                    let [w, h] = calculateSize(video.original_info.width, video.original_info.height, 400, 500);
+                    videoElement.width = w;
+                    videoElement.height = h;
                     videoElement.classList.add('message-element-media');
                     if(span.innerHTML === '' || span.innerHTML === ' ') 
                         messageBlockInner.append(videoElement);
@@ -1134,7 +1128,7 @@ let userDataFunction = async user => {
         });
         leaveConvo.addEventListener('click', async () => {
             if(!lastConvo || !lastConvo.conversation_id) return;
-            let c = confirm('Are you sure you want to leave/remove this conversation?');
+            let c = confirm(LOC.leave_conversation.message);
             if(c) {
                 await API.inbox.deleteConversation(lastConvo.conversation_id);
                 modal.remove();
@@ -1181,7 +1175,7 @@ let userDataFunction = async user => {
 
         let mediaToUpload = []; 
         newMediaButton.addEventListener('click', () => {
-            getDMMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
+            getMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
         });
         newInput.addEventListener('paste', event => {
             let items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -2341,6 +2335,9 @@ let userDataFunction = async user => {
                 if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
                 setTimeout(() => notificationsOpened = false, 100);
                 clearInterval(ui);
+            }, () => {
+                let tv = document.querySelector('.tweet-viewer');
+                return !tv;
             });
             notificationsOpened = true;
 
@@ -2453,6 +2450,13 @@ let userDataFunction = async user => {
             await updateNotifications({ mode: 'prepend', quiet: true });
             let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
 
+            modal.addEventListener('scroll', () => {
+                if(loadingMore) return;
+                if(modal.scrollTop > modal.scrollHeight - modal.clientHeight - 300) {
+                    notifMore.click();
+                }
+            }, { passive: true });
+            
             notifMore.addEventListener('click', () => {
                 if(loadingMore) return;
                 loadingMore = true;
