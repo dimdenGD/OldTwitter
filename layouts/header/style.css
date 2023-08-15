@@ -2490,7 +2490,7 @@ video::-internal-media-controls-overlay-cast-button {
         bottom: 65px;
     }
     .tweet-interact {
-        display: block;
+        display: flow-root;
     }
     .tweet-interact-more {
         margin-right: 0 !important;
