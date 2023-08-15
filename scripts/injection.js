@@ -507,9 +507,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     document.documentElement.innerHTML = html;
     document.body.classList.add('body-old-ui');
-    if(vars.moveNavbarToBottom) {
-        document.body.classList.add('move-navbar-to-bottom');
-    }
 
     observer.disconnect();
 
