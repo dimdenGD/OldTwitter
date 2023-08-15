@@ -509,5 +509,11 @@
     "dont_pause_videos": { "message": "Не ставить видео на паузу при пролистывании через ленту" },
     "delete_for_you":{ "message": "Удалить для себя",  "description":"DM Message Delete menu"},
     "show_user_previews_on_mobile": { "message": "Показывать превью профиля при долгом нажатии (это может быть надоедливым)" },
-    "separate_text": { "message": "Отделить текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" }
+    "separate_text": { "message": "Отделить текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
+	"leave_conversation": {"message":"Вы уверены что хотите выйти с этой переписки?"},
+	"autotranslation_help1": {"message": "Эта функция будет находить твиты и переводить их автоматически."},
+	"autotranslation_help2": {"message": "Чтобы использовать её, выберите режим автоматического перевода и добавьте языки. Твиты которые подходят будут переведены автоматически."},
+	"autotranslation_help3": {"message": "Режимы"},
+	"autotranslation_help4": {"message": "\"Переводить когда в списке языков\" без добавленных языков не будет переводить ничего автоматически;"},
+	"autotranslation_help5": {"message": "\"Переводить когда не в списке языков\" без добавленных языков будет переводить все твиты."}
 }

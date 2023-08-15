@@ -524,5 +524,5 @@
 	"autotranslation_help2": {"message": "To use it, select autotranslation mode and set the languange list. The tweets that meet the conditions will be automatically translated."},
 	"autotranslation_help3": {"message": "Specifically:"},
 	"autotranslation_help4": {"message": "\"Translate when in language list\" with no languages set cause function to be disabled (default);"},
-	"autotranslation_help5": {"message": "\"Translate when not in language list\" with no languages set cause every tweet to be translated."}
+	"autotranslation_help5": {"message": "\"Translate when not in language list\" with no languages set cause every tweet to be translated. It's better to add languages you know to not needlessly translate them."}
 }

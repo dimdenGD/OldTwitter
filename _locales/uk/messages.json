@@ -508,5 +508,11 @@
     "mute_videos": { "message": "Грати відео без звуку за замовчуванням" },
     "dont_pause_videos": { "message": "Не ставити відео на паузу при прокручуванні сторінки" },
     "show_user_previews_on_mobile": { "message": "Показувати превью профіля при довгому натиску (це може бути набридливим)" },
-    "separate_text": { "message": "Відділити текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" }
+    "separate_text": { "message": "Відділити текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
+	"leave_conversation": {"message":"Ви впевнені що хочете вийти з цієї переписки?"},
+	"autotranslation_help1": {"message": "Ця функція буде автоматично перекладати твіти без потреби натиску на кнопку перекладу."},
+	"autotranslation_help2": {"message": "Виберіть режим авто-перекладу та добавте мови. Твіти які підходять будуть перекладені автоматично."},
+	"autotranslation_help3": {"message": "Режими"},
+	"autotranslation_help4": {"message": "\"Перекладати коли в списку мов\" без добавлених мов не буде перекладати нічого автоматично;"},
+	"autotranslation_help5": {"message": "\"Перекладати коли не в списку мов\" без добавлених мов буде перекладати всі твіти."}
 }
