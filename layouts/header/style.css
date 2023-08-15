@@ -2981,6 +2981,9 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-body-main > .tweet-interact > .tweet-interact-more {
         margin-right: 12px !important;
     }
+    .navbar-new-tweet-modal {
+        top: 33%;
+    }
 
     /* workaround for stretching profile timelines */
     .tweet .tweet-header-name {

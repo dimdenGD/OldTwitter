@@ -2448,10 +2448,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     } else {
                         translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
                     }
-                    tweetBodyQuote.innerHTML += 
+                    tweetBodyQuoteText.innerHTML += 
                     `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
                     `<span class="tweet-translated-text" style="color:var(--default-text-color)!important">${escapeHTML(translated.text)}</span>`;
-                    if(vars.enableTwemoji) twemoji.parse(tweetBodyQuote);
+                    if(vars.enableTwemoji) twemoji.parse(tweetBodyQuoteText);
                 });
                 if(options.translate || vars.autotranslateProfiles.includes(t.quoted_status.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'blacklist')) {
                     onVisible(tweet, () => {
