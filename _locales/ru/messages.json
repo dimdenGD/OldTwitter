@@ -490,7 +490,7 @@
     "replying_to_and":  { "message": " и ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Твиттер"},
-    "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"},
+    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Переместить панель навигации вниз"},
     "styled_profile": {"message": "Стилизированный профиль"},
     "open_notifs_as_modal": {"message": "Открывать уведомления в модальном окне"},
     "clear_ot_token": {"message": "Очистить токен OldTwitter"},
@@ -508,7 +508,7 @@
     "mute_videos": { "message": "Воспроизводить видео без звука по умолчанию" },
     "dont_pause_videos": { "message": "Не ставить видео на паузу при пролистывании через ленту" },
     "delete_for_you":{ "message": "Удалить для себя",  "description":"DM Message Delete menu"},
-    "show_user_previews_on_mobile": { "message": "Показывать превью профиля при долгом нажатии (это может быть надоедливым)" },
+    "show_user_previews_on_mobile": { "message": "<b>[Mobile]</b> Показывать превью профиля при долгом нажатии (это может быть надоедливым)" },
     "separate_text": { "message": "Отделить текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
     "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}

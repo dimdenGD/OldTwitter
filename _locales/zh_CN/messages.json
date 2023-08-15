@@ -499,7 +499,7 @@
     "replying_to_and":  { "message": " 和 ", "description":"For some languages that use address terms", "example": "Replying to @A-> and <-@B, @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
     "twitter": { "message": "Twitter" },
-    "move_navbar_to_bottom": { "message": "将导航栏移至底部" },
+    "move_navbar_to_bottom": { "message": "<b>[Mobile]</b> 将导航栏移至底部" },
     "styled_profile": { "message": "本资料页使用了自定义 CSS" },
     "open_notifs_as_modal": { "message": "将【通知】以弹窗形式打开", "description": "Modal is a small window that opens on top of page" },
     "clear_ot_token": { "message": "清除 OldTwitter 令牌" },

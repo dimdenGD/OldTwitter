@@ -499,7 +499,7 @@
     "replying_to_and":  { "message": " e ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Twitter"},
-    "move_navbar_to_bottom": {"message": "Mover barra de navegação para baixo"},
+    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Mover barra de navegação para baixo"},
     "styled_profile": {"message": "Perfil estilizado"},
     "open_notifs_as_modal": {"message": "Abrir notificações como pop-up", "description": "Modal is a small window that opens on top of page"},
     "clear_ot_token": {"message": "Apagar token do OldTwitter"},

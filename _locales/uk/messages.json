@@ -490,7 +490,7 @@
     "replying_to_and":  { "message": " та ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Твіттер"},
-    "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"},
+    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Переместить панель навигации вниз"},
     "styled_profile": {"message": "Стилізований профіль"},
     "open_notifs_as_modal": {"message": "Відкривати сповіщення в модальному вікні"},
     "clear_ot_token": {"message": "Очистити токен OldTwitter"},
@@ -507,7 +507,7 @@
     "select_language": { "message": "Виберіть мову" },
     "mute_videos": { "message": "Грати відео без звуку за замовчуванням" },
     "dont_pause_videos": { "message": "Не ставити відео на паузу при прокручуванні сторінки" },
-    "show_user_previews_on_mobile": { "message": "Показувати превью профіля при довгому натиску (це може бути набридливим)" },
+    "show_user_previews_on_mobile": { "message": "<b>[Mobile]</b> Показувати превью профіля при довгому натиску (це може бути набридливим)" },
     "separate_text": { "message": "Відділити текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
     "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
