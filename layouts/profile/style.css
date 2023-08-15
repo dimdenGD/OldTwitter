@@ -1759,6 +1759,9 @@ a:hover,
     #tweet-nav > a {
         font-size: 16px;
     }
+    #nav-profile-name {
+        color: white;
+    }
 }
 @media screen and (max-width: 550px) {
     #profile-stat-media-link {
@@ -1793,8 +1796,31 @@ a:hover,
     }
 }
 @media screen and (max-width: 360px) {
-    #profile-stat-tweets-link {
+    #profile-stat-tweets-link > .profile-stat-text {
         display: none;
+    }
+    .profile-stat:hover, .profile-stat-active {
+        box-shadow: none;
+    }
+    #profile-stat-tweets-value {
+        color: var(--background-color);
+    }
+    #profile-stat-tweets-value::after {
+        content: " Tweets";
+    }
+    #profile-stat-tweets-link {
+        position: absolute;
+        top: 56px;
+        left: 12px;
+        background-color: var(--almost-black);
+        color: var(--border);
+        border-radius: 999px;
+    }
+    #nav-profile-info-text {
+        justify-content: right !important;
+    }
+    #nav-profile-name::after {
+        margin-right: 12px;
     }
 }
 @media screen and (max-width: 320px) {

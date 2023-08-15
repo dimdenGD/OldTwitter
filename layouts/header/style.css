@@ -2313,6 +2313,7 @@ video::-internal-media-controls-overlay-cast-button {
 
 /* Mobile UI */
 @media screen and (max-width: 590px) {
+    /* default schematics */
     .notification-avatars, .notification-text {
         width: calc(100% - 56px);
     }
@@ -2343,8 +2344,7 @@ video::-internal-media-controls-overlay-cast-button {
         border-radius: 0;
     }
     .tweet-media-element {
-        max-width: unset;
-        width: calc(100% - 15px);
+        max-width: calc(100% - 15px);
     }
     .tweet-body-quote {
         width: 100%;
@@ -2562,6 +2562,430 @@ video::-internal-media-controls-overlay-cast-button {
     .body-old-ui #navbar-tweet-button {
         padding-right: 7px;
     }
+    
+    /* new schematics */
+    :root {
+        touch-action: pan-x pan-y;
+    }
+    body {
+        overscroll-behavior-y: none;
+        width: 100%;
+    }
+    html{
+        width: calc(100% - 1px);
+    }
+    #center-cell {
+        margin-top: 48px !important;
+    }
+    #twitter-logo {
+        padding: 0 !important;
+        margin-right: -7px !important
+    }
+    #twitter-logo-div {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 38px;
+        background-color: var(--background-color);
+        padding-top: 12px;
+        backdrop-filter: blur(100px);
+    }
+    #search {
+        position: fixed;
+        top: 9px;
+        right: 13px;
+    }
+    #search-icon::before, #user-search-icon::before {
+        font-size: 15px;
+    }
+    #search-icon {
+        margin-right: -7px;
+    }
+    #navbar-links {
+        position: fixed;
+        bottom: 23px;
+        display: flex;
+        justify-content: center;
+    }
+    #navbar-user {
+        position: fixed;
+        top: 11px;
+        left: 13px;
+        margin-left: 0px !important;
+    }
+    #navbar-tweet-button {
+        position: fixed;
+        bottom: 56px;
+        right: 12px;
+    }
+    #navbar-user-avatar {
+        width: 28px;
+        height: 28px;
+    }
+    #navbar-user-menu {
+        left: 0px;
+        padding-right: 40px;
+    }
+    #navbar-links {
+        width: 100%;
+        margin-left: 0px !important;
+        bottom: 0px;
+        height: 48px;
+        background-color: var(--background-color);
+        border-top: 1px solid var(--border);
+    }
+    #search-input {
+        padding: 5px 27px 6px 5px;
+        margin-right: -5px;
+    }
+    #search-input:focus {
+        width: 280px;
+        margin-right: -5px;
+        padding: 5px 27px 6px 13px;
+    }
+    #search-results {
+        margin-top: 5px;
+        padding-bottom: 5px;
+        padding-top: 3px;
+        position: absolute;
+        background: var(--menu-bg);
+        border-radius: 5px;
+        color: var(--light-gray);
+        min-width: 100%;
+        z-index: 5;
+        box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
+    }
+    .search-results-title {
+        color: var(--darker-gray);
+        font-weight: normal;
+        font-size: 16px;
+        display: flex;
+        padding: 10px 10px !important;
+    }
+    #search-results a, .navbar-new-tweet-user-search span, .search-results-title {
+        cursor: pointer;
+        padding: 15px 10px;
+    }
+    .search-result-item {
+        display: block;
+        margin-top: 2px;
+        background-color: var(--background-color);
+        border-radius: 5px;
+        margin-left: 5px;
+        margin-right: 37px;
+    }
+    .search-result-item-remove {
+        float: right;
+        color: var(--almost-black);
+        cursor: pointer;
+        position: relative;
+        bottom: 42px;
+        right: 6px;
+        font-size: 32px;
+        margin-right: 4px;
+        background-color: var(--background-color);
+        padding-bottom: 0px;
+        border-radius: 5px;
+        margin-bottom: -32px;
+    }
+    #profile-banner {
+        transition: 0s !important;
+    }
+    #navbar-links a {
+        padding-left: 30px;
+        padding-right: 30px;
+        position: revert;
+        margin-top: -3px;
+        margin-left: auto;
+        margin-right: auto;
+        transition: 0s !important;
+        background-color: #0000;
+    }
+    #navbar a::before {
+        vertical-align: sub;
+        margin-right: 0px;
+        font-family: var(--icon-font);
+        font-size: 20px;
+    }
+    #timeline-type-center {
+        position: fixed;
+        z-index: 99;
+        padding-top: 9px;
+        padding-bottom: 9px;
+        padding-left: 9px;
+        padding-right: 9px;
+        margin-top: 2px;
+        background-color: var(--background-color);
+        backdrop-filter: blur(50px);
+        border-color: var(--dark-background-color)
+    }
+    #new-tweet-container {
+        margin-top: 36px;
+    }
+    #tweets-loading {
+        text-align: center;
+        margin-left: 26px;
+        margin-top: 12px;
+    }
+    #navbar {
+        background-color: #0000;
+    }
+    #navbar-tweet-button {
+        width: 60px;
+        height: 40px;
+        z-index: -1;
+    }
+    #navbar-tweet-highlight {
+        visibility: hidden;
+    }
+    #profile-media {
+        visibility: hidden;
+        margin: 0;
+        height: 0;
+    }
+    #profile-banner-sticky {
+        margin-top: 87px;
+    }
+    #profile-banner {
+        width: 100%;
+        height: 150px;
+    }
+    #profile-nav {
+        position: relative;
+        z-index: 97;
+        background-color: #0000;
+        box-shadow: 0 1px 3px 0 #0000;
+        top: 0;
+    }
+    #profile-info {
+        padding-left: 20px;
+        pointer-events: auto;
+        bottom: 257px;
+        width: fit-content;
+        margin-top: 0;
+        padding-top: 20px;
+    }
+    #profile-avatar {
+        border: 5px solid var(--darker-background-color);
+        background-color: var(--background-color);
+        border-radius: 12px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
+        user-select: none;
+        width: 100px !important;
+        height: 100px !important
+    }
+    #profile-name {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    #profile-nav-buttons {
+        position: absolute;
+        right: 21px;
+        margin-top: -355px;
+        pointer-events: auto;
+        z-index: -1;
+        visibility: visible;
+    }
+    #profile-info-text {
+        padding-top: 0px;
+    }
+    #profile-stats {
+        display: inline-flex;
+        position: fixed;
+        left: 0;
+        width: 100%;
+        justify-content: center;
+        top: 48px;
+        background-color: var(--background-color);
+        backdrop-filter: blur(50px);
+        visibility: visible;
+        border-top: 1px;
+        border-color: var(--dark-background-color);
+    }
+    .profile-stat {
+        display: grid;
+        text-align: center;
+        padding: 12px;
+        padding-bottom: 8px;
+        padding-top: 8px;
+        transition: 0.2s;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .profile-stat-value {
+        font-size: 15px;
+        padding-top: 0px;
+        font-weight: bolder;
+        transition: 0s;
+    }
+    **#nav-profile-info {
+        z-index: 999;
+        position: fixed;
+        visibility: visible;
+    }
+    #profile-nav {
+        position: relative;
+        z-index: 97;
+        background-color: #0000;
+        box-shadow: 0 1px 3px 0 #0000;
+        top: 0;
+        visibility: collapse;
+    }
+    #tweet-nav * {
+        margin-right: auto;
+        margin-left: 0px;
+    }
+    #tweet-nav-more {
+        margin-right: 0px !important;
+    }
+    #profile-info-text {
+        padding-top: 0px;
+        margin-bottom: -24px;
+    }
+    .modal .tweet-header-name-main {
+            width: 220px !important;
+            text-overflow: ellipsis;
+    }
+    #navbar-user-menu {
+        height: auto;
+        padding-bottom: 1000px;
+        padding-right: 0;
+        width: 270px;
+        opacity: 100%;
+        padding-top: 5px !important;
+        padding-left: 1px !important;
+        margin-left: -15px;
+        border-radius: 0px;
+        margin-top: 8px;
+    }
+    #navbar-user-menu::after {
+        content: "";
+        position: fixed;
+        width: 1000px;
+        height: 1000px;
+        left: 269px;
+        top: 51px;
+        backdrop-filter: blur(5px);
+        transition: 0.2s;
+    }
+    #navbar-user-menu-links {
+        margin-top: 0px;
+    }
+    #navbar-user-menu-username {
+        color: var(--almost-black);
+        font-weight: bolder;
+        max-width: 200px;
+        overflow-x: clip;
+        text-overflow: ellipsis;
+    }
+    #navbar-user-accounts {
+        margin-top: 5px;
+    }
+    .navbar-user-account {
+        padding: 12px;
+        margin-left: 5px;
+        margin-right: 5px;
+        border-radius: 5px;
+    }
+    .navbar-user-account:hover {
+        background-color: var(--choice-bg);
+        color: white !important;
+    }
+    .dropdown-menu a {
+        padding: 15px;
+        margin-left: 3px;
+        margin-right: 3px;
+        border-radius: 5px;
+        margin-bottom: 2px;
+    }
+    #navbar-user-menu hr {
+        border-bottom: 1px solid #0000;
+        margin: 3px 0;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+    }
+    #loading-box {
+        /*visibility: collapse;*/
+        top: 0;
+    }
+    #profile-settings {
+        margin-left: 5px;
+    }
+    #nav-profile-info {
+        position: fixed;
+        top: 100px;
+        margin-top: 0;
+        width: 100%;
+        margin-left: 0;
+        left: 0;
+        justify-content: center;
+        visibility: visible;
+        transition-duration: 0.2s;
+        z-index: -2;
+    }
+    #nav-profile-info-text {
+        position: fixed;
+        top: 110px;
+        left: 0;
+        width: 100%;
+        justify-content: center;
+        display: grid;
+        height: 0;
+    }
+    #nav-profile-name {
+        position: unset;
+        font-size: 0;
+        text-align: center;
+    }
+    .body-old-ui #nav-profile-name::after {
+        visibility: visible;
+        content: "Go Back to Top";
+        font-size: 14px;
+        font-weight: bold;
+        padding: 9px 12px 9px !important;
+        background-color: var(--link-color);
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px var(--background-color);
+    }
+    .body-modern-ui #nav-profile-name::after {
+        visibility: visible;
+        content: "Go Back to Top";
+        font-size: 14px;
+        font-weight: bold;
+        padding: 9px 24px 9px !important;
+        background-color: var(--link-color);
+        border-radius: 999px;
+        box-shadow: 0px 0px 10px var(--background-color);
+    }
+    #nav-profile-avatar {
+        display: none;
+    }
+    #nav-profile-username {
+        display: none;
+    }
+    .tweet-body-main > .tweet-interact {
+        justify-content: center;
+        display: flex;
+    }
+    .tweet-body-main > .tweet-interact span::before {
+        margin-right: 0px;
+    }
+    .tweet-body-main > .tweet-interact span {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .tweet-body-main > .tweet-interact > .tweet-interact-reply {
+        margin-left: 12px !important;
+    }
+    .tweet-body-main > .tweet-interact > .tweet-interact-more {
+        margin-right: 12px !important;
+    }
+
+    /* workaround for stretching profile timelines */
+    .tweet .tweet-header-name {
+        max-width: 300px;
+    }
 }
 @media screen and (max-width: 460px) {
     #pin-lists {
@@ -2573,7 +2997,7 @@ video::-internal-media-controls-overlay-cast-button {
         display: none;
     }
 }
-@media screen and (max-width: 370px) {
+@media screen and (max-width: 310px) {
     #pin-profile {
         display: none; 
     }
