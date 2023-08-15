@@ -809,6 +809,21 @@ setTimeout(async () => {
         `)
     });
 
+	document.getElementById('autotl-help').addEventListener('click', () => {
+        createModal(`
+            <div style="color:var(--almost-black);max-width:600px" class="help-modal">
+                <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">${LOC.autotranslation.message}</h2>
+                <div>${LOC.autotranslation_help1.message}</div>
+                <div>${LOC.autotranslation_help2.message}</div>
+                <div>${LOC.autotranslation_help3.message}</div>
+                <div><ul>
+					<li>${LOC.autotranslation_help4.message}</li>
+					<li>${LOC.autotranslation_help5.message}</li>
+				</ul></div>
+            </div>
+        `)
+    });
+
     // Language
     let [LOC_DATA, LOC_EN_DATA] = await Promise.all([
         fetch(chrome.runtime.getURL(`_locales/${LANGUAGE}/messages.json`)).then(response => response.json()),

@@ -1126,7 +1126,7 @@ let userDataFunction = async user => {
         });
         leaveConvo.addEventListener('click', async () => {
             if(!lastConvo || !lastConvo.conversation_id) return;
-            let c = confirm('Are you sure you want to leave/remove this conversation?');
+            let c = confirm(LOC.leave_conversation.message);
             if(c) {
                 await API.inbox.deleteConversation(lastConvo.conversation_id);
                 modal.remove();
