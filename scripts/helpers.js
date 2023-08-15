@@ -42,7 +42,7 @@ function createModal(html, className, onclose, canclose) {
     function escapeEvent(e) {
         if(document.querySelector('.viewer-in')) return;
         if(e.key === 'Escape' || (e.altKey && e.keyCode === 78)) {
-            removeModal();
+            if(!canclose || canclose()) removeModal();
         }
     }
     close.addEventListener('click', removeModal);

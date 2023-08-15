@@ -2333,6 +2333,9 @@ let userDataFunction = async user => {
                 if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
                 setTimeout(() => notificationsOpened = false, 100);
                 clearInterval(ui);
+            }, () => {
+                let tv = document.querySelector('.tweet-viewer');
+                return !tv;
             });
             notificationsOpened = true;
 

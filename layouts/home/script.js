@@ -36,7 +36,7 @@ async function createShamelessPlug(firstTime = true) {
         followButton.addEventListener('click', () => {
             API.user.follow('dimdenEFF').then(() => {
                 alert(LOC.thank_you_follow.message);
-                modal.remove();
+                modal.removeModal();
             }).catch(e => {
                 console.error(e);
                 location.href = 'https://twitter.com/dimdenEFF';
@@ -86,7 +86,7 @@ setTimeout(() => {
                             Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a>
                         </p>
                     </span>
-                `, 'changelog-modal', () => {}, () => Date.now() - opened > 1750);
+                `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
                 let changelog = document.getElementById('changelog');
                 let text = changelog.innerText;
                 let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
