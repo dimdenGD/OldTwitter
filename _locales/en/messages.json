@@ -517,5 +517,6 @@
     "mute_videos": { "message": "Mute videos by default" },
     "dont_pause_videos": { "message": "Don't pause videos when scrolling from view" },
     "delete_for_you":{ "message": "Delete for you",  "description":"DM Message Delete menu" },
-    "show_user_previews_on_mobile": { "message": "Show user previews on hold (this can be annoying)" }
+    "show_user_previews_on_mobile": { "message": "Show user previews on hold (this can be annoying)", "description": "This option only appears on mobile" },
+    "separate_text": { "message": "Separate text", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" }
 }

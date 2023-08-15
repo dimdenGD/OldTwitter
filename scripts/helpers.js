@@ -1912,6 +1912,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
+                        ${innerWidth < 590 ? /*html*/`
+                        <span class="tweet-interact-more-menu-separate">${LOC.separate_text.message}</span>
+                        ` : ''}
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
                         <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span>
                         ${navigator.canShare ? `<span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>` : ''}
@@ -2284,9 +2287,21 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
         const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
+        const tweetInteractMoreMenuSeparate = tweet.getElementsByClassName('tweet-interact-more-menu-separate')[0];
 
         if(tweetInteractMoreMenuLog) tweetInteractMoreMenuLog.addEventListener('click', () => {
             console.log(t);
+        });
+
+        if(tweetInteractMoreMenuSeparate) tweetInteractMoreMenuSeparate.addEventListener('click', () => {
+            tweetBodyText.style = `
+                padding-top: 20px!important;
+                display: block;
+                font-size: 26px;
+                line-height: unset;
+                padding-bottom: 20px;
+            `;
+            tweetInteractMoreMenuSeparate.style.display = 'none';
         });
 
         // moderating tweets
