@@ -2562,11 +2562,6 @@ video::-internal-media-controls-overlay-cast-button {
     .body-old-ui #navbar-tweet-button {
         padding-right: 7px;
     }
-    
-    /* new schematics */
-    :root {
-        touch-action: pan-x pan-y;
-    }
     body {
         overscroll-behavior-y: none;
         width: 100%;

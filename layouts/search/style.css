@@ -870,4 +870,9 @@ a:hover,
     .modal .tweet {
         width: unset;
     }
+    #search-input {
+        width: 280px !important;
+        margin-right: -5px !important;
+        padding: 5px 27px 6px 13px !important;
+    }
 }
