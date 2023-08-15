@@ -1793,8 +1793,30 @@ a:hover,
     }
 }
 @media screen and (max-width: 360px) {
-    #profile-stat-tweets-link {
+    #profile-stat-tweets-link > .profile-stat-text {
         display: none;
+    }
+    .profile-stat:hover, .profile-stat-active {
+        box-shadow: none;
+    }
+    #profile-stat-tweets-value {
+        color: white;
+    }
+    #profile-stat-tweets-value::after {
+        content: " Tweets";
+    }
+    #profile-stat-tweets-link {
+        position: absolute;
+        top: 56px;
+        left: 12px;
+        background-color: var(--varchange);
+        border-radius: 999px;
+    }
+    #nav-profile-info-text {
+        justify-content: right !important;
+    }
+    #nav-profile-name::after {
+        margin-right: 12px;
     }
 }
 @media screen and (max-width: 320px) {
