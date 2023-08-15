@@ -26,6 +26,7 @@ setInterval(() => {
 
 function debugLog(...args) {
     if(typeof vars === "object" && vars.developerMode) {
+        if(args[0] === 'notifications.get' && !document.querySelector('.notifications-modal') && !location.pathname.startsWith('/notifications')) return; 
         if(vars.extensiveLogging) {
             console.trace(...args);
         } else {
@@ -108,6 +109,10 @@ function parseTweet(res) {
             if(result.views) {
                 tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
             }
+            tweet.retweeted_status.res = res;
+            if(res.card && res.card.legacy && res.card.legacy.binding_values) {
+                tweet.retweeted_status.card = res.card.legacy;
+            }
         } else {
             console.warn("No retweeted status", result);
         }
@@ -141,14 +146,18 @@ function parseTweet(res) {
         tweet.quoted_status = result.legacy;
         if(tweet.quoted_status) {
             tweet.quoted_status.user = result.core.user_results.result.legacy;
-            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-            if(result.core.user_results.result.is_blue_verified) {
-                tweet.quoted_status.user.verified = true;
-                tweet.quoted_status.user.verified_type = "Blue";
-            }
-            tweet.quoted_status.ext = {};
-            if(result.views) {
-                tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+            if(!tweet.quoted_status.user) {
+                delete tweet.quoted_status;
+            } else {
+                tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
+                if(result.core.user_results.result.is_blue_verified) {
+                    tweet.quoted_status.user.verified = true;
+                    tweet.quoted_status.user.verified_type = "Blue";
+                }
+                tweet.quoted_status.ext = {};
+                if(result.views) {
+                    tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
+                }
             }
         } else {
             console.warn("No quoted status", result);
@@ -174,6 +183,7 @@ function parseTweet(res) {
         tweet.birdwatch = res.birdwatch_pivot;
     }
 
+    tweet.res = res;
     tweetStorage[tweet.id_str] = tweet;
     return tweet;
 }
@@ -682,8 +692,7 @@ const API = {
                 if(social.length === 0) break;
                 if(i % 7 === 0) {
                     if(
-                        chrono.list.map(t => t.id_str).includes(social[social.length-1].id_str) ||
-                        social.favorited
+                        chrono.list.map(t => t.id_str).includes(social[social.length-1].id_str)
                     ) {
                         social.pop();
                         continue;
@@ -1502,7 +1511,7 @@ const API = {
                         }
                         let pinEntry = instructions.find(e => e.type === "TimelinePinEntry");
                         let pinnedTweet;
-                        if(pinEntry && pinEntry.entry && pinEntry.entry.content) {
+                        if(pinEntry && pinEntry.entry && pinEntry.entry.content && pinEntry.entry.content.itemContent) {
                             let result = pinEntry.entry.content.itemContent.tweet_results.result;
                             pinnedTweet = parseTweet(result);
                             if(pinnedTweet) {
@@ -2835,7 +2844,7 @@ const API = {
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
-                        debugLog('tweet.getRepliesV2', 'start', data);
+                        debugLog('tweet.getRepliesV2', 'start', {cursor, data});
                         if (data.errors && data.errors[0]) {
                             if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[1](data.errors[0].message));
                             delete loadingReplies[id];
@@ -3854,7 +3863,7 @@ const API = {
         },
         getConversation: (id, max_id) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/dm/conversation/${id}.json?ext=altText${max_id ? `&max_id=${max_id}` : ''}&count=100&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                fetch(`https://api.twitter.com/1.1/dm/conversation/${id}.json?ext=altText${max_id ? `&max_id=${max_id}` : ''}&count=100&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&include_conversation_info=true`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.oauth_key,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,

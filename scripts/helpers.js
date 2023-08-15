@@ -42,7 +42,7 @@ function createModal(html, className, onclose, canclose) {
     function escapeEvent(e) {
         if(document.querySelector('.viewer-in')) return;
         if(e.key === 'Escape' || (e.altKey && e.keyCode === 78)) {
-            removeModal();
+            if(!canclose || canclose()) removeModal();
         }
     }
     close.addEventListener('click', removeModal);
@@ -252,94 +252,6 @@ function getMedia(mediaArray, mediaContainer) {
     input.accept = 'image/png,image/jpeg,image/gif,video/mp4,video/mov';
     input.addEventListener('change', () => {
         handleFiles(input.files, mediaArray, mediaContainer);
-    });
-    input.click();
-};
-function getDMMedia(mediaArray, mediaContainer, modalElement) {
-    let input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
-    input.addEventListener('change', async () => {
-        let files = input.files;
-        let images = [];
-        let gifs = [];
-        for (let i = 0; i < files.length; i++) {
-            let file = files[i];
-            if (file.type.includes('gif')) {
-                // max 15 mb
-                if (file.size > 15000000) {
-                    return alert(LOC.gifs_max.message);
-                }
-                gifs.push(file);
-            } else if (file.type.includes('image')) {
-                // max 5 mb
-                if (file.size > 5000000) {
-                    return alert(LOC.images_max.message);
-                }
-                images.push(file);
-            }
-        }
-        // get base64 data
-        let media = [...images, ...gifs];
-        let base64Data = [];
-        for (let i = 0; i < media.length; i++) {
-            let file = media[i];
-            let reader = new FileReader();
-            reader.readAsArrayBuffer(file);
-            reader.onload = () => {
-                base64Data.push(reader.result);
-                if (base64Data.length === media.length) {
-                    mediaContainer.innerHTML = '';
-                    while (mediaArray.length > 0) {
-                        mediaArray.pop();
-                    }
-                    base64Data.forEach(data => {
-                        let div = document.createElement('div');
-                        let img = document.createElement('img');
-                        div.title = file.name;
-                        div.id = `new-tweet-media-img-${Date.now()}${Math.random()}`.replace('.', '-');
-                        div.className = "new-tweet-media-img-div";
-                        img.className = "new-tweet-media-img";
-                        let progress = document.createElement('span');
-                        progress.hidden = true;
-                        progress.className = "new-tweet-media-img-progress";
-                        let remove = document.createElement('span');
-                        remove.className = "new-tweet-media-img-remove";
-                        let mediaObject = {
-                            div, img,
-                            id: img.id,
-                            data: data,
-                            type: file.type,
-                            category: file.type.includes('gif') ? 'tweet_gif' : file.type.includes('video') ? 'tweet_video' : 'tweet_image'
-                        };
-                        mediaArray.push(mediaObject);
-                        if(file.type.includes('video')) {
-                            img.src = 'data:image/png;base64,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';
-                        } else {
-                            let dataBase64 = arrayBufferToBase64(data);
-                            img.src = `data:${file.type};base64,${dataBase64}`;
-                        }
-                        remove.addEventListener('click', () => {
-                            div.remove();
-                            for (let i = mediaArray.length - 1; i >= 0; i--) {
-                                let m = mediaArray[i];
-                                if (m.id === img.id) mediaArray.splice(i, 1);
-                            }
-                        });
-                        div.append(img, progress, remove);
-                        if (!file.type.includes('video')) {
-                            img.addEventListener('click', () => {
-                                new Viewer(mediaContainer, {
-                                    transition: false
-                                });
-                            });
-                        }
-                        mediaContainer.append(div);
-                        setTimeout(() => modalElement.scrollTop = modalElement.scrollHeight, 50);
-                    });
-                }
-            }
-        }
     });
     input.click();
 };
@@ -791,7 +703,7 @@ function generateCard(tweet, tweetElement, user) {
                 appElement.innerHTML = `
                     <h3>${escapeHTML(app.title.content)}</h3>
                     <span>${escapeHTML(app.category.content)}</span>
-                    <br><br>
+                    <br>
                 `;
                 tweetElement.getElementsByClassName('tweet-card')[0].append(appElement);
             } else if(co.type === "button_group") {
@@ -1198,11 +1110,26 @@ function getTimeZone() {
     let offset = new Date().getTimezoneOffset(), o = Math.abs(offset);
     return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
 }
-
 function formatLargeNumber(n) {
     let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
-    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString('en-US',option)
-    else return Number(n).toLocaleString()
+    let specialLangs = ['zh_cn', 'zh_tw', 'ja', 'ko']; // these languages actually stay short
+    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString(specialLangs.includes(LANGUAGE.toLowerCase()) ? LANGUAGE.replace('_', '-') : 'en-US', option);
+    else return Number(n).toLocaleString();
+}
+function languageMatches(tweetLanguage) {
+    if(!tweetLanguage) return true;
+
+    if(tweetLanguage.includes('-')) {
+        let [lang, country] = tweetLanguage.split('-');
+        tweetLanguage = `${lang}_${country.toUpperCase()}`;
+    }
+    let isMatchingLanguage = tweetLanguage === LANGUAGE;
+    // https://twittercommunity.com/t/unkown-language-code-qht-returned-by-api/172819/3
+    if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
+        isMatchingLanguage = true;
+    }
+
+    return isMatchingLanguage;
 }
 
 async function renderTrends(compact = false, cache = true) {
@@ -1462,19 +1389,36 @@ const mediaClasses = [
     'tweet-media-element-three',
     'tweet-media-element-two',
 ];
+
+function calculateSize(x, y, max_x, max_y) {
+    let ratio = x / y;
+    let iw = innerWidth;
+    if(iw < 590) max_x = iw - 120;
+    if(x > max_x) {
+        x = max_x;
+        y = x / ratio;
+    }
+    if(y > max_y) {
+        y = max_y;
+        x = y * ratio;
+    }
+    return [parseInt(x), parseInt(y)];
+}
+
 const sizeFunctions = [
     undefined,
-    (w, h) => [w > 450 ? 450 : w < 150 ? 150 : w, h > 500 ? 500 : h < 150 ? 150 : h],
-    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
-    (w, h) => [150, h > 250 ? 250 : h < 150 ? 150 : h],
-    (w, h) => [w > 200 ? 200 : w < 150 ? 150 : w, h > 400 ? 400 : h < 150 ? 150 : h],
+    (w, h) => calculateSize(w, h, 450, 500),
+    (w, h) => calculateSize(w, h, 225, 400),
+    (w, h) => calculateSize(w, h, 150, 250),
+    (w, h) => calculateSize(w, h, 225, 400)
 ];
+
 const quoteSizeFunctions = [
     undefined,
-    (w, h) => [w > 400 ? 400 : w, h > 400 ? 400 : h],
-    (w, h) => [w > 200 ? 200 : w, h > 400 ? 400 : h],
-    (w, h) => [w > 125 ? 125 : w, h > 200 ? 200 : h],
-    (w, h) => [w > 100 ? 100 : w, h > 150 ? 150 : h],
+    (w, h) => calculateSize(w, h, 400, 400),
+    (w, h) => calculateSize(w, h, 200, 400),
+    (w, h) => calculateSize(w, h, 125, 200),
+    (w, h) => calculateSize(w, h, 100, 150)
 ];
 async function appendTweet(t, timelineContainer, options = {}) {
     if(typeof t !== 'object') {
@@ -1493,16 +1437,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(typeof seenThreads !== 'undefined' && !options.ignoreSeen) {
             if(seenThreads.includes(t.id_str)) return;
         }
-        // if(t.entities && t.entities.urls) {
-            // let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
-            // if(webUrl) {
-            //     try {
-            //         let source = t.source;
-            //         t = await API.tweet.getV2(t.id_str);
-            //         t.source = source;
-            //     } catch(e) {}
-            // }
-        // }
         if(t.socialContext) {
             options.top = {};
             if(t.socialContext.description) {
@@ -1526,9 +1460,19 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.top.text = t.socialContext.text;
                 options.top.icon = "\uf005";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
+            } else if(t.socialContext.contextType === "Sparkle") {
+                options.top.text = t.socialContext.text;
+                options.top.icon = "\uf011";
+                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else {
                 console.log(t.socialContext);
             }
+        }
+
+        // verification
+        if(t.user.ext_verified_type) {
+            t.user.verified_type = t.user.ext_verified_type;
+            t.user.verified = true;
         }
         if(vars.twitterBlueCheckmarks && t.user.ext && t.user.ext.isBlueVerified && t.user.ext.isBlueVerified.r && t.user.ext.isBlueVerified.r.ok) {
             t.user.verified_type = "Blue";
@@ -1546,6 +1490,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             delete t.quoted_status.user.verified_type;
             t.quoted_status.user.verified = false;
         }
+
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
         const tweet = document.createElement('div');
         tweet.tweet = t;
@@ -1654,11 +1599,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
             let [lang, country] = tweetLanguage.split('-');
             tweetLanguage = `${lang}_${country.toUpperCase()}`;
         }
-        let isMatchingLanguage = tweetLanguage === LANGUAGE;
-        // https://twittercommunity.com/t/unkown-language-code-qht-returned-by-api/172819/3
-        if(['qam', 'qct', 'qht', 'qme', 'qst', 'zxx', 'und'].includes(tweetLanguage)) {
-            isMatchingLanguage = true;
-        }
+        let isMatchingLanguage = languageMatches(t.lang);
+        let isQuoteMatchingLanguage = !!t.quoted_status && languageMatches(t.quoted_status.lang);
         let videos = t.extended_entities && t.extended_entities.media && t.extended_entities.media.filter(m => m.type === 'video');
         if(!videos || videos.length === 0) {
             videos = undefined;
@@ -1822,6 +1764,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
+                    ${!isQuoteMatchingLanguage ? /*html*/`
+                    <span class="tweet-quote-translate">${LOC.view_translation.message}</span>
+                    ` : ``}
                 </a>
                 ` : ``}
                 ${t.limited_actions === 'limit_trusted_friends_tweet' && (options.mainTweet || !location.pathname.includes('/status/')) ? /*html*/`
@@ -1871,6 +1816,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
+                        ${innerWidth < 590 ? /*html*/`
+                        <span class="tweet-interact-more-menu-separate">${LOC.separate_text.message}</span>
+                        ` : ''}
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
                         <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span>
                         ${navigator.canShare ? `<span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>` : ''}
@@ -2179,6 +2127,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetBodyText = tweet.getElementsByClassName('tweet-body-text')[0];
         const tweetTranslate = tweet.getElementsByClassName('tweet-translate')[0];
         const tweetTranslateAfter = tweet.getElementsByClassName('tweet-translate-after')[0];
+        const tweetQuoteTranslate = tweet.getElementsByClassName('tweet-quote-translate')[0];
         const tweetBodyQuote = tweet.getElementsByClassName('tweet-body-quote')[0];
         const tweetMediaQuote = tweet.getElementsByClassName('tweet-media-quote')[0];
         const tweetBodyQuoteText = tweet.getElementsByClassName('tweet-body-text-quote')[0];
@@ -2242,9 +2191,21 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
         const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
+        const tweetInteractMoreMenuSeparate = tweet.getElementsByClassName('tweet-interact-more-menu-separate')[0];
 
         if(tweetInteractMoreMenuLog) tweetInteractMoreMenuLog.addEventListener('click', () => {
             console.log(t);
+        });
+
+        if(tweetInteractMoreMenuSeparate) tweetInteractMoreMenuSeparate.addEventListener('click', () => {
+            tweetBodyText.style = `
+                padding-top: 20px!important;
+                display: block;
+                font-size: 26px;
+                line-height: unset;
+                padding-bottom: 20px;
+            `;
+            tweetInteractMoreMenuSeparate.style.display = 'none';
         });
 
         // moderating tweets
@@ -2367,33 +2328,72 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 tweetBodyQuoteText.classList.add('ltr');
             }
+            if(tweetQuoteTranslate) {
+                let quoteTranslating = false;
+                tweetQuoteTranslate.addEventListener('click', async e => {
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+
+                    if(t.quoted_status.translated || quoteTranslating) return;
+                    quoteTranslating = true;
+                    let translated = await API.tweet.translate(t.quoted_status.id_str);
+                    quoteTranslating = false;
+                    t.quoted_status.translated = true;
+                    tweetQuoteTranslate.hidden = true;
+                    if(!translated.translated_lang || !translated.text) return;
+                    let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                    if(translated.text.trim() === tt) return;
+                    if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                    let translatedMessage;
+                    if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                        translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+                    } else {
+                        translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                    }
+                    tweetBodyQuoteText.innerHTML += 
+                    `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
+                    `<span class="tweet-translated-text" style="color:var(--default-text-color)!important">${escapeHTML(translated.text)}</span>`;
+                    if(vars.enableTwemoji) twemoji.parse(tweetBodyQuoteText);
+                });
+                if(options.translate || vars.autotranslateProfiles.includes(t.quoted_status.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.quoted_status.lang) && vars.autotranslationMode === 'blacklist')) {
+                    onVisible(tweet, () => {
+                        if(!t.quoted_status.translated) {
+                            if(tweetQuoteTranslate) tweetQuoteTranslate.click();
+                        }
+                    })
+                }
+            }
         }
 
         // Translate
         t.translated = false;
+        let translating = false;
         if(tweetTranslate || tweetTranslateAfter) {
             (tweetTranslate ? tweetTranslate : tweetTranslateAfter).addEventListener('click', async () => {
-            if(t.translated) return;
-            let translated = await API.tweet.translate(t.id_str);
-            t.translated = true;
-            (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
-            if(!translated.translated_lang) return;
-            if(translated.text === t.full_text) return;
-            let translatedMessage;
-            if(LOC.translated_from.message.includes("$LANGUAGE$")) {
-                translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
-            } else {
-                translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
-            }
-            let translatedT = {
-                full_text: translated.text,
-                entities: translated.entities
-            }
-            tweetBodyText.innerHTML += `<br>`+
-            `<span style="font-size: 12px;color: var(--light-gray);">${translatedMessage}:</span>`+
-            `<br>`+
-            `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
-            if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
+                if(t.translated || translating) return;
+                translating = true;
+                let translated = await API.tweet.translate(t.id_str);
+                translating = false;
+                t.translated = true;
+                (tweetTranslate ? tweetTranslate : tweetTranslateAfter).hidden = true;
+                if(!translated.translated_lang || !translated.text) return;
+                let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
+                if(translated.text.trim() === tt) return;
+                if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                let translatedMessage;
+                if(LOC.translated_from.message.includes("$LANGUAGE$")) {
+                    translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
+                } else {
+                    translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                }
+                let translatedT = {
+                    full_text: translated.text,
+                    entities: translated.entities
+                }
+                tweetBodyText.innerHTML += `<br>`+
+                `<span class="translated-from">${translatedMessage}:</span>`+
+                `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
+                if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });
             if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {
                 onVisible(tweet, () => {
@@ -2485,7 +2485,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     e.target.click();
                 }
             });
-            if(typeof pageUser !== 'undefined' && !location.pathname.includes("/likes")) {
+            if(typeof pageUser !== 'undefined' && pageUser.id_str === t.user.id_str) {
                 let profileMediaDiv = document.getElementById('profile-media-div');
                 if(!options || !options.top || !options.top.text) t.extended_entities.media.forEach(m => {
                     if(profileMediaDiv.children.length >= 6) return;
@@ -2497,11 +2497,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     media.src = m.media_url_https;
                     if(m.ext_alt_text) media.alt = m.ext_alt_text;
                     media.addEventListener('click', async () => {
-                        if(subpage !== 'profile' && subpage !== 'media') {
-                            document.getElementById('profile-stat-tweets-link').click();
-                            while(!document.getElementsByClassName('tweet-id-' + t.id_str)[0]) await sleep(100);
-                        }
-                        document.getElementsByClassName('tweet-id-' + t.id_str)[0].scrollIntoView({behavior: 'smooth', block: 'center'});
+                        new TweetViewer(user, t);
                     });
                     profileMediaDiv.appendChild(media);
                 });
@@ -2629,16 +2625,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
                 tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractReply.innerText.includes('K') || 
-                    tweetInteractReply.innerText.includes('M') || 
-                    tweetInteractReply.innerText.includes('B')))
-                    tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
                 tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetFooterReplies.innerText.includes('K') || 
-                    tweetFooterReplies.innerText.includes('M') || 
-                    tweetFooterReplies.innerText.includes('B')))
-                    tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetData._ARTIFICIAL = true;
             if(typeof timeline !== 'undefined') {
@@ -2687,14 +2677,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.newTweetId = tweetData.id_str;
             if(!options.mainTweet) {
                 tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractRetweet.innerText.includes('K') || 
-                    tweetInteractRetweet.innerText.includes('M') || 
-                    tweetInteractRetweet.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
-                if(!(tweetFooterRetweets.innerText.includes('K') || 
-                    tweetFooterRetweets.innerText.includes('M') || 
-                    tweetFooterRetweets.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
         }
@@ -2704,14 +2690,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.retweeted = false;
             if(!options.mainTweet) {
                 tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                if(!(tweetInteractRetweet.innerText.includes('K') || 
-                    tweetInteractRetweet.innerText.includes('M') || 
-                    tweetInteractRetweet.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             } else {
-                if(!(tweetFooterRetweets.innerText.includes('K') || 
-                    tweetFooterRetweets.innerText.includes('M') || 
-                    tweetFooterRetweets.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             }
             delete t.newTweetId;
@@ -2931,9 +2913,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.favorite_count--;
             if(!options.mainTweet) {
                 tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                if(!(tweetInteractFavorite.innerText.includes('K') || 
-                    tweetInteractFavorite.innerText.includes('M') || 
-                    tweetInteractFavorite.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');;
             } else {
                 if(mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
@@ -2941,9 +2921,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     let likerImg = footerFavorites.querySelector(`a[data-id="${user.id_str}"]`);
                     if(likerImg) likerImg.remove()
                 }
-                if(!(tweetFooterFavorites.innerText.includes('K') || 
-                    tweetFooterFavorites.innerText.includes('M') || 
-                    tweetFooterFavorites.innerText.includes('B')))
+                if(vars.showExactValues)
                     tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             }
             tweetInteractFavorite.classList.remove('tweet-interact-favorited');
@@ -2953,10 +2931,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.favorite_count++;
             if(!options.mainTweet) {
                 tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(!(tweetInteractFavorite.innerText.includes('K') || 
-                    tweetInteractFavorite.innerText.includes('M') || 
-                    tweetInteractFavorite.innerText.includes('B')))
-                    tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
+                if(vars.showExactValues) tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
             } else {
                 if(footerFavorites.children.length < 8 && !mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
                     let a = document.createElement('a');
@@ -2972,10 +2947,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     footerFavorites.appendChild(a);
                     mainTweetLikers.push(user);
                 }
-                if(!(tweetFooterFavorites.innerText.includes('K') || 
-                    tweetFooterFavorites.innerText.includes('M') || 
-                    tweetFooterFavorites.innerText.includes('B')))
-                    tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                if(vars.showExactValues) tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }

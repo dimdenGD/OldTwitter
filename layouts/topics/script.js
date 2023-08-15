@@ -54,7 +54,7 @@ async function renderTopic(cursorRn) {
         API.topic.landingPage(topicId, cursorRn)
     ]);
 
-    document.getElementsByTagName('title')[0].innerText = `"${topic.header.topic.name}" Topic - OldTwitter`;
+    document.getElementsByTagName('title')[0].innerText = `"${topic.header.topic.name}" ` + LOC.topic.message + ` - ` + LOC.twitter.message;
     document.getElementById("topic-name").innerText = topic.header.topic.name;
     document.getElementById("topic-description").innerText = topic.header.topic.description;
     if(topic.header.topic.not_interested) {

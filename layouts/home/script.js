@@ -36,7 +36,7 @@ async function createShamelessPlug(firstTime = true) {
         followButton.addEventListener('click', () => {
             API.user.follow('dimdenEFF').then(() => {
                 alert(LOC.thank_you_follow.message);
-                modal.remove();
+                modal.removeModal();
             }).catch(e => {
                 console.error(e);
                 location.href = 'https://twitter.com/dimdenEFF';
@@ -60,10 +60,22 @@ setTimeout(() => {
                 createModal(/*html*/`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
+                        <b>1.7.6</b><br>
                         <ul>
-                            <li>Added support for PWA.</li>
-                            <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
+                            <li>Added support for PWA (makes OldTwitter installable on Android).</li>
+                            <li>Big mobile UI update.</li>
+                            <li>Added translation button and autotranslation for quoted tweets.</li> 
                             <li>Updated DM UI.</li>
+                            <li>Added ability to upload videos to DMs.</li>
+                            <li>Added option to follow system settings for dark mode.</li>
+                            <li>Added option to enable user previews on mobile.</li>
+                            <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
+                            <li>Fixed tweets and messages changing their size while media is loading.</li>
+                            <li>Fixed duplicate 'load more' buttons and these buttons disappearing when visiting replies.</li>
+                        </ul>
+                        <br>
+                        <b>1.7.5.1 - 1.7.5.6</b>
+                        <ul>
                             <li>Fixed TweetDeck not working on Firefox.</li>
                             <li>Fixed blocked/muted people sometimes appearing in timeline and replies.</li>
                             <li>Added option to play videos muted by default.</li>
@@ -73,7 +85,7 @@ setTimeout(() => {
                             <li>Implemented silly video tweets with buttons.</li>
                             <li>Made OldTwitter store more than 100 unfollowers.</li>
                             <li>Added mute icon for people you're muting.</li>
-                            <li>Fixes for iframe navigation.</li>
+                            <li>Fixes for page-preserving navigation.</li>
                             <li>Made profile and tweet page not refresh when pressing back button from notifications modal.</li>
                             <li>More style fixes for 2018 and mobile styles.</li>
                         </ul>
@@ -82,7 +94,7 @@ setTimeout(() => {
                             Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a>
                         </p>
                     </span>
-                `, 'changelog-modal', () => {}, () => Date.now() - opened > 1750);
+                `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
                 let changelog = document.getElementById('changelog');
                 let text = changelog.innerText;
                 let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
@@ -269,6 +281,16 @@ async function renderTimeline(append = false, sliceAmount = 0) {
     let data = timeline.data.slice(sliceAmount, timeline.data.length);
     for(let i in data) {
         let t = data[i];
+        if(t.algo && t.favorited) {
+            if(!seenAlgoTweets.includes(t.id_str)) {
+                seenAlgoTweets.push(t.id_str);
+                if(seenAlgoTweets.length > 100) {
+                    seenAlgoTweets.shift();
+                }
+                algoTweetsChanged = true;
+            }
+            continue;
+        }
         if (t.retweeted_status) {
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
@@ -365,12 +387,6 @@ function renderNewTweetsButton() {
     }
 }
 
-let seenAlgoTweets = [], algoTweetsChanged = false;
-setInterval(() => {
-    if(!algoTweetsChanged) return;
-    algoTweetsChanged = false;
-    chrome.storage.local.set({seenAlgoTweets}, () => {});
-}, 20000);
 setTimeout(async () => {
     if(!vars) {
         await loadVars();

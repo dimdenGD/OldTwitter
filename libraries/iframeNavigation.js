@@ -18,8 +18,8 @@ window.addEventListener('unload', () => {
 });
 if(window.top === window) {
     setInterval(() => {
-        if(window.top.windows.slice(1).some(w => w.location.pathname === '/home')) {
-            let iframe = document.getElementsByClassName('iframe-navigation')[0];
+        let iframe = document.getElementsByClassName('iframe-navigation')[0];
+        if(window.top.windows.slice(1).some(w => w.location.pathname === '/home') || (iframe && iframe.src === "https://twitter.com/home")) {
             document.body.style.overflowY = window.previousOverflow && window.previousOverflow !== 'hidden' ? window.previousOverflow : 'auto';
             window.top.windows = [window];
             iframe.remove();

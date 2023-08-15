@@ -1030,7 +1030,7 @@ async function renderProfile() {
                 controlFollow.innerText = LOC.follow.message;
                 pageUser.following = false;
                 document.getElementById("profile-settings-retweets").hidden = true;
-                document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) - 1).toLocaleString().replace(/\s/g, ',');
+                if(vars.showExactValues) document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) - 1).toLocaleString().replace(/\s/g, ',');
                 document.getElementById('profile-settings-notifications').hidden = true;
             } else {
                 try {
@@ -1047,7 +1047,7 @@ async function renderProfile() {
                 if(!pageUser.protected) {
                     document.getElementById('profile-settings-notifications').hidden = false;
                     document.getElementById("profile-settings-retweets").hidden = false;
-                    document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
+                    if(vars.showExactValues) document.getElementById('profile-stat-followers-value').innerText = Number(parseInt(document.getElementById('profile-stat-followers-value').innerText.replace(/\s/g, '').replace(/,/g, '')) + 1).toLocaleString().replace(/\s/g, ',');
                 }
             }
         });
@@ -1566,19 +1566,43 @@ setTimeout(async () => {
     // mouse
     let banner = document.getElementById('profile-banner');
     let navProfileInfo = document.getElementById('nav-profile-info');
+    let tweetsLink = document.getElementById('profile-stat-tweets-link');
+    let lastScrollAmount = window.scrollY;
+    if(innerWidth < 590) document.getElementById('nav-profile-name').addEventListener('click', e => {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        
+        window.scrollTo(0, 0);
+    })
     document.addEventListener('scroll', async () => {
         lastScroll = Date.now();
 
         // make user nav appear
         if(window.scrollY >= 600) {
             if(!navProfileInfo.style.opacity) {
-                navProfileInfo.style.opacity = 1;
+                if(lastScrollAmount > window.scrollY) {
+                    navProfileInfo.style.opacity = 1;
+                    if(innerWidth < 360) tweetsLink.style.opacity = 1;
+                } else {
+                    navProfileInfo.style.opacity = '';
+                    if(innerWidth < 360) tweetsLink.style.opacity = 0;
+                }
+            } else {
+                if(lastScrollAmount > window.scrollY) {
+                    navProfileInfo.style.opacity = 1;
+                    if(innerWidth < 360) tweetsLink.style.opacity = 1;
+                } else {
+                    navProfileInfo.style.opacity = '';
+                    if(innerWidth < 360) tweetsLink.style.opacity = 0;
+                }
             }
         } else {
             if(navProfileInfo.style.opacity) {
                 navProfileInfo.style.opacity = '';
+                if(innerWidth < 360) tweetsLink.style.opacity = 1;
             }
         }
+        lastScrollAmount = window.scrollY;
         
         // banner scroll
         banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;

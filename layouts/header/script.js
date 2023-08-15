@@ -7,6 +7,12 @@ let menuFn;
 let notificationsOpened = false;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 let activeTweet;
+let seenAlgoTweets = [], algoTweetsChanged = false;
+setInterval(() => {
+    if(!algoTweetsChanged) return;
+    algoTweetsChanged = false;
+    chrome.storage.local.set({seenAlgoTweets}, () => {});
+}, 20000);
 
 const keysHeld = {};
 const notificationBus = new BroadcastChannel('notification_bus');
@@ -765,20 +771,6 @@ let userDataFunction = async user => {
             modal.getElementsByClassName('messages-load-more')[0].hidden = true;
             return;
         }
-        let missingUserIds = [];
-        for(let j in lastConvo.entries) {
-            let m = lastConvo.entries[j].message;
-            if(!m) continue;
-            if(!lastConvo.users[m.message_data.sender_id] && !missingUserIds.includes(m.message_data.sender_id)) {
-                missingUserIds.push(m.message_data.sender_id);
-            }
-        }
-        if(missingUserIds.length > 0) {
-            let foundUsers = await API.user.lookup(missingUserIds)
-            foundUsers.forEach(user => {
-                lastConvo.users[user.id_str] = user;
-            });
-        }
         lastConvo.entries = lastConvo.entries.reverse();
         let messageElements = [];
         for(let i in lastConvo.entries) {
@@ -871,11 +863,9 @@ let userDataFunction = async user => {
                     let photoElement = document.createElement('img');
                     photoElement.src = photo.media_url_https;
                     photoElement.classList.add('message-element-media');
-                    if(photo.original_info.width > 400) {
-                        photoElement.width = 400;
-                    } else {
-                        photoElement.width = photo.original_info.width;
-                    }
+                    let [w, h] = calculateSize(photo.original_info.width, photo.original_info.height, 400, 500);
+                    photoElement.width = w;
+                    photoElement.height = h;
                     photoElement.addEventListener('click', e => {
                         new Viewer(photoElement, {
                             transition: false
@@ -895,11 +885,9 @@ let userDataFunction = async user => {
                     gifElement.muted = true;
                     gifElement.loop = true;
                     gifElement.autoplay = true;
-                    if(gif.original_info.width > 400) {
-                        gifElement.width = 400;
-                    } else {
-                        gifElement.width = gif.original_info.width;
-                    }
+                    let [w, h] = calculateSize(gif.original_info.width, gif.original_info.height, 400, 500);
+                    gifElement.width = w;
+                    gifElement.height = h;
                     gifElement.classList.add('message-element-media');
                     if(span.innerHTML === '' || span.innerHTML === ' ') 
                         messageBlockInner.append(gifElement);
@@ -911,11 +899,9 @@ let userDataFunction = async user => {
                     let videoElement = document.createElement('video');
                     videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
                     videoElement.controls = true;
-                    if(video.original_info.width > 400) {
-                        videoElement.width = 400;
-                    } else {
-                        videoElement.width = video.original_info.width;
-                    }
+                    let [w, h] = calculateSize(video.original_info.width, video.original_info.height, 400, 500);
+                    videoElement.width = w;
+                    videoElement.height = h;
                     videoElement.classList.add('message-element-media');
                     if(span.innerHTML === '' || span.innerHTML === ' ') 
                         messageBlockInner.append(videoElement);
@@ -1142,7 +1128,7 @@ let userDataFunction = async user => {
         });
         leaveConvo.addEventListener('click', async () => {
             if(!lastConvo || !lastConvo.conversation_id) return;
-            let c = confirm('Are you sure you want to leave/remove this conversation?');
+            let c = confirm(LOC.leave_conversation.message);
             if(c) {
                 await API.inbox.deleteConversation(lastConvo.conversation_id);
                 modal.remove();
@@ -1189,7 +1175,7 @@ let userDataFunction = async user => {
 
         let mediaToUpload = []; 
         newMediaButton.addEventListener('click', () => {
-            getDMMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
+            getMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
         });
         newInput.addEventListener('paste', event => {
             let items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -1879,7 +1865,7 @@ let userDataFunction = async user => {
     let userPreviewTimeouts = [];
     let leavePreviewTimeout;
     document.addEventListener('mouseover', e => {
-        if(innerWidth < 650) return;
+        if(innerWidth < 650 && !vars.showUserPreviewsOnMobile) return;
         for(let timeout of userPreviewTimeouts) {
             clearTimeout(timeout);
         }
@@ -1911,6 +1897,7 @@ let userDataFunction = async user => {
             if(username === pageUser.screen_name) return;
         }
         userPreviewTimeouts.push(setTimeout(async () => {
+            if(!document.hasFocus()) return;
             let userPreview = document.createElement('div');
             let shadow = userPreview.attachShadow({mode: 'closed'});
             userPreview.className = 'user-preview';
@@ -1925,6 +1912,17 @@ let userDataFunction = async user => {
                 }, 500);
             }
             el.addEventListener('mouseleave', leaveFunction);
+            if(innerWidth < 650) {
+                let mobileClickFunction = e => {
+                    if(e.target.closest('.user-preview')) return;
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                    stopLoad = true;
+                    userPreview.remove();
+                    document.removeEventListener('click', mobileClickFunction, true);
+                }
+                document.addEventListener('click', mobileClickFunction, true);
+            }
 
             let user = await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;
@@ -2337,6 +2335,9 @@ let userDataFunction = async user => {
                 if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
                 setTimeout(() => notificationsOpened = false, 100);
                 clearInterval(ui);
+            }, () => {
+                let tv = document.querySelector('.tweet-viewer');
+                return !tv;
             });
             notificationsOpened = true;
 
@@ -2449,6 +2450,13 @@ let userDataFunction = async user => {
             await updateNotifications({ mode: 'prepend', quiet: true });
             let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
 
+            modal.addEventListener('scroll', () => {
+                if(loadingMore) return;
+                if(modal.scrollTop > modal.scrollHeight - modal.clientHeight - 300) {
+                    notifMore.click();
+                }
+            }, { passive: true });
+            
             notifMore.addEventListener('click', () => {
                 if(loadingMore) return;
                 loadingMore = true;

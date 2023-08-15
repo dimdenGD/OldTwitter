@@ -32,9 +32,8 @@ If you like this extension please consider donating:
 - Easy download of videos and GIFs  
 - Translate tweets without having to open them, also ability to set specific users/languages to autotranslate  
 - Shows why tweets were added to algorthimical timeline  
-- Set users to autotranslate their tweets  
 - Dark mode support  
-- Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change default link color and font  
+- Ability to enable/disable Twemoji, disable stars (favorites) back to likes (hearts), change font, default link color and any other color in extension  
 - Lot of hotkeys  
 - Mobile support with Kiwi Browser or Firefox  
 - Custom CSS support  
@@ -154,7 +153,7 @@ Arabic - [Yours Truly,](https://twitter.com/schrotheneko)
 Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)  
 Polish - lele, [nomi](https://twitter.com/youmaynomi)  
 Vietnamese - [btmxh](https://github.com/btmxh)  
-Chinese - [am1006](https://github.com/am1006)  
+Chinese - [am1006](https://github.com/am1006), [CarimoWuling](https://twitter.com/carimowuling)  
 Czech - Menal  
 German - [basti564](https://twitter.com/basti564)  
 Catalan - [elmees21](https://twitter.com/elmees21)  

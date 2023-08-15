@@ -183,7 +183,6 @@ setTimeout(async () => {
     let linkColorReset = document.getElementById('link-color-reset');
     let enableAd = document.getElementById('enable-promotion');
     let disableProfileCustomizations = document.getElementById('disable-profile-customizations');
-    let moveNavbarToBottom = document.getElementById('move-navbar-to-bottom');
     let openNotifsAsModal = document.getElementById('open-notifs-as-modal');
     let enableIframeNavigation = document.getElementById('enable-iframe-navigation');
     let showExactValues = document.getElementById('show-exact-values');
@@ -194,6 +193,8 @@ setTimeout(async () => {
     let addAutotranslateLanguage = document.getElementById('add-autotranslate-language');
     let muteVideos = document.getElementById('mute-videos');
     let dontPauseVideos = document.getElementById('dont-pause-videos');
+    let showUserPreviewsOnMobile = document.getElementById('show-user-previews-on-mobile');
+    let systemDarkMode = document.getElementById('system-dark-mode');
 
     let root = document.querySelector(":root");
     {
@@ -294,6 +295,13 @@ setTimeout(async () => {
             customCSSBus.postMessage({type: 'color', color: color});
         });
     });
+    showUserPreviewsOnMobile.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showUserPreviewsOnMobile: showUserPreviewsOnMobile.checked
+        }, () => {
+            vars.showUserPreviewsOnMobile = showUserPreviewsOnMobile.checked;
+        });
+    });
     pinProfileOnNavbar.addEventListener('change', () => {
         chrome.storage.sync.set({
             pinProfileOnNavbar: pinProfileOnNavbar.checked
@@ -313,13 +321,6 @@ setTimeout(async () => {
             pinListsOnNavbar: pinListsOnNavbar.checked
         }, () => {
             document.getElementById('pin-lists').hidden = !pinListsOnNavbar.checked;
-        });
-    });
-    moveNavbarToBottom.addEventListener('change', () => {
-        chrome.storage.sync.set({
-            moveNavbarToBottom: moveNavbarToBottom.checked
-        }, () => {
-            document.body.classList.toggle('move-navbar-to-bottom', moveNavbarToBottom.checked);
         });
     });
     openNotifsAsModal.addEventListener('change', () => {
@@ -620,9 +621,44 @@ setTimeout(async () => {
             switchDarkMode(false);
         }
         vars.timeMode = timeMode.checked;
+        vars.systemDarkMode = false;
+        systemDarkMode.checked = false;
         chrome.storage.sync.set({
-            timeMode: timeMode.checked
+            timeMode: timeMode.checked,
+            systemDarkMode: false
         }, () => { });
+    });
+    systemDarkMode.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            systemDarkMode: systemDarkMode.checked,
+            timeMode: systemDarkMode.checked
+        }, () => {
+            vars.systemDarkMode = systemDarkMode.checked;
+            vars.timeMode = true;
+            let isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            timeMode.checked = false;
+            if(vars.systemDarkMode) {
+                darkMode.disabled = true;
+                darkModeText.style.color = 'var(--darker-gray)';
+                darkMode.checked = isSystemDark;
+                if(isSystemDark) {
+                    themeBus.postMessage([true, pitchBlackMode.checked]);
+                    isDarkModeEnabled = true;
+                    switchDarkMode(true);
+                } else {
+                    themeBus.postMessage([false, pitchBlackMode.checked]);
+                    isDarkModeEnabled = false;
+                    switchDarkMode(false);
+                }
+            } else {
+                darkMode.disabled = false;
+                darkModeText.style.color = 'unset';
+                darkMode.checked = false;
+                themeBus.postMessage([false, pitchBlackMode.checked]);
+                isDarkModeEnabled = false;
+                switchDarkMode(false);
+            }
+        });
     });
     copyLinksAs.addEventListener('change', () => {
         let val = copyLinksAs.value;
@@ -738,7 +774,8 @@ setTimeout(async () => {
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
     iconFontElement.checked = !!vars.iconFont;
-    timeMode.checked = !!vars.timeMode;
+    timeMode.checked = !!vars.timeMode && !vars.systemDarkMode;
+    systemDarkMode.checked = !!vars.systemDarkMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
     noBigFont.checked = !!vars.noBigFont;
     autoplayVideos.checked = !!vars.autoplayVideos;
@@ -766,7 +803,6 @@ setTimeout(async () => {
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
     useOldStyleReply.checked = !!vars.useOldStyleReply;
     enableAd.checked = !!vars.enableAd;
-    moveNavbarToBottom.checked = !!vars.moveNavbarToBottom;
     openNotifsAsModal.checked = !!vars.openNotifsAsModal;
     enableIframeNavigation.checked = !!vars.enableIframeNavigation;
     muteVideos.checked = !!vars.muteVideos;
@@ -797,6 +833,21 @@ setTimeout(async () => {
                 <div><b>${LOC.chrono_retweets.message}</b> - ${LOC.chrono_retweets_help.message}</div>
                 <div><b>${LOC.chrono_social.message}</b> - ${LOC.chrono_social_help.message}</div>
                 <div><b>${LOC.algov2.message}</b> - ${LOC.algov2_help.message}</div>
+            </div>
+        `)
+    });
+
+	document.getElementById('autotl-help').addEventListener('click', () => {
+        createModal(`
+            <div style="color:var(--almost-black);max-width:600px" class="help-modal">
+                <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">${LOC.autotranslation.message}</h2>
+                <div>${LOC.autotranslation_help1.message}</div>
+                <div>${LOC.autotranslation_help2.message}</div>
+                <div>${LOC.autotranslation_help3.message}</div>
+                <div><ul>
+					<li>${LOC.autotranslation_help4.message}</li>
+					<li>${LOC.autotranslation_help5.message}</li>
+				</ul></div>
             </div>
         `)
     });

@@ -499,7 +499,7 @@
     "replying_to_and":  { "message": " y a ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Twitter"},
-    "move_navbar_to_bottom": {"message": "Mover la barra de navegación abajo"},
+    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Mover la barra de navegación abajo"},
     "styled_profile": {"message": "Perfil con estilo"},
     "open_notifs_as_modal": {"message": "Abrir notificaciones como modal"},
     "mmdd":{ "message": "$DATE$ de $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},

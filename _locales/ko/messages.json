@@ -499,7 +499,7 @@
     "replying_to_and":  { "message": " 님과 ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": " 님, ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "트위터"},
-    "move_navbar_to_bottom": {"message": "상단바를 아래로 이동"},
+    "move_navbar_to_bottom": {"message": "<b>[모바일]</b> 상단바를 아래로 이동"},
     "styled_profile": {"message": "꾸며진 프로필"},
     "open_notifs_as_modal": {"message": "알림을 모달 창으로 엽니다"},
     "clear_ot_token": {"message": "OldTwitter 토큰 초기화"},
@@ -517,6 +517,8 @@
     "mute_videos": { "message": "비디오를 기본적으로 음소거합니다" },
     "dont_pause_videos": { "message": "스크롤 할 때 비디오를 일시정지 하지 않습니다" },
     "delete_for_you":{ "message": "나에게서 삭제",  "description":"DM Message Delete menu"},
+    "show_user_previews_on_mobile": { "message": "<b>[모바일]</b> 계속 누를 시 유저 프로필을 보여줍니다 (이용에 방해될 수 있습니다)" },
+    "separate_text": { "message": "텍스트를 분리하기", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
     "mmdd":{ "message": "$MONTH$월 $DATE$일",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$YEAR$년 $MONTH$월 $DATE$일",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }

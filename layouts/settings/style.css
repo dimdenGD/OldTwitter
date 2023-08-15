@@ -352,7 +352,7 @@ select, input, textarea {
     margin-bottom: 2px;
     margin-top: 2px;
 }
-#tl-help {
+.option-help {
     color: white;
     background-color: var(--light-gray);
     border-radius: 50%;
@@ -379,7 +379,8 @@ select, input, textarea {
     color: var(--link-color);
     cursor: pointer;
 }
-#move-navbar-to-bottom-div {
+#move-navbar-to-bottom-div,
+#show-user-previews-on-mobile-div {
     display: none;
 }
 #about-left {
@@ -612,26 +613,6 @@ select, input, textarea {
     object-fit: var(--video-cover);
 }
 
-.tweet-media-element-four {
-    max-height: 150px;
-    max-width: 100px
-}
-
-.tweet-media-element-three {
-    max-height: 250px;
-    max-width: 150px
-}
-
-.tweet-media-element-two {
-    max-height: 400px;
-    max-width: 200px
-}
-
-.tweet-media-element-one {
-    max-height: 500px;
-    max-width: 450px
-}
-
 .center-text {
     background-color: var(--background-color);
     border: 1px solid var(--border);
@@ -747,7 +728,8 @@ button[aria-labelledby="clr-open-label"] {
     #custom-css {
         width: 100% !important
     }
-    #move-navbar-to-bottom-div {
+    #move-navbar-to-bottom-div,
+    #show-user-previews-on-mobile-div {
         display: block;
     }
     .color-transparency {

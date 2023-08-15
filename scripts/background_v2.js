@@ -1,16 +1,25 @@
 chrome.runtime.onInstalled.addListener(() => {
     chrome.runtime.setUninstallURL('https://dimden.dev/ot/uninstall.html');
 });
+
+const redirectUrls = [
+    ['abs.twimg.com/favicons/twitter.3.ico', 'images/logo32_new.png'],
+    ['abs.twimg.com/favicons/twitter-pip.3.ico', 'images/logo32_new_notification.png'],
+    ['abs.twimg.com/responsive-web/client-web/icon-default.', 'images/logo512.png'],
+    ['abs.twimg.com/responsive-web/client-web/icon-default-maskable.', 'images/logo192.png'],
+    ['abs.twimg.com/responsive-web/client-web/icon-default-large.', 'images/logo512.png'],
+    ['abs.twimg.com/responsive-web/client-web/icon-default-maskable-large.', 'images/logo512.png'],
+    ['abs.twimg.com/responsive-web/client-web/icon-ios.', 'images/logo32_new_notification.png'],
+]
+
 chrome.webRequest.onBeforeRequest.addListener(
     function(details) {
-        if(details.url.includes('abs.twimg.com/favicons/twitter.3.ico')) {
-            return {
-                redirectUrl: chrome.runtime.getURL('images/logo32_new.png')
-            };
-        } else if(details.url.includes('abs.twimg.com/favicons/twitter-pip.3.ico')) {
-            return {
-                redirectUrl: chrome.runtime.getURL('images/logo32_new_notification.png')
-            };
+        for(let i = 0; i < redirectUrls.length; i++) {
+            if(details.url.includes(redirectUrls[i][0])) {
+                return {
+                    redirectUrl: chrome.runtime.getURL(redirectUrls[i][1])
+                };
+            }
         }
         if(details.url.includes("twitter.com/manifest.json") || details.url.includes("/sw.js")) {
             return { cancel: true };
