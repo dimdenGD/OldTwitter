@@ -2922,7 +2922,7 @@ video::-internal-media-controls-overlay-cast-button {
         left: 0;
         justify-content: center;
         visibility: visible;
-        transition-duration: 0s;
+        transition-duration: 0.2s;
         z-index: -2;
     }
     #nav-profile-info-text {

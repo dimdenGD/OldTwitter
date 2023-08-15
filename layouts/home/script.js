@@ -62,6 +62,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added support for PWA.</li>
+                            <li>Big mobile UI update.</li>
                             <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
                             <li>Added translation button and autotranslation for quoted tweets.</li> 
                             <li>Updated DM UI.</li>

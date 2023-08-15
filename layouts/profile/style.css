@@ -1800,7 +1800,7 @@ a:hover,
         box-shadow: none;
     }
     #profile-stat-tweets-value {
-        color: white;
+        color: var(--background-color);
     }
     #profile-stat-tweets-value::after {
         content: " Tweets";
@@ -1809,7 +1809,8 @@ a:hover,
         position: absolute;
         top: 56px;
         left: 12px;
-        background-color: var(--background-color);
+        background-color: var(--almost-black);
+        color: var(--border);
         border-radius: 999px;
     }
     #nav-profile-info-text {
