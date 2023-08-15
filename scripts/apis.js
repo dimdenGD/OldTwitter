@@ -109,6 +109,10 @@ function parseTweet(res) {
             if(result.views) {
                 tweet.retweeted_status.ext.views = {r: {ok: {count: +result.views.count}}};
             }
+            tweet.retweeted_status.res = res;
+            if(res.card && res.card.legacy && res.card.legacy.binding_values) {
+                tweet.retweeted_status.card = res.card.legacy;
+            }
         } else {
             console.warn("No retweeted status", result);
         }
@@ -179,6 +183,7 @@ function parseTweet(res) {
         tweet.birdwatch = res.birdwatch_pivot;
     }
 
+    tweet.res = res;
     tweetStorage[tweet.id_str] = tweet;
     return tweet;
 }

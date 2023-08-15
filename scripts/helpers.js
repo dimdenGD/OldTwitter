@@ -791,7 +791,7 @@ function generateCard(tweet, tweetElement, user) {
                 appElement.innerHTML = `
                     <h3>${escapeHTML(app.title.content)}</h3>
                     <span>${escapeHTML(app.category.content)}</span>
-                    <br><br>
+                    <br>
                 `;
                 tweetElement.getElementsByClassName('tweet-card')[0].append(appElement);
             } else if(co.type === "button_group") {
@@ -1525,16 +1525,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(typeof seenThreads !== 'undefined' && !options.ignoreSeen) {
             if(seenThreads.includes(t.id_str)) return;
         }
-        // if(t.entities && t.entities.urls) {
-            // let webUrl = t.entities.urls.find(u => u.expanded_url.startsWith('https://twitter.com/i/web/status/'));
-            // if(webUrl) {
-            //     try {
-            //         let source = t.source;
-            //         t = await API.tweet.getV2(t.id_str);
-            //         t.source = source;
-            //     } catch(e) {}
-            // }
-        // }
         if(t.socialContext) {
             options.top = {};
             if(t.socialContext.description) {

@@ -1675,9 +1675,12 @@ span.tweet-body-text {
 }
 .tweet-app-button {
     text-align: center;
-    width: 100%;
+    width: calc(100% - 30px);
     margin-bottom: 5px;
     display: inline-block;
+}
+.tweet-app-info {
+    padding: 5px;
 }
 .compact-trend {
     margin-bottom: 3px;
