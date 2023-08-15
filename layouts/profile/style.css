@@ -1806,7 +1806,7 @@ a:hover,
         color: var(--background-color);
     }
     #profile-stat-tweets-value::after {
-        content: " Tweets";
+        content: " __MSG_tweets__";
     }
     #profile-stat-tweets-link {
         position: absolute;

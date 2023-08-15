@@ -2935,7 +2935,7 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .body-old-ui #nav-profile-name::after {
         visibility: visible;
-        content: "Go Back to Top";
+        content: "__MSG_go_back_to_top__";
         font-size: 14px;
         font-weight: bold;
         padding: 9px 12px 9px !important;
@@ -2945,7 +2945,7 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .body-modern-ui #nav-profile-name::after {
         visibility: visible;
-        content: "Go Back to Top";
+        content: "__MSG_go_back_to_top__";
         font-size: 14px;
         font-weight: bold;
         padding: 9px 24px 9px !important;

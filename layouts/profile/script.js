@@ -1580,7 +1580,6 @@ setTimeout(async () => {
         // make user nav appear
         if(window.scrollY >= 600) {
             if(!navProfileInfo.style.opacity) {
-                console.log(lastScrollAmount, window.scrollY);
                 if(lastScrollAmount > window.scrollY) {
                     navProfileInfo.style.opacity = 1;
                     if(innerWidth < 360) tweetsLink.style.opacity = 1;
