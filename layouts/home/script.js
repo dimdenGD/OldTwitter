@@ -62,7 +62,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <b>1.7.6</b><br>
                         <ul>
-                            <li>Added support for PWA.</li>
+                            <li>Added support for PWA (makes OldTwitter installable on Android).</li>
                             <li>Big mobile UI update.</li>
                             <li>Added translation button and autotranslation for quoted tweets.</li> 
                             <li>Updated DM UI.</li>

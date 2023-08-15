@@ -50,7 +50,7 @@
     {
         "id": 5,
         "priority": 1,
-        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo128.png" } },
+        "action": { "type": "redirect", "redirect": { "extensionPath": "/images/logo192.png" } },
         "condition": {
             "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-default.*.png",
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
