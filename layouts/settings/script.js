@@ -183,6 +183,7 @@ setTimeout(async () => {
     let linkColorReset = document.getElementById('link-color-reset');
     let enableAd = document.getElementById('enable-promotion');
     let disableProfileCustomizations = document.getElementById('disable-profile-customizations');
+    let moveNavbarToBottom = document.getElementById('move-navbar-to-bottom');
     let openNotifsAsModal = document.getElementById('open-notifs-as-modal');
     let enableIframeNavigation = document.getElementById('enable-iframe-navigation');
     let showExactValues = document.getElementById('show-exact-values');
@@ -320,6 +321,13 @@ setTimeout(async () => {
             pinListsOnNavbar: pinListsOnNavbar.checked
         }, () => {
             document.getElementById('pin-lists').hidden = !pinListsOnNavbar.checked;
+        });
+    });
+    moveNavbarToBottom.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            moveNavbarToBottom: moveNavbarToBottom.checked
+        }, () => {
+            document.body.classList.toggle('move-navbar-to-bottom', moveNavbarToBottom.checked);
         });
     });
     openNotifsAsModal.addEventListener('change', () => {
