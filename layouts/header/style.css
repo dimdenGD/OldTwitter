@@ -2861,12 +2861,12 @@ video::-internal-media-controls-overlay-cast-button {
     #navbar-user-menu::after {
         content: "";
         position: fixed;
-        background-color: var(--background-color);
         width: 1000px;
         height: 1000px;
         left: 269px;
         top: 51px;
-        backdrop-filter: blur(2px);
+        backdrop-filter: blur(5px);
+        transition: 0.2s;
     }
     #navbar-user-menu-links {
         margin-top: 0px;
@@ -2893,7 +2893,6 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .dropdown-menu a {
         padding: 15px;
-        background-color: var(--background-color);
         margin-left: 3px;
         margin-right: 3px;
         border-radius: 5px;
