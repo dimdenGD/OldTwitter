@@ -38,6 +38,7 @@ class TweetViewer {
         this.retweetCommentsCursor = undefined;
         this.seenReplies = [];
         this.mainTweetLikers = [];
+        this.insertedMores = [];
         this.currentLocation = location.pathname;
         this.subpage = undefined;
         this.popstateHelper = undefined;
@@ -102,6 +103,8 @@ class TweetViewer {
                     await this.appendComposeComponent(tl, t[1]);
                 } else if(t[0] === 'tombstone') {
                     await this.appendTombstone(tl, t[1]);
+                } else if(t[0] === 'showmore') {
+                    await this.appendShowMore(tl, t[1], t[2]);
                 }
             }
             let id = this.currentLocation.match(/status\/(\d{1,32})/)[1];
@@ -246,20 +249,7 @@ class TweetViewer {
             } else if(t.type === 'tombstone') {
                 this.appendTombstone(tlContainer, t.data);
             } else if(t.type === 'showMore') {
-                let div = document.createElement('div');
-                div.className = 'show-more';
-                div.innerHTML = `
-                    <button class="show-more-button center-text">${t.data.labelText ? t.data.labelText : t.data.actionText}</button>
-                `;
-                let loading = false;
-                div.querySelector('.show-more-button').addEventListener('click', async () => {
-                    if(loading) return;
-                    loading = true;
-                    div.children[0].innerText = LOC.loading_tweets.message;
-                    await this.updateReplies(id, t.data.cursor);
-                    div.remove();
-                });
-                tlContainer.appendChild(div);
+                this.appendShowMore(tlContainer, t.data, id);
             }
         }
         if(mainTweet) mainTweet.scrollIntoView();
@@ -744,6 +734,26 @@ class TweetViewer {
             document.getElementsByClassName('new-tweet-button')[0].disabled = false;
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
+    }
+    async appendShowMore(container, data, id) {
+        if(this.insertedMores.includes(data.cursor)) return;
+        this.tweets.push(['showmore', data, id]);
+        this.insertedMores.push(data.cursor);
+        let div = document.createElement('div');
+        div.className = 'show-more';
+        div.innerHTML = `
+            <button class="show-more-button center-text">${data.labelText ? data.labelText : data.actionText}</button>
+        `;
+        let loading = false;
+        div.querySelector('.show-more-button').addEventListener('click', async () => {
+            if(loading) return;
+            loading = true;
+            div.children[0].innerText = LOC.loading_tweets.message;
+            await this.updateReplies(id, data.cursor);
+            div.remove();
+            this.tweets = this.tweets.filter(t => t[0] !== 'showmore' || t[1].cursor !== data.cursor);
+        });
+        container.appendChild(div);
     }
     // what dumbfuck thought having 2 almost identical functions was a good idea (me)
     async appendTweet(t, timelineContainer, options = {}) {
@@ -2328,6 +2338,7 @@ class TweetViewer {
         that.linkColors = {};
         that.cursor = undefined;
         that.seenReplies = [];
+        that.insertedMores = [];
         that.mainTweetLikers = [];
         let id;
         try {

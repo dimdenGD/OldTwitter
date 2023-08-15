@@ -70,6 +70,7 @@ setTimeout(() => {
                             <li>Added option to enable user previews on mobile.</li>
                             <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
                             <li>Fixed tweets changing their size while media is loading.</li>
+                            <li>Fixed duplicate 'load more' buttons and these buttons disappearing when visiting replies.</li>
                         </ul>
                         <br>
                         <b>1.7.5.1 - 1.7.5.6</b>

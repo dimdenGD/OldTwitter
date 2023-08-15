@@ -2844,7 +2844,7 @@ const API = {
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
-                        debugLog('tweet.getRepliesV2', 'start', data);
+                        debugLog('tweet.getRepliesV2', 'start', {cursor, data});
                         if (data.errors && data.errors[0]) {
                             if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[1](data.errors[0].message));
                             delete loadingReplies[id];
