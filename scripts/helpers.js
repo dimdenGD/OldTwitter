@@ -1480,6 +1480,8 @@ const mediaClasses = [
 
 function newSizeFunction(x, y, max_x, max_y) {
     let ratio = x / y;
+    let iw = innerWidth;
+    if(iw < 590) max_x = iw - 120;
     if(x > max_x) {
         x = max_x;
         y = x / ratio;

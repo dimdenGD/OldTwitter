@@ -2346,8 +2346,7 @@ video::-internal-media-controls-overlay-cast-button {
         border-radius: 0;
     }
     .tweet-media-element {
-        max-width: unset;
-        width: calc(100% - 15px);
+        max-width: calc(100% - 15px);
     }
     .tweet-body-quote {
         width: 100%;
