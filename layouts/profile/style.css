@@ -1694,6 +1694,10 @@ a:hover,
         width: 75px !important;
         height: 75px;
     }
+    .profile-stat {
+        padding-top: 10px;
+        padding-bottom: 11px;
+    }
 }
 
 /* Mobile UI */
