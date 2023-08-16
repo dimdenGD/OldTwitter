@@ -2988,7 +2988,7 @@ video::-internal-media-controls-overlay-cast-button {
 
     /* workaround for stretching profile timelines */
     .tweet .tweet-header-name {
-        max-width: 300px;
+        white-space: wrap;
     }
     /* menu icon */
     #navbar-user-menu-links>a:before{
