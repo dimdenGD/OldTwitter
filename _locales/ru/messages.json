@@ -517,6 +517,7 @@
 	"autotranslation_help4": {"message": "\"Переводить когда в списке языков\" без добавленных языков не будет переводить ничего автоматически;"},
 	"autotranslation_help5": {"message": "\"Переводить когда не в списке языков\" без добавленных языков будет переводить все твиты."},
     "go_back_to_top": { "message": "Вернуться вверх" },
+    "follow_system_settings_dark_mode": { "message": "Использовать предпочитаемую тему системы" },
     "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }
