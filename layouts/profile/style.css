@@ -1553,6 +1553,12 @@ a:hover,
 .body-modern-ui .user-item-text {
     bottom: 8px !important;
 }
+#tweet-nav-replies>.mobile-text{
+    display: none;
+}
+#tweet-nav-media>.mobile-text{
+    display: none;
+}
 
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
@@ -1778,8 +1784,13 @@ a:hover,
     #profile-media {
         margin-bottom: 40px;
     }
-    #tweet-nav > a {
+    #tweet-nav > a,
+    #tweet-nav > a > span {
         font-size: 16px;
+    }
+    #tweet-nav > a > span {
+        margin: 0px;
+        padding: 0px;
     }
     #nav-profile-name {
         color: white;
@@ -1854,6 +1865,18 @@ a:hover,
     }
     #profile-name {
         font-size: 20px;
+    }
+    #tweet-nav-replies>.pc-text{
+        display: none;
+    }
+    #tweet-nav-replies>.mobile-text{
+        display: inline;
+    }
+    #tweet-nav-media>.pc-text{
+        display: none;
+    }
+    #tweet-nav-media>.mobile-text{
+        display: inline;
     }
 }
 @media screen and (max-width: 320px) {

@@ -272,7 +272,9 @@ function switchModernUI(enabled) {
             .nav-text,
             #tweet-nav-tweets,
             #tweet-nav-replies,
+            #tweet-nav-replies>span,
             #tweet-nav-media,
+            #tweet-nav-media>span,
             .profile-stat-text {
                 font-weight: 600;
             }
