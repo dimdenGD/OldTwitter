@@ -1708,6 +1708,14 @@ a:hover,
         padding-top: 10px;
         padding-bottom: 11px;
     }
+    #profile-stat-following-link,
+    #profile-stat-followers-link
+    {
+        display: none;
+    }
+    #profile-following-follower-mobile {
+        display:block;
+    }
 }
 
 /* Mobile UI */
@@ -1775,15 +1783,6 @@ a:hover,
     }
     #nav-profile-name {
         color: white;
-    }
-}
-    #profile-following-follower-mobile{
-        display:block;
-    }
-    #profile-stat-following-link,
-    #profile-stat-followers-link
-    {
-        display: none;
     }
 }
 @media screen and (max-width: 470px) {
