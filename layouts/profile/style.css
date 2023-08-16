@@ -1801,7 +1801,7 @@ a:hover,
         right: 12px;
         width: 60px;
         height: 40px;
-        z-index: 200;
+        z-index: 6;
     }
     #tweet-to-div,
     #tweet-to-bg{
