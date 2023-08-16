@@ -974,12 +974,14 @@ input, textarea {
 }
 .message-new-container {
     border-radius: 5px;
+    background-color: var(--link-color);
     width: 600px;
     min-height: 60px;
     z-index: 5;
 }
 .message-new {
     border-radius: 5px;
+    background-color: var(--new-tweet-over);
     box-sizing: border-box;
     padding: 10px;
     padding-right: 0;
