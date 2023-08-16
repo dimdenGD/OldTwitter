@@ -771,7 +771,6 @@ async function renderProfile() {
     document.getElementById('nav-profile-avatar').src = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(pageUser.id_str) % 7}_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_bigger.');
     document.getElementById('profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
     document.getElementById('nav-profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
-    document.getElementById('profile-avatar-link').href = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(pageUser.id_str) % 7}_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
     if(LOC.tweet_to.message.includes("$SCREEN_NAME$")) {
         document.getElementById('tweet-to').innerText = LOC.tweet_to.message.replace("$SCREEN_NAME$", pageUser.screen_name.replace(/\n/g, ' '));
     } else {
