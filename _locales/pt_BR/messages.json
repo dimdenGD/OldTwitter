@@ -506,5 +506,6 @@
     "enable_iframe_navigation": {"message": "Habilitar navegação preservadora de página experimental, isso faz com que você possa clicar em links e voltar para a página anterior sem recarregar. Isso é experimental e pode quebrar e ser lento."},
     "style_your_profile": {"message": "Estilize o seu perfil aqui!"},
     "mmdd":{ "message": "dia $DATE$ de $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
-    "mmddyy":{ "message": "dia $DATE$ de $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
+    "mmddyy":{ "message": "dia $DATE$ de $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
+    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } }
 }

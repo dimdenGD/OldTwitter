@@ -1426,11 +1426,11 @@ async function renderProfile() {
             birth.classList.add('profile-additional-birth-me');
         }
         if(pageUser.birthdate.year && typeof pageUser.birthdate.month === 'number') {
-            birth.innerText = `${LOC.born.message} ${months[pageUser.birthdate.month-1].replace("$NUMBER$", pageUser.birthdate.day)}, ${pageUser.birthdate.year}`;
+            birth.innerText = `${LOC.born.message} ${LOC.mmddyy.message.replace('$YEAR$',pageUser.birthdate.year).replace('$MONTH$',months[pageUser.birthdate.month-1]).replace("$DATE$", pageUser.birthdate.day)}`;
         } else if(typeof pageUser.birthdate.month === 'number') {
-            birth.innerText = `${LOC.born.message} ${months[pageUser.birthdate.month-1].replace("$NUMBER$", pageUser.birthdate.day)}`;
+            birth.innerText = `${LOC.born.message}  ${LOC.ddyy.message.replace('$MONTH$',months[pageUser.birthdate.month-1]).replace("$DATE$", pageUser.birthdate.day)}`;
         } else if(pageUser.birthdate.year) {
-            birth.innerText = `${LOC.born.message} ${pageUser.birthdate.year}`;
+            birth.innerText = `${LOC.born.message} ${LOC.yyyy.message.replace('$YEAR$',pageUser.birthdate.year)}`;
         }
         let date = new Date();
         if(pageUser.birthdate.month-1 === date.getMonth() && pageUser.birthdate.day === date.getDate()) {
