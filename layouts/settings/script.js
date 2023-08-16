@@ -186,6 +186,7 @@ setTimeout(async () => {
     let openNotifsAsModal = document.getElementById('open-notifs-as-modal');
     let enableIframeNavigation = document.getElementById('enable-iframe-navigation');
     let showExactValues = document.getElementById('show-exact-values');
+    let localizeDigit = document.getElementById('localize-digit');
     let hideTimelineTypes = document.getElementById('hide-timeline-types');
     let autotranslationMode = document.getElementById('autotranslation-mode');
     let autotranslateLanguages = document.getElementById('autotranslate-languages');
@@ -404,9 +405,28 @@ setTimeout(async () => {
         }, () => { });
     });
     showExactValues.addEventListener('change', () => {
-        vars.showExactValues = showExactValues.checked;
+        vars.localizeDigit = !!localizeDigit.checked;
+        vars.showExactValues = !!showExactValues.checked;
         chrome.storage.sync.set({
             showExactValues: showExactValues.checked
+        }, () => { });
+        document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
+        if(user.statuses_count >= 100000 && vars.showExactValues) {
+            let style = document.createElement('style');
+            style.innerText = `
+                .user-stat-div > h1 { font-size: 18px !important }
+                .user-stat-div > h2 { font-size: 13px !important }
+            `;
+            document.head.appendChild(style);
+        }
+        document.getElementById('user-following').innerText = formatLargeNumber(user.friends_count).replace(/\s/g, ',');
+        document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
+    });
+    localizeDigit.addEventListener('change', () => {
+        vars.localizeDigit = !!localizeDigit.checked;
+        vars.showExactValues = !!showExactValues.checked;
+        chrome.storage.sync.set({
+            localizeDigit: localizeDigit.checked
         }, () => { });
         document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
         if(user.statuses_count >= 100000 && vars.showExactValues) {
@@ -572,6 +592,7 @@ setTimeout(async () => {
         }, () => { });
     });
     language.addEventListener('change', () => {
+        document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
         chrome.storage.sync.set({
             language: language.value
         }, () => {
@@ -768,6 +789,7 @@ setTimeout(async () => {
     enableTwemoji.checked = !!vars.enableTwemoji;
     enableHashflags.checked = !!vars.enableHashflags;
     showExactValues.checked = !!vars.showExactValues;
+    localizeDigit.checked = !!vars.localizeDigit;
     hideTimelineTypes.checked = !!vars.hideTimelineTypes;
     timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
@@ -816,6 +838,7 @@ setTimeout(async () => {
     roundAvatars.checked = !!vars.roundAvatars;
     modernUI.checked = !!vars.modernUI;
     language.value = vars.language ? vars.language : 'en';
+    document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
     autotranslationMode.value = vars.autotranslationMode;
     copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
     if(vars.timeMode) {

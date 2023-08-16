@@ -528,5 +528,6 @@
     "go_back_to_top": { "message": "Go back to top" },
     "follow_system_settings_dark_mode": { "message": "Follow system settings for dark mode" },
     "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
-    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
+    "localize_digit":{ "message" : "Use Asian four-digit notation. (CJK only)", "description":"Non-CJK dont need to translate this message, just copy and paste"}
 }

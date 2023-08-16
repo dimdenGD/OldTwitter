@@ -528,5 +528,7 @@
     "go_back_to_top": { "message": "맨 위로 돌아가기" },
     "follow_system_settings_dark_mode": { "message": "시스템 설정을 사용합니다" },
     "mmdd":{ "message": "$MONTH$월 $DATE$일",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
-    "mmddyy":{ "message": "$YEAR$년 $MONTH$월 $DATE$일",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
+    "mmddyy":{ "message": "$YEAR$년 $MONTH$월 $DATE$일",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
+    "localize_digit":{ "message" : "아시아식 4자리수 표기법을 사용합니다. (한중일 전용)", "description":"Non-CJK dont need to translate this message, just copy and paste"}
+
 }

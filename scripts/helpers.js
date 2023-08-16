@@ -1113,7 +1113,12 @@ function getTimeZone() {
 function formatLargeNumber(n) {
     let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
     let specialLangs = ['zh_cn', 'zh_tw', 'ja', 'ko']; // these languages actually stay short
-    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString(specialLangs.includes(LANGUAGE.toLowerCase()) ? LANGUAGE.replace('_', '-') : 'en-US', option);
+    if (n >= 1e4 && !vars.showExactValues) {
+        if (vars.localizeDigit)
+            return Number(n).toLocaleString(specialLangs.includes(LANGUAGE.toLowerCase()) ? LANGUAGE.replace('_', '-') : 'en-US', option);
+        else
+        return Number(n).toLocaleString('en-US', option);
+    }
     else return Number(n).toLocaleString();
 }
 function languageMatches(tweetLanguage) {
