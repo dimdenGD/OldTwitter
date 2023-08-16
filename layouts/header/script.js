@@ -148,6 +148,8 @@ function switchModernUI(enabled) {
                 color: white !important;
                 font-weight: bold;
                 text-align: center
+                width: 60px;
+                height: 40px;
             }
             #tweet-to:hover:not([disabled]){
                 filter: brightness(0.9);
@@ -159,7 +161,7 @@ function switchModernUI(enabled) {
             #tweet-to-bg{
                 padding: 0;
                 border: 0;
-                background-color: var(--darker-background-color);
+                background-color: rgba(0,0,0,0);
             }
             /* Remove Icon */
             #navbar-tweet-button:before,
@@ -349,6 +351,18 @@ function switchModernUI(enabled) {
                 #navbar-tweet-button:before  {
                     content: "\\f029" !important;
                     color: white;
+                }
+                #tweet-to-div,
+                #tweet-to-bg{
+                    border-radius: 999px !important;
+                    background-color: rgba(0,0,0,0);
+                }
+                #tweet-to-div {
+                    background-image: var(--link-color);
+                    background-color: var(--link-color);
+                    border: none !important;
+                    color: white;
+                    font-weight: bold;
                 }
             }
 

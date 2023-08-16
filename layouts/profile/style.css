@@ -1784,6 +1784,50 @@ a:hover,
     #nav-profile-name {
         color: white;
     }
+    #tweet-to-bg {
+        position: fixed;
+        bottom: 108px;
+        right: 12px;
+        width: 60px;
+        height: 40px;
+        z-index: 200;
+    }
+    #tweet-to-div,
+    #tweet-to-bg{
+        padding: 0;
+        border: 0;
+        background-color: rgba(0,0,0,0);
+    }
+    #tweet-to {
+        padding: 0;
+        border: 0;
+        background-color: var(--link-color);
+        color: var(--background-color);
+        cursor: pointer;
+        border-radius: 5px;
+        width: 58px;
+        height: 38px;
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        font-family: var(--font);
+    }
+    #tweet-to:hover {
+        background-color: var(--link-color);
+        filter: brightness(0.9);
+    }    
+    #tweet-to-inner{
+        display:none;
+    }
+    #tweet-to:before{
+        content: var(--at-icon);
+        font-family: var(--icon-font);
+        color: var(--background-color);
+        font-size: 20px;
+        vertical-align: -60%;
+        padding-right:20px;
+        padding-left:20px;
+        margin-top:20px;
+        text-align: center;
+    }
 }
 @media screen and (max-width: 470px) {
     .profile-stat {
