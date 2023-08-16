@@ -2990,6 +2990,65 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet .tweet-header-name {
         max-width: 300px;
     }
+    /* menu icon */
+    #navbar-user-menu-links>a:before{
+        vertical-align: sub;
+        margin-right: 7px;
+        font-size: 20px;
+        
+    }
+    #navbar-user-menu-settings:before {
+        content: "\f059";
+    }
+    #navbar-user-menu-lists:before {
+        content: "\f094";
+    }
+    #navbar-user-menu-bookmarks:before {
+        content: "\f093";
+    }
+    #navbar-user-menu-history:before {
+        content: "\f094";
+    }
+    #navbar-user-menu-requests:before {
+        content: "\f175";
+    }
+    #navbar-user-menu-unfollowers:before {
+        content: "\f097";
+    }
+    #navbar-user-menu-accounts:before {
+        content: "\f178";
+    }
+    #navbar-user-menu-links{
+        display:flex;
+        flex-direction:column;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-profile{
+        order: 1;
+    }
+    #navbar-user-menu-links>#hr1{
+        order: 2;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-lists{
+        order: 3;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-bookmarks{
+        order: 4;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-unfollowers{
+        order: 6;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-requests{
+        order: 7;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-settings{
+        order: 8;
+    }
+    #navbar-user-menu-links>#hr2{
+        order: 9;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-accounts{
+        order: 10;
+    }
 }
 @media screen and (max-width: 460px) {
     #pin-lists {
