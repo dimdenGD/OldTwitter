@@ -3061,6 +3061,14 @@ video::-internal-media-controls-overlay-cast-button {
         display: none;
     }
 }
+@media screen and (max-width: 390px) {
+    .tweet-interact span {
+        margin-right: 8px;
+    }
+    .tweet-interact span::before {
+        margin-right: 5px;
+    }
+}
 @media screen and (max-width: 310px) {
     #pin-profile {
         display: none; 
