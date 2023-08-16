@@ -516,5 +516,6 @@
 	"autotranslation_help3": {"message": "Режими"},
 	"autotranslation_help4": {"message": "\"Перекладати коли в списку мов\" без добавлених мов не буде перекладати нічого автоматично;"},
 	"autotranslation_help5": {"message": "\"Перекладати коли не в списку мов\" без добавлених мов буде перекладати всі твіти."},
-    "go_back_to_top": { "message": "Повернутись вверх" }
+    "go_back_to_top": { "message": "Повернутись вверх" },
+    "follow_system_settings_dark_mode": { "message": "Використовувати тему системи" }
 }
