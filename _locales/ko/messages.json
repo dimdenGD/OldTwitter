@@ -519,6 +519,14 @@
     "delete_for_you":{ "message": "나에게서 삭제",  "description":"DM Message Delete menu"},
     "show_user_previews_on_mobile": { "message": "<b>[모바일]</b> 계속 누를 시 유저 프로필을 보여줍니다 (이용에 방해될 수 있습니다)" },
     "separate_text": { "message": "텍스트를 분리하기", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
+    "leave_conversation": {"message":"대화를 삭제하시거나 나가실건가요?"},
+	"autotranslation_help1": {"message": "이 기능은 버튼을 직접 누를 필요 없이 자동으로 트윗을 찾아 번역을 하는 기능입니다."},
+	"autotranslation_help2": {"message": "사용하시려면, 자동번역을 선택하고, 언어 목록을 지정하세요. 조건에 맞는 트윗이 자동으로 번역될 것 입니다."},
+	"autotranslation_help3": {"message": "특히:"},
+	"autotranslation_help4": {"message": "언어 목록이 없는 상태에서 \"목록에 있는 언어만\"을 선택 시, 해당 기능은 비활성화 됩니다. (기본값)"},
+	"autotranslation_help5": {"message": "언어 목록이 없는 상태에서 \"목록에 없는 언어만\"을 선택 시, 모든 트윗이 번역됩니다. 필요없는 번역을 막기 위해 당신이 아는 언어를 추가하는 것이 좋습니다."},
+    "go_back_to_top": { "message": "맨 위로 돌아가기" },
+    "follow_system_settings_dark_mode": { "message": "시스템 설정을 사용합니다" },
     "mmdd":{ "message": "$MONTH$월 $DATE$일",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$YEAR$년 $MONTH$월 $DATE$일",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }}
 }
