@@ -147,9 +147,7 @@ function switchModernUI(enabled) {
                 border: none;
                 color: white !important;
                 font-weight: bold;
-                text-align: center
-                width: 60px;
-                height: 40px;
+                text-align: center;
             }
             #tweet-to:hover:not([disabled]){
                 filter: brightness(0.9);
