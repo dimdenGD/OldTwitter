@@ -2745,7 +2745,7 @@ video::-internal-media-controls-overlay-cast-button {
         height: 0;
     }
     #profile-banner-sticky {
-        margin-top: 87px;
+        margin-top: 47px;
     }
     #profile-banner {
         width: 100%;
@@ -2802,6 +2802,7 @@ video::-internal-media-controls-overlay-cast-button {
         visibility: visible;
         border-top: 1px;
         border-color: var(--dark-background-color);
+        transition-duration: 0.2s;
     }
     .profile-stat {
         display: grid;

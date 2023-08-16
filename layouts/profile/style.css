@@ -1856,34 +1856,6 @@ a:hover,
         font-size: 20px;
     }
 }
-@media screen and (max-width: 360px) {
-    #profile-stat-tweets-link > .profile-stat-text {
-        display: none;
-    }
-    .profile-stat:hover, .profile-stat-active {
-        box-shadow: none;
-    }
-    #profile-stat-tweets-value {
-        color: var(--background-color);
-    }
-    #profile-stat-tweets-value::after {
-        content: " __MSG_tweets__";
-    }
-    #profile-stat-tweets-link {
-        position: absolute;
-        top: 56px;
-        left: 12px;
-        background-color: var(--almost-black);
-        color: var(--border);
-        border-radius: 999px;
-    }
-    #nav-profile-info-text {
-        justify-content: right !important;
-    }
-    #nav-profile-name::after {
-        margin-right: 12px;
-    }
-}
 @media screen and (max-width: 320px) {
     #tweet-nav > a {
         font-size: 13px;
