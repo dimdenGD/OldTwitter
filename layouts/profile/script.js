@@ -170,6 +170,7 @@ function updateSelection() {
     document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
     document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
     document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
+    document.getElementById('profile-stat-following-mobile').href = `https://twitter.com/${pageUser.screen_name}/following`;
     document.getElementById('profile-stat-followers-mobile').href = `https://twitter.com/${pageUser.screen_name}/followers`;
 
     if(pageUser.statuses_count === 0 && !( pageUser.blocked_by || pageUser.blocking || pageUser.protected ) && (subpage === 'profile' || subpage === 'replies')) {
@@ -859,6 +860,8 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-value').innerText = formatLargeNumber(pageUser.followers_count).replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = formatLargeNumber(pageUser.favourites_count).replace(/\s/g, ',');
     document.getElementById('profile-stat-media-value').innerText = formatLargeNumber(pageUser.media_count).replace(/\s/g, ',');
+
+    document.getElementById('profile-stat-following-mobile').innerText = formatLargeNumber(pageUser.friends_count).replace(/\s/g, ',');
     document.getElementById('profile-stat-followers-mobile').innerText = formatLargeNumber(pageUser.followers_count).replace(/\s/g, ',');
 
     document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_blocked_by || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');

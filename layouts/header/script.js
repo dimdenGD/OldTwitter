@@ -394,6 +394,7 @@ function hideStuff() {
         hideStyle.innerHTML += `
             #user-followers-div { display: none !important; }
             #profile-stat-followers-link { display: none !important; }
+            #profile-stat-follower-mobile-out { display: none !important; }
         `;
     }
     if(hideStyle.innerHTML !== '') {

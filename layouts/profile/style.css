@@ -871,7 +871,16 @@ a:hover,
     word-wrap: break-word;
     overflow: hidden;
 }
+#profile-following-follower-mobile {
     display:none;
+    line-height: 20px;
+    margin-top:10px;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+#profile-following-follower-mobile>div>a {
+    font-weight: 600;
+}
 
 #tweet-nav[hidden] {
     display: none !important
