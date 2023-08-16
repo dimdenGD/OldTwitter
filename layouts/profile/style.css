@@ -871,6 +871,7 @@ a:hover,
     word-wrap: break-word;
     overflow: hidden;
 }
+    display:none;
 
 #tweet-nav[hidden] {
     display: none !important
@@ -1767,8 +1768,12 @@ a:hover,
         color: white;
     }
 }
-@media screen and (max-width: 550px) {
-    #profile-stat-media-link {
+    #profile-following-follower-mobile{
+        display:block;
+    }
+    #profile-stat-following-link,
+    #profile-stat-followers-link
+    {
         display: none;
     }
 }
