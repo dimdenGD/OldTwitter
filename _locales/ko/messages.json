@@ -384,7 +384,7 @@
     "no_unfollowers": { "message": "아직 언팔로워가 없습니다!" },
     "no_unfollowings": { "message": "아무도 언팔로우 하지 않았습니다!" },
     "recent_unfollow_update": { "message": "언팔로우가 최소 15분 전에 업데이트 되었습니다" },
-    "deleted_accounts": { "message": "이 리스트에 있던 보두가 계정을 비활성화 한것으로 보입니다" },
+    "deleted_accounts": { "message": "이 리스트에 있던 모두가 계정을 비활성화 한것으로 보입니다" },
     "open_tweet_newtwitter": { "message": "새 트위터에서 이 트윗을 열기" },
     "black_mode_link": { "message": "조명 끄기 모드 링크" },
     "custom_mode_link": { "message": "커스텀 모드 링크" },
