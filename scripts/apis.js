@@ -3,6 +3,7 @@ let loadingReplies = {};
 let loadingLikers = {};
 let tweetStorage = {};
 let hashflagStorage = {};
+let translateLimit = 0;
 
 setInterval(() => {
     // clearing cache
@@ -3358,13 +3359,14 @@ const API = {
         },
         translate: id => {
             return new Promise((resolve, reject) => {
-                chrome.storage.local.get([`translations`], d => {
+                chrome.storage.local.get([`translations`],async  d => {
                     if(!d.translations) d.translations = {};
                     if(d.translations[id] && Date.now() - d.translations[id].date < 60000*60*4) {
                         debugLog('tweet.translate', 'cache', d.translations[id].data);
                         return resolve(d.translations[id].data);
                     }
-                    fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
+                    // Translate by Google
+                    let res = translateLimit > Date.now() ? { ok: false } : await fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.oauth_key,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3372,29 +3374,52 @@ const API = {
                             "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                         },
                         credentials: "include"
-                    }).then(i => i.json()).then(data => {
-                        debugLog('tweet.translate', 'start', id, data);
-                        if (data.errors && data.errors[0].code === 32) {
-                            return reject("Not logged in");
-                        }
-                        if (data.errors && data.errors[0]) {
-                            return reject(data.errors[0].message);
-                        }
-                        let out = {
-                            translated_lang: data.localizedSourceLanguage,
-                            text: data.translation,
-                            entities: data.entities
-                        };
-                        debugLog('tweet.translate', 'end', id, out);
-                        resolve(out);
-                        d.translations[id] = {
-                            date: Date.now(),
-                            data: out
-                        };
-                        chrome.storage.local.set({translations: d.translations}, () => {});
-                    }).catch(e => {
-                        reject(e);
                     });
+                    if(!res.ok) {
+                        console.log(res);
+                        if(res.headers) {
+                            let resetTime = res.headers.get('x-rate-limit-reset');
+                            let limitRemaining = res.headers.get('x-rate-limit-remaining');
+                            if(resetTime && limitRemaining && parseInt(limitRemaining) === 0) {
+                                translateLimit = parseInt(resetTime) * 1000;
+                            } else {
+                                translateLimit = 0;
+                            }
+                        }
+                        // Translate by Microsoft
+                        let l = LANGUAGE;
+                        if(l.includes('_')) l = l.split('_')[0];
+                        res = await fetch(`https://api.twitter.com/1.1/translations/show.json?id=${id}&dest=${l}&use_display_text=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                            headers: {
+                                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                                "x-twitter-auth-type": "OAuth2Session",
+                                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+                            },
+                            credentials: "include"
+                        });
+                    }
+                    let data = await res.json();
+                    debugLog('tweet.translate', 'start', id, data);
+                    if (data.errors && data.errors[0].code === 32) {
+                        return reject("Not logged in");
+                    }
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    let out = {
+                        translated_lang: data.localizedSourceLanguage ? data.localizedSourceLanguage : data.translated_lang,
+                        lang_code: data.sourceLanguage ? data.sourceLanguage : data.translated_lang,
+                        text: data.translation ? data.translation : data.text,
+                        entities: data.entities
+                    };
+                    debugLog('tweet.translate', 'end', id, out);
+                    resolve(out);
+                    d.translations[id] = {
+                        date: Date.now(),
+                        data: out
+                    };
+                    chrome.storage.local.set({translations: d.translations}, () => {});
                 });
             });
         },

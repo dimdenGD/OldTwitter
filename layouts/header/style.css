@@ -2177,7 +2177,7 @@ emoji-picker {
     margin-right: 5px;
 }
 .tweet-player {
-    width: 100%;
+    width: calc(100% - 50px);
 }
 @media screen and (max-width: 780px) {
     #search-input {
@@ -2517,6 +2517,9 @@ video::-internal-media-controls-overlay-cast-button {
     }
     body.move-navbar-to-bottom #center-cell {
         margin-top: 0;
+    }
+    .tweet-player {
+        width: 100%;
     }
     .navbar-new-tweet-modal {
         width: calc(100% - 42px);
