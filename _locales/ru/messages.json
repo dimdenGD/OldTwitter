@@ -517,5 +517,6 @@
 	"autotranslation_help4": {"message": "\"Переводить когда в списке языков\" без добавленных языков не будет переводить ничего автоматически;"},
 	"autotranslation_help5": {"message": "\"Переводить когда не в списке языков\" без добавленных языков будет переводить все твиты."},
     "go_back_to_top": { "message": "Вернуться вверх" },
-    "follow_system_settings_dark_mode": { "message": "Использовать предпочитаемую тему системы" }
+    "follow_system_settings_dark_mode": { "message": "Использовать предпочитаемую тему системы" },
+    "replacer_post_to_tweet": { "message": "пост->твит", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" }
 }

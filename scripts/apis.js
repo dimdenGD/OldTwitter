@@ -3376,11 +3376,14 @@ const API = {
                         credentials: "include"
                     });
                     if(!res.ok) {
+                        console.log(res);
                         if(res.headers) {
                             let resetTime = res.headers.get('x-rate-limit-reset');
                             let limitRemaining = res.headers.get('x-rate-limit-remaining');
                             if(resetTime && limitRemaining && parseInt(limitRemaining) === 0) {
                                 translateLimit = parseInt(resetTime) * 1000;
+                            } else {
+                                translateLimit = 0;
                             }
                         }
                         // Translate by Microsoft

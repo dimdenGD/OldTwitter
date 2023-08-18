@@ -3375,6 +3375,7 @@ const iconClasses = {
     'list_icon': 'ni-list'
 };
 let aRegex = /<a[^>]*>([\s\S]*?)<\/a>/g;
+let replacerLocs;
 function renderNotification(n, options = {}) {
     if(typeof n !== 'object') {
         console.error('Notification is undefined', t);
@@ -3485,6 +3486,8 @@ function renderNotification(n, options = {}) {
         if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
             notificationHeader = notificationHeader.replace(' liked ', ' favorited ');
         }
+        let [or, nr] = LOC.replacer_post_to_tweet.message.split('->');
+        notificationHeader = notificationHeader.replace(new RegExp(or, 'g'), nr);
         notification.innerHTML = /*html*/`
             <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
             <div class="notification-header">
