@@ -1152,7 +1152,7 @@ async function renderTrends(compact = false, cache = true) {
                     ${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag" width="16" height="16">` : ''}
                 </a>
             </b><br>
-            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description) : ''}</span>
+            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description.replace(...LOC.replacer_post_to_tweet.message.split('->'))) : ''}</span>
         `;
         trendsContainer.append(trendDiv);
         if(vars.enableTwemoji) twemoji.parse(trendDiv);
