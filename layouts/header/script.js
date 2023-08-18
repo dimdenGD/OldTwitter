@@ -441,7 +441,6 @@ let userDataFunction = async user => {
         root.style.setProperty('--add-media-icon', '"\\f027"');
         root.style.setProperty('--birthday-icon', '"\\f092"');
         root.style.setProperty('--joined-icon', '"\\f203"');
-
     }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
@@ -1814,14 +1813,13 @@ let userDataFunction = async user => {
             let settingElement = document.createElement('a');
             settingElement.href = `/old/settings`;
             settingElement.className = 'search-result-item';
-            settingElement.innerText = "Open OldTwitter Setting...";
+            settingElement.innerText = LOC.oldtwitter_settings.message;
             settingElement.style.borderTop = "1px solid var(--border)"
             searchResults.appendChild(settingElement);
         }
     });
     searchIcon.addEventListener('click', () => {
         let searchParams = new URLSearchParams(location.search);
-        console.log(searchInput.clientWidth)
         if(!searchInput.value || searchInput.value === 'undefined' || searchInput.value === searchParams.get('q') || (window.outerWidth <= 590 && searchInput.clientWidth<=100 && searchInput.value) ) {
             return searchInput.focus();
         }
