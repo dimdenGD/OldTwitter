@@ -1810,10 +1810,19 @@ let userDataFunction = async user => {
             `;
             searchResults.appendChild(userElement);
         });
+        if (query.toLowerCase()=="/s") {
+            let settingElement = document.createElement('a');
+            settingElement.href = `/old/settings`;
+            settingElement.className = 'search-result-item';
+            settingElement.innerText = "Open OldTwitter Setting...";
+            settingElement.style.borderTop = "1px solid var(--border)"
+            searchResults.appendChild(settingElement);
+        }
     });
     searchIcon.addEventListener('click', () => {
         let searchParams = new URLSearchParams(location.search);
-        if(!searchInput.value || searchInput.value === 'undefined' || searchInput.value === searchParams.get('q')) {
+        console.log(searchInput.clientWidth)
+        if(!searchInput.value || searchInput.value === 'undefined' || searchInput.value === searchParams.get('q') || (window.outerWidth <= 590 && searchInput.clientWidth<=100 && searchInput.value) ) {
             return searchInput.focus();
         }
         lastSearches.push(searchInput.value);
