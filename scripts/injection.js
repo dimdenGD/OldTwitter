@@ -177,7 +177,10 @@ const TRANSLATORS = {
         ["nomi", "https://twitter.com/nomisigns"]
     ],
     "vi": ["btmxh", "https://github.com/btmxh"],
-    "zh_CN": ["am1006", "https://github.com/am1006"],
+    "zh_CN": [
+        ["am1006", "https://github.com/am1006"],
+        ["CarimoWuling", "https://twitter.com/carimowuling"]
+    ],
     "cs": ["Menal"],
     "de": ["basti564", "https://twitter.com/basti564"],
     "ca": ["elmees21", "https://twitter.com/elmees21"]
