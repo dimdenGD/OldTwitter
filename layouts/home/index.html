@@ -17,153 +17,161 @@
         </div>
     </div>
     <header></header>
-    <main id="container">
-		<div id="content">
-            <div class="cell" id="left-cell">
-                <div id="user-div" class="box">
-                    <img id="user-banner" height="100" width="300">
-                    <div id="user-data">
-                        <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
-                        <a id="user-info">
-                            <h1 id="user-name">__MSG_loading__</h1>
-                            <h2 id="user-handle">@loading</h2>
-                        </a>
-                        <div id="user-stats">
-                            <a class="user-stat-div" id="user-tweets-div">
-                                <h2>__MSG_tweets__</h2>
-                                <h1 id="user-tweets">0</h1>
+    <div id="react-root">
+        <main id="container">
+            <div id="content">
+                <div class="cell" id="left-cell">
+                    <div id="user-div" class="box">
+                        <img id="user-banner" height="100" width="300">
+                        <div id="user-data">
+                            <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
+                            <a id="user-info">
+                                <h1 id="user-name">__MSG_loading__</h1>
+                                <h2 id="user-handle">@loading</h2>
                             </a>
-                            <a class="user-stat-div" id="user-following-div">
-                                <h2>__MSG_following__</h2>
-                                <h1 id="user-following">0</h1>
-                            </a>
-                            <a class="user-stat-div" id="user-followers-div">
-                                <h2>__MSG_followers__</h2>
-                                <h1 id="user-followers">0</h1>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div id="trends" class="box">
-                    <h1>__MSG_trends__</h1><br>
-                    <span id="trends-refresh">__MSG_refresh__</span> · <a id="trends-viewall" target="_blank" href="https://twitter.com/i/trends?newtwitter=true">__MSG_view_all__</a>
-                    <div id="trends-list">
-                    </div>
-                </div>
-                <div class="about" id="about-left">
-                    <span>
-                        __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version-left">0.0.0</span>.<br>
-                        __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
-                    </span>
-                    <br>
-                    <div class="about-links">
-                        <span>© 2023 dimden</span> 
-                        <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
-                        <a href="/dimdenEFF">Twitter</a>
-                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
-                    </div>
-                    <div class="about-links">
-                        <span id="twitter-copyright-left">© 2015 Twitter</span> 
-                        <a href="/about">__MSG_about__</a>
-                        <a href="https://support.twitter.com">__MSG_help__</a>
-                        <a href="/tos">__MSG_terms__</a>
-                        <a href="/privacy">__MSG_privacy__</a>
-                    </div>
-                    <br>
-                </div>
-            </div>
-            <div class="cell" id="center-cell">
-                <select id="timeline-type-center" hidden>
-                    <option value="chrono">__MSG_chrono__</option>
-                    <option value="chrono-no-retweets">__MSG_chrono_no_retweets__</option>
-                    <option value="chrono-retweets">__MSG_chrono_retweets__</option>
-                    <option value="chrono-social">__MSG_chrono_social__</option>
-                    <option value="algo">__MSG_algov2__</option>
-                </select>
-                <div id="new-tweet-container">
-                    <div id="new-tweet" class="box">
-                        <div id="new-tweet-audience" hidden>
-                            <select id="new-tweet-audience-input">
-                                <optgroup label="__MSG_audience__" id="audience-group">
-                                    <option value="everyone">__MSG_everyone__</option>
-                                </optgroup>
-                            </select>
-                            <span id="new-tweet-circle-people" hidden><span id="new-tweet-circle-people-count">0</span> __MSG_people__ <b id="new-tweet-circle-edit">[__MSG_edit__]</b></span>
-                            <select id="new-tweet-wcr-input">
-                                <optgroup label="__MSG_who_can_reply__" id="wcr-group">
-                                    <option value="everyone">__MSG_everyone__</option>
-                                    <option value="follows">__MSG_people_you_follow__</option>
-                                    <option value="mentions">__MSG_people_you_mention__</option>
-                                </optgroup>
-                            </select>
-                            <div id="new-tweet-schedule" style="display:none">
-                                <input type="datetime-local" id="new-tweet-schedule-input">
+                            <div id="user-stats">
+                                <a class="user-stat-div" id="user-tweets-div">
+                                    <h2>__MSG_tweets__</h2>
+                                    <h1 id="user-tweets">0</h1>
+                                </a>
+                                <a class="user-stat-div" id="user-following-div">
+                                    <h2>__MSG_following__</h2>
+                                    <h1 id="user-following">0</h1>
+                                </a>
+                                <a class="user-stat-div" id="user-followers-div">
+                                    <h2>__MSG_followers__</h2>
+                                    <h1 id="user-followers">0</h1>
+                                </a>
                             </div>
-                            <br>
-                        </div>
-                        <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
-                        <span id="new-tweet-char" hidden>0/280</span>
-                        <textarea id="new-tweet-text" placeholder="__MSG_whats_happening__" maxlength="1000"></textarea>
-                        <div id="new-tweet-user-search" class="box" hidden></div>
-                        <div id="new-tweet-media-div" title="__MSG_add_media__">
-                            <span id="new-tweet-media"></span>
-                        </div>
-                        <div id="new-tweet-focused" hidden>
-                            <span id="new-tweet-poll-btn" title="__MSG_add_poll__"></span>
-                            <span id="new-tweet-emoji-btn" title="__MSG_emoji__"></span>
-                            <span id="new-tweet-schedule-btn" title="__MSG_schedule_tweet__"></span>
-                            <div id="new-tweet-poll" hidden></div>
-                            <div id="new-tweet-media-cc"><div id="new-tweet-media-c"></div></div>
-                            <button id="new-tweet-button" class="nice-button">__MSG_tweet__</button>
-                            <br><br>
                         </div>
                     </div>
+                    <div id="trends" class="box">
+                        <h1>__MSG_trends__</h1><br>
+                        <span id="trends-refresh">__MSG_refresh__</span> · <a id="trends-viewall" target="_blank" href="https://twitter.com/i/trends?newtwitter=true">__MSG_view_all__</a>
+                        <div id="trends-list">
+                        </div>
+                    </div>
+                    <div class="about" id="about-left">
+                        <span>
+                            __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version-left">0.0.0</span>.<br>
+                            __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
+                        </span>
+                        <br>
+                        <div class="about-links">
+                            <span>© 2023 dimden</span> 
+                            <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
+                            <a href="/dimdenEFF">Twitter</a>
+                            <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
+                        </div>
+                        <div class="about-links">
+                            <span id="twitter-copyright-left">© 2015 Twitter</span> 
+                            <a href="/about">__MSG_about__</a>
+                            <a href="https://support.twitter.com">__MSG_help__</a>
+                            <a href="/tos">__MSG_terms__</a>
+                            <a href="/privacy">__MSG_privacy__</a>
+                        </div>
+                        <br>
+                    </div>
                 </div>
-                <div id="new-tweets" class="center-text" hidden></div>
-                <style id="new-tweets-bug-fix"></style>
-                <div id="tweets-loading">
-                    <img src="chrome-extension://__MSG_extension_id__/images/loading.svg" width="64" height="64">
+                <div class="cell" id="center-cell">
+                    <select id="timeline-type-center" hidden>
+                        <option value="chrono">__MSG_chrono__</option>
+                        <option value="chrono-no-retweets">__MSG_chrono_no_retweets__</option>
+                        <option value="chrono-retweets">__MSG_chrono_retweets__</option>
+                        <option value="chrono-social">__MSG_chrono_social__</option>
+                        <option value="algo">__MSG_algov2__</option>
+                    </select>
+                    <div id="new-tweet-container">
+                        <div id="new-tweet" class="box">
+                            <div id="new-tweet-audience" hidden>
+                                <select id="new-tweet-audience-input">
+                                    <optgroup label="__MSG_audience__" id="audience-group">
+                                        <option value="everyone">__MSG_everyone__</option>
+                                    </optgroup>
+                                </select>
+                                <span id="new-tweet-circle-people" hidden><span id="new-tweet-circle-people-count">0</span> __MSG_people__ <b id="new-tweet-circle-edit">[__MSG_edit__]</b></span>
+                                <select id="new-tweet-wcr-input">
+                                    <optgroup label="__MSG_who_can_reply__" id="wcr-group">
+                                        <option value="everyone">__MSG_everyone__</option>
+                                        <option value="follows">__MSG_people_you_follow__</option>
+                                        <option value="mentions">__MSG_people_you_mention__</option>
+                                    </optgroup>
+                                </select>
+                                <div id="new-tweet-schedule" style="display:none">
+                                    <input type="datetime-local" id="new-tweet-schedule-input">
+                                </div>
+                                <br>
+                            </div>
+                            <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
+                            <span id="new-tweet-char" hidden>0/280</span>
+                            <textarea id="new-tweet-text" placeholder="__MSG_whats_happening__" maxlength="1000"></textarea>
+                            <div id="new-tweet-user-search" class="box" hidden></div>
+                            <div id="new-tweet-media-div" title="__MSG_add_media__">
+                                <span id="new-tweet-media"></span>
+                            </div>
+                            <div id="new-tweet-focused" hidden>
+                                <span id="new-tweet-poll-btn" title="__MSG_add_poll__"></span>
+                                <span id="new-tweet-emoji-btn" title="__MSG_emoji__"></span>
+                                <span id="new-tweet-schedule-btn" title="__MSG_schedule_tweet__"></span>
+                                <div id="new-tweet-poll" hidden></div>
+                                <div id="new-tweet-media-cc"><div id="new-tweet-media-c"></div></div>
+                                <button id="new-tweet-button" class="nice-button">__MSG_tweet__</button>
+                                <br><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="new-tweets" class="center-text" hidden></div>
+                    <style id="new-tweets-bug-fix"></style>
+                    <div id="tweets-loading">
+                        <img src="chrome-extension://__MSG_extension_id__/images/loading.svg" width="64" height="64">
+                    </div>
+                    <section>
+                        <div>
+                            <div>
+                                <div id="timeline"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <div id="load-more" class="center-text" hidden>__MSG_load_more__</div>
                 </div>
-                <div id="timeline"></div>
-                <div id="load-more" class="center-text" hidden>__MSG_load_more__</div>
+                <div class="cell" id="right-cell">
+                    <select id="timeline-type-right">
+                        <option value="chrono">__MSG_chrono__</option>
+                        <option value="chrono-no-retweets">__MSG_chrono_no_retweets__</option>
+                        <option value="chrono-retweets">__MSG_chrono_retweets__</option>
+                        <option value="chrono-social">__MSG_chrono_social__</option>
+                        <option value="algo">__MSG_algov2__</option>
+                    </select>
+                    <div id="wtf" class="box">
+                        <h1>__MSG_who_to_follow__</h1><br>
+                        <span id="wtf-refresh">__MSG_refresh__</span> · <a id="wtf-viewall" target="_blank" href="https://twitter.com/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>
+                        <br><br>
+                        <div id="wtf-list"></div>
+                    </div>
+                    <div class="about" id="about-right">
+                        <span>
+                            __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
+                            __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
+                        </span>
+                        <br>
+                        <div class="about-links">
+                            <span>© 2023 dimden</span> 
+                            <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
+                            <a href="/dimdenEFF">Twitter</a>
+                            <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
+                        </div>
+                        <div class="about-links">
+                            <span id="twitter-copyright-right">© 2015 Twitter</span> 
+                            <a href="/about">__MSG_about__</a>
+                            <a href="https://support.twitter.com">__MSG_help__</a>
+                            <a href="/tos">__MSG_terms__</a>
+                            <a href="/privacy">__MSG_privacy__</a>
+                        </div>
+                        <br>
+                    </div>
+                </div>
             </div>
-            <div class="cell" id="right-cell">
-                <select id="timeline-type-right">
-                    <option value="chrono">__MSG_chrono__</option>
-                    <option value="chrono-no-retweets">__MSG_chrono_no_retweets__</option>
-                    <option value="chrono-retweets">__MSG_chrono_retweets__</option>
-                    <option value="chrono-social">__MSG_chrono_social__</option>
-                    <option value="algo">__MSG_algov2__</option>
-                </select>
-                <div id="wtf" class="box">
-                    <h1>__MSG_who_to_follow__</h1><br>
-                    <span id="wtf-refresh">__MSG_refresh__</span> · <a id="wtf-viewall" target="_blank" href="https://twitter.com/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>
-                    <br><br>
-                    <div id="wtf-list"></div>
-                </div>
-                <div class="about" id="about-right">
-                    <span>
-                        __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
-                        __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
-                    </span>
-                    <br>
-                    <div class="about-links">
-                        <span>© 2023 dimden</span> 
-                        <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
-                        <a href="/dimdenEFF">Twitter</a>
-                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
-                    </div>
-                    <div class="about-links">
-                        <span id="twitter-copyright-right">© 2015 Twitter</span> 
-                        <a href="/about">__MSG_about__</a>
-                        <a href="https://support.twitter.com">__MSG_help__</a>
-                        <a href="/tos">__MSG_terms__</a>
-                        <a href="/privacy">__MSG_privacy__</a>
-                    </div>
-                    <br>
-                </div>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 </body>
 </html>
