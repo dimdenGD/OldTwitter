@@ -1809,14 +1809,6 @@ let userDataFunction = async user => {
             `;
             searchResults.appendChild(userElement);
         });
-        if (query.toLowerCase()=="/s") {
-            let settingElement = document.createElement('a');
-            settingElement.href = `/old/settings`;
-            settingElement.className = 'search-result-item';
-            settingElement.innerText = LOC.oldtwitter_settings.message;
-            settingElement.style.borderTop = "1px solid var(--border)"
-            searchResults.appendChild(settingElement);
-        }
     });
     searchIcon.addEventListener('click', () => {
         let searchParams = new URLSearchParams(location.search);
