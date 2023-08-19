@@ -17,107 +17,115 @@
         </div>
     </div>
     <header></header>
-    <main id="container">
-		<div id="content">
-            <div class="cell" id="left-cell">
-                <div id="user-div" class="box">
-                    <img id="user-banner" height="100" width="300">
-                    <div id="user-data">
-                        <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
-                        <a id="user-info">
-                            <h1 id="user-name">__MSG_loading__</h1>
-                            <h2 id="user-handle">@loading</h2>
-                        </a>
-                        <div id="user-stats">
-                            <div class="user-stat-div">
-                                <h2>__MSG_tweets__</h2>
-                                <h1 id="user-tweets">0</h1>
-                            </div>
-                            <div class="user-stat-div">
-                                <h2>__MSG_following__</h2>
-                                <h1 id="user-following">0</h1>
-                            </div>
-                            <div class="user-stat-div">
-                                <h2>__MSG_followers__</h2>
-                                <h1 id="user-followers">0</h1>
+    <div id="react-root">
+        <main id="container">
+            <div id="content">
+                <div class="cell" id="left-cell">
+                    <div id="user-div" class="box">
+                        <img id="user-banner" height="100" width="300">
+                        <div id="user-data">
+                            <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
+                            <a id="user-info">
+                                <h1 id="user-name">__MSG_loading__</h1>
+                                <h2 id="user-handle">@loading</h2>
+                            </a>
+                            <div id="user-stats">
+                                <div class="user-stat-div">
+                                    <h2>__MSG_tweets__</h2>
+                                    <h1 id="user-tweets">0</h1>
+                                </div>
+                                <div class="user-stat-div">
+                                    <h2>__MSG_following__</h2>
+                                    <h1 id="user-following">0</h1>
+                                </div>
+                                <div class="user-stat-div">
+                                    <h2>__MSG_followers__</h2>
+                                    <h1 id="user-followers">0</h1>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div id="trends" class="box">
-                    <h1>__MSG_trends__</h1>
-                    <div id="trends-list">
+                    <div id="trends" class="box">
+                        <h1>__MSG_trends__</h1>
+                        <div id="trends-list">
+                        </div>
+                    </div>
+                    <div class="about" id="about-left">
+                        <span>
+                            __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version-left">0.0.0</span>.<br>
+                            __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
+                        </span>
+                        <br>
+                        <div class="about-links">
+                            <span>© 2023 dimden</span> 
+                            <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
+                            <a href="/dimdenEFF">Twitter</a>
+                            <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
+                        </div>
+                        <div class="about-links">
+                            <span id="twitter-copyright-left">© 2015 Twitter</span> 
+                            <a href="/about">__MSG_about__</a>
+                            <a href="https://support.twitter.com">__MSG_help__</a>
+                            <a href="/tos">__MSG_terms__</a>
+                            <a href="/privacy">__MSG_privacy__</a>
+                        </div>
+                        <br>
                     </div>
                 </div>
-                <div class="about" id="about-left">
-                    <span>
-                        __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version-left">0.0.0</span>.<br>
-                        __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
-                    </span>
-                    <br>
-                    <div class="about-links">
-                        <span>© 2023 dimden</span> 
-                        <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
-                        <a href="/dimdenEFF">Twitter</a>
-                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
+                <div class="cell" id="center-cell">
+                    <div id="topic-div">
+                        <h1 id="topic-name">__MSG_loading__</h1>
+                        <span id="topic-description"></span>
+                        <br>
+                        <div id="topic-not-interested" class="box" hidden>
+                            <span id="topic-not-interested-text">__MSG_youre_not_interested__</span>
+                            <button id="topic-not-interested-cancel" class="nice-button">__MSG_cancel__</button>
+                        </div>
+                        <div id="topic-interested" hidden>
+                            <button class="nice-button" id="topic-not-interested-btn">__MSG_not_interested__</button>
+                            <button class="nice-button" id="topic-follow-control"></button>
+                        </div>
+                        <br>
+                        <section>
+                            <div>
+                                <div>
+                                    <div id="timeline"></div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                    <div class="about-links">
-                        <span id="twitter-copyright-left">© 2015 Twitter</span> 
-                        <a href="/about">__MSG_about__</a>
-                        <a href="https://support.twitter.com">__MSG_help__</a>
-                        <a href="/tos">__MSG_terms__</a>
-                        <a href="/privacy">__MSG_privacy__</a>
+                </div>
+                <div class="cell" id="right-cell">
+                    <div id="wtf" class="box">
+                        <h1>__MSG_who_to_follow__</h1><br>
+                        <span id="wtf-refresh">__MSG_refresh__</span> · <a id="wtf-viewall" target="_blank" href="https://twitter.com/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>
+                        <br><br>
+                        <div id="wtf-list"></div>
                     </div>
-                    <br>
+                    <div class="about" id="about-right">
+                        <span>
+                            __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
+                            __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
+                        </span>
+                        <br>
+                        <div class="about-links">
+                            <span>© 2023 dimden</span> 
+                            <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
+                            <a href="/dimdenEFF">Twitter</a>
+                            <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
+                        </div>
+                        <div class="about-links">
+                            <span id="twitter-copyright-right">© 2015 Twitter</span> 
+                            <a href="/about">__MSG_about__</a>
+                            <a href="https://support.twitter.com">__MSG_help__</a>
+                            <a href="/tos">__MSG_terms__</a>
+                            <a href="/privacy">__MSG_privacy__</a>
+                        </div>
+                        <br>
+                    </div>
                 </div>
             </div>
-            <div class="cell" id="center-cell">
-                <div id="topic-div">
-                    <h1 id="topic-name">__MSG_loading__</h1>
-                    <span id="topic-description"></span>
-                    <br>
-                    <div id="topic-not-interested" class="box" hidden>
-                        <span id="topic-not-interested-text">__MSG_youre_not_interested__</span>
-                        <button id="topic-not-interested-cancel" class="nice-button">__MSG_cancel__</button>
-                    </div>
-                    <div id="topic-interested" hidden>
-                        <button class="nice-button" id="topic-not-interested-btn">__MSG_not_interested__</button>
-                        <button class="nice-button" id="topic-follow-control"></button>
-                    </div>
-                    <br>
-                    <div id="timeline"></div>
-                </div>
-            </div>
-            <div class="cell" id="right-cell">
-                <div id="wtf" class="box">
-                    <h1>__MSG_who_to_follow__</h1><br>
-                    <span id="wtf-refresh">__MSG_refresh__</span> · <a id="wtf-viewall" target="_blank" href="https://twitter.com/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>
-                    <br><br>
-                    <div id="wtf-list"></div>
-                </div>
-                <div class="about" id="about-right">
-                    <span>
-                        __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
-                        __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
-                    </span>
-                    <br>
-                    <div class="about-links">
-                        <span>© 2023 dimden</span> 
-                        <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
-                        <a href="/dimdenEFF">Twitter</a>
-                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
-                    </div>
-                    <div class="about-links">
-                        <span id="twitter-copyright-right">© 2015 Twitter</span> 
-                        <a href="/about">__MSG_about__</a>
-                        <a href="https://support.twitter.com">__MSG_help__</a>
-                        <a href="/tos">__MSG_terms__</a>
-                        <a href="/privacy">__MSG_privacy__</a>
-                    </div>
-                    <br>
-                </div>
-            </div>
-        </div>
-    </main>
+        </main>
+    </div>
 </body>
 </html>

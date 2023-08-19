@@ -2107,6 +2107,12 @@ emoji-picker {
     text-decoration: none;
     direction: ltr;
 }
+.tweet-body-text {
+    display: inline;
+}
+.tweet-body-text-quote {
+    display: block;
+}
 
 .tweet-body-quote:hover {
     background-color: var(--darker-background-color);

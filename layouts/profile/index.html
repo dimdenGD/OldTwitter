@@ -65,172 +65,180 @@
             </div>
         </div>
     </div>
-    <main class="container">
-		<div class="content">
-            <div class="cell" id="left-cell">
-                <div id="profile-info">
-                    <a id="profile-avatar-link" target="_blank"><img id="profile-avatar" width="200" height="200"></a><br>
-                </div>
-                <div id="profile-info-text">
-                    <a class="pin-a"><h1 id="profile-name"></h1></a>
-                    <a class="piu-a"><div id="profile-username"></div></a>
-                    <div id="follows-you" class="follows-you-label" hidden>__MSG_follows_you__</div>
-                    <div id="profile-bio"></div>
-                    <div id="profile-additional"></div>
-                    <div id="tweet-to-bg" hidden>
-                        <div id="tweet-to-div">
-                            <div id="tweet-to">__MSG_tweet_to_user__</div>
-                        </div>
+    <div id="react-root">
+        <main class="container">
+            <div class="content">
+                <div class="cell" id="left-cell">
+                    <div id="profile-info">
+                        <a id="profile-avatar-link" target="_blank"><img id="profile-avatar" width="200" height="200"></a><br>
                     </div>
-                    <div id="profile-friends-following" hidden>
+                    <div id="profile-info-text">
+                        <a class="pin-a"><h1 id="profile-name"></h1></a>
+                        <a class="piu-a"><div id="profile-username"></div></a>
+                        <div id="follows-you" class="follows-you-label" hidden>__MSG_follows_you__</div>
+                        <div id="profile-bio"></div>
+                        <div id="profile-additional"></div>
+                        <div id="tweet-to-bg" hidden>
+                            <div id="tweet-to-div">
+                                <div id="tweet-to">__MSG_tweet_to_user__</div>
+                            </div>
+                        </div>
+                        <div id="profile-friends-following" hidden>
+                            <br>
+                            <a id="profile-friends-text" class="profile-additional-thing" href="followers_you_follow">0 __MSG_followers_you_know__</a>
+                            <div id="profile-friends-div"></div>
+                        </div>
                         <br>
-                        <a id="profile-friends-text" class="profile-additional-thing" href="followers_you_follow">0 __MSG_followers_you_know__</a>
-                        <div id="profile-friends-div"></div>
-                    </div>
-                    <br>
-                    <div id="profile-media">
-                        <a id="profile-media-text" class="profile-additional-thing" href="media" hidden>__MSG_photos_and_videos__</a>
-                        <div id="profile-media-div"></div>
-                    </div>
-                </div>
-                <div class="about" id="about-left">
-                    <span>
-                        __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version-left">0.0.0</span>.<br>
-                        __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
-                    </span>
-                    <br>
-                    <div class="about-links">
-                        <span>© 2023 dimden</span> 
-                        <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
-                        <a href="/dimdenEFF">Twitter</a>
-                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
-                    </div>
-                    <div class="about-links">
-                        <span id="twitter-copyright-left">© 2015 Twitter</span> 
-                        <a href="/about">__MSG_about__</a>
-                        <a href="https://support.twitter.com">__MSG_help__</a>
-                        <a href="/tos">__MSG_terms__</a>
-                        <a href="/privacy">__MSG_privacy__</a>
-                    </div>
-                    <br>
-                </div>
-            </div>
-            <div class="cell" id="center-cell">
-                <div id="following-list" class="box" hidden></div>
-                <div id="following-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
-                <div id="followers-list" class="box" hidden></div>
-                <div id="followers-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
-                <div id="followers_you_follow-list" class="box" hidden></div>
-                <div id="lists-list" class="box" hidden></div>
-                <div id="followers_you_follow-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
-                <div id="tweet-nav" hidden>
-                    <a id="tweet-nav-tweets">__MSG_tweets__</a>
-                    <a id="tweet-nav-replies">__MSG_tweets_and_replies__</a>
-                    <a id="tweet-nav-media">__MSG_photos_and_videos2__</a>
-                    <span id="tweet-nav-more"></span>
-                    <div id="tweet-nav-more-menu" class="dropdown-menu" hidden>
-                        <div id="user-search">
-                            <input id="user-search-input" type="text" placeholder="__MSG_search_user_tweets__" autocomplete="off" spellcheck="false">
-                            <button id="user-search-icon"></button>
+                        <div id="profile-media">
+                            <a id="profile-media-text" class="profile-additional-thing" href="media" hidden>__MSG_photos_and_videos__</a>
+                            <div id="profile-media-div"></div>
                         </div>
-                        <input type="checkbox" id="tweet-nav-more-menu-hr"><label for="tweet-nav-more-menu-hr">__MSG_hide_retweets__</label><br>
-                        <input type="checkbox" id="tweet-nav-more-menu-hnr" hidden><label id="tweet-nav-more-menu-hnr-label" for="tweet-nav-more-menu-hnr" style="padding-left:4px" hidden>__MSG_hide_non_replies__</label>
                     </div>
-                    <style id="style-hide-retweets"></style>
-                </div>
-                <div id="new-tweets" class="center-padding-text center-text" hidden></div>
-                <div id="timeline"></div>
-                <div id="no-tweets" hidden></div>
-            </div>
-            <div class="cell" id="right-cell">
-                <div id="styling" hidden>
-                    <div id="private-profile-warn" hidden>
-                        <span style="color:var(--almost-black)">__MSG_profile_must_be_public_to_auth__</span>
+                    <div class="about" id="about-left">
+                        <span>
+                            __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version-left">0.0.0</span>.<br>
+                            __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
+                        </span>
+                        <br>
+                        <div class="about-links">
+                            <span>© 2023 dimden</span> 
+                            <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
+                            <a href="/dimdenEFF">Twitter</a>
+                            <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
+                        </div>
+                        <div class="about-links">
+                            <span id="twitter-copyright-left">© 2015 Twitter</span> 
+                            <a href="/about">__MSG_about__</a>
+                            <a href="https://support.twitter.com">__MSG_help__</a>
+                            <a href="/tos">__MSG_terms__</a>
+                            <a href="/privacy">__MSG_privacy__</a>
+                        </div>
                         <br>
                     </div>
-                    <div id="color-sync-box" class="box">
-                        <h1 class="nice-header">__MSG_color_sync__</h1><br>
-                        <div>
-                            __MSG_by_pressing_sync__
-                            <span id="color-years-ago" hidden>
-                                <br><br>
-                                __MSG_color_years_ago__
-                            </span>
+                </div>
+                <div class="cell" id="center-cell">
+                    <div id="following-list" class="box" hidden></div>
+                    <div id="following-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
+                    <div id="followers-list" class="box" hidden></div>
+                    <div id="followers-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
+                    <div id="followers_you_follow-list" class="box" hidden></div>
+                    <div id="lists-list" class="box" hidden></div>
+                    <div id="followers_you_follow-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
+                    <div id="tweet-nav" hidden>
+                        <a id="tweet-nav-tweets">__MSG_tweets__</a>
+                        <a id="tweet-nav-replies">__MSG_tweets_and_replies__</a>
+                        <a id="tweet-nav-media">__MSG_photos_and_videos2__</a>
+                        <span id="tweet-nav-more"></span>
+                        <div id="tweet-nav-more-menu" class="dropdown-menu" hidden>
+                            <div id="user-search">
+                                <input id="user-search-input" type="text" placeholder="__MSG_search_user_tweets__" autocomplete="off" spellcheck="false">
+                                <button id="user-search-icon"></button>
+                            </div>
+                            <input type="checkbox" id="tweet-nav-more-menu-hr"><label for="tweet-nav-more-menu-hr">__MSG_hide_retweets__</label><br>
+                            <input type="checkbox" id="tweet-nav-more-menu-hnr" hidden><label id="tweet-nav-more-menu-hnr-label" for="tweet-nav-more-menu-hnr" style="padding-left:4px" hidden>__MSG_hide_non_replies__</label>
                         </div>
-                        <div class="setting">
-                            <input type="color" id="profile-link-color" style="vertical-align: middle;"> <label for="profile-link-color">__MSG_profile_link_color__</label>
-                        </div>
-                        <div id="color-preview">
-                            <div id="color-preview-light">__MSG_light_mode_link__</div>
-                            <div id="color-preview-dark">__MSG_dark_mode_link__</div>
-                            <div id="color-preview-black">__MSG_black_mode_link__</div>
-                        </div>
-                        <button class="nice-button" id="color-sync-button">__MSG_sync__</button>
+                        <style id="style-hide-retweets"></style>
                     </div>
-                    <div id="custom-css-not-eligible" class="box" hidden>
-                        <h1 class="nice-header">__MSG_profile_custom_css__</h1><br>
+                    <div id="new-tweets" class="center-padding-text center-text" hidden></div>
+                    <section>
                         <div>
-                            __MSG_pccss_not_eligible__
+                            <div>
+                                <div id="timeline"></div>
+                            </div>
+                        </div>
+                    </section>
+                    <div id="no-tweets" hidden></div>
+                </div>
+                <div class="cell" id="right-cell">
+                    <div id="styling" hidden>
+                        <div id="private-profile-warn" hidden>
+                            <span style="color:var(--almost-black)">__MSG_profile_must_be_public_to_auth__</span>
+                            <br>
+                        </div>
+                        <div id="color-sync-box" class="box">
+                            <h1 class="nice-header">__MSG_color_sync__</h1><br>
+                            <div>
+                                __MSG_by_pressing_sync__
+                                <span id="color-years-ago" hidden>
+                                    <br><br>
+                                    __MSG_color_years_ago__
+                                </span>
+                            </div>
+                            <div class="setting">
+                                <input type="color" id="profile-link-color" style="vertical-align: middle;"> <label for="profile-link-color">__MSG_profile_link_color__</label>
+                            </div>
+                            <div id="color-preview">
+                                <div id="color-preview-light">__MSG_light_mode_link__</div>
+                                <div id="color-preview-dark">__MSG_dark_mode_link__</div>
+                                <div id="color-preview-black">__MSG_black_mode_link__</div>
+                            </div>
+                            <button class="nice-button" id="color-sync-button">__MSG_sync__</button>
+                        </div>
+                        <div id="custom-css-not-eligible" class="box" hidden>
+                            <h1 class="nice-header">__MSG_profile_custom_css__</h1><br>
+                            <div>
+                                __MSG_pccss_not_eligible__
+                            </div>
+                        </div>
+                        <div id="custom-css-eligible" class="box" hidden>
+                            <h1 class="nice-header">__MSG_profile_custom_css__</h1><br>
+                            <div>
+                                __MSG_pccss_eligible__
+                            </div>
+                            <div>
+                                <details>
+                                    <summary style="cursor:pointer">__MSG_click_here_more_info__</summary>
+                                    <div style="margin-top:5px">__MSG_css_theme_hint__</div>
+                                </details>
+                            </div>
+                            <h1 class="nice-header">CSS</h1><br>
+                            <textarea maxlength="30000" class="styling-textarea" id="profile-css-textarea" placeholder="body.body-dark .box {&#10;  border-color: red&#10;}"></textarea>
+                            <h1 class="nice-header">__MSG_light_mode_vars__</h1><br>
+                            <textarea maxlength="1500" class="styling-textarea" id="light-mode-vars" placeholder="--background-color: white&#10;--dark-background-color: #f5f8fa&#10;..."></textarea>
+                            <h1 class="nice-header">__MSG_dark_mode_vars__</h1><br>
+                            <textarea maxlength="1500" class="styling-textarea" id="dark-mode-vars" placeholder="--background-color: #1b2836&#10;--dark-background-color: #171f2a&#10;..."></textarea>
+                            <button class="nice-button" id="css-sync-button">__MSG_sync__</button>
+                            <button class="nice-button" id="css-load-button">__MSG_load__</button>
+                            <br>
+                            <button class="nice-button" id="save-draft">__MSG_save_draft__</button>
+                            <button class="nice-button" id="load-draft">__MSG_load_draft__</button>
                         </div>
                     </div>
-                    <div id="custom-css-eligible" class="box" hidden>
-                        <h1 class="nice-header">__MSG_profile_custom_css__</h1><br>
-                        <div>
-                            __MSG_pccss_eligible__
+                    <div id="wtf" class="box">
+                        <h1>__MSG_you_may_also_like__</h1><br>
+                        <span id="wtf-refresh">__MSG_refresh__</span> · <a id="wtf-viewall" target="_blank" href="https://twitter.com/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>
+                        <br><br>
+                        <div id="wtf-list"></div>
+                    </div>
+                    <div id="trends" class="box">
+                        <h1 style="margin-bottom:5px;">__MSG_trends__</h1>
+                        <div id="trends-list">
                         </div>
-                        <div>
-                            <details>
-                                <summary style="cursor:pointer">__MSG_click_here_more_info__</summary>
-                                <div style="margin-top:5px">__MSG_css_theme_hint__</div>
-                            </details>
-                        </div>
-                        <h1 class="nice-header">CSS</h1><br>
-                        <textarea maxlength="30000" class="styling-textarea" id="profile-css-textarea" placeholder="body.body-dark .box {&#10;  border-color: red&#10;}"></textarea>
-                        <h1 class="nice-header">__MSG_light_mode_vars__</h1><br>
-                        <textarea maxlength="1500" class="styling-textarea" id="light-mode-vars" placeholder="--background-color: white&#10;--dark-background-color: #f5f8fa&#10;..."></textarea>
-                        <h1 class="nice-header">__MSG_dark_mode_vars__</h1><br>
-                        <textarea maxlength="1500" class="styling-textarea" id="dark-mode-vars" placeholder="--background-color: #1b2836&#10;--dark-background-color: #171f2a&#10;..."></textarea>
-                        <button class="nice-button" id="css-sync-button">__MSG_sync__</button>
-                        <button class="nice-button" id="css-load-button">__MSG_load__</button>
+                    </div>
+                    <div class="about" id="about-right">
+                        <span>
+                            __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
+                            __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
+                        </span>
                         <br>
-                        <button class="nice-button" id="save-draft">__MSG_save_draft__</button>
-                        <button class="nice-button" id="load-draft">__MSG_load_draft__</button>
+                        <div class="about-links">
+                            <span>© 2023 dimden</span> 
+                            <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
+                            <a href="/dimdenEFF">Twitter</a>
+                            <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
+                        </div>
+                        <div class="about-links">
+                            <span id="twitter-copyright-right">© 2015 Twitter</span> 
+                            <a href="/about">__MSG_about__</a>
+                            <a href="https://support.twitter.com">__MSG_help__</a>
+                            <a href="/tos">__MSG_terms__</a>
+                            <a href="/privacy">__MSG_privacy__</a>
+                        </div>
+                        <br>
                     </div>
-                </div>
-                <div id="wtf" class="box">
-                    <h1>__MSG_you_may_also_like__</h1><br>
-                    <span id="wtf-refresh">__MSG_refresh__</span> · <a id="wtf-viewall" target="_blank" href="https://twitter.com/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>
-                    <br><br>
-                    <div id="wtf-list"></div>
-                </div>
-                <div id="trends" class="box">
-                    <h1 style="margin-bottom:5px;">__MSG_trends__</h1>
-                    <div id="trends-list">
-                    </div>
-                </div>
-                <div class="about" id="about-right">
-                    <span>
-                        __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version">0.0.0</span>.<br>
-                        __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
-                    </span>
-                    <br>
-                    <div class="about-links">
-                        <span>© 2023 dimden</span> 
-                        <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
-                        <a href="/dimdenEFF">Twitter</a>
-                        <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
-                    </div>
-                    <div class="about-links">
-                        <span id="twitter-copyright-right">© 2015 Twitter</span> 
-                        <a href="/about">__MSG_about__</a>
-                        <a href="https://support.twitter.com">__MSG_help__</a>
-                        <a href="/tos">__MSG_terms__</a>
-                        <a href="/privacy">__MSG_privacy__</a>
-                    </div>
-                    <br>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
+    </div>
 </body>
 </html>
