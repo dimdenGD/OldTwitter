@@ -54,7 +54,7 @@
     "unfollow": { "message": "언팔로우" },
     "thank_you_follow": { "message": "팔로우 해주셔서 감사합니다!" },
     "loading_tweets": { "message": "트윗을 로드하는 중..." },
-    "retweeted": { "message": "님이 리트윗함", "example": "CoolPerson2000 ->retweeted<-" },
+    "retweeted": { "message": "님이 리트윗했습니다", "example": "CoolPerson2000 ->retweeted<-" },
     "see_new_tweets": { "message": "새로운 트윗을 보기", "description":"Original: 새로운 트윗을 n개 보기"},
     "must2variants": { "message": "적어도 두 개의 투표 선택지를 설정해 주세요" },
     "delete_all": { "message": "모두 삭제하기" },
@@ -534,6 +534,8 @@
     "mmdd":{ "message": "$MONTH$월 $DATE$일",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$YEAR$년 $MONTH$월 $DATE$일",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
     "yyyy":{ "message": "$YEAR$년",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
-    "localize_digit":{ "message" : "아시아식 4자리수 표기법을 사용합니다. (한중일 전용)", "description":"Non-CJK dont need to translate this message, just copy and paste"}
+    "localize_digit":{ "message" : "아시아식 4자리수 표기법을 사용합니다. (한중일 전용)", "description":"Non-CJK dont need to translate this message, just copy and paste"},
+    "replacer_liked_to_favorited_notification": { "message": " 마음에 들어 합니다-> 관심글로 지정했습니다", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked your tweet' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited your tweet'" },
+    "replacer_liked_to_favorited_recommend": { "message": " 마음에 들어 합니다-> 관심글로 지정했습니다", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited'" }
 
 }

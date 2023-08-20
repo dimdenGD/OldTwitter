@@ -1449,7 +1449,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.top.icon = "\uf008";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else if(t.socialContext.contextType === "Like") {
-                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(' liked', ' favorited') : t.socialContext.text}</a>`;
+                let [or, nr] = LOC.replacer_liked_to_favorited_recommend.message.split('->');   
+                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(or, nr) : t.socialContext.text}</a>`;
                 if(vars.heartsNotStars) {
                     options.top.icon = "\uf015";
                     options.top.color = "rgb(249, 24, 128)";
@@ -3495,7 +3496,8 @@ function renderNotification(n, options = {}) {
             console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
         }
         if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
-            notificationHeader = notificationHeader.replace(' liked ', ' favorited ');
+            let [or, nr] = LOC.replacer_liked_to_favorited_notification.message.split('->');   
+            notificationHeader = notificationHeader.replace(or, nr);
         }
         let [or, nr] = LOC.replacer_post_to_tweet.message.split('->');
         let [or2, nr2] = LOC.replacer_post_to_tweet_2.message.split('->');
