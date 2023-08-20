@@ -3498,7 +3498,10 @@ function renderNotification(n, options = {}) {
             notificationHeader = notificationHeader.replace(' liked ', ' favorited ');
         }
         let [or, nr] = LOC.replacer_post_to_tweet.message.split('->');
-        notificationHeader = notificationHeader.replace(new RegExp(or, 'g'), nr);
+        let [or2, nr2] = LOC.replacer_post_to_tweet_2.message.split('->');
+        let [or_re, nr_re] = LOC.replacer_repost_to_retweet.message.split('->');
+        let [or_re2, nr_re2] = LOC.replacer_repost_to_retweet_2.message.split('->');
+        notificationHeader = notificationHeader.replace(new RegExp(or_re, 'g'), nr_re).replace(new RegExp(or_re2, 'g'), nr_re2).replace(new RegExp(or, 'g'), nr).replace(new RegExp(or2, 'g'), nr2);
         notification.innerHTML = /*html*/`
             <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
             <div class="notification-header">
