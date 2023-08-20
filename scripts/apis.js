@@ -885,6 +885,7 @@ const API = {
                                 return;
                             }
                             //fix posts to tweets
+                            //If you update Twitter to use translation for that part, you should delete this part.
                             if(desc.endsWith(' Posts')) {
                                 desc = desc.replace(` Posts`, ` ${LOC.tweets.message}`)
                             }
