@@ -2557,6 +2557,9 @@ video::-internal-media-controls-overlay-cast-button {
         width: 100%;
         text-align: center;
     }
+    .nav-count {
+        margin-left: -10px;
+    }
     .tweet-footer-stat-text {
         padding: 7px 7px 0px 7px;
     }
