@@ -52,6 +52,41 @@ function parseNoteTweet(result) {
     return {text, entities};
 }
 
+function updateElementsStats(tweet) {
+    let tr = tweet;
+    if(tweet.retweeted_status) {
+        tr = tweet.retweeted_status;
+    }
+    let renderedTweets = Array.from(document.querySelectorAll(`div.tweet[data-tweet-id="${tr.id_str}"]:not(.tweet-main)`));
+    for(let t of renderedTweets) {
+        if(t.tweet) {
+            t.tweet.favorite_count = tr.favorite_count;
+            t.tweet.retweet_count = tr.retweet_count;
+            t.tweet.reply_count = tr.reply_count;
+        }
+        let interactFavorite = t.querySelector('span.tweet-interact-favorite');
+        if(interactFavorite) {
+            interactFavorite.dataset.val = tr.favorite_count;
+            interactFavorite.innerText = formatLargeNumber(tr.favorite_count);
+        }
+        let interactRetweet = t.querySelector('span.tweet-interact-retweet');
+        if(interactRetweet) {
+            interactRetweet.dataset.val = tr.retweet_count;
+            interactRetweet.innerText = formatLargeNumber(tr.retweet_count);
+        }
+        let interactReply = t.querySelector('span.tweet-interact-reply');
+        if(interactReply) {
+            interactReply.dataset.val = tr.reply_count;
+            interactReply.innerText = formatLargeNumber(tr.reply_count);
+        }
+        let interactViews = t.querySelector('span.tweet-interact-views');
+        if(interactViews && tr.ext && tr.ext.views && tr.ext.views.r && tr.ext.views.r.ok) {
+            interactViews.dataset.val = tr.ext.views.r.ok.count;
+            interactViews.innerText = formatLargeNumber(tr.ext.views.r.ok.count);
+        }
+    }
+}
+
 // transform ugly useless twitter api reply to usable legacy tweet
 function parseTweet(res) {
     if(typeof res !== "object") return;
@@ -185,10 +220,8 @@ function parseTweet(res) {
     }
 
     tweet.res = res;
-    if(tweetStorage[tweet.id_str]) {
-        let renderedTweets = document.querySelectorAll(`div.tweet[data-tweet-id="${tweet.id_str}"]:not(.tweet-main)`);
 
-    }
+    updateElementsStats(tweet);
     tweetStorage[tweet.id_str] = tweet;
     return tweet;
 }
