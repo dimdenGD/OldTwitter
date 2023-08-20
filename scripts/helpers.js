@@ -1157,7 +1157,7 @@ async function renderTrends(compact = false, cache = true) {
                     ${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag" width="16" height="16">` : ''}
                 </a>
             </b><br>
-            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description) : ''}</span>
+            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description.replace(...LOC.replacer_post_to_tweet.message.split('->'))) : ''}</span>
         `;
         trendsContainer.append(trendDiv);
         if(vars.enableTwemoji) twemoji.parse(trendDiv);
@@ -1713,7 +1713,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
                 ${!options.mainTweet && !isMatchingLanguage ? `<span class="tweet-translate-after">${`${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 && innerWidth > 650 ? LOC.view_translation.message : ''}</span>` : ''}
             </div>
-            <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
+            <article class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 ${mentionedUserText !== `` &&
                     !options.threadContinuation &&
                     !options.noTop &&
@@ -1721,7 +1721,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     !vars.useOldStyleReply ? /*html*/`
                 <div class="tweet-reply-to"><span>${LOC.replying_to_user.message.replace('$SCREEN_NAME$', mentionedUserText.trim().replaceAll(`> <`, `>${LOC.replying_to_comma.message}<`).replace(`>${LOC.replying_to_comma.message}<`, `>${LOC.replying_to_and.message}<`))}</span></div>
                 `: ''}
-                <span class="tweet-body-text ${vars.noBigFont || t.full_text.length > 280 || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(t) : ''}</span>
+                <div lang="${t.lang}" class="tweet-body-text ${vars.noBigFont || t.full_text.length > 280 || !options.bigFont || (!options.mainTweet && location.pathname.includes('/status/')) ? 'tweet-body-text-long' : 'tweet-body-text-short'}">
+                    <span>${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(t) : ''}</span>
+                </div>
                 ${!isMatchingLanguage && options.mainTweet ? /*html*/`
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
@@ -1896,7 +1898,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         <div ${location.pathname.includes('/status/') ? `style="margin-top:-8px;" ` : ''}class="tweet-self-thread-line-dots"></div>
                     `}
                 </div>
-            </div>
+            </article>
         `;
         // video
         let vidOverlay = tweet.getElementsByClassName('tweet-media-video-overlay')[0];
@@ -2395,9 +2397,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     full_text: translated.text,
                     entities: translated.entities
                 }
-                tweetBodyText.innerHTML += `<br>`+
-                `<span class="translated-from">${translatedMessage}:</span>`+
-                `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
+                let translatedFrom = document.createElement('span');
+                translatedFrom.classList.add('translated-from');
+                translatedFrom.innerText = translatedMessage;
+                let translatedText = document.createElement('span');
+                translatedText.classList.add('tweet-translated-text');
+                translatedText.innerHTML = await renderTweetBodyHTML(translatedT);
+                tweetBodyText.append(document.createElement('br'), translatedFrom, translatedText);
                 if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });
             if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {
@@ -3380,6 +3386,7 @@ const iconClasses = {
     'list_icon': 'ni-list'
 };
 let aRegex = /<a[^>]*>([\s\S]*?)<\/a>/g;
+let replacerLocs;
 function renderNotification(n, options = {}) {
     if(typeof n !== 'object') {
         console.error('Notification is undefined', t);
@@ -3490,6 +3497,8 @@ function renderNotification(n, options = {}) {
         if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
             notificationHeader = notificationHeader.replace(' liked ', ' favorited ');
         }
+        let [or, nr] = LOC.replacer_post_to_tweet.message.split('->');
+        notificationHeader = notificationHeader.replace(new RegExp(or, 'g'), nr);
         notification.innerHTML = /*html*/`
             <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
             <div class="notification-header">

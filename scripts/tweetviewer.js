@@ -932,8 +932,10 @@ class TweetViewer {
                 ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
             </div>
             <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
-            <div class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
-                <span class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(t) : ''}</span>
+            <article class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
+                <div class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">
+                    <span>${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(t) : ''}</span>
+                </div>
                 ${!isMatchingLanguage ? /*html*/`
                 <br>
                 <span class="tweet-translate">${LOC.view_translation.message}</span>
@@ -1092,7 +1094,7 @@ class TweetViewer {
                     <span class="tweet-view-self-thread-line"></span>
                     <div class="tweet-view-self-thread-line-dots"></div>
                 </div>
-            </div>
+            </article>
         `;
         // video
         let vidOverlay = tweet.getElementsByClassName('tweet-media-video-overlay')[0];
@@ -1511,9 +1513,13 @@ class TweetViewer {
                     full_text: translated.text,
                     entities: translated.entities
                 }
-                tweetBodyText.innerHTML += `<br>`+
-                `<span class="translated-from">${translatedMessage}:</span>`+
-                `<span class="tweet-translated-text">${await renderTweetBodyHTML(translatedT)}</span>`;
+                let translatedFrom = document.createElement('span');
+                translatedFrom.classList.add('translated-from');
+                translatedFrom.innerText = translatedMessage;
+                let translatedText = document.createElement('span');
+                translatedText.classList.add('tweet-translated-text');
+                translatedText.innerHTML = await renderTweetBodyHTML(translatedT);
+                tweetBodyText.append(document.createElement('br'), translatedFrom, translatedText);
                 if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });
             if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {

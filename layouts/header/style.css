@@ -764,6 +764,9 @@ input, textarea {
     margin-top: -20px;
     z-index: 50;
 }
+.tweet-body-text span {
+    white-space: break-spaces;
+}
 .modal-top  {
     width: 495px;
 }
@@ -2113,6 +2116,12 @@ emoji-picker {
     text-decoration: none;
     direction: ltr;
 }
+.tweet-body-text {
+    display: inline;
+}
+.tweet-body-text-quote {
+    display: block;
+}
 
 .tweet-body-quote:hover {
     background-color: var(--darker-background-color);
@@ -2183,12 +2192,15 @@ emoji-picker {
     margin-right: 5px;
 }
 .tweet-player {
-    width: 100%;
+    width: calc(100% - 50px);
 }
 @media screen and (max-width: 780px) {
     #search-input {
         width: 124px;
     }
+}
+rt.furigana {
+    color: var(--almost-black) !important;
 }
 .notification {
     background-color: var(--background-color);
@@ -2523,6 +2535,9 @@ video::-internal-media-controls-overlay-cast-button {
     }
     body.move-navbar-to-bottom #center-cell {
         margin-top: 0;
+    }
+    .tweet-player {
+        width: 100%;
     }
     .navbar-new-tweet-modal {
         width: calc(100% - 42px);
