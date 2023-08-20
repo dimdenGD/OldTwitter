@@ -1714,14 +1714,6 @@ a:hover,
         padding-top: 10px;
         padding-bottom: 11px;
     }
-    #profile-stat-following-link,
-    #profile-stat-followers-link
-    {
-        display: none;
-    }
-    #profile-following-follower-mobile {
-        display:block;
-    }
 }
 
 /* Mobile UI */
@@ -1841,6 +1833,14 @@ a:hover,
     }
     #profile-stats{
         opacity:0;
+    }
+    #profile-stat-following-link,
+    #profile-stat-followers-link
+    {
+        display: none;
+    }
+    #profile-following-follower-mobile {
+        display:block;
     }
 }
 @media screen and (max-width: 470px) {
