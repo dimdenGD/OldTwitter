@@ -774,9 +774,9 @@ async function renderProfile() {
     document.getElementById('profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
     document.getElementById('nav-profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
     if(LOC.tweet_to.message.includes("$SCREEN_NAME$")) {
-        document.getElementById('tweet-to-inner').innerText = LOC.tweet_to.message.replace("$SCREEN_NAME$", pageUser.screen_name.replace(/\n/g, ' '));
+        document.getElementById('tweet-to').innerText = LOC.tweet_to.message.replace("$SCREEN_NAME$", pageUser.screen_name.replace(/\n/g, ' '));
     } else {
-        document.getElementById('tweet-to-inner').innerText = `${LOC.tweet_to.message} ${pageUser.name.replace(/\n/g, ' ')}`;
+        document.getElementById('tweet-to').innerText = `${LOC.tweet_to.message} ${pageUser.name.replace(/\n/g, ' ')}`;
     }
     if(vars.heartsNotStars) {
         document.getElementById('profile-stat-text-favorites').innerText = LOC.likes.message;
