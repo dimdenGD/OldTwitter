@@ -289,8 +289,13 @@ async function renderTimeline(options = {}) {
             }
         }
     };
-    if(options.mode === 'prepend') {
+    if(options.mode === 'prepend' && toRender.length > 0) {
         timelineContainer.prepend(...toRender);
+        if(vars.enableTwemoji) {
+            for(let t in toRender) {
+                twemoji.parse(toRender[t]);
+            }
+        }
     }
     document.getElementById('loading-box').hidden = true;
     document.getElementById('tweets-loading').hidden = true;

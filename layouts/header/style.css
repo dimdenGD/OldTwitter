@@ -2363,7 +2363,7 @@ video::-internal-media-controls-overlay-cast-button {
         max-width: calc(100% - 15px);
     }
     .tweet-body-quote {
-        width: 100%;
+        width: calc(100% - 20px);
     }
     #right-cell {
         display: none;
@@ -2403,7 +2403,7 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-viewer {
         width: calc(100% - 2px);
         overflow-x: clip;
-        margin-bottom: 150px;
+        margin-bottom: 200px;
         padding-left: 0;
         padding-right: 0;
     }
@@ -2526,9 +2526,6 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .modal-content {
         border-radius: 0;
-    }
-    .modal .tweet-media-element {
-        width: calc(100% - 30px);
     }
     .tweet .tweet-header-name {
         max-width: calc(100% - 65px);

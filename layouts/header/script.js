@@ -2412,6 +2412,9 @@ let userDataFunction = async user => {
                                     t.classList.add('notification-unread');
                                 }
                                 notifList.appendChild(t);
+                                if(vars.enableTwemoji) {
+                                    twemoji.parse(t);
+                                }
                             }
                         }
                     }
@@ -2433,6 +2436,11 @@ let userDataFunction = async user => {
                     }
 
                     notifList.prepend(...divs);
+                    if(vars.enableTwemoji) {
+                        for(let nd of divs) {
+                            twemoji.parse(nd);
+                        }
+                    }
                 }
 
                 notifLoading.hidden = true;
