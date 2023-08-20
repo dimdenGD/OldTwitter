@@ -1290,6 +1290,11 @@ function renderMedia(t) {
                 </video>
             `;
         } else if(m.type === 'video') {
+            if(m.mediaStats && m.mediaStats.viewCount) {
+                m.ext = {
+                    mediaStats: { r: { ok: { viewCount: m.mediaStats.viewCount } } }
+                }
+            }
             html += /*html*/`
                 <video
                     ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
