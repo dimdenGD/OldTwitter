@@ -434,6 +434,12 @@ async function renderTweetBodyHTML(t, is_quoted) {
                 index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
             });
         };
+
+        if(t.entities.media) {
+            t.entities.media.forEach(media => {
+                index_map[media.indices[0]] = [media.indices[1], text => ``];
+            });
+        }
     };
 
     let display_start = t.display_text_range !== undefined ? t.display_text_range[0] : 0;
