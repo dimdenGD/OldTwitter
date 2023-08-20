@@ -167,7 +167,7 @@ const TRANSLATORS = {
     ],
     "it": [
         ["krek", "https://twitter.com/CactusInc420"],
-        ["FrancescoRosi", "https://twitter.com/FrancescoRosi27"]
+        ["Francesco", "https://twitter.com/FrancescoRosi27"]
     ],
     "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
