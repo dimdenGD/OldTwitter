@@ -298,8 +298,12 @@ function switchModernUI(enabled) {
             .tweet:first-child,
             #tweet-nav,
             #save-search-right,
-            #save-search-left {
+            #save-search-left,
+            .modal-content {
                 border-radius: 0px;
+            }
+            .modal-content {
+                border: none;
             }
             .profile-media-preview {
                 border-radius: 5px !important;
