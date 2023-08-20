@@ -71,6 +71,7 @@ setTimeout(() => {
                             <li>Made tweet viewer use more space instead of wasting it.</li>
                             <li>Fixed username disappearing on scroll in profile.</li>
                             <li>Added quote translation length limit.</li>
+                            <li>Added Separate text button for tweet viewer too.</li>
                             <li>Fixed useless t.co links sometimes appearing.</li>
                         </ul>
                         <p style="margin-bottom:5px">
