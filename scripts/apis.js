@@ -360,7 +360,7 @@ const API = {
                     method: 'post',
                     body: 'redirectAfterLogout=https%3A%2F%2Ftwitter.com%2Faccount%2Fswitch'
                 }).then(i => i.json()).then(data => {
-                    chrome.storage.local.remove(["credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
+                    chrome.storage.local.remove(["notifications", "unreadCount", "credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
                         if (data.errors && data.errors[0].code === 32) {
                             return reject("Not logged in");
                         }
@@ -426,7 +426,7 @@ const API = {
                     status = i.status;
                     return i.text();
                 }).then(data => {
-                    chrome.storage.local.remove(["credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
+                    chrome.storage.local.remove(["notifications", "unreadCount", "credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
                         chrome.storage.local.set({lastUserId: id}, () => {
                             if(String(status).startsWith("2")) {
                                 resolve(data);
