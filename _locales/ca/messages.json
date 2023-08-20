@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "Only confirmed followers have access to @$SCREEN_NAME$'s Tweets and complete profile. Click the \"Follow\" button to send a follow request.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Copy tweet links as", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Use new logo as tab icon" },
-    "update_timeline_automatically": { "message": "Actualitza la cronologia automàticament als nous tuits. Experimental: això és una mica defectuós, utilitzeu-lo només si voleu estar a la part superior de la cronologia tot el temps, no s'actualitzarà automàticament quan us desplaceu cap avall més enllà d'uns 15 tuits." },
+    "update_timeline_automatically": { "message": "Actualitza la cronologia automàticament als nous tuits." },
     "chrono_no_retweets": { "message": "Cronologia inversa (sense retuits)" },
     "chrono_retweets": { "message": "Cronologia inversa (només retuits)" },
     "hide_trends": { "message": "Oculta les tendències" },

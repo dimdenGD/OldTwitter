@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "Doar urmăritorii confirmați pot accesa Tweet-urile și profilul complet @$SCREEN_NAME$. Apasă pe \"Urmărește\" să trimiți o cerere de urmărire.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Copiază link-uri twitter cu", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Folosiți noul logo ca favicon" },
-    "update_timeline_automatically": { "message": "Actualizează automat timeline-ul cu tweet-uri noi. Funcție experimentală! Nu funcționează perfect, folosiți numai dacă vreți mereu să fiți la vârful timeline-ului, actualizarea automată nu se efectuează dacă coborâți mai mult de vreo 15 tweet-uri." },
+    "update_timeline_automatically": { "message": "Actualizează automat timeline-ul cu tweet-uri noi." },
     "chrono_no_retweets": { "message": "Invers cronologic (fără retweet-uri)" },
     "chrono_retweets": { "message": "Invers cronologic (doar retweet-uri)" },
     "hide_trends": { "message": "Ascunde trend-uri" },

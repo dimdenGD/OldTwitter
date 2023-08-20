@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "Chỉ những người theo dõi được xác nhận có quyền truy cập Tweets và hồ sơ hoàn chỉnh của @$SCREEN_NAME$. Bấm \"Theo dõi\" để gửi yêu cầu theo dõi.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Sao chép link tweet dưới", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Dùng logo mới cho biểu tượng tab" },
-    "update_timeline_automatically": { "message": "Tự cập nhật dòng thời gian khi có tweet mới. Đang thực nghiệm: cái này hơi bị lỗi, chỉ sử dụng nếu bạn muốn ở trên dòng thời gian mọi lúc, nó sẽ không tự cập nhật khi bạn lướt xuống hơn khoảng 15 tweets." },
+    "update_timeline_automatically": { "message": "Tự cập nhật dòng thời gian khi có tweet mới." },
     "chrono_no_retweets": { "message": "Theo thứ tự ngược thời gian (không retweets)" },
     "chrono_retweets": { "message": "Theo thứ tự ngược thời gian (chỉ retweets)" },
     "hide_trends": { "message": "Ẩn trào lưu" },

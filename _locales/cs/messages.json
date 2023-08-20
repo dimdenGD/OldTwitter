@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "Jen potvrzení sledující mají přístup k tweetům a kompletnímu profilu uživatele @$SCREEN_NAME$. Stiskněte tlačítko \"Sledovat\" k poslání žádosti o sledování.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Kopírovat odkaz na tweet jako", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Používat nové logo v kartě" },
-    "update_timeline_automatically": { "message": "Automatické obnovování časové osy s novými tweety. Experimentální: Způsobuje problémy! Používejte pouze, pokud chcete mít nejnovější informace o Vaší časové ose. Nebude fungovat, pokud sjedete níže než asi 15 tweetů." },
+    "update_timeline_automatically": { "message": "Automatické obnovování časové osy s novými tweety." },
     "chrono_no_retweets": { "message": "Obráceně chronologicky (bez retweetů)" },
     "chrono_retweets": { "message": "Obráceně chronologicky (s retweety)" },
     "hide_trends": { "message": "Skrýt trendy" },

@@ -554,7 +554,8 @@ const API = {
                     entries = entries.entries;
                     let out = {
                         list: parseHomeTimeline(entries, data),
-                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                        cursorBottom: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value,
+                        cursorTop: entries.find(e => e.entryId.startsWith('cursor-top-')).content.value
                     }
                     debugLog('timeline.getChronologicalV2', 'end', {cursor, count, out});
                     return resolve(out);
@@ -636,7 +637,8 @@ const API = {
         
                     let out = {
                         list,
-                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value
+                        cursorBottom: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value,
+                        cursorTop: entries.find(e => e.entryId.startsWith('cursor-top-')).content.operation.cursor.value
                     }
                     debugLog('timeline.getAlgorithmical', 'end', {cursor, count, out});
                     return resolve(out)
@@ -682,7 +684,8 @@ const API = {
                     entries = entries.entries;
                     let out = {
                         list: parseHomeTimeline(entries, data),
-                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                        cursorBottom: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value,
+                        cursorTop: entries.find(e => e.entryId.startsWith('cursor-top-')).content.value
                     }
                     for(let tweet of out.list) {
                         tweet.algo = true;

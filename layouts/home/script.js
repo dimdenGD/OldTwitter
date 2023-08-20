@@ -11,7 +11,7 @@ let pollToUpload = undefined;
 let linkColors = {};
 let circles = [];
 let selectedCircle = undefined;
-let algoCursor;
+let cursorBottom, cursorTop;
 
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.user.getV2('dimdenEFF');
@@ -61,10 +61,13 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Made OldTwitter update tweet like/retweet/reply/view counts automatically.</li>
                             <li>Fixed tweet like/retweet/reply count not changing on action when 'Display the exact number of retweets, likes, followers, etc.' is disabled.</li>
+                            <li>Improved "new tweets" button on homepage, it doesn't re-render entire page but only adds new tweets.</li>
+                            <li>Replaced word 'post' with 'tweet'.</li>
+                            <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
                             <li>Fixed search input on mobile.</li>
                             <li>Fixed video view counts.</li>
+                            <li>Made OldTwitter update tweet like/retweet/reply/view counts automatically.</li>
                             <li>Made tweet viewer use more space instead of wasting it.</li>
                             <li>Fixed username disappearing on scroll in profile.</li>
                             <li>Added quote translation length limit.</li>
@@ -113,7 +116,7 @@ function updateUserData() {
         console.error(e);
     });
 }
-async function updateTimeline(saveCursor = true) {
+async function updateTimeline(mode = 'rewrite') {
     seenThreads = [];
     if (timeline.data.length === 0) {
         document.getElementById('timeline').innerHTML = ``;
@@ -121,13 +124,19 @@ async function updateTimeline(saveCursor = true) {
         document.getElementById('load-more').hidden = true;
     }
     let fn, args = [];
-    switch(vars.timelineType) {
-        case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
-        case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
-        case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-        case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
-        default: fn = API.timeline.getChronologicalV2; break;
+    if(mode === 'prepend') {
+        fn = API.timeline.getChronologicalV2;
+        args.push(cursorTop);
+    } else {
+        switch(vars.timelineType) {
+            case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
+            case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
+            case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
+            case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
+            default: fn = API.timeline.getChronologicalV2; break;
+        }
     }
+
     let [tl, s] = await Promise.allSettled([fn(...args), API.account.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
@@ -135,7 +144,8 @@ async function updateTimeline(saveCursor = true) {
         return;
     }
     s = s.value; tl = tl.value;
-    if(saveCursor) algoCursor = tl.cursor;
+    if(mode === 'rewrite' || mode === 'append') cursorBottom = tl.cursorBottom;
+    if(mode === 'rewrite' || mode === 'prepend') cursorTop = tl.cursorTop;
     tl = tl.list;
     if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
         for(let t of tl) {
@@ -162,46 +172,21 @@ async function updateTimeline(saveCursor = true) {
         }
     }
 
-    tl.forEach(t => {
-        let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
-        let tweetElement = document.getElementById(`tweet-${t.id_str}`);
-        if (oldTweet) {
-            oldTweet.favorite_count = t.favorite_count;
-            oldTweet.retweet_count = t.retweet_count;
-            oldTweet.reply_count = t.reply_count;
-            oldTweet.favorited = t.favorited;
-            oldTweet.retweeted = t.retweeted;
-        }
-        if (tweetElement) {
-            tweetElement.querySelector('.tweet-interact-favorite ').innerText = formatLargeNumber(t.favorite_count);
-            tweetElement.querySelector('.tweet-interact-retweet').innerText = formatLargeNumber(t.retweet_count);
-            tweetElement.querySelector('.tweet-interact-reply').innerText = formatLargeNumber(t.reply_count);
-            tweetElement.querySelector('.tweet-interact-favorite').classList.toggle('tweet-interact-favorited', t.favorited);
-            tweetElement.querySelector('.tweet-interact-retweet').classList.toggle('tweet-interact-retweeted', t.retweeted);
-        }
-    });
-    let firstTweetId = tl[0].id_str;
     // first update
     if (timeline.data.length === 0) {
         timeline.data = tl;
-        renderTimeline();
+        renderTimeline({ mode: 'rewrite', data: tl });
     }
     // update
     else {
-        let data = timeline.data.filter(t => !t._ARTIFICIAL);
-        if (data[0].id_str !== firstTweetId) {
-            timeline.toBeUpdated = data.findIndex(t => t.id_str === firstTweetId);
-            if (timeline.toBeUpdated === -1) {
-                timeline.toBeUpdated = data.length;
-            }
-            timeline.dataToUpdate = tl.slice(0, timeline.toBeUpdated);
-            if (timeline.dataToUpdate.length !== data.length) {
-                timeline.dataToUpdate = timeline.dataToUpdate.concat(data.slice(timeline.toBeUpdated));
+        if(mode === 'prepend') {
+            if(tl) {
+                let dataIds = timeline.data.map(t => t.id_str);
+                tl = tl.filter(t => !dataIds.includes(t.id_str) || t.threadContinuation);
+                timeline.dataToUpdate = tl.concat(timeline.dataToUpdate);
+                timeline.toBeUpdated += tl.length;
             }
             renderNewTweetsButton();
-        } else {
-            timeline.toBeUpdated = 0;
-            timeline.dataToUpdate = [];
         }
     }
 }
@@ -255,10 +240,14 @@ function renderUserData() {
     }
 }
 
-async function renderTimeline(append = false, sliceAmount = 0) {
+async function renderTimeline(options = {}) {
+    if(!options.mode) options.mode = 'rewrite';
+    if(!options.data) options.data = timeline.data;
     let timelineContainer = document.getElementById('timeline');
-    if(!append) timelineContainer.innerHTML = '';
-    let data = timeline.data.slice(sliceAmount, timeline.data.length);
+    if(options.mode === 'rewrite') timelineContainer.innerHTML = '';
+    let data = options.data;
+
+    let toRender = [];
     for(let i in data) {
         let t = data[i];
         if(t.algo && t.favorited) {
@@ -272,7 +261,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
             continue;
         }
         if (t.retweeted_status) {
-            await appendTweet(t.retweeted_status, timelineContainer, {
+            let o = {
                 top: {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
@@ -280,13 +269,29 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     class: 'retweet-label'
                 },
                 translate: vars.autotranslateProfiles.includes(t.user.id_str)
-            });
+            };
+            if(options.mode === 'prepend') {
+                o.noInsert = true;
+                toRender.push(await appendTweet(t.retweeted_status, timelineContainer, o));
+            } else {
+                await appendTweet(t.retweeted_status, timelineContainer, o);
+            }
         } else {
-            await appendTweet(t, timelineContainer, {
-                bigFont: t.full_text.length < 75
-            });
+            if(options.mode === 'prepend') {
+                toRender.push(await appendTweet(t, timelineContainer, {
+                    bigFont: t.full_text.length < 75,
+                    noInsert: true
+                }));
+            } else {
+                await appendTweet(t, timelineContainer, {
+                    bigFont: t.full_text.length < 75
+                });
+            }
         }
     };
+    if(options.mode === 'prepend') {
+        timelineContainer.prepend(...toRender);
+    }
     document.getElementById('loading-box').hidden = true;
     document.getElementById('tweets-loading').hidden = true;
     document.getElementById('load-more').hidden = false;
@@ -301,12 +306,10 @@ function renderNewTweetsButton() {
         `;
         document.getElementById('new-tweets').hidden = false;
         document.getElementById('new-tweets').innerText = `${LOC.see_new_tweets.message}`;
-        if(vars.updateTimelineAutomatically && document.scrollingElement.scrollTop < 5000) {
-            if(!activeTweet || (!activeTweet.querySelector('.tweet-reply:not([hidden])') && !activeTweet.querySelector('.tweet-quote:not([hidden])'))) {
-                setTimeout(() => {
-                    document.getElementById('new-tweets').click();
-                });
-            }
+        if(vars.updateTimelineAutomatically) {
+            setTimeout(() => {
+                document.getElementById('new-tweets').click();
+            });
         }
     } else {
         document.getElementById("new-tweets-bug-fix").innerHTML = ``;
@@ -341,10 +344,10 @@ setTimeout(async () => {
             let tl;
             try {
                 switch(vars.timelineType) {
-                    case 'algo': tl = await API.timeline.getAlgorithmicalV2(algoCursor, 50); break;
-                    default: tl = await API.timeline.getChronologicalV2(algoCursor); break;
+                    case 'algo': tl = await API.timeline.getAlgorithmicalV2(cursorBottom, 50); break;
+                    default: tl = await API.timeline.getChronologicalV2(cursorBottom); break;
                 }
-                algoCursor = tl.cursor;
+                cursorBottom = tl.cursorBottom;
                 tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
                 for(let t of tl) {
                     seenTweets.push(t.id_str);
@@ -360,10 +363,9 @@ setTimeout(async () => {
                 loadingNewTweets = false;
                 return;
             }
-            let originalLength = timeline.data.length;
             timeline.data = timeline.data.concat(tl);
             try {
-                await renderTimeline(true, originalLength);
+                await renderTimeline({mode: 'append', data: tl });
             } catch(e) {
                 document.getElementById('load-more').innerText = LOC.load_more.message;
                 loadingNewTweets = false;
@@ -424,10 +426,10 @@ setTimeout(async () => {
     try {
         document.getElementById('new-tweets').addEventListener('click', () => {
             timeline.toBeUpdated = 0;
-            timeline.data = timeline.dataToUpdate;
-            timeline.dataToUpdate = [];
+            timeline.data = [...timeline.dataToUpdate, ...timeline.data];
             renderNewTweetsButton();
-            renderTimeline();
+            renderTimeline({mode: 'prepend', data: timeline.dataToUpdate });
+            timeline.dataToUpdate = [];
         });
     } catch(e) {
         setTimeout(() => location.reload(), 500);
@@ -443,8 +445,8 @@ setTimeout(async () => {
         document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
         let tl;
         try {
-            tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronologicalV2(algoCursor);
-            algoCursor = tl.cursor;
+            tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(cursorBottom, 50) : await API.timeline.getChronologicalV2(cursorBottom);
+            cursorBottom = tl.cursorBottom;
             tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
             for(let t of tl) {
                 seenTweets.push(t.id_str);
@@ -455,10 +457,9 @@ setTimeout(async () => {
             loadingNewTweets = false;
             return;
         }
-        let originalLength = timeline.data.length;
         timeline.data = timeline.data.concat(tl);
         try {
-            await renderTimeline(true, originalLength);
+            await renderTimeline({mode: 'append', data: tl });
         } catch(e) {
             document.getElementById('load-more').innerText = LOC.load_more.message;
             loadingNewTweets = false;
@@ -1029,7 +1030,8 @@ setTimeout(async () => {
             timeline.toBeUpdated = [];
             seenThreads = [];
             seenTweets = [];
-            algoCursor = undefined;
+            cursorBottom = undefined;
+            cursorTop = undefined;
 
             window.scrollTo(0, 0);
             renderNewTweetsButton();
@@ -1047,7 +1049,8 @@ setTimeout(async () => {
             timeline.toBeUpdated = [];
             seenThreads = [];
             seenTweets = [];
-            algoCursor = undefined;
+            cursorBottom = undefined;
+            cursorTop = undefined;
 
             window.scrollTo(0, 0);
             renderNewTweetsButton();
@@ -1114,7 +1117,7 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline(false), 60000);
+    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline('prepend'), 30000);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 50);
