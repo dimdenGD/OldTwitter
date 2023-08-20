@@ -63,6 +63,7 @@ setTimeout(() => {
                         <ul>
                             <li>Fixed search input on mobile.</li>
                             <li>Fixed video view counts.</li>
+                            <li>Made tweet viewer use more space instead of wasting it.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>

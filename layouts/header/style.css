@@ -2401,9 +2401,11 @@ video::-internal-media-controls-overlay-cast-button {
         top: 10%;
     }
     .tweet-viewer {
-        width: calc(100% - 42px);
+        width: calc(100% - 2px);
         overflow-x: clip;
         margin-bottom: 150px;
+        padding-left: 0;
+        padding-right: 0;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;
@@ -2470,6 +2472,7 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .inbox-modal {
         width: calc(100% - 42px);
+        top: 5% !important;
     }
     .inbox-top h1 {
         font-size: 16px !important;
@@ -2521,8 +2524,11 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-body:not(.tweet-body-main) {
         width: calc(100% - 80px);
     }
+    .modal-content {
+        border-radius: 0;
+    }
     .modal .tweet-media-element {
-        width: 100%;
+        width: calc(100% - 30px);
     }
     .tweet .tweet-header-name {
         max-width: calc(100% - 65px);
