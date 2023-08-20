@@ -1569,7 +1569,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
         tweet.tabIndex = -1;
-        tweet.className = `tweet ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`;
+        tweet.className = `tweet ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`.trim();
         tweet.dataset.tweetId = t.id_str;
         tweet.dataset.userId = t.user.id_str;
         try {
