@@ -1473,6 +1473,9 @@ class TweetViewer {
                     } else {
                         translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
                     }
+                    if(translated.text.length > 600) {
+                        translated.text = translated.text.substring(0, 600) + '...';
+                    }
                     tweetBodyQuoteText.innerHTML += 
                     `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
                     `<span class="tweet-translated-text" style="color:var(--default-text-color)!important">${escapeHTML(translated.text)}</span>`;
