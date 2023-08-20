@@ -249,7 +249,6 @@ function renderUserData() {
     }
 }
 
-let renderLater = {};
 async function renderTimeline(append = false, sliceAmount = 0) {
     let timelineContainer = document.getElementById('timeline');
     if(!append) timelineContainer.innerHTML = '';
@@ -277,62 +276,9 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                 translate: vars.autotranslateProfiles.includes(t.user.id_str)
             });
         } else {
-            if (t.self_thread) {
-                let selfThreadTweet = timeline.data.find(tweet => tweet.id_str === t.self_thread.id_str);
-                if (selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
-                    await appendTweet(selfThreadTweet, timelineContainer, {
-                        selfThreadContinuation: true,
-                        bigFont: selfThreadTweet.full_text.length < 75
-                    });
-                    await appendTweet(t, timelineContainer, {
-                        noTop: true
-                    });
-                    seenThreads.push(selfThreadTweet.id_str);
-                } else {
-                    await appendTweet(t, timelineContainer, {
-                        selfThreadButton: true,
-                        bigFont: t.full_text.length < 75
-                    });
-                    if(renderLater[t.id_str]) {
-                        t.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
-                        await appendTweet(renderLater[t.id_str], timelineContainer, {
-                            noTop: true,
-                            after: t.element
-                        });
-                        delete renderLater[t.id_str];
-                    }
-                }
-            } else if(t.in_reply_to_status_id_str) {
-                let replyTweet = timeline.data.find(tweet => tweet.element && tweet.id_str === t.in_reply_to_status_id_str);
-                if(replyTweet) {
-                    replyTweet.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
-                    await appendTweet(t, timelineContainer, {
-                        noTop: true,
-                        after: replyTweet.element
-                    });
-                } else {
-                    let ct = timeline.data.find(tweet => tweet.id_str === t.in_reply_to_status_id_str);
-                    if(!renderLater[t.in_reply_to_status_id_str] && ct && !ct.in_reply_to_status_id_str && !timeline.data.some(tweet => tweet.self_thread && tweet.self_thread.id_str === ct.id_str)) {
-                        renderLater[t.in_reply_to_status_id_str] = t;
-                    } else {
-                        await appendTweet(t, timelineContainer, {});
-                        delete renderLater[t.in_reply_to_status_id_str];
-                    }
-                }
-            } else {
-                let obj = {
-                    bigFont: t.full_text.length < 75
-                };
-                await appendTweet(t, timelineContainer, obj);
-                if(renderLater[t.id_str]) {
-                    t.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
-                    await appendTweet(renderLater[t.id_str], timelineContainer, {
-                        noTop: true,
-                        after: t.element
-                    });
-                    delete renderLater[t.id_str];
-                }
-            }
+            await appendTweet(t, timelineContainer, {
+                bigFont: t.full_text.length < 75
+            });
         }
     };
     document.getElementById('loading-box').hidden = true;
