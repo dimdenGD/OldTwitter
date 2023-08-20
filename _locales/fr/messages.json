@@ -506,5 +506,16 @@
     "select_language": { "message": "Sélectionner la langue" },
     "mute_videos": { "message": "Rendre muette les vidéos par défaut" },
     "dont_pause_videos": { "message": "Ne pas mettre en pause les vidéos lors du défilement de la vue" },
-    "delete_for_you":{ "message": "Supprimer pour vous",  "description":"DM Message Delete menu"}
+    "delete_for_you":{ "message": "Supprimer pour vous",  "description":"DM Message Delete menu"},
+    "show_user_previews_on_mobile": { "message": "Afficher les aperçus des utilisateurs en attente (ce qui peut être gênant)", "description": "This option only appears on mobile" },
+    "separate_text": { "message": "Texte séparé", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
+	"leave_conversation": {"message":"Êtes-vous sûr de vouloir quitter/supprimer cette conversation?"},
+	"autotranslation_help1": {"message": "Cette fonction permet de trouver les tweets et de déclencher la traduction automatiquement, sans avoir à cliquer sur le bouton manuellement."},
+	"autotranslation_help2": {"message": "Pour l'utiliser, sélectionnez le mode de traduction automatique et définissez la liste des langues. Les tweets qui remplissent les conditions seront automatiquement traduits."},
+	"autotranslation_help3": {"message": "Plus précisément:"},
+	"autotranslation_help4": {"message": "\"Traduire quand la langue est dans la liste\" Si aucune langue n'est définie, la fonction est désactivée (par défaut);"},
+	"autotranslation_help5": {"message": "\"Traduire quand la langue n'est pas dans la liste\" si aucune langue n'est définie, chaque tweet sera traduit. Il est préférable d'ajouter les langues que vous connaissez pour ne pas les traduire inutilement."},
+    "go_back_to_top": { "message": "Haut de page" },
+    "follow_system_settings_dark_mode": { "message": "Suivre les paramètres du système pour le mode sombre" },
+    "replacer_post_to_tweet": { "message": "post->tweet", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" }
 }
