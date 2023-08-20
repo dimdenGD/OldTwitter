@@ -764,6 +764,9 @@ input, textarea {
     margin-top: -20px;
     z-index: 50;
 }
+.tweet-body-text span {
+    white-space: break-spaces;
+}
 .modal-top  {
     width: 495px;
 }
@@ -2189,6 +2192,9 @@ emoji-picker {
     #search-input {
         width: 124px;
     }
+}
+rt.furigana {
+    color: var(--almost-black) !important;
 }
 .notification {
     background-color: var(--background-color);
