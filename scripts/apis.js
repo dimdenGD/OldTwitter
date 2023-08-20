@@ -219,6 +219,13 @@ function parseTweet(res) {
         tweet.birdwatch = res.birdwatch_pivot;
     }
 
+    if(tweet.favorited && tweet.favorite_count === 0) {
+        tweet.favorite_count = 1;
+    }
+    if(tweet.retweeted && tweet.retweet_count === 0) {
+        tweet.retweet_count = 1;
+    }
+
     tweet.res = res;
 
     updateElementsStats(tweet);
