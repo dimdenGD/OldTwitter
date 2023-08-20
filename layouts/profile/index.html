@@ -65,26 +65,12 @@
             </div>
         </div>
     </div>
-    <main class="container">
-		<div class="content">
-            <div class="cell" id="left-cell">
-                <div id="profile-info">
-                    <a id="profile-avatar-link" target="_blank"><img id="profile-avatar" width="200" height="200"></a><br>
-                </div>
-                <div id="profile-info-text">
-                    <a class="pin-a"><h1 id="profile-name"></h1></a>
-                    <a class="piu-a"><div id="profile-username"></div></a>
-                    <div id="follows-you" class="follows-you-label" hidden>__MSG_follows_you__</div>
-                    <div id="profile-bio"></div>
-                    <div id="profile-additional"></div>
-                    <div class="profile-additional-thing"  id="profile-following-follower-mobile">
-                        <div style="display: inline-block"><a id="profile-stat-following-mobile">0</a> __MSG_following__</div>&nbsp;&nbsp;
-                        <div id="profile-stat-follower-mobile-out" style="display: inline-block"><a id="profile-stat-followers-mobile">0</a> __MSG_followers__</div>
-                    </div>
-                    <div id="tweet-to-bg" hidden>
-                        <div id="tweet-to-div">
-                            <div id="tweet-to"><span id="tweet-to-inner">__MSG_tweet_to_user__</span></div>
-                        </div>
+    <div id="react-root">
+        <main class="container">
+            <div class="content">
+                <div class="cell" id="left-cell">
+                    <div id="profile-info">
+                        <a id="profile-avatar-link" target="_blank"><img id="profile-avatar" width="200" height="200"></a><br>
                     </div>
                     <div id="profile-info-text">
                         <a class="pin-a"><h1 id="profile-name"></h1></a>
@@ -92,6 +78,10 @@
                         <div id="follows-you" class="follows-you-label" hidden>__MSG_follows_you__</div>
                         <div id="profile-bio"></div>
                         <div id="profile-additional"></div>
+                        <div class="profile-additional-thing"  id="profile-following-follower-mobile">
+                            <div style="display: inline-block"><a id="profile-stat-following-mobile">0</a> __MSG_following__</div>&nbsp;&nbsp;
+                            <div id="profile-stat-follower-mobile-out" style="display: inline-block"><a id="profile-stat-followers-mobile">0</a> __MSG_followers__</div>
+                        </div>
                         <div id="tweet-to-bg" hidden>
                             <div id="tweet-to-div">
                                 <div id="tweet-to">__MSG_tweet_to_user__</div>
@@ -108,26 +98,17 @@
                             <div id="profile-media-div"></div>
                         </div>
                     </div>
-                    <br>
-                </div>
-            </div>
-            <div class="cell" id="center-cell">
-                <div id="following-list" class="box" hidden></div>
-                <div id="following-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
-                <div id="followers-list" class="box" hidden></div>
-                <div id="followers-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
-                <div id="followers_you_follow-list" class="box" hidden></div>
-                <div id="lists-list" class="box" hidden></div>
-                <div id="followers_you_follow-more" class="center-padding-text center-text" hidden>__MSG_load_more__</div>
-                <div id="tweet-nav" hidden>
-                    <a id="tweet-nav-tweets">__MSG_tweets__</a>
-                    <a id="tweet-nav-replies"><span class="pc-text">__MSG_tweets_and_replies__</span><span class="mobile-text">__MSG_replies__</span></a>
-                    <a id="tweet-nav-media"><span class="pc-text">__MSG_photos_and_videos2__</span><span class="mobile-text">__MSG_media__</span></a>
-                    <span id="tweet-nav-more"></span>
-                    <div id="tweet-nav-more-menu" class="dropdown-menu" hidden>
-                        <div id="user-search">
-                            <input id="user-search-input" type="text" placeholder="__MSG_search_user_tweets__" autocomplete="off" spellcheck="false">
-                            <button id="user-search-icon"></button>
+                    <div class="about" id="about-left">
+                        <span>
+                            __MSG_running__ <a href="https://github.com/dimdenGD/OldTwitter" target="_blank">OldTwitter</a> v<span id="oldtwitter-version-left">0.0.0</span>.<br>
+                            __MSG_created_by__ <a href="/dimdenEFF" target="_blank">dimden</a>.
+                        </span>
+                        <br>
+                        <div class="about-links">
+                            <span>© 2023 dimden</span> 
+                            <a href="https://dimden.dev/" target="_blank">__MSG_website__</a>
+                            <a href="/dimdenEFF">Twitter</a>
+                            <a href="https://dimden.dev/donate" target="_blank" id="donate-button">__MSG_donate__</a>
                         </div>
                         <div class="about-links">
                             <span id="twitter-copyright-left">© 2015 Twitter</span> 
