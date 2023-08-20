@@ -1510,7 +1510,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
         if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments") && !document.querySelector('.modal')) {
             tweet.addEventListener('click', async e => {
-                if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
+                if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                     document.getElementById('loading-box').hidden = false;
                     savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
@@ -1539,7 +1539,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweet.addEventListener('mousedown', e => {
                 if(e.button === 1) {
                     e.preventDefault();
-                    if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
+                    if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                         openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     }
                 }
@@ -1547,12 +1547,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
         } else {
             if(!options.mainTweet) {
                 tweet.addEventListener('click', e => {
-                    if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
+                    if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                         let tweetData = t;
                         if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
                         tweet.classList.add('tweet-preload');
                         let selection = window.getSelection();
-                        if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`.tweet-id-${tweetData.id_str}`)) {
+                        if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`div.tweet[data-tweet-id="${tweetData.id_str}"]`)) {
                             return;
                         }
                         new TweetViewer(user, tweetData);
@@ -1561,7 +1561,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweet.addEventListener('mousedown', e => {
                     if(e.button === 1) {
                         e.preventDefault();
-                        if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact')) {
+                        if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact')) {
                             openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                         }
                     }
@@ -1569,7 +1569,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
         tweet.tabIndex = -1;
-        tweet.className = `tweet tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`;
+        tweet.className = `tweet ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`;
         tweet.dataset.tweetId = t.id_str;
         tweet.dataset.userId = t.user.id_str;
         try {
@@ -3120,7 +3120,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return;
                 }
                 chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
-                Array.from(document.getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
+                Array.from(document.querySelectorAll(`div.tweet[data-tweet-id="${t.id_str}"]`)).forEach(tweet => {
                     tweet.remove();
                 });
                 if(options.mainTweet) {

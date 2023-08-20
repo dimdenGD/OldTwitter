@@ -2814,7 +2814,7 @@ setInterval(() => {
                 }
             } else if(e.keyCode === 13) { // Enter
                 // open tweet
-                if(e.target.className.includes('tweet tweet-id-')) {
+                if(e.target.classList.contains('tweet')) {
                     if(!activeTweet) return;
                     e.preventDefault();
                     e.stopImmediatePropagation();
@@ -2825,7 +2825,7 @@ setInterval(() => {
                 }
             } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
                 // copy image
-                if(e.target.className.includes('tweet tweet-id-')) {
+                if(e.target.classList.contains('tweet')) {
                     if(!activeTweet) return;
                     let media = activeTweet.getElementsByClassName('tweet-media')[0];
                     if(!media) return;
@@ -2847,7 +2847,7 @@ setInterval(() => {
                 }
             } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
                 // download media
-                if(activeTweet.className.includes('tweet tweet-id-')) {
+                if(activeTweet.classList.contains('tweet')) {
                     activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
                 }
             }

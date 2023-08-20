@@ -55,7 +55,7 @@ async function restorePageData() {
         let id = currentLocation.match(/status\/(\d{1,32})/)[1];
         if(id) {
             setTimeout(() => {
-                let tweet = document.getElementsByClassName(`tweet-id-${id}`)[0];
+                let tweet = document.querySelector(`div.tweet[data-tweet-id="${id}"]`)[0];
                 if(tweet) {
                     tweet.scrollIntoView({ block: 'center' });
                 }

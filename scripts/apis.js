@@ -185,6 +185,10 @@ function parseTweet(res) {
     }
 
     tweet.res = res;
+    if(tweetStorage[tweet.id_str]) {
+        let renderedTweets = document.querySelectorAll(`div.tweet[data-tweet-id="${tweet.id_str}"]:not(.tweet-main)`);
+
+    }
     tweetStorage[tweet.id_str] = tweet;
     return tweet;
 }

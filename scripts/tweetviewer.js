@@ -110,7 +110,7 @@ class TweetViewer {
             let id = this.currentLocation.match(/status\/(\d{1,32})/)[1];
             if(id) {
                 setTimeout(() => {
-                    let tweet = this.container.getElementsByClassName(`tweet-id-${id}`)[0];
+                    let tweet = this.container.querySelector(`div.tweet[data-tweet-id="${id}"]`);
                     if(tweet) {
                         tweet.scrollIntoView({ block: 'center' });
                     }
@@ -785,10 +785,10 @@ class TweetViewer {
         if(!options.mainTweet) {
             tweet.addEventListener('click', async e => {
                 let selection = window.getSelection();
-                if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`.tweet-id-${t.id_str}`)) {
+                if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`div.tweet[data-tweet-id="${t.id_str}"]`)) {
                     return;
                 }
-                if(e.target.className.startsWith('tweet tweet-view tweet-id-') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
+                if(e.target.classList.contains('tweet-view') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
                     this.savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     this.updateSubpage();
@@ -815,14 +815,14 @@ class TweetViewer {
             tweet.addEventListener('mousedown', e => {
                 if(e.button === 1) {
                     e.preventDefault();
-                    if(e.target.className.startsWith('tweet tweet-view tweet-id-') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
+                    if(e.target.classList.contains('tweet-view') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
                         openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     }
                 }
             });
         }
         tweet.tabIndex = -1;
-        tweet.className = `tweet tweet-view tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : 'tweet-replying'}`;
+        tweet.className = `tweet tweet-view ${options.mainTweet ? 'tweet-main' : 'tweet-replying'}`;
         if(!this.activeTweet) {
             tweet.classList.add('tweet-active');
             this.activeTweet = tweet;
@@ -2162,10 +2162,10 @@ class TweetViewer {
                     console.error(e);
                     return;
                 }
-                Array.from(document.getElementsByClassName('timeline')[0].getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
+                Array.from(document.getElementsByClassName('timeline')[0].querySelectorAll(`div.tweet[data-tweet-id="${t.id_str}"]`)).forEach(tweet => {
                     tweet.remove();
                 });
-                if(document.getElementById('timeline')) Array.from(document.getElementById('timeline').getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
+                if(document.getElementById('timeline')) Array.from(document.getElementById('timeline').querySelectorAll(`div.tweet[data-tweet-id="${t.id_str}"]`)).forEach(tweet => {
                     tweet.remove();
                 });
                 if(options.mainTweet) {
