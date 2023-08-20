@@ -441,7 +441,6 @@ let userDataFunction = async user => {
         root.style.setProperty('--add-media-icon', '"\\f027"');
         root.style.setProperty('--birthday-icon', '"\\f092"');
         root.style.setProperty('--joined-icon', '"\\f203"');
-
     }
     if(vars.heartsNotStars) {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
@@ -1813,7 +1812,7 @@ let userDataFunction = async user => {
     });
     searchIcon.addEventListener('click', () => {
         let searchParams = new URLSearchParams(location.search);
-        if(!searchInput.value || searchInput.value === 'undefined' || searchInput.value === searchParams.get('q')) {
+        if(!searchInput.value || searchInput.value === 'undefined' || searchInput.value === searchParams.get('q') || (window.outerWidth <= 590 && searchInput.clientWidth<=100 && searchInput.value) ) {
             return searchInput.focus();
         }
         lastSearches.push(searchInput.value);

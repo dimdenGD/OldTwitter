@@ -1578,30 +1578,43 @@ setTimeout(async () => {
         lastScroll = Date.now();
 
         // make user nav appear
-        if(window.scrollY >= 600) {
-            if(!navProfileInfo.style.opacity) {
-                if(lastScrollAmount > window.scrollY) {
-                    navProfileInfo.style.opacity = 1;
-                    if(innerWidth < 360) tweetsLink.style.opacity = 1;
+        if (window.outerWidth <= 880) { //Mobile layout
+            if(window.scrollY >= 600) {
+                if(!navProfileInfo.style.opacity) {
+                    if(lastScrollAmount > window.scrollY) {
+                        navProfileInfo.style.opacity = 1;
+                        if(innerWidth < 360) tweetsLink.style.opacity = 1;
+                    } else {
+                        navProfileInfo.style.opacity = '';
+                        if(innerWidth < 360) tweetsLink.style.opacity = 0;
+                    }
                 } else {
-                    navProfileInfo.style.opacity = '';
-                    if(innerWidth < 360) tweetsLink.style.opacity = 0;
+                    if(lastScrollAmount > window.scrollY) {
+                        navProfileInfo.style.opacity = 1;
+                        if(innerWidth < 360) tweetsLink.style.opacity = 1;
+                    } else {
+                        navProfileInfo.style.opacity = '';
+                        if(innerWidth < 360) tweetsLink.style.opacity = 0;
+                    }
                 }
             } else {
-                if(lastScrollAmount > window.scrollY) {
-                    navProfileInfo.style.opacity = 1;
-                    if(innerWidth < 360) tweetsLink.style.opacity = 1;
-                } else {
+                if(navProfileInfo.style.opacity) {
                     navProfileInfo.style.opacity = '';
-                    if(innerWidth < 360) tweetsLink.style.opacity = 0;
+                    if(innerWidth < 360) tweetsLink.style.opacity = 1;
                 }
             }
         } else {
-            if(navProfileInfo.style.opacity) {
-                navProfileInfo.style.opacity = '';
-                if(innerWidth < 360) tweetsLink.style.opacity = 1;
+            if(window.scrollY >= 600) {
+                if(!navProfileInfo.style.opacity) {
+                    navProfileInfo.style.opacity = 1;
+                }
+            } else {
+                if(navProfileInfo.style.opacity) {
+                    navProfileInfo.style.opacity = '';
+                }
             }
         }
+        
         lastScrollAmount = window.scrollY;
         
         // banner scroll
