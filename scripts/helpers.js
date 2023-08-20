@@ -1024,8 +1024,8 @@ function getOtAuthToken(cache = true) {
                         });
                     } else {
                         console.error(res);
-                        alert(res);
                         reject(res);
+                        setTimeout(() => alert(res), 500);
                     }
                 } catch(e) {
                     console.error(e);
