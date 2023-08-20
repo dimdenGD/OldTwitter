@@ -507,6 +507,7 @@
     "mute_videos": { "message": "Rendre muette les vidéos par défaut" },
     "dont_pause_videos": { "message": "Ne pas mettre en pause les vidéos lors du défilement de la vue" },
     "delete_for_you":{ "message": "Supprimer pour vous",  "description":"DM Message Delete menu"},
+    "show_exact_values": { "message": "Afficher le nombre exact de retweets, likes, followers, etc." },
     "show_user_previews_on_mobile": { "message": "Afficher les aperçus des utilisateurs en attente (ce qui peut être gênant)", "description": "This option only appears on mobile" },
     "separate_text": { "message": "Texte séparé", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
 	"leave_conversation": {"message":"Êtes-vous sûr de vouloir quitter/supprimer cette conversation?"},
