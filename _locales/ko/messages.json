@@ -536,6 +536,6 @@
     "yyyy":{ "message": "$YEAR$년",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
     "localize_digit":{ "message" : "아시아식 4자리수 표기법을 사용합니다. (한중일 전용)", "description":"Non-CJK dont need to translate this message, just copy and paste"},
     "replacer_liked_to_favorited_notification": { "message": " 마음에 들어 합니다-> 관심글로 지정했습니다", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked your tweet' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited your tweet'" },
-    "replacer_liked_to_favorited_recommend": { "message": " 마음에 들어 합니다-> 관심글로 지정했습니다", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited'" }
-
+    "replacer_liked_to_favorited_recommend": { "message": " 마음에 들어 합니다-> 관심글로 지정했습니다", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited'" },
+    "favorited_by": { "message": "다음 유저가 관심글로 지정함" }
 }

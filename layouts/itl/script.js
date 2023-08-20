@@ -83,8 +83,8 @@ async function renderDeviceNotificationTimeline(cursor) {
     }
 }
 async function renderLikesTimeline() {
-    document.getElementById("itl-header").innerText = LOC.likes.message;
-    document.getElementsByTagName('title')[0].innerText = `${LOC.likes.message} - OldTwitter`;
+    document.getElementById("itl-header").innerText = vars.heartsNotStars? LOC.likes.message : LOC.favorites.message;
+    document.getElementsByTagName('title')[0].innerText = vars.heartsNotStars? LOC.likes.message : LOC.favorites.message + ` - ` + LOC.twitter.message;
     let tl = await API.notifications.view(nid);
     let tweetContainer = document.getElementById('timeline');
     let userContainer = document.getElementById('user-list');
