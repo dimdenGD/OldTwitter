@@ -61,6 +61,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
+                            <li>Fixed tweet like/retweet/reply count not changing on action when 'Display the exact number of retweets, likes, followers, etc.' is disabled.</li>
                             <li>Fixed search input on mobile.</li>
                             <li>Fixed video view counts.</li>
                             <li>Made tweet viewer use more space instead of wasting it.</li>

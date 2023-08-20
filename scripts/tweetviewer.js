@@ -1719,12 +1719,12 @@ class TweetViewer {
             tweetReply.hidden = true;
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
-                tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(vars.showExactValues)
+                tweetInteractReply.dataset.val = parseInt(tweetInteractReply.dataset.val) + 1;
+                if(vars.showExactValues || t.reply_count < 10000)
                     tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
-                tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(vars.showExactValues)
+                tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.dataset.val) + 1;
+                if(vars.showExactValues || t.reply_count < 10000)
                     tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetData._ARTIFICIAL = true;
@@ -1780,13 +1780,14 @@ class TweetViewer {
                 tweetInteractRetweetMenuRetweet.innerText = LOC.unretweet.message;
                 tweetInteractRetweet.classList.add('tweet-interact-retweeted');
                 t.retweeted = true;
+                t.retweet_count++;
                 t.newTweetId = tweetData.id_str;
                 if(!options.mainTweet) {
-                    tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                    if(vars.showExactValues)
+                    tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.dataset.val) + 1;
+                    if(vars.showExactValues || t.retweet_count < 10000)
                         tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 } else {
-                    if(vars.showExactValues)
+                    if(vars.showExactValues || t.retweet_count < 10000)
                         tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 }
                 let event = new CustomEvent('tweetAction', { detail: {
@@ -1808,14 +1809,14 @@ class TweetViewer {
                 }
                 tweetInteractRetweetMenuRetweet.innerText = LOC.retweet.message;
                 tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
+                t.retweet_count--;
                 t.retweeted = false;
                 if(!options.mainTweet) {
-                    tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                    tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                    if(vars.showExactValues)
+                    tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.dataset.val) - 1;
+                    if(vars.showExactValues || t.retweet_count < 10000)
                         tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 } else {
-                    if(vars.showExactValues)
+                    if(vars.showExactValues || t.retweet_count < 10000)
                         tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 }
                 delete t.newTweetId;
@@ -1984,8 +1985,8 @@ class TweetViewer {
                 t.favorited = false;
                 t.favorite_count--;
                 if(!options.mainTweet) {
-                    tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                    if(vars.showExactValues)
+                    tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.dataset.val) - 1;
+                    if(vars.showExactValues || t.favorite_count < 10000)
                         tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');;
                 } else {
                     if(this.mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
@@ -1993,7 +1994,7 @@ class TweetViewer {
                         let likerImg = footerFavorites.querySelector(`a[data-id="${user.id_str}"]`);
                         if(likerImg) likerImg.remove()
                     }
-                    if(vars.showExactValues)
+                    if(vars.showExactValues || t.favorite_count < 10000)
                         tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
                 }
                 tweetInteractFavorite.classList.remove('tweet-interact-favorited');
@@ -2007,8 +2008,8 @@ class TweetViewer {
                 t.favorited = true;
                 t.favorite_count++;
                 if(!options.mainTweet) {
-                    tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                    if(vars.showExactValues)
+                    tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.dataset.val) + 1;
+                    if(vars.showExactValues || t.favorite_count < 10000)
                         tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
                 } else {
                     if(footerFavorites.children.length < 8 && !this.mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
@@ -2025,7 +2026,7 @@ class TweetViewer {
                         footerFavorites.appendChild(a);
                         this.mainTweetLikers.push(user);
                     }
-                    if(vars.showExactValues)
+                    if(vars.showExactValues || t.favorite_count < 10000)
                         tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
                 }
                 tweetInteractFavorite.classList.add('tweet-interact-favorited');
