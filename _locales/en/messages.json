@@ -369,7 +369,7 @@
     "no_tl_tweets": { "message": "You're not following anyone so there's no tweets found! Change your timeline type to 'Algorithmical' in <a href='https://twitter.com/old/settings'>OldTwitter settings</a>." },
     "replying_to": { "message": "Replying to", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Display", "description": "Used for display settings (fonts, colors, style, etc)" },
-    "twitter_blue_checkmarks": { "message": "Show Twitter Blue checkmarks" },
+    "twitter_blue_checkmarks": { "message": "Show Twitter Blue (X Premium for now) checkmarks" },
     "retweet_hotkey_warn": { "message": "You've just pressed T key which is hotkey for retweeting. Do you want to retweet this tweet? If you'll press confirm you won't be shown this warn again." },
     "reply_btn": { "message": "Reply", "description": "Used for reply button." },
     "retweet_btn": { "message": "Retweet / Quote tweet", "description": "Used for retweet menu button." },

@@ -369,7 +369,7 @@
     "no_tl_tweets": { "message": "您没有关注任何人，所以没有找到推文！<br>在<a href='https://twitter.com/old/settings'>OldTwitter 设置</a>中将您的时间线类型更改为“算法时间线”。" },
     "replying_to": { "message": "回复给", "description": "用于提及列表。如果翻译在您的语言中听起来不好，请使用“提及”。", "example": "回复给：- user1, - user2" },
     "display": { "message": "显示", "description": "用于显示设置（字体、颜色、样式等）" },
-    "twitter_blue_checkmarks": { "message": "显示 Twitter Blue 订阅者蓝勾标记" },
+    "twitter_blue_checkmarks": { "message": "显示 Twitter Blue (现 X Premium) 订阅者蓝勾标记" },
     "retweet_hotkey_warn": { "message": "您刚刚按下了T键，这是转推的热键。您想要转推这条推文吗？如果您按确认，将不再显示此警告。" },
     "reply_btn": { "message": "回复", "description": "用于回复按钮。" },
     "retweet_btn": { "message": "转推/引用推文", "description": "用于转推菜单按钮。" },
