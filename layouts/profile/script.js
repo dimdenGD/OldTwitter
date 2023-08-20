@@ -1589,23 +1589,35 @@ setTimeout(async () => {
             if(innerWidth < 590) tweetsLink.style.opacity = 0;
             else tweetsLink.style.opacity = 1;
         }
-        if(window.scrollY >= 600) {
-            if(!navProfileInfo.style.opacity) {
-                if(lastScrollAmount > window.scrollY) {
-                    navProfileInfo.style.opacity = 1;
+        if (window.outerWidth <= 880) { //Mobile layout
+            if(window.scrollY >= 600) {
+                if(!navProfileInfo.style.opacity) {
+                    if(lastScrollAmount > window.scrollY) {
+                        navProfileInfo.style.opacity = 1;
+                    } else {
+                        navProfileInfo.style.opacity = '';
+                    }
                 } else {
-                    navProfileInfo.style.opacity = '';
+                    if(lastScrollAmount > window.scrollY) {
+                        navProfileInfo.style.opacity = 1;
+                    } else {
+                        navProfileInfo.style.opacity = '';
+                    }
                 }
             } else {
-                if(lastScrollAmount > window.scrollY) {
-                    navProfileInfo.style.opacity = 1;
-                } else {
+                if(navProfileInfo.style.opacity) {
                     navProfileInfo.style.opacity = '';
                 }
             }
         } else {
-            if(navProfileInfo.style.opacity) {
-                navProfileInfo.style.opacity = '';
+            if(window.scrollY >= 600) {
+                if(!navProfileInfo.style.opacity) {
+                    navProfileInfo.style.opacity = 1;
+                }
+            } else {
+                if(navProfileInfo.style.opacity) {
+                    navProfileInfo.style.opacity = '';
+                }
             }
         }
         /*
