@@ -1960,7 +1960,8 @@ emoji-picker {
     content: "\f099";
     color: #ee55a1;
     font-family: var(--icon-font);
-    margin-left: 5px
+    margin-left: 5px;
+    font-weight: 100;
 }
 .user-verified-blue::after {
     color: #55acee !important;
@@ -1989,6 +1990,7 @@ emoji-picker {
     color: #ddd22b;
     font-family: var(--icon-font);
     margin-left: 5px;
+    font-weight: 100;
 }
 
 

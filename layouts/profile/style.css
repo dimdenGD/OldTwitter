@@ -570,7 +570,8 @@ a:hover,
     content: "\f096";
     color: #ddd22b;
     font-family: var(--icon-font);
-    margin-left: 5px
+    margin-left: 5px;
+    font-weight: 100;
 }
 
 .user-muted::after {
