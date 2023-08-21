@@ -1582,7 +1582,7 @@ setTimeout(async () => {
         lastScroll = Date.now();
 
         // make user nav appear
-        if(window.scrollY >= 100) {
+        if(window.scrollY >= 110) {
             if(innerWidth < 590) tweetsLink.style.opacity = 1;
             else tweetsLink.style.opacity = 1;
         } else {

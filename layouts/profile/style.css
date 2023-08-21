@@ -1846,6 +1846,9 @@ a:hover,
     body{
         background-color:var(--background-color) !important;
     }
+    #profile-friends-div{
+        display:none;
+    }
 }
 @media screen and (max-width: 470px) {
     .profile-stat {
