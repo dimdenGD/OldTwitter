@@ -1724,7 +1724,15 @@ let userDataFunction = async user => {
             searchResults.hidden = true;
         }, 150);
     });
+    let imeTyping = false;
+    searchInput.addEventListener('compositionstart', () => {
+        imeTyping = true;
+    });
+    searchInput.addEventListener('compositionend', () => {
+        imeTyping = false;
+    });
     searchInput.addEventListener('keyup', async (e) => {
+        if(imeTyping) return;
         let query = searchInput.value;
         let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
         let activeSearch = searchElements[selectedIndex];
