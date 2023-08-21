@@ -2861,8 +2861,9 @@ video::-internal-media-controls-overlay-cast-button {
         margin-right: 0px !important;
     }
     #profile-info-text {
-        padding-top: 0px;
-        margin-bottom: -24px;
+        margin-top:-97px;
+        padding-top:97px;
+        margin-bottom: -28px;
     }
     .modal .tweet-header-name-main {
             width: 220px !important;
