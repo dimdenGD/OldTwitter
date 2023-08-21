@@ -652,8 +652,9 @@ function generateCard(tweet, tweetElement, user) {
         let iframe = document.createElement('iframe');
         iframe.src = tweet.card.binding_values.player_url.string_value.replace("autoplay=true", "autoplay=false");
         iframe.classList.add('tweet-player');
-        iframe.width = 450;
-        iframe.height = 250;
+        let [w, h] = sizeFunctions[1](+tweet.card.binding_values.player_width.string_value, +tweet.card.binding_values.player_height.string_value);
+        iframe.width = w;
+        iframe.height = h;
         tweetElement.getElementsByClassName('tweet-card')[0].innerHTML = '';
         tweetElement.getElementsByClassName('tweet-card')[0].append(iframe);
     } else if(tweet.card.name === "unified_card") {
