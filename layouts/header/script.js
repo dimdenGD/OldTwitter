@@ -1901,7 +1901,6 @@ let userDataFunction = async user => {
             clearTimeout(leavePreviewTimeout);
             leavePreviewTimeout = null;
         }
-        if(document.getElementsByClassName('user-preview').length > 0) return;
         el = el.closest('a');
         if(!el || !el.href) return;
         let url;
@@ -1952,6 +1951,12 @@ let userDataFunction = async user => {
 
             let user = await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;
+            let userPreviews = Array.from(document.getElementsByClassName('user-preview'));
+            if(userPreviews.length > 0) {
+                for(let userPreview of userPreviews) {
+                    userPreview.remove();
+                }
+            };
             let div = document.createElement('div');
             div.innerHTML = /*html*/`
                 <style>
