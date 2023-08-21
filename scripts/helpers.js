@@ -1429,7 +1429,7 @@ const sizeFunctions = [
     undefined,
     (w, h) => calculateSize(w, h, 450, 500),
     (w, h) => calculateSize(w, h, 225, 400),
-    (w, h) => calculateSize(w, h, 150, 250),
+    (w, h) => innerWidth < 590 ? calculateSize(w, h, 225, 400) : calculateSize(w, h, 150, 250),
     (w, h) => calculateSize(w, h, 225, 400)
 ];
 
