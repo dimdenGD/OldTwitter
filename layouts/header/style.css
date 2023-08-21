@@ -3074,6 +3074,11 @@ video::-internal-media-controls-overlay-cast-button {
     #pin-lists {
         display: none;
     }
+    .tweet-interact-more-menu {
+        margin-left: unset;
+        position: absolute;
+        right: 20px;
+    }
 }
 @media screen and (max-width: 425px) {
     #pin-bookmarks {

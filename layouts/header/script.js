@@ -417,6 +417,11 @@ function hideStuff() {
             #profile-stat-follower-mobile-out { display: none !important; }
         `;
     }
+    if(vars.showBookmarkCount && vars.seeTweetViews) {
+        hideStyle.innerHTML += `
+            .tweet-interact-more-menu { margin-left: 250px }
+        `;
+    }
     if(hideStyle.innerHTML !== '') {
         document.head.appendChild(hideStyle);
     }
