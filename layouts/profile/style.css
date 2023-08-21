@@ -877,6 +877,7 @@ a:hover,
     margin-top:10px;
     word-wrap: break-word;
     overflow: hidden;
+    text-transform: uppercase;
 }
 #profile-following-follower-mobile>div>a {
     font-weight: 600;

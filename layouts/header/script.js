@@ -321,7 +321,8 @@ function switchModernUI(enabled) {
             }
             /* No UpperCase */
             .user-stat-div > h2,
-            .profile-stat-text  {
+            .profile-stat-text,
+            #profile-following-follower-mobile   {
                 text-transform: none;
             }
             /* Profile */
