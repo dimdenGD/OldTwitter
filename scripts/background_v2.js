@@ -21,7 +21,7 @@ chrome.webRequest.onBeforeRequest.addListener(
                 };
             }
         }
-        if(details.url.includes("twitter.com/manifest.json") || details.url.includes("/sw.js")) {
+        if(details.url.includes("/sw.js")) {
             return { cancel: true };
         }
         return {

@@ -287,101 +287,41 @@
       "message": "Γεννήθηκε"
     },
     "january": {
-      "message": "Ιανουάριος $NUMBER$",
-      "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Ιανουάριος",
+      "description": "Used in 'Born January 1'. You can move on left if it sounds better in your language like that."
     },
     "february": {
-      "message": "Φεβρουάριος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Φεβρουάριος"
     },
     "march": {
-      "message": "Μάρτιος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Μάρτιος"
     },
     "april": {
-      "message": "Απρίλιος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Απρίλιος"
     },
     "may": {
-      "message": "Μάιος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Μάιος"
     },
     "june": {
-      "message": "Ιούνιος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Ιούνιος"
     },
     "july": {
-      "message": "Ιούλιος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Ιούλιος"
     },
     "august": {
-      "message": "Αύγουστος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Αύγουστος"
     },
     "september": {
-      "message": "Σεπτέμβριος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Σεπτέμβριος"
     },
     "october": {
-      "message": "Οκτώβριος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Οκτώβριος"
     },
     "november": {
-      "message": "Νοέμβριος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Νοέμβριος"
     },
     "december": {
-      "message": "Δεκέμβριος $NUMBER$",
-      "placeholders": {
-        "number": {
-          "content": "1"
-        }
-      }
+      "message": "Δεκέμβριος"
     },
     "tweet_to": {
       "message": "Tweet στον",
@@ -1013,5 +953,8 @@
     "retweet_btn": { "message": "Retweet / Παράθεση tweet", "description": "Used for retweet menu button." },
     "like_btn": { "message": "Μου αρέσει / Δεν μου αρέσει", "description": "Used for like button." },
     "favorite_btn": { "message": "Αγαπημένο / Μη αγαπημένο", "description": "Used for favorite button." },
-    "views_count": { "message": "Προβολές", "description": "Used for views count." }
+    "views_count": { "message": "Προβολές", "description": "Used for views count." },
+    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
+    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } }
   }

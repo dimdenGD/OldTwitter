@@ -570,7 +570,8 @@ a:hover,
     content: "\f096";
     color: #ddd22b;
     font-family: var(--icon-font);
-    margin-left: 5px
+    margin-left: 5px;
+    font-weight: 100;
 }
 
 .user-muted::after {
@@ -871,6 +872,18 @@ a:hover,
     word-wrap: break-word;
     overflow: hidden;
 }
+#profile-following-follower-mobile {
+    display:none;
+    line-height: 20px;
+    margin-top:10px;
+    word-wrap: break-word;
+    overflow: hidden;
+    text-transform: uppercase;
+    color: var(--light-gray);
+}
+#profile-following-follower-mobile>div>a {
+    font-weight: 600;
+}
 
 #tweet-nav[hidden] {
     display: none !important
@@ -966,7 +979,7 @@ a:hover,
     text-shadow: none !important;
 }
 .profile-additional-birth-me:hover {
-    background-color: var(--darker-background-color);
+    background-color: rgba(0,0,0,0);/*transparent*/
 }
 .profile-additional-birth-me:hover:before {
     color: var(--light-gray);
@@ -1543,6 +1556,12 @@ a:hover,
 .body-modern-ui .user-item-text {
     bottom: 8px !important;
 }
+#tweet-nav-replies>.mobile-text{
+    display: none;
+}
+#tweet-nav-media>.mobile-text{
+    display: none;
+}
 
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
@@ -1694,10 +1713,17 @@ a:hover,
         width: 75px !important;
         height: 75px;
     }
+    .profile-stat {
+        padding-top: 10px;
+        padding-bottom: 11px;
+    }
 }
 
 /* Mobile UI */
 @media screen and (max-width: 590px) {
+    body {
+        background-color: var(--background-color) !important;
+    }
     .container{
         width:100%;
     }
@@ -1756,16 +1782,77 @@ a:hover,
     #profile-media {
         margin-bottom: 40px;
     }
-    #tweet-nav > a {
+    #tweet-nav > a,
+    #tweet-nav > a > span {
         font-size: 16px;
+    }
+    #tweet-nav > a > span {
+        margin: 0px;
+        padding: 0px;
     }
     #nav-profile-name {
         color: white;
     }
-}
-@media screen and (max-width: 550px) {
-    #profile-stat-media-link {
+    #tweet-to-bg {
+        position: fixed;
+        bottom: 108px;
+        right: 12px;
+        width: 60px;
+        height: 40px;
+        z-index: 6;
+    }
+    #tweet-to-div,
+    #tweet-to-bg{
+        padding: 0;
+        border: 0;
+        background-color: rgba(0,0,0,0);
+    }
+    #tweet-to {
+        padding: 0;
+        border: 0;
+        background-color: var(--link-color);
+        color: var(--background-color);
+        cursor: pointer;
+        border-radius: 5px;
+        width: 58px;
+        height: 38px;
+        border: 1px solid rgba(0, 0, 0, 0.4);
+        font-family: var(--font);
+    }
+    #tweet-to:hover {
+        background-color: var(--link-color);
+        filter: brightness(0.9);
+    }    
+    #tweet-to-inner{
+        display:none;
+    }
+    #tweet-to:before{
+        content: var(--at-icon);
+        font-family: var(--icon-font);
+        color: white;
+        font-size: 20px;
+        vertical-align: -60%;
+        padding-right:20px;
+        padding-left:20px;
+        margin-top:20px;
+        text-align: center;
+    }
+    #profile-stats{
+        opacity:0;
+    }
+    #profile-stat-following-link,
+    #profile-stat-followers-link
+    {
         display: none;
+    }
+    #profile-following-follower-mobile {
+        display:block;
+    }
+    .unable_load_timeline{
+        background-color:var(--background-color);
+    }
+    #profile-friends-div{
+        display:none;
     }
 }
 @media screen and (max-width: 470px) {
@@ -1794,37 +1881,22 @@ a:hover,
     #profile-name {
         font-size: 20px;
     }
-}
-@media screen and (max-width: 360px) {
-    #profile-stat-tweets-link > .profile-stat-text {
+    #tweet-nav-replies>.pc-text{
         display: none;
     }
-    .profile-stat:hover, .profile-stat-active {
-        box-shadow: none;
+    #tweet-nav-replies>.mobile-text{
+        display: inline;
     }
-    #profile-stat-tweets-value {
-        color: var(--background-color);
+    #tweet-nav-media>.pc-text{
+        display: none;
     }
-    #profile-stat-tweets-value::after {
-        content: " __MSG_tweets__";
-    }
-    #profile-stat-tweets-link {
-        position: absolute;
-        top: 56px;
-        left: 12px;
-        background-color: var(--almost-black);
-        color: var(--border);
-        border-radius: 999px;
-    }
-    #nav-profile-info-text {
-        justify-content: right !important;
-    }
-    #nav-profile-name::after {
-        margin-right: 12px;
+    #tweet-nav-media>.mobile-text{
+        display: inline;
     }
 }
 @media screen and (max-width: 320px) {
-    #tweet-nav > a {
+    #tweet-nav > a,
+    #tweet-nav > a > span {
         font-size: 13px;
     }
 }

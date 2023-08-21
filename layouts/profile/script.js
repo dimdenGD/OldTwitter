@@ -170,6 +170,8 @@ function updateSelection() {
     document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
     document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
     document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
+    document.getElementById('profile-stat-following-mobile').href = `https://twitter.com/${pageUser.screen_name}/following`;
+    document.getElementById('profile-stat-followers-mobile').href = `https://twitter.com/${pageUser.screen_name}/followers`;
 
     if(pageUser.statuses_count === 0 && !( pageUser.blocked_by || pageUser.blocking || pageUser.protected ) && (subpage === 'profile' || subpage === 'replies')) {
         document.getElementById('trends').hidden = true;
@@ -537,13 +539,13 @@ async function updateTimeline() {
                     tl = tl.tweets;
                 }
             } else if(user_blocked_by) {
-                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                 return;
             }else if(user_protected) {
-                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                 return;
             }/*else if(user_blocking) {
-                document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
+                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
                 return;
             }*/
         } catch(e) {
@@ -771,11 +773,10 @@ async function renderProfile() {
     document.getElementById('nav-profile-avatar').src = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(pageUser.id_str) % 7}_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_bigger.');
     document.getElementById('profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
     document.getElementById('nav-profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
-    document.getElementById('profile-avatar-link').href = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(pageUser.id_str) % 7}_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
     if(LOC.tweet_to.message.includes("$SCREEN_NAME$")) {
-        document.getElementById('tweet-to').innerText = LOC.tweet_to.message.replace("$SCREEN_NAME$", pageUser.screen_name.replace(/\n/g, ' '));
+        document.getElementById('tweet-to-inner').innerText = LOC.tweet_to.message.replace("$SCREEN_NAME$", pageUser.screen_name.replace(/\n/g, ' '));
     } else {
-        document.getElementById('tweet-to').innerText = `${LOC.tweet_to.message} ${pageUser.name.replace(/\n/g, ' ')}`;
+        document.getElementById('tweet-to-inner').innerText = `${LOC.tweet_to.message} ${pageUser.name.replace(/\n/g, ' ')}`;
     }
     if(vars.heartsNotStars) {
         document.getElementById('profile-stat-text-favorites').innerText = LOC.likes.message;
@@ -859,6 +860,9 @@ async function renderProfile() {
     document.getElementById('profile-stat-followers-value').innerText = formatLargeNumber(pageUser.followers_count).replace(/\s/g, ',');
     document.getElementById('profile-stat-favorites-value').innerText = formatLargeNumber(pageUser.favourites_count).replace(/\s/g, ',');
     document.getElementById('profile-stat-media-value').innerText = formatLargeNumber(pageUser.media_count).replace(/\s/g, ',');
+
+    document.getElementById('profile-stat-following-mobile').innerText = formatLargeNumber(pageUser.friends_count).replace(/\s/g, ',');
+    document.getElementById('profile-stat-followers-mobile').innerText = formatLargeNumber(pageUser.followers_count).replace(/\s/g, ',');
 
     document.getElementById('tweet-nav').hidden = pageUser.statuses_count === 0 || user_blocked_by || user_protected || !(subpage === 'profile' || subpage === 'replies' || subpage === 'media');
     document.getElementById('profile-stat-tweets-link').hidden = pageUser.statuses_count === 0;
@@ -1426,11 +1430,11 @@ async function renderProfile() {
             birth.classList.add('profile-additional-birth-me');
         }
         if(pageUser.birthdate.year && typeof pageUser.birthdate.month === 'number') {
-            birth.innerText = `${LOC.born.message} ${months[pageUser.birthdate.month-1].replace("$NUMBER$", pageUser.birthdate.day)}, ${pageUser.birthdate.year}`;
+            birth.innerText = `${LOC.born.message} ${LOC.mmddyy.message.replace('$YEAR$',pageUser.birthdate.year).replace('$MONTH$',months[pageUser.birthdate.month-1]).replace("$DATE$", pageUser.birthdate.day)}`;
         } else if(typeof pageUser.birthdate.month === 'number') {
-            birth.innerText = `${LOC.born.message} ${months[pageUser.birthdate.month-1].replace("$NUMBER$", pageUser.birthdate.day)}`;
+            birth.innerText = `${LOC.born.message}  ${LOC.ddyy.message.replace('$MONTH$',months[pageUser.birthdate.month-1]).replace("$DATE$", pageUser.birthdate.day)}`;
         } else if(pageUser.birthdate.year) {
-            birth.innerText = `${LOC.born.message} ${pageUser.birthdate.year}`;
+            birth.innerText = `${LOC.born.message} ${LOC.yyyy.message.replace('$YEAR$',pageUser.birthdate.year)}`;
         }
         let date = new Date();
         if(pageUser.birthdate.month-1 === date.getMonth() && pageUser.birthdate.day === date.getDate()) {
@@ -1566,7 +1570,7 @@ setTimeout(async () => {
     // mouse
     let banner = document.getElementById('profile-banner');
     let navProfileInfo = document.getElementById('nav-profile-info');
-    let tweetsLink = document.getElementById('profile-stat-tweets-link');
+    let tweetsLink = document.getElementById('profile-stats');
     let lastScrollAmount = window.scrollY;
     if(innerWidth < 590) document.getElementById('nav-profile-name').addEventListener('click', e => {
         e.preventDefault();
@@ -1578,16 +1582,50 @@ setTimeout(async () => {
         lastScroll = Date.now();
 
         // make user nav appear
-        if (window.outerWidth <= 880) { //Mobile layout
+        if(window.scrollY >= 110) {
+            if(innerWidth < 590) tweetsLink.style.opacity = 1;
+            else tweetsLink.style.opacity = 1;
+        } else {
+            if(innerWidth < 590) tweetsLink.style.opacity = 0;
+            else tweetsLink.style.opacity = 1;
+        }
+        if (innerWidth <= 880) { //Mobile layout
             if(window.scrollY >= 600) {
                 if(!navProfileInfo.style.opacity) {
                     if(lastScrollAmount > window.scrollY) {
                         navProfileInfo.style.opacity = 1;
-                        if(innerWidth < 360) tweetsLink.style.opacity = 1;
                     } else {
                         navProfileInfo.style.opacity = '';
-                        if(innerWidth < 360) tweetsLink.style.opacity = 0;
                     }
+                } else {
+                    if(lastScrollAmount > window.scrollY) {
+                        navProfileInfo.style.opacity = 1;
+                    } else {
+                        navProfileInfo.style.opacity = '';
+                    }
+                }
+            } else {
+                if(navProfileInfo.style.opacity) {
+                    navProfileInfo.style.opacity = '';
+                }
+            }
+        } else {
+            if(window.scrollY >= 600) {
+                if(!navProfileInfo.style.opacity) {
+                    navProfileInfo.style.opacity = 1;
+                }
+            } else {
+                if(navProfileInfo.style.opacity) {
+                    navProfileInfo.style.opacity = '';
+                }
+            }
+        }
+        /*
+        if(window.scrollY >= 600) {
+            if(!navProfileInfo.style.opacity) {
+                if(lastScrollAmount > window.scrollY) {
+                    navProfileInfo.style.opacity = 1;
+                    if(innerWidth < 360) tweetsLink.style.opacity = 1;
                 } else {
                     if(lastScrollAmount > window.scrollY) {
                         navProfileInfo.style.opacity = 1;
@@ -1613,7 +1651,7 @@ setTimeout(async () => {
                     navProfileInfo.style.opacity = '';
                 }
             }
-        }
+        }*/
         
         lastScrollAmount = window.scrollY;
         
@@ -1655,13 +1693,13 @@ setTimeout(async () => {
                         }
                     }
                 } else if (user_blocked_by)  {
-                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                    document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                     return;
                 } else if (user_protected) {
-                    document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                    document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                     return;
                 } /*else if (user_blocking)  {
-                  document.getElementById("timeline").innerHTML = `<div dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
+                  document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
                 
                     return;
                 }*/
@@ -1822,6 +1860,12 @@ setTimeout(async () => {
     document.getElementById('profile-stat-tweets-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-following-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-followers-link').addEventListener('click', updatePath);
+    if(document.getElementById('profile-stat-followers-mobile')) {
+        document.getElementById('profile-stat-followers-mobile').addEventListener('click', updatePath);
+    }
+    if(document.getElementById('profile-stat-following-mobile')) {
+        document.getElementById('profile-stat-following-mobile').addEventListener('click', updatePath);
+    }
     document.getElementById('profile-stat-favorites-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-media-link').addEventListener('click', updatePath);
     document.getElementById('profile-friends-text').addEventListener('click', updatePath);
@@ -1888,7 +1932,15 @@ setTimeout(async () => {
         }
     });
 
+    let imeTyping = false;
+    document.getElementById('user-search-input').addEventListener('compositionstart', () => {
+        imeTyping = true;
+    });
+    document.getElementById('user-search-input').addEventListener('compositionend', () => {
+        imeTyping = false;
+    });
     document.getElementById('user-search-input').addEventListener('keydown', e => {
+        if(imeTyping) return;
         if(e.key === 'Enter') {
             document.getElementById('user-search-icon').click();
         }

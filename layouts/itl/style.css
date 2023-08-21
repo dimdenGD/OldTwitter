@@ -783,14 +783,16 @@ a:hover,
     color: #55acee;
     content: "\f099";
     font-family: var(--icon-font);
-    margin-left: 5px
+    margin-left: 5px;
+    font-weight: 100;
 }
 
 .user-protected::after {
     color: #ddd22b;
     content: "\f096";
     font-family: var(--icon-font);
-    margin-left: 5px
+    margin-left: 5px;
+    font-weight: 100;
 }
 
 .about {

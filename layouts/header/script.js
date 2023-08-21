@@ -147,7 +147,7 @@ function switchModernUI(enabled) {
                 border: none;
                 color: white !important;
                 font-weight: bold;
-                text-align: center
+                text-align: center;
             }
             #tweet-to:hover:not([disabled]){
                 filter: brightness(0.9);
@@ -159,7 +159,7 @@ function switchModernUI(enabled) {
             #tweet-to-bg{
                 padding: 0;
                 border: 0;
-                background-color: var(--darker-background-color);
+                background-color: rgba(0,0,0,0);
             }
             /* Remove Icon */
             #navbar-tweet-button:before,
@@ -270,7 +270,9 @@ function switchModernUI(enabled) {
             .nav-text,
             #tweet-nav-tweets,
             #tweet-nav-replies,
+            #tweet-nav-replies>span,
             #tweet-nav-media,
+            #tweet-nav-media>span,
             .profile-stat-text {
                 font-weight: 600;
             }
@@ -298,8 +300,7 @@ function switchModernUI(enabled) {
             .tweet:first-child,
             #tweet-nav,
             #save-search-right,
-            #save-search-left,
-            .modal-content {
+            #save-search-left {
                 border-radius: 0px;
             }
             .modal-content {
@@ -323,7 +324,8 @@ function switchModernUI(enabled) {
             }
             /* No UpperCase */
             .user-stat-div > h2,
-            .profile-stat-text  {
+            .profile-stat-text,
+            #profile-following-follower-mobile   {
                 text-transform: none;
             }
             /* Profile */
@@ -353,6 +355,18 @@ function switchModernUI(enabled) {
                 #navbar-tweet-button:before  {
                     content: "\\f029" !important;
                     color: white;
+                }
+                #tweet-to-div,
+                #tweet-to-bg{
+                    border-radius: 999px !important;
+                    background-color: rgba(0,0,0,0);
+                }
+                #tweet-to-div {
+                    background-image: var(--link-color);
+                    background-color: var(--link-color);
+                    border: none !important;
+                    color: white;
+                    font-weight: bold;
                 }
             }
 
@@ -398,6 +412,7 @@ function hideStuff() {
         hideStyle.innerHTML += `
             #user-followers-div { display: none !important; }
             #profile-stat-followers-link { display: none !important; }
+            #profile-stat-follower-mobile-out { display: none !important; }
         `;
     }
     if(hideStyle.innerHTML !== '') {
@@ -433,7 +448,7 @@ let userDataFunction = async user => {
     if(vars.tweetFont) {
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
-    if(vars.iconFont || vars.modernUI){
+    if(vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
         root.style.setProperty('--home-icon-active', '"\\f553"');
         root.style.setProperty('--notification-icon-active', '"\\f019"');
@@ -450,7 +465,7 @@ let userDataFunction = async user => {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
         root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');
         root.style.setProperty('--favorite-icon-color', 'rgb(249, 24, 128)');
-        if(vars.iconFont || vars.modernUI){//Rosetta doesnt have
+        if(vars.modernUI){//Rosetta does not have
             root.style.setProperty('--favorite-icon-content-click', '"\\f015"');
         }
         else{
@@ -460,7 +475,7 @@ let userDataFunction = async user => {
     else{   
         //edgeIcon Font does not have this font
         //We need to make newone?
-        if(vars.iconFont || vars.modernUI){
+        if(vars.modernUI){
             root.style.setProperty('--favorite-icon-content-notif', '"\\f147"');
         }
     }
@@ -858,6 +873,7 @@ let userDataFunction = async user => {
                     }
                 });
             }
+            let span = messageBlockInner.getElementsByClassName('message-body')[0];
             if(m.message_data.attachment) {
                 let attachment = m.message_data.attachment;
                 if(attachment.photo) {
@@ -874,7 +890,11 @@ let userDataFunction = async user => {
                         });
                         e.target.click();
                     })
-                    messageBlockInner.append(document.createElement('br'), photoElement);
+                    if(span.innerHTML === '' || span.innerHTML === ' ') 
+                        messageBlockInner.append(photoElement);
+                    else
+                        messageBlockInner.append(document.createElement('br'), photoElement);
+                    
                 }
                 if(attachment.animated_gif) {
                     let gif = attachment.animated_gif;
@@ -887,7 +907,10 @@ let userDataFunction = async user => {
                     gifElement.width = w;
                     gifElement.height = h;
                     gifElement.classList.add('message-element-media');
-                    messageBlockInner.append(document.createElement('br'), gifElement);
+                    if(span.innerHTML === '' || span.innerHTML === ' ') 
+                        messageBlockInner.append(gifElement);
+                    else
+                        messageBlockInner.append(document.createElement('br'), gifElement);
                 }
                 if(attachment.video) {
                     let video = attachment.video;
@@ -898,7 +921,10 @@ let userDataFunction = async user => {
                     videoElement.width = w;
                     videoElement.height = h;
                     videoElement.classList.add('message-element-media');
-                    messageBlockInner.append(document.createElement('br'), videoElement);
+                    if(span.innerHTML === '' || span.innerHTML === ' ') 
+                        messageBlockInner.append(videoElement);
+                    else
+                        messageBlockInner.append(document.createElement('br'), videoElement);
                 }
             }
             timestamp=document.createElement('span');
@@ -906,7 +932,6 @@ let userDataFunction = async user => {
             timestamp.setAttribute("data-timestamp", m.time);
             timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
             messageBlock.append(timestamp);
-            let span = messageBlockInner.getElementsByClassName('message-body')[0];
             if(span.innerHTML === '' || span.innerHTML === ' ') {
                 span.remove();
             }
@@ -927,20 +952,18 @@ let userDataFunction = async user => {
             }
         }
         messageLists=document.getElementsByClassName("message-element");
-        for(let i=0 ; i < messageLists.length; i++) {
-            if(i<messageLists.length-1){
-                current = messageLists[i].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
-                next = messageLists[i + 1].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
+        for(let i=0 ; i < messageLists.length - 1; i++) {
+            
+            current_timestamp = messageLists[i].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
+            next_timestamp = messageLists[i + 1].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
 
-                current_profile = messageLists[i].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
-                next_profile = messageLists[i + 1].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
-                //if(next-current <= 10000 && current_profile === next_profile){
-                if(parseInt(current/(60*1000)) === parseInt(next/(60*1000)) && current_profile === next_profile){
-                    messageLists[i].getElementsByClassName('message-time')[0].hidden=true;
-                    messageLists[i].getElementsByClassName('message-avatar')[0].hidden=true;
-
-                    messageLists[i].className += ' message-element-continue';
-                }
+            current_profile = messageLists[i].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
+            next_profile = messageLists[i + 1].getElementsByClassName('sender-profile-url')[0].getAttribute("href");
+            //if(next_timestamp - current_timestamp <= 10000 && current_profile === next_profile){
+            if(parseInt(current_timestamp/(60*1000)) === parseInt(next_timestamp/(60*1000)) && current_profile === next_profile){
+                messageLists[i].getElementsByClassName('message-time')[0].hidden=true;
+                messageLists[i].getElementsByClassName('message-avatar')[0].hidden=true;
+                messageLists[i].className += ' message-element-continue';
             }
         }
         if(newMessages) {
@@ -1724,7 +1747,15 @@ let userDataFunction = async user => {
             searchResults.hidden = true;
         }, 150);
     });
+    let imeTyping = false;
+    searchInput.addEventListener('compositionstart', () => {
+        imeTyping = true;
+    });
+    searchInput.addEventListener('compositionend', () => {
+        imeTyping = false;
+    });
     searchInput.addEventListener('keyup', async (e) => {
+        if(imeTyping) return;
         let query = searchInput.value;
         let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
         let activeSearch = searchElements[selectedIndex];
@@ -2412,6 +2443,9 @@ let userDataFunction = async user => {
                                     t.classList.add('notification-unread');
                                 }
                                 notifList.appendChild(t);
+                                if(vars.enableTwemoji) {
+                                    twemoji.parse(t);
+                                }
                             }
                         }
                     }
@@ -2433,6 +2467,11 @@ let userDataFunction = async user => {
                     }
 
                     notifList.prepend(...divs);
+                    if(vars.enableTwemoji) {
+                        for(let nd of divs) {
+                            twemoji.parse(nd);
+                        }
+                    }
                 }
 
                 notifLoading.hidden = true;
@@ -2814,7 +2853,7 @@ setInterval(() => {
                 }
             } else if(e.keyCode === 13) { // Enter
                 // open tweet
-                if(e.target.className.includes('tweet tweet-id-')) {
+                if(e.target.classList.contains('tweet')) {
                     if(!activeTweet) return;
                     e.preventDefault();
                     e.stopImmediatePropagation();
@@ -2825,7 +2864,7 @@ setInterval(() => {
                 }
             } else if(e.keyCode === 67 && !e.ctrlKey && !e.altKey) { // C
                 // copy image
-                if(e.target.className.includes('tweet tweet-id-')) {
+                if(e.target.classList.contains('tweet')) {
                     if(!activeTweet) return;
                     let media = activeTweet.getElementsByClassName('tweet-media')[0];
                     if(!media) return;
@@ -2847,7 +2886,7 @@ setInterval(() => {
                 }
             } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
                 // download media
-                if(activeTweet.className.includes('tweet tweet-id-')) {
+                if(activeTweet.classList.contains('tweet')) {
                     activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
                 }
             }

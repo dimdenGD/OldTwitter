@@ -134,7 +134,6 @@ setTimeout(async () => {
     })();
     let fontElement = document.getElementById('font');
     let tweetFontElement = document.getElementById('tweet-font');
-    let iconFontElement = document.getElementById('icon-font');
     let linkColor = document.getElementById('link-color');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
@@ -186,6 +185,7 @@ setTimeout(async () => {
     let openNotifsAsModal = document.getElementById('open-notifs-as-modal');
     let enableIframeNavigation = document.getElementById('enable-iframe-navigation');
     let showExactValues = document.getElementById('show-exact-values');
+    let localizeDigit = document.getElementById('localize-digit');
     let hideTimelineTypes = document.getElementById('hide-timeline-types');
     let autotranslationMode = document.getElementById('autotranslation-mode');
     let autotranslateLanguages = document.getElementById('autotranslate-languages');
@@ -233,18 +233,6 @@ setTimeout(async () => {
             tweetFont: font
         }, () => { });
     }); 
-    iconFontElement.addEventListener('change', () => {
-        vars.iconFont = !!iconFontElement.checked;
-        chrome.storage.sync.set({
-            iconFont: iconFontElement.checked
-        }, () => {});
-        if(vars.iconFont || vars.modernUI){
-            root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
-        }
-        else{
-            root.style.setProperty('--icon-font', `"RosettaIcons"`)
-        }
-    });
     modernUI.addEventListener('change', () => {
         vars.modernUI = !!modernUI.checked;
         chrome.storage.sync.set({
@@ -255,7 +243,7 @@ setTimeout(async () => {
             themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
             switchDarkMode(isDarkModeEnabled);
         });  
-        if(vars.iconFont || vars.modernUI){
+        if(vars.modernUI){
             root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
         }
         else{
@@ -404,9 +392,28 @@ setTimeout(async () => {
         }, () => { });
     });
     showExactValues.addEventListener('change', () => {
-        vars.showExactValues = showExactValues.checked;
+        vars.localizeDigit = !!localizeDigit.checked;
+        vars.showExactValues = !!showExactValues.checked;
         chrome.storage.sync.set({
             showExactValues: showExactValues.checked
+        }, () => { });
+        document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
+        if(user.statuses_count >= 100000 && vars.showExactValues) {
+            let style = document.createElement('style');
+            style.innerText = `
+                .user-stat-div > h1 { font-size: 18px !important }
+                .user-stat-div > h2 { font-size: 13px !important }
+            `;
+            document.head.appendChild(style);
+        }
+        document.getElementById('user-following').innerText = formatLargeNumber(user.friends_count).replace(/\s/g, ',');
+        document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
+    });
+    localizeDigit.addEventListener('change', () => {
+        vars.localizeDigit = !!localizeDigit.checked;
+        vars.showExactValues = !!showExactValues.checked;
+        chrome.storage.sync.set({
+            localizeDigit: localizeDigit.checked
         }, () => { });
         document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
         if(user.statuses_count >= 100000 && vars.showExactValues) {
@@ -572,10 +579,13 @@ setTimeout(async () => {
         }, () => { });
     });
     language.addEventListener('change', () => {
+        document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
         chrome.storage.sync.set({
             language: language.value
         }, () => {
-            location.reload();
+            chrome.storage.local.remove(['notifications', 'trends', 'trendsv2'], () => {
+                location.reload();
+            })
         });
     });
     showMediaCount.addEventListener('change', () => {
@@ -760,7 +770,7 @@ setTimeout(async () => {
         tweetFontElement.value = vars.tweetFont;
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
-    if(vars.iconFont || vars.modernUI){
+    if(vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
     }
     heartsNotStars.checked = !!vars.heartsNotStars;
@@ -768,12 +778,12 @@ setTimeout(async () => {
     enableTwemoji.checked = !!vars.enableTwemoji;
     enableHashflags.checked = !!vars.enableHashflags;
     showExactValues.checked = !!vars.showExactValues;
+    localizeDigit.checked = !!vars.localizeDigit;
     hideTimelineTypes.checked = !!vars.hideTimelineTypes;
     timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
-    iconFontElement.checked = !!vars.iconFont;
     timeMode.checked = !!vars.timeMode && !vars.systemDarkMode;
     systemDarkMode.checked = !!vars.systemDarkMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
@@ -816,6 +826,7 @@ setTimeout(async () => {
     roundAvatars.checked = !!vars.roundAvatars;
     modernUI.checked = !!vars.modernUI;
     language.value = vars.language ? vars.language : 'en';
+    document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
     autotranslationMode.value = vars.autotranslationMode;
     copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
     if(vars.timeMode) {
