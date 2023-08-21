@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "Tylko zatwierdzeni obserwujący mają dostęp do Tweetów @$SCREEN_NAME$ i ich całego profilu. Naciśnij przycisk \"Obserwuj\" aby wysłać prośbę o obserwacje.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Kopiuj link do tweetów jako", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Użyj nowego logo jako ikona karty" },
-    "update_timeline_automatically": { "message": "Aktualizuj strone główną automatycznie. Eksperymentalne: to jest troche zbugowane, tylko używaj tego jeżeli chcesz ciągle być na górze strony głównej, nie będzie aktualizowało się gdy zescrollujesz w dół dalej niż około 15 tweetów." },
+    "update_timeline_automatically": { "message": "Aktualizuj strone główną automatycznie." },
     "chrono_no_retweets": { "message": "Odwrotnie chronologiczna (bez podań dalej)" },
     "chrono_retweets": { "message": "Odwrotnie chronologiczna (tylko podania dalej)" },
     "hide_trends": { "message": "Ukryj trendy" },

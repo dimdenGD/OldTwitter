@@ -64,7 +64,7 @@ For stable version:
   
 ## FAQ
 #### Can you use this extension on Android?
-Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox Beta/Nightly to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/) ([follow these steps for Firefox](https://www.androidpolice.com/install-add-on-extension-mozilla-firefox-android/)).  
+Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox Beta/Nightly to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/) ([follow these steps for Firefox](https://www.androidpolice.com/install-add-on-extension-mozilla-firefox-android/)). Once installed you can press on "Add to Home screen" button in Kiwi Browser to have it as standalone app.  
   
 #### Is this extension safe?
 The code is open source so you can check everything yourself. It never sends any of your personal info anywhere.  
@@ -148,7 +148,7 @@ Dutch - Puka1611
 Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234), [kamokakesu](https://twitter.com/kamokakesu)  
 Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234), [han_eirin](https://twitter.com/han_eirin)  
 Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren](https://twitter.com/YordemEren)  
-Italian - [krek](https://twitter.com/CactusInc420), [FrancescoRosi](https://twitter.com/FrancescoRosi27)  
+Italian - [krek](https://twitter.com/CactusInc420), [Francesco](https://twitter.com/FrancescoRosi27)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
 Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)  
 Polish - lele, [nomi](https://twitter.com/youmaynomi)  

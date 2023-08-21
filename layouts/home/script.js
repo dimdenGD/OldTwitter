@@ -11,7 +11,7 @@ let pollToUpload = undefined;
 let linkColors = {};
 let circles = [];
 let selectedCircle = undefined;
-let algoCursor;
+let cursorBottom, cursorTop;
 
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.user.getV2('dimdenEFF');
@@ -60,34 +60,23 @@ setTimeout(() => {
                 createModal(/*html*/`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
-                        <b>1.7.6</b><br>
                         <ul>
-                            <li>Added support for PWA (makes OldTwitter installable on Android).</li>
-                            <li>Big mobile UI update.</li>
-                            <li>Added translation button and autotranslation for quoted tweets.</li> 
-                            <li>Updated DM UI.</li>
-                            <li>Added ability to upload videos to DMs.</li>
-                            <li>Added option to follow system settings for dark mode.</li>
-                            <li>Added option to enable user previews on mobile.</li>
-                            <li>Added option to autotranslate specific languages or translate everything that isn't in language list.</li>
-                            <li>Fixed tweets and messages changing their size while media is loading.</li>
-                            <li>Fixed duplicate 'load more' buttons and these buttons disappearing when visiting replies.</li>
-                        </ul>
-                        <br>
-                        <b>1.7.5.1 - 1.7.5.6</b>
-                        <ul>
-                            <li>Fixed TweetDeck not working on Firefox.</li>
-                            <li>Fixed blocked/muted people sometimes appearing in timeline and replies.</li>
-                            <li>Added option to play videos muted by default.</li>
-                            <li>Added option to not pause videos when you scroll from view.</li>
-                            <li>Fixed quoted tweets videos not pausing when scrolling from view.</li>
-                            <li>Fixed updating avatar/banner not working on Firefox on new Twitter.</li>
-                            <li>Implemented silly video tweets with buttons.</li>
-                            <li>Made OldTwitter store more than 100 unfollowers.</li>
-                            <li>Added mute icon for people you're muting.</li>
-                            <li>Fixes for page-preserving navigation.</li>
-                            <li>Made profile and tweet page not refresh when pressing back button from notifications modal.</li>
-                            <li>More style fixes for 2018 and mobile styles.</li>
+                            <li>Fixed tweet like/retweet/reply count not changing on action when 'Display the exact number of retweets, likes, followers, etc.' is disabled.</li>
+                            <li>Improved "new tweets" button on homepage, it doesn't re-render entire page but only adds new tweets.</li>
+                            <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
+                            <li>Replaced word 'post' with 'tweet' everywhere.</li>
+                            <li>Fixed search input on mobile.</li>
+                            <li>Added mute button to three dots button of tweets.</li>
+                            <li>Fixed video view counts.</li>
+                            <li>Made OldTwitter use low quality images when on mobile data (Chromium only).</li>
+                            <li>Fixed Twitter embeds on other websites.</li>
+                            <li>Made OldTwitter update tweet like/retweet/reply/view counts automatically.</li>
+                            <li>Made tweet viewer use more space instead of wasting it.</li>
+                            <li>Fixed username disappearing on scroll in profile.</li>
+                            <li>Added quote translation length limit.</li>
+                            <li>Fixed pressing enter with Japanese IME in search input initiating search.</li>
+                            <li>Added Separate text button for tweet viewer too.</li>
+                            <li>Fixed useless t.co links sometimes appearing.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
@@ -132,7 +121,7 @@ function updateUserData() {
         console.error(e);
     });
 }
-async function updateTimeline(saveCursor = true) {
+async function updateTimeline(mode = 'rewrite') {
     seenThreads = [];
     if (timeline.data.length === 0) {
         document.getElementById('timeline').innerHTML = ``;
@@ -140,13 +129,19 @@ async function updateTimeline(saveCursor = true) {
         document.getElementById('load-more').hidden = true;
     }
     let fn, args = [];
-    switch(vars.timelineType) {
-        case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
-        case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
-        case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-        case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
-        default: fn = API.timeline.getChronologicalV2; break;
+    if(mode === 'prepend') {
+        fn = API.timeline.getChronologicalV2;
+        args.push(cursorTop);
+    } else {
+        switch(vars.timelineType) {
+            case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
+            case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
+            case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
+            case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
+            default: fn = API.timeline.getChronologicalV2; break;
+        }
     }
+
     let [tl, s] = await Promise.allSettled([fn(...args), API.account.getSettings()]);
     if(!tl.value) {
         console.error(tl.reason);
@@ -154,7 +149,8 @@ async function updateTimeline(saveCursor = true) {
         return;
     }
     s = s.value; tl = tl.value;
-    if(saveCursor) algoCursor = tl.cursor;
+    if(mode === 'rewrite' || mode === 'append') cursorBottom = tl.cursorBottom;
+    if(mode === 'rewrite' || mode === 'prepend') cursorTop = tl.cursorTop;
     tl = tl.list;
     if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
         for(let t of tl) {
@@ -181,46 +177,21 @@ async function updateTimeline(saveCursor = true) {
         }
     }
 
-    tl.forEach(t => {
-        let oldTweet = timeline.data.find(tweet => tweet.id_str === t.id_str);
-        let tweetElement = document.getElementById(`tweet-${t.id_str}`);
-        if (oldTweet) {
-            oldTweet.favorite_count = t.favorite_count;
-            oldTweet.retweet_count = t.retweet_count;
-            oldTweet.reply_count = t.reply_count;
-            oldTweet.favorited = t.favorited;
-            oldTweet.retweeted = t.retweeted;
-        }
-        if (tweetElement) {
-            tweetElement.querySelector('.tweet-interact-favorite ').innerText = formatLargeNumber(t.favorite_count);
-            tweetElement.querySelector('.tweet-interact-retweet').innerText = formatLargeNumber(t.retweet_count);
-            tweetElement.querySelector('.tweet-interact-reply').innerText = formatLargeNumber(t.reply_count);
-            tweetElement.querySelector('.tweet-interact-favorite').classList.toggle('tweet-interact-favorited', t.favorited);
-            tweetElement.querySelector('.tweet-interact-retweet').classList.toggle('tweet-interact-retweeted', t.retweeted);
-        }
-    });
-    let firstTweetId = tl[0].id_str;
     // first update
     if (timeline.data.length === 0) {
         timeline.data = tl;
-        renderTimeline();
+        renderTimeline({ mode: 'rewrite', data: tl });
     }
     // update
     else {
-        let data = timeline.data.filter(t => !t._ARTIFICIAL);
-        if (data[0].id_str !== firstTweetId) {
-            timeline.toBeUpdated = data.findIndex(t => t.id_str === firstTweetId);
-            if (timeline.toBeUpdated === -1) {
-                timeline.toBeUpdated = data.length;
-            }
-            timeline.dataToUpdate = tl.slice(0, timeline.toBeUpdated);
-            if (timeline.dataToUpdate.length !== data.length) {
-                timeline.dataToUpdate = timeline.dataToUpdate.concat(data.slice(timeline.toBeUpdated));
+        if(mode === 'prepend') {
+            if(tl) {
+                let dataIds = timeline.data.map(t => t.id_str);
+                tl = tl.filter(t => !dataIds.includes(t.id_str) || t.threadContinuation);
+                timeline.dataToUpdate = tl.concat(timeline.dataToUpdate);
+                timeline.toBeUpdated += tl.length;
             }
             renderNewTweetsButton();
-        } else {
-            timeline.toBeUpdated = 0;
-            timeline.dataToUpdate = [];
         }
     }
 }
@@ -274,11 +245,14 @@ function renderUserData() {
     }
 }
 
-let renderLater = {};
-async function renderTimeline(append = false, sliceAmount = 0) {
+async function renderTimeline(options = {}) {
+    if(!options.mode) options.mode = 'rewrite';
+    if(!options.data) options.data = timeline.data;
     let timelineContainer = document.getElementById('timeline');
-    if(!append) timelineContainer.innerHTML = '';
-    let data = timeline.data.slice(sliceAmount, timeline.data.length);
+    if(options.mode === 'rewrite') timelineContainer.innerHTML = '';
+    let data = options.data;
+
+    let toRender = [];
     for(let i in data) {
         let t = data[i];
         if(t.algo && t.favorited) {
@@ -292,7 +266,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
             continue;
         }
         if (t.retweeted_status) {
-            await appendTweet(t.retweeted_status, timelineContainer, {
+            let o = {
                 top: {
                     text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
@@ -300,66 +274,34 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     class: 'retweet-label'
                 },
                 translate: vars.autotranslateProfiles.includes(t.user.id_str)
-            });
-        } else {
-            if (t.self_thread) {
-                let selfThreadTweet = timeline.data.find(tweet => tweet.id_str === t.self_thread.id_str);
-                if (selfThreadTweet && selfThreadTweet.id_str !== t.id_str && seenThreads.indexOf(selfThreadTweet.id_str) === -1) {
-                    await appendTweet(selfThreadTweet, timelineContainer, {
-                        selfThreadContinuation: true,
-                        bigFont: selfThreadTweet.full_text.length < 75
-                    });
-                    await appendTweet(t, timelineContainer, {
-                        noTop: true
-                    });
-                    seenThreads.push(selfThreadTweet.id_str);
-                } else {
-                    await appendTweet(t, timelineContainer, {
-                        selfThreadButton: true,
-                        bigFont: t.full_text.length < 75
-                    });
-                    if(renderLater[t.id_str]) {
-                        t.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
-                        await appendTweet(renderLater[t.id_str], timelineContainer, {
-                            noTop: true,
-                            after: t.element
-                        });
-                        delete renderLater[t.id_str];
-                    }
-                }
-            } else if(t.in_reply_to_status_id_str) {
-                let replyTweet = timeline.data.find(tweet => tweet.element && tweet.id_str === t.in_reply_to_status_id_str);
-                if(replyTweet) {
-                    replyTweet.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
-                    await appendTweet(t, timelineContainer, {
-                        noTop: true,
-                        after: replyTweet.element
-                    });
-                } else {
-                    let ct = timeline.data.find(tweet => tweet.id_str === t.in_reply_to_status_id_str);
-                    if(!renderLater[t.in_reply_to_status_id_str] && ct && !ct.in_reply_to_status_id_str && !timeline.data.some(tweet => tweet.self_thread && tweet.self_thread.id_str === ct.id_str)) {
-                        renderLater[t.in_reply_to_status_id_str] = t;
-                    } else {
-                        await appendTweet(t, timelineContainer, {});
-                        delete renderLater[t.in_reply_to_status_id_str];
-                    }
-                }
+            };
+            if(options.mode === 'prepend') {
+                o.noInsert = true;
+                toRender.push(await appendTweet(t.retweeted_status, timelineContainer, o));
             } else {
-                let obj = {
+                await appendTweet(t.retweeted_status, timelineContainer, o);
+            }
+        } else {
+            if(options.mode === 'prepend') {
+                toRender.push(await appendTweet(t, timelineContainer, {
+                    bigFont: t.full_text.length < 75,
+                    noInsert: true
+                }));
+            } else {
+                await appendTweet(t, timelineContainer, {
                     bigFont: t.full_text.length < 75
-                };
-                await appendTweet(t, timelineContainer, obj);
-                if(renderLater[t.id_str]) {
-                    t.element.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
-                    await appendTweet(renderLater[t.id_str], timelineContainer, {
-                        noTop: true,
-                        after: t.element
-                    });
-                    delete renderLater[t.id_str];
-                }
+                });
             }
         }
     };
+    if(options.mode === 'prepend' && toRender.length > 0) {
+        timelineContainer.prepend(...toRender);
+        if(vars.enableTwemoji) {
+            for(let t in toRender) {
+                twemoji.parse(toRender[t]);
+            }
+        }
+    }
     document.getElementById('loading-box').hidden = true;
     document.getElementById('tweets-loading').hidden = true;
     document.getElementById('load-more').hidden = false;
@@ -374,12 +316,10 @@ function renderNewTweetsButton() {
         `;
         document.getElementById('new-tweets').hidden = false;
         document.getElementById('new-tweets').innerText = `${LOC.see_new_tweets.message}`;
-        if(vars.updateTimelineAutomatically && document.scrollingElement.scrollTop < 5000) {
-            if(!activeTweet || (!activeTweet.querySelector('.tweet-reply:not([hidden])') && !activeTweet.querySelector('.tweet-quote:not([hidden])'))) {
-                setTimeout(() => {
-                    document.getElementById('new-tweets').click();
-                });
-            }
+        if(vars.updateTimelineAutomatically) {
+            setTimeout(() => {
+                document.getElementById('new-tweets').click();
+            });
         }
     } else {
         document.getElementById("new-tweets-bug-fix").innerHTML = ``;
@@ -414,10 +354,10 @@ setTimeout(async () => {
             let tl;
             try {
                 switch(vars.timelineType) {
-                    case 'algo': tl = await API.timeline.getAlgorithmicalV2(algoCursor, 50); break;
-                    default: tl = await API.timeline.getChronologicalV2(algoCursor); break;
+                    case 'algo': tl = await API.timeline.getAlgorithmicalV2(cursorBottom, 50); break;
+                    default: tl = await API.timeline.getChronologicalV2(cursorBottom); break;
                 }
-                algoCursor = tl.cursor;
+                cursorBottom = tl.cursorBottom;
                 tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
                 for(let t of tl) {
                     seenTweets.push(t.id_str);
@@ -433,10 +373,9 @@ setTimeout(async () => {
                 loadingNewTweets = false;
                 return;
             }
-            let originalLength = timeline.data.length;
             timeline.data = timeline.data.concat(tl);
             try {
-                await renderTimeline(true, originalLength);
+                await renderTimeline({mode: 'append', data: tl });
             } catch(e) {
                 document.getElementById('load-more').innerText = LOC.load_more.message;
                 loadingNewTweets = false;
@@ -497,10 +436,10 @@ setTimeout(async () => {
     try {
         document.getElementById('new-tweets').addEventListener('click', () => {
             timeline.toBeUpdated = 0;
-            timeline.data = timeline.dataToUpdate;
-            timeline.dataToUpdate = [];
+            timeline.data = [...timeline.dataToUpdate, ...timeline.data];
             renderNewTweetsButton();
-            renderTimeline();
+            renderTimeline({mode: 'prepend', data: timeline.dataToUpdate });
+            timeline.dataToUpdate = [];
         });
     } catch(e) {
         setTimeout(() => location.reload(), 500);
@@ -516,8 +455,8 @@ setTimeout(async () => {
         document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
         let tl;
         try {
-            tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(algoCursor, 50) : await API.timeline.getChronologicalV2(algoCursor);
-            algoCursor = tl.cursor;
+            tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(cursorBottom, 50) : await API.timeline.getChronologicalV2(cursorBottom);
+            cursorBottom = tl.cursorBottom;
             tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
             for(let t of tl) {
                 seenTweets.push(t.id_str);
@@ -528,10 +467,9 @@ setTimeout(async () => {
             loadingNewTweets = false;
             return;
         }
-        let originalLength = timeline.data.length;
         timeline.data = timeline.data.concat(tl);
         try {
-            await renderTimeline(true, originalLength);
+            await renderTimeline({mode: 'append', data: tl });
         } catch(e) {
             document.getElementById('load-more').innerText = LOC.load_more.message;
             loadingNewTweets = false;
@@ -1102,7 +1040,8 @@ setTimeout(async () => {
             timeline.toBeUpdated = [];
             seenThreads = [];
             seenTweets = [];
-            algoCursor = undefined;
+            cursorBottom = undefined;
+            cursorTop = undefined;
 
             window.scrollTo(0, 0);
             renderNewTweetsButton();
@@ -1120,7 +1059,8 @@ setTimeout(async () => {
             timeline.toBeUpdated = [];
             seenThreads = [];
             seenTweets = [];
-            algoCursor = undefined;
+            cursorBottom = undefined;
+            cursorTop = undefined;
 
             window.scrollTo(0, 0);
             renderNewTweetsButton();
@@ -1187,7 +1127,7 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline(false), 60000);
+    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline('prepend'), 30000);
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 50);

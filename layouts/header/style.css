@@ -1654,6 +1654,9 @@ span.tweet-body-text {
 .tweet-interact-more-menu-block:before {
     content: "\f065"
 }
+.tweet-interact-more-menu-mute-user:before {
+    content: "\f101"
+}
 .tweet-interact-more-menu-newtwitter:before {
     content: "\f179"
 }
@@ -2369,7 +2372,7 @@ video::-internal-media-controls-overlay-cast-button {
         max-width: calc(100% - 15px);
     }
     .tweet-body-quote {
-        width: 100%;
+        width: calc(100% - 20px);
     }
     #right-cell {
         display: none;
@@ -2407,9 +2410,11 @@ video::-internal-media-controls-overlay-cast-button {
         top: 10%;
     }
     .tweet-viewer {
-        width: calc(100% - 42px);
+        width: calc(100% - 2px);
         overflow-x: clip;
-        margin-bottom: 150px;
+        margin-bottom: 200px;
+        padding-left: 0;
+        padding-right: 0;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;
@@ -2476,6 +2481,7 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .inbox-modal {
         width: calc(100% - 42px);
+        top: 5% !important;
     }
     .inbox-top h1 {
         font-size: 16px !important;
@@ -2527,8 +2533,8 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-body:not(.tweet-body-main) {
         width: calc(100% - 80px);
     }
-    .modal .tweet-media-element {
-        width: 100%;
+    .modal-content {
+        border-radius: 0;
     }
     .tweet .tweet-header-name {
         max-width: calc(100% - 65px);
@@ -2556,6 +2562,9 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-footer-stat {
         width: 100%;
         text-align: center;
+    }
+    .nav-count {
+        margin-left: -10px;
     }
     .tweet-footer-stat-text {
         padding: 7px 7px 0px 7px;

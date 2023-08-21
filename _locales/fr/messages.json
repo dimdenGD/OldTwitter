@@ -385,7 +385,7 @@
     "follow_to_see": { "message": "Seuls les abonnés approuvés peuvent voir les tweets de @$SCREEN_NAME$. Pour demander l'accès, cliquez sur Suivre.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Copier les liens de tweets en", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Utiliser le nouveau logo comme icône d'onglet" },
-    "update_timeline_automatically": { "message": "Mise à jour automatique de la chronologie en cas de nouveaux tweets. Cette option est expérimentale, ne l'utilisez que si vous voulez constamment être en haut de la chronologie, elle ne sera pas mise à jour automatiquement lorsque vous aurez fait défiler environ plus de 15 tweets vers le bas." },
+    "update_timeline_automatically": { "message": "Mise à jour automatique de la chronologie en cas de nouveaux tweets." },
     "chrono_no_retweets": { "message": "Chronologique inversé (sans retweets)" },
     "chrono_retweets": { "message": "Chronologique inversé (seulement retweets)" },
     "hide_trends": { "message": "Masquer les tendances" },

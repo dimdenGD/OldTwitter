@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "Somente seguidores aprovados podem ver os Tweets de @$SCREEN_NAME$. Para solicitar acesso, clique em Seguir.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Copiar link de tweet como", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Usar nova logo como ícone da guia" },
-    "update_timeline_automatically": { "message": "Atualize a linha do tempo automaticamente com novos tweets. Experimental: isso está meio instável, use apenas se quiser estar sempre no topo da timeline, pois não será atualizada automaticamente quando você rolar mais do que cerca de 15 tweets." },
+    "update_timeline_automatically": { "message": "Atualize a linha do tempo automaticamente com novos tweets." },
     "chrono_no_retweets": { "message": "Timeline em ordem crono. reversa (sem retweets)" },
     "chrono_retweets": { "message": "Timeline em ordem crono. reversa (apenas retweets)" },
     "hide_trends": { "message": "Esconder trends" },

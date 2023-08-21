@@ -642,7 +642,7 @@
 	},
 	"use_new_icon": { "message": "Yeni logoyu sekme ikonu olarak kullan" },
 	"update_timeline_automatically": {
-		"message": "Yeni tweetler gelince zaman akışını güncelle. Deneysel: bu biraz hatalı, sadece sürekli güncel kalmak istiyorsan kullan, 15 tweetten fazla kaydırırsan güncellemeyi bırakır."
+		"message": "Yeni tweetler gelince zaman akışını güncelle."
 	},
 	"chrono_no_retweets": { "message": "Ters kronolojik (retweetsiz)" },
 	"chrono_retweets": { "message": "Ters kronolojik (sadece retweetler)" },

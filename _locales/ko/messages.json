@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "승인된 팔로워만 @$SCREEN_NAME$ 님의 트윗과 전체 프로필을 볼 수 있습니다. '팔로우' 버튼을 눌러 팔로우 요청을 보내세요", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "copy_tweet_links_as": { "message": "트윗 링크를 다음 형식으로 복사", "example": "->Copy links as<- vxtwitter.com"},
     "use_new_icon": { "message": "탭 아이콘을 새 로고로 바꿉니다" },
-    "update_timeline_automatically": { "message": "타임라인의 새 트윗을 자동으로 갱신합니다. 실험적기능: 이 기능은 버그가 많을수 이습니다, 타임라인을 항상 맨 위에 둘 때만 사용하세요. 15개 이상 트윗을 내렸을 때 자동 업데이트 되지 않습니다" },
+    "update_timeline_automatically": { "message": "타임라인의 새 트윗을 자동으로 갱신합니다." },
     "chrono_no_retweets": { "message": "최신순 타임라인 (리트윗 없음)" },
     "chrono_retweets": { "message": "최신순 타임라인 (리트윗만 있음)" },
     "hide_trends": { "message": "실시간 트렌드를 숨깁니다" },

@@ -101,6 +101,9 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
                         t.classList.add('notification-unread');
                     }
                     notificationsContainer.appendChild(t);
+                    if(vars.enableTwemoji) {
+                        twemoji.parse(t);
+                    }
                 }
             }
         }
@@ -122,6 +125,11 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
         }
 
         notificationsContainer.prepend(...divs);
+        if(vars.enableTwemoji) {
+            for(let nd of divs) {
+                twemoji.parse(nd);
+            }
+        }
     }
 
     document.getElementById('notifs-loading').hidden = true;

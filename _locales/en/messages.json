@@ -394,7 +394,7 @@
     "follow_to_see": { "message": "Only confirmed followers have access to @$SCREEN_NAME$'s Tweets and complete profile. Click the \"Follow\" button to send a follow request.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Copy tweet links as", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Use new logo as tab icon" },
-    "update_timeline_automatically": { "message": "Update timeline automatically on new tweets. Experimental: this is kinda buggy, only use it if you want to be on top of timeline all the time, it won't auto-update when you scroll down further than about 15 tweets." },
+    "update_timeline_automatically": { "message": "Update timeline automatically on new tweets." },
     "chrono_no_retweets": { "message": "Reverse chronological (no retweets)" },
     "chrono_retweets": { "message": "Reverse chronological (only retweets)" },
     "hide_trends": { "message": "Hide trends" },
@@ -528,6 +528,10 @@
     "go_back_to_top": { "message": "Go back to top" },
     "follow_system_settings_dark_mode": { "message": "Follow system settings for dark mode" },
     "replacer_post_to_tweet": { "message": "post->tweet", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" },
+    "mute_user": { "message": "Mute @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unmute_user": { "message": "Unmute @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "muted_user": { "message": "Muted @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unmuted_user": { "message": "Unmuted @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "replacer_post_to_tweet_2": { "message": "post->tweet", "description": "Support for some languages where translation is not unified. If there's no problem, you can write the same thing with adove." },
     "replacer_repost_to_retweet": { "message": "repost->retweet", "description": "Support for some languages where translation is not unified. If there's no problem, you can write the same thing with adove." },
     "replacer_repost_to_retweet_2": { "message": "repost->retweet", "description": "Support for some languages where translation is not unified. If there's no problem, you can write the same thing with adove." },
@@ -538,5 +542,4 @@
     "replacer_liked_to_favorited_notification": { "message": " liked -> favorited ", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked your tweet' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited your tweet'" },
     "replacer_liked_to_favorited_recommend": { "message": " liked-> favorited", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited'" },
     "favorited_by": { "message": "Favorited by" }
-   
 }

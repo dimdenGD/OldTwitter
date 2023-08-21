@@ -434,6 +434,12 @@ async function renderTweetBodyHTML(t, is_quoted) {
                 index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
             });
         };
+
+        if(t.entities.media) {
+            t.entities.media.forEach(media => {
+                index_map[media.indices[0]] = [media.indices[1], text => ``];
+            });
+        }
     };
 
     let display_start = t.display_text_range !== undefined ? t.display_text_range[0] : 0;
@@ -1273,7 +1279,7 @@ function renderMedia(t) {
                 width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
                 height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
                 loading="lazy"
-                src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : '')}"
+                src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '')}"
                 class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
             >`;
         } else if(m.type === 'animated_gif') {
@@ -1295,6 +1301,11 @@ function renderMedia(t) {
                 </video>
             `;
         } else if(m.type === 'video') {
+            if(m.mediaStats && m.mediaStats.viewCount) {
+                m.ext = {
+                    mediaStats: { r: { ok: { viewCount: m.mediaStats.viewCount } } }
+                }
+            }
             html += /*html*/`
                 <video
                     ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
@@ -1505,7 +1516,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
         if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments") && !document.querySelector('.modal')) {
             tweet.addEventListener('click', async e => {
-                if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
+                if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                     document.getElementById('loading-box').hidden = false;
                     savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
@@ -1534,7 +1545,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweet.addEventListener('mousedown', e => {
                 if(e.button === 1) {
                     e.preventDefault();
-                    if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
+                    if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                         openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     }
                 }
@@ -1542,12 +1553,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
         } else {
             if(!options.mainTweet) {
                 tweet.addEventListener('click', e => {
-                    if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
+                    if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
                         let tweetData = t;
                         if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
                         tweet.classList.add('tweet-preload');
                         let selection = window.getSelection();
-                        if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`.tweet-id-${tweetData.id_str}`)) {
+                        if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`div.tweet[data-tweet-id="${tweetData.id_str}"]`)) {
                             return;
                         }
                         new TweetViewer(user, tweetData);
@@ -1556,7 +1567,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweet.addEventListener('mousedown', e => {
                     if(e.button === 1) {
                         e.preventDefault();
-                        if(e.target.className && (e.target.className.startsWith('tweet tweet-id-') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact')) {
+                        if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact')) {
                             openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                         }
                     }
@@ -1564,7 +1575,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         }
         tweet.tabIndex = -1;
-        tweet.className = `tweet tweet-id-${t.id_str} ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`;
+        tweet.className = `tweet ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`.trim();
         tweet.dataset.tweetId = t.id_str;
         tweet.dataset.userId = t.user.id_str;
         try {
@@ -1769,7 +1780,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText: ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? /*html*/`
@@ -1849,6 +1860,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ` : ''}
                         ${t.user.id_str !== user.id_str ? /*html*/`
                             <span class="tweet-interact-more-menu-block">${t.user.blocking ? unblockUserText : blockUserText}</span>
+                            <span class="tweet-interact-more-menu-mute-user">${t.user.muting ? LOC.unmute_user.message.replace("$SCREEN_NAME$", t.user.screen_name) : LOC.mute_user.message.replace("$SCREEN_NAME$", t.user.screen_name)}</span>
                         ` : ''}
                         ${!location.pathname.startsWith('/i/bookmarks') ? /*html*/`<span class="tweet-interact-more-menu-bookmark">${t.bookmarked ? LOC.remove_bookmark.message : LOC.bookmark_tweet.message}</span>` : ''}
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
@@ -2196,6 +2208,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuPin = tweet.getElementsByClassName('tweet-interact-more-menu-pin')[0];
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
+        const tweetInteractMoreMenuMuteUser = tweet.getElementsByClassName('tweet-interact-more-menu-mute-user')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
         const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
@@ -2319,7 +2332,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetBodyQuote.addEventListener('click', e => {
                     e.preventDefault();
                     if(e.target.className && e.target.className.includes('tweet-media-element')) {
-                        if(!e.target.src.endsWith('?name=orig') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
+                        if(!e.target.src.includes('?name=') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
                             e.target.src += '?name=orig';
                         }
                         new Viewer(e.target.parentElement, {
@@ -2357,6 +2370,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
                     } else {
                         translatedMessage = `${LOC.translated_from.message} [${translated.translated_lang}]`;
+                    }
+                    if(translated.text.length > 600) {
+                        translated.text = translated.text.substring(0, 600) + '...';
                     }
                     tweetBodyQuoteText.innerHTML += 
                     `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
@@ -2488,7 +2504,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return e.target.classList.remove('tweet-media-element-censor');
                 }
                 if (e.target.tagName === 'IMG') {
-                    if(!e.target.src.endsWith('?name=orig') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
+                    if(!e.target.src.includes('?name=') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
                         e.target.src += '?name=orig';
                     }
                     new Viewer(tweetMedia, {
@@ -2636,11 +2652,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetReply.hidden = true;
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
-                tweetInteractReply.dataset.val = parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(vars.showExactValues) tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                tweetInteractReply.dataset.val = parseInt(tweetInteractReply.dataset.val) + 1;
+                if(vars.showExactValues || t.reply_count < 10000) tweetInteractReply.innerText = formatLargeNumber(parseInt(tweetInteractReply.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
-                tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(vars.showExactValues) tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.dataset.val) + 1;
+                if(vars.showExactValues || t.reply_count < 10000) tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetData._ARTIFICIAL = true;
             if(typeof timeline !== 'undefined') {
@@ -2686,13 +2702,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractRetweetMenuRetweet.innerText = LOC.unretweet.message;
             tweetInteractRetweet.classList.add('tweet-interact-retweeted');
             t.retweeted = true;
+            t.retweet_count++;
             t.newTweetId = tweetData.id_str;
             if(!options.mainTweet) {
-                tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(vars.showExactValues)
+                tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.dataset.val) + 1;
+                if(vars.showExactValues || t.retweet_count < 10000)
                     tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             } else {
-                if(vars.showExactValues)
+                if(vars.showExactValues || t.retweet_count < 10000)
                     tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
         }
@@ -2700,12 +2717,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetInteractRetweetMenuRetweet.innerText = LOC.retweet.message;
             tweetInteractRetweet.classList.remove('tweet-interact-retweeted');
             t.retweeted = false;
+            t.retweet_count--;
             if(!options.mainTweet) {
-                tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                if(vars.showExactValues)
+                tweetInteractRetweet.dataset.val = parseInt(tweetInteractRetweet.dataset.val) - 1;
+                if(vars.showExactValues || t.retweet_count < 10000)
                     tweetInteractRetweet.innerText = formatLargeNumber(parseInt(tweetInteractRetweet.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             } else {
-                if(vars.showExactValues)
+                if(vars.showExactValues || t.retweet_count < 10000)
                     tweetFooterRetweets.innerText = formatLargeNumber(parseInt(tweetFooterRetweets.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             }
             delete t.newTweetId;
@@ -2924,8 +2942,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.favorited = false;
             t.favorite_count--;
             if(!options.mainTweet) {
-                tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1;
-                if(vars.showExactValues)
+                tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.dataset.val) - 1;
+                if(vars.showExactValues || t.favorite_count < 10000)
                     tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');;
             } else {
                 if(mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
@@ -2933,7 +2951,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     let likerImg = footerFavorites.querySelector(`a[data-id="${user.id_str}"]`);
                     if(likerImg) likerImg.remove()
                 }
-                if(vars.showExactValues)
+                tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.dataset.val) - 1;
+                if(vars.showExactValues || t.favorite_count < 10000)
                     tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) - 1).replace(/\s/g, ',');
             }
             tweetInteractFavorite.classList.remove('tweet-interact-favorited');
@@ -2942,8 +2961,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             t.favorited = true;
             t.favorite_count++;
             if(!options.mainTweet) {
-                tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1;
-                if(vars.showExactValues) tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
+                tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.dataset.val) + 1;
+                if(vars.showExactValues || t.favorite_count < 10000)
+                    tweetInteractFavorite.innerText = formatLargeNumber(parseInt(tweetInteractFavorite.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');;
             } else {
                 if(footerFavorites.children.length < 8 && !mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
                     let a = document.createElement('a');
@@ -2959,7 +2979,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     footerFavorites.appendChild(a);
                     mainTweetLikers.push(user);
                 }
-                if(vars.showExactValues) tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
+                tweetInteractFavorite.dataset.val = parseInt(tweetInteractFavorite.dataset.val) + 1;
+                if(vars.showExactValues || t.favorite_count < 10000)
+                    tweetFooterFavorites.innerText = formatLargeNumber(parseInt(tweetFooterFavorites.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetInteractFavorite.classList.add('tweet-interact-favorited');
         }
@@ -3073,6 +3095,22 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
+        if(tweetInteractMoreMenuMuteUser) tweetInteractMoreMenuMuteUser.addEventListener('click', async () => {
+            if (t.user.muting) {
+                await API.user.unmute(t.user.id_str);
+                t.user.muting = false;
+                tweetInteractMoreMenuMuteUser.innerText = LOC.mute_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+
+                toast.info(LOC.unmuted_user.message.replace("$SCREEN_NAME$", t.user.screen_name));
+            } else {
+                await API.user.mute(t.user.id_str);
+                t.user.muting = true;
+                tweetInteractMoreMenuMuteUser.innerText = LOC.unmute_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+
+                toast.info(LOC.muted_user.message.replace("$SCREEN_NAME$", t.user.screen_name));
+            }
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
+        });
         tweetInteractMoreMenuCopy.addEventListener('click', () => {
             navigator.clipboard.writeText(`https://${vars.copyLinksAs}/${t.user.screen_name}/status/${t.id_str}`);
         });
@@ -3106,7 +3144,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     return;
                 }
                 chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
-                Array.from(document.getElementsByClassName(`tweet-id-${t.id_str}`)).forEach(tweet => {
+                Array.from(document.querySelectorAll(`div.tweet[data-tweet-id="${t.id_str}"]`)).forEach(tweet => {
                     tweet.remove();
                 });
                 if(options.mainTweet) {

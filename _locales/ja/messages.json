@@ -385,7 +385,7 @@
     "follow_to_see": { "message": "@$SCREEN_NAME$ はツイート・プロフィールを非公開にしています。閲覧したい場合は、@$SCREEN_NAME$ 宛にフォローリクエストを送信してください。", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "ツイートをこのサイトのURL形式でコピー", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Faviconを鳥マークにする" },
-    "update_timeline_automatically": { "message": "新着ツイートがある場合、タイムラインを自動更新する（※これはまだ実験段階の機能であり、バグが発生する場合があります。15ツイート以上スクロールダウンしている場合は自動更新が止まります。）" },
+    "update_timeline_automatically": { "message": "新着ツイートがある場合、タイムラインを自動更新する" },
     "chrono_no_retweets": { "message": "時系列順（リツイートを除く）" },
     "chrono_retweets": { "message": "時系列順（リツイートのみ）" },
     "hide_trends": { "message": "トレンド欄を隠す" },

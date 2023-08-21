@@ -396,7 +396,7 @@
     "follow_to_see": {"message": "Nur bestätigte Follower haben Zugriff auf @$SCREEN_NAME$s Tweets und vollständiges Profil. Klicke auf die Schaltfläche „Folgen“, um eine Folgeanfrage zu senden.", "placeholders": {"screen_name": {"content": "dimden"}}},
     "copy_tweet_links_as": {"message": "Tweet-Links kopieren als", "example": "->Links kopieren als<- VxTwitter.com"},
     "use_new_icon": {"message": "Verwende neues Logo als Tab-Symbol"},
-    "update_timeline_automatically": {"message": "Aktualisiere die Zeitachse automatisch bei neuen Tweets. Experimentell: Das ist etwas instabil, verwende es nur, wenn du immer oben in der Zeitachse sein möchtest. Es wird nicht automatisch aktualisiert, wenn du weiter als ungefähr 15 Tweets nach unten scrollst."},
+    "update_timeline_automatically": {"message": "Aktualisiere die Zeitachse automatisch bei neuen Tweets."},
     "chrono_no_retweets": {"message": "Umgekehrte Chronologie (keine Retweets)"},
     "chrono_retweets": {"message": "Umgekehrte Chronologie (nur Retweets)"},
     "hide_trends": {"message": "Trends ausblenden"},

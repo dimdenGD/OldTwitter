@@ -1926,7 +1926,15 @@ setTimeout(async () => {
         }
     });
 
+    let imeTyping = false;
+    document.getElementById('user-search-input').addEventListener('compositionstart', () => {
+        imeTyping = true;
+    });
+    document.getElementById('user-search-input').addEventListener('compositionend', () => {
+        imeTyping = false;
+    });
     document.getElementById('user-search-input').addEventListener('keydown', e => {
+        if(imeTyping) return;
         if(e.key === 'Enter') {
             document.getElementById('user-search-icon').click();
         }
