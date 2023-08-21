@@ -128,6 +128,12 @@ async function loadVars() {
                     enableIframeNavigation: window.innerWidth < 590
                 }, () => {});
             }
+            if(typeof(data.showMediaCount) !== 'boolean') {
+                data.showMediaCount = window.innerWidth < 590;
+                chrome.storage.sync.set({
+                    showMediaCount: window.innerWidth < 590
+                }, () => {});
+            }
             if(typeof(data.font) !== 'string') {
                 data.font = 'Arial';
                 chrome.storage.sync.set({

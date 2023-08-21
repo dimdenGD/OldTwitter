@@ -879,6 +879,7 @@ a:hover,
     word-wrap: break-word;
     overflow: hidden;
     text-transform: uppercase;
+    color: var(--light-gray);
 }
 #profile-following-follower-mobile>div>a {
     font-weight: 600;
@@ -1720,6 +1721,9 @@ a:hover,
 
 /* Mobile UI */
 @media screen and (max-width: 590px) {
+    body {
+        background-color: var(--background-color) !important;
+    }
     .container{
         width:100%;
     }
@@ -1844,7 +1848,6 @@ a:hover,
     #profile-following-follower-mobile {
         display:block;
     }
-    #profile-info-text,
     .unable_load_timeline{
         background-color:var(--background-color);
     }

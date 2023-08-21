@@ -1272,23 +1272,25 @@ function renderMedia(t) {
             }
         }
         if(m.type === 'photo') {
+            let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             html += /*html*/`
             <img 
                 ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                 crossorigin="anonymous"
-                width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                width="${w}"
+                height="${h}"
                 loading="lazy"
                 src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '')}"
                 class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
             >`;
         } else if(m.type === 'animated_gif') {
+            let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             html += /*html*/`
                 <video
                     ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                     crossorigin="anonymous"
-                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                    width="${w}"
+                    height="${h}"
                     loop
                     disableRemotePlayback
                     onclick="if(this.paused) this.play(); else this.pause()"
@@ -1306,12 +1308,13 @@ function renderMedia(t) {
                     mediaStats: { r: { ok: { viewCount: m.mediaStats.viewCount } } }
                 }
             }
+            let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             html += /*html*/`
                 <video
                     ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                     crossorigin="anonymous"
-                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                    width="${w}"
+                    height="${h}"
                     preload="none"
                     disableRemotePlayback
                     ${t.extended_entities.media.length > 1 ? 'controls' : ''}

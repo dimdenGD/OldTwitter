@@ -1860,6 +1860,12 @@ setTimeout(async () => {
     document.getElementById('profile-stat-tweets-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-following-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-followers-link').addEventListener('click', updatePath);
+    if(document.getElementById('profile-stat-followers-mobile')) {
+        document.getElementById('profile-stat-followers-mobile').addEventListener('click', updatePath);
+    }
+    if(document.getElementById('profile-stat-following-mobile')) {
+        document.getElementById('profile-stat-following-mobile').addEventListener('click', updatePath);
+    }
     document.getElementById('profile-stat-favorites-link').addEventListener('click', updatePath);
     document.getElementById('profile-stat-media-link').addEventListener('click', updatePath);
     document.getElementById('profile-friends-text').addEventListener('click', updatePath);

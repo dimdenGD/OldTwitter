@@ -765,7 +765,7 @@ input, textarea {
     z-index: 50;
 }
 .tweet-body-text span {
-    white-space: break-spaces;
+    word-break: break-word;
 }
 .modal-top  {
     width: 495px;
@@ -2192,9 +2192,6 @@ emoji-picker {
     content: "\00b7";
     margin-right: 5px;
 }
-.tweet-player {
-    width: calc(100% - 50px);
-}
 @media screen and (max-width: 780px) {
     #search-input {
         width: 124px;
@@ -2540,9 +2537,6 @@ video::-internal-media-controls-overlay-cast-button {
     body.move-navbar-to-bottom #center-cell {
         margin-top: 0;
     }
-    .tweet-player {
-        width: 100%;
-    }
     .navbar-new-tweet-modal {
         width: calc(100% - 42px);
     }
@@ -2825,6 +2819,7 @@ video::-internal-media-controls-overlay-cast-button {
         border-top: 1px;
         border-color: var(--dark-background-color);
         transition-duration: 0.2s;
+        border-bottom: 1px solid var(--border);
     }
     .profile-stat {
         display: grid;
