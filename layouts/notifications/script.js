@@ -65,6 +65,7 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
             setTimeout(() => {
                 API.notifications.markAsRead(cursorTop);
                 if(windowFocused) {
+                    chrome.storage.local.remove(['unreadCount'], () => {});
                     document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
                     let newTitle = document.title;
                     if(document.title.startsWith('(')) {

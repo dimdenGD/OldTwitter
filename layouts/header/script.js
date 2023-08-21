@@ -2411,6 +2411,7 @@ let userDataFunction = async user => {
                         setTimeout(() => {
                             if(document.hasFocus()) {
                                 API.notifications.markAsRead(cursorTop);
+                                chrome.storage.local.remove(['unreadCount'], () => {});
 
                                 let notifElement = document.getElementById('notifications-count');
                                 let icon = document.getElementById('site-icon');
