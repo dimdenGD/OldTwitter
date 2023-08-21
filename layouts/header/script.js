@@ -300,8 +300,7 @@ function switchModernUI(enabled) {
             .tweet:first-child,
             #tweet-nav,
             #save-search-right,
-            #save-search-left,
-            .modal-content {
+            #save-search-left {
                 border-radius: 0px;
             }
             .modal-content {
