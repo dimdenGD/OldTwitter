@@ -1127,7 +1127,10 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline('prepend'), 30000);
+    if(vars.timelineType !== 'algo') {
+        setInterval(() => updateTimeline('prepend'), 30000);
+        setInterval(() => API.timeline.getChronologicalV2(), 60000 * 2);
+    }
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 50);
