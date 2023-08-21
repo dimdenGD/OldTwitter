@@ -62,7 +62,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Fixed tweet like/retweet/reply count not changing on action when 'Display the exact number of retweets, likes, followers, etc.' is disabled.</li>
-                            <li>Improved "new tweets" button on homepage, it doesn't re-render entire page but only adds new tweets.</li>
+                            <li>Improved "new tweets" button on homepage, now it doesn't re-render entire page but only adds new tweets.</li>
                             <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
                             <li>Made "Show bookmark count on tweets" option show bookmark button on all tweets.</li>
                             <li>Replaced word 'post' with 'tweet' everywhere.</li>
