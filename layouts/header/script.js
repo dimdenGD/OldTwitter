@@ -398,9 +398,11 @@ function hideStuff() {
             .tweet-interact-favorite { color: var(--background-color) !important }
             .tweet-interact-retweet { color: var(--background-color) !important }
             .tweet-interact-reply { color: var(--background-color) !important }
+            .tweet-interact-bookmark { color: var(--background-color) !important }
             .tweet:hover .tweet-interact-favorite { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-retweet { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-reply { color: var(--dark-background-color) !important }
+            .tweet:hover .tweet-interact-bookmark { color: var(--dark-background-color) !important }
         `;
     }if(vars.hideTimelineTypes) {
         hideStyle.innerHTML += `

@@ -1566,9 +1566,8 @@ class TweetViewer {
                     tweetInteractMoreMenuBookmark.innerText = LOC.bookmark_tweet.message;
                     if(tweetInteractBookmark) {
                         tweetInteractBookmark.classList.remove('tweet-interact-bookmarked');
-                        if(vars.bookmarkButton !== 'show_all_no_count') {
-                            tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
-                        }
+                        tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
+                        tweetInteractBookmark.dataset.val = t.bookmark_count;
                     }
                 }).catch(e => {
                     switchingBookmark = false;
@@ -1584,9 +1583,8 @@ class TweetViewer {
                     tweetInteractMoreMenuBookmark.innerText = LOC.remove_bookmark.message;
                     if(tweetInteractBookmark) {
                         tweetInteractBookmark.classList.add('tweet-interact-bookmarked');
-                        if(vars.bookmarkButton !== 'show_all_no_count') {
-                            tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
-                        }
+                        tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
+                        tweetInteractBookmark.dataset.val = t.bookmark_count;
                     }
                 }).catch(e => {
                     switchingBookmark = false;
