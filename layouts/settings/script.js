@@ -583,7 +583,9 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             language: language.value
         }, () => {
-            location.reload();
+            chrome.storage.local.remove(['notifications', 'trends', 'trendsv2'], () => {
+                location.reload();
+            })
         });
     });
     showMediaCount.addEventListener('change', () => {
