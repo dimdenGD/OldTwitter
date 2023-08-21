@@ -904,7 +904,7 @@ const API = {
                         trends.forEach(trend => {
                             if(!trend.item || !trend.item.content || !trend.item.content.trend) return;
                             let desc = trend.item.content.trend.trendMetadata.domainContext;
-                            if(String(desc).includes("undefined")) {//maybe promotioned trends?
+                            if(String(desc).includes("undefined")) {//maybe promoted trends?
                                 desc = ``;
                                 if(trend.item.content.trend.trendMetadata.metaDescription) {
                                     desc += trend.item.content.trend.trendMetadata.metaDescription;
@@ -914,6 +914,7 @@ const API = {
                                     desc += ` · ${trend.item.content.trend.trendMetadata.metaDescription}`;
                                 }
                             }
+                            //remove promoted trends
                             if((desc.startsWith('Promoted by') || /*en*/
                             desc.startsWith('Promocionado por') || /*es*/
                             desc.startsWith('Gesponsert von') || /*de*/
@@ -938,8 +939,13 @@ const API = {
                             ) && !vars.enableAd) {
                                 return;
                             }
+                            //fix posts to tweets
+                            //If you update Twitter to use translation for that part, you should delete this part.
                             if(desc.endsWith(' Posts')) {
                                 desc = desc.replace(` Posts`, ` ${LOC.tweets.message}`)
+                            }
+                            if(desc.endsWith(' posts')) {//why they changed to lower-case
+                                desc = desc.replace(` posts`, ` ${LOC.tweets.message}`)
                             }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,

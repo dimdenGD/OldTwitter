@@ -291,9 +291,9 @@ function timeElapsed(targetTimestamp) {
         return LOC.d.message.replace('$NUMBER$', Math.floor(elapsed / (86400)));
     }
     if (elapsed < 2628000) { //<1 month
-        return MonthNames[targetDate.getMonth()].replace('$NUMBER$', targetDate.getDate());
+        return LOC.mmdd.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]);
     }
-    return `${MonthNames[targetDate.getMonth()].replace('$NUMBER$', targetDate.getDate())}, ${targetDate.getFullYear()}`; //more than a monh
+    return LOC.mmddyy.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]).replace('$YEAR$', targetDate.getFullYear());//more than a monh
 }
 function openInNewTab(href) {
     Object.assign(document.createElement('a'), {
@@ -1119,7 +1119,12 @@ function getTimeZone() {
 function formatLargeNumber(n) {
     let option = {notation: 'compact', compactDisplay: 'short', maximumFractionDigits: 1, minimumFractionDigits: 1};
     let specialLangs = ['zh_cn', 'zh_tw', 'ja', 'ko']; // these languages actually stay short
-    if (n >= 1e4 && !vars.showExactValues) return Number(n).toLocaleString(specialLangs.includes(LANGUAGE.toLowerCase()) ? LANGUAGE.replace('_', '-') : 'en-US', option);
+    if (n >= 1e4 && !vars.showExactValues) {
+        if (vars.localizeDigit)
+            return Number(n).toLocaleString(specialLangs.includes(LANGUAGE.toLowerCase()) ? LANGUAGE.replace('_', '-') : 'en-US', option);
+        else
+        return Number(n).toLocaleString('en-US', option);
+    }
     else return Number(n).toLocaleString();
 }
 function languageMatches(tweetLanguage) {
@@ -1267,23 +1272,25 @@ function renderMedia(t) {
             }
         }
         if(m.type === 'photo') {
+            let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             html += /*html*/`
             <img 
                 ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                 crossorigin="anonymous"
-                width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                width="${w}"
+                height="${h}"
                 loading="lazy"
                 src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '')}"
                 class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
             >`;
         } else if(m.type === 'animated_gif') {
+            let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             html += /*html*/`
                 <video
                     ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                     crossorigin="anonymous"
-                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                    width="${w}"
+                    height="${h}"
                     loop
                     disableRemotePlayback
                     onclick="if(this.paused) this.play(); else this.pause()"
@@ -1301,12 +1308,13 @@ function renderMedia(t) {
                     mediaStats: { r: { ok: { viewCount: m.mediaStats.viewCount } } }
                 }
             }
+            let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             html += /*html*/`
                 <video
                     ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                     crossorigin="anonymous"
-                    width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}"
-                    height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}"
+                    width="${w}"
+                    height="${h}"
                     preload="none"
                     disableRemotePlayback
                     ${t.extended_entities.media.length > 1 ? 'controls' : ''}
@@ -1455,7 +1463,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.top.icon = "\uf008";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else if(t.socialContext.contextType === "Like") {
-                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(' liked', ' favorited') : t.socialContext.text}</a>`;
+                let [or, nr] = LOC.replacer_liked_to_favorited_recommend.message.split('->');   
+                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(or, nr) : t.socialContext.text}</a>`;
                 if(vars.heartsNotStars) {
                     options.top.icon = "\uf015";
                     options.top.color = "rgb(249, 24, 128)";
@@ -3528,10 +3537,14 @@ function renderNotification(n, options = {}) {
             console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
         }
         if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
-            notificationHeader = notificationHeader.replace(' liked ', ' favorited ');
+            let [or, nr] = LOC.replacer_liked_to_favorited_notification.message.split('->');   
+            notificationHeader = notificationHeader.replace(or, nr);
         }
         let [or, nr] = LOC.replacer_post_to_tweet.message.split('->');
-        notificationHeader = notificationHeader.replace(new RegExp(or, 'g'), nr);
+        let [or2, nr2] = LOC.replacer_post_to_tweet_2.message.split('->');
+        let [or_re, nr_re] = LOC.replacer_repost_to_retweet.message.split('->');
+        let [or_re2, nr_re2] = LOC.replacer_repost_to_retweet_2.message.split('->');
+        notificationHeader = notificationHeader.replace(new RegExp(or_re, 'g'), nr_re).replace(new RegExp(or_re2, 'g'), nr_re2).replace(new RegExp(or, 'g'), nr).replace(new RegExp(or2, 'g'), nr2);
         notification.innerHTML = /*html*/`
             <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
             <div class="notification-header">

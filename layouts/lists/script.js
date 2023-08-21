@@ -54,7 +54,7 @@ function renderListData(data) {
         document.getElementById('list-banner').src = data.default_banner_media.media_info.original_img_url;
     }
 
-    document.getElementsByTagName('title')[0].innerText = `${data.name} List - OldTwitter`;
+    document.getElementsByTagName('title')[0].innerText = `${data.name} ` + LOC.list.message + ` - ` + LOC.twitter.message;
     document.getElementById('list-name').innerText = data.name;
     document.getElementById('list-name').classList.toggle('user-protected', data.mode === 'Private');
     document.getElementById('list-description').innerText = data.description;

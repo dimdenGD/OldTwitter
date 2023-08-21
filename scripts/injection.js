@@ -238,7 +238,7 @@ async function updateCustomCSSVariables() {
     });
     root.style.setProperty('--font', vars.font);
     root.style.setProperty('--tweet-font', vars.tweetFont);
-    if(vars.iconFont || vars.modernUI){
+    if(vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
     }
     if(data.customCSSVariables) {

@@ -276,101 +276,41 @@
         "message": "נולד "
     },
     "january": {
-        "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "לינואר $NUMBER$"
+        "description": "Used in 'Born January 1'. You can move on left if it sounds better in your language like that.",
+        "message": "לינואר"
     },
     "february": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "לפברואר $NUMBER$"
+        "message": "לפברואר"
     },
     "march": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "למרץ $NUMBER$"
+        "message": "למרץ"
     },
     "april": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "לאפריל $NUMBER$"
+        "message": "לאפריל"
     },
     "may": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "למאי $NUMBER$"
+        "message": "למאי"
     },
     "june": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "ליוני $NUMBER$"
+        "message": "ליוני"
     },
     "july": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "ליולי $NUMBER$"
+        "message": "ליולי"
     },
     "august": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "לאוגוסט $NUMBER$"
+        "message": "לאוגוסט"
     },
     "september": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "לספטמבר $NUMBER$"
+        "message": "לספטמבר"
     },
     "october": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "לאוקטובר $NUMBER$"
+        "message": "לאוקטובר"
     },
     "november": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "לנובמבר $NUMBER$"
+        "message": "לנובמבר"
     },
     "december": {
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        },
-        "message": "לדצמבר $NUMBER$"
+        "message": "לדצמבר"
     },
     "tweet_to": {
         "example": "->Tweet to<- @CoolPerson2000",
@@ -906,5 +846,8 @@
     "decline": { "message": "סירוב" },
     "mute_convo": { "message": "השתק התכתבות " },
     "unmute_convo": { "message": "בטל השתקת התכתבות " },
-    "no_big_font": { "message": "ביטול גופן מוגדל עבור ציוצים קצרים/פופולריים" }
+    "no_big_font": { "message": "ביטול גופן מוגדל עבור ציוצים קצרים/פופולריים" },
+    "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
+    "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
+    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } }
 }
