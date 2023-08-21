@@ -67,6 +67,7 @@ setTimeout(() => {
                             <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
                             <li>Fixed search input on mobile.</li>
                             <li>Fixed video view counts.</li>
+                            <li>Made OldTwitter use low quality images when on mobile data (Chromium only).</li>
                             <li>Fixed Twitter embeds on other websites.</li>
                             <li>Made OldTwitter update tweet like/retweet/reply/view counts automatically.</li>
                             <li>Made tweet viewer use more space instead of wasting it.</li>
