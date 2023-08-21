@@ -1582,14 +1582,14 @@ setTimeout(async () => {
         lastScroll = Date.now();
 
         // make user nav appear
-        if(window.scrollY >= 600) {
+        if(window.scrollY >= 100) {
             if(innerWidth < 590) tweetsLink.style.opacity = 1;
             else tweetsLink.style.opacity = 1;
         } else {
             if(innerWidth < 590) tweetsLink.style.opacity = 0;
             else tweetsLink.style.opacity = 1;
         }
-        if (window.outerWidth <= 880) { //Mobile layout
+        if (innerWidth <= 880) { //Mobile layout
             if(window.scrollY >= 600) {
                 if(!navProfileInfo.style.opacity) {
                     if(lastScrollAmount > window.scrollY) {
