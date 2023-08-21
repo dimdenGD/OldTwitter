@@ -519,11 +519,17 @@
     "go_back_to_top": { "message": "Повернутись вверх" },
     "follow_system_settings_dark_mode": { "message": "Використовувати тему системи" },
     "replacer_post_to_tweet": { "message": "пост->твіт", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" },
+    "replacer_post_to_tweet_2": { "message": "post->tweet", "description": "Support for some languages where translation is not unified. If there's no problem, you can write the same thing with adove." },
+    "replacer_repost_to_retweet": { "message": "repost->retweet", "description": "Support for some languages where translation is not unified. If there's no problem, you can write the same thing with adove." },
+    "replacer_repost_to_retweet_2": { "message": "repost->retweet", "description": "Support for some languages where translation is not unified. If there's no problem, you can write the same thing with adove." },
     "mute_user": { "message": "Ігнорувати @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "unmute_user": { "message": "Не ігнорувати @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "muted_user": { "message": "Теперь ви ігноруєте @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "unmuted_user": { "message": "Тепер ви не ігноруєте @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
-    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } }
+    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
+    "localize_digit":{ "message" : "Use Asian four-digit notation. (CJK only)", "description":"Non-CJK dont need to translate this message, just copy and paste"},
+    "replacer_liked_to_favorited": { "message": "liked->favorited", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked your tweet' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited your tweet'" },
+    "favorited_by": { "message": "Сподобалось" }
 }

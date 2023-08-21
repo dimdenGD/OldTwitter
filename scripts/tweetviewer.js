@@ -286,7 +286,7 @@ class TweetViewer {
             tweet.style.marginBottom = '10px';
             tweet.style.borderRadius = '5px';
             let h1 = document.createElement('h1');
-            h1.innerText = vars.heartsNotStars? LOC.liked_by.message : LOC.favorited_by.message;
+            h1.innerText = vars.heartsNotStars ? LOC.liked_by.message : LOC.favorited_by.message;
             h1.className = 'cool-header';
             likeDiv.appendChild(h1);
         }

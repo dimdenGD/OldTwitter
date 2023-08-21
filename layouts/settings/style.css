@@ -668,7 +668,7 @@ select, input, textarea {
     cursor: pointer;
 }
 .color-div {
-    margin-bottom: 7px;
+    margin-bottom: 10px;
 }
 button[aria-labelledby="clr-open-label"] {
     display: none;
