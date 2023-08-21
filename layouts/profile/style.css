@@ -1843,7 +1843,8 @@ a:hover,
     #profile-following-follower-mobile {
         display:block;
     }
-    #profile-info-text{
+    #profile-info-text,
+    .unable_load_timeline{
         background-color:var(--background-color);
     }
     #profile-friends-div{
