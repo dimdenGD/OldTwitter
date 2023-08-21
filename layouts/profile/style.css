@@ -1843,6 +1843,9 @@ a:hover,
     #profile-following-follower-mobile {
         display:block;
     }
+    body{
+        background-color:var(--background-color) !important;
+    }
 }
 @media screen and (max-width: 470px) {
     .profile-stat {

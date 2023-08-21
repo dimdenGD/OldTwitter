@@ -2782,7 +2782,7 @@ video::-internal-media-controls-overlay-cast-button {
         padding-top: 20px;
     }
     #profile-avatar {
-        border: 5px solid var(--darker-background-color);
+        border: 5px solid var(--background-color);
         background-color: var(--background-color);
         border-radius: 12px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
