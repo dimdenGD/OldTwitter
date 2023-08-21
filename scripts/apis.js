@@ -553,10 +553,12 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+                    let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
                     let out = {
                         list: parseHomeTimeline(entries, data),
-                        cursorBottom: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value,
-                        cursorTop: entries.find(e => e.entryId.startsWith('cursor-top-')).content.value
+                        cursorBottom: cb ? cb.content.value : undefined,
+                        cursorTop: ct ? ct.content.value : undefined
                     }
                     debugLog('timeline.getChronologicalV2', 'end', {cursor, count, out});
                     return resolve(out);
@@ -636,10 +638,13 @@ const API = {
                         list.push(tweet);
                     }
         
+                    let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
+
                     let out = {
                         list,
-                        cursorBottom: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value,
-                        cursorTop: entries.find(e => e.entryId.startsWith('cursor-top-')).content.operation.cursor.value
+                        cursorBottom: cb ? cb.content.operation.cursor.value : undefined,
+                        cursorTop: ct ? ct.content.operation.cursor.value : undefined
                     }
                     debugLog('timeline.getAlgorithmical', 'end', {cursor, count, out});
                     return resolve(out)
@@ -683,10 +688,12 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+                    let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
                     let out = {
                         list: parseHomeTimeline(entries, data),
-                        cursorBottom: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value,
-                        cursorTop: entries.find(e => e.entryId.startsWith('cursor-top-')).content.value
+                        cursorBottom: cb ? cb.content.value : undefined,
+                        cursorTop: ct ? ct.content.value : undefined
                     }
                     for(let tweet of out.list) {
                         tweet.algo = true;
