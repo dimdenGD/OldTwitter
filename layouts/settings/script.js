@@ -134,7 +134,6 @@ setTimeout(async () => {
     })();
     let fontElement = document.getElementById('font');
     let tweetFontElement = document.getElementById('tweet-font');
-    let iconFontElement = document.getElementById('icon-font');
     let linkColor = document.getElementById('link-color');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
@@ -234,18 +233,6 @@ setTimeout(async () => {
             tweetFont: font
         }, () => { });
     }); 
-    iconFontElement.addEventListener('change', () => {
-        vars.iconFont = !!iconFontElement.checked;
-        chrome.storage.sync.set({
-            iconFont: iconFontElement.checked
-        }, () => {});
-        if(vars.iconFont || vars.modernUI){
-            root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
-        }
-        else{
-            root.style.setProperty('--icon-font', `"RosettaIcons"`)
-        }
-    });
     modernUI.addEventListener('change', () => {
         vars.modernUI = !!modernUI.checked;
         chrome.storage.sync.set({
@@ -256,7 +243,7 @@ setTimeout(async () => {
             themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
             switchDarkMode(isDarkModeEnabled);
         });  
-        if(vars.iconFont || vars.modernUI){
+        if(vars.modernUI){
             root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
         }
         else{
@@ -781,7 +768,7 @@ setTimeout(async () => {
         tweetFontElement.value = vars.tweetFont;
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
-    if(vars.iconFont || vars.modernUI){
+    if(vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
     }
     heartsNotStars.checked = !!vars.heartsNotStars;
@@ -795,7 +782,6 @@ setTimeout(async () => {
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
-    iconFontElement.checked = !!vars.iconFont;
     timeMode.checked = !!vars.timeMode && !vars.systemDarkMode;
     systemDarkMode.checked = !!vars.systemDarkMode;
     disableHotkeys.checked = !!vars.disableHotkeys;

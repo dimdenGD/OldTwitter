@@ -28,7 +28,7 @@ async function loadVars() {
             'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont', 'useOldDefaultProfileImage', 'enableHashflags',
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'openNotifsAsModal', 'enableIframeNavigation',
-            'acknowledgedCustomizationButton', 'modernUI', 'iconFont', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
+            'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
             'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit'
         ], data => {
             // default variables
@@ -180,12 +180,6 @@ async function loadVars() {
                 data.modernUI = false;
                 chrome.storage.sync.set({
                     modernUI: false
-                }, () => {});
-            }
-            if(typeof(data.iconFont) !== 'boolean') {
-                data.iconFont = false;
-                chrome.storage.sync.set({
-                    iconFont: false
                 }, () => {});
             }
             if(typeof(data.autotranslateProfiles) !== 'object') {

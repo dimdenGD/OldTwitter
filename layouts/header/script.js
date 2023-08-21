@@ -448,7 +448,7 @@ let userDataFunction = async user => {
     if(vars.tweetFont) {
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
     }
-    if(vars.iconFont || vars.modernUI){
+    if(vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
         root.style.setProperty('--home-icon-active', '"\\f553"');
         root.style.setProperty('--notification-icon-active', '"\\f019"');
@@ -465,7 +465,7 @@ let userDataFunction = async user => {
         root.style.setProperty('--favorite-icon-content', '"\\f148"');
         root.style.setProperty('--favorite-icon-content-notif', '"\\f015"');
         root.style.setProperty('--favorite-icon-color', 'rgb(249, 24, 128)');
-        if(vars.iconFont || vars.modernUI){//Rosetta doesnt have
+        if(vars.modernUI){//Rosetta does not have
             root.style.setProperty('--favorite-icon-content-click', '"\\f015"');
         }
         else{
@@ -475,7 +475,7 @@ let userDataFunction = async user => {
     else{   
         //edgeIcon Font does not have this font
         //We need to make newone?
-        if(vars.iconFont || vars.modernUI){
+        if(vars.modernUI){
             root.style.setProperty('--favorite-icon-content-notif', '"\\f147"');
         }
     }
