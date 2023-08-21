@@ -1824,7 +1824,7 @@ a:hover,
     #tweet-to:before{
         content: var(--at-icon);
         font-family: var(--icon-font);
-        color: var(--background-color);
+        color: white;
         font-size: 20px;
         vertical-align: -60%;
         padding-right:20px;
