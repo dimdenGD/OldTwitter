@@ -518,5 +518,9 @@
 	"autotranslation_help5": {"message": "\"Перекладати коли не в списку мов\" без добавлених мов буде перекладати всі твіти."},
     "go_back_to_top": { "message": "Повернутись вверх" },
     "follow_system_settings_dark_mode": { "message": "Використовувати тему системи" },
-    "replacer_post_to_tweet": { "message": "пост->твіт", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" }
+    "replacer_post_to_tweet": { "message": "пост->твіт", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" },
+    "mute_user": { "message": "Ігнорувати @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unmute_user": { "message": "Не ігнорувати @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "muted_user": { "message": "Теперь ви ігноруєте @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unmuted_user": { "message": "Тепер ви не ігноруєте @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
 }

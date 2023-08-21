@@ -66,6 +66,7 @@ setTimeout(() => {
                             <li>Replaced word 'post' with 'tweet'.</li>
                             <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
                             <li>Fixed search input on mobile.</li>
+                            <li>Added mute button to three dots button of tweets.</li>
                             <li>Fixed video view counts.</li>
                             <li>Made OldTwitter use low quality images when on mobile data (Chromium only).</li>
                             <li>Fixed Twitter embeds on other websites.</li>

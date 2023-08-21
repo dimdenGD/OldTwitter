@@ -527,5 +527,9 @@
 	"autotranslation_help5": {"message": "\"Translate when not in language list\" with no languages set cause every tweet to be translated. It's better to add languages you know to not needlessly translate them."},
     "go_back_to_top": { "message": "Go back to top" },
     "follow_system_settings_dark_mode": { "message": "Follow system settings for dark mode" },
-    "replacer_post_to_tweet": { "message": "post->tweet", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" }
+    "replacer_post_to_tweet": { "message": "post->tweet", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" },
+    "mute_user": { "message": "Mute @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unmute_user": { "message": "Unmute @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "muted_user": { "message": "Muted @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unmuted_user": { "message": "Unmuted @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
 }

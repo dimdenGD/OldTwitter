@@ -1854,6 +1854,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ` : ''}
                         ${t.user.id_str !== user.id_str ? /*html*/`
                             <span class="tweet-interact-more-menu-block">${t.user.blocking ? unblockUserText : blockUserText}</span>
+                            <span class="tweet-interact-more-menu-mute-user">${t.user.muting ? LOC.unmute_user.message.replace("$SCREEN_NAME$", t.user.screen_name) : LOC.mute_user.message.replace("$SCREEN_NAME$", t.user.screen_name)}</span>
                         ` : ''}
                         ${!location.pathname.startsWith('/i/bookmarks') ? /*html*/`<span class="tweet-interact-more-menu-bookmark">${t.bookmarked ? LOC.remove_bookmark.message : LOC.bookmark_tweet.message}</span>` : ''}
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
@@ -2201,6 +2202,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuPin = tweet.getElementsByClassName('tweet-interact-more-menu-pin')[0];
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
+        const tweetInteractMoreMenuMuteUser = tweet.getElementsByClassName('tweet-interact-more-menu-mute-user')[0];
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuFeedbacks = Array.from(tweet.getElementsByClassName('tweet-interact-more-menu-feedback'));
         const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
@@ -3084,6 +3086,22 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     tweet: t
                 } });
                 document.dispatchEvent(event);
+            }
+            chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
+        });
+        if(tweetInteractMoreMenuMuteUser) tweetInteractMoreMenuMuteUser.addEventListener('click', async () => {
+            if (t.user.muting) {
+                await API.user.unmute(t.user.id_str);
+                t.user.muting = false;
+                tweetInteractMoreMenuMuteUser.innerText = LOC.mute_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+
+                toast.info(LOC.unmuted_user.message.replace("$SCREEN_NAME$", t.user.screen_name));
+            } else {
+                await API.user.mute(t.user.id_str);
+                t.user.muting = true;
+                tweetInteractMoreMenuMuteUser.innerText = LOC.unmute_user.message.replace("$SCREEN_NAME$", t.user.screen_name);
+
+                toast.info(LOC.muted_user.message.replace("$SCREEN_NAME$", t.user.screen_name));
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });

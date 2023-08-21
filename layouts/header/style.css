@@ -1648,6 +1648,9 @@ span.tweet-body-text {
 .tweet-interact-more-menu-block:before {
     content: "\f065"
 }
+.tweet-interact-more-menu-mute-user:before {
+    content: "\f101"
+}
 .tweet-interact-more-menu-newtwitter:before {
     content: "\f179"
 }
