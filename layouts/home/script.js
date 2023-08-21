@@ -1130,7 +1130,17 @@ setTimeout(async () => {
     setInterval(updateUserData, 60000 * 3);
     if(vars.timelineType !== 'algo') {
         setInterval(() => updateTimeline('prepend'), 30000);
-        setInterval(() => API.timeline.getChronologicalV2(), 60000 * 2);
+        setInterval(async () => {
+            let tweets = (await API.timeline.getChronologicalV2()).list;
+            for(let i = 0; i < timeline.dataToUpdate.length; i++) {
+                let tweet = timeline.dataToUpdate[i];
+                let newTweet = tweets.find(t => t.id_str === tweet.id_str);
+                if(newTweet) {
+                    console.log('updated tweet', newTweet);
+                    timeline.dataToUpdate[i] = newTweet;
+                }
+            }
+        }, 60000 * 1.5);
     }
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
