@@ -766,6 +766,7 @@ input, textarea {
 }
 .tweet-body-text span {
     word-break: break-word;
+    white-space: break-spaces;
 }
 .modal-top  {
     width: 495px;
