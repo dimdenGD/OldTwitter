@@ -1136,7 +1136,6 @@ setTimeout(async () => {
                 let tweet = timeline.dataToUpdate[i];
                 let newTweet = tweets.find(t => t.id_str === tweet.id_str);
                 if(newTweet) {
-                    console.log('updated tweet', newTweet);
                     timeline.dataToUpdate[i] = newTweet;
                 }
             }

@@ -970,7 +970,13 @@ const getLinkColors = ids => {
             }
 
             try {
-                let res = await fetch("https://dimden.dev/services/twitter_link_colors/v2/get_multiple/"+toFetch.join(","));
+                const controller = new AbortController();
+
+                let t = setTimeout(() => controller.abort(), 1000);
+                let res = await fetch("https://dimden.dev/services/twitter_link_colors/v2/get_multiple/"+toFetch.join(","), {
+                    signal: controller.signal
+                });
+                clearTimeout(t);
                 let json = await res.json();
                 for(let id in json) {
                     if(json[id] === 'none' || json[id] === '4595b5') {
