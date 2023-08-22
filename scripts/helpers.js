@@ -3557,10 +3557,10 @@ function renderNotification(n, options = {}) {
                 notificationHeader = notificationHeader.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
             });
         }
-        LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
+        LOC.replacer_repost_to_retweet.message.split('|').forEach(el => {
             notificationHeader = notificationHeader.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
         });
-        LOC.replacer_repost_to_retweet.message.split('|').forEach(el => {
+        LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
             notificationHeader = notificationHeader.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
         });
         notification.innerHTML = /*html*/`
