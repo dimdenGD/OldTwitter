@@ -188,7 +188,7 @@
     "enable_twemoji": { "message": "Enable Twemoji" },
     "hearts_instead_stars": { "message": "Show hearts (likes) instead of stars (favorites)" },
     "dark_mode": { "message": "Dark mode" },
-    "disable_hotkeys": { "message": "Disable hotkeys" },
+    "disable_hotkeys": { "message": "Disable all hotkeys" },
     "hotkeys_list": { "message": "See list of hotkeys here" },
     "save_preferred_quality": { "message": "Save preferred video quality. If this is set to true, OldTwitter will save your preferred video quality and use it (or use closest quality to preferred one). If it's off, OldTwitter will select highest quality." },
     "preferred_quality": { "message": "Preferred quality" },
@@ -538,5 +538,7 @@
     "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
     "localize_digit":{ "message" : "Use Asian four-digit notation. (CJK only)", "description":"Non-CJK dont need to translate this message, just copy and paste"},
     "replacer_liked_to_favorited": { "message": "liked->favorited", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
-    "favorited_by": { "message": "Favorited by" }
+    "favorited_by": { "message": "Favorited by" },
+    "disable_retweet_hotkey": { "message": "Disable retweet hotkey (T)" },
+    "disable_like_hotkey": { "message": "Disable like hotkey (L)" }
 }

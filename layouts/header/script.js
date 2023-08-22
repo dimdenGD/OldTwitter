@@ -2809,6 +2809,7 @@ setInterval(() => {
             } else if(e.keyCode === 76) { // L
                 // like tweet
                 if(!activeTweet) return;
+                if(vars.disableLikeHotkey) return;
                 let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
                 tweetFavoriteButton.click();
             } else if(e.keyCode === 66) { // B
@@ -2819,6 +2820,7 @@ setInterval(() => {
             } else if(e.keyCode === 84) { // T
                 // retweet
                 if(!activeTweet) return;
+                if(vars.disableRetweetHotkey) return;
                 let hasRetweetedWithHotkeyBefore = await new Promise(resolve => {
                     chrome.storage.local.get(['hasRetweetedWithHotkey'], data => {
                         resolve(data.hasRetweetedWithHotkey);

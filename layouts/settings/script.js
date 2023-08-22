@@ -146,6 +146,8 @@ setTimeout(async () => {
     let timeMode = document.getElementById('time-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
     let disableHotkeys = document.getElementById('disable-hotkeys');
+    let disableRetweetHotkey = document.getElementById('disable-retweet-hotkey');
+    let disableLikeHotkey = document.getElementById('disable-like-hotkey');
     let customCSS = document.getElementById('custom-css');
     let customCSSSave = document.getElementById('custom-css-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
@@ -470,6 +472,16 @@ setTimeout(async () => {
             disableHotkeys: disableHotkeys.checked
         }, () => { });
     });
+    disableRetweetHotkey.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableRetweetHotkey: disableRetweetHotkey.checked
+        }, () => { });
+    });
+    disableLikeHotkey.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableLikeHotkey: disableLikeHotkey.checked
+        }, () => { });
+    });
     savePreferredQuality.addEventListener('change', () => {
         chrome.storage.sync.set({
             savePreferredQuality: savePreferredQuality.checked
@@ -787,6 +799,8 @@ setTimeout(async () => {
     timeMode.checked = !!vars.timeMode && !vars.systemDarkMode;
     systemDarkMode.checked = !!vars.systemDarkMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
+    disableRetweetHotkey.checked = !!vars.disableRetweetHotkey;
+    disableLikeHotkey.checked = !!vars.disableLikeHotkey;
     noBigFont.checked = !!vars.noBigFont;
     autoplayVideos.checked = !!vars.autoplayVideos;
     displaySensitiveContent.checked = !!vars.displaySensitiveContent;
