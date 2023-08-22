@@ -2302,7 +2302,7 @@ let userDataFunction = async user => {
         let tweets = Array.from(document.getElementsByClassName('tweet'));
         let scrollPoint = scrollY + innerHeight/2;
         let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-        if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
+        if(!activeTweet || (newActiveTweet && activeTweet.dataset.tweetId !== newActiveTweet.dataset.tweetId)) {
             if(activeTweet) {
                 activeTweet.classList.remove('tweet-active');
                 let video = activeTweet.querySelector('.tweet-media > video[controls]');
