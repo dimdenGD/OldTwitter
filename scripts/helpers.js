@@ -290,11 +290,10 @@ function timeElapsed(targetTimestamp) {
     if (elapsed < 604800) { //<7 days
         return LOC.d.message.replace('$NUMBER$', Math.floor(elapsed / (86400)));
     }
-    if (targetDate.getFullYear() == currentDate.getFullYear()) { // same years
+    if (elapsed < 2628000) { //<1 month
         return LOC.mmdd.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]);
     }
-    //more than last years
-    return LOC.mmddyy.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]).replace('$YEAR$', targetDate.getFullYear());
+    return LOC.mmddyy.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]).replace('$YEAR$', targetDate.getFullYear());//more than a monh
 }
 function openInNewTab(href) {
     Object.assign(document.createElement('a'), {
@@ -1161,6 +1160,11 @@ async function renderTrends(compact = false, cache = true) {
     let max = 7;
     if(innerHeight < 650) max = 3;
     trends.slice(0, max).forEach(({ trend }) => {
+        if (!compact && trend.meta_description) {
+            LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
+                trend.meta_description = trend.meta_description.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
+            });
+        }
         let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === trend.name.slice(1).toLowerCase());
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend' + (compact ? ' compact-trend' : '');
@@ -1171,7 +1175,7 @@ async function renderTrends(compact = false, cache = true) {
                     ${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag" width="16" height="16">` : ''}
                 </a>
             </b><br>
-            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description.replace(...LOC.replacer_post_to_tweet.message.split('->'))) : ''}</span>
+            <span class="trend-description">${trend.meta_description ? escapeHTML(trend.meta_description) : ''}</span>
         `;
         trendsContainer.append(trendDiv);
         if(vars.enableTwemoji) twemoji.parse(trendDiv);
@@ -1470,9 +1474,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.topic_id}">${t.socialContext.name}</a>`;
                 options.top.icon = "\uf008";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
-            } else if(t.socialContext.contextType === "Like") {
-                let [or, nr] = LOC.replacer_liked_to_favorited.message.split('->');   
-                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${!vars.heartsNotStars ? t.socialContext.text.replace(or, nr) : t.socialContext.text}</a>`;
+            } else if(t.socialContext.contextType === "Like") { 
+                if (!vars.heartsNotStars) {
+                    LOC.replacer_liked_to_favorited.message.split('|').forEach(el => {
+                        t.socialContext.text = t.socialContext.text.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
+                    });
+                };
+                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${t.socialContext.text}</a>`;
                 if(vars.heartsNotStars) {
                     options.top.icon = "\uf015";
                     options.top.color = "rgb(249, 24, 128)";
@@ -3544,15 +3552,16 @@ function renderNotification(n, options = {}) {
             console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
         }
         if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
-            let [or, nr] = LOC.replacer_liked_to_favorited.message.split('->');
-            let [or2, nr2] = LOC.replacer_liked_to_favorited_2.message.split('->');
-            notificationHeader = notificationHeader.replace(or, nr).replace(or2, nr2);
+            LOC.replacer_liked_to_favorited.message.split('|').forEach(el => {
+                notificationHeader = notificationHeader.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
+            });
         }
-        let [or, nr] = LOC.replacer_post_to_tweet.message.split('->');
-        let [or2, nr2] = LOC.replacer_post_to_tweet_2.message.split('->');
-        let [or_re, nr_re] = LOC.replacer_repost_to_retweet.message.split('->');
-        let [or_re2, nr_re2] = LOC.replacer_repost_to_retweet_2.message.split('->');
-        notificationHeader = notificationHeader.replace(new RegExp(or_re, 'g'), nr_re).replace(new RegExp(or_re2, 'g'), nr_re2).replace(new RegExp(or, 'g'), nr).replace(new RegExp(or2, 'g'), nr2);
+        LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
+            notificationHeader = notificationHeader.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
+        });
+        LOC.replacer_repost_to_retweet.message.split('|').forEach(el => {
+            notificationHeader = notificationHeader.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
+        });
         notification.innerHTML = /*html*/`
             <div class="notification-icon ${iconClasses[n.icon.id]}"></div>
             <div class="notification-header">
