@@ -1204,7 +1204,7 @@ async function renderDiscovery(cache = true) {
             let udiv = document.createElement('div');
             udiv.className = 'wtf-user';
             udiv.dataset.userId = userId;
-            udiv.innerHTML = `
+            udiv.innerHTML = /*html*/`
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${`${(userData.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(userData.id_str) % 7}_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
@@ -1517,6 +1517,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(!vars.twitterBlueCheckmarks && t.quoted_status && t.quoted_status.user.verified_type === "Blue") {
             delete t.quoted_status.user.verified_type;
             t.quoted_status.user.verified = false;
+        }
+        if(t.quoted_status) {
+            if(t.quoted_status.user.verified_type === "Blue" && !vars.twitterBlueCheckmarks) {
+                delete t.quoted_status.user.verified_type;
+                t.quoted_status.user.verified = false;
+            }
         }
 
         if(typeof tweets !== 'undefined') tweets.push(['tweet', t, options]);
