@@ -971,7 +971,13 @@ const getLinkColors = ids => {
             }
 
             try {
-                let res = await fetch("https://dimden.dev/services/twitter_link_colors/v2/get_multiple/"+toFetch.join(","));
+                const controller = new AbortController();
+
+                let t = setTimeout(() => controller.abort(), 1000);
+                let res = await fetch("https://dimden.dev/services/twitter_link_colors/v2/get_multiple/"+toFetch.join(","), {
+                    signal: controller.signal
+                });
+                clearTimeout(t);
                 let json = await res.json();
                 for(let id in json) {
                     if(json[id] === 'none' || json[id] === '4595b5') {
@@ -2666,9 +2672,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 if(vars.showExactValues || t.reply_count < 10000) tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
             tweetData._ARTIFICIAL = true;
-            if(typeof timeline !== 'undefined') {
-                timeline.data.unshift(tweetData);
-            }
             if(tweet.getElementsByClassName('tweet-self-thread-div')[0]) tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
             tweetReplyButton.disabled = false;
             tweetReplyMedia.innerHTML = [];
@@ -3541,8 +3544,9 @@ function renderNotification(n, options = {}) {
             console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
         }
         if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
-            let [or, nr] = LOC.replacer_liked_to_favorited.message.split('->');   
-            notificationHeader = notificationHeader.replace(or, nr);
+            let [or, nr] = LOC.replacer_liked_to_favorited.message.split('->');
+            let [or2, nr2] = LOC.replacer_liked_to_favorited_2.message.split('->');
+            notificationHeader = notificationHeader.replace(or, nr).replace(or2, nr2);
         }
         let [or, nr] = LOC.replacer_post_to_tweet.message.split('->');
         let [or2, nr2] = LOC.replacer_post_to_tweet_2.message.split('->');

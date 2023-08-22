@@ -1759,14 +1759,15 @@ let userDataFunction = async user => {
         imeTyping = true;
     });
     searchInput.addEventListener('compositionend', () => {
-        imeTyping = false;
+        setTimeout(() => {
+            imeTyping = false;
+        }, 50);
     });
-    searchInput.addEventListener('keyup', async (e) => {
+    searchInput.addEventListener('keydown', async e => {
         if(imeTyping) return;
-        let query = searchInput.value;
-        let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
-        let activeSearch = searchElements[selectedIndex];
         if(e.key === "Enter") {
+            let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
+            let activeSearch = searchElements[selectedIndex];
             if(activeSearch) {
                 activeSearch.click();
             } else {
@@ -1774,6 +1775,12 @@ let userDataFunction = async user => {
             }
             return;
         }
+    });
+    searchInput.addEventListener('keyup', async (e) => {
+        if(imeTyping) return;
+        let query = searchInput.value;
+        let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
+        let activeSearch = searchElements[selectedIndex];
         if(activeSearch) activeSearch.classList.remove('search-result-item-active');
         if(e.key === 'ArrowDown') {
             if(selectedIndex < searchElements.length - 1) {

@@ -296,6 +296,7 @@ async function renderTimeline(options = {}) {
         }
     };
     if(options.mode === 'prepend' && toRender.length > 0) {
+        console.log(data, toRender);
         timelineContainer.prepend(...toRender);
         if(vars.enableTwemoji) {
             for(let t in toRender) {
@@ -1136,7 +1137,6 @@ setTimeout(async () => {
                 let tweet = timeline.dataToUpdate[i];
                 let newTweet = tweets.find(t => t.id_str === tweet.id_str);
                 if(newTweet) {
-                    console.log('updated tweet', newTweet);
                     timeline.dataToUpdate[i] = newTweet;
                 }
             }
