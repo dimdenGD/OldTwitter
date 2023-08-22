@@ -2991,9 +2991,6 @@ video::-internal-media-controls-overlay-cast-button {
         justify-content: center;
         display: flex;
     }
-    .tweet-body-main > .tweet-interact span::before {
-        margin-right: 0px;
-    }
     .tweet-body-main > .tweet-interact span {
         margin-left: auto;
         margin-right: auto;
