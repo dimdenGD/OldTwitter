@@ -529,6 +529,10 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         }, 5000);
     };
 
+    if(vars.extensionCompatibilityMode) {
+        html = html.replace("fake-react-root", "react-root");
+    }
+
     document.documentElement.innerHTML = html;
     document.body.classList.add('body-old-ui');
 

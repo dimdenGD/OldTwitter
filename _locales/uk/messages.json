@@ -531,5 +531,6 @@
     "replacer_liked_to_favorited": { "message": "liked->favorited", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked your tweet' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited your tweet'" },
     "favorited_by": { "message": "Сподобалось" },
     "disable_retweet_hotkey": { "message": "Виключити гарячу клавішу для ретвітів (T)" },
-    "disable_like_hotkey": { "message": "Виключити гарячу клавішу для лайків (L)" }
+    "disable_like_hotkey": { "message": "Виключити гарячу клавішу для лайків (L)" },
+    "enable_extension_compatibility": { "message": "Включити режим зумісності (включайте тільки якщо хочете зробити інше розширення зумісним з OldTwitter, якщо воно все ще не працює (а воно скоріш всього не буде) виключіть цю опцію, тому що вона може зробити сторінку лагучою)" }
 }

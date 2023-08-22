@@ -197,6 +197,7 @@ setTimeout(async () => {
     let dontPauseVideos = document.getElementById('dont-pause-videos');
     let showUserPreviewsOnMobile = document.getElementById('show-user-previews-on-mobile');
     let systemDarkMode = document.getElementById('system-dark-mode');
+    let extensionCompatibilityMode = document.getElementById('extension-compatibility-mode');
 
     let root = document.querySelector(":root");
     {
@@ -606,6 +607,12 @@ setTimeout(async () => {
             showMediaCount: showMediaCount.checked
         }, () => { });
     });
+    extensionCompatibilityMode.addEventListener('change', () => {
+        vars.extensionCompatibilityMode = extensionCompatibilityMode.checked;
+        chrome.storage.sync.set({
+            extensionCompatibilityMode: extensionCompatibilityMode.checked
+        }, () => { });
+    });
     darkMode.addEventListener('change', () => {
         themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
         isDarkModeEnabled = darkMode.checked;
@@ -831,6 +838,7 @@ setTimeout(async () => {
     enableIframeNavigation.checked = !!vars.enableIframeNavigation;
     muteVideos.checked = !!vars.muteVideos;
     dontPauseVideos.checked = !!vars.dontPauseVideos;
+    extensionCompatibilityMode.checked = !!vars.extensionCompatibilityMode;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
