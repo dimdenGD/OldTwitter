@@ -1937,7 +1937,9 @@ setTimeout(async () => {
         imeTyping = true;
     });
     document.getElementById('user-search-input').addEventListener('compositionend', () => {
-        imeTyping = false;
+        setTimeout(() => {
+            imeTyping = false;
+        }, 50);
     });
     document.getElementById('user-search-input').addEventListener('keydown', e => {
         if(imeTyping) return;
