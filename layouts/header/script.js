@@ -2907,9 +2907,18 @@ setInterval(() => {
                     }
                 }
             } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
+                let vin = document.querySelector('.viewer-in');
+                if(vin) {
+                    return vin.querySelector('.viewer-next').click();
+                }
                 // download media
                 if(activeTweet.classList.contains('tweet')) {
                     activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
+                }
+            } else if(e.keyCode === 65 && !e.ctrlKey && !e.altKey) { // A
+                let vin = document.querySelector('.viewer-in');
+                if(vin) {
+                    return vin.querySelector('.viewer-prev').click();
                 }
             }
         });
