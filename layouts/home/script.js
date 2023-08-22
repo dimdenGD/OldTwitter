@@ -296,6 +296,7 @@ async function renderTimeline(options = {}) {
         }
     };
     if(options.mode === 'prepend' && toRender.length > 0) {
+        console.log(data, toRender);
         timelineContainer.prepend(...toRender);
         if(vars.enableTwemoji) {
             for(let t in toRender) {
