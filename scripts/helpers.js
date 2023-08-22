@@ -3543,8 +3543,9 @@ function renderNotification(n, options = {}) {
             console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
         }
         if(n.icon.id === 'heart_icon' && !vars.heartsNotStars) {
-            let [or, nr] = LOC.replacer_liked_to_favorited.message.split('->');   
-            notificationHeader = notificationHeader.replace(or, nr);
+            let [or, nr] = LOC.replacer_liked_to_favorited.message.split('->');
+            let [or2, nr2] = LOC.replacer_liked_to_favorited_2.message.split('->');
+            notificationHeader = notificationHeader.replace(or, nr).replace(or2, nr2);
         }
         let [or, nr] = LOC.replacer_post_to_tweet.message.split('->');
         let [or2, nr2] = LOC.replacer_post_to_tweet_2.message.split('->');
