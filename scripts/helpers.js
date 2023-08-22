@@ -290,10 +290,11 @@ function timeElapsed(targetTimestamp) {
     if (elapsed < 604800) { //<7 days
         return LOC.d.message.replace('$NUMBER$', Math.floor(elapsed / (86400)));
     }
-    if (elapsed < 2628000) { //<1 month
+    if (targetDate.getFullYear() == currentDate.getFullYear()) { // same years
         return LOC.mmdd.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]);
     }
-    return LOC.mmddyy.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]).replace('$YEAR$', targetDate.getFullYear());//more than a monh
+    //more than last years
+    return LOC.mmddyy.message.replace('$DATE$', targetDate.getDate()).replace('$MONTH$', MonthNames[targetDate.getMonth()]).replace('$YEAR$', targetDate.getFullYear());
 }
 function openInNewTab(href) {
     Object.assign(document.createElement('a'), {
