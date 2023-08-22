@@ -62,8 +62,9 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Fixed tweet like/retweet/reply count not changing on action when 'Display the exact number of retweets, likes, followers, etc.' is disabled.</li>
-                            <li>Improved "new tweets" button on homepage, it doesn't re-render entire page but only adds new tweets.</li>
+                            <li>Improved "new tweets" button on homepage, now it doesn't re-render entire page but only adds new tweets.</li>
                             <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
+                            <li>Made "Show bookmark count on tweets" option show bookmark button on all tweets.</li>
                             <li>Replaced word 'post' with 'tweet' everywhere.</li>
                             <li>Fixed search input on mobile.</li>
                             <li>Added mute button to three dots button of tweets.</li>
@@ -71,7 +72,7 @@ setTimeout(() => {
                             <li>Made OldTwitter use low quality images when on mobile data (Chromium only).</li>
                             <li>Fixed Twitter embeds on other websites.</li>
                             <li>Made OldTwitter update tweet like/retweet/reply/view counts automatically.</li>
-                            <li>Made tweet viewer use more space instead of wasting it.</li>
+                            <li>Made tweet viewer use more space instead of wasting it on mobile.</li>
                             <li>Fixed username disappearing on scroll in profile.</li>
                             <li>Added quote translation length limit.</li>
                             <li>Fixed pressing enter with Japanese IME in search input initiating search.</li>
@@ -1127,7 +1128,20 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline('prepend'), 30000);
+    if(vars.timelineType !== 'algo') {
+        setInterval(() => updateTimeline('prepend'), 30000);
+        setInterval(async () => {
+            let tweets = (await API.timeline.getChronologicalV2()).list;
+            for(let i = 0; i < timeline.dataToUpdate.length; i++) {
+                let tweet = timeline.dataToUpdate[i];
+                let newTweet = tweets.find(t => t.id_str === tweet.id_str);
+                if(newTweet) {
+                    console.log('updated tweet', newTweet);
+                    timeline.dataToUpdate[i] = newTweet;
+                }
+            }
+        }, 60000 * 1.5);
+    }
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 50);

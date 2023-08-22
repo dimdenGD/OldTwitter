@@ -64,6 +64,7 @@ function updateElementsStats(tweet) {
             t.tweet.favorite_count = tr.favorite_count;
             t.tweet.retweet_count = tr.retweet_count;
             t.tweet.reply_count = tr.reply_count;
+            t.tweet.bookmark_count = tr.bookmark_count;
         }
         let interactFavorite = t.querySelector('span.tweet-interact-favorite');
         if(interactFavorite) {
@@ -79,6 +80,11 @@ function updateElementsStats(tweet) {
         if(interactReply) {
             interactReply.dataset.val = tr.reply_count;
             interactReply.innerText = formatLargeNumber(tr.reply_count);
+        }
+        let interactBookmark = t.querySelector('span.tweet-interact-bookmark');
+        if(interactBookmark) {
+            interactBookmark.dataset.val = tr.bookmark_count;
+            interactBookmark.innerText = formatLargeNumber(tr.bookmark_count);
         }
         let interactViews = t.querySelector('span.tweet-interact-views');
         if(interactViews && tr.ext && tr.ext.views && tr.ext.views.r && tr.ext.views.r.ok) {

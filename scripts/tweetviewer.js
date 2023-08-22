@@ -1029,10 +1029,10 @@ class TweetViewer {
                         ` : ''}
                     </div>
                     <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
-                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ',')}</span>` : ''}
-                    ${t.bookmark_count && vars.showBookmarkCount && options.mainTweet ? 
+                    ${vars.showBookmarkCount && typeof t.bookmark_count !== 'undefined' ? 
                         /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
                     ''}
+                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ',')}</span>` : ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         ${innerWidth < 590 ? /*html*/`
@@ -1566,9 +1566,8 @@ class TweetViewer {
                     tweetInteractMoreMenuBookmark.innerText = LOC.bookmark_tweet.message;
                     if(tweetInteractBookmark) {
                         tweetInteractBookmark.classList.remove('tweet-interact-bookmarked');
-                        if(vars.bookmarkButton !== 'show_all_no_count') {
-                            tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
-                        }
+                        tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
+                        tweetInteractBookmark.dataset.val = t.bookmark_count;
                     }
                 }).catch(e => {
                     switchingBookmark = false;
@@ -1584,9 +1583,8 @@ class TweetViewer {
                     tweetInteractMoreMenuBookmark.innerText = LOC.remove_bookmark.message;
                     if(tweetInteractBookmark) {
                         tweetInteractBookmark.classList.add('tweet-interact-bookmarked');
-                        if(vars.bookmarkButton !== 'show_all_no_count') {
-                            tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
-                        }
+                        tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
+                        tweetInteractBookmark.dataset.val = t.bookmark_count;
                     }
                 }).catch(e => {
                     switchingBookmark = false;
@@ -1608,6 +1606,8 @@ class TweetViewer {
                 if (e.target.tagName === 'IMG') {
                     if(!e.target.src.includes('?name=') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
                         e.target.src += '?name=orig';
+                    } else if(e.target.src.includes('?name=small')) {
+                        e.target.src = e.target.src.replace('?name=small', '?name=large');
                     }
                     new Viewer(tweetMedia, {
                         transition: false

@@ -398,9 +398,11 @@ function hideStuff() {
             .tweet-interact-favorite { color: var(--background-color) !important }
             .tweet-interact-retweet { color: var(--background-color) !important }
             .tweet-interact-reply { color: var(--background-color) !important }
+            .tweet-interact-bookmark { color: var(--background-color) !important }
             .tweet:hover .tweet-interact-favorite { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-retweet { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-reply { color: var(--dark-background-color) !important }
+            .tweet:hover .tweet-interact-bookmark { color: var(--dark-background-color) !important }
         `;
     }if(vars.hideTimelineTypes) {
         hideStyle.innerHTML += `
@@ -413,6 +415,11 @@ function hideStuff() {
             #user-followers-div { display: none !important; }
             #profile-stat-followers-link { display: none !important; }
             #profile-stat-follower-mobile-out { display: none !important; }
+        `;
+    }
+    if(vars.showBookmarkCount && vars.seeTweetViews) {
+        hideStyle.innerHTML += `
+            .tweet-interact-more-menu { margin-left: 250px }
         `;
     }
     if(hideStyle.innerHTML !== '') {
@@ -1901,7 +1908,6 @@ let userDataFunction = async user => {
             clearTimeout(leavePreviewTimeout);
             leavePreviewTimeout = null;
         }
-        if(document.getElementsByClassName('user-preview').length > 0) return;
         el = el.closest('a');
         if(!el || !el.href) return;
         let url;
@@ -1952,6 +1958,12 @@ let userDataFunction = async user => {
 
             let user = await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;
+            let userPreviews = Array.from(document.getElementsByClassName('user-preview'));
+            if(userPreviews.length > 0) {
+                for(let userPreview of userPreviews) {
+                    userPreview.remove();
+                }
+            };
             let div = document.createElement('div');
             div.innerHTML = /*html*/`
                 <style>
@@ -2406,6 +2418,7 @@ let userDataFunction = async user => {
                         setTimeout(() => {
                             if(document.hasFocus()) {
                                 API.notifications.markAsRead(cursorTop);
+                                chrome.storage.local.remove(['unreadCount'], () => {});
 
                                 let notifElement = document.getElementById('notifications-count');
                                 let icon = document.getElementById('site-icon');
