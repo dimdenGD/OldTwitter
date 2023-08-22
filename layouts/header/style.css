@@ -2376,6 +2376,7 @@ video::-internal-media-controls-overlay-cast-button {
     }
     #center-cell {
         margin-top: 47px;
+        margin-bottom: 38px;
     }
     .tweet-interact-retweet-menu span, .tweet-interact-more-menu span {
         padding: 9px 15px;
