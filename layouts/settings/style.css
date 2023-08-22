@@ -726,7 +726,6 @@ button[aria-labelledby="clr-open-label"] {
     #settings {
         width: calc(100% - 40px);
         padding: 20px;
-        margin-bottom: 50px;
     }
     #custom-css {
         width: 100% !important
