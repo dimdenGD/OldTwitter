@@ -219,7 +219,7 @@ setTimeout(async () => {
     fontElement.addEventListener('change', () => {
         let font = fontElement.value;
         if(font === '_custom') {
-            font = prompt('Enter a custom font name');
+            font = prompt(LOC.enter_custom_font_name.message);
         }
         root.style.setProperty('--font', `"${font}"`);
         chrome.storage.sync.set({
@@ -229,7 +229,7 @@ setTimeout(async () => {
     tweetFontElement.addEventListener('change', () => {
         let font = tweetFontElement.value;
         if(font === '_custom') {
-            font = prompt('Enter a custom font name');
+            font = prompt(LOC.enter_custom_font_name.message);
         }
         root.style.setProperty('--tweet-font', `"${font}"`);
         chrome.storage.sync.set({
