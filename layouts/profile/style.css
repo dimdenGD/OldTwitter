@@ -870,6 +870,7 @@ a:hover,
     line-height: 20px;
     margin-bottom: 10px;
     word-wrap: break-word;
+    word-break: break-word;
     overflow: hidden;
 }
 #profile-following-follower-mobile {
