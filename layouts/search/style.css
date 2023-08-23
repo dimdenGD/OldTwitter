@@ -767,7 +767,7 @@ a:hover,
     text-decoration: underline
 }
 .modal .tweet {
-    width: 550px;
+    width: 558px;
 }
 .tweet:first-child {
     border-top: 1px solid var(--border) !important;
