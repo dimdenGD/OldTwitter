@@ -834,6 +834,7 @@ setTimeout(async () => {
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
     useOldStyleReply.checked = !!vars.useOldStyleReply;
     enableAd.checked = !!vars.enableAd;
+    showUserPreviewsOnMobile.checked = !!vars.showUserPreviewsOnMobile;
     openNotifsAsModal.checked = !!vars.openNotifsAsModal;
     enableIframeNavigation.checked = !!vars.enableIframeNavigation;
     muteVideos.checked = !!vars.muteVideos;
