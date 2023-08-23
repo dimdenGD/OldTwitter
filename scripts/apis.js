@@ -1547,7 +1547,7 @@ const API = {
                                     if(rateLimitReset) {
                                         let date = new Date(+rateLimitReset * 1000);
                                         let minutesLeft = Math.floor((date - Date.now()) / 1000 / 60);
-                                        reject(`Rate limit exceeded, try again in ${minutesLeft} minutes.`);
+                                        return reject(`Rate limit exceeded, try again in ${minutesLeft} minutes.`);
                                     }
                                 }
                                 return reject(data);
