@@ -2144,7 +2144,7 @@ emoji-picker {
 .tweet:hover .tweet-interact-reply[data-val="0"],
 .tweet:hover .tweet-interact-retweet[data-val="0"],
 .tweet:hover .tweet-interact-favorite[data-val="0"],
-.tweet:hover .tweet-interact-bookmark[data-val="0"] {
+.tweet:hover:not(.tweet-main) .tweet-interact-bookmark[data-val="0"] {
     color: var(--dark-background-color);
 }
 
