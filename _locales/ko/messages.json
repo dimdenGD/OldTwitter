@@ -540,6 +540,7 @@
     "replacer_liked_to_favorited": { "message": " 마음에 들어 합니다->관심글로 지정했습니다", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
     "favorited_by": { "message": "다음 유저가 관심글로 지정함" },
     "disable_retweet_hotkey": { "message": "리트윗 단축키(T)를 비활성화 합니다" },
-    "disable_like_hotkey": { "message": "마음에 들어요 단축키(T)를 비활성화 합니다" },
-    "enable_extension_compatibility": { "message": "호환성 모드를 활성화합니다. (Oldtwitter에서 타 확장프로그램을 사용하고 싶을 때만 활성화 하세요. 만약에 해당 옵션을 활성화 해도 작동하지 않으면 반드시 다시 비활성화 하세요. 페이지를 매우 버벅거게 하고 문제를 유발할 수 있습니다.)" }
+    "disable_like_hotkey": { "message": "북마크/마음에 들어요 단축키(T)를 비활성화 합니다" },
+    "enable_extension_compatibility": { "message": "호환성 모드를 활성화합니다. (Oldtwitter에서 타 확장프로그램을 사용하고 싶을 때만 활성화 하세요. 만약에 해당 옵션을 활성화 해도 작동하지 않으면 반드시 다시 비활성화 하세요. 페이지를 매우 버벅거게 하고 문제를 유발할 수 있습니다.)" },
+	"enter_custom_font_name": {"message": "사용자 지정 글꼴 이름을 입력하세요"}
 }
