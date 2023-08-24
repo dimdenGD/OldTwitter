@@ -802,6 +802,7 @@ a:hover,
     border-radius: 12px;
     box-shadow: 0 1px 1px rgb(136 153 166 / 15%);
     user-select: none;
+    cursor: pointer;
 }
 
 #profile-info {
