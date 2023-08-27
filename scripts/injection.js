@@ -292,7 +292,7 @@ function getThemeVariables(enabled) {
                 --default-text-color: white;
                 --new-tweet-over: rgba(27, 40, 54, 0.92);
                 --input-background: #15202a;
-                --active-message: #141d26;
+                --active-message: #f1f9ff;
                 --more-color: #a088ff;
                 --choice-bg: rgb(44 62 71);
                 --list-actions-bg: #19212b;
