@@ -3021,6 +3021,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 API.tweet.favorite(t.id_str).catch(e => {
                     console.error(e);
+                    if(e && e.errors && e.errors[0] && e.errors[0].code === 139) {
+                        return;
+                    };
                     alert(e);
                     t.renderFavoritesDown();
                 });
