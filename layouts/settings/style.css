@@ -380,7 +380,9 @@ select, input, textarea {
     cursor: pointer;
 }
 #move-navbar-to-bottom-div,
-#show-user-previews-on-mobile-div {
+#show-user-previews-on-mobile-div,
+#hide-wtf-div,
+#hide-trends-div {
     display: none;
 }
 #about-left {
@@ -666,7 +668,7 @@ select, input, textarea {
     cursor: pointer;
 }
 .color-div {
-    margin-bottom: 7px;
+    margin-bottom: 10px;
 }
 button[aria-labelledby="clr-open-label"] {
     display: none;
@@ -740,5 +742,11 @@ button[aria-labelledby="clr-open-label"] {
     }
     .color-name {
         font-size: 12px !important;
+    }
+}
+@media screen and (min-width: 800px) {
+    #hide-trends-div,
+    #hide-wtf-div {
+        display: block;
     }
 }

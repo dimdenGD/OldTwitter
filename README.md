@@ -64,10 +64,10 @@ For stable version:
   
 ## FAQ
 #### Can you use this extension on Android?
-Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox Beta/Nightly to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/) ([follow these steps for Firefox](https://www.androidpolice.com/install-add-on-extension-mozilla-firefox-android/)).  
+Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox Beta/Nightly to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/) ([follow these steps for Firefox](https://www.androidpolice.com/install-add-on-extension-mozilla-firefox-android/)). Once installed you can press on "Add to Home screen" button in Kiwi Browser to have it as standalone app.  
   
 #### Is this extension safe?
-The code is open source so you can check everything yourself. It never sends any of your personal info anywhere.  
+[The source code is available at GitHub](https://github.com/dimdenGD/OldTwitter) so you can check everything yourself. It never sends any of your personal info anywhere.  
 
 #### [insert thing] doesn't look like it was in 2015 Twitter!
 Extension won't be pixel perfect copy of old Twitter. I just took general look and feel of it.
@@ -135,8 +135,8 @@ These will work when reply/quote/new tweet modal is focused.
 English - [dimden](https://dimden.dev/)  
 Russian - [dimden](https://dimden.dev/)  
 Ukrainian - [dimden](https://dimden.dev/)  
-French - [Aurore C.](https://asuure.com/), [zdimension](https://twitter.com/zdimension_), [Pikatchoum](https://twitter.com/applitom45)  
-Portuguese (Brazil) - [dzshn](https://dzshn.xyz/), [kigidere](https://twitter.com/kigidere), [umgustavo](https://github.com/umgustavo)  
+French - [Aurore C.](https://asuure.com/), [zdimension](https://twitter.com/zdimension_), [Pikatchoum](https://twitter.com/applitom45), [adriend](https://twitter.com/_adriend_)  
+Portuguese (Brazil) - [kigidere](https://twitter.com/kigidere), [umgustavo](https://github.com/umgustavo)  
 Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitter.com/gaelcoral), [hue](https://twitter.com/huey1116), Beelzenef, [elderreka](https://twitter.com/elderreka)  
 Greek - [VasilisTheChu](https://pikachu.systems/)  
 Romanian - [Skyrina](https://skyrina.dev/), [AlexSem](https://twitter.com/AlexSem5399)  
@@ -148,7 +148,7 @@ Dutch - Puka1611
 Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234), [kamokakesu](https://twitter.com/kamokakesu)  
 Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234), [han_eirin](https://twitter.com/han_eirin)  
 Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren](https://twitter.com/YordemEren)  
-Italian - [krek](https://twitter.com/CactusInc420)  
+Italian - [krek](https://twitter.com/CactusInc420), [Francesco](https://twitter.com/FrancescoRosi27)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
 Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)  
 Polish - lele, [nomi](https://twitter.com/youmaynomi)  

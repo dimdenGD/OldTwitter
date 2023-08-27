@@ -131,10 +131,10 @@ const TRANSLATORS = {
     "fr": [
         ["Aurore C.", "https://asuure.com/"],
         ["zdimension", "https://twitter.com/zdimension_"],
-        ["Pikatchoum", "https://twitter.com/applitom45"]
+        ["Pikatchoum", "https://twitter.com/applitom45"],
+        ["adriend", "https://twitter.com/_adriend_"]
     ],
     "pt_BR": [
-        ["dzshn", "https://dzshn.xyz/"],
         ["kigi", "https://twitter.com/kigidere"],
         ["umgustavo", "https://github.com/umgustavo"]
     ],
@@ -165,7 +165,10 @@ const TRANSLATORS = {
         ["KayrabCebll", "https://steamcommunity.com/id/KayrabCebll"],
         ["YordemEren", "https://twitter.com/YordemEren"]
     ],
-    "it": ["krek", "https://twitter.com/CactusInc420"],
+    "it": [
+        ["krek", "https://twitter.com/CactusInc420"],
+        ["Francesco", "https://twitter.com/FrancescoRosi27"]
+    ],
     "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
     "ko": [
@@ -177,7 +180,10 @@ const TRANSLATORS = {
         ["nomi", "https://twitter.com/nomisigns"]
     ],
     "vi": ["btmxh", "https://github.com/btmxh"],
-    "zh_CN": ["am1006", "https://github.com/am1006"],
+    "zh_CN": [
+        ["am1006", "https://github.com/am1006"],
+        ["CarimoWuling", "https://twitter.com/carimowuling"]
+    ],
     "cs": ["Menal"],
     "de": ["basti564", "https://twitter.com/basti564"],
     "ca": ["elmees21", "https://twitter.com/elmees21"]
@@ -232,7 +238,7 @@ async function updateCustomCSSVariables() {
     });
     root.style.setProperty('--font', vars.font);
     root.style.setProperty('--tweet-font', vars.tweetFont);
-    if(vars.iconFont || vars.modernUI){
+    if(vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
     }
     if(data.customCSSVariables) {
@@ -522,6 +528,10 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             if(!cleared) clearInterval(removeInt);
         }, 5000);
     };
+
+    if(vars.extensionCompatibilityMode) {
+        html = html.replace("fake-react-root", "react-root");
+    }
 
     document.documentElement.innerHTML = html;
     document.body.classList.add('body-old-ui');

@@ -558,6 +558,7 @@ input, textarea {
     font-weight: bold;
     line-height: normal;
     padding: 8px 16px;
+    font-family: var(--font)
 }
 .nice-button:hover:not([disabled]) {
     color: var(--almost-black);
@@ -764,6 +765,11 @@ input, textarea {
     margin-top: -20px;
     z-index: 50;
 }
+.tweet-body-text span {
+    word-break: break-word;
+    white-space: break-spaces;
+    font-family: var(--tweet-font);
+}
 .modal-top  {
     width: 495px;
 }
@@ -828,7 +834,7 @@ input, textarea {
     content: '';
 	position: absolute;
 	right: 0;
-	bottom: 10px;
+	bottom: 14px;
 	width: 0;
 	height: 0;
 	border: 4px solid transparent;
@@ -850,7 +856,7 @@ input, textarea {
 	content: '';
 	position: absolute;
 	left: 0;
-	bottom: 10px;
+	bottom: 14px;
 	width: 0;
 	height: 0;
 	border: 4px solid transparent;
@@ -906,7 +912,7 @@ input, textarea {
     max-width: fit-content;
     border-radius: 5px;
     border: 1px solid var(--border);
-    max-height: 500px;
+    max-height: 300px;
 }
 .message-time {
     color: var(--light-gray);
@@ -959,7 +965,6 @@ input, textarea {
     border: 1px solid var(--light-gray);
     border-radius: 5px;
     z-index: 5;
-    left: 0px;
     position: absolute;
 }
 .message-menu span {
@@ -975,15 +980,19 @@ input, textarea {
 }
 .message-new-container {
     border-radius: 5px;
+    background-color: var(--link-color);
     width: 600px;
+    min-height: 60px;
     z-index: 5;
 }
 .message-new {
     border-radius: 5px;
+    background-color: var(--new-tweet-over);
     box-sizing: border-box;
     padding: 10px;
     padding-right: 0;
     width: 600px;
+    min-height: 60px;
 }
 .messages-list {
     margin-bottom: 20px;
@@ -1543,9 +1552,8 @@ span.tweet-body-text {
 .message-element .emoji {
     vertical-align: middle;
 }
-.message-element-self .message-body,
-.message-element-self .message-element-media {
-    float: right;
+.message-element-self .message-block-inner{
+    text-align:right
 }
 .message-element-self .message-time {
     position: relative;
@@ -1644,6 +1652,9 @@ span.tweet-body-text {
 }
 .tweet-interact-more-menu-block:before {
     content: "\f065"
+}
+.tweet-interact-more-menu-mute-user:before {
+    content: "\f101"
 }
 .tweet-interact-more-menu-newtwitter:before {
     content: "\f179"
@@ -1952,7 +1963,8 @@ emoji-picker {
     content: "\f099";
     color: #ee55a1;
     font-family: var(--icon-font);
-    margin-left: 5px
+    margin-left: 5px;
+    font-weight: 100;
 }
 .user-verified-blue::after {
     color: #55acee !important;
@@ -1981,6 +1993,7 @@ emoji-picker {
     color: #ddd22b;
     font-family: var(--icon-font);
     margin-left: 5px;
+    font-weight: 100;
 }
 
 
@@ -2107,6 +2120,12 @@ emoji-picker {
     text-decoration: none;
     direction: ltr;
 }
+.tweet-body-text {
+    display: inline;
+}
+.tweet-body-text-quote {
+    display: block;
+}
 
 .tweet-body-quote:hover {
     background-color: var(--darker-background-color);
@@ -2125,7 +2144,7 @@ emoji-picker {
 .tweet:hover .tweet-interact-reply[data-val="0"],
 .tweet:hover .tweet-interact-retweet[data-val="0"],
 .tweet:hover .tweet-interact-favorite[data-val="0"],
-.tweet:hover .tweet-interact-bookmark[data-val="0"] {
+.tweet:hover:not(.tweet-main) .tweet-interact-bookmark[data-val="0"] {
     color: var(--dark-background-color);
 }
 
@@ -2176,13 +2195,13 @@ emoji-picker {
     content: "\00b7";
     margin-right: 5px;
 }
-.tweet-player {
-    width: 100%;
-}
 @media screen and (max-width: 780px) {
     #search-input {
         width: 124px;
     }
+}
+rt.furigana {
+    color: var(--almost-black) !important;
 }
 .notification {
     background-color: var(--background-color);
@@ -2351,13 +2370,14 @@ video::-internal-media-controls-overlay-cast-button {
         max-width: calc(100% - 15px);
     }
     .tweet-body-quote {
-        width: 100%;
+        width: calc(100% - 20px);
     }
     #right-cell {
         display: none;
     }
     #center-cell {
         margin-top: 47px;
+        margin-bottom: 38px;
     }
     .tweet-interact-retweet-menu span, .tweet-interact-more-menu span {
         padding: 9px 15px;
@@ -2389,9 +2409,11 @@ video::-internal-media-controls-overlay-cast-button {
         top: 10%;
     }
     .tweet-viewer {
-        width: calc(100% - 42px);
+        width: calc(100% - 2px);
         overflow-x: clip;
-        margin-bottom: 150px;
+        margin-bottom: 200px;
+        padding-left: 0;
+        padding-right: 0;
     }
     .new-tweet-view, .new-tweet-container {
         width: 100%;
@@ -2458,6 +2480,7 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .inbox-modal {
         width: calc(100% - 42px);
+        top: 5% !important;
     }
     .inbox-top h1 {
         font-size: 16px !important;
@@ -2509,8 +2532,8 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-body:not(.tweet-body-main) {
         width: calc(100% - 80px);
     }
-    .modal .tweet-media-element {
-        width: 100%;
+    .modal-content {
+        border-radius: 0;
     }
     .tweet .tweet-header-name {
         max-width: calc(100% - 65px);
@@ -2535,6 +2558,9 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-footer-stat {
         width: 100%;
         text-align: center;
+    }
+    .nav-count {
+        margin-left: -10px;
     }
     .tweet-footer-stat-text {
         padding: 7px 7px 0px 7px;
@@ -2739,7 +2765,7 @@ video::-internal-media-controls-overlay-cast-button {
         height: 0;
     }
     #profile-banner-sticky {
-        margin-top: 87px;
+        margin-top: 45px;
     }
     #profile-banner {
         width: 100%;
@@ -2761,7 +2787,7 @@ video::-internal-media-controls-overlay-cast-button {
         padding-top: 20px;
     }
     #profile-avatar {
-        border: 5px solid var(--darker-background-color);
+        border: 5px solid var(--background-color);
         background-color: var(--background-color);
         border-radius: 12px;
         box-shadow: 0 1px 1px rgba(0, 0, 0, 0);
@@ -2796,6 +2822,8 @@ video::-internal-media-controls-overlay-cast-button {
         visibility: visible;
         border-top: 1px;
         border-color: var(--dark-background-color);
+        transition-duration: 0.2s;
+        border-bottom: 1px solid var(--border);
     }
     .profile-stat {
         display: grid;
@@ -2834,8 +2862,9 @@ video::-internal-media-controls-overlay-cast-button {
         margin-right: 0px !important;
     }
     #profile-info-text {
-        padding-top: 0px;
-        margin-bottom: -24px;
+        margin-top:-97px;
+        padding-top:97px;
+        margin-bottom: -28px;
     }
     .modal .tweet-header-name-main {
             width: 220px !important;
@@ -2963,9 +2992,6 @@ video::-internal-media-controls-overlay-cast-button {
         justify-content: center;
         display: flex;
     }
-    .tweet-body-main > .tweet-interact span::before {
-        margin-right: 0px;
-    }
     .tweet-body-main > .tweet-interact span {
         margin-left: auto;
         margin-right: auto;
@@ -2982,17 +3008,89 @@ video::-internal-media-controls-overlay-cast-button {
 
     /* workaround for stretching profile timelines */
     .tweet .tweet-header-name {
-        max-width: 300px;
+        white-space: wrap;
+    }
+    /* menu icon */
+    #navbar-user-menu-links>a:before{
+        vertical-align: sub;
+        margin-right: 7px;
+        font-size: 20px;
+        
+    }
+    #navbar-user-menu-settings:before {
+        content: "\f059";
+    }
+    #navbar-user-menu-lists:before {
+        content: "\f094";
+    }
+    #navbar-user-menu-bookmarks:before {
+        content: "\f093";
+    }
+    #navbar-user-menu-history:before {
+        content: "\f094";
+    }
+    #navbar-user-menu-requests:before {
+        content: "\f175";
+    }
+    #navbar-user-menu-unfollowers:before {
+        content: "\f097";
+    }
+    #navbar-user-menu-accounts:before {
+        content: "\f178";
+    }
+    #navbar-user-menu-links{
+        display:flex;
+        flex-direction:column;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-profile{
+        order: 1;
+    }
+    #navbar-user-menu-links>#hr1{
+        order: 2;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-lists{
+        order: 3;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-bookmarks{
+        order: 4;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-unfollowers{
+        order: 6;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-requests{
+        order: 7;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-settings{
+        order: 8;
+    }
+    #navbar-user-menu-links>#hr2{
+        order: 9;
+    }
+    #navbar-user-menu-links>#navbar-user-menu-accounts{
+        order: 10;
     }
 }
 @media screen and (max-width: 460px) {
     #pin-lists {
         display: none;
     }
+    .tweet-interact-more-menu {
+        margin-left: unset;
+        position: absolute;
+        right: 20px;
+    }
 }
 @media screen and (max-width: 425px) {
     #pin-bookmarks {
         display: none;
+    }
+}
+@media screen and (max-width: 390px) {
+    .tweet-interact span {
+        margin-right: 8px;
+    }
+    .tweet-interact span::before {
+        margin-right: 5px;
     }
 }
 @media screen and (max-width: 310px) {

@@ -758,6 +758,11 @@ a:hover,
     #about-left {
         display: none;
     }
+    #notifications-more{
+        width:570px;
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 /* Mobile UI */
 @media screen and (max-width: 590px) {
@@ -775,5 +780,11 @@ a:hover,
     #notifications-div > :first-child {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
+    }
+    #notifications-more{
+        width:100%
+    }
+    #notifications-more {
+        margin-bottom: 55px;
     }
 }

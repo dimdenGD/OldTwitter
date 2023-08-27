@@ -65,6 +65,7 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
             setTimeout(() => {
                 API.notifications.markAsRead(cursorTop);
                 if(windowFocused) {
+                    chrome.storage.local.remove(['unreadCount'], () => {});
                     document.getElementById('site-icon').href = chrome.runtime.getURL(`images/logo32${vars.useNewIcon ? '_new' : ''}_notification.png`);
                     let newTitle = document.title;
                     if(document.title.startsWith('(')) {
@@ -101,6 +102,9 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
                         t.classList.add('notification-unread');
                     }
                     notificationsContainer.appendChild(t);
+                    if(vars.enableTwemoji) {
+                        twemoji.parse(t);
+                    }
                 }
             }
         }
@@ -122,6 +126,11 @@ async function updateNotifications(options = { mode: 'rewrite', quiet: false }) 
         }
 
         notificationsContainer.prepend(...divs);
+        if(vars.enableTwemoji) {
+            for(let nd of divs) {
+                twemoji.parse(nd);
+            }
+        }
     }
 
     document.getElementById('notifs-loading').hidden = true;

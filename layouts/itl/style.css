@@ -2,7 +2,7 @@
     z-index: 200;
     width: 100%;
     height: 100%;
-    background-color: white;
+    background-color: var(--background-color);
     position: fixed;
 }
 #loading-box-text:before {
@@ -62,7 +62,7 @@ body {
 }
 #user-avatar {
     margin-left: 7px;
-    border: 4px solid white;
+    border: 4px solid var(--background-color);
     margin-top: -32px;
     border-radius: 7px;
 }
@@ -783,14 +783,16 @@ a:hover,
     color: #55acee;
     content: "\f099";
     font-family: var(--icon-font);
-    margin-left: 5px
+    margin-left: 5px;
+    font-weight: 100;
 }
 
 .user-protected::after {
     color: #ddd22b;
     content: "\f096";
     font-family: var(--icon-font);
-    margin-left: 5px
+    margin-left: 5px;
+    font-weight: 100;
 }
 
 .about {

@@ -28,8 +28,9 @@ async function loadVars() {
             'pinProfileOnNavbar', 'pinBookmarksOnNavbar', 'pinListsOnNavbar', 'tweetFont', 'useOldDefaultProfileImage', 'enableHashflags',
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'openNotifsAsModal', 'enableIframeNavigation',
-            'acknowledgedCustomizationButton', 'modernUI', 'iconFont', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
-            'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode'
+            'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
+            'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
+            'disableRetweetHotkey', 'disableLikeHotkey', 'extensionCompatibilityMode'
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {
@@ -60,6 +61,12 @@ async function loadVars() {
                 data.showExactValues = window.innerWidth >= 590;
                 chrome.storage.sync.set({
                     showExactValues: window.innerWidth >= 590
+                }, () => {});
+            }
+            if(typeof(data.localizeDigit) !== 'boolean') {
+                data.localizeDigit = false;
+                chrome.storage.sync.set({
+                    localizeDigit: false
                 }, () => {});
             }
             if(typeof(data.customCSSVariables) !== 'string') {
@@ -122,6 +129,12 @@ async function loadVars() {
                     enableIframeNavigation: window.innerWidth < 590
                 }, () => {});
             }
+            if(typeof(data.showMediaCount) !== 'boolean') {
+                data.showMediaCount = window.innerWidth < 590;
+                chrome.storage.sync.set({
+                    showMediaCount: window.innerWidth < 590
+                }, () => {});
+            }
             if(typeof(data.font) !== 'string') {
                 data.font = 'Arial';
                 chrome.storage.sync.set({
@@ -174,12 +187,6 @@ async function loadVars() {
                 data.modernUI = false;
                 chrome.storage.sync.set({
                     modernUI: false
-                }, () => {});
-            }
-            if(typeof(data.iconFont) !== 'boolean') {
-                data.iconFont = false;
-                chrome.storage.sync.set({
-                    iconFont: false
                 }, () => {});
             }
             if(typeof(data.autotranslateProfiles) !== 'object') {

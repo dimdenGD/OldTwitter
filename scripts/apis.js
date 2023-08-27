@@ -3,6 +3,8 @@ let loadingReplies = {};
 let loadingLikers = {};
 let tweetStorage = {};
 let hashflagStorage = {};
+let translateLimit = 0;
+let loadingNotifs;
 
 setInterval(() => {
     // clearing cache
@@ -49,6 +51,47 @@ function parseNoteTweet(result) {
         entities = result.note_tweet.note_tweet_results.entity_set;
     }
     return {text, entities};
+}
+
+function updateElementsStats(tweet) {
+    let tr = tweet;
+    if(tweet.retweeted_status) {
+        tr = tweet.retweeted_status;
+    }
+    let renderedTweets = Array.from(document.querySelectorAll(`div.tweet[data-tweet-id="${tr.id_str}"]:not(.tweet-main)`));
+    for(let t of renderedTweets) {
+        if(t.tweet) {
+            t.tweet.favorite_count = tr.favorite_count;
+            t.tweet.retweet_count = tr.retweet_count;
+            t.tweet.reply_count = tr.reply_count;
+            t.tweet.bookmark_count = tr.bookmark_count;
+        }
+        let interactFavorite = t.querySelector('span.tweet-interact-favorite');
+        if(interactFavorite) {
+            interactFavorite.dataset.val = tr.favorite_count;
+            interactFavorite.innerText = formatLargeNumber(tr.favorite_count);
+        }
+        let interactRetweet = t.querySelector('span.tweet-interact-retweet');
+        if(interactRetweet) {
+            interactRetweet.dataset.val = tr.retweet_count;
+            interactRetweet.innerText = formatLargeNumber(tr.retweet_count);
+        }
+        let interactReply = t.querySelector('span.tweet-interact-reply');
+        if(interactReply) {
+            interactReply.dataset.val = tr.reply_count;
+            interactReply.innerText = formatLargeNumber(tr.reply_count);
+        }
+        let interactBookmark = t.querySelector('span.tweet-interact-bookmark');
+        if(interactBookmark) {
+            interactBookmark.dataset.val = tr.bookmark_count;
+            interactBookmark.innerText = formatLargeNumber(tr.bookmark_count);
+        }
+        let interactViews = t.querySelector('span.tweet-interact-views');
+        if(interactViews && tr.ext && tr.ext.views && tr.ext.views.r && tr.ext.views.r.ok) {
+            interactViews.dataset.val = tr.ext.views.r.ok.count;
+            interactViews.innerText = formatLargeNumber(tr.ext.views.r.ok.count);
+        }
+    }
 }
 
 // transform ugly useless twitter api reply to usable legacy tweet
@@ -183,7 +226,16 @@ function parseTweet(res) {
         tweet.birdwatch = res.birdwatch_pivot;
     }
 
+    if(tweet.favorited && tweet.favorite_count === 0) {
+        tweet.favorite_count = 1;
+    }
+    if(tweet.retweeted && tweet.retweet_count === 0) {
+        tweet.retweet_count = 1;
+    }
+
     tweet.res = res;
+
+    updateElementsStats(tweet);
     tweetStorage[tweet.id_str] = tweet;
     return tweet;
 }
@@ -314,7 +366,7 @@ const API = {
                     method: 'post',
                     body: 'redirectAfterLogout=https%3A%2F%2Ftwitter.com%2Faccount%2Fswitch'
                 }).then(i => i.json()).then(data => {
-                    chrome.storage.local.remove(["credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
+                    chrome.storage.local.remove(["notifications", "unreadCount", "credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
                         if (data.errors && data.errors[0].code === 32) {
                             return reject("Not logged in");
                         }
@@ -380,7 +432,7 @@ const API = {
                     status = i.status;
                     return i.text();
                 }).then(data => {
-                    chrome.storage.local.remove(["credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
+                    chrome.storage.local.remove(["notifications", "unreadCount", "credentials", "inboxData", "tweetDetails", "savedSearches", "discoverData", "userUpdates", "peopleRecommendations", "tweetReplies", "tweetLikers", "listData", "twitterSettings", "algoTimeline"], () => {
                         chrome.storage.local.set({lastUserId: id}, () => {
                             if(String(status).startsWith("2")) {
                                 resolve(data);
@@ -507,9 +559,12 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+                    let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
                     let out = {
                         list: parseHomeTimeline(entries, data),
-                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                        cursorBottom: cb ? cb.content.value : undefined,
+                        cursorTop: ct ? ct.content.value : undefined
                     }
                     debugLog('timeline.getChronologicalV2', 'end', {cursor, count, out});
                     return resolve(out);
@@ -589,9 +644,13 @@ const API = {
                         list.push(tweet);
                     }
         
+                    let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
+
                     let out = {
                         list,
-                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value
+                        cursorBottom: cb ? cb.content.operation.cursor.value : undefined,
+                        cursorTop: ct ? ct.content.operation.cursor.value : undefined
                     }
                     debugLog('timeline.getAlgorithmical', 'end', {cursor, count, out});
                     return resolve(out)
@@ -635,9 +694,12 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+                    let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
                     let out = {
                         list: parseHomeTimeline(entries, data),
-                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                        cursorBottom: cb ? cb.content.value : undefined,
+                        cursorTop: ct ? ct.content.value : undefined
                     }
                     for(let tweet of out.list) {
                         tweet.algo = true;
@@ -848,7 +910,7 @@ const API = {
                         trends.forEach(trend => {
                             if(!trend.item || !trend.item.content || !trend.item.content.trend) return;
                             let desc = trend.item.content.trend.trendMetadata.domainContext;
-                            if(String(desc).includes("undefined")) {//maybe promotioned trends?
+                            if(String(desc).includes("undefined")) {//maybe promoted trends?
                                 desc = ``;
                                 if(trend.item.content.trend.trendMetadata.metaDescription) {
                                     desc += trend.item.content.trend.trendMetadata.metaDescription;
@@ -858,6 +920,7 @@ const API = {
                                     desc += ` · ${trend.item.content.trend.trendMetadata.metaDescription}`;
                                 }
                             }
+                            //remove promoted trends
                             if((desc.startsWith('Promoted by') || /*en*/
                             desc.startsWith('Promocionado por') || /*es*/
                             desc.startsWith('Gesponsert von') || /*de*/
@@ -882,8 +945,13 @@ const API = {
                             ) && !vars.enableAd) {
                                 return;
                             }
+                            //fix posts to tweets
+                            //If you update Twitter to use translation for that part, you should delete this part.
                             if(desc.endsWith(' Posts')) {
                                 desc = desc.replace(` Posts`, ` ${LOC.tweets.message}`)
+                            }
+                            if(desc.endsWith(' posts')) {//why they changed to lower-case
+                                desc = desc.replace(` posts`, ` ${LOC.tweets.message}`)
                             }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,
@@ -1019,6 +1087,15 @@ const API = {
                             return resolve(d.notifications.data);
                         }
                     }
+                    if(!cursor) {
+                        if(loadingNotifs) {
+                            return loadingNotifs.listeners.push([resolve, reject]);
+                        } else {
+                            loadingNotifs = {
+                                listeners: []
+                            };
+                        }
+                    }
                     fetch(`https://twitter.com/i/api/2/notifications/${onlyMentions ? 'mentions' : 'all'}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&requestContext=launch&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl${cursor ? `&cursor=${cursor}` : ''}`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.oauth_key,
@@ -1030,9 +1107,17 @@ const API = {
                     }).then(i => i.json()).then(data => {
                         debugLog('notifications.get', 'start', {cursor, onlyMentions, data});
                         if (data.errors && data.errors[0].code === 32) {
+                            if(!cursor) {
+                                loadingNotifs.listeners.forEach(l => l[1]("Not logged in"));
+                                loadingNotifs = undefined;
+                            }
                             return reject("Not logged in");
                         }
                         if (data.errors && data.errors[0]) {
+                            if(!cursor) {
+                                loadingNotifs.listeners.forEach(l => l[1]("Not logged in"));
+                                loadingNotifs = undefined;
+                            }
                             return reject(data.errors[0].message);
                         }
 
@@ -1113,6 +1198,10 @@ const API = {
                         };
                         debugLog('notifications.get', 'end', out);
                         resolve(out);
+                        if(!cursor) {
+                            loadingNotifs.listeners.forEach(l => l[0](out));
+                            loadingNotifs = undefined;
+                        }
 
                         if(!cursor && !onlyMentions) {
                             chrome.storage.local.set({notifications: {
@@ -1458,7 +1547,7 @@ const API = {
                                     if(rateLimitReset) {
                                         let date = new Date(+rateLimitReset * 1000);
                                         let minutesLeft = Math.floor((date - Date.now()) / 1000 / 60);
-                                        reject(`Rate limit exceeded, try again in ${minutesLeft} minutes.`);
+                                        return reject(`Rate limit exceeded, try again in ${minutesLeft} minutes.`);
                                     }
                                 }
                                 return reject(data);
@@ -2902,7 +2991,7 @@ const API = {
                                 let tweet = parseTweet(tweetData);
         
                                 if(tweet) {
-                                    if(tweet.user.blocking || tweet.user.muting) continue;
+                                    if(!tweet.id_str === id && (tweet.user.blocking || tweet.user.muting)) continue;
                                     tweet.hasModeratedReplies = e.content.itemContent.hasModeratedReplies;
                                     list.push({
                                         type: tweet.id_str === id ? 'mainTweet' : 'tweet',
@@ -2996,7 +3085,7 @@ const API = {
                                     let tweet = parseTweet(tweetData);
                                     
                                     if(tweet) {
-                                        if(tweet.user.blocking || tweet.user.muting) continue;
+                                        if(tweet.id_str !== id && (tweet.user.blocking || tweet.user.muting)) continue;
                                         tweet.hasModeratedReplies = ic.hasModeratedReplies;
                                         threadList.push(tweet);
                                     }
@@ -3228,12 +3317,14 @@ const API = {
         },
         getQuotes: (id, cursor) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/2/search/adaptive.json?${cursor ? `cursor=${cursor}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=quoted_tweet_id%3A${id}&vertical=tweet_detail_quote&count=40&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+                let variables = {"rawQuery":`quoted_tweet_id:${id}`,"count":20,"querySource":"tdqt","product":"Top"};
+                if(cursor) variables.cursor = cursor;
+                fetch(`https://twitter.com/i/api/graphql/NA567V_8AFwu0cZEkAAKcw/SearchTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/x-www-form-urlencoded",
+                        "content-type": "application/json",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include",
@@ -3245,38 +3336,21 @@ const API = {
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
-                    let tweets = data.globalObjects.tweets;
-                    let users = data.globalObjects.users;
-                    let entries = data.timeline.instructions.find(i => i.addEntries);
-                    if(!entries) return resolve({
-                        list: [],
-                        cursor: undefined
-                    });
-                    entries = entries.addEntries.entries;
-                    let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('tweet-'));
-                    let newCursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
-                    if(!newCursor) {
-                        let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace.includes('sq-cursor-bottom') || i.replaceEntry.entryIdToReplace.includes('cursor-bottom')));
-                        if(entries) {
-                            newCursor = entries.replaceEntry.entry.content.operation.cursor.value;
-                        }
-                    } else {
-                        newCursor = newCursor.content.operation.cursor.value;
-                    }
+                    let entries = data.data.search_by_raw_query.search_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
+                    if(!entries) return resolve({ list: [], cursor: undefined });
+                    entries = entries.entries;
+                    let list = entries.filter(e => e.entryId.startsWith('tweet-')).map(e => {
+                        let tweetData = e.content.itemContent.tweet_results.result;
+                        if(!tweetData) return;
+                        
+                        return parseTweet(tweetData);
+                    }).filter(t => t);
                     let out = {
-                        list: list.map(e => {
-                            let tweet = tweets[e.content.item.content.tweet.id];
-                            let user = users[tweet.user_id_str];
-                            user.id_str = tweet.user_id_str;
-                            tweet.quoted_status = tweets[tweet.quoted_status_id_str];
-                            tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
-                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                            tweet.user = user;
-                            return tweet;
-                        }),
-                        cursor: newCursor
+                        list,
+                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                     };
                     debugLog('tweet.getQuotes', 'end', id, out);
+                    resolve(out);
                     return resolve(out);
                 }).catch(e => {
                     reject(e);
@@ -3358,13 +3432,14 @@ const API = {
         },
         translate: id => {
             return new Promise((resolve, reject) => {
-                chrome.storage.local.get([`translations`], d => {
+                chrome.storage.local.get([`translations`],async  d => {
                     if(!d.translations) d.translations = {};
                     if(d.translations[id] && Date.now() - d.translations[id].date < 60000*60*4) {
                         debugLog('tweet.translate', 'cache', d.translations[id].data);
                         return resolve(d.translations[id].data);
                     }
-                    fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
+                    // Translate by Google
+                    let res = translateLimit > Date.now() ? { ok: false } : await fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.oauth_key,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3372,29 +3447,52 @@ const API = {
                             "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                         },
                         credentials: "include"
-                    }).then(i => i.json()).then(data => {
-                        debugLog('tweet.translate', 'start', id, data);
-                        if (data.errors && data.errors[0].code === 32) {
-                            return reject("Not logged in");
-                        }
-                        if (data.errors && data.errors[0]) {
-                            return reject(data.errors[0].message);
-                        }
-                        let out = {
-                            translated_lang: data.localizedSourceLanguage,
-                            text: data.translation,
-                            entities: data.entities
-                        };
-                        debugLog('tweet.translate', 'end', id, out);
-                        resolve(out);
-                        d.translations[id] = {
-                            date: Date.now(),
-                            data: out
-                        };
-                        chrome.storage.local.set({translations: d.translations}, () => {});
-                    }).catch(e => {
-                        reject(e);
                     });
+                    if(!res.ok) {
+                        console.log(res);
+                        if(res.headers) {
+                            let resetTime = res.headers.get('x-rate-limit-reset');
+                            let limitRemaining = res.headers.get('x-rate-limit-remaining');
+                            if(resetTime && limitRemaining && parseInt(limitRemaining) === 0) {
+                                translateLimit = parseInt(resetTime) * 1000;
+                            } else {
+                                translateLimit = 0;
+                            }
+                        }
+                        // Translate by Microsoft
+                        let l = LANGUAGE;
+                        if(l.includes('_')) l = l.split('_')[0];
+                        res = await fetch(`https://api.twitter.com/1.1/translations/show.json?id=${id}&dest=${l}&use_display_text=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                            headers: {
+                                "authorization": OLDTWITTER_CONFIG.oauth_key,
+                                "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                                "x-twitter-auth-type": "OAuth2Session",
+                                "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+                            },
+                            credentials: "include"
+                        });
+                    }
+                    let data = await res.json();
+                    debugLog('tweet.translate', 'start', id, data);
+                    if (data.errors && data.errors[0].code === 32) {
+                        return reject("Not logged in");
+                    }
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    let out = {
+                        translated_lang: data.localizedSourceLanguage ? data.localizedSourceLanguage : data.translated_lang,
+                        lang_code: data.sourceLanguage ? data.sourceLanguage : data.translated_lang,
+                        text: data.translation ? data.translation : data.text,
+                        entities: data.entities
+                    };
+                    debugLog('tweet.translate', 'end', id, out);
+                    resolve(out);
+                    d.translations[id] = {
+                        date: Date.now(),
+                        data: out
+                    };
+                    chrome.storage.local.set({translations: d.translations}, () => {});
                 });
             });
         },
