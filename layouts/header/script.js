@@ -2379,7 +2379,9 @@ let userDataFunction = async user => {
             `, 'notifications-modal', () => {
                 if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
                 setTimeout(() => notificationsOpened = false, 100);
-                clearInterval(ui);
+                try {
+                    clearInterval(ui);
+                } catch(e) {}
             }, () => {
                 let tv = document.querySelector('.tweet-viewer');
                 return !tv;
