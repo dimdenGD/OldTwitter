@@ -2433,11 +2433,13 @@ class TweetViewer {
         let tombstone = document.createElement('div');
         tombstone.className = 'tweet-tombstone';
         tombstone.innerHTML = text;
-        if(typeof text === 'string') LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
-            let [or, nr] = el.split('->');
-            or = or[0].toUpperCase() + or.slice(1);
-            text = text.replace(new RegExp(or, "g"), nr);
-        });
+        try {
+            if(typeof text === 'string') LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
+                let [or, nr] = el.split('->');
+                or = or[0].toUpperCase() + or.slice(1);
+                text = text.replace(new RegExp(or, "g"), nr);
+            });
+        } catch(e) {}
         timelineContainer.append(tombstone);
     }
     init() {
