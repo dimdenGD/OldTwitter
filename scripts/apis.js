@@ -1087,7 +1087,7 @@ const API = {
                             return resolve(d.notifications.data);
                         }
                     }
-                    if(!cursor) {
+                    if(!cursor && !onlyMentions) {
                         if(loadingNotifs) {
                             return loadingNotifs.listeners.push([resolve, reject]);
                         } else {
@@ -1107,14 +1107,14 @@ const API = {
                     }).then(i => i.json()).then(data => {
                         debugLog('notifications.get', 'start', {cursor, onlyMentions, data});
                         if (data.errors && data.errors[0].code === 32) {
-                            if(!cursor) {
+                            if(!cursor && !onlyMentions) {
                                 loadingNotifs.listeners.forEach(l => l[1]("Not logged in"));
                                 loadingNotifs = undefined;
                             }
                             return reject("Not logged in");
                         }
                         if (data.errors && data.errors[0]) {
-                            if(!cursor) {
+                            if(!cursor && !onlyMentions) {
                                 loadingNotifs.listeners.forEach(l => l[1]("Not logged in"));
                                 loadingNotifs = undefined;
                             }
@@ -1198,18 +1198,20 @@ const API = {
                         };
                         debugLog('notifications.get', 'end', out);
                         resolve(out);
-                        if(!cursor) {
-                            loadingNotifs.listeners.forEach(l => l[0](out));
-                            loadingNotifs = undefined;
-                        }
 
                         if(!cursor && !onlyMentions) {
+                            loadingNotifs.listeners.forEach(l => l[0](out));
+                            loadingNotifs = undefined;
                             chrome.storage.local.set({notifications: {
                                 date: Date.now(),
                                 data: out
                             }}, () => {});
                         }
                     }).catch(e => {
+                        if(!cursor && !onlyMentions) {
+                            loadingNotifs.listeners.forEach(l => l[1](e));
+                            loadingNotifs = undefined;
+                        }
                         reject(e);
                     });
                 });
