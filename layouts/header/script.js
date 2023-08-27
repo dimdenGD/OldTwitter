@@ -2488,7 +2488,6 @@ let userDataFunction = async user => {
                     for(let n of notifs) {
                         if(n.type === 'notification') {
                             let notificationsWithSameId = document.querySelectorAll(`div[data-notification-id="${n.id}"]`);
-                            console.log(n.id, notificationsWithSameId);
                             notificationsWithSameId.forEach(nd => nd.remove());
                             let nd = renderNotification(n, { unread: true });
                             divs.push(nd);
@@ -2498,7 +2497,6 @@ let userDataFunction = async user => {
                             divs.push(t);
                         }
                     }
-                    console.log(divs);
 
                     notifList.prepend(...divs);
                     if(vars.enableTwemoji) {
