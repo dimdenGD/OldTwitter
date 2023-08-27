@@ -2370,6 +2370,8 @@ let userDataFunction = async user => {
             e.stopImmediatePropagation();
 
             let previousLocation = location.href;
+            let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
+
             let modal = createModal(`
                 <div class="nav-notifications-loading">
                     <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
@@ -2379,9 +2381,7 @@ let userDataFunction = async user => {
             `, 'notifications-modal', () => {
                 if(location.href !== previousLocation) history.pushState({}, null, previousLocation);
                 setTimeout(() => notificationsOpened = false, 100);
-                try {
-                    clearInterval(ui);
-                } catch(e) {}
+                clearInterval(ui);
             }, () => {
                 let tv = document.querySelector('.tweet-viewer');
                 return !tv;
@@ -2488,6 +2488,7 @@ let userDataFunction = async user => {
                     for(let n of notifs) {
                         if(n.type === 'notification') {
                             let notificationsWithSameId = document.querySelectorAll(`div[data-notification-id="${n.id}"]`);
+                            console.log(n.id, notificationsWithSameId);
                             notificationsWithSameId.forEach(nd => nd.remove());
                             let nd = renderNotification(n, { unread: true });
                             divs.push(nd);
@@ -2497,6 +2498,7 @@ let userDataFunction = async user => {
                             divs.push(t);
                         }
                     }
+                    console.log(divs);
 
                     notifList.prepend(...divs);
                     if(vars.enableTwemoji) {
@@ -2514,7 +2516,6 @@ let userDataFunction = async user => {
 
             await updateNotifications({ mode: 'rewrite', quiet: false });
             await updateNotifications({ mode: 'prepend', quiet: true });
-            let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
 
             modal.addEventListener('scroll', () => {
                 if(loadingMore) return;
