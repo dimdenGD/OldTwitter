@@ -292,7 +292,7 @@ function getThemeVariables(enabled) {
                 --default-text-color: white;
                 --new-tweet-over: rgba(27, 40, 54, 0.92);
                 --input-background: #15202a;
-                --active-message: #f1f9ff;
+                --active-message: #141d26;
                 --more-color: #a088ff;
                 --choice-bg: rgb(44 62 71);
                 --list-actions-bg: #19212b;
@@ -319,7 +319,7 @@ function getThemeVariables(enabled) {
             --default-text-color: black;
             --new-tweet-over: rgba(255, 255, 255, 0.92);
             --input-background: white;
-            --active-message: #eaf5fd;
+            --active-message: #f1f9ff;
             --more-color: #30F;
             --choice-bg: rgb(207, 217, 222);
             --list-actions-bg: #efefef;
