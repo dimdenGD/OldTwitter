@@ -876,6 +876,16 @@ class TweetViewer {
                         v.video_info.variants.splice(preferredQualityVariantIndex, 1);
                         v.video_info.variants.unshift(preferredQualityVariant);
                     }
+                } else if(window.navigator && navigator.connection && navigator.connection.type === 'cellular') {
+                    let lowestQuality = v.video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                        return (parseInt(curr.bitrate) < parseInt(prev.bitrate) ? curr : prev);
+                    });
+                    let lowestQualityVariantIndex = v.video_info.variants.findIndex(v => v.url === lowestQuality.url);
+                    if(lowestQualityVariantIndex !== -1) {
+                        let lowestQualityVariant = v.video_info.variants[lowestQualityVariantIndex];
+                        v.video_info.variants.splice(lowestQualityVariantIndex, 1);
+                        v.video_info.variants.unshift(lowestQualityVariant);
+                    }
                 }
             }
         }
