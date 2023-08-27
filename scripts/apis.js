@@ -1073,7 +1073,7 @@ const API = {
                 });
             });
         },
-        get: (cursor, onlyMentions = false, cache = true) => {
+        get: (cursor, onlyMentions = false, cache = true, prependToCache = false) => {
             return new Promise((resolve, reject) => {
                 chrome.storage.local.get(['notifications'], d => {
                     if(cache) {
@@ -1206,6 +1206,16 @@ const API = {
                                 date: Date.now(),
                                 data: out
                             }}, () => {});
+                        }
+                        if(prependToCache) {
+                            chrome.storage.local.get(['notifications'], d => {
+                                if(d.notifications && d.notifications.data && d.notifications.data.list) {
+                                    d.notifications.data.list = d.notifications.data.list.filter(n => !res.find(r => r.type === 'notification' && r.id === n.id));
+                                    d.notifications.data.list = res.concat(d.notifications.data.list);
+                                    d.notifications.data.cursorTop = cursorTop;
+                                    chrome.storage.local.set({notifications: d.notifications}, () => {});
+                                }
+                            });
                         }
                     }).catch(e => {
                         if(!cursor && !onlyMentions) {

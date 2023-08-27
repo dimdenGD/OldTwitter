@@ -2403,11 +2403,21 @@ let userDataFunction = async user => {
                 }
                 let data;
                 try {
-                    data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
+                    data = await API.notifications.get(
+                        options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, // cursor
+                        false, // onlyMentions
+                        options.mode === 'rewrite', // long lasting cache
+                        options.mode === 'prepend' // prepend to cache
+                    );
                 } catch(e) {
                     await sleep(2500);
                     try {
-                        data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
+                        data = await API.notifications.get(
+                            options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined,
+                            false,
+                            options.mode === 'rewrite',
+                            options.mode === 'prepend'
+                        );
                     } catch(e) {
                         notifLoading.hidden = true;
                         notifMore.hidden = false;
