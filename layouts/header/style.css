@@ -17,7 +17,7 @@
     --default-text-color: black;
     --new-tweet-over: rgba(255, 255, 255, 0.92);
     --input-background: white;
-    --active-message: #eaf5fd;
+    --active-message: #f1f9ff;
     --more-color: #30F;
     --choice-bg: rgb(207, 217, 222);
     --list-actions-bg: #efefef;
@@ -2214,7 +2214,7 @@ rt.furigana {
 }
 .notification:hover,
 .notification-unread {
-    background-color: var(--dark-background-color)
+    background-color: var(--active-message)
 }
 .notification-icon {
     bottom: -1px;
@@ -2276,7 +2276,7 @@ rt.furigana {
 .notification-unread .tweet-interact-reply[data-val="0"],
 .notification-unread .tweet-interact-retweet[data-val="0"],
 .notification-unread .tweet-interact-favorite[data-val="0"] {
-    color: var(--dark-background-color);
+    color: var(--active-message);
 }
 
 .ni-follow:before {

@@ -252,8 +252,16 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     fs.unlinkSync('../OldTwitterTempChrome/test.js');
     fs.unlinkSync('../OldTwitterFirefox/package.json');
     fs.unlinkSync('../OldTwitterTempChrome/package.json');
-    fs.unlinkSync('../OldTwitterFirefox/package-lock.json');
-    fs.unlinkSync('../OldTwitterTempChrome/package-lock.json');
+  
+    if (fs.existsSync('../OldTwitterFirefox/package-lock.json')) // Delete NPM package-lock (if exists)
+      fs.unlinkSync('../OldTwitterFirefox/package-lock.json');
+    if (fs.existsSync('../OldTwitterTempChrome/package-lock.json'))
+      fs.unlinkSync('../OldTwitterTempChrome/package-lock.json');
+  
+    if (fs.existsSync('../OldTwitterFirefox/yarn.lock')) // Delete yarn package-lock (if exists)
+      fs.unlinkSync('../OldTwitterFirefox/yarn.lock');
+    if (fs.existsSync('../OldTwitterTempChrome/yarn.lock'))
+      fs.unlinkSync('../OldTwitterTempChrome/yarn.lock');
 
     let layouts = fs.readdirSync('../OldTwitterFirefox/layouts');
     for (let layout of layouts) {

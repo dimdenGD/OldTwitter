@@ -2370,6 +2370,8 @@ let userDataFunction = async user => {
             e.stopImmediatePropagation();
 
             let previousLocation = location.href;
+            let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
+
             let modal = createModal(`
                 <div class="nav-notifications-loading">
                     <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
@@ -2403,11 +2405,21 @@ let userDataFunction = async user => {
                 }
                 let data;
                 try {
-                    data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
+                    data = await API.notifications.get(
+                        options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, // cursor
+                        false, // onlyMentions
+                        options.mode === 'rewrite', // long lasting cache
+                        options.mode === 'prepend' // prepend to cache
+                    );
                 } catch(e) {
                     await sleep(2500);
                     try {
-                        data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
+                        data = await API.notifications.get(
+                            options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined,
+                            false,
+                            options.mode === 'rewrite',
+                            options.mode === 'prepend'
+                        );
                     } catch(e) {
                         notifLoading.hidden = true;
                         notifMore.hidden = false;
@@ -2502,7 +2514,6 @@ let userDataFunction = async user => {
 
             await updateNotifications({ mode: 'rewrite', quiet: false });
             await updateNotifications({ mode: 'prepend', quiet: true });
-            let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
 
             modal.addEventListener('scroll', () => {
                 if(loadingMore) return;

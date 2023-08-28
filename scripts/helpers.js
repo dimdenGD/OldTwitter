@@ -1671,6 +1671,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         v.video_info.variants.splice(preferredQualityVariantIndex, 1);
                         v.video_info.variants.unshift(preferredQualityVariant);
                     }
+                } else if(window.navigator && navigator.connection && navigator.connection.type === 'cellular') {
+                    let lowestQuality = v.video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                        return (parseInt(curr.bitrate) < parseInt(prev.bitrate) ? curr : prev);
+                    });
+                    let lowestQualityVariantIndex = v.video_info.variants.findIndex(v => v.url === lowestQuality.url);
+                    if(lowestQualityVariantIndex !== -1) {
+                        let lowestQualityVariant = v.video_info.variants[lowestQualityVariantIndex];
+                        v.video_info.variants.splice(lowestQualityVariantIndex, 1);
+                        v.video_info.variants.unshift(lowestQualityVariant);
+                    }
                 }
             }
         }
@@ -3021,6 +3031,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 API.tweet.favorite(t.id_str).catch(e => {
                     console.error(e);
+                    if(e && e.errors && e.errors[0] && e.errors[0].code === 139) {
+                        return;
+                    };
                     alert(e);
                     t.renderFavoritesDown();
                 });
