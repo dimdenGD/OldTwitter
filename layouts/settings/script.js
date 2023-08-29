@@ -874,6 +874,12 @@ setTimeout(async () => {
         darkModeText.style.color = 'var(--darker-gray)';
     }
 
+    var isMobile = /Mobi/i.test(window.navigator.userAgent); 
+    if(!isMobile){
+        document.getElementById('disable-accept-type-div').hidden = true;
+        document.getElementById('disable-data-saver-div').hidden = true;
+    }
+
     document.getElementById('tl-help').addEventListener('click', () => {
         createModal(`
             <div style="color:var(--almost-black);max-width:600px" class="help-modal">
