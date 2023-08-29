@@ -542,5 +542,6 @@
     "disable_retweet_hotkey": { "message": "禁用转推热键 (T键)" },
     "disable_like_hotkey": { "message": "禁用❤喜欢/❤点赞/★收藏热键 (L键)" },
     "enable_extension_compatibility": { "message": "启用扩展兼容性模式<br>仅在你需要让某些扩展与 OldTwitter 一起使用时才启用本功能。<br>如果还是没有起效（而且可能确实没效果）请记得关掉，因为可能会使页面出现Bug或减缓加载速度。" },
-	"enter_custom_font_name": {"message": "请输入自定义字体的名称："}
+	"enter_custom_font_name": {"message": "请输入自定义字体的名称："},
+	"disable_data_saver": { "message": "禁用蜂窝移动流量连接的省流量程序" }
 }
