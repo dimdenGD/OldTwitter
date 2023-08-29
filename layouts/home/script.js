@@ -15,6 +15,8 @@ let cursorBottom, cursorTop;
 
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.user.getV2('dimdenEFF');
+    chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
+
     if(!dimden.following) {
         let opened = Date.now();
         let modal = createModal(/*html*/`
@@ -45,6 +47,8 @@ async function createShamelessPlug(firstTime = true) {
         twemoji.parse(modal);
     }
 }
+
+
 
 setTimeout(() => {
     chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug'], async data => {

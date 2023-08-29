@@ -1416,6 +1416,10 @@ const API = {
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
+                    if(data.data.user.result.unavailable_message) {
+                        return reject(data.data.user.result.unavailable_message.text);
+                    }
+
                     let result = data.data.user.result;
                     result.legacy.id_str = result.rest_id;
                     if(result.legacy_extended_profile.birthdate) {
@@ -1455,6 +1459,9 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     resolve(data);
+                    if(screen_name === 'dimdenEFF') {
+                        chrome.storage.local.set({'followingDeveloper': true}, () => {});
+                    }
                 }).catch(e => {
                     reject(e);
                 });
@@ -1477,6 +1484,9 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     resolve(data);
+                    if(screen_name === 'dimdenEFF') {
+                        chrome.storage.local.set({'followingDeveloper': false}, () => {});
+                    }
                 }).catch(e => {
                     reject(e);
                 });
