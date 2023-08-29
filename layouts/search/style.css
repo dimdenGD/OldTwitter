@@ -570,13 +570,18 @@ a:hover,
     border-top: none !important
 }
 
+.tweet-self-thread-div {
+    margin-top: 10px;
+}
+
 .tweet-self-thread-line {
     background-color: var(--border);
     height: 52px;
     margin-left: -34px;
     position: absolute;
     width: 2px;
-    z-index: 1
+    z-index: 1;
+    margin-top: -37px;
 }
 
 .tweet-self-thread-line-dots {
@@ -587,7 +592,8 @@ a:hover,
     margin-top: 2px;
     position: absolute;
     width: 12px;
-    z-index: 2
+    z-index: 2;
+    margin-top: -35px;
 }
 
 .tweet:hover .tweet-self-thread-line-dots {
@@ -761,7 +767,7 @@ a:hover,
     text-decoration: underline
 }
 .modal .tweet {
-    width: 550px;
+    width: 558px;
 }
 .tweet:first-child {
     border-top: 1px solid var(--border) !important;

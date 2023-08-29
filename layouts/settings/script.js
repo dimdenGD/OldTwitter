@@ -198,6 +198,7 @@ setTimeout(async () => {
     let showUserPreviewsOnMobile = document.getElementById('show-user-previews-on-mobile');
     let systemDarkMode = document.getElementById('system-dark-mode');
     let extensionCompatibilityMode = document.getElementById('extension-compatibility-mode');
+    let disableDataSaver = document.getElementById('disable-data-saver');
 
     let root = document.querySelector(":root");
     {
@@ -219,7 +220,7 @@ setTimeout(async () => {
     fontElement.addEventListener('change', () => {
         let font = fontElement.value;
         if(font === '_custom') {
-            font = prompt('Enter a custom font name');
+            font = prompt(LOC.enter_custom_font_name.message);
         }
         root.style.setProperty('--font', `"${font}"`);
         chrome.storage.sync.set({
@@ -229,7 +230,7 @@ setTimeout(async () => {
     tweetFontElement.addEventListener('change', () => {
         let font = tweetFontElement.value;
         if(font === '_custom') {
-            font = prompt('Enter a custom font name');
+            font = prompt(LOC.enter_custom_font_name.message);
         }
         root.style.setProperty('--tweet-font', `"${font}"`);
         chrome.storage.sync.set({
@@ -607,6 +608,12 @@ setTimeout(async () => {
             showMediaCount: showMediaCount.checked
         }, () => { });
     });
+    disableDataSaver.addEventListener('change', () => {
+        vars.disableDataSaver = disableDataSaver.checked;
+        chrome.storage.sync.set({
+            disableDataSaver: disableDataSaver.checked
+        }, () => { });
+    });
     extensionCompatibilityMode.addEventListener('change', () => {
         vars.extensionCompatibilityMode = extensionCompatibilityMode.checked;
         chrome.storage.sync.set({
@@ -834,11 +841,13 @@ setTimeout(async () => {
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
     useOldStyleReply.checked = !!vars.useOldStyleReply;
     enableAd.checked = !!vars.enableAd;
+    showUserPreviewsOnMobile.checked = !!vars.showUserPreviewsOnMobile;
     openNotifsAsModal.checked = !!vars.openNotifsAsModal;
     enableIframeNavigation.checked = !!vars.enableIframeNavigation;
     muteVideos.checked = !!vars.muteVideos;
     dontPauseVideos.checked = !!vars.dontPauseVideos;
     extensionCompatibilityMode.checked = !!vars.extensionCompatibilityMode;
+    disableDataSaver.checked = !!vars.disableDataSaver;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

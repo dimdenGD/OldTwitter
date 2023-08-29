@@ -382,7 +382,8 @@ select, input, textarea {
 #move-navbar-to-bottom-div,
 #show-user-previews-on-mobile-div,
 #hide-wtf-div,
-#hide-trends-div {
+#hide-trends-div,
+#disable-data-saver-div {
     display: none;
 }
 #about-left {
@@ -731,7 +732,8 @@ button[aria-labelledby="clr-open-label"] {
         width: 100% !important
     }
     #move-navbar-to-bottom-div,
-    #show-user-previews-on-mobile-div {
+    #show-user-previews-on-mobile-div,
+    #disable-data-saver-div {
         display: block;
     }
     .color-transparency {
