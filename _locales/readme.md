@@ -11,7 +11,7 @@ If you want to translate, copy ``en`` folder (English) and paste with renaming i
 Then open newly pasted folder and open ``messages.json`` in it. You'll now see ``{ "message": "some text" }`` parts in it. Then you can start translating by editing ``some text`` part!
 
 **Things to keep in mind:**
-- Some lines have ``description``, ``example`` or ``placeholder`` fields, it's comments for translators or placeholders. You don't have to translate them (or translate for later reminds, depend on your purpose).
+- Some lines have ``description``, ``example`` or ``placeholder`` fields, they are comments for translators or placeholders. You don't have to translate them (or translate for later reminds, depend on your purpose).
 - Pay attention to texts case and symbols in it! If English version has something in lowercase, use lowercase in translation too.
 - Keep ``$SOMETHING_HERE$`` parts unchanged.
 - Place ``\`` before ``"`` inside your text.
@@ -26,7 +26,7 @@ When you're finished you can send me your ``messages.json file`` to these places
 - discord: https://discord.gg/k4u7ddk
 - github issues: https://github.com/dimdenGD/OldTwitter/issues
 
-Or simply open a new pull request with your edited forks!
+Or simply create a new pull request with your edited forks!
 
 You can also include your Twitter profile to get credited.
 
