@@ -499,7 +499,7 @@
     "replying_to_and":  { "message": " and ", "description":"For some languages that use address terms", "example": "Replying to @A-> and <-@B, @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
     "twitter": {"message": "Twitter"},
-    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Move navbar to bottom"},
+    "move_navbar_to_bottom": {"message": "Move navbar to bottom"},
     "styled_profile": {"message": "Styled profile"},
     "open_notifs_as_modal": {"message": "Open notifications as modal", "description": "Modal is a small window that opens on top of page"},
     "clear_ot_token": {"message": "Clear OldTwitter token"},
@@ -544,5 +544,6 @@
     "enable_extension_compatibility": { "message": "Enable extension compatibility mode (only enable if you want to make some extension work with OldTwitter, if it still doesn't work (and most likely won't) disable this again, because this option can make page buggy/laggy)" },
 	"enter_custom_font_name": {"message": "Enter a custom font name"},
     "disable_data_saver": { "message": "Disable data saver for cellular connection" },
+    "mobile": { "message": "Mobile" },
     "disable_accept_type": { "message": "Disable accept type when upload media. This fixes the problem of not being able to access all images on some Android versions." }
 }

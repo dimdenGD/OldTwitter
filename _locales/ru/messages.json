@@ -490,7 +490,7 @@
     "replying_to_and":  { "message": " и ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Твиттер"},
-    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Переместить панель навигации вниз"},
+    "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"},
     "styled_profile": {"message": "Стилизированный профиль"},
     "open_notifs_as_modal": {"message": "Открывать уведомления в модальном окне"},
     "clear_ot_token": {"message": "Очистить токен OldTwitter"},

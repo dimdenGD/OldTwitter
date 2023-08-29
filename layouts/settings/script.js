@@ -876,8 +876,7 @@ setTimeout(async () => {
 
     var isMobile = /Mobi/i.test(window.navigator.userAgent); 
     if(!isMobile){
-        document.getElementById('disable-accept-type-div').hidden = true;
-        document.getElementById('disable-data-saver-div').hidden = true;
+        document.getElementById('mobile-setting').hidden = true;
     }
 
     document.getElementById('tl-help').addEventListener('click', () => {

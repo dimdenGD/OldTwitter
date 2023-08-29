@@ -499,7 +499,7 @@
     "replying_to_and":  { "message": " và ", "description":"For some languages that use address terms", "example": "Replying to @A-> and <-@B, @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
     "twitter": {"message": "Twitter"},
-    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Di chuyển thanh điều hướng xuống dưới đáy"},
+    "move_navbar_to_bottom": {"message": "Di chuyển thanh điều hướng xuống dưới đáy"},
     "mmdd":{ "message": "$DATE$ tháng $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$DATE$ tháng $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
     "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } }
