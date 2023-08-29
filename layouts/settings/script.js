@@ -198,6 +198,7 @@ setTimeout(async () => {
     let showUserPreviewsOnMobile = document.getElementById('show-user-previews-on-mobile');
     let systemDarkMode = document.getElementById('system-dark-mode');
     let extensionCompatibilityMode = document.getElementById('extension-compatibility-mode');
+    let disableDataSaver = document.getElementById('disable-data-saver');
 
     let root = document.querySelector(":root");
     {
@@ -607,6 +608,12 @@ setTimeout(async () => {
             showMediaCount: showMediaCount.checked
         }, () => { });
     });
+    disableDataSaver.addEventListener('change', () => {
+        vars.disableDataSaver = disableDataSaver.checked;
+        chrome.storage.sync.set({
+            disableDataSaver: disableDataSaver.checked
+        }, () => { });
+    });
     extensionCompatibilityMode.addEventListener('change', () => {
         vars.extensionCompatibilityMode = extensionCompatibilityMode.checked;
         chrome.storage.sync.set({
@@ -840,6 +847,7 @@ setTimeout(async () => {
     muteVideos.checked = !!vars.muteVideos;
     dontPauseVideos.checked = !!vars.dontPauseVideos;
     extensionCompatibilityMode.checked = !!vars.extensionCompatibilityMode;
+    disableDataSaver.checked = !!vars.disableDataSaver;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

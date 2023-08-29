@@ -966,7 +966,10 @@ const getLinkColors = ids => {
                     if(linkColors[id]) fetched.push({id, color: linkColors[id]});
                 }
             }
-            if(toFetch.length === 0) {
+            if(
+                toFetch.length === 0 ||
+                (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver)
+            ) {
                 return resolve(fetched);
             }
 
@@ -1293,7 +1296,7 @@ function renderMedia(t) {
                 width="${w}"
                 height="${h}"
                 loading="lazy"
-                src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '')}"
+                src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '')}"
                 class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
             >`;
         } else if(m.type === 'animated_gif') {
@@ -1671,7 +1674,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         v.video_info.variants.splice(preferredQualityVariantIndex, 1);
                         v.video_info.variants.unshift(preferredQualityVariant);
                     }
-                } else if(window.navigator && navigator.connection && navigator.connection.type === 'cellular') {
+                } else if(window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver) {
                     let lowestQuality = v.video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
                         return (parseInt(curr.bitrate) < parseInt(prev.bitrate) ? curr : prev);
                     });
@@ -1816,7 +1819,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText: ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? /*html*/`
