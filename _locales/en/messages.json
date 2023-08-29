@@ -544,6 +544,6 @@
     "enable_extension_compatibility": { "message": "Enable extension compatibility mode (only enable if you want to make some extension work with OldTwitter, if it still doesn't work (and most likely won't) disable this again, because this option can make page buggy/laggy)" },
 	"enter_custom_font_name": {"message": "Enter a custom font name" },
     "disable_data_saver": { "message": "Disable data saver for cellular connection", "description": "This option only appears on mobile" },
-    "mobile": { "message": "Mobile", "description": "Title for mobile phone settings"},
+    "mobile": { "message": "Mobile", "description": "Title for mobile device settings"},
     "disable_accept_type": { "message": "Disable accept-type when uploading media. This fixes the problem of not being able to access all images on some Android versions.", "description": "This option only appears on mobile" }
 }
