@@ -1825,6 +1825,9 @@ emoji-picker {
     color: var(--light-gray) !important;
     cursor: not-allowed !important;
 }
+.trend-name {
+    word-break: break-word;
+}
 .user-item-btn {
     float: right;
     position: relative;
