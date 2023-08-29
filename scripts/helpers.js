@@ -249,7 +249,9 @@ function getMedia(mediaArray, mediaContainer) {
     let input = document.createElement('input');
     input.type = 'file';
     input.multiple = true;
-    input.accept = 'image/png,image/jpeg,image/gif,video/mp4,video/mov';
+    if(!vars.disableAcceptType){
+        input.accept = 'image/png,image/jpeg,image/gif,video/mp4,video/mov';
+    }
     input.addEventListener('change', () => {
         handleFiles(input.files, mediaArray, mediaContainer);
     });
