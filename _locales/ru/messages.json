@@ -534,5 +534,7 @@
     "disable_like_hotkey": { "message": "Выключить горячую клавишу для лайков (L)" },
     "enable_extension_compatibility": { "message": "Включить режим совместимости (включайте только если хотите сделать другое расширение совместимым с OldTwitter, если оно всё ещё не работает (скорее всего не будет), выключите эту опцию, так как она может сделать страницу лагучей)" },
     "enter_custom_font_name": {"message": "Введите название шрифта"},
-    "disable_data_saver": { "message": "Выключить экономию трафика когда используется мобильная сеть" }
+    "disable_data_saver": { "message": "Выключить экономию трафика когда используется мобильная сеть" },
+    "mobile": { "message": "Мобильные настройки", "description": "Title for mobile settings"},
+    "disable_accept_type": { "message": "Выключить 'accept-type' при открытии галереи для загрузки медиа. Включите если на вашем Андроиде нельзя выбрать/найти некоторые картинки в галерее.", "description": "This option only appears on mobile" }
 }
