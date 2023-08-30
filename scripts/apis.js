@@ -569,7 +569,7 @@ const API = {
                     if(tweets.length === 0 && messagePromptIndex === 0 && !cursor) {
                         let messagePrompt = entries[messagePromptIndex].content.itemContent.content;
                         if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "https://twitter.com/i/twitter_blue_sign_up") {
-                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 5;
+                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
                             return API.timeline.getChronologicalV2(cursor, count, true).then(resolve).catch(reject);
                         }
                     }
@@ -718,7 +718,7 @@ const API = {
                     if(tweets.length === 0 && messagePromptIndex === 0 && !cursor) {
                         let messagePrompt = entries[messagePromptIndex].content.itemContent.content;
                         if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "https://twitter.com/i/twitter_blue_sign_up") {
-                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 5;
+                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
                             return API.timeline.getAlgorithmicalV2(cursor, count, seenTweetIds, true).then(resolve).catch(reject);
                         }
                     }
@@ -1613,7 +1613,7 @@ const API = {
                         }
                         if (data.errors && data.errors[0]) {
                             if(data.errors[0].code === 88 && typeof useDiffKey === 'undefined') {
-                                localStorage.hitRateLimit = Date.now() + 1000 * 60 * 5;
+                                localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
                                 return API.user.getTweetsV2(id, cursor, replies, true).then(resolve).catch(reject);
                             }
                             return reject(data.errors[0].message);
@@ -3802,7 +3802,7 @@ const API = {
                 }).then(i => i.json()).then(data => {
                     if (data.errors && data.errors[0]) {
                         if(data.errors[0].code === 88) {
-                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 5;
+                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
                             return API.search.adaptiveV2(obj, cursor).then(resolve).catch(reject);
                         }
                         return reject(data.errors[0].message);
