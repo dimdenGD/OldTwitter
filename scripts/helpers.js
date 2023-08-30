@@ -666,46 +666,63 @@ function generateCard(tweet, tweetElement, user) {
             let co = uc.component_objects[cn];
             if(co.type === "media") {
                 let media = uc.media_entities[co.data.id];
-                let video = document.createElement('video');
-                video.className = 'tweet-media-element tweet-media-element-one';
-                let [w, h] = sizeFunctions[1](media.original_info.width, media.original_info.height);
-                video.width = w;
-                video.height = h;
-                video.crossOrigin = 'anonymous';
-                video.loading = 'lazy';
-                video.controls = true;
-                if(!media.video_info) {
-                    console.log(`bug found in ${tweet.id_str}, please report this message to https://github.com/dimdenGD/OldTwitter/issues`, tweet);
-                    continue;
-                };
-                let variants = media.video_info.variants.sort((a, b) => {
-                    if(!b.bitrate) return -1;
-                    return b.bitrate-a.bitrate;
-                });
-                if(typeof(vars.savePreferredQuality) !== 'boolean') {
-                    chrome.storage.sync.set({
-                        savePreferredQuality: true
-                    }, () => {});
-                    vars.savePreferredQuality = true;
-                }
-                if(localStorage.preferredQuality && vars.savePreferredQuality) {
-                    let closestQuality = variants.filter(v => v.bitrate).reduce((prev, curr) => {
-                        return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+
+                if(media.type === "photo") {
+                    let img = document.createElement('img');
+                    img.className = 'tweet-media-element';
+                    let [w, h] = sizeFunctions[1](media.original_info.width, media.original_info.height);
+                    img.width = w;
+                    img.height = h;
+                    img.loading = 'lazy';
+                    img.src = media.media_url_https;
+                    img.addEventListener('click', () => {
+                        new Viewer(img, {
+                            transition: false
+                        });
                     });
-                    let preferredQualityVariantIndex = variants.findIndex(v => v.url === closestQuality.url);
-                    if(preferredQualityVariantIndex !== -1) {
-                        let preferredQualityVariant = variants[preferredQualityVariantIndex];
-                        variants.splice(preferredQualityVariantIndex, 1);
-                        variants.unshift(preferredQualityVariant);
+                    tweetElement.getElementsByClassName('tweet-card')[0].append(img, document.createElement('br'));
+                } else if(media.type === "animated_gif" || media.type === "video") {
+                    let video = document.createElement('video');
+                    video.className = 'tweet-media-element tweet-media-element-one';
+                    let [w, h] = sizeFunctions[1](media.original_info.width, media.original_info.height);
+                    video.width = w;
+                    video.height = h;
+                    video.crossOrigin = 'anonymous';
+                    video.loading = 'lazy';
+                    video.controls = true;
+                    if(!media.video_info) {
+                        console.log(`bug found in ${tweet.id_str}, please report this message to https://github.com/dimdenGD/OldTwitter/issues`, tweet);
+                        continue;
+                    };
+                    let variants = media.video_info.variants.sort((a, b) => {
+                        if(!b.bitrate) return -1;
+                        return b.bitrate-a.bitrate;
+                    });
+                    if(typeof(vars.savePreferredQuality) !== 'boolean') {
+                        chrome.storage.sync.set({
+                            savePreferredQuality: true
+                        }, () => {});
+                        vars.savePreferredQuality = true;
                     }
+                    if(localStorage.preferredQuality && vars.savePreferredQuality) {
+                        let closestQuality = variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                            return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+                        });
+                        let preferredQualityVariantIndex = variants.findIndex(v => v.url === closestQuality.url);
+                        if(preferredQualityVariantIndex !== -1) {
+                            let preferredQualityVariant = variants[preferredQualityVariantIndex];
+                            variants.splice(preferredQualityVariantIndex, 1);
+                            variants.unshift(preferredQualityVariant);
+                        }
+                    }
+                    for(let v in variants) {
+                        let source = document.createElement('source');
+                        source.src = variants[v].url;
+                        source.type = variants[v].content_type;
+                        video.append(source);
+                    }
+                    tweetElement.getElementsByClassName('tweet-card')[0].append(video, document.createElement('br'));
                 }
-                for(let v in variants) {
-                    let source = document.createElement('source');
-                    source.src = variants[v].url;
-                    source.type = variants[v].content_type;
-                    video.append(source);
-                }
-                tweetElement.getElementsByClassName('tweet-card')[0].append(video, document.createElement('br'));
             } else if(co.type === "app_store_details") {
                 let app = uc.app_store_data[uc.destination_objects[co.data.destination].data.app_id][0];
                 let appElement = document.createElement('div');
