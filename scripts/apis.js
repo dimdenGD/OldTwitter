@@ -544,7 +544,7 @@ const API = {
                         "content-type": "application/x-www-form-urlencoded"
                     },
                     credentials: "include"
-                }).then(response => response.json()).then(data => {
+                }).then(response => response.json()).then(async data => {
                     debugLog('timeline.getChronologicalV2', 'start', {cursor, count, data});
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
@@ -559,10 +559,18 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+                    let tweets = parseHomeTimeline(entries, data);
                     let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
                     let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
+                    let messagePromptIndex = entries.findIndex(e => e.entryId.startsWith('messageprompt-'));
+                    if(tweets.length === 0 && messagePromptIndex === 0 && !cursor) {
+                        let messagePrompt = entries[messagePromptIndex].content.itemContent.content;
+                        if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "https://twitter.com/i/twitter_blue_sign_up") {
+                            return API.timeline.getChronologicalV2(ct.content.value, count, false).then(resolve).catch(reject);
+                        }
+                    }
                     let out = {
-                        list: parseHomeTimeline(entries, data),
+                        list: tweets,
                         cursorBottom: cb ? cb.content.value : undefined,
                         cursorTop: ct ? ct.content.value : undefined
                     }
