@@ -3841,19 +3841,19 @@ const API = {
                             res.push(user);
                         }
                     }
-                    let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom-') || e.entryId.startsWith('cursor-bottom-'));
-                    if(cursor) {
-                        cursor = cursor.content.value;
+                    let cursorBottom = entries.find(e => e.entryId.startsWith('sq-cursor-bottom-') || e.entryId.startsWith('cursor-bottom-'));
+                    if(cursorBottom) {
+                        cursorBottom = cursorBottom.content.value;
                     } else {
-                        cursor = instructions.find(e => e.entry_id_to_replace && (e.entry_id_to_replace.startsWith('sq-cursor-bottom-') || e.entry_id_to_replace.startsWith('cursor-bottom-')));
-                        if(cursor) {
-                            cursor = cursor.entry.content.value;
+                        cursorBottom = instructions.find(e => e.entry_id_to_replace && (e.entry_id_to_replace.startsWith('sq-cursor-bottom-') || e.entry_id_to_replace.startsWith('cursor-bottom-')));
+                        if(cursorBottom) {
+                            cursorBottom = cursorBottom.entry.content.value;
                         } else {
-                            cursor = null;
+                            cursorBottom = null;
                         }
                     }
         
-                    resolve({list: res, cursor});
+                    resolve({list: res, cursorBottom});
                 });
             });
         },
@@ -4280,9 +4280,14 @@ const API = {
                             }
                         }
                     }
+
+                    let cb = list.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    let ct = list.find(e => e.entryId.startsWith('cursor-top-'));
+
                     let out = {
                         list: tweets,
-                        cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                        cursorBottom: cb ? cb.content.value : undefined,
+                        cursorTop: ct ? ct.content.value : undefined
                     };
                     debugLog('list.getTweets', 'end', id, cursor, out);
                     resolve(out);

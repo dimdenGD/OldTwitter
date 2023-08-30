@@ -118,7 +118,7 @@ async function renderSearch(c, force = false) {
             return;
         }
         search = searchData;
-        cursor = search.cursor;
+        cursor = search.cursorBottom;
         search = search.list;
     } catch(e) {
         console.error(e);

@@ -65,23 +65,9 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Fixed tweet like/retweet/reply count not changing on action when 'Display the exact number of retweets, likes, followers, etc.' is disabled.</li>
-                            <li>Improved "new tweets" button on homepage, now it doesn't re-render entire page but only adds new tweets.</li>
-                            <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
-                            <li>Made "Show bookmark count on tweets" option show bookmark button on all tweets.</li>
-                            <li>Replaced word 'post' with 'tweet' everywhere.</li>
-                            <li>Fixed search input on mobile.</li>
-                            <li>Added mute button to three dots button of tweets.</li>
-                            <li>Fixed video view counts.</li>
-                            <li>Made OldTwitter use low quality images when on mobile data (Chromium only).</li>
-                            <li>Fixed Twitter embeds on other websites.</li>
-                            <li>Made OldTwitter update tweet like/retweet/reply/view counts automatically.</li>
-                            <li>Made tweet viewer use more space instead of wasting it on mobile.</li>
-                            <li>Fixed username disappearing on scroll in profile.</li>
-                            <li>Added quote translation length limit.</li>
-                            <li>Fixed pressing enter with Japanese IME in search input initiating search.</li>
-                            <li>Added Separate text button for tweet viewer too.</li>
-                            <li>Fixed useless t.co links sometimes appearing.</li>
+                            <li>Added rate limit bypass again!</li>
+                            <li>Added "new tweets" button to Lists (and autoupdate setting will work too). You don't have to reload page to see new tweets anymore.</li>
+                            <li>Improvements to data saver and option to disable it when using cellular data.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
