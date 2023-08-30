@@ -66,7 +66,7 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added rate limit bypass again!</li>
-                            <li>Added "new tweets" button to Lists (and autoupdate setting will work too). You don't have to reload page to see new tweets anymore.</li>
+                            <li>Added "new tweets" button to Lists and Search (and autoupdate setting will work too). You don't have to reload page to see new tweets anymore.</li>
                             <li>Improvements to data saver and option to disable it when using cellular data.</li>
                         </ul>
                         <p style="margin-bottom:5px">

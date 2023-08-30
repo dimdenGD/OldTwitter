@@ -245,6 +245,7 @@ async function renderListMembers(c) {
     listMembers = listMembers.value;
     cursor = listMembers.cursor;
     cursorTop = undefined;
+    toRender = [];
     listMembers = listMembers.list;
     if(!cursor || listMembers.length === 0) end = true;
     renderListData(listInfo);
@@ -273,6 +274,7 @@ async function renderListFollowers(c) {
     listFollowers = listFollowers.value;
     cursor = listFollowers.cursor;
     cursorTop = undefined;
+    toRender = [];
     listFollowers = listFollowers.list;
     if(!cursor || listFollowers.length === 0) end = true;
     renderListData(listInfo);
@@ -338,7 +340,7 @@ setInterval(async () => {
         data = data.list;
         let newTweets = document.getElementById('new-tweets');
 
-        if(data.length === 0) return newTweets.hidden = true;
+        if(data.length === 0) return;
 
         toRender = [...data, ...toRender];
         newTweets.hidden = false;

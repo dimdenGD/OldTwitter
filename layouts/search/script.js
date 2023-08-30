@@ -1,5 +1,5 @@
 let user = {};
-let cursor;
+let cursor, cursorTop;
 let linkColors = {};
 let searchParams = {}, searchSettings = {};
 let saved;
@@ -12,6 +12,9 @@ function updateSubpage() {
     searchParams = params || {};
     searchSettings = {};
     linkColors = {};
+    cursorTop = undefined;
+    toRender = [];
+    document.getElementById('new-tweets').hidden = true;
     let activeParams = Array.from(document.getElementsByClassName('search-switch-active'));
     activeParams.forEach(a => a.classList.remove('search-switch-active'));
     if(params.f === 'live') {
@@ -104,25 +107,30 @@ async function renderSearch(c, force = false) {
             }, cursor);
         } catch(e) {
             console.error(e);
-            searchDiv.innerHTML = `<div class="no-results">
-                <br><br>
-                <span style="color:var(--default-text-color)">${String(e)}</span><br><br>
-                <button class="nice-button">${LOC.try_again.message}</button>
-            </div>`;
-            cursor = undefined;
-            let button = searchDiv.querySelector('button');
-            button.addEventListener('click', () => {
-                renderSearch();
-            });
+            if(!c) {
+                searchDiv.innerHTML = `<div class="no-results">
+                    <br><br>
+                    <span style="color:var(--default-text-color)">${String(e)}</span><br><br>
+                    <button class="nice-button">${LOC.try_again.message}</button>
+                </div>`;
+                let button = searchDiv.querySelector('button');
+                button.addEventListener('click', () => {
+                    renderSearch();
+                });
+            }
             document.getElementById('loading-box').hidden = true;
             return;
         }
         search = searchData;
         cursor = search.cursorBottom;
+        if(searchSettings.type === 'live') {
+            cursorTop = search.cursorTop;
+        } else {
+            cursorTop = undefined;
+        }
         search = search.list;
     } catch(e) {
         console.error(e);
-        cursor = undefined;
         return document.getElementById('loading-box').hidden = true;
     }
     if(!c) {
@@ -172,6 +180,7 @@ async function renderSearch(c, force = false) {
                         icon: "\uf006",
                         color: "#77b255"
                     },
+                    translate: vars.autotranslateProfiles.includes(t.user.id_str),
                     bigFont: t.retweeted_status.full_text.length < 75
                 });
             } else {
@@ -255,6 +264,29 @@ async function updateSavedButton() {
 }
 
 let loadingNewTweets = false;
+let toRender = [];
+
+setInterval(async () => {
+    if(cursorTop) {
+        let data = await API.search.adaptiveV2({
+            rawQuery: decodeURIComponent(searchParams.q) + (searchSettings.nearYou ? ' near:me' : '') + (searchSettings.followedPeople ? ' filter:follows' : ''),
+            count: 50,
+            querySource: 'typed_query',
+            product: "Latest",
+        }, cursorTop);
+        cursorTop = data.cursorTop;
+        data = data.list;
+        let newTweets = document.getElementById('new-tweets');
+
+        if(data.length === 0) return;
+
+        toRender = [...data, ...toRender];
+        newTweets.hidden = false;
+        if(vars.updateTimelineAutomatically) {
+            setTimeout(() => newTweets.click(), 10);
+        }
+    }
+}, 60000);
 
 setTimeout(async () => {
     if(!vars) {
@@ -311,6 +343,36 @@ setTimeout(async () => {
         if(activeTweet) {
             activeTweet.classList.add('tweet-active');
         }
+    });
+    document.getElementById('new-tweets').addEventListener('click', async () => {
+        let container = document.getElementById('timeline');
+        let toInsert = [];
+        
+        for(let i in toRender) {
+            let t = toRender[i];
+            if(t.retweeted_status) {
+                toInsert.push(await appendTweet(t.retweeted_status, container, {
+                    top: {
+                        text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                        icon: "\uf006",
+                        color: "#77b255",
+                        class: 'retweet-label'
+                    },
+                    translate: vars.autotranslateProfiles.includes(t.user.id_str),
+                    noInsert: true
+                }));
+            } else {
+                toInsert.push(await appendTweet(t, container, {
+                    bigFont: typeof t.full_text === 'string' && t.full_text.length < 75,
+                    translate: vars.autotranslateProfiles.includes(t.user.id_str),
+                    noInsert: true
+                }));
+            }
+        }
+
+        toRender = [];
+        document.getElementById('new-tweets').hidden = true;
+        container.prepend(...toInsert);
     });
 
     let searchSwitches = Array.from(document.getElementsByClassName('search-switch'));

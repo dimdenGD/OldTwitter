@@ -782,6 +782,15 @@ a:hover,
 #about-left {
     display: none;
 }
+#new-tweets {
+    background-color: var(--dark-background-color);
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    color: var(--darker-gray);
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+    padding: 10px
+}
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     .search-switch {

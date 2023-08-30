@@ -3852,8 +3852,19 @@ const API = {
                             cursorBottom = null;
                         }
                     }
+                    let cursorTop = entries.find(e => e.entryId.startsWith('sq-cursor-top-') || e.entryId.startsWith('cursor-top-'));
+                    if(cursorTop) {
+                        cursorTop = cursorTop.content.value;
+                    } else {
+                        cursorTop = instructions.find(e => e.entry_id_to_replace && (e.entry_id_to_replace.startsWith('sq-cursor-top-') || e.entry_id_to_replace.startsWith('cursor-top-')));
+                        if(cursorTop) {
+                            cursorTop = cursorTop.entry.content.value;
+                        } else {
+                            cursorTop = null;
+                        }
+                    }
         
-                    resolve({list: res, cursorBottom});
+                    resolve({list: res, cursorBottom, cursorTop});
                 });
             });
         },
