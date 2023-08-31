@@ -1245,18 +1245,19 @@ setTimeout(async () => {
     setInterval(updateUserData, 60000 * 3);
     let timer = 0;
     setInterval(() => {
-        if(vars.timelineType !== 'algo') {
-            if(!vars.timelineType.startsWith('chrono')) {
-                // don't waste precious API calls
-                if(timer === 0) {
-                    timer = 1;
-                } else {
-                    updateTimeline('prepend');
-                    timer = 0;
-                }
+        if(vars.timelineType === 'algo') {
+            return;
+        }
+        if(!vars.timelineType.startsWith('chrono')) {
+            // don't waste precious API calls
+            if(timer === 0) {
+                timer = 1;
             } else {
+                timer = 0;
                 updateTimeline('prepend');
             }
+        } else {
+            updateTimeline('prepend');
         }
     }, 30000);
     if(vars.timelineType.startsWith('chrono')) {
