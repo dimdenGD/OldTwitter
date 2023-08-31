@@ -141,13 +141,16 @@ setTimeout(async () => {
     let enableHashflags = document.getElementById('enable-hashflags');
     let timelineType = document.getElementById('tl-type');
     let darkMode = document.getElementById('dark-mode');
-    let pitchBlackMode = document.getElementById('pitch-black-mode');
     let darkModeText = document.getElementById('dark-mode-text');
+    let pitchBlackMode = document.getElementById('pitch-black-mode');
     let timeMode = document.getElementById('time-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
+    let showTopicTweetsText = document.getElementById('show-topic-tweets-text');
     let disableHotkeys = document.getElementById('disable-hotkeys');
     let disableRetweetHotkey = document.getElementById('disable-retweet-hotkey');
     let disableLikeHotkey = document.getElementById('disable-like-hotkey');
+    let disableRetweetHotkeyText = document.getElementById('disable-retweet-hotkey-text');
+    let disableLikeHotkeyText = document.getElementById('disable-like-hotkey-text');
     let customCSS = document.getElementById('custom-css');
     let customCSSSave = document.getElementById('custom-css-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
@@ -188,8 +191,10 @@ setTimeout(async () => {
     let enableIframeNavigation = document.getElementById('enable-iframe-navigation');
     let showExactValues = document.getElementById('show-exact-values');
     let localizeDigit = document.getElementById('localize-digit');
+    let localizeDigitText = document.getElementById('localize-digit-text');
     let hideTimelineTypes = document.getElementById('hide-timeline-types');
     let showTimelineTypesLists = document.getElementById('show-timeline-types-lists');
+    let showTimelineTypesListsText = document.getElementById('show-timeline-types-lists-text');
     let autotranslationMode = document.getElementById('autotranslation-mode');
     let autotranslateLanguages = document.getElementById('autotranslate-languages');
     let autotranslateLanguageList = document.getElementById('autotranslate-language-list');
@@ -393,6 +398,8 @@ setTimeout(async () => {
         }, () => { });
     });
     hideTimelineTypes.addEventListener('change', () => {
+        showTimelineTypesLists.disabled = hideTimelineTypes.checked;
+        showTimelineTypesListsText.style.color = hideTimelineTypes.checked ? 'var(--darker-gray)' : 'unset';
         chrome.storage.sync.set({
             hideTimelineTypes: hideTimelineTypes.checked
         }, () => { });
@@ -403,6 +410,9 @@ setTimeout(async () => {
         }, () => { });
     });
     showExactValues.addEventListener('change', () => {
+        localizeDigit.disabled = !showExactValues.checked;
+        localizeDigitText.style.color = !showExactValues.checked ? 'var(--darker-gray)' : 'unset';
+
         vars.localizeDigit = !!localizeDigit.checked;
         vars.showExactValues = !!showExactValues.checked;
         chrome.storage.sync.set({
@@ -439,7 +449,8 @@ setTimeout(async () => {
         document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
     });
     timelineType.addEventListener('change', () => {
-        document.getElementById('stt-div').hidden = timelineType.value !== 'algo' && timelineType.value !== 'algov2';
+        showTopicTweets.disabled = timelineType.value !== 'algo' && timelineType.value !== 'algov2';
+        showTopicTweetsText.style.color = (timelineType.value !== 'algo' && timelineType.value !== 'algov2') ? 'var(--darker-gray)' : 'unset';
         chrome.storage.sync.set({
             timelineType: timelineType.value
         }, () => { });
@@ -477,6 +488,11 @@ setTimeout(async () => {
         }, () => { });
     });
     disableHotkeys.addEventListener('change', () => {
+        disableLikeHotkey.disabled = disableHotkeys.checked;
+        disableLikeHotkeyText.style.color = disableHotkeys.checked ? 'var(--darker-gray)' : 'unset';
+        disableRetweetHotkey.disabled = disableHotkeys.checked;
+        disableRetweetHotkeyText.style.color = disableHotkeys.checked ? 'var(--darker-gray)' : 'unset';
+
         chrome.storage.sync.set({
             disableHotkeys: disableHotkeys.checked
         }, () => { });
@@ -863,24 +879,40 @@ setTimeout(async () => {
     extensionCompatibilityMode.checked = !!vars.extensionCompatibilityMode;
     disableDataSaver.checked = !!vars.disableDataSaver;
     disableAcceptType.checked = !!vars.disableAcceptType;
-    if(vars.customCSS) {
-        customCSS.value = vars.customCSS;
-    }
-    document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
     roundAvatars.checked = !!vars.roundAvatars;
-    modernUI.checked = !!vars.modernUI;
-    language.value = vars.language ? vars.language : 'en';
-    document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
-    autotranslationMode.value = vars.autotranslationMode;
+    modernUI.checked = !!vars.modernUI;    
+    if(vars.customCSS) {
+        customCSS.value = vars.customCSS;
+    }
     copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
+    language.value = vars.language ? vars.language : 'en';
+    autotranslationMode.value = vars.autotranslationMode;
+
+    //disable some options
+    showTopicTweets.disabled = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
+    showTopicTweetsText.style.color = (vars.timelineType !== 'algo' && vars.timelineType !== 'algov2') ? 'var(--darker-gray)' : 'unset';
+
+    document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
+    localizeDigit.disabled = !vars.showExactValues;
+    localizeDigitText.style.color = !vars.showExactValues ? 'var(--darker-gray)' : 'unset';
+
+    showTimelineTypesLists.disabled = vars.hideTimelineTypes;
+    showTimelineTypesListsText.style.color = vars.hideTimelineTypes ? 'var(--darker-gray)' : 'unset';
+
+    disableLikeHotkey.disabled = vars.disableHotkeys;
+    disableLikeHotkeyText.style.color = vars.disableHotkeys ? 'var(--darker-gray)' : 'unset';
+    disableRetweetHotkey.disabled = vars.disableHotkeys;
+    disableRetweetHotkeyText.style.color = vars.disableHotkeys ? 'var(--darker-gray)' : 'unset';
+
     if(vars.timeMode) {
         darkMode.disabled = true;
         darkMode.checked = isDark();
         darkModeText.style.color = 'var(--darker-gray)';
     }
 
+    //hide mobile option on PC
     var isMobile = /Mobi/i.test(window.navigator.userAgent); 
     if(!isMobile){
         document.getElementById('mobile-setting').hidden = true;
