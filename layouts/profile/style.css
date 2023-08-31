@@ -1856,6 +1856,16 @@ a:hover,
     #profile-friends-div{
         display:none;
     }
+
+    #profile-stats>#profile-stat-tweets-link{
+        order: 1;
+    }
+    #profile-stats>#profile-stat-media-link{
+        order: 2;
+    }
+    #profile-stats>#profile-stat-favorites-link{
+        order: 3;
+    }
 }
 @media screen and (max-width: 470px) {
     .profile-stat {
