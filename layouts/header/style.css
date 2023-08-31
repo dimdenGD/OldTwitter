@@ -2837,6 +2837,7 @@ video::-internal-media-controls-overlay-cast-button {
         transition: 0.2s;
         margin-left: auto;
         margin-right: auto;
+        width : 33.3%;
     }
     .profile-stat-value {
         font-size: 15px;
