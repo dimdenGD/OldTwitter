@@ -30,7 +30,7 @@ async function loadVars() {
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'openNotifsAsModal', 'enableIframeNavigation',
             'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
             'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
-            'disableRetweetHotkey', 'disableLikeHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType'
+            'disableRetweetHotkey', 'disableLikeHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType', 'showTimelineTypesLists'
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {
@@ -55,6 +55,12 @@ async function loadVars() {
                 data.hideTimelineTypes = false;
                 chrome.storage.sync.set({
                     hideTimelineTypes: false
+                }, () => {});
+            }
+            if(typeof(data.showTimelineTypesLists) !== 'boolean') {
+                data.showTimelineTypesLists = true;
+                chrome.storage.sync.set({
+                    showTimelineTypesLists: true
                 }, () => {});
             }
             if(typeof(data.showExactValues) !== 'boolean') {

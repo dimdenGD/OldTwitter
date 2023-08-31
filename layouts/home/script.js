@@ -434,18 +434,23 @@ setTimeout(async () => {
 
         let timelineTypeRight = document.getElementById('timeline-type-right');
         let timelineTypeCenter = document.getElementById('timeline-type-center');
-
+        
         let optgroup = document.createElement('optgroup');
         optgroup.label = LOC.lists.message;
+        if(!vars.showTimelineTypesLists){
+            optgroup.disabled = true;
+            optgroup.hidden = true;
+        }
         for(let i in lists) {
-            let option = document.createElement('option');
+        let option = document.createElement('option');
             option.value = `list-${lists[i].id_str}`;
             option.innerText = lists[i].name;
             optgroup.appendChild(option);
         }
-        timelineTypeRight.appendChild(optgroup);
-        timelineTypeCenter.appendChild(optgroup.cloneNode(true));
-
+        if(lists.length != 0){
+            timelineTypeRight.appendChild(optgroup);
+            timelineTypeCenter.appendChild(optgroup.cloneNode(true));
+        }
         if(vars.timelineType.startsWith('list-')) {
             timelineTypeRight.value = vars.timelineType;
             timelineTypeCenter.value = vars.timelineType;

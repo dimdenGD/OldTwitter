@@ -189,6 +189,7 @@ setTimeout(async () => {
     let showExactValues = document.getElementById('show-exact-values');
     let localizeDigit = document.getElementById('localize-digit');
     let hideTimelineTypes = document.getElementById('hide-timeline-types');
+    let showTimelineTypesLists = document.getElementById('show-timeline-types-lists');
     let autotranslationMode = document.getElementById('autotranslation-mode');
     let autotranslateLanguages = document.getElementById('autotranslate-languages');
     let autotranslateLanguageList = document.getElementById('autotranslate-language-list');
@@ -394,6 +395,11 @@ setTimeout(async () => {
     hideTimelineTypes.addEventListener('change', () => {
         chrome.storage.sync.set({
             hideTimelineTypes: hideTimelineTypes.checked
+        }, () => { });
+    });
+    showTimelineTypesLists.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showTimelineTypesLists: showTimelineTypesLists.checked
         }, () => { });
     });
     showExactValues.addEventListener('change', () => {
@@ -813,6 +819,7 @@ setTimeout(async () => {
     showExactValues.checked = !!vars.showExactValues;
     localizeDigit.checked = !!vars.localizeDigit;
     hideTimelineTypes.checked = !!vars.hideTimelineTypes;
+    showTimelineTypesLists.checked = !!vars.showTimelineTypesLists;
     timelineType.value = vars.timelineType ? ( vars.timelineType.startsWith('list-') ? 'lists' : vars.timelineType ) : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
     darkMode.checked = !!vars.darkMode;
