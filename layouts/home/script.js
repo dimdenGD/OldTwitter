@@ -127,6 +127,17 @@ async function updateTimeline(mode = 'rewrite') {
         if(mode === 'prepend') {
             args.push(cursorTop);
         }
+    } else if(vars.timelineType.startsWith('search-')) {
+        fn = API.search.adaptiveV2;
+        args.push({
+            rawQuery: decodeURIComponent(vars.timelineType.split('-').slice(1).join('-')),
+            count: 50,
+            querySource: 'typed_query',
+            product: "Latest",
+        });
+        if(mode === 'prepend') {
+            args.push(cursorTop);
+        }
     } else {
         if(mode === 'prepend') {
             fn = API.timeline.getChronologicalV2;
@@ -427,28 +438,6 @@ setTimeout(async () => {
         activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
         if(activeTweet) {
             activeTweet.classList.add('tweet-active');
-        }
-    });
-    API.list.getMyLists().then(lists => {
-        if(lists.length === 0) return;
-
-        let timelineTypeRight = document.getElementById('timeline-type-right');
-        let timelineTypeCenter = document.getElementById('timeline-type-center');
-
-        let optgroup = document.createElement('optgroup');
-        optgroup.label = LOC.lists.message;
-        for(let i in lists) {
-            let option = document.createElement('option');
-            option.value = `list-${lists[i].id_str}`;
-            option.innerText = lists[i].name;
-            optgroup.appendChild(option);
-        }
-        timelineTypeRight.appendChild(optgroup);
-        timelineTypeCenter.appendChild(optgroup.cloneNode(true));
-
-        if(vars.timelineType.startsWith('list-')) {
-            timelineTypeRight.value = vars.timelineType;
-            timelineTypeCenter.value = vars.timelineType;
         }
     });
 
@@ -1050,9 +1039,104 @@ setTimeout(async () => {
         delete newTweetText.dataset.blurSince;
     });
 
+    function createManageSearchesModal() {
+        let modal = createModal(/*html*/`
+            <h3 class="nice-header">${LOC.manage_searches.message}</h3><br>
+            <div class="manage-searches-list"></div>
+            <h3 class="nice-header" style="margin-bottom:5px">${LOC.add_search.message}</h3><br>
+            <input type="text" id="add-search-input" placeholder="${LOC.search.message}">
+            <button class="nice-button" id="add-search-btn" style="padding: 4.5px 10px;vertical-align: middle;">${LOC.add.message}</button>
+        `, 'manage-searches-modal');
+        let list = modal.querySelector('.manage-searches-list');
+        chrome.storage.sync.get(['pinnedSearches'], data => {
+            if(!data.pinnedSearches) data.pinnedSearches = [];
+            data.pinnedSearches.sort((a, b) => a.localeCompare(b));
+            data.pinnedSearches.forEach(search => {
+                let searchElement = document.createElement('div');
+                searchElement.className = 'manage-searches-item';
+                searchElement.innerHTML = /*html*/`
+                    <span class="manage-searches-item-text">${escapeHTML(search)}</span>
+                    <button class="nice-button manage-searches-item-remove">${LOC.remove.message}</button>
+                `;
+                searchElement.querySelector('.manage-searches-item-remove').addEventListener('click', async () => {
+                    let pinnedSearches = await new Promise(resolve => {
+                        chrome.storage.sync.get(['pinnedSearches'], data => {
+                            if(!data.pinnedSearches) data.pinnedSearches = [];
+                            resolve(data.pinnedSearches);
+                        });
+                    });
+                    pinnedSearches.splice(pinnedSearches.indexOf(search), 1);
+                    chrome.storage.sync.set({pinnedSearches});
+                    searchElement.remove();
+                    document.getElementById('timeline-type-right').querySelector(`option[value="search-${search}"]`).remove();
+                    document.getElementById('timeline-type-center').querySelector(`option[value="search-${search}"]`).remove();
+                });
+                list.appendChild(searchElement);
+            });
+        });
+        let input = modal.querySelector('#add-search-input');
+        let button = modal.querySelector('#add-search-btn');
+        button.disabled = true;
+        input.addEventListener('keyup', e => {
+            button.disabled = input.value.length === 0;
+            if(e.key === 'Enter') {
+                button.click();
+            }
+        });
+        button.addEventListener('click', async () => {
+            let search = input.value;
+            let pinnedSearches = await new Promise(resolve => {
+                chrome.storage.sync.get(['pinnedSearches'], data => {
+                    if(!data.pinnedSearches) data.pinnedSearches = [];
+                    resolve(data.pinnedSearches);
+                });
+            });
+            if(pinnedSearches.includes(search)) {
+                return;
+            }
+            pinnedSearches.push(search);
+            chrome.storage.sync.set({pinnedSearches});
+            let option = document.createElement('option');
+            option.value = `search-${search}`;
+            option.innerText = search;
+            input.value = '';
+            button.disabled = true;
+            document.getElementById('timeline-type-right').querySelector('option[value="manage-searches"]').before(option);
+            document.getElementById('timeline-type-center').querySelector('option[value="manage-searches"]').before(option.cloneNode(true));
+            chrome.storage.sync.set({
+                timelineType: `search-${search}`
+            }, () => {});
+            let searchElement = document.createElement('div');
+            searchElement.className = 'manage-searches-item';
+            searchElement.innerHTML = /*html*/`
+                <span class="manage-searches-item-text">${escapeHTML(search)}</span>
+                <button class="nice-button manage-searches-item-remove">${LOC.remove.message}</button>
+            `;
+            searchElement.querySelector('.manage-searches-item-remove').addEventListener('click', async () => {
+                let pinnedSearches = await new Promise(resolve => {
+                    chrome.storage.sync.get(['pinnedSearches'], data => {
+                        if(!data.pinnedSearches) data.pinnedSearches = [];
+                        resolve(data.pinnedSearches);
+                    });
+                });
+                pinnedSearches.splice(pinnedSearches.indexOf(search), 1);
+                chrome.storage.sync.set({pinnedSearches});
+                searchElement.remove();
+                document.getElementById('timeline-type-right').querySelector(`option[value="search-${search}"]`).remove();
+                document.getElementById('timeline-type-center').querySelector(`option[value="search-${search}"]`).remove();
+            });
+            list.appendChild(searchElement);
+        });
+    }
+
     document.getElementById('timeline-type-right').value = vars.timelineType;
     document.getElementById('timeline-type-center').value = vars.timelineType;
     document.getElementById('timeline-type-right').addEventListener('change', e => {
+        if(e.target.value === 'manage-searches') {
+            e.target.value = vars.timelineType;
+            createManageSearchesModal();
+            return;
+        }
         chrome.storage.sync.set({
             timelineType: e.target.value
         }, () => {
@@ -1072,6 +1156,11 @@ setTimeout(async () => {
         });
     })
     document.getElementById('timeline-type-center').addEventListener('change', e => {
+        if(e.target.value === 'manage-searches') {
+            e.target.value = vars.timelineType;
+            createManageSearchesModal();
+            return;
+        }
         chrome.storage.sync.set({
             timelineType: e.target.value
         }, () => {
@@ -1089,7 +1178,48 @@ setTimeout(async () => {
             renderNewTweetsButton();
             updateTimeline();
         });
-    })
+    });
+    API.list.getMyLists().then(lists => {
+        let timelineTypeRight = document.getElementById('timeline-type-right');
+        let timelineTypeCenter = document.getElementById('timeline-type-center');
+        if(lists.length > 0) {
+            let optgroup = document.createElement('optgroup');
+            optgroup.label = LOC.lists.message;
+            lists.sort((a, b) => a.name.localeCompare(b.name));
+            for(let i in lists) {
+                let option = document.createElement('option');
+                option.value = `list-${lists[i].id_str}`;
+                option.innerText = lists[i].name;
+                optgroup.appendChild(option);
+            }
+            timelineTypeRight.appendChild(optgroup);
+            timelineTypeCenter.appendChild(optgroup.cloneNode(true));
+    
+            if(vars.timelineType.startsWith('list-')) {
+                timelineTypeRight.value = vars.timelineType;
+                timelineTypeCenter.value = vars.timelineType;
+            }
+        }
+        let optgroup = document.createElement('optgroup');
+        optgroup.label = LOC.search.message;
+        chrome.storage.sync.get(['pinnedSearches'], data => {
+            if(!data.pinnedSearches) data.pinnedSearches = [];
+            data.pinnedSearches.sort((a, b) => a.localeCompare(b));
+            for(let i in data.pinnedSearches) {
+                let option = document.createElement('option');
+                option.value = `search-${data.pinnedSearches[i]}`;
+                option.innerText = data.pinnedSearches[i];
+                optgroup.appendChild(option);
+            }
+            let addOption = document.createElement('option');
+            addOption.value = 'manage-searches';
+            addOption.innerText = LOC.manage_searches.message + '...';
+            optgroup.appendChild(addOption);
+
+            timelineTypeRight.appendChild(optgroup);
+            timelineTypeCenter.appendChild(optgroup.cloneNode(true));
+        }); 
+    });
 
 
     // Update dates every minute & unfocus tweet composer

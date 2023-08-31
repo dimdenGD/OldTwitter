@@ -833,6 +833,21 @@ a:hover,
     background-color: var(--input-background);
     color: var(--default-text-color);
 }
+#add-search-input {
+    padding: 5px 10px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+}
+.manage-searches-item-remove {
+    padding: 2px 7px !important;
+    margin-left: 5px;
+}
+.manage-searches-item-text {
+    color: var(--almost-black)
+}
+.manage-searches-item {
+    margin-bottom: 5px;
+}
 #new-tweet-circle-edit {
     cursor: pointer;
 }

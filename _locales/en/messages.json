@@ -545,5 +545,8 @@
 	"enter_custom_font_name": {"message": "Enter a custom font name" },
     "disable_data_saver": { "message": "Disable data saver for cellular connection", "description": "This option only appears on mobile" },
     "mobile": { "message": "Mobile", "description": "Title for mobile device settings"},
-    "disable_accept_type": { "message": "Disable accept-type when uploading media. This fixes the problem of not being able to access all images on some Android versions.", "description": "This option only appears on mobile" }
+    "disable_accept_type": { "message": "Disable accept-type when uploading media. This fixes the problem of not being able to access all images on some Android versions.", "description": "This option only appears on mobile" },
+    "manage_searches": { "message": "Manage searches" },
+    "add_search": { "message": "Add search" },
+    "pinned_searches": { "message": "Pinned searches" }
 }
