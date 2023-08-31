@@ -1,3 +1,5 @@
+// abandon hope all ye who enter here
+
 let user = {};
 let timeline = {
     data: [],
@@ -68,6 +70,7 @@ setTimeout(() => {
                             <li>Added rate limit bypass again!</li>
                             <li>Added "new tweets" button to Lists and Search (and autoupdate setting will work too). You don't have to reload page to see new tweets anymore.</li>
                             <li>You can now switch to List and Search from home page.</li>
+                            <li>Added ability to add/remove users from list via three dots button of tweets.</li>
                             <li>Improvements to data saver and option to disable it when using cellular data.</li>
                             <li>Some other fixes and updates.</li>
                         </ul>
