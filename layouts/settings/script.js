@@ -399,7 +399,7 @@ setTimeout(async () => {
     });
     hideTimelineTypes.addEventListener('change', () => {
         showTimelineTypesLists.disabled = hideTimelineTypes.checked;
-        showTimelineTypesListsText.style.color = hideTimelineTypes.checked ? 'var(--darker-gray)' : 'unset';
+        showTimelineTypesListsText.style.color = hideTimelineTypes.checked ? 'var(--light-gray)' : 'unset';
         chrome.storage.sync.set({
             hideTimelineTypes: hideTimelineTypes.checked
         }, () => { });
@@ -410,8 +410,8 @@ setTimeout(async () => {
         }, () => { });
     });
     showExactValues.addEventListener('change', () => {
-        localizeDigit.disabled = !showExactValues.checked;
-        localizeDigitText.style.color = !showExactValues.checked ? 'var(--darker-gray)' : 'unset';
+        localizeDigit.disabled = showExactValues.checked;
+        localizeDigitText.style.color = showExactValues.checked ? 'var(--light-gray)' : 'unset';
 
         vars.localizeDigit = !!localizeDigit.checked;
         vars.showExactValues = !!showExactValues.checked;
@@ -450,7 +450,7 @@ setTimeout(async () => {
     });
     timelineType.addEventListener('change', () => {
         showTopicTweets.disabled = timelineType.value !== 'algo' && timelineType.value !== 'algov2';
-        showTopicTweetsText.style.color = (timelineType.value !== 'algo' && timelineType.value !== 'algov2') ? 'var(--darker-gray)' : 'unset';
+        showTopicTweetsText.style.color = (timelineType.value !== 'algo' && timelineType.value !== 'algov2') ? 'var(--light-gray)' : 'unset';
         chrome.storage.sync.set({
             timelineType: timelineType.value
         }, () => { });
@@ -489,9 +489,9 @@ setTimeout(async () => {
     });
     disableHotkeys.addEventListener('change', () => {
         disableLikeHotkey.disabled = disableHotkeys.checked;
-        disableLikeHotkeyText.style.color = disableHotkeys.checked ? 'var(--darker-gray)' : 'unset';
+        disableLikeHotkeyText.style.color = disableHotkeys.checked ? 'var(--light-gray)' : 'unset';
         disableRetweetHotkey.disabled = disableHotkeys.checked;
-        disableRetweetHotkeyText.style.color = disableHotkeys.checked ? 'var(--darker-gray)' : 'unset';
+        disableRetweetHotkeyText.style.color = disableHotkeys.checked ? 'var(--light-gray)' : 'unset';
 
         chrome.storage.sync.set({
             disableHotkeys: disableHotkeys.checked
@@ -671,7 +671,7 @@ setTimeout(async () => {
             chrome.storage.sync.set({
                 darkMode: false
             }, () => { });
-            darkModeText.style.color = 'var(--darker-gray)';
+            darkModeText.style.color = 'var(--light-gray)';
             let dark = isDark();
             darkMode.checked = dark;
             themeBus.postMessage([dark, pitchBlackMode.checked]);
@@ -704,7 +704,7 @@ setTimeout(async () => {
             timeMode.checked = false;
             if(vars.systemDarkMode) {
                 darkMode.disabled = true;
-                darkModeText.style.color = 'var(--darker-gray)';
+                darkModeText.style.color = 'var(--light-gray)';
                 darkMode.checked = isSystemDark;
                 if(isSystemDark) {
                     themeBus.postMessage([true, pitchBlackMode.checked]);
@@ -892,24 +892,24 @@ setTimeout(async () => {
 
     //disable some options
     showTopicTweets.disabled = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
-    showTopicTweetsText.style.color = (vars.timelineType !== 'algo' && vars.timelineType !== 'algov2') ? 'var(--darker-gray)' : 'unset';
+    showTopicTweetsText.style.color = (vars.timelineType !== 'algo' && vars.timelineType !== 'algov2') ? 'var(--light-gray)' : 'unset';
 
     document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
-    localizeDigit.disabled = !vars.showExactValues;
-    localizeDigitText.style.color = !vars.showExactValues ? 'var(--darker-gray)' : 'unset';
+    localizeDigit.disabled = vars.showExactValues;
+    localizeDigitText.style.color = vars.showExactValues ? 'var(--light-gray)' : 'unset';
 
     showTimelineTypesLists.disabled = vars.hideTimelineTypes;
-    showTimelineTypesListsText.style.color = vars.hideTimelineTypes ? 'var(--darker-gray)' : 'unset';
+    showTimelineTypesListsText.style.color = vars.hideTimelineTypes ? 'var(--light-gray)' : 'unset';
 
     disableLikeHotkey.disabled = vars.disableHotkeys;
-    disableLikeHotkeyText.style.color = vars.disableHotkeys ? 'var(--darker-gray)' : 'unset';
+    disableLikeHotkeyText.style.color = vars.disableHotkeys ? 'var(--light-gray)' : 'unset';
     disableRetweetHotkey.disabled = vars.disableHotkeys;
-    disableRetweetHotkeyText.style.color = vars.disableHotkeys ? 'var(--darker-gray)' : 'unset';
+    disableRetweetHotkeyText.style.color = vars.disableHotkeys ? 'var(--light-gray)' : 'unset';
 
     if(vars.timeMode) {
         darkMode.disabled = true;
         darkMode.checked = isDark();
-        darkModeText.style.color = 'var(--darker-gray)';
+        darkModeText.style.color = 'var(--light-gray)';
     }
 
     //hide mobile option on PC
