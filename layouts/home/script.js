@@ -67,6 +67,7 @@ setTimeout(() => {
                         <ul>
                             <li>Added rate limit bypass again!</li>
                             <li>Added "new tweets" button to Lists and Search (and autoupdate setting will work too). You don't have to reload page to see new tweets anymore.</li>
+                            <li>You can now switch to List and Search from home page.</li>
                             <li>Improvements to data saver and option to disable it when using cellular data.</li>
                             <li>Some other fixes and updates.</li>
                         </ul>
@@ -354,74 +355,12 @@ setTimeout(async () => {
 
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
-    let lastScroll = Date.now();
     document.addEventListener('scroll', async () => {
-        lastScroll = Date.now();
-
-        // loading new tweets
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
             if (loadingNewTweets || timeline.data.length === 0) return;
-            loadingNewTweets = true;
-            document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
-            let tl;
-            try {
-                switch(vars.timelineType) {
-                    case 'algo': tl = await API.timeline.getAlgorithmicalV2(cursorBottom, 50); break;
-                    default: tl = await API.timeline.getChronologicalV2(cursorBottom); break;
-                }
-                cursorBottom = tl.cursorBottom;
-                tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
-                for(let t of tl) {
-                    seenTweets.push(t.id_str);
-                }
-                if(vars.timelineType === 'chrono-retweets') {
-                    tl = tl.filter(t => t.retweeted_status);
-                } else if(vars.timelineType === 'chrono-no-retweets') {
-                    tl = tl.filter(t => !t.retweeted_status);
-                }
-            } catch (e) {
-                console.error(e);
-                document.getElementById('load-more').innerText = LOC.load_more.message;
-                loadingNewTweets = false;
-                return;
-            }
-            timeline.data = timeline.data.concat(tl);
-            try {
-                await renderTimeline({mode: 'append', data: tl });
-            } catch(e) {
-                document.getElementById('load-more').innerText = LOC.load_more.message;
-                loadingNewTweets = false;
-            }
-            setTimeout(() => {
-                document.getElementById('load-more').innerText = LOC.load_more.message;
-                loadingNewTweets = false;
-            }, 250);
+            document.getElementById('load-more').click();
         }
     }, { passive: true });
-
-    // this isn't very useful with current rate limits
-    // document.addEventListener('mousemove', e => {
-    //     if(Date.now() - lastScroll > 10) {
-    //         let t = e.target;
-    //         let c = t.className;
-    //         if(c.baseVal) return;
-    //         if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
-    //             if(t.className.includes('tweet-view')) return;
-    //             if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
-    //             else if(t.className === 'tweet-body') t = t.parentElement;
-    //             let id;
-    //             try { id = t.className.split('id-')[1].split(' ')[0] } catch(e) { return };
-    //             if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
-    //             else tweetsToLoad[id]++;
-    //             if(tweetsToLoad[id] === 10) {
-    //                 API.tweet.getRepliesV2(id);
-    //                 API.tweet.getLikers(id);
-    //                 t.classList.add('tweet-preload');
-    //                 console.log(`Preloading ${id}`);
-    //             }
-    //         }
-    //     }
-    // });
 
     document.addEventListener('clearActiveTweet', () => {
         if(activeTweet) {
@@ -467,11 +406,27 @@ setTimeout(async () => {
         document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
         let tl;
         try {
-            tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(cursorBottom, 50) : await API.timeline.getChronologicalV2(cursorBottom);
+            if(vars.timelineType.startsWith('list-')) tl = await API.list.getTweets(vars.timelineType.split('-')[1], cursorBottom, 50);
+            else if(vars.timelineType.startsWith('search-')) tl = await API.search.adaptiveV2({
+                rawQuery: decodeURIComponent(vars.timelineType.split('-').slice(1).join('-')),
+                count: 50,
+                querySource: 'typed_query',
+                product: "Latest",
+                cursor: cursorBottom
+            });
+            else switch(vars.timelineType) {
+                case 'algo': tl = await API.timeline.getAlgorithmicalV2(cursorBottom, 50); break;
+                default: tl = await API.timeline.getChronologicalV2(cursorBottom); break;
+            }
             cursorBottom = tl.cursorBottom;
             tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
             for(let t of tl) {
                 seenTweets.push(t.id_str);
+            }
+            if(vars.timelineType === 'chrono-retweets') {
+                tl = tl.filter(t => t.retweeted_status);
+            } else if(vars.timelineType === 'chrono-no-retweets') {
+                tl = tl.filter(t => !t.retweeted_status);
             }
         } catch (e) {
             console.error(e);
@@ -1098,7 +1053,7 @@ setTimeout(async () => {
             chrome.storage.sync.set({pinnedSearches});
             let option = document.createElement('option');
             option.value = `search-${search}`;
-            option.innerText = search;
+            option.innerText = `${LOC.search.message} - ${search}`;
             input.value = '';
             button.disabled = true;
             document.getElementById('timeline-type-right').querySelector('option[value="manage-searches"]').before(option);
@@ -1189,7 +1144,7 @@ setTimeout(async () => {
             for(let i in lists) {
                 let option = document.createElement('option');
                 option.value = `list-${lists[i].id_str}`;
-                option.innerText = lists[i].name;
+                option.innerText = `${LOC.list.message} - ${lists[i].name}`;
                 optgroup.appendChild(option);
             }
             timelineTypeRight.appendChild(optgroup);
@@ -1208,7 +1163,7 @@ setTimeout(async () => {
             for(let i in data.pinnedSearches) {
                 let option = document.createElement('option');
                 option.value = `search-${data.pinnedSearches[i]}`;
-                option.innerText = data.pinnedSearches[i];
+                option.innerText = `${LOC.search.message} - ${data.pinnedSearches[i]}`;
                 optgroup.appendChild(option);
             }
             let addOption = document.createElement('option');
@@ -1218,6 +1173,11 @@ setTimeout(async () => {
 
             timelineTypeRight.appendChild(optgroup);
             timelineTypeCenter.appendChild(optgroup.cloneNode(true));
+
+            if(vars.timelineType.startsWith('search-')) {
+                timelineTypeRight.value = vars.timelineType;
+                timelineTypeCenter.value = vars.timelineType;
+            }
         }); 
     });
 
@@ -1280,8 +1240,12 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
+    setInterval(() => {
+        if(vars.timelineType !== 'algo') {
+            updateTimeline('prepend');
+        }
+    }, 30000);
     if(vars.timelineType.startsWith('chrono')) {
-        setInterval(() => updateTimeline('prepend'), 30000);
         setInterval(async () => {
             let tweets = (await API.timeline.getChronologicalV2()).list;
             for(let i = 0; i < timeline.dataToUpdate.length; i++) {

@@ -3488,7 +3488,7 @@ const API = {
                 chrome.storage.local.get([`translations`],async  d => {
                     if(!d.translations) d.translations = {};
                     if(d.translations[id] && Date.now() - d.translations[id].date < 60000*60*4) {
-                        debugLog('tweet.translate', 'cache', d.translations[id].data);
+                        // debugLog('tweet.translate', 'cache', d.translations[id].data);
                         return resolve(d.translations[id].data);
                     }
                     // Translate by Google
@@ -3526,7 +3526,7 @@ const API = {
                         });
                     }
                     let data = await res.json();
-                    debugLog('tweet.translate', 'start', id, data);
+                    // debugLog('tweet.translate', 'start', id, data);
                     if (data.errors && data.errors[0].code === 32) {
                         return reject("Not logged in");
                     }
@@ -3539,7 +3539,7 @@ const API = {
                         text: data.translation ? data.translation : data.text,
                         entities: data.entities
                     };
-                    debugLog('tweet.translate', 'end', id, out);
+                    // debugLog('tweet.translate', 'end', id, out);
                     resolve(out);
                     d.translations[id] = {
                         date: Date.now(),
@@ -3800,6 +3800,7 @@ const API = {
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
+                    debugLog('search.adaptiveV2', 'start', { obj, data });
                     if (data.errors && data.errors[0]) {
                         if(data.errors[0].code === 88) {
                             localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
@@ -3864,6 +3865,7 @@ const API = {
                         }
                     }
         
+                    debugLog('search.adaptiveV2', 'end', { obj, cursor, res, cursorBottom, cursorTop });
                     resolve({list: res, cursorBottom, cursorTop});
                 });
             });
