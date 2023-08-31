@@ -15,6 +15,8 @@ let cursorBottom, cursorTop;
 
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.user.getV2('dimdenEFF');
+    chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
+
     if(!dimden.following) {
         let opened = Date.now();
         let modal = createModal(/*html*/`
@@ -46,6 +48,8 @@ async function createShamelessPlug(firstTime = true) {
     }
 }
 
+
+
 setTimeout(() => {
     chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug'], async data => {
         if (!data.installed) {
@@ -61,23 +65,10 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Fixed tweet like/retweet/reply count not changing on action when 'Display the exact number of retweets, likes, followers, etc.' is disabled.</li>
-                            <li>Improved "new tweets" button on homepage, now it doesn't re-render entire page but only adds new tweets.</li>
-                            <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
-                            <li>Made "Show bookmark count on tweets" option show bookmark button on all tweets.</li>
-                            <li>Replaced word 'post' with 'tweet' everywhere.</li>
-                            <li>Fixed search input on mobile.</li>
-                            <li>Added mute button to three dots button of tweets.</li>
-                            <li>Fixed video view counts.</li>
-                            <li>Made OldTwitter use low quality images when on mobile data (Chromium only).</li>
-                            <li>Fixed Twitter embeds on other websites.</li>
-                            <li>Made OldTwitter update tweet like/retweet/reply/view counts automatically.</li>
-                            <li>Made tweet viewer use more space instead of wasting it on mobile.</li>
-                            <li>Fixed username disappearing on scroll in profile.</li>
-                            <li>Added quote translation length limit.</li>
-                            <li>Fixed pressing enter with Japanese IME in search input initiating search.</li>
-                            <li>Added Separate text button for tweet viewer too.</li>
-                            <li>Fixed useless t.co links sometimes appearing.</li>
+                            <li>Added rate limit bypass again!</li>
+                            <li>Added "new tweets" button to Lists and Search (and autoupdate setting will work too). You don't have to reload page to see new tweets anymore.</li>
+                            <li>Improvements to data saver and option to disable it when using cellular data.</li>
+                            <li>Some other fixes and updates.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
@@ -130,18 +121,26 @@ async function updateTimeline(mode = 'rewrite') {
         document.getElementById('load-more').hidden = true;
     }
     let fn, args = [];
-    if(mode === 'prepend') {
-        fn = API.timeline.getChronologicalV2;
-        args.push(cursorTop);
-    } else {
-        switch(vars.timelineType) {
-            case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
-            case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
-            case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-            case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
-            default: fn = API.timeline.getChronologicalV2; break;
+    if(vars.timelineType.startsWith('list-')) {
+        fn = API.list.getTweets;
+        args.push(vars.timelineType.split('-')[1]);
+        if(mode === 'prepend') {
+            args.push(cursorTop);
         }
-    }
+    } else {
+        if(mode === 'prepend') {
+            fn = API.timeline.getChronologicalV2;
+            args.push(cursorTop);
+        } else {
+            switch(vars.timelineType) {
+                case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
+                case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
+                case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
+                case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
+                default: fn = API.timeline.getChronologicalV2; break;
+            }
+        }
+    } 
 
     let [tl, s] = await Promise.allSettled([fn(...args), API.account.getSettings()]);
     if(!tl.value) {
@@ -428,6 +427,28 @@ setTimeout(async () => {
         activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
         if(activeTweet) {
             activeTweet.classList.add('tweet-active');
+        }
+    });
+    API.list.getMyLists().then(lists => {
+        if(lists.length === 0) return;
+
+        let timelineTypeRight = document.getElementById('timeline-type-right');
+        let timelineTypeCenter = document.getElementById('timeline-type-center');
+
+        let optgroup = document.createElement('optgroup');
+        optgroup.label = LOC.lists.message;
+        for(let i in lists) {
+            let option = document.createElement('option');
+            option.value = `list-${lists[i].id_str}`;
+            option.innerText = lists[i].name;
+            optgroup.appendChild(option);
+        }
+        timelineTypeRight.appendChild(optgroup);
+        timelineTypeCenter.appendChild(optgroup.cloneNode(true));
+
+        if(vars.timelineType.startsWith('list-')) {
+            timelineTypeRight.value = vars.timelineType;
+            timelineTypeCenter.value = vars.timelineType;
         }
     });
 
@@ -1129,7 +1150,7 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') {
+    if(vars.timelineType.startsWith('chrono')) {
         setInterval(() => updateTimeline('prepend'), 30000);
         setInterval(async () => {
             let tweets = (await API.timeline.getChronologicalV2()).list;
@@ -1140,7 +1161,7 @@ setTimeout(async () => {
                     timeline.dataToUpdate[i] = newTweet;
                 }
             }
-        }, 60000 * 1.5);
+        }, 60000 * 2.25);
     }
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);

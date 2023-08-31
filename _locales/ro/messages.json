@@ -499,7 +499,7 @@
     "replying_to_and":  { "message": " și ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Twitter"},
-    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Mută bara de navigație jos"},
+    "move_navbar_to_bottom": {"message": "Mută bara de navigație jos"},
     "styled_profile": {"message": "Profil stilizat"},
     "open_notifs_as_modal": {"message": "Deschide notificările ca modal"},
     "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},

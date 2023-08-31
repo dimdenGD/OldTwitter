@@ -249,7 +249,9 @@ function getMedia(mediaArray, mediaContainer) {
     let input = document.createElement('input');
     input.type = 'file';
     input.multiple = true;
-    input.accept = 'image/png,image/jpeg,image/gif,video/mp4,video/mov';
+    if(!vars.disableAcceptType){
+        input.accept = 'image/png,image/jpeg,image/gif,video/mp4,video/mov';
+    }
     input.addEventListener('change', () => {
         handleFiles(input.files, mediaArray, mediaContainer);
     });
@@ -664,46 +666,63 @@ function generateCard(tweet, tweetElement, user) {
             let co = uc.component_objects[cn];
             if(co.type === "media") {
                 let media = uc.media_entities[co.data.id];
-                let video = document.createElement('video');
-                video.className = 'tweet-media-element tweet-media-element-one';
-                let [w, h] = sizeFunctions[1](media.original_info.width, media.original_info.height);
-                video.width = w;
-                video.height = h;
-                video.crossOrigin = 'anonymous';
-                video.loading = 'lazy';
-                video.controls = true;
-                if(!media.video_info) {
-                    console.log(`bug found in ${tweet.id_str}, please report this message to https://github.com/dimdenGD/OldTwitter/issues`, tweet);
-                    continue;
-                };
-                let variants = media.video_info.variants.sort((a, b) => {
-                    if(!b.bitrate) return -1;
-                    return b.bitrate-a.bitrate;
-                });
-                if(typeof(vars.savePreferredQuality) !== 'boolean') {
-                    chrome.storage.sync.set({
-                        savePreferredQuality: true
-                    }, () => {});
-                    vars.savePreferredQuality = true;
-                }
-                if(localStorage.preferredQuality && vars.savePreferredQuality) {
-                    let closestQuality = variants.filter(v => v.bitrate).reduce((prev, curr) => {
-                        return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+
+                if(media.type === "photo") {
+                    let img = document.createElement('img');
+                    img.className = 'tweet-media-element';
+                    let [w, h] = sizeFunctions[1](media.original_info.width, media.original_info.height);
+                    img.width = w;
+                    img.height = h;
+                    img.loading = 'lazy';
+                    img.src = media.media_url_https;
+                    img.addEventListener('click', () => {
+                        new Viewer(img, {
+                            transition: false
+                        });
                     });
-                    let preferredQualityVariantIndex = variants.findIndex(v => v.url === closestQuality.url);
-                    if(preferredQualityVariantIndex !== -1) {
-                        let preferredQualityVariant = variants[preferredQualityVariantIndex];
-                        variants.splice(preferredQualityVariantIndex, 1);
-                        variants.unshift(preferredQualityVariant);
+                    tweetElement.getElementsByClassName('tweet-card')[0].append(img, document.createElement('br'));
+                } else if(media.type === "animated_gif" || media.type === "video") {
+                    let video = document.createElement('video');
+                    video.className = 'tweet-media-element tweet-media-element-one';
+                    let [w, h] = sizeFunctions[1](media.original_info.width, media.original_info.height);
+                    video.width = w;
+                    video.height = h;
+                    video.crossOrigin = 'anonymous';
+                    video.loading = 'lazy';
+                    video.controls = true;
+                    if(!media.video_info) {
+                        console.log(`bug found in ${tweet.id_str}, please report this message to https://github.com/dimdenGD/OldTwitter/issues`, tweet);
+                        continue;
+                    };
+                    let variants = media.video_info.variants.sort((a, b) => {
+                        if(!b.bitrate) return -1;
+                        return b.bitrate-a.bitrate;
+                    });
+                    if(typeof(vars.savePreferredQuality) !== 'boolean') {
+                        chrome.storage.sync.set({
+                            savePreferredQuality: true
+                        }, () => {});
+                        vars.savePreferredQuality = true;
                     }
+                    if(localStorage.preferredQuality && vars.savePreferredQuality) {
+                        let closestQuality = variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                            return (Math.abs(parseInt(curr.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) < Math.abs(parseInt(prev.url.match(/\/(\d+)x/)[1]) - parseInt(localStorage.preferredQuality)) ? curr : prev);
+                        });
+                        let preferredQualityVariantIndex = variants.findIndex(v => v.url === closestQuality.url);
+                        if(preferredQualityVariantIndex !== -1) {
+                            let preferredQualityVariant = variants[preferredQualityVariantIndex];
+                            variants.splice(preferredQualityVariantIndex, 1);
+                            variants.unshift(preferredQualityVariant);
+                        }
+                    }
+                    for(let v in variants) {
+                        let source = document.createElement('source');
+                        source.src = variants[v].url;
+                        source.type = variants[v].content_type;
+                        video.append(source);
+                    }
+                    tweetElement.getElementsByClassName('tweet-card')[0].append(video, document.createElement('br'));
                 }
-                for(let v in variants) {
-                    let source = document.createElement('source');
-                    source.src = variants[v].url;
-                    source.type = variants[v].content_type;
-                    video.append(source);
-                }
-                tweetElement.getElementsByClassName('tweet-card')[0].append(video, document.createElement('br'));
             } else if(co.type === "app_store_details") {
                 let app = uc.app_store_data[uc.destination_objects[co.data.destination].data.app_id][0];
                 let appElement = document.createElement('div');
@@ -966,7 +985,10 @@ const getLinkColors = ids => {
                     if(linkColors[id]) fetched.push({id, color: linkColors[id]});
                 }
             }
-            if(toFetch.length === 0) {
+            if(
+                toFetch.length === 0 ||
+                (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver)
+            ) {
                 return resolve(fetched);
             }
 
@@ -1293,7 +1315,7 @@ function renderMedia(t) {
                 width="${w}"
                 height="${h}"
                 loading="lazy"
-                src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '')}"
+                src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '')}"
                 class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
             >`;
         } else if(m.type === 'animated_gif') {
@@ -1671,6 +1693,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         v.video_info.variants.splice(preferredQualityVariantIndex, 1);
                         v.video_info.variants.unshift(preferredQualityVariant);
                     }
+                } else if(window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver) {
+                    let lowestQuality = v.video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                        return (parseInt(curr.bitrate) < parseInt(prev.bitrate) ? curr : prev);
+                    });
+                    let lowestQualityVariantIndex = v.video_info.variants.findIndex(v => v.url === lowestQuality.url);
+                    if(lowestQualityVariantIndex !== -1) {
+                        let lowestQualityVariant = v.video_info.variants[lowestQualityVariantIndex];
+                        v.video_info.variants.splice(lowestQualityVariantIndex, 1);
+                        v.video_info.variants.unshift(lowestQualityVariant);
+                    }
                 }
             }
         }
@@ -1806,7 +1838,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText: ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? /*html*/`
@@ -3021,6 +3053,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 API.tweet.favorite(t.id_str).catch(e => {
                     console.error(e);
+                    if(e && e.errors && e.errors[0] && e.errors[0].code === 139) {
+                        return;
+                    };
                     alert(e);
                     t.renderFavoritesDown();
                 });

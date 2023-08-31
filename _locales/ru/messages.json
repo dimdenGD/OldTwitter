@@ -490,7 +490,7 @@
     "replying_to_and":  { "message": " и ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
     "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
     "twitter": {"message": "Твиттер"},
-    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Переместить панель навигации вниз"},
+    "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"},
     "styled_profile": {"message": "Стилизированный профиль"},
     "open_notifs_as_modal": {"message": "Открывать уведомления в модальном окне"},
     "clear_ot_token": {"message": "Очистить токен OldTwitter"},
@@ -533,5 +533,8 @@
     "disable_retweet_hotkey": { "message": "Выключить горячую клавишу для ретвитов (T)" },
     "disable_like_hotkey": { "message": "Выключить горячую клавишу для лайков (L)" },
     "enable_extension_compatibility": { "message": "Включить режим совместимости (включайте только если хотите сделать другое расширение совместимым с OldTwitter, если оно всё ещё не работает (скорее всего не будет), выключите эту опцию, так как она может сделать страницу лагучей)" },
-    "enter_custom_font_name": {"message": "Введите название шрифта"}
+    "enter_custom_font_name": {"message": "Введите название шрифта"},
+    "disable_data_saver": { "message": "Выключить экономию трафика когда используется мобильная сеть" },
+    "mobile": { "message": "Мобильные настройки", "description": "Title for mobile settings"},
+    "disable_accept_type": { "message": "Выключить 'accept-type' при открытии галереи для загрузки медиа. Включите если на вашем Андроиде нельзя выбрать/найти некоторые картинки в галерее.", "description": "This option only appears on mobile" }
 }

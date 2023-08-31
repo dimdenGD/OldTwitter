@@ -1,5 +1,5 @@
 let user = {};
-let cursor;
+let cursor, cursorTop;
 let linkColors = {};
 let listId = location.pathname.split('/')[3];
 let subpage;
@@ -200,7 +200,8 @@ async function renderListTweets(c) {
     }
     listInfo = listInfo.value;
     listTweets = listTweets.value;
-    cursor = listTweets.cursor;
+    cursor = listTweets.cursorBottom;
+    cursorTop = listTweets.cursorTop;
     listTweets = listTweets.list;
     if(!cursor || listTweets.length === 0) end = true;
     renderListData(listInfo);
@@ -233,6 +234,7 @@ async function renderListMembers(c) {
     ]).catch(e => {
         console.error(e);
     });
+    document.getElementById('new-tweets').hidden = true;
     if(listMembers.reason) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
@@ -242,6 +244,8 @@ async function renderListMembers(c) {
     listInfo = listInfo.value;
     listMembers = listMembers.value;
     cursor = listMembers.cursor;
+    cursorTop = undefined;
+    toRender = [];
     listMembers = listMembers.list;
     if(!cursor || listMembers.length === 0) end = true;
     renderListData(listInfo);
@@ -259,6 +263,7 @@ async function renderListFollowers(c) {
     ]).catch(e => {
         console.error(e);
     });
+    document.getElementById('new-tweets').hidden = true;
     if(listFollowers.reason) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
@@ -268,6 +273,8 @@ async function renderListFollowers(c) {
     listInfo = listInfo.value;
     listFollowers = listFollowers.value;
     cursor = listFollowers.cursor;
+    cursorTop = undefined;
+    toRender = [];
     listFollowers = listFollowers.list;
     if(!cursor || listFollowers.length === 0) end = true;
     renderListData(listInfo);
@@ -324,6 +331,24 @@ async function renderList() {
 
 let loadingNewTweets = false;
 let end = false;
+let toRender = [];
+
+setInterval(async () => {
+    if(cursorTop) {
+        let data = await API.list.getTweets(listId, cursorTop);
+        cursorTop = data.cursorTop;
+        data = data.list;
+        let newTweets = document.getElementById('new-tweets');
+
+        if(data.length === 0) return;
+
+        toRender = [...data, ...toRender];
+        newTweets.hidden = false;
+        if(vars.updateTimelineAutomatically) {
+            setTimeout(() => newTweets.click(), 10);
+        }
+    }
+}, 40000);
 
 setTimeout(async () => {
     if(!vars) {
@@ -382,6 +407,36 @@ setTimeout(async () => {
     });
     document.getElementById('list-followers-div').addEventListener('click', () => {
         document.getElementById('ns-followers').click();
+    });
+    document.getElementById('new-tweets').addEventListener('click', async () => {
+        let container = document.getElementById('list-tweets');
+        let toInsert = [];
+        
+        for(let i in toRender) {
+            let t = toRender[i];
+            if(t.retweeted_status) {
+                toInsert.push(await appendTweet(t.retweeted_status, container, {
+                    top: {
+                        text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                        icon: "\uf006",
+                        color: "#77b255",
+                        class: 'retweet-label'
+                    },
+                    translate: vars.autotranslateProfiles.includes(t.user.id_str),
+                    noInsert: true
+                }));
+            } else {
+                toInsert.push(await appendTweet(t, container, {
+                    bigFont: typeof t.full_text === 'string' && t.full_text.length < 75,
+                    translate: vars.autotranslateProfiles.includes(t.user.id_str),
+                    noInsert: true
+                }));
+            }
+        }
+
+        toRender = [];
+        document.getElementById('new-tweets').hidden = true;
+        container.prepend(...toInsert);
     });
 
     let listSwitches = Array.from(document.getElementsByClassName('list-switch'));

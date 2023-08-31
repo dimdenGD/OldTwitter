@@ -198,6 +198,8 @@ setTimeout(async () => {
     let showUserPreviewsOnMobile = document.getElementById('show-user-previews-on-mobile');
     let systemDarkMode = document.getElementById('system-dark-mode');
     let extensionCompatibilityMode = document.getElementById('extension-compatibility-mode');
+    let disableDataSaver = document.getElementById('disable-data-saver');
+    let disableAcceptType = document.getElementById('disable-accept-type');
 
     let root = document.querySelector(":root");
     {
@@ -607,6 +609,18 @@ setTimeout(async () => {
             showMediaCount: showMediaCount.checked
         }, () => { });
     });
+    disableDataSaver.addEventListener('change', () => {
+        vars.disableDataSaver = disableDataSaver.checked;
+        chrome.storage.sync.set({
+            disableDataSaver: disableDataSaver.checked
+        }, () => { });
+    });
+    disableAcceptType.addEventListener('change', () => {
+        vars.disableAcceptType = disableAcceptType.checked;
+        chrome.storage.sync.set({
+            disableAcceptType: disableAcceptType.checked
+        }, () => { });
+    });
     extensionCompatibilityMode.addEventListener('change', () => {
         vars.extensionCompatibilityMode = extensionCompatibilityMode.checked;
         chrome.storage.sync.set({
@@ -840,6 +854,8 @@ setTimeout(async () => {
     muteVideos.checked = !!vars.muteVideos;
     dontPauseVideos.checked = !!vars.dontPauseVideos;
     extensionCompatibilityMode.checked = !!vars.extensionCompatibilityMode;
+    disableDataSaver.checked = !!vars.disableDataSaver;
+    disableAcceptType.checked = !!vars.disableAcceptType;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
@@ -856,6 +872,11 @@ setTimeout(async () => {
         darkMode.disabled = true;
         darkMode.checked = isDark();
         darkModeText.style.color = 'var(--darker-gray)';
+    }
+
+    var isMobile = /Mobi/i.test(window.navigator.userAgent); 
+    if(!isMobile){
+        document.getElementById('mobile-setting').hidden = true;
     }
 
     document.getElementById('tl-help').addEventListener('click', () => {

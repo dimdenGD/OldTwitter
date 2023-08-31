@@ -202,7 +202,7 @@
 		"message": "Editar"
 	},
 	"delete": {
-		"message": "Deletar"
+		"message": "Apagar"
 	},
 	"remove": {
 		"message": "Remover"
@@ -220,7 +220,7 @@
 		"message": "Voltar"
 	},
 	"delete_list": {
-		"message": "Deletar lista"
+		"message": "Remover lista"
 	},
 	"delete_list_sure": {
 		"message": "Tem certeza que quer remover esta lista?"
@@ -241,7 +241,7 @@
 		"message": "Menções"
 	},
 	"tweeted_like": {
-		"message": "postou algo que você pode gostar",
+		"message": "tweetou algo que você pode gostar",
 		"example": "CoolPerson2000 ->tweeted something you might like<-"
 	},
 	"favorites": {
@@ -254,7 +254,7 @@
 		"message": "Tweetar para usuário"
 	},
 	"followers_you_know": {
-		"message": "Seguidores que conhece",
+		"message": "Seguidores que você conhece",
 		"example": "123 ->followers you know<-"
 	},
 	"photos_and_videos": {
@@ -277,7 +277,7 @@
 		"message": "Usuário não encontrado."
 	},
 	"timeline_not_authorized": {
-		"message": "Você não pode ver a timeline desse usuário."
+		"message": "Você não pode ver a linha do tempo desse usuário."
 	},
 	"create_btn": {
 		"message": "[criar]"
@@ -537,7 +537,7 @@
 		"message": "Menciona este usuário"
 	},
 	"mentions_this_user_example": {
-		"message": "Example: @dimdenEFF - somente em resposta a dimdenEFF"
+		"message": "Exemplo: @dimdenEFF - somente em resposta a dimdenEFF"
 	},
 	"interactions": {
 		"message": "Interações"
@@ -558,7 +558,7 @@
 		"message": "Quantidade mínima de favoritos"
 	},
 	"min_favorites_example": {
-		"message": "Example: 10 - somente tweets com 10 likes"
+		"message": "Example: 10 - somente tweets com 10 curtidas"
 	},
 	"dates": {
 		"message": "Datas"
@@ -603,7 +603,7 @@
 		"message": "Usar Twemoji"
 	},
 	"hearts_instead_stars": {
-		"message": "Mostrar corações (likes) ao invés de estrelas (favoritos)"
+		"message": "Mostrar corações (curtidas) ao invés de estrelas (favoritos)"
 	},
 	"dark_mode": {
 		"message": "Modo escuro"
@@ -648,7 +648,7 @@
 		"message": "Link modo escuro"
 	},
 	"custom_css": {
-		"message": "Código CSS customizavél"
+		"message": "Código CSS customizável"
 	},
 	"css_var_override": {
 		"message": "Variáveis de CSS. Uma por linha, escreva-as como <code>--alguma-coisa: umvalor</code>."
@@ -782,13 +782,13 @@
 		"message": "Curtidas"
 	},
 	"show_this_thread": {
-		"message": "Ver esta thread"
+		"message": "Ver esta sequência"
 	},
 	"quote_tweet": {
 		"message": "Citar tweet"
 	},
 	"see_retweeters": {
-		"message": "Ver retuitadores"
+		"message": "Ver retweetadores"
 	},
 	"copy_link": {
 		"message": "Copiar link"
@@ -904,7 +904,7 @@
 		"message": "Cancelar"
 	},
 	"youre_not_interested": {
-		"message": "Você não se interessa nesse tópico "
+		"message": "Você não se interessa nesse tópico."
 	},
 	"autoplay_videos": {
 		"message": "Tocar vídeos automaticamente"
@@ -985,10 +985,10 @@
 		"message": "Recusar"
 	},
 	"mute_convo": {
-		"message": "Mutar conversa"
+		"message": "Silênciar conversa"
 	},
 	"unmute_convo": {
-		"message": "Desmutar conversa"
+		"message": "Reativar conversa"
 	},
 	"no_big_font": {
 		"message": "Desativar fonte grande para tweets curtos/populares."
@@ -1115,7 +1115,7 @@
 		"message": "Quando o usuário tweetar, seus tweets irão aparecer aqui."
 	},
 	"thank_you2": {
-		"message": "Obrigado por usar OldTwitter! Isso me custou horas e horas para programar, você pode me ajudar me seguindo ou $AT1$doando$AT2$. Ficarei muito agradecido.",
+		"message": "Obrigado por usar OldTwitter! Isso me custou horas e horas para programar, você pode me ajudar me seguindo ou $AT1$doando$AT2$. Agradeceria muito.",
 		"placeholders": {
 			"at1": {
 				"content": "<a target='_blank' href='https://dimden.dev/donate/'>"
@@ -1287,7 +1287,7 @@
 		"example": "->Copy links as<- vxtwitter.com"
 	},
 	"use_new_icon": {
-		"message": "Usar nova logo como ícone da guia"
+		"message": "Usar novo logotipo como ícone da guia"
 	},
 	"update_timeline_automatically": {
 		"message": "Atualize a linha do tempo automaticamente com novos tweets."
@@ -1382,7 +1382,7 @@
 		"message": "Esconder notas da comunidade"
 	},
 	"disable_gif_autoplay": {
-		"message": "Desativar autoplay do GIF"
+		"message": "Desativar reprodução automática do GIF"
 	},
 	"hide_tweet": {
 		"message": "Esconder tweet"
@@ -1397,10 +1397,10 @@
 		"message": "Ver respostas escondidas"
 	},
 	"bookmarked_tweet": {
-		"message": "Tweet marcado"
+		"message": "Tweet salvo"
 	},
 	"unbookmarked_tweet": {
-		"message": "Tweet não"
+		"message": "Tweet salvo removido"
 	},
 	"muted_convo": {
 		"message": "Conversas mutadas"
@@ -1515,7 +1515,7 @@
 		"description": "Setting Text"
 	},
 	"accessibility": {
-		"message": "Accessibilidade",
+		"message": "Acessibilidade",
 		"description": "Setting Text"
 	},
 	"tweets_and_timeline": {
@@ -1527,7 +1527,7 @@
 		"description": "Setting Text"
 	},
 	"old_twitter_look": {
-		"message": "Estilo do Oldtwitter",
+		"message": "Estilo do OldTwitter",
 		"description": "Setting Text"
 	},
 	"content_you_see": {
@@ -1595,7 +1595,7 @@
 		"message": "Parabéns, você foi dado acesso a customização CSS de perfil! Apenas uma pequena porcentagem de usuários do OldTwitter tem acesso a isso, aproveite e continue sendo incrível!"
 	},
 	"yay": {
-		"message": "Yay!"
+		"message": "Uhu!"
 	},
 	"light_mode_vars": {
 		"message": "Variações do modo claro"
@@ -1633,13 +1633,13 @@
 		"message": "Você não tem nenhum rascunho salvo ainda!"
 	},
 	"invalid_auth_token": {
-		"message": "Seu token de autenticação era inválido e foi removido. Já pode tentar novamente, se o erro persistir entre em contato @dimdenEFF."
+		"message": "Seu token de autenticação era inválido e foi removido. Já pode tentar novamente, se o erro persistir entre em contato com @dimdenEFF."
 	},
 	"css_set": {
 		"message": "CSS foi definido com sucesso!"
 	},
 	"error_setting_css": {
-		"message": "Erro ao definir o CSS"
+		"message": "Erro ao definir CSS"
 	},
 	"load": {
 		"message": "Carregar"
@@ -1661,7 +1661,7 @@
 		"message": "Twitter"
 	},
 	"move_navbar_to_bottom": {
-		"message": "<b>[Mobile]</b> Mover barra de navegação para baixo"
+		"message": "Mover barra de navegação para baixo"
 	},
 	"styled_profile": {
 		"message": "Perfil estilizado"
@@ -1684,7 +1684,7 @@
 		"message": "Use o design do Twitter de 2018, inclui botões redondos e símbolos"
 	},
 	"show_exact_values": {
-		"message": "Mostra o número exato de retweets, likes, seguidores e etc."
+		"message": "Mostra o número exato de retweets, curtidas, seguidores e etc."
 	},
 	"hide_timeline_types": {
 		"message": "Ocultar a opção de tipo de linha do tempo na página inicial"
@@ -1714,11 +1714,11 @@
 		"message": "Não pausar vídeos quando estiver rolando a timeline"
 	},
 	"delete_for_you": {
-		"message": "Deletar para você",
+		"message": "Apagar para você",
 		"description": "DM Message Delete menu"
 	},
 	"show_user_previews_on_mobile": {
-		"message": "Mostrar a preview do perfil ao segurar (isso pode ser irritante)",
+		"message": "Mostrar a prévia do perfil ao segurar (isso pode ser irritante)",
 		"description": "This option only appears on mobile"
 	},
 	"separate_text": {
@@ -1758,7 +1758,7 @@
 		"description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)."
 	},
 	"mute_user": {
-		"message": "Mutar @$SCREEN_NAME$",
+		"message": "Silênciar @$SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
@@ -1766,7 +1766,7 @@
 		}
 	},
 	"unmute_user": {
-		"message": "Desmutar @$SCREEN_NAME$",
+		"message": "Reativar @$SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
@@ -1774,7 +1774,7 @@
 		}
 	},
 	"muted_user": {
-		"message": "Mutado @$SCREEN_NAME$",
+		"message": "Silênciado @$SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
@@ -1782,7 +1782,7 @@
 		}
 	},
 	"unmuted_user": {
-		"message": "Desmutado @$SCREEN_NAME$",
+		"message": "Reativado @$SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
@@ -1840,7 +1840,7 @@
 		"message": "Desativar o atalho de retweet (T)"
 	},
 	"disable_like_hotkey": {
-		"message": "Desativar o atalho de like (L)"
+		"message": "Desativar o atalho de curtida (L)"
 	},
 	"enable_extension_compatibility": {
 		"message": "Ativa o modo de compatibilidade de Extensões (apenas ative isso se você quiser fazer com que outras extensões funcionem com o OldTwitter, se isso ainda não funcionar (o que muitas vezes não vai) desative isso, porque essa opção pode fazer a página ficar bugada/lagada"

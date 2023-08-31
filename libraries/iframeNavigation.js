@@ -75,6 +75,7 @@ function useIframeNavigation(e) {
             height: 100vh;
             border: none;
             z-index: 99999;
+            background-color: var(--background-color);
         `;
         document.body.appendChild(iframe);
         iframe.focus();
