@@ -398,9 +398,11 @@ function hideStuff() {
             .tweet-interact-favorite { color: var(--background-color) !important }
             .tweet-interact-retweet { color: var(--background-color) !important }
             .tweet-interact-reply { color: var(--background-color) !important }
+            .tweet-interact-bookmark { color: var(--background-color) !important }
             .tweet:hover .tweet-interact-favorite { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-retweet { color: var(--dark-background-color) !important }
             .tweet:hover .tweet-interact-reply { color: var(--dark-background-color) !important }
+            .tweet:hover .tweet-interact-bookmark { color: var(--dark-background-color) !important }
         `;
     }if(vars.hideTimelineTypes) {
         hideStyle.innerHTML += `
@@ -413,6 +415,11 @@ function hideStuff() {
             #user-followers-div { display: none !important; }
             #profile-stat-followers-link { display: none !important; }
             #profile-stat-follower-mobile-out { display: none !important; }
+        `;
+    }
+    if(vars.showBookmarkCount && vars.seeTweetViews) {
+        hideStyle.innerHTML += `
+            .tweet-interact-more-menu { margin-left: 250px }
         `;
     }
     if(hideStyle.innerHTML !== '') {
@@ -1672,6 +1679,13 @@ let userDataFunction = async user => {
             try {
                 savedSearches = await API.search.getSaved();
             } catch(e) {}
+            let pinnedSearches = await new Promise(resolve => {
+                chrome.storage.sync.get(['pinnedSearches'], data => {
+                    if(!data.pinnedSearches) data.pinnedSearches = [];
+                    resolve(data.pinnedSearches);
+                });
+            });
+            savedSearches = savedSearches.concat(pinnedSearches.map(i => ({query: i, local: true})));
         }
         if(lastSearches.length > 0) {
             let span = document.createElement('span');
@@ -1726,6 +1740,22 @@ let userDataFunction = async user => {
                 removeTopic.innerText = '×';
                 removeTopic.className = 'search-result-item-remove';
                 removeTopic.addEventListener('click',async () => {
+                    if(savedSearches[i].local) {
+                        let pinnedSearches = await new Promise(resolve => {
+                            chrome.storage.sync.get(['pinnedSearches'], data => {
+                                if(!data.pinnedSearches) data.pinnedSearches = [];
+                                resolve(data.pinnedSearches);
+                            });
+                        });
+                        pinnedSearches = pinnedSearches.filter(i => i !== topic);
+                        chrome.storage.sync.set({pinnedSearches: pinnedSearches});
+                        topicElement.remove();
+                        removeTopic.remove();
+                        savedSearches.splice(i, 1);
+                        document.getElementById('timeline-type-right').querySelector(`option[value="search-${topic}"]`).remove();
+                        document.getElementById('timeline-type-center').querySelector(`option[value="search-${topic}"]`).remove();
+                        return;
+                    }
                     await API.search.deleteSaved(topicId);
                     savedSearches.splice(i, 1);
                     topicElement.remove();
@@ -1752,14 +1782,15 @@ let userDataFunction = async user => {
         imeTyping = true;
     });
     searchInput.addEventListener('compositionend', () => {
-        imeTyping = false;
+        setTimeout(() => {
+            imeTyping = false;
+        }, 50);
     });
-    searchInput.addEventListener('keyup', async (e) => {
+    searchInput.addEventListener('keydown', async e => {
         if(imeTyping) return;
-        let query = searchInput.value;
-        let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
-        let activeSearch = searchElements[selectedIndex];
         if(e.key === "Enter") {
+            let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
+            let activeSearch = searchElements[selectedIndex];
             if(activeSearch) {
                 activeSearch.click();
             } else {
@@ -1767,6 +1798,12 @@ let userDataFunction = async user => {
             }
             return;
         }
+    });
+    searchInput.addEventListener('keyup', async (e) => {
+        if(imeTyping) return;
+        let query = searchInput.value;
+        let searchElements = Array.from(searchResults.children).filter(e => e.tagName === "A");
+        let activeSearch = searchElements[selectedIndex];
         if(activeSearch) activeSearch.classList.remove('search-result-item-active');
         if(e.key === 'ArrowDown') {
             if(selectedIndex < searchElements.length - 1) {
@@ -1901,7 +1938,6 @@ let userDataFunction = async user => {
             clearTimeout(leavePreviewTimeout);
             leavePreviewTimeout = null;
         }
-        if(document.getElementsByClassName('user-preview').length > 0) return;
         el = el.closest('a');
         if(!el || !el.href) return;
         let url;
@@ -1952,6 +1988,12 @@ let userDataFunction = async user => {
 
             let user = await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;
+            let userPreviews = Array.from(document.getElementsByClassName('user-preview'));
+            if(userPreviews.length > 0) {
+                for(let userPreview of userPreviews) {
+                    userPreview.remove();
+                }
+            };
             let div = document.createElement('div');
             div.innerHTML = /*html*/`
                 <style>
@@ -2283,7 +2325,7 @@ let userDataFunction = async user => {
         let tweets = Array.from(document.getElementsByClassName('tweet'));
         let scrollPoint = scrollY + innerHeight/2;
         let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
-        if(!activeTweet || (newActiveTweet && !activeTweet.className.startsWith(newActiveTweet.className))) {
+        if(!activeTweet || (newActiveTweet && activeTweet.dataset.tweetId !== newActiveTweet.dataset.tweetId)) {
             if(activeTweet) {
                 activeTweet.classList.remove('tweet-active');
                 let video = activeTweet.querySelector('.tweet-media > video[controls]');
@@ -2351,6 +2393,8 @@ let userDataFunction = async user => {
             e.stopImmediatePropagation();
 
             let previousLocation = location.href;
+            let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
+
             let modal = createModal(`
                 <div class="nav-notifications-loading">
                     <img src="${chrome.runtime.getURL('images/loading.svg')}" width="64" height="64">
@@ -2384,11 +2428,21 @@ let userDataFunction = async user => {
                 }
                 let data;
                 try {
-                    data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
+                    data = await API.notifications.get(
+                        options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, // cursor
+                        false, // onlyMentions
+                        options.mode === 'rewrite', // long lasting cache
+                        options.mode === 'prepend' // prepend to cache
+                    );
                 } catch(e) {
                     await sleep(2500);
                     try {
-                        data = await API.notifications.get(options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined, false);
+                        data = await API.notifications.get(
+                            options.mode === 'append' ? cursorBottom : options.mode === 'prepend' ? cursorTop : undefined,
+                            false,
+                            options.mode === 'rewrite',
+                            options.mode === 'prepend'
+                        );
                     } catch(e) {
                         notifLoading.hidden = true;
                         notifMore.hidden = false;
@@ -2406,6 +2460,7 @@ let userDataFunction = async user => {
                         setTimeout(() => {
                             if(document.hasFocus()) {
                                 API.notifications.markAsRead(cursorTop);
+                                chrome.storage.local.remove(['unreadCount'], () => {});
 
                                 let notifElement = document.getElementById('notifications-count');
                                 let icon = document.getElementById('site-icon');
@@ -2482,7 +2537,6 @@ let userDataFunction = async user => {
 
             await updateNotifications({ mode: 'rewrite', quiet: false });
             await updateNotifications({ mode: 'prepend', quiet: true });
-            let ui = setInterval(() => updateNotifications({ mode: 'prepend', quiet: true }), 20000);
 
             modal.addEventListener('scroll', () => {
                 if(loadingMore) return;
@@ -2789,6 +2843,7 @@ setInterval(() => {
             } else if(e.keyCode === 76) { // L
                 // like tweet
                 if(!activeTweet) return;
+                if(vars.disableLikeHotkey) return;
                 let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-favorite');
                 tweetFavoriteButton.click();
             } else if(e.keyCode === 66) { // B
@@ -2799,6 +2854,7 @@ setInterval(() => {
             } else if(e.keyCode === 84) { // T
                 // retweet
                 if(!activeTweet) return;
+                if(vars.disableRetweetHotkey) return;
                 let hasRetweetedWithHotkeyBefore = await new Promise(resolve => {
                     chrome.storage.local.get(['hasRetweetedWithHotkey'], data => {
                         resolve(data.hasRetweetedWithHotkey);
@@ -2885,9 +2941,18 @@ setInterval(() => {
                     }
                 }
             } else if(e.keyCode === 68 && !e.ctrlKey && !e.altKey) { // D
+                let vin = document.querySelector('.viewer-in');
+                if(vin) {
+                    return vin.querySelector('.viewer-next').click();
+                }
                 // download media
                 if(activeTweet.classList.contains('tweet')) {
                     activeTweet.getElementsByClassName('tweet-interact-more-menu-download')[0].click();
+                }
+            } else if(e.keyCode === 65 && !e.ctrlKey && !e.altKey) { // A
+                let vin = document.querySelector('.viewer-in');
+                if(vin) {
+                    return vin.querySelector('.viewer-prev').click();
                 }
             }
         });

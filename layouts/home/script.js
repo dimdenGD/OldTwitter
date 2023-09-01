@@ -1,3 +1,5 @@
+// abandon hope all ye who enter here
+
 let user = {};
 let timeline = {
     data: [],
@@ -15,6 +17,8 @@ let cursorBottom, cursorTop;
 
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.user.getV2('dimdenEFF');
+    chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
+
     if(!dimden.following) {
         let opened = Date.now();
         let modal = createModal(/*html*/`
@@ -46,6 +50,8 @@ async function createShamelessPlug(firstTime = true) {
     }
 }
 
+
+
 setTimeout(() => {
     chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug'], async data => {
         if (!data.installed) {
@@ -61,22 +67,12 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Fixed tweet like/retweet/reply count not changing on action when 'Display the exact number of retweets, likes, followers, etc.' is disabled.</li>
-                            <li>Improved "new tweets" button on homepage, it doesn't re-render entire page but only adds new tweets.</li>
-                            <li>"Update timeline automatically on new tweets." option is no longer experimental due to 'new tweets' button improvement!</li>
-                            <li>Replaced word 'post' with 'tweet' everywhere.</li>
-                            <li>Fixed search input on mobile.</li>
-                            <li>Added mute button to three dots button of tweets.</li>
-                            <li>Fixed video view counts.</li>
-                            <li>Made OldTwitter use low quality images when on mobile data (Chromium only).</li>
-                            <li>Fixed Twitter embeds on other websites.</li>
-                            <li>Made OldTwitter update tweet like/retweet/reply/view counts automatically.</li>
-                            <li>Made tweet viewer use more space instead of wasting it.</li>
-                            <li>Fixed username disappearing on scroll in profile.</li>
-                            <li>Added quote translation length limit.</li>
-                            <li>Fixed pressing enter with Japanese IME in search input initiating search.</li>
-                            <li>Added Separate text button for tweet viewer too.</li>
-                            <li>Fixed useless t.co links sometimes appearing.</li>
+                            <li>Added rate limit bypass again!</li>
+                            <li>Added "new tweets" button to Lists and Search (and autoupdate setting will work too). You don't have to reload page to see new tweets anymore.</li>
+                            <li>You can now switch to List and Search from home page.</li>
+                            <li>Added ability to add/remove users from list via three dots button of tweets.</li>
+                            <li>Improvements to data saver and option to disable it when using cellular data.</li>
+                            <li>Some other fixes and updates.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
@@ -129,18 +125,37 @@ async function updateTimeline(mode = 'rewrite') {
         document.getElementById('load-more').hidden = true;
     }
     let fn, args = [];
-    if(mode === 'prepend') {
-        fn = API.timeline.getChronologicalV2;
-        args.push(cursorTop);
-    } else {
-        switch(vars.timelineType) {
-            case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
-            case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
-            case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-            case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
-            default: fn = API.timeline.getChronologicalV2; break;
+    if(vars.timelineType.startsWith('list-')) {
+        fn = API.list.getTweets;
+        args.push(vars.timelineType.split('-')[1]);
+        if(mode === 'prepend') {
+            args.push(cursorTop);
         }
-    }
+    } else if(vars.timelineType.startsWith('search-')) {
+        fn = API.search.adaptiveV2;
+        args.push({
+            rawQuery: decodeURIComponent(vars.timelineType.split('-').slice(1).join('-')),
+            count: 50,
+            querySource: 'typed_query',
+            product: "Latest",
+        });
+        if(mode === 'prepend') {
+            args.push(cursorTop);
+        }
+    } else {
+        if(mode === 'prepend') {
+            fn = API.timeline.getChronologicalV2;
+            args.push(cursorTop);
+        } else {
+            switch(vars.timelineType) {
+                case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
+                case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
+                case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
+                case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
+                default: fn = API.timeline.getChronologicalV2; break;
+            }
+        }
+    } 
 
     let [tl, s] = await Promise.allSettled([fn(...args), API.account.getSettings()]);
     if(!tl.value) {
@@ -295,6 +310,7 @@ async function renderTimeline(options = {}) {
         }
     };
     if(options.mode === 'prepend' && toRender.length > 0) {
+        console.log(data, toRender);
         timelineContainer.prepend(...toRender);
         if(vars.enableTwemoji) {
             for(let t in toRender) {
@@ -342,74 +358,12 @@ setTimeout(async () => {
 
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
-    let lastScroll = Date.now();
     document.addEventListener('scroll', async () => {
-        lastScroll = Date.now();
-
-        // loading new tweets
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
             if (loadingNewTweets || timeline.data.length === 0) return;
-            loadingNewTweets = true;
-            document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
-            let tl;
-            try {
-                switch(vars.timelineType) {
-                    case 'algo': tl = await API.timeline.getAlgorithmicalV2(cursorBottom, 50); break;
-                    default: tl = await API.timeline.getChronologicalV2(cursorBottom); break;
-                }
-                cursorBottom = tl.cursorBottom;
-                tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
-                for(let t of tl) {
-                    seenTweets.push(t.id_str);
-                }
-                if(vars.timelineType === 'chrono-retweets') {
-                    tl = tl.filter(t => t.retweeted_status);
-                } else if(vars.timelineType === 'chrono-no-retweets') {
-                    tl = tl.filter(t => !t.retweeted_status);
-                }
-            } catch (e) {
-                console.error(e);
-                document.getElementById('load-more').innerText = LOC.load_more.message;
-                loadingNewTweets = false;
-                return;
-            }
-            timeline.data = timeline.data.concat(tl);
-            try {
-                await renderTimeline({mode: 'append', data: tl });
-            } catch(e) {
-                document.getElementById('load-more').innerText = LOC.load_more.message;
-                loadingNewTweets = false;
-            }
-            setTimeout(() => {
-                document.getElementById('load-more').innerText = LOC.load_more.message;
-                loadingNewTweets = false;
-            }, 250);
+            document.getElementById('load-more').click();
         }
     }, { passive: true });
-
-    // this isn't very useful with current rate limits
-    // document.addEventListener('mousemove', e => {
-    //     if(Date.now() - lastScroll > 10) {
-    //         let t = e.target;
-    //         let c = t.className;
-    //         if(c.baseVal) return;
-    //         if(t.className.includes('tweet ') || t.className === 'tweet-interact' || t.className === 'tweet-body' || t.className === 'tweet-media') {
-    //             if(t.className.includes('tweet-view')) return;
-    //             if(t.className === 'tweet-interact' || t.className === 'tweet-media') t = t.parentElement.parentElement;
-    //             else if(t.className === 'tweet-body') t = t.parentElement;
-    //             let id;
-    //             try { id = t.className.split('id-')[1].split(' ')[0] } catch(e) { return };
-    //             if(!tweetsToLoad[id]) tweetsToLoad[id] = 1;
-    //             else tweetsToLoad[id]++;
-    //             if(tweetsToLoad[id] === 10) {
-    //                 API.tweet.getRepliesV2(id);
-    //                 API.tweet.getLikers(id);
-    //                 t.classList.add('tweet-preload');
-    //                 console.log(`Preloading ${id}`);
-    //             }
-    //         }
-    //     }
-    // });
 
     document.addEventListener('clearActiveTweet', () => {
         if(activeTweet) {
@@ -455,11 +409,27 @@ setTimeout(async () => {
         document.getElementById('load-more').innerText = `${LOC.loading.message}...`;
         let tl;
         try {
-            tl = vars.timelineType === 'algo' ? await API.timeline.getAlgorithmical(cursorBottom, 50) : await API.timeline.getChronologicalV2(cursorBottom);
+            if(vars.timelineType.startsWith('list-')) tl = await API.list.getTweets(vars.timelineType.split('-')[1], cursorBottom, 50);
+            else if(vars.timelineType.startsWith('search-')) tl = await API.search.adaptiveV2({
+                rawQuery: decodeURIComponent(vars.timelineType.split('-').slice(1).join('-')),
+                count: 50,
+                querySource: 'typed_query',
+                product: "Latest",
+                cursor: cursorBottom
+            });
+            else switch(vars.timelineType) {
+                case 'algo': tl = await API.timeline.getAlgorithmicalV2(cursorBottom, 50); break;
+                default: tl = await API.timeline.getChronologicalV2(cursorBottom); break;
+            }
             cursorBottom = tl.cursorBottom;
             tl = tl.list.filter(t => !seenTweets.includes(t.id_str));
             for(let t of tl) {
                 seenTweets.push(t.id_str);
+            }
+            if(vars.timelineType === 'chrono-retweets') {
+                tl = tl.filter(t => t.retweeted_status);
+            } else if(vars.timelineType === 'chrono-no-retweets') {
+                tl = tl.filter(t => !t.retweeted_status);
             }
         } catch (e) {
             console.error(e);
@@ -1027,9 +997,104 @@ setTimeout(async () => {
         delete newTweetText.dataset.blurSince;
     });
 
+    function createManageSearchesModal() {
+        let modal = createModal(/*html*/`
+            <h3 class="nice-header">${LOC.manage_searches.message}</h3><br>
+            <div class="manage-searches-list"></div>
+            <h3 class="nice-header" style="margin-bottom:5px">${LOC.add_search.message}</h3><br>
+            <input type="text" id="add-search-input" placeholder="${LOC.search.message}">
+            <button class="nice-button" id="add-search-btn" style="padding: 4.5px 10px;vertical-align: middle;">${LOC.add.message}</button>
+        `, 'manage-searches-modal');
+        let list = modal.querySelector('.manage-searches-list');
+        chrome.storage.sync.get(['pinnedSearches'], data => {
+            if(!data.pinnedSearches) data.pinnedSearches = [];
+            data.pinnedSearches.sort((a, b) => a.localeCompare(b));
+            data.pinnedSearches.forEach(search => {
+                let searchElement = document.createElement('div');
+                searchElement.className = 'manage-searches-item';
+                searchElement.innerHTML = /*html*/`
+                    <span class="manage-searches-item-text">${escapeHTML(search)}</span>
+                    <button class="nice-button manage-searches-item-remove">${LOC.remove.message}</button>
+                `;
+                searchElement.querySelector('.manage-searches-item-remove').addEventListener('click', async () => {
+                    let pinnedSearches = await new Promise(resolve => {
+                        chrome.storage.sync.get(['pinnedSearches'], data => {
+                            if(!data.pinnedSearches) data.pinnedSearches = [];
+                            resolve(data.pinnedSearches);
+                        });
+                    });
+                    pinnedSearches.splice(pinnedSearches.indexOf(search), 1);
+                    chrome.storage.sync.set({pinnedSearches});
+                    searchElement.remove();
+                    document.getElementById('timeline-type-right').querySelector(`option[value="search-${search}"]`).remove();
+                    document.getElementById('timeline-type-center').querySelector(`option[value="search-${search}"]`).remove();
+                });
+                list.appendChild(searchElement);
+            });
+        });
+        let input = modal.querySelector('#add-search-input');
+        let button = modal.querySelector('#add-search-btn');
+        button.disabled = true;
+        input.addEventListener('keyup', e => {
+            button.disabled = input.value.length === 0;
+            if(e.key === 'Enter') {
+                button.click();
+            }
+        });
+        button.addEventListener('click', async () => {
+            let search = input.value;
+            let pinnedSearches = await new Promise(resolve => {
+                chrome.storage.sync.get(['pinnedSearches'], data => {
+                    if(!data.pinnedSearches) data.pinnedSearches = [];
+                    resolve(data.pinnedSearches);
+                });
+            });
+            if(pinnedSearches.includes(search)) {
+                return;
+            }
+            pinnedSearches.push(search);
+            chrome.storage.sync.set({pinnedSearches});
+            let option = document.createElement('option');
+            option.value = `search-${search}`;
+            option.innerText = `${LOC.search.message} - ${search}`;
+            input.value = '';
+            button.disabled = true;
+            document.getElementById('timeline-type-right').querySelector('option[value="manage-searches"]').before(option);
+            document.getElementById('timeline-type-center').querySelector('option[value="manage-searches"]').before(option.cloneNode(true));
+            chrome.storage.sync.set({
+                timelineType: `search-${search}`
+            }, () => {});
+            let searchElement = document.createElement('div');
+            searchElement.className = 'manage-searches-item';
+            searchElement.innerHTML = /*html*/`
+                <span class="manage-searches-item-text">${escapeHTML(search)}</span>
+                <button class="nice-button manage-searches-item-remove">${LOC.remove.message}</button>
+            `;
+            searchElement.querySelector('.manage-searches-item-remove').addEventListener('click', async () => {
+                let pinnedSearches = await new Promise(resolve => {
+                    chrome.storage.sync.get(['pinnedSearches'], data => {
+                        if(!data.pinnedSearches) data.pinnedSearches = [];
+                        resolve(data.pinnedSearches);
+                    });
+                });
+                pinnedSearches.splice(pinnedSearches.indexOf(search), 1);
+                chrome.storage.sync.set({pinnedSearches});
+                searchElement.remove();
+                document.getElementById('timeline-type-right').querySelector(`option[value="search-${search}"]`).remove();
+                document.getElementById('timeline-type-center').querySelector(`option[value="search-${search}"]`).remove();
+            });
+            list.appendChild(searchElement);
+        });
+    }
+
     document.getElementById('timeline-type-right').value = vars.timelineType;
     document.getElementById('timeline-type-center').value = vars.timelineType;
     document.getElementById('timeline-type-right').addEventListener('change', e => {
+        if(e.target.value === 'manage-searches') {
+            e.target.value = vars.timelineType;
+            createManageSearchesModal();
+            return;
+        }
         chrome.storage.sync.set({
             timelineType: e.target.value
         }, () => {
@@ -1049,6 +1114,11 @@ setTimeout(async () => {
         });
     })
     document.getElementById('timeline-type-center').addEventListener('change', e => {
+        if(e.target.value === 'manage-searches') {
+            e.target.value = vars.timelineType;
+            createManageSearchesModal();
+            return;
+        }
         chrome.storage.sync.set({
             timelineType: e.target.value
         }, () => {
@@ -1066,7 +1136,53 @@ setTimeout(async () => {
             renderNewTweetsButton();
             updateTimeline();
         });
-    })
+    });
+    API.list.getMyLists().then(lists => {
+        let timelineTypeRight = document.getElementById('timeline-type-right');
+        let timelineTypeCenter = document.getElementById('timeline-type-center');
+        if(lists.length > 0) {
+            let optgroup = document.createElement('optgroup');
+            optgroup.label = LOC.lists.message;
+            lists.sort((a, b) => a.name.localeCompare(b.name));
+            for(let i in lists) {
+                let option = document.createElement('option');
+                option.value = `list-${lists[i].id_str}`;
+                option.innerText = `${LOC.list.message} - ${lists[i].name}`;
+                optgroup.appendChild(option);
+            }
+            timelineTypeRight.appendChild(optgroup);
+            timelineTypeCenter.appendChild(optgroup.cloneNode(true));
+    
+            if(vars.timelineType.startsWith('list-')) {
+                timelineTypeRight.value = vars.timelineType;
+                timelineTypeCenter.value = vars.timelineType;
+            }
+        }
+        let optgroup = document.createElement('optgroup');
+        optgroup.label = LOC.search.message;
+        chrome.storage.sync.get(['pinnedSearches'], data => {
+            if(!data.pinnedSearches) data.pinnedSearches = [];
+            data.pinnedSearches.sort((a, b) => a.localeCompare(b));
+            for(let i in data.pinnedSearches) {
+                let option = document.createElement('option');
+                option.value = `search-${data.pinnedSearches[i]}`;
+                option.innerText = `${LOC.search.message} - ${data.pinnedSearches[i]}`;
+                optgroup.appendChild(option);
+            }
+            let addOption = document.createElement('option');
+            addOption.value = 'manage-searches';
+            addOption.innerText = LOC.manage_searches.message + '...';
+            optgroup.appendChild(addOption);
+
+            timelineTypeRight.appendChild(optgroup);
+            timelineTypeCenter.appendChild(optgroup.cloneNode(true));
+
+            if(vars.timelineType.startsWith('search-')) {
+                timelineTypeRight.value = vars.timelineType;
+                timelineTypeCenter.value = vars.timelineType;
+            }
+        }); 
+    });
 
 
     // Update dates every minute & unfocus tweet composer
@@ -1127,7 +1243,35 @@ setTimeout(async () => {
     renderDiscovery();
     renderTrends();
     setInterval(updateUserData, 60000 * 3);
-    if(vars.timelineType !== 'algo') setInterval(() => updateTimeline('prepend'), 30000);
+    let timer = 0;
+    setInterval(() => {
+        if(vars.timelineType === 'algo') {
+            return;
+        }
+        if(!vars.timelineType.startsWith('chrono')) {
+            // don't waste precious API calls
+            if(timer === 0) {
+                timer = 1;
+            } else {
+                timer = 0;
+                updateTimeline('prepend');
+            }
+        } else {
+            updateTimeline('prepend');
+        }
+    }, 30000);
+    if(vars.timelineType.startsWith('chrono')) {
+        setInterval(async () => {
+            let tweets = (await API.timeline.getChronologicalV2()).list;
+            for(let i = 0; i < timeline.dataToUpdate.length; i++) {
+                let tweet = timeline.dataToUpdate[i];
+                let newTweet = tweets.find(t => t.id_str === tweet.id_str);
+                if(newTweet) {
+                    timeline.dataToUpdate[i] = newTweet;
+                }
+            }
+        }, 60000 * 2.25);
+    }
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);
 }, 50);

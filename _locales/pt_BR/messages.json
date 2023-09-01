@@ -1,511 +1,1851 @@
 {
-    "ext_description": { "message": "Uma nova extensão que te retorna ao antigo Twitter." },
-    "timeline": { "message": "Timeline" },
-    "loading": { "message": "Carregando" },
-    "tweets": { "message": "Tweets" },
-    "following_btn": { "message": "Seguindo", "description": "This one is used in button showing that user is following someone." },
-    "following": { "message": "Seguindo", "description": "This is used in list showing who user follows. Try to keep this word equal or less than 9 characters" },
-    "followers": { "message": "Seguidores", "description": "Try to keep this word equal or less than 9 characters" },
-    "trends": { "message": "Trends" },
-    "tweet": { "message": "Tweet" },
-    "load_more": { "message": "Ver mais" },
-    "who_to_follow": { "message": "Quem seguir", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "refresh": { "message": "Atualizar" },
-    "view_all": { "message": "Ver tudo" },
-    "running": { "message": "Usando", "example": "->Running<- OldTwitter v0.0.0" },
-    "created_by": { "message": "Feito por", "example": "->Created by<- dimden" },
-    "website": { "message": "Website" },
-    "help": { "message": "Ajuda", "description": "noun" },
-    "terms": { "message": "Termos", "description": "Shortest word that you can find for Terms of service" },
-    "privacy": { "message": "Privacidade", "description": "Shortest word that you can find for Privacy policy" },
-    "about": { "message": "Sobre" },
-    "donate": { "message": "Doar" },
-    "home": { "message": "Feed", "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline" },
-    "notifications": { "message": "Notificações" },
-    "messages": { "message": "Mensagens" },
-    "search_twitter": { "message": "Pesquisar no Twitter" },
-    "profile": { "message": "Perfil" },
-    "settings": { "message": "Configurações" },
-    "lists": { "message": "Listas" },
-    "list": { "message": "Lista" },
-    "bookmarks": { "message": "Salvos" },
-    "manage_accounts": { "message": "Mudar contas" },
-    "logout": { "message": "Sair" },
-    "whats_happening": { "message": "O que está sentindo?" },
-    "variant": { "message": "Opção" },
-    "optional": { "message": "(opcional)" },
-    "days": { "message": "Dias" },
-    "hours": { "message": "Horas" },
-    "minutes": { "message": "Minutos" },
-    "remove_poll": { "message": "Remover" },
-    "open_newtwitter": { "message": "Abrir esta página no novo Twitter" },
-    "last_version": { "message": "ultima versão" },
-    "thank_you": {
-        "message": "Muito obrigado por instalar OldTwitter!! Espero que goste. Dê uma olhada nas $AT1$configurações$AT2$!",
-        "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
-            "at2": { "content": "</a>" }
-        }
-    },
-    "follow_mb": { "message": "Siga-me?" },
-    "follow": { "message": "Seguir" },
-    "unfollow": { "message": "Deixar de seguir" },
-    "follow_user": { "message": "Seguir", "example": "->Follow<- @CoolPerson2000" },
-    "unfollow_user": { "message": "Deixar de seguir", "example": "->Unfollow<- @CoolPerson2000" },
-    "thank_you_follow": { "message": "Obrigado por me seguir!" },
-    "loading_tweets": { "message": "Carregando tweets..." },
-    "retweeted": { "message": "retweetou", "example": "CoolPerson2000 ->retweeted<-" },
-    "see_new_tweets": { "message": "Ver novos tweets" },
-    "must2variants": { "message": "Precisa-se de pelo menos duas opções." },
-    "delete_all": { "message": "Remover todas" },
-    "empty": { "message": "Nossa, que vazio", "description": "Funky message about nothing found" },
-    "delete_bookmarks": { "message": "Tem certeza de que quer remover todos seus tweets salvos? Você não poderá recuperá-los!" },
-    "members": { "message": "Membros" },
-    "subscribers": { "message": "Inscritos" },
-    "list_members": { "message": "Membros da lista" },
-    "list_subscribers": { "message": "Inscritos na lista" },
-    "edit": { "message": "Editar" },
-    "delete": { "message": "Deletar" },
-    "remove": { "message": "Remover" },
-    "edit_list": { "message": "Editar lista" },
-    "edit_members": { "message": "Editar membros" },
-    "save": { "message": "Salvar" },
-    "back": { "message": "Voltar" },
-    "delete_list": { "message": "Deletar lista" },
-    "delete_list_sure": { "message": "Tem certeza que quer remover esta lista?" },
-    "unsubscribe": { "message": "Desinscrever" },
-    "subscribe": { "message": "Inscrever" },
-    "list_not_found": { "message": "Lista não encontrada." },
-    "go_homepage": { "message": "Ir para página." },
-    "mentions": { "message": "Menções" },
-    "tweeted_like": { "message": "postou algo que você pode gostar", "example": "CoolPerson2000 ->tweeted something you might like<-" },
-    "favorites": { "message": "Favoritos" },
-    "follows_you": { "message": "Segue você" },
-    "tweet_to_user": { "message": "Tweetar para usuário" },
-    "followers_you_know": { "message": "Seguidores que conhece", "example": "123 ->followers you know<-" },
-    "photos_and_videos": { "message": "Fotos e vídeos" },
-    "photos_and_videos2": { "message": "Fotos e vídeos" },
-    "tweets_and_replies": { "message": "Tweets e respostas" },
-    "you_may_also_like": { "message": "Pessoas", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Usuário foi suspenso." },
-    "user_was_not_found": { "message": "Usuário não encontrado." },
-    "timeline_not_authorized": { "message": "Você não pode ver a timeline desse usuário." },
-    "create_btn": { "message": "[criar]" },
-    "create_list": { "message": "Criar lista" },
-    "create": { "message": "Criar" },
-    "name": { "message": "Nome" },
-    "description": { "message": "Descrição" },
-    "no_description": { "message": "Sem descrição." },
-    "born": { "message": "Nascido" },
-    "january": { "message": "janeiro", "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that." },
-    "february": { "message": "fevereiro" },
-    "march": { "message": "março" },
-    "april": { "message": "abril" },
-    "may": { "message": "maio" },
-    "june": { "message": "junho" },
-    "july": { "message": "julho" },
-    "august": { "message": "agosto" },
-    "september": { "message": "setembro" },
-    "october": { "message": "outubro" },
-    "november": { "message": "novembro" },
-    "december": { "message": "dezembro" },
-    "tweet_to": { "message": "Tweetar para @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "translated_from": { "message": "Traduzido de $LANGUAGE$", "placeholders": { "language": { "content": "Japanese" } } },
-    "translate_bio": { "message": "Traduzir bio" },
-    "edit_profile": { "message": "Editar perfil" },
-    "follow_request_sent": { "message": "Solicitação enviada" },
-    "unblock_user": { "message": "Desbloquear @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "unblock": { "message": "Desbloquear", "description": "Just for unblock button" },
-    "block_user": { "message": "Bloquear @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "block": { "message": "Bloquear", "description": "Just for block button" },
-    "mute": { "message": "Ignorar" },
-    "unmute": { "message": "Parar de ignorar" },
-    "see_lists": { "message": "Ver listas" },
-    "stop_notifications": { "message": "Parar de receber notificações" },
-    "receive_notifications": { "message": "Receber notificações" },
-    "from_list": { "message": "Adicionar/remover da lista" },
-    "share_user": { "message": "Compartilhar perfil" },
-    "copy_profile_link": { "message": "Copiar link para perfil" },
-    "remove_from_followers": { "message": "Remover de seus seguidores", "description": "This button unfollows person from you, not unfollows you from them" },
-    "remove_from_followers_sure": { "message": "Tem certeza que quer remover @$SCREEN_NAME$ de seus seguidores?", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "remove_from_followers_warn": { "message": "ISSO IRÁ REMOVER ESTA PESSOA DA SUA LISTA DE SEGUIDORES, NÃO DE QUEM VOCÊ SEGUE." },
-    "remove_from_followers_button": { "message": "Remover de meus seguidores" },
-    "able_in_future": { "message": "Ainda é possível que te sigam denovo." },
-    "block_sure": { "message": "Tem certeza que quer bloquear @$SCREEN_NAME$?", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "add": { "message": "Adicionar" },
-    "joined": { "message": "Registrou", "example": "->Joined<- April 30, 2019" },
-    "birthday_today": { "message": "(hoje!)" },
-    "pinned_tweet": { "message": "Tweet fixado" },
-    "search": { "message": "Pesquisar" },
-    "popular": { "message": "Popular" },
-    "live": { "message": "Live" },
-    "people": { "message": "Pessoas" },
-    "photos": { "message": "Fotos" },
-    "videos": { "message": "Vídeos" },
-    "all_people": { "message": "Todos" },
-    "people_yk": { "message": "Pessoas que conhece" },
-    "everywhere": { "message": "Todo lugar" },
-    "near_you": { "message": "Perto de você" },
-    "advanced_search": { "message": "Pesquisa avançada" },
-    "save_search": { "message": "Salvar essa pesquisa" },
-    "remove_search": { "message": "Remover de minhas pesquisas" },
-    "try_again": { "message": "Tentar novamente" },
-    "no_results": { "message": "Nada encontrado. Talvez mudando algo no painel esquerdo?" },
-    "words": { "message": "Palavras" },
-    "all_these_words": { "message": "Contem todas estas palavras" },
-    "all_these_words_example": { "message": "Exemplo: lorem ipsum - inclui \"lorem\" e \"ipsum\"" },
-    "exact_phrase": { "message": "Frase exata" },
-    "exact_phrase_example": { "message": "Exemplo: o que há - inclui \"o que há\"" },
-    "any_words": { "message": "Qualquer destas palavras" },
-    "any_words_example": { "message": "Exemplo: gatos cachorros - inclui \"gatos\" ou \"cachorros\"" },
-    "not_these_words": { "message": "Nenhuma destas palavras" },
-    "not_these_words_example": { "message": "Exemplo: gatos cachorros - exclui \"gatos\" e \"cachorros\"" },
-    "user": { "message": "Usuário" },
-    "from_this_user": { "message": "Deste usuário" },
-    "from_this_user_example": { "message": "Exemplo: @dimdenEFF - somente de dimdenEFF" },
-    "mentions_this_user": { "message": "Menciona este usuário" },
-    "mentions_this_user_example": { "message": "Example: @dimdenEFF - somente em resposta a dimdenEFF" },
-    "interactions": { "message": "Interações" },
-    "min_replies": { "message": "Quantidade mínima de respostas" },
-    "min_replies_example": { "message": "Exemplo: 10 - somente tweets com pelo menos 10 comentários" },
-    "min_retweets": { "message": "Quantidade mínima de retweets" },
-    "min_retweets_example": { "message": "Example: 10 - somente tweets retweetados 10 vezes" },
-    "min_favorites": { "message": "Quantidade mínima de favoritos" },
-    "min_favorites_example": { "message": "Example: 10 - somente tweets com 10 likes" },
-    "dates": { "message": "Datas" },
-    "since": { "message": "Desde" },
-    "until": { "message": "Até" },
-    "twitter_settings": { "message": "Configurações do Twitter" },
-    "oldtwitter_settings": { "message": "Configurações do OldTwitter" },
-    "edit_twitter_settings": { "message": "Editar configurações do Twitter" },
-    "refresh_tabs": { "message": "Atualize outras páginas para aplicar as configurações" },
-    "chrono": { "message": "Ordem cronológica" },
-    "chrono_social": { "message": "Ordem cronológica com favoritos de amigos" },
-    "algo": { "message": "Algoritmo do Twitter" },
-    "timeline_type": { "message": "Tipo do feed" },
-    "show_topic_tweets": { "message": "Mostrar tweets de tópicos (somente algoritmo)" },
-    "show_colors_in_timeline": { "message": "Mostrar links em cores de outros usuários" },
-    "enable_twemoji": { "message": "Usar Twemoji" },
-    "hearts_instead_stars": { "message": "Mostrar corações (likes) ao invés de estrelas (favoritos)" },
-    "dark_mode": { "message": "Modo escuro" },
-    "disable_hotkeys": { "message": "Desativar atalhos do teclado" },
-    "hotkeys_list": { "message": "Veja a lista de atalhos aqui" },
-    "save_preferred_quality": { "message": "Salvar a qualidade de vídeos. Se esta opção for ativa, OldTwitter irá utilizar a qualidade de vídeo que usou da última vez (ou o que for mais perto). Caso contrário, a maior qualidade possível será utilizada." },
-    "preferred_quality": { "message": "Qualidade preferida" },
-    "default_link_color": { "message": "Cor de links padrão" },
-    "font": { "message": "Fonte" },
-    "color_sync": { "message": "Sincronização de cores de link" },
-    "by_pressing_sync": { "message": "Ao apertar o botão sincronizar a cor escolhida irá ser enviada para nossa base de dados e será mostrada para outros usuários do OldTwitter." },
-    "color_years_ago": { "message": "Se você já configurou alguma cor no Twitter (anos atrás, quando isso ainda existia), essa opção será usada ao invés da sua cor antiga." },
-    "sync": { "message": "Sincronizar" },
-    "profile_link_color": { "message": "Cor de links do seu perfil" },
-    "light_mode_link": { "message": "Link modo claro" },
-    "dark_mode_link": { "message": "Link modo escuro" },
-    "custom_css": { "message": "Código CSS customizavél" },
-    "css_var_override": { "message": "Variáveis de CSS. Uma por linha, escreva-as como <code>--alguma-coisa: umvalor</code>." },
-    "css_var_list": { "message": "Veja as variáveis padrão aqui." },
-    "save_vars": { "message": "Salvar variáveis" },
-    "custom_css_text": { "message": "CSS para adicionar em cada página." },
-    "save_css": { "message": "Salvar CSS" },
-    "error_setting_color": { "message": "Erro configurando a cor" },
-    "link_color_set": { "message": "Cor de link enviada!" },
-    "retweeted_by": { "message": "Retweetado por" },
-    "see_quotes": { "message": "ver citações" },
-    "see_quotes_big": { "message": "Ver citações" },
-    "quote_tweets": { "message": "Citações" },
-    "see_retweets": { "message": "ver retweets" },
-    "reply_to": { "message": "Responder", "example": "->Reply to<- @CoolGuy2000" },
-    "error_loading_tweet": { "message": "Erro carregando tweet" },
-    "direct_messages": { "message": "Mensages privadas" },
-    "mark_all_read": { "message": "Marcar todas como lidas" },
-    "send": { "message": "Enviar", "description": "Max 5 characters, if no word keep it in English" },
-    "new_message": { "message": "Nova mensagem" },
-    "create_new_group": { "message": "Criar novo grupo" },
-    "search_people": { "message": "Pesquisar pessoas" },
-    "type_message": { "message": "Escreva sua mensagem" },
-    "cant_send": { "message": "Você não pode enviar mensagens para esta pessoa." },
-    "gifs_max": { "message": "GIFs tem que ser menos de 15 MB" },
-    "videos_max": { "message": "Videos tem que ser menos de 500 MB" },
-    "images_max": { "message": "Images tem que ser menos de 5 MB" },
-    "max_count": { "message": "Você só pode enviar até 4 images ou 1 vídeo/gif" },
-    "alt_text": { "message": "Descreva esta imagem" },
-    "vote": { "message": "voto", "example": "1 ->vote<-" },
-    "votes": { "message": "votos", "example": "10 ->votes<-" },
-    "ends_at": { "message": "Termina", "example": "->Ends at<- 16th November" },
-    "view_translation": { "message": "Ver tradução" },
-    "unsupported_video": { "message": "Seu navegador não suporta esse vídeo." },
-    "views": { "message": "visualizações", "example": "10 ->views<-" },
-    "reload": { "message": "Recarregar" },
-    "circle_limited_tweet": { "message": "Esse tweet só é visível para quem está no círculo de amigos confiáveis de @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "learn_more": { "message": "Saiba mais." },
-    "limited_tweet": { "message": "Esse tweet tem limitações em quem pode respondê-lo" },
-    "replies": { "message": "Comentários" },
-    "retweets": { "message": "Retweets" },
-    "likes": { "message": "Curtidas" },
-    "show_this_thread": { "message": "Ver esta thread" },
-    "quote_tweet": { "message": "Citar tweet" },
-    "see_retweeters": { "message": "Ver retuitadores" },
-    "copy_link": { "message": "Copiar link" },
-    "embed_tweet": { "message": "Incorporar tweet" },
-    "share_tweet": { "message": "Compartilhar tweet" },
-    "tweet_analytics": { "message": "Estatísticas do tweet" },
-    "delete_tweet": { "message": "Deletar tweet" },
-    "unpin_tweet": { "message": "Desfixar tweet" },
-    "pin_tweet": { "message": "Fixar tweet" },
-    "bookmark_tweet": { "message": "Salvar tweet" },
-    "topic_not_interested": { "message": "Não me interesso nesse tópico" },
-    "refresh_tweet": { "message": "Atualizar dados do tweet" },
-    "download_media": { "message": "Baixar mídia" },
-    "download_gif": { "message": "Baixar como GIF" },
-    "replying_to_tweet": { "message": "Respondendo ao tweet" },
-    "upload_media_btn": { "message": "[fazer upload]" },
-    "cancel_btn": { "message": "[cancelar]" },
-    "quote": { "message": "Citar" },
-    "reply_example": { "message": "Um comentário importante" },
-    "quote_example": { "message": "Um quote interessante" },
-    "error_sending_tweet": { "message": "Erro enviando tweet" },
-    "retweet_sure": { "message": "Tem certeza que quer retweetar esse tweet?" },
-    "unretweet": { "message": "Desretweetar" },
-    "retweet": { "message": "Retweetar" },
-    "delete_sure": { "message": "Tem certeza que quer deletar este tweet?" },
-    "long_vid": { "message": "Esse vídeo tem mais de 10 segundos. Tem certeza que quer convertê-lo? Isso pode travar" },
-    "feedback_thanks": { "message": "Obrigado pelo seu feedback!" },
-    "liked_by": { "message": "Curtido por" },
-    "reply": { "message": "Comentar" },
-    "language": { "message": "Idioma (Language)", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Язык (Language)" },
-    "translated_by": { "message": "Traduzido por $TRANSLATOR$.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
-    "last_searches": { "message": "Últimas pesquisas" },
-    "saved_searches": { "message": "Pesquisas salvas" },
-    "everyone": { "message": "Todo mundo", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
-    "topic": { "message": "Tópico" },
-    "not_interested": { "message": "Não me interesso" },
-    "cancel": { "message": "Cancelar" },
-    "youre_not_interested": { "message": "Você não se interessa nesse tópico " },
-    "autoplay_videos": { "message": "Tocar vídeos automaticamente" },
-    "turn_on_retweets": { "message": "Mostrar retweets no seu feed" },
-    "turn_off_retweets": { "message": "Esconder retweets no seu feed" },
-    "you_can_reply": { "message": "(você pode responder)" },
-    "audience": { "message": "Audiência" },
-    "who_can_reply": { "message": "Quem pode responder" },
-    "people_you_follow": { "message": "Quem você segue" },
-    "people_you_mention": { "message": "Quem você mencionou" },
-    "new_version": { "message": "Atualizado para nova versão" },
-    "display_sensitive_content": { "message": "Mostrar conteúdo possivelmente sensível" },
-    "is_private": { "message": "Privado" },
-    "s": { "message": "$NUMBER$s", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
-    "m": { "message": "$NUMBER$m", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
-    "h": { "message": "$NUMBER$h", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$d", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
-    "follow_requests": { "message": "Solicitações de seguidores" },
-    "accept": { "message": "Aceitar" },
-    "decline": { "message": "Recusar" },
-    "mute_convo": { "message": "Mutar conversa" },
-    "unmute_convo": { "message": "Desmutar conversa" },
-    "no_big_font": { "message": "Desativar fonte maior para tweets curtos/populares." },
-    "emoji": { "message": "Emoji" },
-    "emoji_btn": { "message": "[emoji]" },
-    "add_emoji": { "message": "Adicionar emoji" },
-    "custom": { "message": "Personalizado" },
-    "smileys_emotion": { "message": "Smileys e emoticons" },
-    "people_body": { "message": "Pessoas e corpo" },
-    "animals_nature": { "message": "Animais e natureza" },
-    "food_drink": { "message": "Comidas e bebidas" },
-    "travel_places": { "message": "Viagem e lugares" },
-    "activities": { "message": "Atividades" },
-    "objects": { "message": "Objetos" },
-    "symbols": { "message": "Símbolos" },
-    "flags": { "message": "Bandeiras" },
-    "categories": { "message": "Categorias" },
-    "unsupported_emoji": { "message": "Seu navegador não suporta emojis com cor." },
-    "cant_load_emoji": { "message": "Não foi possível carregar emojis." },
-    "emoji_picker": { "message": "Selecionar emoji" },
-    "emoji_search_description": { "message": "Quando tiver resultados de uma pesquisa, pressione cima ou baixo para escolher." },
-    "search_results": { "message": "Resultados da pesquisa" },
-    "skin_tone_description": { "message": "Quando aberto, pressione cima ou baixo para escolher." },
-    "skin_tone_label": { "message": "Escolha um tom de pele (selecionado $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
-    "skin_tones_label": { "message": "Tons de pele" },
-    "add_media": { "message": "Adicionar mídia" },
-    "add_poll": { "message": "Adicionar votação" },
-    "add_location": { "message": "Adicionar localização" },
-    "schedule_tweet": { "message": "Programar tweet" },
-    "scheduled": { "message": "Programado" },
-    "drafts": { "message": "Rascunhos" },
-    "location": { "message": "Localização" },
-    "unsent_tweets": { "message": "Tweets não enviados" },
-    "unsent": { "message": "Não enviado" },
-    "will_send": { "message": "Irá enviar em" },
-    "schedule": { "message": "Programar" },
-    "scheduled_success": { "message": "Tweet foi programado!" },
-    "see_scheduled": { "message": "Ver programado" },
-    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ não tweetou", "placeholders": { "screen_name": { "content": "carregando" } } },
-    "when_theyll_tweet": { "message": "Quando o usuário tweetar, seus tweets irão aparecer aqui." },
-    "thank_you2": {
-        "message": "Obrigado por usar OldTwitter! Foi muito trabalho e tempo para programá-lo, você pode me ajudar me seguindo ou $AT1$doando$AT2$. Ficarei muito agradecido.",
-        "placeholders": { "at1": { "content": "<a target='_blank' href='https://dimden.dev/donate/'>" }, "at2": { "content": "</a>" } }
-    },
-    "something_went_wrong": { "message": "Alguma coisa deu errado" },
-    "notifications_error": { "message": "Algumas notificações falharam a carregar." },
-    "tweet_error": { "message": "Alguns tweets falharam a carregar." },
-    "error_instructions": {
-        "message": "Por favor copie o texto abaixo e envie-o para a $AT1$página no Github$AT2$ ou para $AT3$meu email$AT2$. Muito obrigado!",
-        "placeholders": {
-            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
-            "at2": { "content": "</a>" },
-            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
-        }
-    },
-    "initialization": { "message": "Inicializando" },
-    "converting": { "message": "Convertendo" },
-    "time_mode": { "message": "Ativar tema escuro entre as 19h e 9h" },
-    "show_original_images": { "message": "Sempre mostrar qualidade original das imagens (pode travar em computadores lentos)" },
-    "pitch_black_mode": { "message": "Modo escuridão total (apenas quando modo escuro está ativado)" },
-    "hide_retweets": { "message": "Esconder retweets" },
-    "see_tweet_views": { "message": "Ver a contagem de visualizações dos tweets" },
-    "history": { "message": "Histórico" },
-    "autotranslate_tweets": { "message": "Traduzir tweet automáticamente" },
-    "dont_autotranslate": { "message": "Não traduzir tweets automáticamente" },
-    "round_avatars": { "message": "Avatares redondos" },
-    "search_user_tweets": { "message": "Buscar tweets do usuário" },
-    "no_tl_tweets": { "message": "Você não está seguindo ninguém então não encontramos nenhum tweet! Mude o tipo da sua timeline para 'Algoritmo' em <a href='https://twitter.com/old/settings'>OldTwitter settings</a>." },
-    "replying_to": { "message": "Respondendo a", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
-    "display": { "message": "Exibição", "description": "Used for display settings (fonts, colors, style, etc)" },
-    "twitter_blue_checkmarks": { "message": "Mostrar selos do Twitter Blue" },
-    "retweet_hotkey_warn": { "message": "Você acabou de apertar a tecla T, que é o atalho para retweetar. Você quer retweetar esse tweet? Se você apertar confirmar você não vai ver esse aviso de novo." },
-    "reply_btn": { "message": "Responder", "description": "Used for reply button." },
-    "retweet_btn": { "message": "Retweet / Citar tweet", "description": "Used for retweet menu button." },
-    "like_btn": { "message": "Curtir / Descurtir", "description": "Used for like button." },
-    "favorite_btn": { "message": "Favoritar / Desfavoritar", "description": "Used for favorite button." },
-    "views_count": { "message": "Visualizações", "description": "Used for views count." },
-    "developer_mode": { "message": "Modo Desenvolvedor" },
-    "copy_user_id": { "message": "Copiar ID do usuário" },
-    "copy_tweet_id": { "message": "Copiar ID do tweet" },
-    "unfollowers": { "message": "Não seguidores" },
-    "unfollowings": { "message": "Deixou de seguir" },
-    "no_unfollowers": { "message": "Ninguém deixou de te seguir ainda!" },
-    "no_unfollowings": { "message": "Você ainda não deixou de seguir ninguém ainda!" },
-    "recent_unfollow_update": { "message": "Unfollows foram atualizados menos de 15 minutos atrás." },
-    "deleted_accounts": { "message": "Parece que todos nessa lista deletaram suas contas." },
-    "open_tweet_newtwitter": { "message": "Abrir tweet em novo Twitter" },
-    "black_mode_link": { "message": "Link modo breu" },
-    "custom_mode_link": { "message": "Link modo personalizado" },
-    "tweet_verb": { "message": "Tweetar", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "Você quer tweetar \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
-    "user_protected" : { "message": "Os Tweets desta conta estão protegidos" },
-    "follow_to_see": { "message": "Somente seguidores aprovados podem ver os Tweets de @$SCREEN_NAME$. Para solicitar acesso, clique em Seguir.", "placeholders": { "screen_name": { "content": "dimden" } } },
-    "copy_tweet_links_as": { "message": "Copiar link de tweet como", "example": "->Copy links as<- vxtwitter.com" },
-    "use_new_icon": { "message": "Usar nova logo como ícone da guia" },
-    "update_timeline_automatically": { "message": "Atualize a linha do tempo automaticamente com novos tweets." },
-    "chrono_no_retweets": { "message": "Timeline em ordem crono. reversa (sem retweets)" },
-    "chrono_retweets": { "message": "Timeline em ordem crono. reversa (apenas retweets)" },
-    "hide_trends": { "message": "Esconder trends" },
-    "hide_wtf": { "message": "Esconder \"Quem seguir\"" },
-    "hide_likes": { "message": "Esconder contagem de curtidas, retweets e respostas nos tweets" },
-    "hide_followers": { "message": "Esconder contagem de seguidores" },
-    "block_sure_desc": { "message": "Esta pessoa não poderá seguir você nem ver seus Tweets, e você não verá Tweets nem notificações de @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "blocked_by_user" : { "message": "@$SCREEN_NAME$ te bloqueou", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "why_you_cant_see_block_user": { "message": "Você não pode seguir ou ver os tweets de @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "you_blocked_user": { "message": "Você bloqueou @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "do_you_want_see_blocked_user": { "message": "Tem certeza de que deseja ver estes Tweets? Ver os Tweets não desbloqueará @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "I_want_see_blocked_user": { "message": "Sim, ver perfil" },
-    "logout_title": { "message": "Tem certeza que deseja sair?" },
-    "logout_desc_1": { "message": "OldTwitter apenas funciona quando você está logado." },
-    "logout_desc_2": { "message": "Se você não tiver nenhuma outra conta na lista, você será redirecionado para a página de login. Tem certeza?" },
-    "logout_button": { "message": "Sair" },
-    "disable_personalized_trends": { "message": "Desativar trends personalizadas" },
-    "show_bookmark_count": { "message": "Mostrar contagem de itens salvos nos tweets" },
-    "bookmarks_count": { "message": "Itens salvos", "description": "Used for bookmarks count." },
-    "remove_bookmark": { "message": "Remover dos itens salvos" },
-    "hide_community_notes": { "message": "Esconder notas da comunidade" },
-    "disable_gif_autoplay": { "message": "Desativar autoplay do GIF" },
-    "hide_tweet": { "message": "Esconder tweet" },
-    "unhide_tweet": { "message": "Mostrar tweet" },
-    "hide_tweet_sure": { "message": "Tem certeza que quer esconder esse tweet?" },
-    "see_hidden_replies": { "message": "Ver respostas escondidas" },
-    "bookmarked_tweet": { "message": "Tweet marcado" },
-    "unbookmarked_tweet": { "message": "Tweet não" },
-    "muted_convo": { "message": "Conversas mutadas" },
-    "unmuted_convo": { "message": "Conversas não mutadas" },
-    "show_media_count": { "message": "Mostrar contagem de mídia no perfil" },
-    "media": { "message": "Mídia", "note": "Keep this short" },
-    "pin_profile_on_navbar": { "message": "Fixar link do perfil na barra de navegação" },
-    "pin_bookmarks_on_navbar": { "message": "Fixar link de marcadores na barra de navegação" },
-    "pin_lists_on_navbar": { "message": "Fixar link de listas na barra de navegação" },
-    "me": { "message": "Perfil", "description": "You should probably use word 'Profile' in your language" },
-    "tweet_text_font": { "message": "Fonte de texto do tweet" },
-    "use_old_default_profile": { "message": "Definir a foto de perfil padrão como ovo" },
-    "colors": { "message": "Cores" },
-    "enable_hashflags": { "message": "Ativar ícones de hashtag (pode desacelerar um pouco o carregamento da página)" },
-    "content_warning": { "message": "Aviso de conteúdo: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
-    "graphic_violence": { "message": "Violência gráfica" },
-    "adult_content": { "message": "Nudez" },
-    "sensitive_content": { "message": "Contéudo sensível" },
-    "uncensor_graphic_violence_automatically": { "message": "Não censurar mídia com aviso de violência gráfica automaticamente" },
-    "uncensor_adult_content_automatically": { "message": "Não censurar mídia com aviso de nudez automaticamente" },
-    "uncensor_sensitive_content_automatically": { "message": "Não censurar mídia com aviso de contéudo sensível automaticamente" },
-    "replying_to_user": { "message": "Respondendo a $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "content_warnings": { "message": "Aviso de conteúdo" },
-    "transparency": { "message": "Transparência", "note": "Color" },
-    "reset": { "message": "Resetar" },
-    "reset_all": { "message": "Resetar tudo" },
-    "import": { "message": "Importar", "note": "Verb" },
-    "export": { "message": "Exportar", "note": "Verb" },
-    "reset_colors_sure": { "message": "Tem certeza que quer resetar todas as cores?" },
-    "navbar": { "message":"Barra de navegação", "description":"Setting Text"},
-    "sidebar": { "message":"Barra lateral", "description":"Setting Text"},
-    "advanced_options": { "message":"Opções avançadas", "description":"Setting Text"},
-    "advanced_colors": { "message":"Cores avançadas", "description":"Setting Text"},
-    "accessibility": { "message":"Accessibilidade", "description":"Setting Text"},
-    "tweets_and_timeline": { "message":"Tweets & Linha do tempo", "description":"Setting Text"},
-    "dark_mode_setting": { "message": "Modo escuro", "description":"Setting Text"},
-    "old_twitter_look": {"message": "Estilo do Old twitter", "description":"Setting Text"},
-    "content_you_see": {"message": "Contéudo que você vê", "description":"Setting Text"},
-    "use_old_style_reply": {"message": "Usar estilo antigo de menções de resposta"},
-    "algov2": { "message": "Algorítmico (\"Para você\")" },
-    "chrono_help": { "message": "Linha do tempo cronológica reversa clássica (\"Seguindo\"), mostra os tweets e retweets mais recentes no topo sem mais nada adicionado." },
-    "chrono_no_retweets_help": { "message": "Mesma coisa do primeiro, mas sem retweets." },
-    "chrono_retweets_help": { "message": "Mesma coisa que o primeiro, mas apenas mostra retweets." },
-    "chrono_social_help": { "message": "Uma mistura de cronogramas cronológicos e algorítmicos reversos, ocasionais 'alguém gostou' e 'alguém segue' serão adicionados entre os tweets cronológicos." },
-    "algo_help": { "message": "Linha do tempo algorítmica antiga, mostra tweets que o Twitter acha que você vai gostar. A versão 1 é uma versão mais antiga desta linha do tempo, não parece ter limites de taxa (ou eles são muito grandes), mas faltam rótulos para explicar por que o tweet foi adicionado à linha do tempo." },
-    "algov2_help": { "message": "Linha do tempo algorítmica (\"Pra você \"), mostra tweets que o Twitter acha que você vai gostar." },
-    "import_settings": { "message": "Importar configuração" },
-    "export_settings": { "message": "Exportar configuração" },
-    "import_style_settings": { "message": "Importar estilo" },
-    "export_style_settings": { "message": "Exportar estilo" },
-    "reset_settings": { "message": "Resetar configuração" },
-    "reset_settings_sure": { "message": "Tem certeza que você quer resetar toda a configuração?" },
-    "clear_caches": { "message": "Limpar caches" },
-    "hide_non_replies": { "message": "Esconder não-respostas" },
-    "profile_custom_css": { "message": "CSS personalizado do perfil" },
-    "pccss_not_eligible": { "message": "Você não tem acesso a customização CSS de perfil! <br><br>Se você quiser ter um perfil legal com fontes, cores, fundo costumizado e tudo mais que todo mundo poderá ver, você pode se tornar apoiador da extensão (não são apenas doações).<br><br>Clique <a target='_blank' href='https://dimden.dev/ot/custom-css/'>aqui</a> para saber mais." },
-    "pccss_eligible": { "message": "Você tem acesso a customização CSS de perfil!" },
-    "pccss_congrats": { "message": "Parabéns, você foi dado acesso a customização CSS de perfil! Apenas uma pequena porcentagem de usuários do OldTwitter tem acesso a isso, aproveite e continue sendo incrível!" },
-    "yay": { "message": "Yay!" },
-    "light_mode_vars": { "message": "Variáveis do modo claro" },
-    "dark_mode_vars": { "message": "Variáveis do modo escuro" },
-    "css_theme_hint": { "message": "Por favor, não publique 'estilos de doer os olhos' ou nenhum outros estilos enganosos (por exemplo fazer o botão Seguir muito grande ou algo do tipo), você vai perder seu acesso por fazer isso.<br><br>Seu CSS substituirá o estilo local definido pelo usuário.<br><br>Você só pode usar i.imgur.com para imagens e fonts.googleapis.com para fontes (e fontes de <a target='_blank' href='https://dimden.dev/fonts/'>aqui</a>).<br><br>Você pode ver a lista de variáveis CSS <a href='https://github.com/dimdenGD/OldTwitter/blob/1f4fad6662dc0bd963b95748106a7dc167a4fa4c/scripts/injection.js#L205' target='_blank'>aqui</a>.<br><br>Para direcionar o tema específico, você pode usar <code>.body-dark</code>, <code>.body-pitch-black</code> (o modo breu também incluirá <code>.body-dark</code>) e <code>.body-light</code> classes." },
-    "profile_colors_moved": { "message": "A sincronização de cores do link foi movida para o seu perfil (botão de lápis à esquerda do botão Editar perfil)." },
-    "click_here_more_info": { "message": "Clique aqui para mais informações" },
-    "profile_must_be_public_to_auth": { "message": "Seu perfil deve ser público para sincronizar pela primeira vez, então você pode privá-lo novamente." },
-    "save_draft": { "message": "Salvar rascunho", "note": "Try to keep this short" },
-    "load_draft": { "message": "Carregar rascunho", "note": "Try to keep this short" },
-    "draft_saved": { "message": "Rascunho salvo!" },
-    "draft_loaded": { "message": "Rascunho carregado!" },
-    "no_draft": { "message": "Você não tem nenhum rascunho salvo ainda!" },
-    "invalid_auth_token": { "message": "Seu token de autenticação era inválido e foi removido. Já pode tentar novamente, se o erro persistir entre em contato @dimdenEFF." },
-    "css_set": { "message": "CSS foi definido com sucesso!" },
-    "error_setting_css": { "message": "Erro ao definir o CSS" },
-    "load": { "message": "Carregar" },
-    "disable_profile_customizations": { "message": "Disabilitar customizações do perfil" },
-    "replying_to_and":  { "message": " e ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
-    "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
-    "twitter": {"message": "Twitter"},
-    "move_navbar_to_bottom": {"message": "<b>[Mobile]</b> Mover barra de navegação para baixo"},
-    "styled_profile": {"message": "Perfil estilizado"},
-    "open_notifs_as_modal": {"message": "Abrir notificações como pop-up", "description": "Modal is a small window that opens on top of page"},
-    "clear_ot_token": {"message": "Apagar token do OldTwitter"},
-    "enable_iframe_navigation": {"message": "Habilitar navegação preservadora de página experimental, isso faz com que você possa clicar em links e voltar para a página anterior sem recarregar. Isso é experimental e pode quebrar e ser lento."},
-    "style_your_profile": {"message": "Estilize o seu perfil aqui!"},
-    "mmdd":{ "message": "dia $DATE$ de $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
-    "mmddyy":{ "message": "dia $DATE$ de $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
-    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } }
+	"ext_description": {
+		"message": "Uma nova extensão que retorna você ao antigo Twitter."
+	},
+	"timeline": {
+		"message": "Timeline"
+	},
+	"loading": {
+		"message": "Carregando"
+	},
+	"tweets": {
+		"message": "Tweets"
+	},
+	"following_btn": {
+		"message": "Seguindo",
+		"description": "This one is used in button showing that user is following someone."
+	},
+	"following": {
+		"message": "Seguindo",
+		"description": "This is used in list showing who user follows. Try to keep this word equal or less than 9 characters"
+	},
+	"followers": {
+		"message": "Seguidores",
+		"description": "Try to keep this word equal or less than 9 characters"
+	},
+	"trends": {
+		"message": "Trends"
+	},
+	"tweet": {
+		"message": "Tweet"
+	},
+	"load_more": {
+		"message": "Ver mais"
+	},
+	"who_to_follow": {
+		"message": "Quem seguir",
+		"description": "Max 19 characters, you can use word 'People' if no space"
+	},
+	"refresh": {
+		"message": "Atualizar"
+	},
+	"view_all": {
+		"message": "Ver tudo"
+	},
+	"running": {
+		"message": "Rodando",
+		"example": "->Running<- OldTwitter v0.0.0"
+	},
+	"created_by": {
+		"message": "Desenvolvido por",
+		"example": "->Created by<- dimden"
+	},
+	"website": {
+		"message": "Website"
+	},
+	"help": {
+		"message": "Ajuda",
+		"description": "noun"
+	},
+	"terms": {
+		"message": "Termos",
+		"description": "Shortest word that you can find for Terms of service"
+	},
+	"privacy": {
+		"message": "Privacidade",
+		"description": "Shortest word that you can find for Privacy policy"
+	},
+	"about": {
+		"message": "Sobre"
+	},
+	"donate": {
+		"message": "Doar"
+	},
+	"home": {
+		"message": "Feed",
+		"description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline"
+	},
+	"notifications": {
+		"message": "Notificações"
+	},
+	"messages": {
+		"message": "Mensagens"
+	},
+	"search_twitter": {
+		"message": "Pesquisar no Twitter"
+	},
+	"profile": {
+		"message": "Perfil"
+	},
+	"settings": {
+		"message": "Configurações"
+	},
+	"lists": {
+		"message": "Listas"
+	},
+	"list": {
+		"message": "Lista"
+	},
+	"bookmarks": {
+		"message": "Salvos"
+	},
+	"manage_accounts": {
+		"message": "Mudar contas"
+	},
+	"logout": {
+		"message": "Sair"
+	},
+	"whats_happening": {
+		"message": "Como está se sentindo?"
+	},
+	"variant": {
+		"message": "Opção"
+	},
+	"optional": {
+		"message": "(opcional)"
+	},
+	"days": {
+		"message": "Dias"
+	},
+	"hours": {
+		"message": "Horas"
+	},
+	"minutes": {
+		"message": "Minutos"
+	},
+	"remove_poll": {
+		"message": "Remover"
+	},
+	"open_newtwitter": {
+		"message": "Abrir esta página no novo Twitter"
+	},
+	"last_version": {
+		"message": "ultima versão"
+	},
+	"thank_you": {
+		"message": "Muito obrigado por instalar OldTwitter!! Espero que goste. Dê uma olhada nas $AT1$configurações$AT2$!",
+		"placeholders": {
+			"at1": {
+				"content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">"
+			},
+			"at2": {
+				"content": "</a>"
+			}
+		}
+	},
+	"follow_mb": {
+		"message": "Siga-me?"
+	},
+	"follow": {
+		"message": "Seguir"
+	},
+	"unfollow": {
+		"message": "Deixar de seguir"
+	},
+	"follow_user": {
+		"message": "Seguir",
+		"example": "->Follow<- @CoolPerson2000"
+	},
+	"unfollow_user": {
+		"message": "Deixar de seguir",
+		"example": "->Unfollow<- @CoolPerson2000"
+	},
+	"thank_you_follow": {
+		"message": "Obrigado por me seguir!"
+	},
+	"loading_tweets": {
+		"message": "Carregando tweets..."
+	},
+	"retweeted": {
+		"message": "retweetou",
+		"example": "CoolPerson2000 ->retweeted<-"
+	},
+	"see_new_tweets": {
+		"message": "Ver novos tweets"
+	},
+	"must2variants": {
+		"message": "Você precisa de pelo menos duas opções."
+	},
+	"delete_all": {
+		"message": "Remover todas"
+	},
+	"empty": {
+		"message": "Uau. Não tem nada aqui.",
+		"description": "Funky message about nothing found"
+	},
+	"delete_bookmarks": {
+		"message": "Tem certeza de que quer remover todos seus tweets salvos? Você não poderá recuperá-los."
+	},
+	"members": {
+		"message": "Membros"
+	},
+	"subscribers": {
+		"message": "Inscritos"
+	},
+	"list_members": {
+		"message": "Membros da lista"
+	},
+	"list_subscribers": {
+		"message": "Inscritos na lista"
+	},
+	"edit": {
+		"message": "Editar"
+	},
+	"delete": {
+		"message": "Apagar"
+	},
+	"remove": {
+		"message": "Remover"
+	},
+	"edit_list": {
+		"message": "Editar lista"
+	},
+	"edit_members": {
+		"message": "Editar membros"
+	},
+	"save": {
+		"message": "Salvar"
+	},
+	"back": {
+		"message": "Voltar"
+	},
+	"delete_list": {
+		"message": "Remover lista"
+	},
+	"delete_list_sure": {
+		"message": "Tem certeza que quer remover esta lista?"
+	},
+	"unsubscribe": {
+		"message": "Desinscrever"
+	},
+	"subscribe": {
+		"message": "Inscrever"
+	},
+	"list_not_found": {
+		"message": "Lista não encontrada."
+	},
+	"go_homepage": {
+		"message": "Ir para página."
+	},
+	"mentions": {
+		"message": "Menções"
+	},
+	"tweeted_like": {
+		"message": "tweetou algo que você pode gostar",
+		"example": "CoolPerson2000 ->tweeted something you might like<-"
+	},
+	"favorites": {
+		"message": "Favoritos"
+	},
+	"follows_you": {
+		"message": "Segue você"
+	},
+	"tweet_to_user": {
+		"message": "Tweetar para usuário"
+	},
+	"followers_you_know": {
+		"message": "Seguidores que você conhece",
+		"example": "123 ->followers you know<-"
+	},
+	"photos_and_videos": {
+		"message": "Fotos e vídeos"
+	},
+	"photos_and_videos2": {
+		"message": "Fotos e vídeos"
+	},
+	"tweets_and_replies": {
+		"message": "Tweets e respostas"
+	},
+	"you_may_also_like": {
+		"message": "Pessoas",
+		"description": "Max 19 characters, you can use word 'People' if no space"
+	},
+	"user_was_suspended": {
+		"message": "Usuário foi suspenso."
+	},
+	"user_was_not_found": {
+		"message": "Usuário não encontrado."
+	},
+	"timeline_not_authorized": {
+		"message": "Você não pode ver a linha do tempo desse usuário."
+	},
+	"create_btn": {
+		"message": "[criar]"
+	},
+	"create_list": {
+		"message": "Criar lista"
+	},
+	"create": {
+		"message": "Criar"
+	},
+	"name": {
+		"message": "Nome"
+	},
+	"description": {
+		"message": "Descrição"
+	},
+	"no_description": {
+		"message": "Sem descrição."
+	},
+	"born": {
+		"message": "Nascido"
+	},
+	"january": {
+		"message": "Janeiro",
+		"description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that."
+	},
+	"february": {
+		"message": "Fevereiro"
+	},
+	"march": {
+		"message": "Março"
+	},
+	"april": {
+		"message": "Abril"
+	},
+	"may": {
+		"message": "Maio"
+	},
+	"june": {
+		"message": "Junho"
+	},
+	"july": {
+		"message": "Julho"
+	},
+	"august": {
+		"message": "Agosto"
+	},
+	"september": {
+		"message": "Setembro"
+	},
+	"october": {
+		"message": "Outubro"
+	},
+	"november": {
+		"message": "Novembro"
+	},
+	"december": {
+		"message": "Dezembro"
+	},
+	"tweet_to": {
+		"message": "Tweetar para @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"translated_from": {
+		"message": "Traduzido de $LANGUAGE$",
+		"placeholders": {
+			"language": {
+				"content": "Japanese"
+			}
+		}
+	},
+	"translate_bio": {
+		"message": "Traduzir bio"
+	},
+	"edit_profile": {
+		"message": "Editar perfil"
+	},
+	"follow_request_sent": {
+		"message": "Solicitação enviada"
+	},
+	"unblock_user": {
+		"message": "Desbloquear @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"unblock": {
+		"message": "Desbloquear",
+		"description": "Just for unblock button"
+	},
+	"block_user": {
+		"message": "Bloquear @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"block": {
+		"message": "Bloquear",
+		"description": "Just for block button"
+	},
+	"mute": {
+		"message": "Ignorar"
+	},
+	"unmute": {
+		"message": "Parar de ignorar"
+	},
+	"see_lists": {
+		"message": "Ver listas"
+	},
+	"stop_notifications": {
+		"message": "Parar de receber notificações"
+	},
+	"receive_notifications": {
+		"message": "Receber notificações"
+	},
+	"from_list": {
+		"message": "Adicionar/remover da lista"
+	},
+	"share_user": {
+		"message": "Compartilhar perfil"
+	},
+	"copy_profile_link": {
+		"message": "Copiar link para perfil"
+	},
+	"remove_from_followers": {
+		"message": "Remover de seus seguidores",
+		"description": "This button unfollows person from you, not unfollows you from them"
+	},
+	"remove_from_followers_sure": {
+		"message": "Tem certeza que quer remover @$SCREEN_NAME$ de seus seguidores?",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"remove_from_followers_warn": {
+		"message": "ISSO IRÁ REMOVER ESTA PESSOA DA SUA LISTA DE SEGUIDORES, NÃO DE QUEM VOCÊ SEGUE."
+	},
+	"remove_from_followers_button": {
+		"message": "Remover de meus seguidores"
+	},
+	"able_in_future": {
+		"message": "Ainda é possível que te sigam denovo."
+	},
+	"block_sure": {
+		"message": "Tem certeza que quer bloquear @$SCREEN_NAME$?",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"add": {
+		"message": "Adicionar"
+	},
+	"joined": {
+		"message": "Ingressou em",
+		"example": "->Joined<- April 30, 2019"
+	},
+	"birthday_today": {
+		"message": "(hoje!)"
+	},
+	"pinned_tweet": {
+		"message": "Tweet fixado"
+	},
+	"search": {
+		"message": "Pesquisar"
+	},
+	"popular": {
+		"message": "Popular"
+	},
+	"live": {
+		"message": "Live"
+	},
+	"people": {
+		"message": "Pessoas"
+	},
+	"photos": {
+		"message": "Fotos"
+	},
+	"videos": {
+		"message": "Vídeos"
+	},
+	"all_people": {
+		"message": "Todos"
+	},
+	"people_yk": {
+		"message": "Pessoas que conhece"
+	},
+	"everywhere": {
+		"message": "Todo lugar"
+	},
+	"near_you": {
+		"message": "Perto de você"
+	},
+	"advanced_search": {
+		"message": "Pesquisa avançada"
+	},
+	"save_search": {
+		"message": "Salvar essa pesquisa"
+	},
+	"remove_search": {
+		"message": "Remover de minhas pesquisas"
+	},
+	"try_again": {
+		"message": "Tentar novamente"
+	},
+	"no_results": {
+		"message": "Nada encontrado. Talvez mudando algo no painel esquerdo?"
+	},
+	"words": {
+		"message": "Palavras"
+	},
+	"all_these_words": {
+		"message": "Contem todas estas palavras"
+	},
+	"all_these_words_example": {
+		"message": "Exemplo: lorem ipsum - inclui \"lorem\" e \"ipsum\""
+	},
+	"exact_phrase": {
+		"message": "Frase exata"
+	},
+	"exact_phrase_example": {
+		"message": "Exemplo: o que há - inclui \"o que há\""
+	},
+	"any_words": {
+		"message": "Qualquer destas palavras"
+	},
+	"any_words_example": {
+		"message": "Exemplo: gatos cachorros - inclui \"gatos\" ou \"cachorros\""
+	},
+	"not_these_words": {
+		"message": "Nenhuma destas palavras"
+	},
+	"not_these_words_example": {
+		"message": "Exemplo: gatos cachorros - exclui \"gatos\" e \"cachorros\""
+	},
+	"user": {
+		"message": "Usuário"
+	},
+	"from_this_user": {
+		"message": "Deste usuário"
+	},
+	"from_this_user_example": {
+		"message": "Exemplo: @dimdenEFF - somente de dimdenEFF"
+	},
+	"mentions_this_user": {
+		"message": "Menciona este usuário"
+	},
+	"mentions_this_user_example": {
+		"message": "Exemplo: @dimdenEFF - somente em resposta a dimdenEFF"
+	},
+	"interactions": {
+		"message": "Interações"
+	},
+	"min_replies": {
+		"message": "Quantidade mínima de respostas"
+	},
+	"min_replies_example": {
+		"message": "Exemplo: 10 - somente tweets com pelo menos 10 comentários"
+	},
+	"min_retweets": {
+		"message": "Quantidade mínima de retweets"
+	},
+	"min_retweets_example": {
+		"message": "Example: 10 - somente tweets retweetados 10 vezes"
+	},
+	"min_favorites": {
+		"message": "Quantidade mínima de favoritos"
+	},
+	"min_favorites_example": {
+		"message": "Example: 10 - somente tweets com 10 curtidas"
+	},
+	"dates": {
+		"message": "Datas"
+	},
+	"since": {
+		"message": "Desde"
+	},
+	"until": {
+		"message": "Até"
+	},
+	"twitter_settings": {
+		"message": "Configurações do Twitter"
+	},
+	"oldtwitter_settings": {
+		"message": "Configurações do OldTwitter"
+	},
+	"edit_twitter_settings": {
+		"message": "Editar configurações do Twitter"
+	},
+	"refresh_tabs": {
+		"message": "Atualize outras páginas para aplicar as configurações"
+	},
+	"chrono": {
+		"message": "Ordem cronológica"
+	},
+	"chrono_social": {
+		"message": "Ordem cronológica com favoritos de amigos"
+	},
+	"algo": {
+		"message": "Algoritmo do Twitter"
+	},
+	"timeline_type": {
+		"message": "Tipo do feed"
+	},
+	"show_topic_tweets": {
+		"message": "Mostrar tweets de tópicos (somente algoritmo)"
+	},
+	"show_colors_in_timeline": {
+		"message": "Mostrar links em cores de outros usuários"
+	},
+	"enable_twemoji": {
+		"message": "Usar Twemoji"
+	},
+	"hearts_instead_stars": {
+		"message": "Mostrar corações (curtidas) ao invés de estrelas (favoritos)"
+	},
+	"dark_mode": {
+		"message": "Modo escuro"
+	},
+	"disable_hotkeys": {
+		"message": "Desativar atalhos do teclado"
+	},
+	"hotkeys_list": {
+		"message": "Veja a lista de atalhos aqui"
+	},
+	"save_preferred_quality": {
+		"message": "Salvar a qualidade de vídeos. Se esta opção estiver ativa, OldTwitter irá utilizar a qualidade de vídeo que usou da última vez (ou o que for mais perto). Caso contrário, a maior qualidade possível será utilizada."
+	},
+	"preferred_quality": {
+		"message": "Qualidade preferida"
+	},
+	"default_link_color": {
+		"message": "Cor de links padrão"
+	},
+	"font": {
+		"message": "Fonte"
+	},
+	"color_sync": {
+		"message": "Sincronização de cores de link"
+	},
+	"by_pressing_sync": {
+		"message": "Ao apertar o botão sincronizar a cor escolhida irá ser enviada para nossa base de dados e será mostrada para outros usuários do OldTwitter."
+	},
+	"color_years_ago": {
+		"message": "Se você já configurou alguma cor no Twitter (anos atrás, quando isso ainda existia), essa opção substituíra a cor antiga."
+	},
+	"sync": {
+		"message": "Sincronizar"
+	},
+	"profile_link_color": {
+		"message": "Cor de links do seu perfil"
+	},
+	"light_mode_link": {
+		"message": "Link modo claro"
+	},
+	"dark_mode_link": {
+		"message": "Link modo escuro"
+	},
+	"custom_css": {
+		"message": "Código CSS customizável"
+	},
+	"css_var_override": {
+		"message": "Variáveis de CSS. Uma por linha, escreva-as como <code>--alguma-coisa: umvalor</code>."
+	},
+	"css_var_list": {
+		"message": "Veja as variáveis padrão aqui."
+	},
+	"save_vars": {
+		"message": "Salvar variáveis"
+	},
+	"custom_css_text": {
+		"message": "CSS para adicionar em cada página."
+	},
+	"save_css": {
+		"message": "Salvar CSS"
+	},
+	"error_setting_color": {
+		"message": "Erro configurando a cor"
+	},
+	"link_color_set": {
+		"message": "Cor de link enviada!"
+	},
+	"retweeted_by": {
+		"message": "Retweetado por"
+	},
+	"see_quotes": {
+		"message": "ver citações"
+	},
+	"see_quotes_big": {
+		"message": "Ver citações"
+	},
+	"quote_tweets": {
+		"message": "Citações"
+	},
+	"see_retweets": {
+		"message": "ver retweets"
+	},
+	"reply_to": {
+		"message": "Responder",
+		"example": "->Reply to<- @CoolGuy2000"
+	},
+	"error_loading_tweet": {
+		"message": "Erro carregando tweet"
+	},
+	"direct_messages": {
+		"message": "Mensages privadas"
+	},
+	"mark_all_read": {
+		"message": "Marcar todas como lidas"
+	},
+	"send": {
+		"message": "Enviar",
+		"description": "Max 5 characters, if no word keep it in English"
+	},
+	"new_message": {
+		"message": "Nova mensagem"
+	},
+	"create_new_group": {
+		"message": "Criar novo grupo"
+	},
+	"search_people": {
+		"message": "Pesquisar pessoas"
+	},
+	"type_message": {
+		"message": "Escreva sua mensagem"
+	},
+	"cant_send": {
+		"message": "Você não pode enviar mensagens para esta pessoa."
+	},
+	"gifs_max": {
+		"message": "GIFs tem que ter menos de 15 MB"
+	},
+	"videos_max": {
+		"message": "Videos tem que ter menos de 500 MB"
+	},
+	"images_max": {
+		"message": "Images tem que ter menos de 5 MB"
+	},
+	"max_count": {
+		"message": "Você só pode enviar até 4 imagens ou 1 vídeo/gif"
+	},
+	"alt_text": {
+		"message": "Descreva esta imagem"
+	},
+	"vote": {
+		"message": "voto",
+		"example": "1 ->vote<-"
+	},
+	"votes": {
+		"message": "votos",
+		"example": "10 ->votes<-"
+	},
+	"ends_at": {
+		"message": "Termina",
+		"example": "->Ends at<- 16th November"
+	},
+	"view_translation": {
+		"message": "Ver tradução"
+	},
+	"unsupported_video": {
+		"message": "Seu navegador não suporta esse vídeo."
+	},
+	"views": {
+		"message": "visualizações",
+		"example": "10 ->views<-"
+	},
+	"reload": {
+		"message": "Recarregar"
+	},
+	"circle_limited_tweet": {
+		"message": "Esse tweet só é visível para quem está no círculo de amigos confiáveis de @$SCREEN_NAME$.",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"learn_more": {
+		"message": "Saiba mais."
+	},
+	"limited_tweet": {
+		"message": "Esse tweet tem limitações em quem pode respondê-lo"
+	},
+	"replies": {
+		"message": "Comentários"
+	},
+	"retweets": {
+		"message": "Retweets"
+	},
+	"likes": {
+		"message": "Curtidas"
+	},
+	"show_this_thread": {
+		"message": "Ver esta sequência"
+	},
+	"quote_tweet": {
+		"message": "Citar tweet"
+	},
+	"see_retweeters": {
+		"message": "Ver retweetadores"
+	},
+	"copy_link": {
+		"message": "Copiar link"
+	},
+	"embed_tweet": {
+		"message": "Incorporar tweet"
+	},
+	"share_tweet": {
+		"message": "Compartilhar tweet"
+	},
+	"tweet_analytics": {
+		"message": "Estatísticas do tweet"
+	},
+	"delete_tweet": {
+		"message": "Deletar tweet"
+	},
+	"unpin_tweet": {
+		"message": "Desfixar tweet"
+	},
+	"pin_tweet": {
+		"message": "Fixar tweet"
+	},
+	"bookmark_tweet": {
+		"message": "Salvar tweet"
+	},
+	"topic_not_interested": {
+		"message": "Não me interesso nesse tópico"
+	},
+	"refresh_tweet": {
+		"message": "Atualizar dados do tweet"
+	},
+	"download_media": {
+		"message": "Baixar mídia"
+	},
+	"download_gif": {
+		"message": "Baixar como GIF"
+	},
+	"replying_to_tweet": {
+		"message": "Respondendo ao tweet"
+	},
+	"upload_media_btn": {
+		"message": "[fazer upload]"
+	},
+	"cancel_btn": {
+		"message": "[cancelar]"
+	},
+	"quote": {
+		"message": "Citar"
+	},
+	"reply_example": {
+		"message": "Um comentário importante"
+	},
+	"quote_example": {
+		"message": "Uma citação interessante"
+	},
+	"error_sending_tweet": {
+		"message": "Erro enviando tweet"
+	},
+	"retweet_sure": {
+		"message": "Tem certeza que quer retweetar esse tweet?"
+	},
+	"unretweet": {
+		"message": "Desretweetar"
+	},
+	"retweet": {
+		"message": "Retweetar"
+	},
+	"delete_sure": {
+		"message": "Tem certeza que quer deletar este tweet?"
+	},
+	"long_vid": {
+		"message": "Esse vídeo tem mais de 10 segundos. Tem certeza que quer convertê-lo? Isso pode travar"
+	},
+	"feedback_thanks": {
+		"message": "Obrigado pelo seu feedback!"
+	},
+	"liked_by": {
+		"message": "Curtido por"
+	},
+	"reply": {
+		"message": "Comentar"
+	},
+	"language": {
+		"message": "Idioma (Language)",
+		"description": "Please add English 'Language' word in parentheses in addition to translation",
+		"example": "Язык (Language)"
+	},
+	"translated_by": {
+		"message": "Traduzido por $TRANSLATOR$.",
+		"placeholders": {
+			"translator": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"last_searches": {
+		"message": "Últimas pesquisas"
+	},
+	"saved_searches": {
+		"message": "Pesquisas salvas"
+	},
+	"everyone": {
+		"message": "Todo mundo",
+		"description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better"
+	},
+	"topic": {
+		"message": "Tópico"
+	},
+	"not_interested": {
+		"message": "Não me interesso"
+	},
+	"cancel": {
+		"message": "Cancelar"
+	},
+	"youre_not_interested": {
+		"message": "Você não se interessa nesse tópico."
+	},
+	"autoplay_videos": {
+		"message": "Tocar vídeos automaticamente"
+	},
+	"turn_on_retweets": {
+		"message": "Mostrar retweets no seu feed"
+	},
+	"turn_off_retweets": {
+		"message": "Esconder retweets no seu feed"
+	},
+	"you_can_reply": {
+		"message": "(você pode responder)"
+	},
+	"audience": {
+		"message": "Audiência"
+	},
+	"who_can_reply": {
+		"message": "Quem pode responder"
+	},
+	"people_you_follow": {
+		"message": "Quem você segue"
+	},
+	"people_you_mention": {
+		"message": "Quem você mencionou"
+	},
+	"new_version": {
+		"message": "Atualizado para nova versão"
+	},
+	"display_sensitive_content": {
+		"message": "Mostrar conteúdo possivelmente sensível"
+	},
+	"is_private": {
+		"message": "Privado"
+	},
+	"s": {
+		"message": "$NUMBER$s",
+		"description": "Short for 'second', like '1s' means 1 second",
+		"placeholders": {
+			"number": {
+				"content": "1"
+			}
+		}
+	},
+	"m": {
+		"message": "$NUMBER$m",
+		"description": "Short for 'minute', like '1m' means 1 minute",
+		"placeholders": {
+			"number": {
+				"content": "1"
+			}
+		}
+	},
+	"h": {
+		"message": "$NUMBER$h",
+		"description": "Short for 'hour', like '1h' means 1 hour",
+		"placeholders": {
+			"number": {
+				"content": "1"
+			}
+		}
+	},
+	"d": {
+		"message": "$NUMBER$d",
+		"description": "Short for 'day', like '1d' means 1 day",
+		"placeholders": {
+			"number": {
+				"content": "1"
+			}
+		}
+	},
+	"follow_requests": {
+		"message": "Solicitações de seguidores"
+	},
+	"accept": {
+		"message": "Aceitar"
+	},
+	"decline": {
+		"message": "Recusar"
+	},
+	"mute_convo": {
+		"message": "Silênciar conversa"
+	},
+	"unmute_convo": {
+		"message": "Reativar conversa"
+	},
+	"no_big_font": {
+		"message": "Desativar fonte grande para tweets curtos/populares."
+	},
+	"emoji": {
+		"message": "Emoji"
+	},
+	"emoji_btn": {
+		"message": "[emoji]"
+	},
+	"add_emoji": {
+		"message": "Adicionar emoji"
+	},
+	"custom": {
+		"message": "Personalizado"
+	},
+	"smileys_emotion": {
+		"message": "Smileys e emoticons"
+	},
+	"people_body": {
+		"message": "Pessoas e corpo"
+	},
+	"animals_nature": {
+		"message": "Animais e natureza"
+	},
+	"food_drink": {
+		"message": "Comidas e bebidas"
+	},
+	"travel_places": {
+		"message": "Viagem e lugares"
+	},
+	"activities": {
+		"message": "Atividades"
+	},
+	"objects": {
+		"message": "Objetos"
+	},
+	"symbols": {
+		"message": "Símbolos"
+	},
+	"flags": {
+		"message": "Bandeiras"
+	},
+	"categories": {
+		"message": "Categorias"
+	},
+	"unsupported_emoji": {
+		"message": "Seu navegador não suporta emojis com cor."
+	},
+	"cant_load_emoji": {
+		"message": "Não foi possível carregar emojis."
+	},
+	"emoji_picker": {
+		"message": "Selecionar emoji"
+	},
+	"emoji_search_description": {
+		"message": "Quando tiver resultados de uma pesquisa, pressione cima ou baixo para escolher."
+	},
+	"search_results": {
+		"message": "Resultados da pesquisa"
+	},
+	"skin_tone_description": {
+		"message": "Quando aberto, pressione cima ou baixo para escolher."
+	},
+	"skin_tone_label": {
+		"message": "Escolha um tom de pele (selecionado $SKIN_TONE$)",
+		"placeholders": {
+			"skin_tone": {
+				"content": "default"
+			}
+		}
+	},
+	"skin_tones_label": {
+		"message": "Tons de pele"
+	},
+	"add_media": {
+		"message": "Adicionar mídia"
+	},
+	"add_poll": {
+		"message": "Adicionar votação"
+	},
+	"add_location": {
+		"message": "Adicionar localização"
+	},
+	"schedule_tweet": {
+		"message": "Programar tweet"
+	},
+	"scheduled": {
+		"message": "Programado"
+	},
+	"drafts": {
+		"message": "Rascunhos"
+	},
+	"location": {
+		"message": "Localização"
+	},
+	"unsent_tweets": {
+		"message": "Tweets não enviados"
+	},
+	"unsent": {
+		"message": "Não enviado"
+	},
+	"will_send": {
+		"message": "Irá enviar em"
+	},
+	"schedule": {
+		"message": "Programar"
+	},
+	"scheduled_success": {
+		"message": "Tweet foi programado!"
+	},
+	"see_scheduled": {
+		"message": "Ver programado"
+	},
+	"hasnt_tweeted": {
+		"message": "@$SCREEN_NAME$ não tweetou",
+		"placeholders": {
+			"screen_name": {
+				"content": "carregando"
+			}
+		}
+	},
+	"when_theyll_tweet": {
+		"message": "Quando o usuário tweetar, seus tweets irão aparecer aqui."
+	},
+	"thank_you2": {
+		"message": "Obrigado por usar OldTwitter! Isso me custou horas e horas para programar, você pode me ajudar me seguindo ou $AT1$doando$AT2$. Agradeceria muito.",
+		"placeholders": {
+			"at1": {
+				"content": "<a target='_blank' href='https://dimden.dev/donate/'>"
+			},
+			"at2": {
+				"content": "</a>"
+			}
+		}
+	},
+	"something_went_wrong": {
+		"message": "Alguma coisa deu errado"
+	},
+	"notifications_error": {
+		"message": "Algumas notificações falharam em carregar."
+	},
+	"tweet_error": {
+		"message": "Alguns tweets falharam em carregar."
+	},
+	"error_instructions": {
+		"message": "Por favor copie o texto abaixo e envie-o para a $AT1$página no Github$AT2$ ou para $AT3$meu email$AT2$. Muito obrigado!",
+		"placeholders": {
+			"at1": {
+				"content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
+			},
+			"at2": {
+				"content": "</a>"
+			},
+			"at3": {
+				"content": "<a target='_blank' href='mailto:admin@dimden.dev'>"
+			}
+		}
+	},
+	"initialization": {
+		"message": "Inicializando"
+	},
+	"converting": {
+		"message": "Convertendo"
+	},
+	"time_mode": {
+		"message": "Ativar tema escuro entre as 19h e 9h"
+	},
+	"show_original_images": {
+		"message": "Sempre mostrar qualidade original das imagens (pode travar em computadores lentos)"
+	},
+	"pitch_black_mode": {
+		"message": "Modo escuridão total (apenas quando modo escuro está ativado)"
+	},
+	"hide_retweets": {
+		"message": "Esconder retweets"
+	},
+	"see_tweet_views": {
+		"message": "Ver a contagem de visualizações dos tweets"
+	},
+	"history": {
+		"message": "Histórico"
+	},
+	"autotranslate_tweets": {
+		"message": "Traduzir tweet automáticamente"
+	},
+	"dont_autotranslate": {
+		"message": "Não traduzir tweets automáticamente"
+	},
+	"round_avatars": {
+		"message": "Avatares redondos"
+	},
+	"search_user_tweets": {
+		"message": "Buscar tweets do usuário"
+	},
+	"no_tl_tweets": {
+		"message": "Você não está seguindo ninguém então não encontramos nenhum tweet! Mude o tipo da sua timeline para 'Algoritmo' em <a href='https://twitter.com/old/settings'>OldTwitter settings</a>."
+	},
+	"replying_to": {
+		"message": "Respondendo a",
+		"description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.",
+		"example": "Replying to: - user1, - user2"
+	},
+	"display": {
+		"message": "Exibição",
+		"description": "Used for display settings (fonts, colors, style, etc)"
+	},
+	"twitter_blue_checkmarks": {
+		"message": "Mostrar selos do Twitter Blue"
+	},
+	"retweet_hotkey_warn": {
+		"message": "Você acabou de apertar a tecla T, que é o atalho para retweetar. Você quer retweetar esse tweet? Se você apertar confirmar você não vai ver esse aviso de novo."
+	},
+	"reply_btn": {
+		"message": "Responder",
+		"description": "Used for reply button."
+	},
+	"retweet_btn": {
+		"message": "Retweet / Citar tweet",
+		"description": "Used for retweet menu button."
+	},
+	"like_btn": {
+		"message": "Curtir / Descurtir",
+		"description": "Used for like button."
+	},
+	"favorite_btn": {
+		"message": "Favoritar / Desfavoritar",
+		"description": "Used for favorite button."
+	},
+	"views_count": {
+		"message": "Visualizações",
+		"description": "Used for views count."
+	},
+	"developer_mode": {
+		"message": "Modo Desenvolvedor"
+	},
+	"copy_user_id": {
+		"message": "Copiar ID do usuário"
+	},
+	"copy_tweet_id": {
+		"message": "Copiar ID do tweet"
+	},
+	"unfollowers": {
+		"message": "Não seguidores"
+	},
+	"unfollowings": {
+		"message": "Deixou de seguir"
+	},
+	"no_unfollowers": {
+		"message": "Ninguém deixou de te seguir ainda!"
+	},
+	"no_unfollowings": {
+		"message": "Você ainda não deixou de seguir ninguém ainda!"
+	},
+	"recent_unfollow_update": {
+		"message": "Unfollows foram atualizados menos de 15 minutos atrás."
+	},
+	"deleted_accounts": {
+		"message": "Parece que todos nessa lista deletaram suas contas."
+	},
+	"open_tweet_newtwitter": {
+		"message": "Abrir tweet em novo Twitter"
+	},
+	"black_mode_link": {
+		"message": "Link modo breu"
+	},
+	"custom_mode_link": {
+		"message": "Link modo personalizado"
+	},
+	"tweet_verb": {
+		"message": "Tweetar",
+		"description": "Used for tweet verb.",
+		"example": "->Tweet<- #itsokay"
+	},
+	"do_you_want_to_tweet": {
+		"message": "Você quer tweetar \"$TWEET_TEXT$\"?",
+		"placeholders": {
+			"tweet_text": {
+				"content": "it's okay"
+			}
+		}
+	},
+	"user_protected": {
+		"message": "Os Tweets desta conta estão protegidos"
+	},
+	"follow_to_see": {
+		"message": "Somente seguidores aprovados podem ver os Tweets de @$SCREEN_NAME$. Para solicitar acesso, clique em Seguir.",
+		"placeholders": {
+			"screen_name": {
+				"content": "dimden"
+			}
+		}
+	},
+	"copy_tweet_links_as": {
+		"message": "Copiar link de tweet como",
+		"example": "->Copy links as<- vxtwitter.com"
+	},
+	"use_new_icon": {
+		"message": "Usar novo logotipo como ícone da guia"
+	},
+	"update_timeline_automatically": {
+		"message": "Atualize a linha do tempo automaticamente com novos tweets."
+	},
+	"chrono_no_retweets": {
+		"message": "Timeline em ordem crono. reversa (sem retweets)"
+	},
+	"chrono_retweets": {
+		"message": "Timeline em ordem crono. reversa (apenas retweets)"
+	},
+	"hide_trends": {
+		"message": "Esconder trends"
+	},
+	"hide_wtf": {
+		"message": "Esconder \"Quem seguir\""
+	},
+	"hide_likes": {
+		"message": "Esconder contagem de curtidas, retweets e respostas nos tweets"
+	},
+	"hide_followers": {
+		"message": "Esconder contagem de seguidores"
+	},
+	"block_sure_desc": {
+		"message": "Esta pessoa não poderá seguir você nem ver seus Tweets, e você não verá Tweets nem notificações de @$SCREEN_NAME$.",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"blocked_by_user": {
+		"message": "@$SCREEN_NAME$ te bloqueou",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"why_you_cant_see_block_user": {
+		"message": "Você não pode seguir ou ver os tweets de @$SCREEN_NAME$.",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"you_blocked_user": {
+		"message": "Você bloqueou @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"do_you_want_see_blocked_user": {
+		"message": "Tem certeza de que deseja ver estes Tweets? Ver os Tweets não desbloqueará @$SCREEN_NAME$.",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"I_want_see_blocked_user": {
+		"message": "Sim, ver perfil"
+	},
+	"logout_title": {
+		"message": "Tem certeza que deseja sair?"
+	},
+	"logout_desc_1": {
+		"message": "OldTwitter apenas funciona quando você está logado."
+	},
+	"logout_desc_2": {
+		"message": "Se você não tiver nenhuma outra conta na lista, você será redirecionado para a página de login. Tem certeza?"
+	},
+	"logout_button": {
+		"message": "Sair"
+	},
+	"disable_personalized_trends": {
+		"message": "Desativar trends personalizadas"
+	},
+	"show_bookmark_count": {
+		"message": "Mostrar contagem de itens salvos nos tweets"
+	},
+	"bookmarks_count": {
+		"message": "Itens salvos",
+		"description": "Used for bookmarks count."
+	},
+	"remove_bookmark": {
+		"message": "Remover dos itens salvos"
+	},
+	"hide_community_notes": {
+		"message": "Esconder notas da comunidade"
+	},
+	"disable_gif_autoplay": {
+		"message": "Desativar reprodução automática do GIF"
+	},
+	"hide_tweet": {
+		"message": "Esconder tweet"
+	},
+	"unhide_tweet": {
+		"message": "Mostrar tweet"
+	},
+	"hide_tweet_sure": {
+		"message": "Tem certeza que quer esconder esse tweet?"
+	},
+	"see_hidden_replies": {
+		"message": "Ver respostas escondidas"
+	},
+	"bookmarked_tweet": {
+		"message": "Tweet salvo"
+	},
+	"unbookmarked_tweet": {
+		"message": "Tweet salvo removido"
+	},
+	"muted_convo": {
+		"message": "Conversas mutadas"
+	},
+	"unmuted_convo": {
+		"message": "Conversas não mutadas"
+	},
+	"show_media_count": {
+		"message": "Mostrar contagem de mídia no perfil"
+	},
+	"media": {
+		"message": "Mídia",
+		"note": "Keep this short"
+	},
+	"pin_profile_on_navbar": {
+		"message": "Fixar link do perfil na barra de navegação"
+	},
+	"pin_bookmarks_on_navbar": {
+		"message": "Fixar link de marcadores na barra de navegação"
+	},
+	"pin_lists_on_navbar": {
+		"message": "Fixar link de listas na barra de navegação"
+	},
+	"me": {
+		"message": "Perfil",
+		"description": "You should probably use word 'Profile' in your language"
+	},
+	"tweet_text_font": {
+		"message": "Fonte de texto do tweet"
+	},
+	"use_old_default_profile": {
+		"message": "Definir a foto de perfil padrão como um ovo"
+	},
+	"colors": {
+		"message": "Cores"
+	},
+	"enable_hashflags": {
+		"message": "Ativar ícones de hashtag (pode desacelerar um pouco o carregamento da página)"
+	},
+	"content_warning": {
+		"message": "Aviso de conteúdo: $WARNINGS$",
+		"placeholders": {
+			"warnings": {
+				"content": "Graphic violence"
+			}
+		}
+	},
+	"graphic_violence": {
+		"message": "Violência gráfica"
+	},
+	"adult_content": {
+		"message": "Nudez"
+	},
+	"sensitive_content": {
+		"message": "Contéudo sensível"
+	},
+	"uncensor_graphic_violence_automatically": {
+		"message": "Não censurar mídia com aviso de violência gráfica automaticamente"
+	},
+	"uncensor_adult_content_automatically": {
+		"message": "Não censurar mídia com aviso de nudez automaticamente"
+	},
+	"uncensor_sensitive_content_automatically": {
+		"message": "Não censurar mídia com aviso de contéudo sensível automaticamente"
+	},
+	"replying_to_user": {
+		"message": "Respondendo a $SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"content_warnings": {
+		"message": "Aviso de conteúdo"
+	},
+	"transparency": {
+		"message": "Transparência",
+		"note": "Color"
+	},
+	"reset": {
+		"message": "Resetar"
+	},
+	"reset_all": {
+		"message": "Resetar tudo"
+	},
+	"import": {
+		"message": "Importar",
+		"note": "Verb"
+	},
+	"export": {
+		"message": "Exportar",
+		"note": "Verb"
+	},
+	"reset_colors_sure": {
+		"message": "Tem certeza que quer resetar todas as cores?"
+	},
+	"navbar": {
+		"message": "Barra de navegação",
+		"description": "Setting Text"
+	},
+	"sidebar": {
+		"message": "Barra lateral",
+		"description": "Setting Text"
+	},
+	"advanced_options": {
+		"message": "Opções avançadas",
+		"description": "Setting Text"
+	},
+	"advanced_colors": {
+		"message": "Cores avançadas",
+		"description": "Setting Text"
+	},
+	"accessibility": {
+		"message": "Acessibilidade",
+		"description": "Setting Text"
+	},
+	"tweets_and_timeline": {
+		"message": "Tweets & Linha do tempo",
+		"description": "Setting Text"
+	},
+	"dark_mode_setting": {
+		"message": "Modo escuro",
+		"description": "Setting Text"
+	},
+	"old_twitter_look": {
+		"message": "Estilo do OldTwitter",
+		"description": "Setting Text"
+	},
+	"content_you_see": {
+		"message": "Contéudo que você vê",
+		"description": "Setting Text"
+	},
+	"use_old_style_reply": {
+		"message": "Usar estilo antigo de menções de resposta"
+	},
+	"algov2": {
+		"message": "Algorítmico (\"Para você\")"
+	},
+	"chrono_help": {
+		"message": "Linha do tempo cronológica reversa clássica (\"Seguindo\"), mostra os tweets e retweets mais recentes no topo sem mais nada adicionado."
+	},
+	"chrono_no_retweets_help": {
+		"message": "Mesma coisa que o primeiro, mas sem retweets."
+	},
+	"chrono_retweets_help": {
+		"message": "Mesma coisa que o primeiro, mas apenas mostra retweets."
+	},
+	"chrono_social_help": {
+		"message": "Uma mistura de cronogramas cronológicos e algorítimos reversos, ocasionais 'alguém gostou' e 'alguém segue' serão adicionados entre os tweets cronológicos."
+	},
+	"algo_help": {
+		"message": "Linha do tempo algorítmica antiga, mostra tweets que o Twitter acha que você vai gostar. A versão 1 é uma versão mais antiga desta linha do tempo, não parece ter limites de taxa (ou eles são muito grandes), mas faltam rótulos para explicar por que o tweet foi adicionado à linha do tempo."
+	},
+	"algov2_help": {
+		"message": "Linha do tempo algorítmica (\"Pra você \"), mostra tweets que o Twitter acha que você vai gostar."
+	},
+	"import_settings": {
+		"message": "Importar configuração"
+	},
+	"export_settings": {
+		"message": "Exportar configuração"
+	},
+	"import_style_settings": {
+		"message": "Importar estilo"
+	},
+	"export_style_settings": {
+		"message": "Exportar estilo"
+	},
+	"reset_settings": {
+		"message": "Resetar configuração"
+	},
+	"reset_settings_sure": {
+		"message": "Tem certeza que você quer resetar toda a configuração?"
+	},
+	"clear_caches": {
+		"message": "Limpar caches"
+	},
+	"hide_non_replies": {
+		"message": "Esconder não-respostas"
+	},
+	"profile_custom_css": {
+		"message": "CSS personalizado do perfil"
+	},
+	"pccss_not_eligible": {
+		"message": "Você não tem acesso a customização CSS de perfil! <br><br>Se você quiser ter um perfil legal com fontes, cores, fundo costumizado e tudo mais que todo mundo poderá ver, você pode se tornar apoiador da extensão (não são apenas doações).<br><br>Clique <a target='_blank' href='https://dimden.dev/ot/custom-css/'>aqui</a> para saber mais."
+	},
+	"pccss_eligible": {
+		"message": "Você tem acesso a customização CSS de perfil!"
+	},
+	"pccss_congrats": {
+		"message": "Parabéns, você foi dado acesso a customização CSS de perfil! Apenas uma pequena porcentagem de usuários do OldTwitter tem acesso a isso, aproveite e continue sendo incrível!"
+	},
+	"yay": {
+		"message": "Uhu!"
+	},
+	"light_mode_vars": {
+		"message": "Variações do modo claro"
+	},
+	"dark_mode_vars": {
+		"message": "Variações do modo escuro"
+	},
+	"css_theme_hint": {
+		"message": "Por favor, não publique 'estilos de doer os olhos' ou nenhum outros estilos enganosos (por exemplo fazer o botão Seguir muito grande ou algo do tipo), você vai perder seu acesso por fazer isso.<br><br>Seu CSS substituirá o estilo local definido pelo usuário.<br><br>Você só pode usar i.imgur.com para imagens e fonts.googleapis.com para fontes (e fontes de <a target='_blank' href='https://dimden.dev/fonts/'>aqui</a>).<br><br>Você pode ver a lista de variáveis CSS <a href='https://github.com/dimdenGD/OldTwitter/blob/1f4fad6662dc0bd963b95748106a7dc167a4fa4c/scripts/injection.js#L205' target='_blank'>aqui</a>.<br><br>Para direcionar o tema específico, você pode usar <code>.body-dark</code>, <code>.body-pitch-black</code> (o modo breu também incluirá <code>.body-dark</code>) e <code>.body-light</code> classes."
+	},
+	"profile_colors_moved": {
+		"message": "A sincronização de cores do link foi movida para o seu perfil (botão de lápis à esquerda do botão Editar perfil)."
+	},
+	"click_here_more_info": {
+		"message": "Clique aqui para mais informações"
+	},
+	"profile_must_be_public_to_auth": {
+		"message": "Seu perfil deve ser público para sincronizar pela primeira vez, então você pode privá-lo novamente."
+	},
+	"save_draft": {
+		"message": "Salvar rascunho",
+		"note": "Try to keep this short"
+	},
+	"load_draft": {
+		"message": "Carregar rascunho",
+		"note": "Try to keep this short"
+	},
+	"draft_saved": {
+		"message": "Rascunho salvo!"
+	},
+	"draft_loaded": {
+		"message": "Rascunho carregado!"
+	},
+	"no_draft": {
+		"message": "Você não tem nenhum rascunho salvo ainda!"
+	},
+	"invalid_auth_token": {
+		"message": "Seu token de autenticação era inválido e foi removido. Já pode tentar novamente, se o erro persistir entre em contato com @dimdenEFF."
+	},
+	"css_set": {
+		"message": "CSS foi definido com sucesso!"
+	},
+	"error_setting_css": {
+		"message": "Erro ao definir CSS"
+	},
+	"load": {
+		"message": "Carregar"
+	},
+	"disable_profile_customizations": {
+		"message": "Disabilitar customizações do perfil"
+	},
+	"replying_to_and": {
+		"message": " e ",
+		"description": "For some language which using address terms",
+		"example": "Replying to @A-> and <-@B , @C"
+	},
+	"replying_to_comma": {
+		"message": ", ",
+		"description": "For some language which using address terms",
+		"example": "Replying to @A and @B-> , <-@C"
+	},
+	"twitter": {
+		"message": "Twitter"
+	},
+	"move_navbar_to_bottom": {
+		"message": "Mover barra de navegação para baixo"
+	},
+	"styled_profile": {
+		"message": "Perfil estilizado"
+	},
+	"open_notifs_as_modal": {
+		"message": "Abrir notificações como pop-up",
+		"description": "Modal is a small window that opens on top of page"
+	},
+	"clear_ot_token": {
+		"message": "Apagar token do OldTwitter"
+	},
+	"enable_iframe_navigation": {
+		"message": "Habilitar navegação preservadora de página experimental, isso faz com que você possa clicar em links e voltar para a página anterior sem recarregar. Isso é experimental, pode quebrar e ser lento."
+	},
+	"style_your_profile": {
+		"message": "Estilize o seu perfil aqui!"
+	},
+
+	"modern_ui": {
+		"message": "Use o design do Twitter de 2018, inclui botões redondos e símbolos"
+	},
+	"show_exact_values": {
+		"message": "Mostra o número exato de retweets, curtidas, seguidores e etc."
+	},
+	"hide_timeline_types": {
+		"message": "Ocultar a opção de tipo de linha do tempo na página inicial"
+	},
+	"autotranslation": {
+		"message": "Tradução Automática"
+	},
+	"autotranslation_mode": {
+		"message": "Modo de Tradução Automática de Tweets"
+	},
+	"translate_in_list": {
+		"message": "Traduzir quando na lista de Linguagens"
+	},
+	"translate_not_in_list": {
+		"message": "Traduzir quando não estiver na lista de Linguagens"
+	},
+	"language_list": {
+		"message": "Lista de Linguagens"
+	},
+	"select_language": {
+		"message": "Selecionar Linguagens"
+	},
+	"mute_videos": {
+		"message": "Mute videos por padrão"
+	},
+	"dont_pause_videos": {
+		"message": "Não pausar vídeos quando estiver rolando a timeline"
+	},
+	"delete_for_you": {
+		"message": "Apagar para você",
+		"description": "DM Message Delete menu"
+	},
+	"show_user_previews_on_mobile": {
+		"message": "Mostrar a prévia do perfil ao segurar (isso pode ser irritante)",
+		"description": "This option only appears on mobile"
+	},
+	"separate_text": {
+		"message": "Separar texto",
+		"description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap"
+	},
+	"leave_conversation": {
+		"message": "Você tem certeza que desja sair/remover essa conversa?"
+	},
+	"autotranslation_help1": {
+		"message": "Essa função permite achar tweets e traduzí-los instantâneamente, sem necessidade de clicar no botão."
+	},
+	"autotranslation_help2": {
+		"message": "Para usar isso, selecione o Modo de Tradução Automática e defina a lista de linguagens. Os tweets que atenderem as condições serão traduzidos automaticamente."
+	},
+	"autotranslation_help3": {
+		"message": "Especificamente:"
+	},
+	"autotranslation_help4": {
+		"message": "\"Traduzir quando na lista de linguagens\" se nenhuma linguagens for definida fará com que a função seja desativada (padrão)."
+	},
+	"autotranslation_help5": {
+		"message": "\"Traduzir quando não estiver na lista de linguagens\" se nenhuma linguagem for definida fará com que todo tweet seja traduzido. É melhor adicionar linguagens que você conheça para não traduzí-las desnecessariamente."
+	},
+	"go_back_to_top": {
+		"message": "Voltar ao topo"
+	},
+	"follow_system_settings_dark_mode": {
+		"message": "Seguir as configurações do sistema para modo escuro"
+	},
+	"replacer_post_to_tweet": {
+		"message": "post->tweet",
+		"description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
+	},
+	"replacer_repost_to_retweet": {
+		"message": "repost->retweet",
+		"description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)."
+	},
+	"mute_user": {
+		"message": "Silênciar @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"unmute_user": {
+		"message": "Reativar @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"muted_user": {
+		"message": "Silênciado @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"unmuted_user": {
+		"message": "Reativado @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
+	},
+	"mmdd": {
+		"message": "$MONTH$ $DATE$",
+		"description": "July 1st",
+		"placeholders": {
+			"month": {
+				"content": "July"
+			},
+			"date": {
+				"content": "1st"
+			}
+		}
+	},
+	"mmddyy": {
+		"message": "$MONTH$ $DATE$, $YEAR$",
+		"description": "July 1st, 2015",
+		"placeholders": {
+			"year": {
+				"content": "2015"
+			},
+			"month": {
+				"content": "July"
+			},
+			"date": {
+				"content": "1st"
+			}
+		}
+	},
+	"yyyy": {
+		"message": "$YEAR$",
+		"description": "2015",
+		"placeholders": {
+			"year": {
+				"content": "2015"
+			}
+		}
+	},
+	"localize_digit": {
+		"message": "Use Asian four-digit notation. (CJK only)",
+		"description": "Non-CJK dont need to translate this message, just copy and paste"
+	},
+	"replacer_liked_to_favorited": {
+		"message": "liked->favorited",
+		"description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
+	},
+	"favorited_by": {
+		"message": "Favoritado por"
+	},
+	"disable_retweet_hotkey": {
+		"message": "Desativar o atalho de retweet (T)"
+	},
+	"disable_like_hotkey": {
+		"message": "Desativar o atalho de curtida (L)"
+	},
+	"enable_extension_compatibility": {
+		"message": "Ativa o modo de compatibilidade de Extensões (apenas ative isso se você quiser fazer com que outras extensões funcionem com o OldTwitter, se isso ainda não funcionar (o que muitas vezes não vai) desative isso, porque essa opção pode fazer a página ficar bugada/lagada"
+	},
+	"enter_custom_font_name": {
+		"message": "Coloque um nome customizável pra fonte"
+	}
 }

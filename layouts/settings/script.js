@@ -146,6 +146,8 @@ setTimeout(async () => {
     let timeMode = document.getElementById('time-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
     let disableHotkeys = document.getElementById('disable-hotkeys');
+    let disableRetweetHotkey = document.getElementById('disable-retweet-hotkey');
+    let disableLikeHotkey = document.getElementById('disable-like-hotkey');
     let customCSS = document.getElementById('custom-css');
     let customCSSSave = document.getElementById('custom-css-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
@@ -195,6 +197,9 @@ setTimeout(async () => {
     let dontPauseVideos = document.getElementById('dont-pause-videos');
     let showUserPreviewsOnMobile = document.getElementById('show-user-previews-on-mobile');
     let systemDarkMode = document.getElementById('system-dark-mode');
+    let extensionCompatibilityMode = document.getElementById('extension-compatibility-mode');
+    let disableDataSaver = document.getElementById('disable-data-saver');
+    let disableAcceptType = document.getElementById('disable-accept-type');
 
     let root = document.querySelector(":root");
     {
@@ -216,7 +221,7 @@ setTimeout(async () => {
     fontElement.addEventListener('change', () => {
         let font = fontElement.value;
         if(font === '_custom') {
-            font = prompt('Enter a custom font name');
+            font = prompt(LOC.enter_custom_font_name.message);
         }
         root.style.setProperty('--font', `"${font}"`);
         chrome.storage.sync.set({
@@ -226,7 +231,7 @@ setTimeout(async () => {
     tweetFontElement.addEventListener('change', () => {
         let font = tweetFontElement.value;
         if(font === '_custom') {
-            font = prompt('Enter a custom font name');
+            font = prompt(LOC.enter_custom_font_name.message);
         }
         root.style.setProperty('--tweet-font', `"${font}"`);
         chrome.storage.sync.set({
@@ -470,6 +475,16 @@ setTimeout(async () => {
             disableHotkeys: disableHotkeys.checked
         }, () => { });
     });
+    disableRetweetHotkey.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableRetweetHotkey: disableRetweetHotkey.checked
+        }, () => { });
+    });
+    disableLikeHotkey.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableLikeHotkey: disableLikeHotkey.checked
+        }, () => { });
+    });
     savePreferredQuality.addEventListener('change', () => {
         chrome.storage.sync.set({
             savePreferredQuality: savePreferredQuality.checked
@@ -592,6 +607,24 @@ setTimeout(async () => {
         vars.showMediaCount = showMediaCount.checked;
         chrome.storage.sync.set({
             showMediaCount: showMediaCount.checked
+        }, () => { });
+    });
+    disableDataSaver.addEventListener('change', () => {
+        vars.disableDataSaver = disableDataSaver.checked;
+        chrome.storage.sync.set({
+            disableDataSaver: disableDataSaver.checked
+        }, () => { });
+    });
+    disableAcceptType.addEventListener('change', () => {
+        vars.disableAcceptType = disableAcceptType.checked;
+        chrome.storage.sync.set({
+            disableAcceptType: disableAcceptType.checked
+        }, () => { });
+    });
+    extensionCompatibilityMode.addEventListener('change', () => {
+        vars.extensionCompatibilityMode = extensionCompatibilityMode.checked;
+        chrome.storage.sync.set({
+            extensionCompatibilityMode: extensionCompatibilityMode.checked
         }, () => { });
     });
     darkMode.addEventListener('change', () => {
@@ -787,6 +820,8 @@ setTimeout(async () => {
     timeMode.checked = !!vars.timeMode && !vars.systemDarkMode;
     systemDarkMode.checked = !!vars.systemDarkMode;
     disableHotkeys.checked = !!vars.disableHotkeys;
+    disableRetweetHotkey.checked = !!vars.disableRetweetHotkey;
+    disableLikeHotkey.checked = !!vars.disableLikeHotkey;
     noBigFont.checked = !!vars.noBigFont;
     autoplayVideos.checked = !!vars.autoplayVideos;
     displaySensitiveContent.checked = !!vars.displaySensitiveContent;
@@ -813,10 +848,14 @@ setTimeout(async () => {
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
     useOldStyleReply.checked = !!vars.useOldStyleReply;
     enableAd.checked = !!vars.enableAd;
+    showUserPreviewsOnMobile.checked = !!vars.showUserPreviewsOnMobile;
     openNotifsAsModal.checked = !!vars.openNotifsAsModal;
     enableIframeNavigation.checked = !!vars.enableIframeNavigation;
     muteVideos.checked = !!vars.muteVideos;
     dontPauseVideos.checked = !!vars.dontPauseVideos;
+    extensionCompatibilityMode.checked = !!vars.extensionCompatibilityMode;
+    disableDataSaver.checked = !!vars.disableDataSaver;
+    disableAcceptType.checked = !!vars.disableAcceptType;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
@@ -833,6 +872,11 @@ setTimeout(async () => {
         darkMode.disabled = true;
         darkMode.checked = isDark();
         darkModeText.style.color = 'var(--darker-gray)';
+    }
+
+    var isMobile = /Mobi/i.test(window.navigator.userAgent); 
+    if(!isMobile){
+        document.getElementById('mobile-setting').hidden = true;
     }
 
     document.getElementById('tl-help').addEventListener('click', () => {

@@ -750,9 +750,6 @@ let toAutotranslate = false;
 async function renderProfile() {
     document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     let attempts = 0;
-    document.getElementById('profile-avatar').addEventListener('click', e => {
-        openInNewTab(pageUser.profile_image_url_https.replace('_normal.', '.'));
-    });
     document.getElementById('profile-avatar').addEventListener('error', () => {
         if(attempts > 3) return document.getElementById('profile-avatar').src = `${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_400x400.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'}`;
         attempts++;
@@ -1307,7 +1304,7 @@ async function renderProfile() {
         });
         document.getElementById('profile-settings-lists-action').addEventListener('click', async () => {
             let lists = await API.list.getOwnerships(user.id_str, pageUser.id_str);
-            let modal = createModal(`
+            createModal(`
                 <h1 class="cool-header">${LOC.from_list.message}</h1>
                 <div id="modal-lists"></div>
             `);
@@ -1937,7 +1934,9 @@ setTimeout(async () => {
         imeTyping = true;
     });
     document.getElementById('user-search-input').addEventListener('compositionend', () => {
-        imeTyping = false;
+        setTimeout(() => {
+            imeTyping = false;
+        }, 50);
     });
     document.getElementById('user-search-input').addEventListener('keydown', e => {
         if(imeTyping) return;
@@ -2220,6 +2219,9 @@ setTimeout(async () => {
         } finally {
             colorSyncButton.disabled = false;
         }
+    });
+    document.getElementById('profile-avatar').addEventListener('click', e => {
+        openInNewTab(pageUser.profile_image_url_https.replace('_normal.', '.'));
     });
 
     // Run

@@ -64,6 +64,7 @@ function updateElementsStats(tweet) {
             t.tweet.favorite_count = tr.favorite_count;
             t.tweet.retweet_count = tr.retweet_count;
             t.tweet.reply_count = tr.reply_count;
+            t.tweet.bookmark_count = tr.bookmark_count;
         }
         let interactFavorite = t.querySelector('span.tweet-interact-favorite');
         if(interactFavorite) {
@@ -79,6 +80,11 @@ function updateElementsStats(tweet) {
         if(interactReply) {
             interactReply.dataset.val = tr.reply_count;
             interactReply.innerText = formatLargeNumber(tr.reply_count);
+        }
+        let interactBookmark = t.querySelector('span.tweet-interact-bookmark');
+        if(interactBookmark) {
+            interactBookmark.dataset.val = tr.bookmark_count;
+            interactBookmark.innerText = formatLargeNumber(tr.bookmark_count);
         }
         let interactViews = t.querySelector('span.tweet-interact-views');
         if(interactViews && tr.ext && tr.ext.views && tr.ext.views.r && tr.ext.views.r.ok) {
@@ -519,8 +525,11 @@ const API = {
                 });
             });
         },
-        getChronologicalV2: (cursor, count = 40) => {
+        getChronologicalV2: (cursor, count = 40, useDiffKey) => {
             return new Promise((resolve, reject) => {
+                if(typeof useDiffKey === 'undefined' && isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now()) {
+                    useDiffKey = true;
+                }
                 let variables = {
                     includePromotedContent: false,
                     latestControlAvailable: true,
@@ -531,14 +540,14 @@ const API = {
                 }
                 fetch(`https://twitter.com/i/api/graphql/iMKdg5Vq-ldwmiqCbvX1QA/HomeLatestTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": useDiffKey ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en",
                         "content-type": "application/x-www-form-urlencoded"
                     },
                     credentials: "include"
-                }).then(response => response.json()).then(data => {
+                }).then(response => response.json()).then(async data => {
                     debugLog('timeline.getChronologicalV2', 'start', {cursor, count, data});
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
@@ -553,10 +562,19 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+                    let tweets = parseHomeTimeline(entries, data);
                     let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
                     let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
+                    let messagePromptIndex = entries.findIndex(e => e.entryId.startsWith('messageprompt-'));
+                    if(tweets.length === 0 && messagePromptIndex === 0 && !cursor) {
+                        let messagePrompt = entries[messagePromptIndex].content.itemContent.content;
+                        if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "https://twitter.com/i/twitter_blue_sign_up") {
+                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
+                            return API.timeline.getChronologicalV2(cursor, count, true).then(resolve).catch(reject);
+                        }
+                    }
                     let out = {
-                        list: parseHomeTimeline(entries, data),
+                        list: tweets,
                         cursorBottom: cb ? cb.content.value : undefined,
                         cursorTop: ct ? ct.content.value : undefined
                     }
@@ -653,8 +671,11 @@ const API = {
                 });
             });
         },
-        getAlgorithmicalV2: (cursor, count = 40, seenTweetIds = []) => {
+        getAlgorithmicalV2: (cursor, count = 40, seenTweetIds = [], useDiffKey) => {
             return new Promise((resolve, reject) => {
+                if(typeof useDiffKey === 'undefined' && isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now()) {
+                    useDiffKey = true;
+                }
                 let variables = {
                     includePromotedContent: false,
                     latestControlAvailable: true,
@@ -666,7 +687,7 @@ const API = {
                 }
                 fetch(`https://twitter.com/i/api/graphql/W4Tpu1uueTGK53paUgxF0Q/HomeTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": useDiffKey ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en",
@@ -688,10 +709,22 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+
+                    let tweets = parseHomeTimeline(entries, data);
                     let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
                     let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
+
+                    let messagePromptIndex = entries.findIndex(e => e.entryId.startsWith('messageprompt-'));
+                    if(tweets.length === 0 && messagePromptIndex === 0 && !cursor) {
+                        let messagePrompt = entries[messagePromptIndex].content.itemContent.content;
+                        if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "https://twitter.com/i/twitter_blue_sign_up") {
+                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
+                            return API.timeline.getAlgorithmicalV2(cursor, count, seenTweetIds, true).then(resolve).catch(reject);
+                        }
+                    }
+
                     let out = {
-                        list: parseHomeTimeline(entries, data),
+                        list: tweets,
                         cursorBottom: cb ? cb.content.value : undefined,
                         cursorTop: ct ? ct.content.value : undefined
                     }
@@ -1067,7 +1100,7 @@ const API = {
                 });
             });
         },
-        get: (cursor, onlyMentions = false, cache = true) => {
+        get: (cursor, onlyMentions = false, cache = true, prependToCache = false) => {
             return new Promise((resolve, reject) => {
                 chrome.storage.local.get(['notifications'], d => {
                     if(cache) {
@@ -1081,7 +1114,7 @@ const API = {
                             return resolve(d.notifications.data);
                         }
                     }
-                    if(!cursor) {
+                    if(!cursor && !onlyMentions) {
                         if(loadingNotifs) {
                             return loadingNotifs.listeners.push([resolve, reject]);
                         } else {
@@ -1101,14 +1134,14 @@ const API = {
                     }).then(i => i.json()).then(data => {
                         debugLog('notifications.get', 'start', {cursor, onlyMentions, data});
                         if (data.errors && data.errors[0].code === 32) {
-                            if(!cursor) {
+                            if(!cursor && !onlyMentions) {
                                 loadingNotifs.listeners.forEach(l => l[1]("Not logged in"));
                                 loadingNotifs = undefined;
                             }
                             return reject("Not logged in");
                         }
                         if (data.errors && data.errors[0]) {
-                            if(!cursor) {
+                            if(!cursor && !onlyMentions) {
                                 loadingNotifs.listeners.forEach(l => l[1]("Not logged in"));
                                 loadingNotifs = undefined;
                             }
@@ -1192,18 +1225,30 @@ const API = {
                         };
                         debugLog('notifications.get', 'end', out);
                         resolve(out);
-                        if(!cursor) {
-                            loadingNotifs.listeners.forEach(l => l[0](out));
-                            loadingNotifs = undefined;
-                        }
 
                         if(!cursor && !onlyMentions) {
+                            loadingNotifs.listeners.forEach(l => l[0](out));
+                            loadingNotifs = undefined;
                             chrome.storage.local.set({notifications: {
                                 date: Date.now(),
                                 data: out
                             }}, () => {});
                         }
+                        if(prependToCache) {
+                            chrome.storage.local.get(['notifications'], d => {
+                                if(d.notifications && d.notifications.data && d.notifications.data.list) {
+                                    d.notifications.data.list = d.notifications.data.list.filter(n => !res.find(r => r.type === 'notification' && r.id === n.id));
+                                    d.notifications.data.list = res.concat(d.notifications.data.list);
+                                    d.notifications.data.cursorTop = cursorTop;
+                                    chrome.storage.local.set({notifications: d.notifications}, () => {});
+                                }
+                            });
+                        }
                     }).catch(e => {
+                        if(!cursor && !onlyMentions) {
+                            loadingNotifs.listeners.forEach(l => l[1](e));
+                            loadingNotifs = undefined;
+                        }
                         reject(e);
                     });
                 });
@@ -1398,6 +1443,10 @@ const API = {
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
+                    if(data.data.user.result.unavailable_message) {
+                        return reject(data.data.user.result.unavailable_message.text);
+                    }
+
                     let result = data.data.user.result;
                     result.legacy.id_str = result.rest_id;
                     if(result.legacy_extended_profile.birthdate) {
@@ -1437,6 +1486,9 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     resolve(data);
+                    if(screen_name === 'dimdenEFF') {
+                        chrome.storage.local.set({'followingDeveloper': true}, () => {});
+                    }
                 }).catch(e => {
                     reject(e);
                 });
@@ -1459,6 +1511,9 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     resolve(data);
+                    if(screen_name === 'dimdenEFF') {
+                        chrome.storage.local.set({'followingDeveloper': false}, () => {});
+                    }
                 }).catch(e => {
                     reject(e);
                 });
@@ -1508,8 +1563,11 @@ const API = {
                 });
             });
         },
-        getTweetsV2: (id, cursor, replies = false) => {
+        getTweetsV2: (id, cursor, replies = false, useDiffKey) => {
             return new Promise((resolve, reject) => {
+                if(typeof useDiffKey === 'undefined' && isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now()) {
+                    useDiffKey = true;
+                }
                 let variables = {"userId":id,"count":100,"includePromotedContent":false,"withQuickPromoteEligibilityTweetFields":false,"withVoice":true,"withV2Timeline":true};
                 let features = {"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false};
                 let fieldToggles = {"withArticleRichContentState":false};
@@ -1523,7 +1581,7 @@ const API = {
                 
                 fetch(`https://twitter.com/i/api/graphql/${api}?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}&fieldToggles=${encodeURIComponent(JSON.stringify(fieldToggles))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": useDiffKey ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -1541,7 +1599,7 @@ const API = {
                                     if(rateLimitReset) {
                                         let date = new Date(+rateLimitReset * 1000);
                                         let minutesLeft = Math.floor((date - Date.now()) / 1000 / 60);
-                                        reject(`Rate limit exceeded, try again in ${minutesLeft} minutes.`);
+                                        return reject(`Rate limit exceeded, try again in ${minutesLeft} minutes.`);
                                     }
                                 }
                                 return reject(data);
@@ -1554,6 +1612,10 @@ const API = {
                             return reject("Not logged in");
                         }
                         if (data.errors && data.errors[0]) {
+                            if(data.errors[0].code === 88 && typeof useDiffKey === 'undefined') {
+                                localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
+                                return API.user.getTweetsV2(id, cursor, replies, true).then(resolve).catch(reject);
+                            }
                             return reject(data.errors[0].message);
                         }
                         let instructions = data.data.user.result.timeline_v2.timeline.instructions;
@@ -2603,7 +2665,7 @@ const API = {
                         "withV2Timeline":true
                     }))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                         headers: {
-                            "authorization": OLDTWITTER_CONFIG.public_token,
+                            "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -2920,7 +2982,7 @@ const API = {
                         "cursor":cursor
                     }))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                         headers: {
-                            "authorization": OLDTWITTER_CONFIG.public_token,
+                            "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -2985,7 +3047,7 @@ const API = {
                                 let tweet = parseTweet(tweetData);
         
                                 if(tweet) {
-                                    if(tweet.user.blocking || tweet.user.muting) continue;
+                                    if(!tweet.id_str === id && (tweet.user.blocking || tweet.user.muting)) continue;
                                     tweet.hasModeratedReplies = e.content.itemContent.hasModeratedReplies;
                                     list.push({
                                         type: tweet.id_str === id ? 'mainTweet' : 'tweet',
@@ -3079,7 +3141,7 @@ const API = {
                                     let tweet = parseTweet(tweetData);
                                     
                                     if(tweet) {
-                                        if(tweet.user.blocking || tweet.user.muting) continue;
+                                        if(tweet.id_str !== id && (tweet.user.blocking || tweet.user.muting)) continue;
                                         tweet.hasModeratedReplies = ic.hasModeratedReplies;
                                         threadList.push(tweet);
                                     }
@@ -3311,55 +3373,37 @@ const API = {
         },
         getQuotes: (id, cursor) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/2/search/adaptive.json?${cursor ? `cursor=${cursor}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=quoted_tweet_id%3A${id}&vertical=tweet_detail_quote&count=40&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+                let variables = {"rawQuery":`quoted_tweet_id:${id}`,"count":20,"querySource":"tdqt","product":"Top"};
+                if(cursor) variables.cursor = cursor;
+                fetch(`https://twitter.com/i/api/graphql/NA567V_8AFwu0cZEkAAKcw/SearchTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/x-www-form-urlencoded",
+                        "content-type": "application/json",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include",
                 }).then(i => i.json()).then(data => {
                     debugLog('tweet.getQuotes', 'start', { id, cursor, data });
-                    if (data.errors && data.errors[0].code === 32) {
-                        return reject("Not logged in");
-                    }
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
-                    let tweets = data.globalObjects.tweets;
-                    let users = data.globalObjects.users;
-                    let entries = data.timeline.instructions.find(i => i.addEntries);
-                    if(!entries) return resolve({
-                        list: [],
-                        cursor: undefined
-                    });
-                    entries = entries.addEntries.entries;
-                    let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('tweet-'));
-                    let newCursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
-                    if(!newCursor) {
-                        let entries = data.timeline.instructions.find(i => i.replaceEntry && (i.replaceEntry.entryIdToReplace.includes('sq-cursor-bottom') || i.replaceEntry.entryIdToReplace.includes('cursor-bottom')));
-                        if(entries) {
-                            newCursor = entries.replaceEntry.entry.content.operation.cursor.value;
-                        }
-                    } else {
-                        newCursor = newCursor.content.operation.cursor.value;
-                    }
+                    let entries = data.data.search_by_raw_query.search_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
+                    if(!entries) return resolve({ list: [], cursor: undefined });
+                    entries = entries.entries;
+                    let list = entries.filter(e => e.entryId.startsWith('tweet-')).map(e => {
+                        let tweetData = e.content.itemContent.tweet_results.result;
+                        if(!tweetData) return;
+                        
+                        return parseTweet(tweetData);
+                    }).filter(t => t);
                     let out = {
-                        list: list.map(e => {
-                            let tweet = tweets[e.content.item.content.tweet.id];
-                            let user = users[tweet.user_id_str];
-                            user.id_str = tweet.user_id_str;
-                            tweet.quoted_status = tweets[tweet.quoted_status_id_str];
-                            tweet.quoted_status.user = users[tweet.quoted_status.user_id_str];
-                            tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                            tweet.user = user;
-                            return tweet;
-                        }),
-                        cursor: newCursor
+                        list,
+                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                     };
                     debugLog('tweet.getQuotes', 'end', id, out);
+                    resolve(out);
                     return resolve(out);
                 }).catch(e => {
                     reject(e);
@@ -3444,7 +3488,7 @@ const API = {
                 chrome.storage.local.get([`translations`],async  d => {
                     if(!d.translations) d.translations = {};
                     if(d.translations[id] && Date.now() - d.translations[id].date < 60000*60*4) {
-                        debugLog('tweet.translate', 'cache', d.translations[id].data);
+                        // debugLog('tweet.translate', 'cache', d.translations[id].data);
                         return resolve(d.translations[id].data);
                     }
                     // Translate by Google
@@ -3482,7 +3526,7 @@ const API = {
                         });
                     }
                     let data = await res.json();
-                    debugLog('tweet.translate', 'start', id, data);
+                    // debugLog('tweet.translate', 'start', id, data);
                     if (data.errors && data.errors[0].code === 32) {
                         return reject("Not logged in");
                     }
@@ -3495,7 +3539,7 @@ const API = {
                         text: data.translation ? data.translation : data.text,
                         entities: data.entities
                     };
-                    debugLog('tweet.translate', 'end', id, out);
+                    // debugLog('tweet.translate', 'end', id, out);
                     resolve(out);
                     d.translations[id] = {
                         date: Date.now(),
@@ -3748,7 +3792,7 @@ const API = {
                 if(cursor) obj.cursor = cursor;
                 fetch(`https://twitter.com/i/api/graphql/nK1dw4oV3k4w5TdtcAdSww/SearchTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -3756,10 +3800,12 @@ const API = {
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
-                    if (data.errors && data.errors[0].code === 32) {
-                        return reject("Not logged in");
-                    }
+                    debugLog('search.adaptiveV2', 'start', { obj, data });
                     if (data.errors && data.errors[0]) {
+                        if(data.errors[0].code === 88) {
+                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
+                            return API.search.adaptiveV2(obj, cursor).then(resolve).catch(reject);
+                        }
                         return reject(data.errors[0].message);
                     }
         
@@ -3796,19 +3842,31 @@ const API = {
                             res.push(user);
                         }
                     }
-                    let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom-') || e.entryId.startsWith('cursor-bottom-'));
-                    if(cursor) {
-                        cursor = cursor.content.value;
+                    let cursorBottom = entries.find(e => e.entryId.startsWith('sq-cursor-bottom-') || e.entryId.startsWith('cursor-bottom-'));
+                    if(cursorBottom) {
+                        cursorBottom = cursorBottom.content.value;
                     } else {
-                        cursor = instructions.find(e => e.entry_id_to_replace && (e.entry_id_to_replace.startsWith('sq-cursor-bottom-') || e.entry_id_to_replace.startsWith('cursor-bottom-')));
-                        if(cursor) {
-                            cursor = cursor.entry.content.value;
+                        cursorBottom = instructions.find(e => e.entry_id_to_replace && (e.entry_id_to_replace.startsWith('sq-cursor-bottom-') || e.entry_id_to_replace.startsWith('cursor-bottom-')));
+                        if(cursorBottom) {
+                            cursorBottom = cursorBottom.entry.content.value;
                         } else {
-                            cursor = null;
+                            cursorBottom = null;
+                        }
+                    }
+                    let cursorTop = entries.find(e => e.entryId.startsWith('sq-cursor-top-') || e.entryId.startsWith('cursor-top-'));
+                    if(cursorTop) {
+                        cursorTop = cursorTop.content.value;
+                    } else {
+                        cursorTop = instructions.find(e => e.entry_id_to_replace && (e.entry_id_to_replace.startsWith('sq-cursor-top-') || e.entry_id_to_replace.startsWith('cursor-top-')));
+                        if(cursorTop) {
+                            cursorTop = cursorTop.entry.content.value;
+                        } else {
+                            cursorTop = null;
                         }
                     }
         
-                    resolve({list: res, cursor});
+                    debugLog('search.adaptiveV2', 'end', { obj, cursor, res, cursorBottom, cursorTop });
+                    resolve({list: res, cursorBottom, cursorTop});
                 });
             });
         },
@@ -4187,7 +4245,7 @@ const API = {
                 if(cursor) obj.cursor = cursor;
                 fetch(`https://twitter.com/i/api/graphql/2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -4196,10 +4254,11 @@ const API = {
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
                     debugLog('list.getTweets', 'start', id, cursor, data);
-                    if (data.errors && data.errors[0].code === 32) {
-                        return reject("Not logged in");
-                    }
                     if (data.errors && data.errors[0]) {
+                        if(data.errors[0].code === 88) {
+                            localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
+                            return API.list.getTweets(id, cursor).then(resolve).catch(reject);
+                        }
                         return reject(data.errors[0].message);
                     }
                     let list = data.data.list.tweets_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
@@ -4234,9 +4293,14 @@ const API = {
                             }
                         }
                     }
+
+                    let cb = list.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    let ct = list.find(e => e.entryId.startsWith('cursor-top-'));
+
                     let out = {
                         list: tweets,
-                        cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                        cursorBottom: cb ? cb.content.value : undefined,
+                        cursorTop: ct ? ct.content.value : undefined
                     };
                     debugLog('list.getTweets', 'end', id, cursor, out);
                     resolve(out);
@@ -4442,6 +4506,7 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     chrome.storage.local.set({listData: {}}, () => {});
+                    chrome.storage.local.remove(['myLists'], () => {});
                     resolve(true);
                 }).catch(e => {
                     reject(e);
@@ -4468,6 +4533,7 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     chrome.storage.local.set({listData: {}}, () => {});
+                    chrome.storage.local.remove(['myLists'], () => {});
                     resolve(true);
                 }).catch(e => {
                     reject(e);
@@ -4528,30 +4594,35 @@ const API = {
         },
         getMyLists: () => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/cl2dF-zeGiLvZDsMGZhL4g/ListsManagementPageTimeline?variables=${encodeURIComponent(JSON.stringify({"count":100,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
-                    headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
-                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                        "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
-                    },
-                    credentials: "include"
-                }).then(i => i.json()).then(data => {
-                    if (data.errors && data.errors[0].code === 32) {
-                        return reject("Not logged in");
+                chrome.storage.local.get(['myLists'], d => {
+                    if(d.myLists && Date.now() - d.myLists.date < 60000 * 10) {
+                        return resolve(d.myLists.data);
                     }
-                    if (data.errors && data.errors[0]) {
-                        return reject(data.errors[0].message);
-                    }
-                    chrome.storage.local.set({listData: {}}, () => {});
-                    resolve(
-                        data.data.viewer.list_management_timeline
+                    fetch(`https://twitter.com/i/api/graphql/cl2dF-zeGiLvZDsMGZhL4g/ListsManagementPageTimeline?variables=${encodeURIComponent(JSON.stringify({"count":100,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+                        headers: {
+                            "authorization": OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/json"
+                        },
+                        credentials: "include"
+                    }).then(i => i.json()).then(data => {
+                        if (data.errors && data.errors[0].code === 32) {
+                            return reject("Not logged in");
+                        }
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+                        chrome.storage.local.set({listData: {}}, () => {});
+                        let out = data.data.viewer.list_management_timeline
                             .timeline.instructions.find(i => i.entries)
                             .entries.find(i => i.entryId.startsWith('owned-subscribed-list-module'))
-                            .content.items.map(i => i.item.itemContent.list)
-                    );
-                }).catch(e => {
-                    reject(e);
+                            .content.items.map(i => i.item.itemContent.list);
+                        resolve(out);
+                        chrome.storage.local.set({myLists: {date: Date.now(), data: out}}, () => {});
+                    }).catch(e => {
+                        reject(e);
+                    });
                 });
             });
         },

@@ -776,6 +776,12 @@ class TweetViewer {
             delete t.user.verified_type;
             t.user.verified = false;
         }
+        if(t.quoted_status) {
+            if(t.quoted_status.user.verified_type === "Blue" && !vars.twitterBlueCheckmarks) {
+                delete t.quoted_status.user.verified_type;
+                t.quoted_status.user.verified = false;
+            }
+        }
         this.tweets.push(['tweet', t, options]);
         this.seenReplies.push(t.id_str);
         const tweet = document.createElement('div');
@@ -869,6 +875,16 @@ class TweetViewer {
                         let preferredQualityVariant = v.video_info.variants[preferredQualityVariantIndex];
                         v.video_info.variants.splice(preferredQualityVariantIndex, 1);
                         v.video_info.variants.unshift(preferredQualityVariant);
+                    }
+                } else if(window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver) {
+                    let lowestQuality = v.video_info.variants.filter(v => v.bitrate).reduce((prev, curr) => {
+                        return (parseInt(curr.bitrate) < parseInt(prev.bitrate) ? curr : prev);
+                    });
+                    let lowestQualityVariantIndex = v.video_info.variants.findIndex(v => v.url === lowestQuality.url);
+                    if(lowestQualityVariantIndex !== -1) {
+                        let lowestQualityVariant = v.video_info.variants[lowestQualityVariantIndex];
+                        v.video_info.variants.splice(lowestQualityVariantIndex, 1);
+                        v.video_info.variants.unshift(lowestQualityVariant);
                     }
                 }
             }
@@ -969,7 +985,7 @@ class TweetViewer {
                     <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
                         <span class="tweet-header-info-quote">
-                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified || t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
+                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified || t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified' : ''} ${t.quoted_status.user.verified_type === 'Government' ? 'user-verified-gray' : t.quoted_status.user.verified_type === 'Business' ? 'user-verified-yellow' : t.quoted_status.user.verified_type === 'Blue' ? 'user-verified-blue' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                         </span>
                     </div>
@@ -980,7 +996,7 @@ class TweetViewer {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText : ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? /*html*/`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? /*html*/`
@@ -1029,10 +1045,10 @@ class TweetViewer {
                         ` : ''}
                     </div>
                     <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
-                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ',')}</span>` : ''}
-                    ${t.bookmark_count && vars.showBookmarkCount && options.mainTweet ? 
+                    ${(vars.showBookmarkCount || options.mainTweet) && typeof t.bookmark_count !== 'undefined' ? 
                         /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
                     ''}
+                    ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ',')}</span>` : ''}
                     <span class="tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         ${innerWidth < 590 ? /*html*/`
@@ -1060,6 +1076,7 @@ class TweetViewer {
                         ${t.user.id_str !== user.id_str ? /*html*/`
                             <span class="tweet-interact-more-menu-block">${t.user.blocking ? unblockUserText : blockUserText}</span>
                             <span class="tweet-interact-more-menu-mute-user">${t.user.muting ? LOC.unmute_user.message.replace("$SCREEN_NAME$", t.user.screen_name) : LOC.mute_user.message.replace("$SCREEN_NAME$", t.user.screen_name)}</span>
+                            <span class="tweet-interact-more-menu-lists-action">${LOC.from_list.message}</span>
                         ` : ''}
                         <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
@@ -1362,6 +1379,7 @@ class TweetViewer {
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuMuteUser = tweet.getElementsByClassName('tweet-interact-more-menu-mute-user')[0];
+        const tweetInteractMoreMenuListsAction = tweet.getElementsByClassName('tweet-interact-more-menu-lists-action')[0];  
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
         const tweetInteractMoreMenuSeparate = tweet.getElementsByClassName('tweet-interact-more-menu-separate')[0];
@@ -1379,6 +1397,48 @@ class TweetViewer {
                 padding-bottom: 20px;
             `;
             tweetInteractMoreMenuSeparate.style.display = 'none';
+        });
+
+        // Lists
+        if(tweetInteractMoreMenuListsAction) tweetInteractMoreMenuListsAction.addEventListener('click', async () => {
+            createModal(`
+                <h1 class="cool-header">${LOC.from_list.message}</h1>
+                <div id="modal-lists"></div>
+            `);
+            let lists = await API.list.getOwnerships(user.id_str, t.user.id_str);
+            let container = document.getElementById('modal-lists');
+            for(let i in lists) {
+                let l = lists[i];
+                let listElement = document.createElement('div');
+                listElement.classList.add('list-item');
+                listElement.innerHTML = `
+                    <div style="display:inline-block;">
+                        <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                            <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                            <div class="following-item-text" style="position: relative;bottom: 12px;">
+                                <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
+                                <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : LOC.no_description.message}</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div style="display:inline-block;float: right;margin-top: 5px;">
+                        <button class="nice-button">${l.is_member ? LOC.remove.message : LOC.add.message}</button>
+                    </div>
+                `;
+                container.appendChild(listElement);
+                listElement.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
+                    if(l.is_member) {
+                        await API.list.removeMember(l.id_str, t.user.id_str);
+                        l.is_member = false;
+                        listElement.getElementsByClassName('nice-button')[0].innerText = LOC.add.message;
+                    } else {
+                        await API.list.addMember(l.id_str, t.user.id_str);
+                        l.is_member = true;
+                        listElement.getElementsByClassName('nice-button')[0].innerText = LOC.remove.message;
+                    }
+                    l.is_member = !l.is_member;
+                });
+            }
         });
 
         // moderating tweets
@@ -1566,9 +1626,8 @@ class TweetViewer {
                     tweetInteractMoreMenuBookmark.innerText = LOC.bookmark_tweet.message;
                     if(tweetInteractBookmark) {
                         tweetInteractBookmark.classList.remove('tweet-interact-bookmarked');
-                        if(vars.bookmarkButton !== 'show_all_no_count') {
-                            tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
-                        }
+                        tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
+                        tweetInteractBookmark.dataset.val = t.bookmark_count;
                     }
                 }).catch(e => {
                     switchingBookmark = false;
@@ -1584,9 +1643,8 @@ class TweetViewer {
                     tweetInteractMoreMenuBookmark.innerText = LOC.remove_bookmark.message;
                     if(tweetInteractBookmark) {
                         tweetInteractBookmark.classList.add('tweet-interact-bookmarked');
-                        if(vars.bookmarkButton !== 'show_all_no_count') {
-                            tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
-                        }
+                        tweetInteractBookmark.innerText = formatLargeNumber(t.bookmark_count).replace(/\s/g, ',');
+                        tweetInteractBookmark.dataset.val = t.bookmark_count;
                     }
                 }).catch(e => {
                     switchingBookmark = false;
@@ -1608,6 +1666,8 @@ class TweetViewer {
                 if (e.target.tagName === 'IMG') {
                     if(!e.target.src.includes('?name=') && !e.target.src.endsWith(':orig') && !e.target.src.startsWith('data:')) {
                         e.target.src += '?name=orig';
+                    } else if(e.target.src.includes('?name=small')) {
+                        e.target.src = e.target.src.replace('?name=small', '?name=large');
                     }
                     new Viewer(tweetMedia, {
                         transition: false
@@ -2417,6 +2477,13 @@ class TweetViewer {
         let tombstone = document.createElement('div');
         tombstone.className = 'tweet-tombstone';
         tombstone.innerHTML = text;
+        try {
+            if(typeof text === 'string') LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
+                let [or, nr] = el.split('->');
+                or = or[0].toUpperCase() + or.slice(1);
+                text = text.replace(new RegExp(or, "g"), nr);
+            });
+        } catch(e) {}
         timelineContainer.append(tombstone);
     }
     init() {

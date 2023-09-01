@@ -17,7 +17,7 @@
         </div>
     </div>
     <header></header>
-    <div id="react-root">
+    <div id="fake-react-root">
         <main id="container">
             <div id="content">
                 <div class="cell" id="left-cell">
@@ -75,11 +75,13 @@
                 </div>
                 <div class="cell" id="center-cell">
                     <select id="timeline-type-center" hidden>
-                        <option value="chrono">__MSG_chrono__</option>
-                        <option value="chrono-no-retweets">__MSG_chrono_no_retweets__</option>
-                        <option value="chrono-retweets">__MSG_chrono_retweets__</option>
-                        <option value="chrono-social">__MSG_chrono_social__</option>
-                        <option value="algo">__MSG_algov2__</option>
+                        <optgroup label="__MSG_timeline__">
+                            <option value="chrono">__MSG_chrono__</option>
+                            <option value="chrono-no-retweets">__MSG_chrono_no_retweets__</option>
+                            <option value="chrono-retweets">__MSG_chrono_retweets__</option>
+                            <option value="chrono-social">__MSG_chrono_social__</option>
+                            <option value="algo">__MSG_algov2__</option>
+                        </optgroup>
                     </select>
                     <div id="new-tweet-container">
                         <div id="new-tweet" class="box">
@@ -136,11 +138,13 @@
                 </div>
                 <div class="cell" id="right-cell">
                     <select id="timeline-type-right">
-                        <option value="chrono">__MSG_chrono__</option>
-                        <option value="chrono-no-retweets">__MSG_chrono_no_retweets__</option>
-                        <option value="chrono-retweets">__MSG_chrono_retweets__</option>
-                        <option value="chrono-social">__MSG_chrono_social__</option>
-                        <option value="algo">__MSG_algov2__</option>
+                        <optgroup label="__MSG_timeline__">
+                            <option value="chrono">__MSG_chrono__</option>
+                            <option value="chrono-no-retweets">__MSG_chrono_no_retweets__</option>
+                            <option value="chrono-retweets">__MSG_chrono_retweets__</option>
+                            <option value="chrono-social">__MSG_chrono_social__</option>
+                            <option value="algo">__MSG_algov2__</option>
+                        </optgroup>
                     </select>
                     <div id="wtf" class="box">
                         <h1>__MSG_who_to_follow__</h1><br>

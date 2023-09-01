@@ -319,7 +319,7 @@ function getThemeVariables(enabled) {
             --default-text-color: black;
             --new-tweet-over: rgba(255, 255, 255, 0.92);
             --input-background: white;
-            --active-message: #eaf5fd;
+            --active-message: #f1f9ff;
             --more-color: #30F;
             --choice-bg: rgb(207, 217, 222);
             --list-actions-bg: #efefef;
@@ -528,6 +528,10 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             if(!cleared) clearInterval(removeInt);
         }, 5000);
     };
+
+    if(vars.extensionCompatibilityMode) {
+        html = html.replace("fake-react-root", "react-root");
+    }
 
     document.documentElement.innerHTML = html;
     document.body.classList.add('body-old-ui');
