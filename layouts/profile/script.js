@@ -1304,7 +1304,7 @@ async function renderProfile() {
         });
         document.getElementById('profile-settings-lists-action').addEventListener('click', async () => {
             let lists = await API.list.getOwnerships(user.id_str, pageUser.id_str);
-            let modal = createModal(`
+            createModal(`
                 <h1 class="cool-header">${LOC.from_list.message}</h1>
                 <div id="modal-lists"></div>
             `);

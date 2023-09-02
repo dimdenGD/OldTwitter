@@ -536,5 +536,8 @@
     "enter_custom_font_name": {"message": "Введіть назву шрифту"},
     "disable_data_saver": { "message": "Виключити економію трафіку коли використовується мобільний інтернет" },
     "mobile": { "message": "Мобільні налаштування", "description": "Title for mobile settings"},
-    "disable_accept_type": { "message": "Виключити 'accept-type' при відкритті галереї для загрузки медіа. Включить якщо на вашому Андроїді не можна вибрати/знайти деякі картинки в галереї.", "description": "This option only appears on mobile" }
+    "disable_accept_type": { "message": "Виключити 'accept-type' при відкритті галереї для загрузки медіа. Включить якщо на вашому Андроїді не можна вибрати/знайти деякі картинки в галереї.", "description": "This option only appears on mobile" },
+    "manage_searches": { "message": "Пошуки" },
+    "add_search": { "message": "Добавити пошук" },
+    "pinned_searches": { "message": "Закріплені пошуки" }
 }

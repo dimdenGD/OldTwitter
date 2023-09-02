@@ -1644,6 +1644,9 @@ span.tweet-body-text {
 .tweet-interact-more-menu-feedback:before {
     content: "\f044"
 }
+.tweet-interact-more-menu-lists-action:before {
+    content: "\f051"
+}
 .tweet-interact-more-menu-mute:before {
     content: "\f055"
 }

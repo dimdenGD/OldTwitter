@@ -1076,6 +1076,7 @@ class TweetViewer {
                         ${t.user.id_str !== user.id_str ? /*html*/`
                             <span class="tweet-interact-more-menu-block">${t.user.blocking ? unblockUserText : blockUserText}</span>
                             <span class="tweet-interact-more-menu-mute-user">${t.user.muting ? LOC.unmute_user.message.replace("$SCREEN_NAME$", t.user.screen_name) : LOC.mute_user.message.replace("$SCREEN_NAME$", t.user.screen_name)}</span>
+                            <span class="tweet-interact-more-menu-lists-action">${LOC.from_list.message}</span>
                         ` : ''}
                         <span class="tweet-interact-more-menu-bookmark">${LOC.bookmark_tweet.message}</span>
                         <span class="tweet-interact-more-menu-mute">${t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message}</span>
@@ -1378,6 +1379,7 @@ class TweetViewer {
         const tweetInteractMoreMenuFollow = tweet.getElementsByClassName('tweet-interact-more-menu-follow')[0];
         const tweetInteractMoreMenuBlock = tweet.getElementsByClassName('tweet-interact-more-menu-block')[0];
         const tweetInteractMoreMenuMuteUser = tweet.getElementsByClassName('tweet-interact-more-menu-mute-user')[0];
+        const tweetInteractMoreMenuListsAction = tweet.getElementsByClassName('tweet-interact-more-menu-lists-action')[0];  
         const tweetInteractMoreMenuBookmark = tweet.getElementsByClassName('tweet-interact-more-menu-bookmark')[0];
         const tweetInteractMoreMenuHide = tweet.getElementsByClassName('tweet-interact-more-menu-hide')[0];
         const tweetInteractMoreMenuSeparate = tweet.getElementsByClassName('tweet-interact-more-menu-separate')[0];
@@ -1395,6 +1397,48 @@ class TweetViewer {
                 padding-bottom: 20px;
             `;
             tweetInteractMoreMenuSeparate.style.display = 'none';
+        });
+
+        // Lists
+        if(tweetInteractMoreMenuListsAction) tweetInteractMoreMenuListsAction.addEventListener('click', async () => {
+            createModal(`
+                <h1 class="cool-header">${LOC.from_list.message}</h1>
+                <div id="modal-lists"></div>
+            `);
+            let lists = await API.list.getOwnerships(user.id_str, t.user.id_str);
+            let container = document.getElementById('modal-lists');
+            for(let i in lists) {
+                let l = lists[i];
+                let listElement = document.createElement('div');
+                listElement.classList.add('list-item');
+                listElement.innerHTML = `
+                    <div style="display:inline-block;">
+                        <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                            <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                            <div class="following-item-text" style="position: relative;bottom: 12px;">
+                                <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
+                                <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : LOC.no_description.message}</span>
+                            </div>
+                        </a>
+                    </div>
+                    <div style="display:inline-block;float: right;margin-top: 5px;">
+                        <button class="nice-button">${l.is_member ? LOC.remove.message : LOC.add.message}</button>
+                    </div>
+                `;
+                container.appendChild(listElement);
+                listElement.getElementsByClassName('nice-button')[0].addEventListener('click', async () => {
+                    if(l.is_member) {
+                        await API.list.removeMember(l.id_str, t.user.id_str);
+                        l.is_member = false;
+                        listElement.getElementsByClassName('nice-button')[0].innerText = LOC.add.message;
+                    } else {
+                        await API.list.addMember(l.id_str, t.user.id_str);
+                        l.is_member = true;
+                        listElement.getElementsByClassName('nice-button')[0].innerText = LOC.remove.message;
+                    }
+                    l.is_member = !l.is_member;
+                });
+            }
         });
 
         // moderating tweets

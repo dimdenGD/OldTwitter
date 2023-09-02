@@ -1679,6 +1679,13 @@ let userDataFunction = async user => {
             try {
                 savedSearches = await API.search.getSaved();
             } catch(e) {}
+            let pinnedSearches = await new Promise(resolve => {
+                chrome.storage.sync.get(['pinnedSearches'], data => {
+                    if(!data.pinnedSearches) data.pinnedSearches = [];
+                    resolve(data.pinnedSearches);
+                });
+            });
+            savedSearches = savedSearches.concat(pinnedSearches.map(i => ({query: i, local: true})));
         }
         if(lastSearches.length > 0) {
             let span = document.createElement('span');
@@ -1733,6 +1740,22 @@ let userDataFunction = async user => {
                 removeTopic.innerText = '×';
                 removeTopic.className = 'search-result-item-remove';
                 removeTopic.addEventListener('click',async () => {
+                    if(savedSearches[i].local) {
+                        let pinnedSearches = await new Promise(resolve => {
+                            chrome.storage.sync.get(['pinnedSearches'], data => {
+                                if(!data.pinnedSearches) data.pinnedSearches = [];
+                                resolve(data.pinnedSearches);
+                            });
+                        });
+                        pinnedSearches = pinnedSearches.filter(i => i !== topic);
+                        chrome.storage.sync.set({pinnedSearches: pinnedSearches});
+                        topicElement.remove();
+                        removeTopic.remove();
+                        savedSearches.splice(i, 1);
+                        document.getElementById('timeline-type-right').querySelector(`option[value="search-${topic}"]`).remove();
+                        document.getElementById('timeline-type-center').querySelector(`option[value="search-${topic}"]`).remove();
+                        return;
+                    }
                     await API.search.deleteSaved(topicId);
                     savedSearches.splice(i, 1);
                     topicElement.remove();
