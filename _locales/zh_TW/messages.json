@@ -58,7 +58,7 @@
     "see_new_tweets": { "message": "顯示新推文" },
     "must2variants": { "message": "投票至少需要兩個選項" },
     "delete_all": { "message": "清除所有書籤" },
-    "empty": { "message": "儲存推文以供日後查看", "description": "Funky message about nothing found" },
+    "empty": { "message": "ㄚㄚㄚ！沒東西啊！希望你不要得到 Emotional Damage", "description": "Funky message about nothing found" },
     "delete_bookmarks": { "message": "要清除所有書籤嗎？此動作無法復原，且你將會移除已加入書籤的所有推文。 " },
     "members": { "message": "成員數" },
     "subscribers": { "message": "訂閱數" },
