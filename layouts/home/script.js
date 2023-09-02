@@ -1145,18 +1145,10 @@ setTimeout(async () => {
             optgroup.label = LOC.lists.message;
             lists.sort((a, b) => a.name.localeCompare(b.name));
             for(let i in lists) {
-				let option = document.createElement('option');
-				if (lists[i] != null) {
-					option.value = `list-${lists[i].id_str}`;
-					option.innerText = `${LOC.list.message} - ${lists[i].name}`;
-					optgroup.appendChild(option);
-				} else {
-					option.value = "no-list-item";
-					option.innerText = `${LOC.list_not_found.message}`;
-					option.disabled = true;
-					optgroup.appendChild(option);
-					break;
-				}
+                let option = document.createElement('option');
+                option.value = `list-${lists[i].id_str}`;
+                option.innerText = `${LOC.list.message} - ${lists[i].name}`;
+                optgroup.appendChild(option);
             }
             timelineTypeRight.appendChild(optgroup);
             timelineTypeCenter.appendChild(optgroup.cloneNode(true));
