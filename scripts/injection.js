@@ -124,7 +124,7 @@ if(
 ) {
     location.replace(location.href.replace('twitter.com', 'mobile.twitter.com'));
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "cs", "de", "ca"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -184,6 +184,7 @@ const TRANSLATORS = {
         ["am1006", "https://github.com/am1006"],
         ["CarimoWuling", "https://twitter.com/carimowuling"]
     ],
+    "zh_TW": ["olivertzeng", "https://twitter.com/olivertzeng"],
     "cs": ["Menal"],
     "de": ["basti564", "https://twitter.com/basti564"],
     "ca": ["elmees21", "https://twitter.com/elmees21"]

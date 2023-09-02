@@ -272,7 +272,7 @@
     "feedback_thanks": {"message": "Vielen Dank für dein Feedback!"},
     "liked_by": {"message": "Gefällt $NUMBER$ Personen", "placeholders": {"number": {"content": "10"}}},
     "reply": {"message": "Antworten"},
-    "language": {"message": "Sprache (Lingua)"},
+    "language": {"message": "Sprache (Language)"},
     "translated_by": {"message": "Übersetzt von $TRANSLATOR$.", "placeholders": {"translator": {"content": "CoolPerson2000"}}},
     "last_searches": {"message": "Letzte Suchanfragen"},
     "saved_searches": {"message": "Gespeicherte Suchanfragen"},
