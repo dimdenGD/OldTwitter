@@ -786,7 +786,7 @@ const API = {
                         social.pop();
                         continue;
                     }
-                    if(chrono.list[chrono.list.length-i+1] && !chrono.list[chrono.list.length-i+1].threadContinuation) {
+                    if(chrono.list[chrono.list.length-i-1] && !chrono.list[chrono.list.length-i-1].threadContinuation) {
                         continue;
                     }
                     chrono.list.splice(chrono.list.length-i, 0, social.pop());
@@ -4617,7 +4617,8 @@ const API = {
                         let out = data.data.viewer.list_management_timeline
                             .timeline.instructions.find(i => i.entries)
                             .entries.find(i => i.entryId.startsWith('owned-subscribed-list-module'))
-                            .content.items.map(i => i.item.itemContent.list);
+                            .content.items.map(i => i.item.itemContent.list)
+                            .filter(i => i);
                         resolve(out);
                         chrome.storage.local.set({myLists: {date: Date.now(), data: out}}, () => {});
                     }).catch(e => {
