@@ -545,6 +545,8 @@
 	"enter_custom_font_name": {"message": "사용자 지정 글꼴 이름을 입력하세요"},
     "disable_data_saver": { "message": "모바일 데이터 사용 중에 데이터 세이버를 비활성화 합니다" },
     "mobile": { "message": "모바일" },
-    "disable_accept_type": { "message": "미디어를 업로드 할 때 사용자 지정 확장자를 비활성화 합니다. 특정 안드로이드 버전에서 모든 이미지에 접근할 수 없는 문제를 해결합니다." }
-
+    "disable_accept_type": { "message": "미디어를 업로드 할 때 사용자 지정 확장자를 비활성화 합니다. 특정 안드로이드 버전에서 모든 이미지에 접근할 수 없는 문제를 해결합니다." },
+    "manage_searches": { "message": "검색 관리하기" },
+    "add_search": { "message": "검색 추가하기" },
+    "pinned_searches": { "message": "고정된 검색" }
 }
