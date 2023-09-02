@@ -184,7 +184,10 @@ const TRANSLATORS = {
         ["am1006", "https://github.com/am1006"],
         ["CarimoWuling", "https://twitter.com/carimowuling"]
     ],
-    "zh_TW": ["olivertzeng", "https://twitter.com/olivertzeng"],
+    "zh_TW": [
+        ["olivertzeng", "https://twitter.com/olivertzeng"],
+        ["cirx1e", "https://github.com/cirx1e"]
+    ],
     "cs": ["Menal"],
     "de": ["basti564", "https://twitter.com/basti564"],
     "ca": ["elmees21", "https://twitter.com/elmees21"]
