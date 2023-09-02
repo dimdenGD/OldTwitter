@@ -482,7 +482,7 @@
     "yay": { "message": "好耶！" },
     "light_mode_vars": { "message": "浅色主题变量" },
     "dark_mode_vars": { "message": "深色主题变量" },
-    "css_theme_hint": { "message": "请不要发布“令人眼花缭乱”或任何欺骗性的样式（例如，将“关注”按钮做得很大或类似的东西），您将失去这样做的访问权限！<br><br>您的自定义 CSS 设置将会覆盖其它用户的本地 CSS 设置。<br><br>您只能使用来自 <code>i.imgur.com</code> 或 <code>cdn.discordapp.com</code> 的图片，以及来自 <code>fonts.googleapis.com</code> 和<a target='_blank' href='https://dimden.dev/fonts/'>这里</a>的字体。<br><br>您可以在<a href='https://github.com/dimdenGD/OldTwitter/blob/1f4fad6662dc0bd963b95748106a7dc167a4fa4c/scripts/injection.js#L205' target='_blank'>这里</a>查看支持的 CSS 变量列表。<br><br>要针对特定主题进行修改，您可以使用 <code>.body-dark</code>（深色主题）, <code>.body-pitch-black</code> (漆黑主题，会自动包含<code>.body-dark</code>) 以及 <code>.body-light</code>（浅色主题）CSS 类。" },
+    "css_theme_hint": { "message": "请不要发布“令人眼花缭乱”或任何欺骗性的样式（例如，将“关注”按钮做得很大或类似的东西），您将失去这样做的访问权限！<br><br>您的自定义 CSS 设置将会覆盖其它用户的本地 CSS 设置。<br><br>您只能使用来自 <code>i.imgur.com</code> 或 <code>cdn.discordapp.com</code> 的图片，以及来自 <code>fonts.googleapis.com</code> 和<a target='_blank' href='https://dimden.dev/fonts/'>这里</a>的字体。<br><br>您可以在<a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>这里</a>查看支持的 CSS 变量列表。<br><br>要针对特定主题进行修改，您可以使用 <code>.body-dark</code>（深色主题）, <code>.body-pitch-black</code> (漆黑主题，会自动包含<code>.body-dark</code>) 以及 <code>.body-light</code>（浅色主题）CSS 类。" },
     "profile_colors_moved": { "message": "链接颜色同步设置已移至个人资料页面（“编辑个人资料”按钮左侧的铅笔按钮）。" },
     "click_here_more_info": { "message": "点击此处了解详情" },
     "profile_must_be_public_to_auth": { "message": "您的个人资料必须是公开的才能进行首次同步，然后您可以将其恢复为私有。" },
