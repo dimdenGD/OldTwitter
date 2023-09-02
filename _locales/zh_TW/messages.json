@@ -360,7 +360,7 @@
     "show_original_images": { "message": "總是以最高畫質顯示相片" },
     "pitch_black_mode": { "message": "OLED 深色模式（當深色模式已啟用時可啟用）" },
     "hide_retweets": { "message": "隱藏轉推" },
-    "see_tweet_views": { "message": "顯示推文查看次數" }
+    "see_tweet_views": { "message": "顯示推文查看次數" },
     "history": { "message": "歷史紀錄" },
     "autotranslate_tweets": { "message": "自動翻譯推文" },
     "dont_autotranslate": { "message": "不要自動翻譯推文" },
