@@ -541,7 +541,7 @@
     "favorited_by": { "message": "Favorited by" },
     "disable_retweet_hotkey": { "message": "Disable retweet hotkey (T)" },
     "disable_like_hotkey": { "message": "Disable like hotkey (L)" },
-    "enable_extension_compatibility": { "message": "Enable extension compatibility mode (only enable if you want to make some extension work with OldTwitter, if it still doesn't work (and most likely won't) disable this again, because this option can make page buggy/laggy)" },
+    "enable_extension_compatibility": { "message": "擴充功能Enable extension compatibility mode (only enable if you want to make some extension work with OldTwitter, if it still doesn't work (and most likely won't) disable this again, because this option can make page buggy/laggy)" },
 	"enter_custom_font_name": {"message": "請輸入自訂字體名稱"},
 	"disable_data_saver": { "message": "停用流量節省功能來提升網頁載入速度", "description": "This option only appears on mobile" },
     "mobile": { "message": "行動版", "description": "Title for mobile device settings"},
