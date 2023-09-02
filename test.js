@@ -1,4 +1,5 @@
 // Tests locale files
+// Use --all to see all missed keys
 
 const languageCodes = [
     {"code":"ab","name":"Abkhaz","nativeName":"аҧсуа"},
@@ -220,7 +221,7 @@ for(let localeName of locales) {
         let array = Object.keys(locale);
         let diff = englishLocaleArray.length - array.length;
         if(diff !== 0) {
-            if(diff < 10) {
+            if(diff < 10 || process.argv.includes('--all')) {
                 let missing = englishLocaleArray.filter(key => !array.includes(key));
                 console.log(`❌ Missing ${diff} keys in _locales/${localeName}/messages.json (${languageCodes.find(l => l.code === localeName)?.name}): ${missing.join(', ')}`);
             } else {
