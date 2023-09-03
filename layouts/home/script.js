@@ -1234,6 +1234,18 @@ setTimeout(async () => {
             console.error(e);
         }
     }
+    let weirdFonts = ["Monaco", "Courier", "Courier New", "Segoe Print", "Segoe Script", "Consolas", "MV Boli", "MingLiU-ExtB"];
+    if(weirdFonts.includes(vars.font)) {
+        let style = document.createElement('style');
+        style.innerText = /*css*/`
+            @media screen and (max-width: 590px) {
+                #new-tweet-text {
+                    width: calc(100% - 94px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
     
 
     // Run
