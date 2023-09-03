@@ -106,7 +106,7 @@
 		"message": "Sair"
 	},
 	"whats_happening": {
-		"message": "Como está se sentindo?"
+		"message": "Como você está?"
 	},
 	"variant": {
 		"message": "Opção"
@@ -298,7 +298,7 @@
 		"message": "Sem descrição."
 	},
 	"born": {
-		"message": "Nascido"
+		"message": "Nascido em"
 	},
 	"january": {
 		"message": "Janeiro",
@@ -375,7 +375,7 @@
 		"description": "Just for unblock button"
 	},
 	"block_user": {
-		"message": "Bloquear @$SCREEN_NAME$",
+		"message": "Bloquear $SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
@@ -1595,7 +1595,7 @@
 		"message": "Parabéns, você foi dado acesso a customização CSS de perfil! Apenas uma pequena porcentagem de usuários do OldTwitter tem acesso a isso, aproveite e continue sendo incrível!"
 	},
 	"yay": {
-		"message": "Uhu!"
+		"message": "Uhul!"
 	},
 	"light_mode_vars": {
 		"message": "Variações do modo claro"
@@ -1648,12 +1648,12 @@
 		"message": "Disabilitar customizações do perfil"
 	},
 	"replying_to_and": {
-		"message": " e ",
+		"message": "Em resposta a @A e @B",
 		"description": "For some language which using address terms",
 		"example": "Replying to @A-> and <-@B , @C"
 	},
 	"replying_to_comma": {
-		"message": ", ",
+		"message": "Em resposta a @A , @B"
 		"description": "For some language which using address terms",
 		"example": "Replying to @A and @B-> , <-@C"
 	},
@@ -1750,7 +1750,7 @@
 		"message": "Seguir as configurações do sistema para modo escuro"
 	},
 	"replacer_post_to_tweet": {
-		"message": "post->tweet",
+		"message": "post->tuíte",
 		"description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
 	},
 	"replacer_repost_to_retweet": {
