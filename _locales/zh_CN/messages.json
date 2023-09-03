@@ -459,7 +459,7 @@
     "dark_mode_setting": { "message": "深色主题", "description":"Setting Text"},
     "old_twitter_look": {"message": "旧版 Twitter 外观", "description":"Setting Text"},
     "content_you_see": {"message": "您看到的内容", "description":"Setting Text"},
-    "use_old_style_reply": {"message": "使用旧版样式表情"},
+    "use_old_style_reply": {"message": "使用旧版回复提及样式"},
     "algov2": { "message": "算法时间线（“为你推荐”）" },
     "chrono_help": { "message": "经典的时间线（“正在关注”），将会在顶部显示最近的转推与推文，没有其它多余的内容。" },
     "chrono_no_retweets_help": { "message": "和第一个类似，但去除了转推。" },
