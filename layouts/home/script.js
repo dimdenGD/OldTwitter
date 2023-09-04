@@ -927,7 +927,7 @@ setTimeout(async () => {
                     }
                 };
                 if(uploadedMedia.length > 0) {
-                    variables2.post_tweet_request.media_ids = uploadedMedia.map(i => i.media_id);
+                    variables2.post_tweet_request.media_ids = uploadedMedia;
                 }
                 await API.tweet.postScheduled({
                     variables: variables2,
