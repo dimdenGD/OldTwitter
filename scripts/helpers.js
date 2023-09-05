@@ -3586,6 +3586,12 @@ function renderNotification(n, options = {}) {
                     } else {
                         new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
                     }
+                } else if(n.entry.clientEventInfo.element === "users_added_you_to_lists") {
+                    let a = document.createElement('a');
+                    a.href = `https://twitter.com/i/timeline?page=lists&nid=${n.id}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
                 } else if(n.icon.id === "list_icon") {
                     let a = document.createElement('a');
                     a.href = n.entry.content.notification.url.url;
@@ -3616,6 +3622,8 @@ function renderNotification(n, options = {}) {
                     openInNewTab(`https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`);
                 } else if(n.icon.id === "heart_icon") {
                     openInNewTab(`https://twitter.com/i/timeline?page=likes&nid=${n.id}`);
+                } else if(n.entry.clientEventInfo.element === "users_added_you_to_lists") {
+                    openInNewTab(`https://twitter.com/i/timeline?page=lists&nid=${n.id}`);
                 } else if(n.icon.id === "list_icon") {
                     openInNewTab(n.entry.content.notification.url.url);
                 } else if(n.entry.clientEventInfo.element === "users_followed_you") {

@@ -728,7 +728,7 @@ async function renderLists() {
         if(!l) continue;
         let listElement = document.createElement('div');
         listElement.classList.add('list-item');
-        listElement.innerHTML = `
+        listElement.innerHTML = /*html*/`
             <div>
                 <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
                     <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">

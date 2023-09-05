@@ -1388,6 +1388,10 @@ const API = {
                             let id = e.content.timelineModule.items[0].item.content.user.id;
                             let user = data.globalObjects.users[id];
                             tl.push({data: user, type: 'user'});
+                        } else if(e.entryId.startsWith('list-')) {
+                            let id = e.content.item.content.twitterList.id;
+                            let list = data.globalObjects.lists[id];
+                            tl.push({data: list, type: 'list'});
                         }
                     }
                     debugLog('notifications.view', 'end', tl);
