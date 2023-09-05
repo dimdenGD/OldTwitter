@@ -1804,6 +1804,9 @@ class TweetViewer {
                 if(vars.showExactValues || t.reply_count < 10000)
                     tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
+            if(typeof repliesToIgnore !== 'undefined') {
+                repliesToIgnore.push(tweetData.id_str);
+            }
             tweetData._ARTIFICIAL = true;
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
             if(tweet.getElementsByClassName('tweet-self-thread-div')[0]) tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;

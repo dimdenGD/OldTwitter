@@ -271,6 +271,22 @@ function parseHomeTimeline(entries, data) {
             tweets.push(tweet);
         } else if(e.entryId.startsWith('home-conversation-')) {
             let items = e.content.items;
+            let ignore = false;
+            if(typeof repliesToIgnore !== 'undefined') {
+                for(let i = 0; i < items.length; i++) {
+                    let item = items[i];
+                    if(item.entryId.includes('-tweet-')) {
+                        let res = item.item.itemContent.tweet_results.result;
+                        if(res && repliesToIgnore.includes(res.legacy.id_str)) {
+                            ignore = true;
+                            repliesToIgnore = repliesToIgnore.filter(r => r !== res.legacy.id_str);
+                            break;
+                        }
+                    }
+                }
+            }
+            if(ignore) continue;
+
             for(let i = 0; i < items.length; i++) {
                 let item = items[i];
                 if(item.entryId.includes('-tweet-') && !item.entryId.includes('promoted')) {

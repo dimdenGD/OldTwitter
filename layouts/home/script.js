@@ -14,6 +14,7 @@ let linkColors = {};
 let circles = [];
 let selectedCircle = undefined;
 let cursorBottom, cursorTop;
+let repliesToIgnore = [];
 
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.user.getV2('dimdenEFF');
@@ -310,7 +311,6 @@ async function renderTimeline(options = {}) {
         }
     };
     if(options.mode === 'prepend' && toRender.length > 0) {
-        console.log(data, toRender);
         timelineContainer.prepend(...toRender);
         if(vars.enableTwemoji) {
             for(let t in toRender) {

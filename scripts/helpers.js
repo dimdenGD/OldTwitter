@@ -2762,6 +2762,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.dataset.val) + 1;
                 if(vars.showExactValues || t.reply_count < 10000) tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
+            if(typeof repliesToIgnore !== 'undefined') {
+                repliesToIgnore.push(tweetData.id_str);
+            }
             tweetData._ARTIFICIAL = true;
             if(tweet.getElementsByClassName('tweet-self-thread-div')[0]) tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
             tweetReplyButton.disabled = false;
