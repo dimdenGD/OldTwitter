@@ -277,7 +277,7 @@ function parseHomeTimeline(entries, data) {
                     let item = items[i];
                     if(item.entryId.includes('-tweet-')) {
                         let res = item.item.itemContent.tweet_results.result;
-                        if(res && repliesToIgnore.includes(res.legacy.id_str)) {
+                        if(res && res.legacy && repliesToIgnore.includes(res.legacy.id_str)) {
                             ignore = true;
                             repliesToIgnore = repliesToIgnore.filter(r => r !== res.legacy.id_str);
                             break;

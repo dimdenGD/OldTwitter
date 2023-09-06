@@ -1473,17 +1473,18 @@ let userDataFunction = async user => {
         });
         newTweetText.addEventListener('input', e => {
             let charElement = newTweetChar;
-            let text = e.target.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
-            charElement.innerText = `${text.length}/280`;
-            if (text.length > 265) {
+            let tweet = twttr.txt.parseTweet(e.target.value);
+            charElement.innerText = `${tweet.weightedLength}/280`;
+            if (tweet.weightedLength > 265) {
                 charElement.style.color = "#c26363";
             } else {
                 charElement.style.color = "";
             }
-            if (text.length > 280) {
+            if (tweet.weightedLength > 280) {
                 charElement.style.color = "red";
                 newTweetButton.disabled = true;
             } else {
+                charElement.style.color = "";
                 newTweetButton.disabled = false;
             }
         });
