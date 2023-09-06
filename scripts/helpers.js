@@ -2690,17 +2690,18 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         });
         tweetReplyText.addEventListener('input', e => {
-            let text = tweetReplyText.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
-            tweetReplyChar.innerText = `${text.length}/280`;
-            if(text.length > 265) {
+            let tweet = twttr.txt.parseTweet(tweetReplyText.value);
+            tweetReplyChar.innerText = `${tweet.weightedLength}/280`;
+            if (tweet.weightedLength > 265) {
                 tweetReplyChar.style.color = "#c26363";
             } else {
                 tweetReplyChar.style.color = "";
             }
-            if (text.length > 280) {
+            if (tweet.weightedLength > 280) {
                 tweetReplyChar.style.color = "red";
                 tweetReplyButton.disabled = true;
             } else {
+                tweetReplyChar.style.color = "";
                 tweetReplyButton.disabled = false;
             }
         });
@@ -2968,14 +2969,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
         });
         tweetQuoteText.addEventListener('input', e => {
-            let text = tweetQuoteText.value.replace(linkRegex, ' https://t.co/xxxxxxxxxx').trim();
-            tweetQuoteChar.innerText = `${text.length}/280`;
-            if(text.length > 265) {
+            let tweet = twttr.txt.parseTweet(tweetQuoteText.value);
+
+            tweetQuoteChar.innerText = `${tweet.weightedLength}/280`;
+            if(tweet.weightedLength > 265) {
                 tweetQuoteChar.style.color = "#c26363";
             } else {
                 tweetQuoteChar.style.color = "";
             }
-            if (text.length > 280) {
+            if (tweet.weightedLength > 280) {
                 tweetQuoteChar.style.color = "red";
                 tweetQuoteButton.disabled = true;
             } else {

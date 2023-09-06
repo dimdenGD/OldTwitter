@@ -575,6 +575,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             "libraries/twemoji.min.js",
             (page.name === 'settings' ? 'libraries/parseCssColor.js' : ''),
             (page.name === 'settings' ? 'libraries/coloris.min.js' : ''),
+            "libraries/twitter-text.js",
             "layouts/header/script.js",
             `layouts/${page.name}/script.js`,
             "scripts/tweetviewer.js",
