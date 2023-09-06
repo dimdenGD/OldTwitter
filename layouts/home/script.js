@@ -14,6 +14,7 @@ let linkColors = {};
 let circles = [];
 let selectedCircle = undefined;
 let cursorBottom, cursorTop;
+let repliesToIgnore = [];
 
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.user.getV2('dimdenEFF');
@@ -310,7 +311,6 @@ async function renderTimeline(options = {}) {
         }
     };
     if(options.mode === 'prepend' && toRender.length > 0) {
-        console.log(data, toRender);
         timelineContainer.prepend(...toRender);
         if(vars.enableTwemoji) {
             for(let t in toRender) {
@@ -927,7 +927,7 @@ setTimeout(async () => {
                     }
                 };
                 if(uploadedMedia.length > 0) {
-                    variables2.post_tweet_request.media_ids = uploadedMedia.map(i => i.media_id);
+                    variables2.post_tweet_request.media_ids = uploadedMedia;
                 }
                 await API.tweet.postScheduled({
                     variables: variables2,
@@ -1233,6 +1233,18 @@ setTimeout(async () => {
         } catch(e) {
             console.error(e);
         }
+    }
+    let weirdFonts = ["Monaco", "Courier", "Courier New", "Segoe Print", "Segoe Script", "Consolas", "MV Boli", "MingLiU-ExtB"];
+    if(weirdFonts.includes(vars.font)) {
+        let style = document.createElement('style');
+        style.innerText = /*css*/`
+            @media screen and (max-width: 590px) {
+                #new-tweet-text {
+                    width: calc(100% - 94px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
     }
     
 

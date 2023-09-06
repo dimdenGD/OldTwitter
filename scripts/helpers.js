@@ -2762,6 +2762,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetFooterReplies.dataset.val = parseInt(tweetFooterReplies.dataset.val) + 1;
                 if(vars.showExactValues || t.reply_count < 10000) tweetFooterReplies.innerText = formatLargeNumber(parseInt(tweetFooterReplies.innerText.replace(/\s/g, '').replace(/,/g, '').replace(/\./g, '')) + 1).replace(/\s/g, ',');
             }
+            if(typeof repliesToIgnore !== 'undefined') {
+                repliesToIgnore.push(tweetData.id_str);
+            }
             tweetData._ARTIFICIAL = true;
             if(tweet.getElementsByClassName('tweet-self-thread-div')[0]) tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = false;
             tweetReplyButton.disabled = false;
@@ -3586,6 +3589,12 @@ function renderNotification(n, options = {}) {
                     } else {
                         new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
                     }
+                } else if(n.entry.clientEventInfo.element === "users_added_you_to_lists") {
+                    let a = document.createElement('a');
+                    a.href = `https://twitter.com/i/timeline?page=lists&nid=${n.id}`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
                 } else if(n.icon.id === "list_icon") {
                     let a = document.createElement('a');
                     a.href = n.entry.content.notification.url.url;
@@ -3616,6 +3625,8 @@ function renderNotification(n, options = {}) {
                     openInNewTab(`https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`);
                 } else if(n.icon.id === "heart_icon") {
                     openInNewTab(`https://twitter.com/i/timeline?page=likes&nid=${n.id}`);
+                } else if(n.entry.clientEventInfo.element === "users_added_you_to_lists") {
+                    openInNewTab(`https://twitter.com/i/timeline?page=lists&nid=${n.id}`);
                 } else if(n.icon.id === "list_icon") {
                     openInNewTab(n.entry.content.notification.url.url);
                 } else if(n.entry.clientEventInfo.element === "users_followed_you") {

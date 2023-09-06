@@ -111,6 +111,36 @@ async function renderLikesTimeline() {
         }
     }
 }
+async function renderListsTimeline() {
+    document.getElementById("itl-header").innerText = LOC.lists.message;
+    document.getElementsByTagName('title')[0].innerText = LOC.lists.message + ` - ` + LOC.twitter.message;
+    let lists = await API.notifications.view(nid);
+    let container = document.getElementById('timeline');
+    let userContainer = document.getElementById('user-list');
+    userContainer.hidden = true;
+    container.classList.add('box');
+    container.style.padding = '10px';
+    
+    for(let i in lists) {
+        let l = lists[i];
+        if(!l || l.type !== 'list') continue;
+        l = l.data;
+        let listElement = document.createElement('div');
+        listElement.classList.add('list-item');
+        listElement.innerHTML = /*html*/`
+            <div>
+                <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                    <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
+                    <div class="following-item-text" style="position: relative;bottom: 12px;">
+                        <span class="tweet-header-name following-item-name${l.mode === 'Private' ? ' user-protected' : ''}" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
+                        <span style="color:var(--darker-gray);font-size:14px;margin-top:2px">${l.description ? escapeHTML(l.description).slice(0, 52) : LOC.no_description.message}</span>
+                    </div>
+                </a>
+            </div>
+        `;
+        container.appendChild(listElement);
+    }
+}
 
 let loadingNewTweets = false;
 
@@ -119,7 +149,7 @@ setTimeout(async () => {
         await loadVars();
     }
 
-    if(!subpage || !['likes', 'device_follow'].includes(subpage) || (subpage === 'likes' && !nid)) {
+    if(!subpage || !['likes', 'device_follow', 'lists'].includes(subpage) || (subpage === 'likes' && !nid)) {
         location.href = 'https://twitter.com/home';
     }
 
@@ -151,6 +181,7 @@ setTimeout(async () => {
     renderTrends();
     if(subpage === 'device_follow') renderDeviceNotificationTimeline();
     else if(subpage === 'likes') renderLikesTimeline();
+    else if(subpage === 'lists') renderListsTimeline(nid);
     setInterval(updateUserData, 60000 * 3);
     setInterval(() => renderDiscovery(false), 60000 * 15);
     setInterval(renderTrends, 60000 * 5);

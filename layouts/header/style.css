@@ -2247,7 +2247,8 @@ rt.furigana {
     font-size: 14px;
     left: 57px;
     position: relative;
-    width: 475px
+    width: 475px;
+    font-family: var(--tweet-font);
 }
 
 .notification-avatars {

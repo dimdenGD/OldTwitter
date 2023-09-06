@@ -594,11 +594,11 @@ async function renderFollowing(clear = true, cursor) {
     if(clear) {
         if(pageUser.id_str === user.id_str) {
             userList.innerHTML = `
-                <h1 class="nice-header">${LOC.following.message}</h1>
+                <h1 class="nice-header">${LOC.following.message} (${pageUser.friends_count.toLocaleString('en-US')})</h1>
                 <a href="/old/unfollows/following" style="float: right;font-size: 14px;">${LOC.unfollowings.message}</a>
             `;
         } else {
-            userList.innerHTML = `<h1 class="nice-header">${LOC.following.message}</h1>`;
+            userList.innerHTML = `<h1 class="nice-header">${LOC.following.message} (${pageUser.friends_count.toLocaleString('en-US')})</h1>`;
         }
     }
     let following;
@@ -630,11 +630,11 @@ async function renderFollowers(clear = true, cursor) {
     if(clear) {
         if(pageUser.id_str === user.id_str) {
             userList.innerHTML = `
-                <h1 class="nice-header">${LOC.followers.message}</h1>
+                <h1 class="nice-header">${LOC.followers.message} (${pageUser.followers_count.toLocaleString('en-US')})</h1>
                 <a href="/old/unfollows/followers" style="float: right;font-size: 14px;">${LOC.unfollowers.message}</a>
             `;
         } else {
-            userList.innerHTML = `<h1 class="nice-header">${LOC.followers.message}</h1>`;
+            userList.innerHTML = `<h1 class="nice-header">${LOC.followers.message} (${pageUser.followers_count.toLocaleString('en-US')})</h1>`;
         }
     }
     let following;
@@ -728,7 +728,7 @@ async function renderLists() {
         if(!l) continue;
         let listElement = document.createElement('div');
         listElement.classList.add('list-item');
-        listElement.innerHTML = `
+        listElement.innerHTML = /*html*/`
             <div>
                 <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
                     <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
