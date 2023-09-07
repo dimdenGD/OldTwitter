@@ -201,10 +201,12 @@ input, textarea {
     /* border-bottom: 3px solid transparent; */
     transition: 0.2s;
 }
+
 /* To add new CSS styles to .menu-active. */
 #navbar-links a.menu-active {
     padding-bottom: 16px;
 }
+
 @-moz-document url-prefix() {
     #navbar-links a {
         padding-bottom: 15px;
@@ -214,6 +216,7 @@ input, textarea {
 #navbar-links a:hover {
     box-shadow: 0px -7px 0px -4px var(--link-color) inset;
     transition: 0.2s;
+    padding-bottom: 16px;
 }
 
 .menu-active {
@@ -831,60 +834,60 @@ input, textarea {
     line-height: 1.2;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
-	position: relative;
+    position: relative;
     overflow-wrap: anywhere;
 }
 .message-element-self .message-body:after  {
     content: '';
-	position: absolute;
-	right: 0;
-	bottom: 14px;
-	width: 0;
-	height: 0;
-	border: 4px solid transparent;
-	border-left-color: var(--link-color);
-	border-right: 0;
-	margin-top: -4px;
-	margin-right: -4px;
+    position: absolute;
+    right: 0;
+    bottom: 14px;
+    width: 0;
+    height: 0;
+    border: 4px solid transparent;
+    border-left-color: var(--link-color);
+    border-right: 0;
+    margin-top: -4px;
+    margin-right: -4px;
 }
 .message-element-other {
     text-align: left;
     float: left;
 }
 .message-element-other .message-body {
-	position: relative;
+    position: relative;
     background-color: #d9e3eb;
     color: black;
 }
 .message-element-other .message-body:after {
-	content: '';
-	position: absolute;
-	left: 0;
-	bottom: 14px;
-	width: 0;
-	height: 0;
-	border: 4px solid transparent;
-	border-right-color: #d9e3eb;
-	border-left: 0;
-	margin-top: -4px;
-	margin-left: -4px;
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 14px;
+    width: 0;
+    height: 0;
+    border: 4px solid transparent;
+    border-right-color: #d9e3eb;
+    border-left: 0;
+    margin-top: -4px;
+    margin-left: -4px;
 }
 
 
 .message-element-self.message-element-continue .message-body:after,
 .message-element-other.message-element-continue .message-body:after {
     content: '';
-	left: 0;
-	right: 0;
-	bottom: 0;
-	width: 0;
-	height: 0;
-	border: 0;
-	border-right: 0;
-	border-left: 0;
-	margin-top: 0;
-	margin-right: 0;
-	margin-left: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border: 0;
+    border-right: 0;
+    border-left: 0;
+    margin-top: 0;
+    margin-right: 0;
+    margin-left: 0;
 }
 
 .message-element.message-element-continue {
@@ -2878,8 +2881,8 @@ video::-internal-media-controls-overlay-cast-button {
         margin-bottom: -28px;
     }
     .modal .tweet-header-name-main {
-            width: 220px !important;
-            text-overflow: ellipsis;
+        width: 220px !important;
+        text-overflow: ellipsis;
     }
     #navbar-user-menu {
         height: auto;
