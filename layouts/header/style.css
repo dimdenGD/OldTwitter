@@ -59,13 +59,13 @@ body {
 ::-webkit-scrollbar {
     width: 6px;
 }
-  
+
 ::-webkit-scrollbar-track {
-    background: var(--background-color); 
+    background: var(--background-color);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--link-color); 
+    background: var(--link-color);
     border-radius: 3px;
 }
 
@@ -195,11 +195,15 @@ input, textarea {
 
 #navbar-links a {
     padding: 13px 15px;
-    padding-bottom: 16px;
+    /*padding-bottom: 16px;*/
     top: 8px;
     position: relative;
     /* border-bottom: 3px solid transparent; */
     transition: 0.2s;
+}
+/* To add new CSS styles to .menu-active. */
+#navbar-links a.menu-active {
+    padding-bottom: 16px;
 }
 @-moz-document url-prefix() {
     #navbar-links a {
@@ -868,7 +872,7 @@ input, textarea {
 
 
 .message-element-self.message-element-continue .message-body:after,
-.message-element-other.message-element-continue .message-body:after { 
+.message-element-other.message-element-continue .message-body:after {
     content: '';
 	left: 0;
 	right: 0;
@@ -3022,7 +3026,7 @@ video::-internal-media-controls-overlay-cast-button {
         vertical-align: sub;
         margin-right: 7px;
         font-size: 20px;
-        
+
     }
     #navbar-user-menu-settings:before {
         content: "\f059";
@@ -3102,7 +3106,7 @@ video::-internal-media-controls-overlay-cast-button {
 }
 @media screen and (max-width: 310px) {
     #pin-profile {
-        display: none; 
+        display: none;
     }
     .profile-block-me{
         display:none;
