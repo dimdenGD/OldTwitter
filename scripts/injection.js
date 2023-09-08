@@ -372,45 +372,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 (async () => {
     if (!page) return;
 
-    // block all twitters scripts
-    function blockScriptElements(element) {
-        if (element.tagName === 'SCRIPT') {
-            element.type = 'javascript/blocked';
-            const beforeScriptExecuteListener = function (event) {
-                if(element.getAttribute('type') === 'javascript/blocked') {
-                    event.preventDefault();
-                }
-                element.removeEventListener('beforescriptexecute', beforeScriptExecuteListener);
-            }
-            element.addEventListener('beforescriptexecute', beforeScriptExecuteListener);
-            element.remove();
-        }
-    }
-    
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        blockScriptElements(node);
-                        node.querySelectorAll('script').forEach(blockScriptElements);
-                        if(node.tagName === 'SVG') {
-                            node.remove();
-                        }
-                        if(node.id === 'placeholder') {
-                            node.remove();
-                        }
-                        node.querySelectorAll('svg').forEach(i => i.remove());
-                        if(document.getElementById('placeholder')) document.getElementById('placeholder').remove();
-                    }
-                });
-            }
-        });
-    });
-    
-    // Start observing the page for changes
-    observer.observe(document.documentElement, { childList: true, subtree: true });
-
     // wait for variables
     if(!vars) {
         await varsPromise;
@@ -540,7 +501,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     document.documentElement.innerHTML = html;
     document.body.classList.add('body-old-ui');
 
-    observer.disconnect();
+    blockingObserver.disconnect();
 
     document.getElementsByTagName('header')[0].innerHTML = header_html;
     if (page.activeMenu) {
