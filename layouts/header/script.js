@@ -518,16 +518,15 @@ let userDataFunction = async user => {
             dms = 0;
         }
         total = dms + notifs;
-
         if(dms > 0) {
             dmsElement.hidden = false;
-            dmsElement.innerText = dms;
+            dmsElement.innerText = dms > 20 ? '20+' : dms;
         } else {
             dmsElement.hidden = true;
         }
         if(notifs > 0) {
             notifElement.hidden = false;
-            notifElement.innerText = notifs;
+            notifElement.innerText = notifs > 20 ? '20+' : notifs;
         } else {
             notifElement.hidden = true;
         }
@@ -537,7 +536,7 @@ let userDataFunction = async user => {
             if(document.title.startsWith('(')) {
                 newTitle = document.title.split(') ')[1];
             }
-            newTitle = `(${total}) ${newTitle}`;
+            newTitle = `(${total > 40 ? '40+' : total}) ${newTitle}`;
             if(document.title !== newTitle) {
                 document.title = newTitle;
             }
