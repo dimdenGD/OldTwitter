@@ -225,6 +225,9 @@ function parseTweet(res) {
     if(res.birdwatch_pivot) { // community notes
         tweet.birdwatch = res.birdwatch_pivot;
     }
+    if(res.trusted_friends_info_result && res.trusted_friends_info_result.owner_results && res.trusted_friends_info_result.owner_results.result && res.trusted_friends_info_result.owner_results.result.legacy) {
+        tweet.trusted_circle_owner = res.trusted_friends_info_result.owner_results.result.legacy.screen_name;
+    }
 
     if(tweet.favorited && tweet.favorite_count === 0) {
         tweet.favorite_count = 1;
@@ -2483,6 +2486,9 @@ const API = {
                     let ct = data.data.create_tweet ? data.data.create_tweet : data.data.notetweet_create;
                     let result = ct.tweet_results.result;
                     let tweet = parseTweet(result);
+                    if(result.trusted_friends_info_result && !tweet.limited_actions) {
+                        tweet.limited_actions = 'limit_trusted_friends_tweet';
+                    }
                     debugLog('tweet.postV2', 'end', tweet);
                     resolve(tweet);
                 }).catch(e => {
