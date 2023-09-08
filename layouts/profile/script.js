@@ -1429,7 +1429,7 @@ async function renderProfile() {
         if(pageUser.birthdate.year && typeof pageUser.birthdate.month === 'number') {
             birth.innerText = `${LOC.born.message} ${LOC.mmddyy.message.replace('$YEAR$',pageUser.birthdate.year).replace('$MONTH$',months[pageUser.birthdate.month-1]).replace("$DATE$", pageUser.birthdate.day)}`;
         } else if(typeof pageUser.birthdate.month === 'number') {
-            birth.innerText = `${LOC.born.message}  ${LOC.ddyy.message.replace('$MONTH$',months[pageUser.birthdate.month-1]).replace("$DATE$", pageUser.birthdate.day)}`;
+            birth.innerText = `${LOC.born.message}  ${LOC.mmdd.message.replace('$MONTH$',months[pageUser.birthdate.month-1]).replace("$DATE$", pageUser.birthdate.day)}`;
         } else if(pageUser.birthdate.year) {
             birth.innerText = `${LOC.born.message} ${LOC.yyyy.message.replace('$YEAR$',pageUser.birthdate.year)}`;
         }
