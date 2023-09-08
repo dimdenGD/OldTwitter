@@ -2459,7 +2459,7 @@ const API = {
                     variables.attachment_url = tweet.attachment_url;
                 }
                 debugLog('tweet.postV2', 'init', {tweet, variables});
-                fetch(`https://twitter.com/i/api/graphql/tTsjMKyhajZvK4q76mpIBg/CreateTweet`, {
+                fetch(`https://twitter.com/i/api/graphql/${text.length > 280 ? 'pokID4auGUSzBxijrqpIlw/CreateNoteTweet' : 'tTsjMKyhajZvK4q76mpIBg/CreateTweet'}`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
