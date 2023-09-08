@@ -424,8 +424,8 @@ async function appendComposeComponent(container, replyTweet) {
     el.innerHTML = /*html*/`
         <div id="new-tweet" class="box">
             <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
-            <span id="new-tweet-char" hidden>0/280</span>
-            <textarea id="new-tweet-text" placeholder="${replyMessage}" maxlength="1000"></textarea>
+            <span id="new-tweet-char" hidden>${localStorage.OTisBlueVerified ? '0' : '0/280'}</span>
+            <textarea id="new-tweet-text" placeholder="${replyMessage}" maxlength="25000"></textarea>
             <div id="new-tweet-user-search" class="box" hidden></div>
             <div id="new-tweet-media-div" title="${LOC.add_media.message}">
                 <span id="new-tweet-media"></span>
@@ -605,6 +605,9 @@ async function appendComposeComponent(container, replyTweet) {
     newTweetText.addEventListener('input', async e => {
         let charElement = document.getElementById('new-tweet-char');
         let tweet = twttr.txt.parseTweet(e.target.value);
+        if(localStorage.OTisBlueVerified) {
+            return charElement.innerText = `${tweet.weightedLength}`;
+        }
         charElement.innerText = `${tweet.weightedLength}/280`;
         if (tweet.weightedLength > 265) {
             charElement.style.color = "#c26363";
@@ -671,7 +674,7 @@ async function appendComposeComponent(container, replyTweet) {
         excludeUserMentions = [];
         document.getElementById('new-tweet-focused').hidden = true;
         document.getElementById('new-tweet-char').hidden = true;
-        document.getElementById('new-tweet-char').innerText = '0/280';
+        document.getElementById('new-tweet-char').innerText = localStorage.OTisBlueVerified ? '0' : '0/280';
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
         document.getElementById('new-tweet-button').disabled = false;

@@ -1354,8 +1354,8 @@ let userDataFunction = async user => {
             <div class="navbar-new-tweet-container">
                 <div class="navbar-new-tweet">
                     <img width="35" height="35" class="navbar-new-tweet-avatar">
-                    <span class="navbar-new-tweet-char">0/280</span>
-                    <textarea maxlength="1000" class="navbar-new-tweet-text" placeholder="${LOC.whats_happening.message}"></textarea>
+                    <span class="navbar-new-tweet-char">${localStorage.OTisBlueVerified ? '0' : '0/280'}</span>
+                    <textarea maxlength="25000" class="navbar-new-tweet-text" placeholder="${LOC.whats_happening.message}"></textarea>
                     <div class="navbar-new-tweet-user-search box" hidden></div>
                     <div class="navbar-new-tweet-media-div">
                         <span class="navbar-new-tweet-media"></span>
@@ -1473,6 +1473,9 @@ let userDataFunction = async user => {
         newTweetText.addEventListener('input', e => {
             let charElement = newTweetChar;
             let tweet = twttr.txt.parseTweet(e.target.value);
+            if(localStorage.OTisBlueVerified) {
+                return charElement.innerText = `${tweet.weightedLength}`;
+            }
             charElement.innerText = `${tweet.weightedLength}/280`;
             if (tweet.weightedLength > 265) {
                 charElement.style.color = "#c26363";
