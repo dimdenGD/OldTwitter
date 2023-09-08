@@ -54,6 +54,7 @@ let pages = [
 ];
 
 let realPath = location.pathname;
+let hrefUrl = location.href;
 if (realPath.endsWith("/") && realPath !== "/") {
     location.replace(realPath.slice(0, -1));
 }
@@ -116,13 +117,19 @@ if(realPath === '/intent/follow') {
     let screen_name = location.search.split('screen_name=')[1].split('&')[0];
     location.replace(`/${screen_name}`);
 }
-if(
-    /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath) ||
-    /^\/i\/events\/\d{5,32}$/.test(realPath) ||
-    realPath.startsWith('/settings/') ||
-    realPath.startsWith('/i/flow/')
+if (!hrefUrl.includes('newtwitter=true') &&
+    (
+        realPath.startsWith('/i/flow/') ||
+        realPath.startsWith('/i/premium_sign_up/') ||
+        realPath.startsWith('/i/events/') ||
+        realPath.startsWith('/i/spaces/') ||
+        realPath.startsWith('/settings') ||
+        /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath)
+    )
 ) {
-    location.replace(location.href.replace('twitter.com', 'mobile.twitter.com'));
+    let url = new URL(hrefUrl)
+    url.searchParams.set('newtwitter', 'true');
+    location.replace(url);
 }
 const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca"];
 const TRANSLATORS = {
