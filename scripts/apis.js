@@ -2482,21 +2482,7 @@ const API = {
                     }
                     let ct = data.data.create_tweet ? data.data.create_tweet : data.data.notetweet_create;
                     let result = ct.tweet_results.result;
-                    let tweet = result.legacy;
-                    tweet.id_str = result.rest_id;
-                    tweet.user = result.core.user_results.result.legacy;
-                    tweet.user.id_str = result.core.user_results.result.rest_id;
-                    if(result.card) {
-                        tweet.card = result.card.legacy;
-                        tweet.card.id_str = result.card.rest_id;
-                        tweet.card.id = result.card.rest_id;
-                        let binding_values = {};
-                        for(let i in tweet.card.binding_values) {
-                            let bv = tweet.card.binding_values[i];
-                            binding_values[bv.key] = bv.value;
-                        }
-                        tweet.card.binding_values = binding_values;
-                    }
+                    let tweet = parseTweet(result);
                     debugLog('tweet.postV2', 'end', tweet);
                     resolve(tweet);
                 }).catch(e => {
