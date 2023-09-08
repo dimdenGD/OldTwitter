@@ -2480,7 +2480,8 @@ const API = {
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
-                    let result = data.data.create_tweet.tweet_results.result;
+                    let ct = data.data.create_tweet ? data.data.create_tweet : data.data.notetweet_create;
+                    let result = ct.tweet_results.result;
                     let tweet = result.legacy;
                     tweet.id_str = result.rest_id;
                     tweet.user = result.core.user_results.result.legacy;

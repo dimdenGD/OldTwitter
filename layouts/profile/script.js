@@ -956,7 +956,7 @@ async function renderProfile() {
     if(pageUser.id_str === user.id_str) {
         if((pageUser.verified_type === "Blue" || pageUser.verified) && !localStorage.alwaysThinkUreNotBlueVerified) {
             localStorage.OTisBlueVerified = true;
-        } else if(localStorage.OTisBlueVerified) {
+        } else if(localStorage.OTisBlueVerified && localStorage.OTisBlueVerified !== "always") {
             delete localStorage.OTisBlueVerified;
         }
         buttonsElement.innerHTML = /*html*/`
