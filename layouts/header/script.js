@@ -3061,6 +3061,7 @@ setInterval(() => {
         }
     }
     window.addEventListener('popstate', () => {
+        if(document.querySelector('iframe.iframe-navigation')) return;
         let nm = document.querySelector('.notifications-modal');
         if(nm) {
             let tv = document.querySelector('.tweet-viewer');
