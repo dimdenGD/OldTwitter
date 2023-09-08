@@ -954,11 +954,6 @@ async function renderProfile() {
     document.getElementById('pin-lists').classList.toggle('menu-active', location.pathname.startsWith(`/${pageUser.screen_name}/lists`));
     let styling = document.getElementById('styling');
     if(pageUser.id_str === user.id_str) {
-        if((pageUser.verified_type === "Blue" || pageUser.verified) && !localStorage.alwaysThinkUreNotBlueVerified) {
-            localStorage.OTisBlueVerified = true;
-        } else if(localStorage.OTisBlueVerified) {
-            delete localStorage.OTisBlueVerified;
-        }
         buttonsElement.innerHTML = /*html*/`
             <a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>
             <button class="profile-additional-thing nice-button" id="profile-style"></button>

@@ -461,8 +461,8 @@ class TweetViewer {
         el.innerHTML = /*html*/`
             <div class="new-tweet-view box">
                 <img width="35" height="35" class="tweet-avatar new-tweet-avatar">
-                <span class="new-tweet-char" hidden>${localStorage.OTisBlueVerified ? '0' : '0/280'}</span>
-                <textarea class="new-tweet-text" placeholder="${replyMessage}" maxlength="25000"></textarea>
+                <span class="new-tweet-char" hidden>0/280</span>
+                <textarea class="new-tweet-text" placeholder="${replyMessage}" maxlength="1000"></textarea>
                 <div class="new-tweet-user-search box" hidden></div>
                 <div class="new-tweet-media-div" title="${LOC.add_media.message}">
                     <span class="new-tweet-media"></span>
@@ -593,6 +593,7 @@ class TweetViewer {
                     e.stopPropagation();
                     newTweetText.value = newTweetText.value.split("@").slice(0, -1).join('@').split(" ").slice(0, -1).join(" ") + ` @${activeSearch.querySelector('.search-result-item-screen-name').innerText.slice(1)} `;
                     if(newTweetText.value.startsWith(" ")) newTweetText.value = newTweetText.value.slice(1);
+                    if(newTweetText.value.length > 280) newTweetText.value = newTweetText.value.slice(0, 280);
                     newTweetUserSearch.innerHTML = '';
                     newTweetUserSearch.hidden = true;
                 }
@@ -660,9 +661,6 @@ class TweetViewer {
         newTweetText.addEventListener('input', e => {
             let charElement = document.getElementsByClassName('new-tweet-char')[0];
             let tweet = twttr.txt.parseTweet(e.target.value);
-            if(localStorage.OTisBlueVerified) {
-                return charElement.innerText = `${tweet.weightedLength}`;
-            }
             charElement.innerText = `${tweet.weightedLength}/280`;
             if(tweet.weightedLength > 265) {
                 charElement.style.color = "#c26363";
@@ -1099,18 +1097,18 @@ class TweetViewer {
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+R"' : ''} class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-reply-error" style="color:red"></span>
-                    <textarea maxlength="25000" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
+                    <textarea maxlength="1000" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
                     <button title="CTRL+ENTER" class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
-                    <span class="tweet-reply-char">${localStorage.OTisBlueVerified ? '0/25000' : '0/280'}</span><br>
+                    <span class="tweet-reply-char">0/280</span><br>
                     <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
                 </div>
                 <div class="tweet-quote" hidden>
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+Q"' : ''} class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-quote-error" style="color:red"></span>
-                    <textarea maxlength="25000" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
+                    <textarea maxlength="1000" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
                     <button title="CTRL+ENTER" class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
-                    <span class="tweet-quote-char">${localStorage.OTisBlueVerified ? '0/25000' : '0/280'}</span><br>
+                    <span class="tweet-quote-char">0/280</span><br>
                     <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
                 </div>
                 <div class="tweet-view-self-thread-div" ${options.threadContinuation ? '' : 'hidden'}>
@@ -1733,9 +1731,6 @@ class TweetViewer {
         });
         tweetReplyText.addEventListener('input', e => {
             let tweet = twttr.txt.parseTweet(e.target.value);
-            if(localStorage.OTisBlueVerified) {
-                return tweetReplyChar.innerText = `${tweet.weightedLength}/25000`;
-            }
             tweetReplyChar.innerText = `${tweet.weightedLength}/280`;
             if(tweet.weightedLength > 265) {
                 tweetReplyChar.style.color = "#c26363";
@@ -1797,7 +1792,7 @@ class TweetViewer {
                 return;
             }
             tweetReplyText.value = '';
-            tweetReplyChar.innerText = localStorage.OTisBlueVerified ? '0/25000' : '0/280';
+            tweetReplyChar.innerText = '0/280';
             tweetReply.hidden = true;
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
             if(!options.mainTweet) {
@@ -1992,9 +1987,6 @@ class TweetViewer {
         });
         tweetQuoteText.addEventListener('input', e => {
             let tweet = twttr.txt.parseTweet(e.target.value);
-            if(localStorage.OTisBlueVerified) {
-                return tweetQuoteChar.innerText = `${tweet.weightedLength}/25000`;
-            }
             tweetQuoteChar.innerText = `${tweet.weightedLength}/280`;
             if(tweet.weightedLength > 265) {
                 tweetQuoteChar.style.color = "#c26363";
@@ -2059,7 +2051,7 @@ class TweetViewer {
             tweetQuote.hidden = true;
             tweetData._ARTIFICIAL = true;
             quoteMedia = [];
-            tweetQuoteChar.innerText = localStorage.OTisBlueVerified ? '0/25000' : '0/280';
+            tweetQuoteChar.innerText = '0/280';
             tweetQuoteButton.disabled = false;
             tweetQuoteMedia.innerHTML = '';
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});

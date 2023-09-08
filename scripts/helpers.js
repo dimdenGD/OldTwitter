@@ -1944,18 +1944,18 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+R"' : ''} class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-reply-error" style="color:red"></span>
-                    <textarea maxlength="25000" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
+                    <textarea maxlength="1000" class="tweet-reply-text" placeholder="${LOC.reply_example.message}"></textarea>
                     <button title="CTRL+ENTER" class="tweet-reply-button nice-button">${LOC.reply.message}</button><br>
-                    <span class="tweet-reply-char">${localStorage.OTisBlueVerified ? '0/25000' : '0/280'}</span><br>
+                    <span class="tweet-reply-char">0/280</span><br>
                     <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
                 </div>
                 <div class="tweet-quote" hidden>
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+Q"' : ''} class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-quote-error" style="color:red"></span>
-                    <textarea maxlength="25000" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
+                    <textarea maxlength="1000" class="tweet-quote-text" placeholder="${LOC.quote_example.message}"></textarea>
                     <button title="CTRL+ENTER" class="tweet-quote-button nice-button">${LOC.quote.message}</button><br>
-                    <span class="tweet-quote-char">${localStorage.OTisBlueVerified ? '0/25000' : '0/280'}</span><br>
+                    <span class="tweet-quote-char">0/280</span><br>
                     <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
                 </div>
                 <div class="tweet-self-thread-div" ${(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) ? '' : 'hidden'}>
@@ -2692,9 +2692,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         tweetReplyText.addEventListener('input', e => {
             let tweet = twttr.txt.parseTweet(tweetReplyText.value);
-            if(localStorage.OTisBlueVerified) {
-                return tweetReplyChar.innerText = `${tweet.weightedLength}/25000`;
-            }
             tweetReplyChar.innerText = `${tweet.weightedLength}/280`;
             if (tweet.weightedLength > 265) {
                 tweetReplyChar.style.color = "#c26363";
@@ -2756,7 +2753,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetReplyError.innerHTML = `${LOC.error_sending_tweet.message}<br>`;
                 return;
             }
-            tweetReplyChar.innerText = localStorage.OTisBlueVerified ? '0/25000' : '0/280';
+            tweetReplyChar.innerText = '0/280';
             tweetReplyText.value = '';
             tweetReply.hidden = true;
             tweetInteractReply.classList.remove('tweet-interact-reply-clicked');
@@ -2974,10 +2971,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         tweetQuoteText.addEventListener('input', e => {
             let tweet = twttr.txt.parseTweet(tweetQuoteText.value);
-            
-            if(localStorage.OTisBlueVerified) {
-                return tweetQuoteChar.innerText = `${tweet.weightedLength}/25000`;
-            }
+
             tweetQuoteChar.innerText = `${tweet.weightedLength}/280`;
             if(tweet.weightedLength > 265) {
                 tweetQuoteChar.style.color = "#c26363";
@@ -3039,7 +3033,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 return;
             }
             tweetQuoteText.value = '';
-            tweetQuoteChar.innerText = localStorage.OTisBlueVerified ? '0/25000' : '0/280';
+            tweetQuoteChar.innerText = '0/280';
             tweetQuote.hidden = true;
             tweetData._ARTIFICIAL = true;
             quoteMedia = [];

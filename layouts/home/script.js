@@ -698,15 +698,9 @@ setTimeout(async () => {
             }
         }
     });
-    if(localStorage.OTisBlueVerified) {
-        document.getElementById('new-tweet-char').innerText = '0';
-    }
     newTweetText.addEventListener('input', async e => {
         let charElement = document.getElementById('new-tweet-char');
         let tweet = twttr.txt.parseTweet(e.target.value);
-        if(localStorage.OTisBlueVerified) {
-            return charElement.innerText = `${tweet.weightedLength}`;
-        }
         charElement.innerText = `${tweet.weightedLength}/280`;
         if (tweet.weightedLength > 265) {
             charElement.style.color = "#c26363";
@@ -975,7 +969,7 @@ setTimeout(async () => {
             alert(e);
         }
         document.getElementById('new-tweet-text').value = "";
-        document.getElementById('new-tweet-char').innerText = localStorage.OTisBlueVerified ? '0' : '0/280';
+        document.getElementById('new-tweet-char').innerText = '0/280';
         document.getElementById('new-tweet-media-c').innerHTML = "";
         mediaToUpload = [];
         pollToUpload = undefined;
