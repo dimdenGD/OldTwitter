@@ -250,7 +250,7 @@ function getMedia(mediaArray, mediaContainer) {
     input.type = 'file';
     input.multiple = true;
     if(!vars.disableAcceptType){
-        input.accept = 'image/png,image/jpeg,image/gif,video/mp4,video/mov';
+        input.accept = 'image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime';
     }
     input.addEventListener('change', () => {
         handleFiles(input.files, mediaArray, mediaContainer);

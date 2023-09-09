@@ -99,7 +99,7 @@
         "condition": {
             "urlFilter": "*://*.twimg.com/*",
             "initiatorDomains": ["twitter.com"],
-            "excludedInitiatorDomains": ["mobile.twitter.com", "tweetdeck.twitter.com", "platform.twitter.com"],
+            "excludedInitiatorDomains": ["tweetdeck.twitter.com", "platform.twitter.com"],
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
     },
