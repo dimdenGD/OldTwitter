@@ -73,7 +73,7 @@ Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chro
 Extension won't be pixel perfect copy of old Twitter. I just took general look and feel of it.
 
 #### I installed extension and my timeline feels kinda unusual
-You had algorithmical timeline enabled. By default OldTwitter turns on reverse chronological timeline. If you really want algo timeline back go to [extension settings](https://twitter.com/old/settings).  
+You had algorithmical timeline enabled. By default OldTwitter turns on reverse chronological timeline, you can switch it back to algorithmical timeline in settings or using the switch on the right side.
 
 #### How do I visit original Twitter client after installing extension?
 You need to add `?newtwitter=true` to end of your current URL. There's also a "Open this page in new Twitter" button on all pages on bottom right.  
