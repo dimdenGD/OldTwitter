@@ -817,7 +817,7 @@ a:hover,
     border-bottom: none;
 }
 .tweet-self-thread-div {
-    margin-top: -5px;
+    margin-top: 8px;
 }
 .user-stat-div:hover {
     text-decoration: none !important;
