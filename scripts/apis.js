@@ -290,6 +290,7 @@ function parseHomeTimeline(entries, data) {
             }
             if(ignore) continue;
 
+            let pushedTweets = [];
             for(let i = 0; i < items.length; i++) {
                 let item = items[i];
                 if(item.entryId.includes('-tweet-') && !item.entryId.includes('promoted')) {
@@ -318,7 +319,12 @@ function parseHomeTimeline(entries, data) {
                     if(i !== 0) tweet.noTop = true;
                     tweet.hasModeratedReplies = item.item.itemContent.hasModeratedReplies;
                     tweets.push(tweet);
+                    pushedTweets.push(tweet);
                 }
+            }
+            // possible weird bug fix?
+            if(pushedTweets.length === 1) {
+                delete pushedTweets[0].threadContinuation;
             }
         }
     }
