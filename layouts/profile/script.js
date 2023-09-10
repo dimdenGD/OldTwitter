@@ -691,6 +691,10 @@ async function renderFollowers(clear = true, cursor) {
                         <input type="checkbox" id="only-mutuals">
                         <label for="only-mutuals">${LOC.only_show_people_you_follow.message}</label>
                     </div>
+                    <div>
+                        <span>${LOC.page.message}:</span>
+                        <input id="followers-filter-page" type="number" value="1" min="1" max="${Math.ceil(user.followers_count / 500)}">
+                    </div>
                     <div id="loading-sorted-followers" hidden></div>
                     <button class="nice-button" id="apply-followers-filter">${LOC.apply.message}</button>
                 </div>
@@ -705,6 +709,7 @@ async function renderFollowers(clear = true, cursor) {
             let onlyMutuals = document.getElementById('only-mutuals');
             let onlyShowPeopleWithFollowers = document.getElementById('only-show-people-with-followers');
             let onlyShowPeopleWithAge = document.getElementById('only-show-people-with-age');
+            let page = document.getElementById('followers-filter-page');
 
             switchFiltering.addEventListener('click', () => {
                 document.getElementById('follower-filtering-menu').hidden = !document.getElementById('follower-filtering-menu').hidden;
@@ -755,7 +760,7 @@ async function renderFollowers(clear = true, cursor) {
                                 continue;
                             }
                             i += 700;
-                            let users = users1.concat(users2, users3, users4, users5);
+                            let users = users1.concat(users2, users3, users4, users5, users6, users7);
                             loadingSortedFollowers.innerText = `${LOC.loading_all_followers.message} (${i / 100} / ${Math.ceil(userIds.length / 100)})`;
                             fetchedUsers = fetchedUsers.concat(users.map(u => ([
                                 u.id_str,
@@ -843,7 +848,7 @@ async function renderFollowers(clear = true, cursor) {
                     if(sortOrder.value === 'desc') {
                         fetchedUsers.reverse();
                     }
-                    fetchedUsers = fetchedUsers.slice(0, 500);
+                    fetchedUsers = fetchedUsers.slice((page.value - 1) * 500, (page.value - 1) * 500 + 500);
 
                     for(let u of fetchedUsers) {
                         appendUser({
