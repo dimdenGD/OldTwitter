@@ -717,7 +717,7 @@ let userDataFunction = async user => {
     }
 
     // unfollows
-    if(user.followers_count > 0 && user.followers_count < 50000) {
+    if(user.followers_count > 0 && user.followers_count < 50000 && user.friends_count < 50000) {
         chrome.storage.local.get(['unfollows'], async d => {
             let res = d.unfollows;
             if(!res) res = {};

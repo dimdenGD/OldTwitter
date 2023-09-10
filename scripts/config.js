@@ -30,7 +30,8 @@ async function loadVars() {
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'openNotifsAsModal', 'enableIframeNavigation',
             'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
             'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
-            'disableRetweetHotkey', 'disableLikeHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType'
+            'disableRetweetHotkey', 'disableLikeHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType',
+            'showUserFollowerCountsInLists'
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {

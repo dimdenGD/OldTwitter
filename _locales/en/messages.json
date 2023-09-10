@@ -548,5 +548,7 @@
     "disable_accept_type": { "message": "Disable accept-type when uploading media. This fixes the problem of not being able to access all images on some Android versions.", "description": "This option only appears on mobile" },
     "manage_searches": { "message": "Manage searches" },
     "add_search": { "message": "Add search" },
-    "pinned_searches": { "message": "Pinned searches" }
+    "pinned_searches": { "message": "Pinned searches" },
+    "show_follower_counts_in_lists": { "message": "Show users follower counts on follower/following pages." },
+    "not_possible_to_see_unfollowers": { "message": "Unfortunately, it's not possible to see unfollowers for accounts with more than 50,000 followers." }
 }

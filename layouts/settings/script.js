@@ -200,6 +200,7 @@ setTimeout(async () => {
     let extensionCompatibilityMode = document.getElementById('extension-compatibility-mode');
     let disableDataSaver = document.getElementById('disable-data-saver');
     let disableAcceptType = document.getElementById('disable-accept-type');
+    let showUserFollowerCountsInLists = document.getElementById('show-user-follower-counts-in-lists');
 
     let root = document.querySelector(":root");
     {
@@ -329,6 +330,11 @@ setTimeout(async () => {
         }, () => {
             vars.autotranslationMode = autotranslationMode.value;
         });
+    });
+    showUserFollowerCountsInLists.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showUserFollowerCountsInLists: showUserFollowerCountsInLists.checked
+        }, () => { });
     });
     enableIframeNavigation.addEventListener('change', () => {
         chrome.storage.sync.set({

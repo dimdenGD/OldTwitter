@@ -45,6 +45,10 @@ function renderUserData() {
     document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
     document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
 
+    if(user.followers_count > 50000 || user.friends_count > 50000) {
+        document.getElementById('timeline').innerHTML = `<span style="color:var(--light-gray)">${LOC.not_possible_to_see_unfollowers.message}</span>`;
+    }
+
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
 
     document.getElementById('loading-box').hidden = true;
@@ -58,6 +62,9 @@ function renderUserData() {
 function renderUnfollows(page = 0) {
     chrome.storage.local.get(['unfollows'], async d => {
         loading = true;
+        if(user.followers_count && (user.followers_count > 50000 || user.friends_count > 50000)) {
+            return;
+        }
 
         let res = d.unfollows;
         if(!res) res = {};

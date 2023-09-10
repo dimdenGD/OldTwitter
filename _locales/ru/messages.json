@@ -539,5 +539,7 @@
     "disable_accept_type": { "message": "Выключить 'accept-type' при открытии галереи для загрузки медиа. Включите если на вашем Андроиде нельзя выбрать/найти некоторые картинки в галерее.", "description": "This option only appears on mobile" },
     "manage_searches": { "message": "Изменить поиски" },
     "add_search": { "message": "Добавить поиск" },
-    "pinned_searches": { "message": "Закреплённые поиски" }
+    "pinned_searches": { "message": "Закреплённые поиски" },
+    "show_follower_counts_in_lists": { "message": "Показывать кол-во подписчиков пользователей в списке подписок." },
+    "not_possible_to_see_unfollowers": { "message": "К сожалению, информация про отписчиков не доступна для аккаунтов с более чем 50,000 подписчиков." }
 }
