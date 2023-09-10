@@ -682,7 +682,10 @@ async function renderFollowers(clear = true, cursor) {
                         <input type="text" id="search-followers-description" placeholder="${LOC.description.message}">
                     </div>
                     <div>
-                        ${LOC.only_shows_people_with_followers.message.replace("$NUMBER$", `<input type="number" id="only-show-people-with-followers" style="width: 50px;" value="0" min="0">`)}
+                        ${LOC.only_show_people_with_followers.message.replace("$NUMBER$", `<input type="number" id="only-show-people-with-followers" style="width: 50px;" value="0" min="0">`)}
+                    </div>
+                    <div>
+                        ${LOC.only_show_people_with_age.message.replace("$NUMBER$", `<input type="number" id="only-show-people-with-age" style="width: 50px;" value="0" min="0">`)}
                     </div>
                     <div>
                         <input type="checkbox" id="only-mutuals">
@@ -701,6 +704,7 @@ async function renderFollowers(clear = true, cursor) {
             let searchFollowersDescription = document.getElementById('search-followers-description');
             let onlyMutuals = document.getElementById('only-mutuals');
             let onlyShowPeopleWithFollowers = document.getElementById('only-show-people-with-followers');
+            let onlyShowPeopleWithAge = document.getElementById('only-show-people-with-age');
 
             switchFiltering.addEventListener('click', () => {
                 document.getElementById('follower-filtering-menu').hidden = !document.getElementById('follower-filtering-menu').hidden;
@@ -809,6 +813,9 @@ async function renderFollowers(clear = true, cursor) {
                     }
                     if(onlyShowPeopleWithFollowers.value !== '0') {
                         fetchedUsers = fetchedUsers.filter(u => u[1] >= Number(onlyShowPeopleWithFollowers.value));
+                    }
+                    if(onlyShowPeopleWithAge.value !== '0') {
+                        fetchedUsers = fetchedUsers.filter(u => (Date.now() - u[10]) / 1000 / 60 / 60 / 24 >= Number(onlyShowPeopleWithAge.value));
                     }
                     switch(sortFollowers.value) {
                         case 'followers':
