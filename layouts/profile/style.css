@@ -531,6 +531,10 @@ a:hover,
     vertical-align: text-bottom;
     font: 17px var(--icon-font);
 }
+body.body-old-ui .user-item-btn.following:before,
+body.body-old-ui .user-item-btn.follow:before {
+    vertical-align: sub;
+}
 
 .tweet-self-thread-button {
     text-decoration: none;
