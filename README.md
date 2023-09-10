@@ -28,6 +28,7 @@ If you like this extension please consider donating:
 - You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)  
 - Removes all analytics and tracking from Twitter  
 - Track your unfollowers for free  
+- Search, sort and filter your followers  
 - Removes all ads  
 - Easy download of videos and GIFs  
 - Translate tweets without having to open them, also ability to set specific users/languages to autotranslate  

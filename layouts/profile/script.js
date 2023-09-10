@@ -356,14 +356,13 @@ function updateUserData() {
                         if(adminControls) adminControls.remove();
                         adminControls = document.createElement('div');
                         adminControls.id = 'admin-controls';
-                        console.log(data.css_eligible);
-                        adminControls.innerHTML = `
+                        adminControls.innerHTML = /*html*/`
                             <br>
                             Eligible for custom profile CSS: <span id="admin-css-eligible">${data.css_eligible ? 'yes' : 'no'}</span><br>
                             Can get access automatically: <span id="admin-css-eligible-auto">${data.css_eligible_auto ? 'yes' : 'no'}</span><br>
                             Has custom profile CSS: ${data.css || data.css_vars_dark || data.css_vars_light ? 'yes' : 'no'}<br>
                             Has custom color: ${data.color !== 'none' ? 'yes' : 'no'}<br><br>
-                            <button id="admin-controls-switch" style="background-color: var(--menu-bg);border: 1px solid var(--border);color: var(--almost-black);cursor: pointer;">Switch</button>
+                            <button id="admin-controls-switch" class="tiny-button">Switch</button>
                             <br><br>
                         `;
                         document.getElementById('about-right').appendChild(adminControls);
@@ -618,21 +617,240 @@ async function renderFollowing(clear = true, cursor) {
         followingMoreBtn.hidden = false;
     }
     following.forEach(u => {
-        appendUser(u, userList);
+        let label;
+        if(vars.showUserFollowerCountsInLists) {
+            label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
+        }
+        appendUser(u, userList, label);
     });
     document.getElementById('loading-box').hidden = true;
     loadingFollowing = false;
     followingMoreBtn.innerText = LOC.load_more.message;
 }
+let unsaved = false;
 async function renderFollowers(clear = true, cursor) {
     loadingFollowers = true;
     let userList = document.getElementById('followers-list');
     if(clear) {
         if(pageUser.id_str === user.id_str) {
-            userList.innerHTML = `
-                <h1 class="nice-header">${LOC.followers.message} (${pageUser.followers_count.toLocaleString('en-US')})</h1>
+            let unfollows = await new Promise(resolve => {
+                chrome.storage.local.get(['unfollows'], async d => {
+                    let res = d.unfollows;
+                    if(!res) res = {};
+                    if(!res[user.id_str]) res[user.id_str] = {
+                        followers: [],
+                        following: [],
+                        unfollowers: [],
+                        unfollowings: [],
+                        lastUpdate: 0
+                    };
+                    resolve(res[user.id_str]);
+                });
+            });
+            userList.innerHTML = /*html*/`
+                <h1 class="nice-header">
+                    ${LOC.followers.message} 
+                    (${pageUser.followers_count.toLocaleString('en-US')})
+                    ${unfollows.followers.length > 5 && unfollows.followers.length < 50000 ? /*html*/`
+                        <button class="tiny-button" id="switch-filtering" style="vertical-align:text-bottom">${LOC.filter.message}</button>
+                    ` : ''}
+                </h1>
                 <a href="/old/unfollows/followers" style="float: right;font-size: 14px;">${LOC.unfollowers.message}</a>
+                <div id="follower-filtering-menu" hidden>
+                    <div>
+                        <select id="sort-followers">
+                            <option value="follow_date">${LOC.sort_by_follow_date.message}</option>
+                            <option value="followers">${LOC.sort_by_followers.message}</option>
+                            <option value="following">${LOC.sort_by_following.message}</option>
+                            <option value="name">${LOC.sort_by_name.message}</option>
+                            <option value="username">${LOC.sort_by_username.message}</option>
+                            <option value="tweet_count">${LOC.sort_by_tweets.message}</option>
+                            <option value="created">${LOC.sort_by_created.message}</option>
+                            <option value="random">${LOC.sort_by_random.message}</option>
+                        </select>
+                        <select id="sort-followers-order">
+                            <option value="desc">${LOC.descending.message}</option>
+                            <option value="asc">${LOC.ascending.message}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span>${LOC.search_by_name.message}:</span>
+                        <input type="text" id="search-followers-name" placeholder="${LOC.name.message}">
+                    </div>
+                    <div>
+                        <span>${LOC.search_by_description.message}:</span>
+                        <input type="text" id="search-followers-description" placeholder="${LOC.description.message}">
+                    </div>
+                    <div>
+                        <input type="checkbox" id="only-mutuals">
+                        <label for="only-mutuals">${LOC.only_show_people_you_follow.message}</label>
+                    </div>
+                    <div id="loading-sorted-followers" hidden></div>
+                    <button class="nice-button" id="apply-followers-filter">${LOC.apply.message}</button>
+                </div>
             `;
+            let sortFollowers = document.getElementById('sort-followers');
+            let sortOrder = document.getElementById('sort-followers-order');
+            let loadingSortedFollowers = document.getElementById('loading-sorted-followers');
+            let applyFollowersFilter = document.getElementById('apply-followers-filter');
+            let switchFiltering = document.getElementById('switch-filtering');
+            let searchFollowersName = document.getElementById('search-followers-name');
+            let searchFollowersDescription = document.getElementById('search-followers-description');
+            let onlyMutuals = document.getElementById('only-mutuals');
+
+            switchFiltering.addEventListener('click', () => {
+                document.getElementById('follower-filtering-menu').hidden = !document.getElementById('follower-filtering-menu').hidden;
+            });
+
+            applyFollowersFilter.addEventListener('click', async () => {
+                chrome.storage.local.get(['sortedFollowers'], async d => {
+                    let sortedFollowers = d.sortedFollowers;
+                    if(!sortedFollowers) sortedFollowers = {};
+                    if(!sortedFollowers[user.id_str]) sortedFollowers[user.id_str] = {
+                        followers: [],
+                        lastUpdate: Date.now()
+                    };
+                    loadingFollowers = true;
+                    loadingSortedFollowers.hidden = false;
+                    applyFollowersFilter.disabled = true;
+                    unsaved = true;
+                    Array.from(userList.getElementsByClassName('user-item')).forEach(u => u.remove());
+                    document.getElementById('followers-more').hidden = true;
+                    let fetchedUsers = [];
+                    let userIds = unfollows.followers;
+                    if(sortedFollowers[user.id_str].followers.length === 0 || Date.now() - sortedFollowers[user.id_str].lastUpdate > 60000 * 60 * 24) {
+                        let i = 0;
+                        while(i < userIds.length) {
+                            let users1, users2, users3, users4, users5, users6, users7;
+                            try {
+                                [
+                                    users1,
+                                    users2,
+                                    users3,
+                                    users4,
+                                    users5,
+                                    users6,
+                                    users7
+                                ] = await Promise.all([
+                                    API.user.lookup(userIds.slice(i, i+100)),
+                                    i + 100 < userIds.length ? API.user.lookup(userIds.slice(i+100, i+200)) : [],
+                                    i + 200 < userIds.length ? API.user.lookup(userIds.slice(i+200, i+300)) : [],
+                                    i + 300 < userIds.length ? API.user.lookup(userIds.slice(i+300, i+400)) : [],
+                                    i + 400 < userIds.length ? API.user.lookup(userIds.slice(i+400, i+500)) : [],
+                                    i + 500 < userIds.length ? API.user.lookup(userIds.slice(i+500, i+600)) : [],
+                                    i + 600 < userIds.length ? API.user.lookup(userIds.slice(i+600, i+700)) : []
+                                ]);
+                            } catch(e) {
+                                console.error(e);
+                                loadingSortedFollowers.innerText = `${e} (${i / 100} / ${Math.ceil(userIds.length / 100)})`;
+                                await sleep(1000);
+                                continue;
+                            }
+                            i += 700;
+                            let users = users1.concat(users2, users3, users4, users5);
+                            loadingSortedFollowers.innerText = `${LOC.loading_all_followers.message} (${i / 100} / ${Math.ceil(userIds.length / 100)})`;
+                            fetchedUsers = fetchedUsers.concat(users.map(u => ([
+                                u.id_str,
+                                u.followers_count,
+                                u.screen_name,
+                                u.name,
+                                u.profile_image_url_https,
+                                u.protected ? 1 : 0,
+                                u.verified ? 1 : 0,
+                                u.following ? 1 : 0,
+                                u.followed_by ? 1 : 0,
+                                u.muting ? 1 : 0,
+                                new Date(u.created_at).getTime(),
+                                u.default_profile_image ? 1 : 0,
+                                u.statuses_count,
+                                u.friends_count,
+                                u.description ? u.description.replace(/https:\/\/t\.co\/[a-zA-Z0-9]+/g, m => {
+                                    if(!u.entities || !u.entities.description || !u.entities.description.urls) return m;
+                                    let entity = u.entities.description.urls.find(e => e.url === m);
+                                    if(entity) {
+                                        return entity.expanded_url;
+                                    } else {
+                                        return m;
+                                    }
+                                }) : '',
+                                u.url ? u.url.replace(/https:\/\/t\.co\/[a-zA-Z0-9]+/g, m => {
+                                    if(!u.entities || !u.entities.url || !u.entities.url.urls) return m;
+                                    let entity = u.entities.url.urls.find(e => e.url === m);
+                                    if(entity) {
+                                        return entity.expanded_url;
+                                    } else {
+                                        return m;
+                                    }
+                                }) : ''
+                            ])));
+                        }
+                        sortedFollowers[user.id_str].followers = fetchedUsers;
+                        sortedFollowers[user.id_str].lastUpdate = Date.now();
+                        chrome.storage.local.set({ sortedFollowers }, () => {});
+                    } else {
+                        fetchedUsers = sortedFollowers[user.id_str].followers;
+                    }
+                    applyFollowersFilter.disabled = false;
+                    unsaved = false;
+                    loadingSortedFollowers.hidden = true;
+
+                    if(onlyMutuals.checked) {
+                        fetchedUsers = fetchedUsers.filter(u => u[7] === 1);
+                    }
+                    if(searchFollowersName.value) {
+                        fetchedUsers = fetchedUsers.filter(u => u[3].toLowerCase().includes(searchFollowersName.value.toLowerCase()) || u[2].toLowerCase().includes(searchFollowersName.value.toLowerCase()));
+                    }
+                    if(searchFollowersDescription.value) {
+                        fetchedUsers = fetchedUsers.filter(u => u[14].toLowerCase().includes(searchFollowersDescription.value.toLowerCase()) || u[15].toLowerCase().includes(searchFollowersDescription.value.toLowerCase()));
+                    }
+                    switch(sortFollowers.value) {
+                        case 'followers':
+                            fetchedUsers.sort((a, b) => a[1] - b[1]);
+                            break;
+                        case 'following':
+                            fetchedUsers.sort((a, b) => a[13] - b[13]);
+                            break;
+                        case 'name':
+                            fetchedUsers.sort((a, b) => a[3].localeCompare(b[3]));
+                            break;
+                        case 'username':
+                            fetchedUsers.sort((a, b) => a[2].localeCompare(b[2]));
+                            break;
+                        case 'tweet_count':
+                            fetchedUsers.sort((a, b) => a[12] - b[12]);
+                            break;
+                        case 'created':
+                            fetchedUsers.sort((a, b) => a[10] - b[10]);
+                            break;
+                        case 'random':
+                            shuffleArray(fetchedUsers);
+                            break;
+                    }
+                    if(sortOrder.value === 'desc') {
+                        fetchedUsers.reverse();
+                    }
+                    fetchedUsers = fetchedUsers.slice(0, 500);
+
+                    for(let u of fetchedUsers) {
+                        appendUser({
+                            id_str: u[0],
+                            followers_count: u[1],
+                            screen_name: u[2],
+                            name: u[3],
+                            profile_image_url_https: u[4],
+                            protected: u[5] === 1,
+                            verified: u[6] === 1,
+                            following: u[7] === 1,
+                            followed_by: u[8] === 1,
+                            muting: u[9] === 1,
+                            created_at: new Date(u[10]).toISOString(),
+                            default_profile_image: u[11] === 1,
+                            statuses_count: u[12],
+                            friends_count: u[13]
+                        }, userList, `${formatLargeNumber(u[1])} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`);
+                    }
+                });
+            });
         } else {
             userList.innerHTML = `<h1 class="nice-header">${LOC.followers.message} (${pageUser.followers_count.toLocaleString('en-US')})</h1>`;
         }
@@ -654,7 +872,11 @@ async function renderFollowers(clear = true, cursor) {
         followersMoreBtn.hidden = false;
     }
     following.forEach(u => {
-        appendUser(u, userList);
+        let label;
+        if(vars.showUserFollowerCountsInLists) {
+            label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
+        }
+        appendUser(u, userList, label);
     });
     document.getElementById('loading-box').hidden = true;
     loadingFollowers = false;
@@ -687,7 +909,11 @@ async function renderFollowersYouFollow(clear = true, cursor) {
         followersYouFollowMoreBtn.hidden = false;
     }
     following.forEach(u => {
-        appendUser(u, userList);
+        let label;
+        if(vars.showUserFollowerCountsInLists) {
+            label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
+        }
+        appendUser(u, userList, label);
     });
     document.getElementById('loading-box').hidden = true;
     loadingFollowersYouKnow = false;
@@ -1622,38 +1848,6 @@ setTimeout(async () => {
                 }
             }
         }
-        /*
-        if(window.scrollY >= 600) {
-            if(!navProfileInfo.style.opacity) {
-                if(lastScrollAmount > window.scrollY) {
-                    navProfileInfo.style.opacity = 1;
-                    if(innerWidth < 360) tweetsLink.style.opacity = 1;
-                } else {
-                    if(lastScrollAmount > window.scrollY) {
-                        navProfileInfo.style.opacity = 1;
-                        if(innerWidth < 360) tweetsLink.style.opacity = 1;
-                    } else {
-                        navProfileInfo.style.opacity = '';
-                        if(innerWidth < 360) tweetsLink.style.opacity = 0;
-                    }
-                }
-            } else {
-                if(navProfileInfo.style.opacity) {
-                    navProfileInfo.style.opacity = '';
-                    if(innerWidth < 360) tweetsLink.style.opacity = 1;
-                }
-            }
-        } else {
-            if(window.scrollY >= 600) {
-                if(!navProfileInfo.style.opacity) {
-                    navProfileInfo.style.opacity = 1;
-                }
-            } else {
-                if(navProfileInfo.style.opacity) {
-                    navProfileInfo.style.opacity = '';
-                }
-            }
-        }*/
         
         lastScrollAmount = window.scrollY;
         
@@ -2228,6 +2422,24 @@ setTimeout(async () => {
     document.getElementById('profile-avatar').addEventListener('click', e => {
         openInNewTab(pageUser.profile_image_url_https.replace('_normal.', '.'));
     });
+    window.onbeforeunload = function (e) {
+        if(!unsaved) return;
+        e = e || window.event;
+    
+        // For IE and Firefox prior to version 4
+        if (e) {
+            e.returnValue = 'Sure?';
+        }
+    
+        // For Safari
+        return 'Sure?';
+    };
+
+    if(vars.showUserFollowerCountsInLists) {
+        let style = document.createElement('style');
+        style.innerHTML = `.user-item-text { bottom: -3px !important; }`;
+        document.head.appendChild(style);
+    }
 
     // Run
     updateSubpage();

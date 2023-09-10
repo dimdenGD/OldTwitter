@@ -550,5 +550,21 @@
     "add_search": { "message": "Add search" },
     "pinned_searches": { "message": "Pinned searches" },
     "show_follower_counts_in_lists": { "message": "Show users follower counts on follower/following pages." },
-    "not_possible_to_see_unfollowers": { "message": "Unfortunately, it's not possible to see unfollowers for accounts with more than 50,000 followers." }
+    "not_possible_to_see_unfollowers": { "message": "Unfortunately, it's not possible to see unfollowers for accounts with more than 50,000 followers." },
+    "sort_by_follow_date": { "message": "Sort by follow date (inaccurate)" },
+    "sort_by_followers": { "message": "Sort by follower count" },
+    "sort_by_following": { "message": "Sort by following count" },
+    "sort_by_name": { "message": "Sort by name" },
+    "sort_by_username": { "message": "Sort by username" },
+    "sort_by_tweets": { "message": "Sort by tweet count" },
+    "sort_by_created": { "message": "Sort by account creation date" },
+    "sort_by_random": { "message": "Sort by random" },
+    "loading_all_followers": { "message": "Loading all followers (this will happen once per 24 hours)..." },
+    "apply": { "message": "Apply" },
+    "filter": { "message": "Filter" },
+    "ascending": { "message": "Ascending" },
+    "descending": { "message": "Descending" },
+    "search_by_name": { "message": "Search by name" },
+    "search_by_description": { "message": "Search by description" },
+    "only_show_people_you_follow": { "message": "Only show people you follow" }
 }

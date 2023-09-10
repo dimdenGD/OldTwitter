@@ -1107,6 +1107,23 @@ function onVisible(element, callback) {
       });
     }).observe(element);
 }
+function shuffleArray(t) {
+    let last = t.length;
+    let n;
+    while (last > 0) {
+        n = rand(last);
+        swap(t, n, --last);
+    }
+}
+
+const rand = n => 0 | Math.random() * n;
+
+function swap (t, i, j) {
+    let q = t[i];
+    t[i] = t[j];
+    t[j] = q;
+    return t;
+}
 function updateUnfollows(res) {
     return new Promise(async (resolve, reject) => {
         let data = res[user.id_str];
@@ -1376,7 +1393,6 @@ function renderMedia(t) {
     return html;
 }
 
-let insertedLabelStyle = false;
 async function appendUser(u, container, label) {
     let userElement = document.createElement('div');
     userElement.classList.add('user-item');
@@ -1389,15 +1405,6 @@ async function appendUser(u, container, label) {
     if(!vars.twitterBlueCheckmarks && u.verified_type === "Blue") {
         delete u.verified_type;
         u.verified = false;
-    }
-    if(!label && vars.showUserFollowerCountsInLists) {
-        label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
-        if(!insertedLabelStyle) {
-            insertedLabelStyle = true;
-            let style = document.createElement('style');
-            style.innerHTML = `.user-item-text { bottom: -3px !important; }`;
-            document.head.appendChild(style);
-        }
     }
     userElement.innerHTML = `
         <div>

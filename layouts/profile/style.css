@@ -531,6 +531,17 @@ a:hover,
     vertical-align: text-bottom;
     font: 17px var(--icon-font);
 }
+#follower-filtering-menu select, #follower-filtering-menu input {
+    color: var(--default-text-color);
+    background-color: var(--input-background);
+    border: 1px solid var(--border);
+}
+#follower-filtering-menu {
+    color: var(--almost-black)
+}
+#follower-filtering-menu div {
+    margin-bottom: 5px;
+}
 body.body-old-ui .user-item-btn.following:before,
 body.body-old-ui .user-item-btn.follow:before {
     vertical-align: sub;
@@ -1289,6 +1300,15 @@ body.body-old-ui .user-item-btn.follow:before {
 #followers_you_follow-list,
 #lists-list {
     padding: 10px
+}
+#loading-sorted-followers {
+    color: var(--almost-black);
+}
+.tiny-button {
+    background-color: var(--menu-bg);
+    border: 1px solid var(--border);
+    color: var(--almost-black);
+    cursor: pointer;
 }
 
 .following-item-name {
