@@ -682,6 +682,9 @@ async function renderFollowers(clear = true, cursor) {
                         <input type="text" id="search-followers-description" placeholder="${LOC.description.message}">
                     </div>
                     <div>
+                        ${LOC.only_shows_people_with_followers.message.replace("$NUMBER$", `<input type="number" id="only-show-people-with-followers" style="width: 50px;" value="0" min="0">`)}
+                    </div>
+                    <div>
                         <input type="checkbox" id="only-mutuals">
                         <label for="only-mutuals">${LOC.only_show_people_you_follow.message}</label>
                     </div>
@@ -697,6 +700,7 @@ async function renderFollowers(clear = true, cursor) {
             let searchFollowersName = document.getElementById('search-followers-name');
             let searchFollowersDescription = document.getElementById('search-followers-description');
             let onlyMutuals = document.getElementById('only-mutuals');
+            let onlyShowPeopleWithFollowers = document.getElementById('only-show-people-with-followers');
 
             switchFiltering.addEventListener('click', () => {
                 document.getElementById('follower-filtering-menu').hidden = !document.getElementById('follower-filtering-menu').hidden;
@@ -802,6 +806,9 @@ async function renderFollowers(clear = true, cursor) {
                     }
                     if(searchFollowersDescription.value) {
                         fetchedUsers = fetchedUsers.filter(u => u[14].toLowerCase().includes(searchFollowersDescription.value.toLowerCase()) || u[15].toLowerCase().includes(searchFollowersDescription.value.toLowerCase()));
+                    }
+                    if(onlyShowPeopleWithFollowers.value !== '0') {
+                        fetchedUsers = fetchedUsers.filter(u => u[1] >= Number(onlyShowPeopleWithFollowers.value));
                     }
                     switch(sortFollowers.value) {
                         case 'followers':

@@ -566,5 +566,6 @@
     "descending": { "message": "Descending" },
     "search_by_name": { "message": "Search by name" },
     "search_by_description": { "message": "Search by description" },
-    "only_show_people_you_follow": { "message": "Only show people you follow" }
+    "only_show_people_you_follow": { "message": "Only show people you follow" },
+    "only_shows_people_with_followers": { "message": "Only show people with at least $NUMBER$ followers", "placeholders": { "number": { "content": "-1" } } }
 }
