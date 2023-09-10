@@ -1518,6 +1518,19 @@ const API = {
                     if(screen_name === 'dimdenEFF') {
                         chrome.storage.local.set({'followingDeveloper': true}, () => {});
                     }
+                    chrome.storage.local.get(['sortedFollowers'], async d => {
+                        let sortedFollowers = d.sortedFollowers;
+                        if(!sortedFollowers) return;
+                        if(!sortedFollowers[user.id_str]) return;
+                        if(!sortedFollowers[user.id_str].followers) return;
+                        if(sortedFollowers[user.id_str].followers.length === 0) return;
+
+                        let index = sortedFollowers[user.id_str].followers.findIndex(f => f[2] === screen_name);
+                        if(index === -1) return;
+                        sortedFollowers[user.id_str].followers[index][7] = 1;
+                        sortedFollowers[user.id_str].followers[index][1]++;
+                        chrome.storage.local.set({sortedFollowers}, () => {});
+                    });
                 }).catch(e => {
                     reject(e);
                 });
@@ -1543,6 +1556,19 @@ const API = {
                     if(screen_name === 'dimdenEFF') {
                         chrome.storage.local.set({'followingDeveloper': false}, () => {});
                     }
+                    chrome.storage.local.get(['sortedFollowers'], async d => {
+                        let sortedFollowers = d.sortedFollowers;
+                        if(!sortedFollowers) return;
+                        if(!sortedFollowers[user.id_str]) return;
+                        if(!sortedFollowers[user.id_str].followers) return;
+                        if(sortedFollowers[user.id_str].followers.length === 0) return;
+
+                        let index = sortedFollowers[user.id_str].followers.findIndex(f => f[2] === screen_name);
+                        if(index === -1) return;
+                        sortedFollowers[user.id_str].followers[index][7] = 1;
+                        sortedFollowers[user.id_str].followers[index][1]--;
+                        chrome.storage.local.set({sortedFollowers}, () => {});
+                    });
                 }).catch(e => {
                     reject(e);
                 });
