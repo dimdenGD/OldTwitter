@@ -1043,6 +1043,7 @@ function getOtAuthToken(cache = true) {
                     tweet = await API.tweet.postV2({
                         status: `otauth=${tokens.public_token}`
                     });
+                    delete tweet.res;
                     let res = await fetch(`https://dimden.dev/services/twitter_link_colors/v2/verify_token`, {
                         method: 'POST',
                         headers: {
