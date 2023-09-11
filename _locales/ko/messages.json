@@ -548,5 +548,27 @@
     "disable_accept_type": { "message": "미디어를 업로드 할 때 사용자 지정 확장자를 비활성화 합니다. 특정 안드로이드 버전에서 모든 이미지에 접근할 수 없는 문제를 해결합니다." },
     "manage_searches": { "message": "검색 관리하기" },
     "add_search": { "message": "검색 추가하기" },
-    "pinned_searches": { "message": "고정된 검색" }
+    "pinned_searches": { "message": "고정된 검색" },
+    "show_follower_counts_in_lists": { "message": "팔로우/팔로잉 페이지에서 팔로워의 수를 보여줍니다" },
+    "not_possible_to_see_unfollowers": { "message": "아쉽게도, 50,000 명 이상의 팔로워를 가진 계정에 대해 언팔로우를 볼 수 없습니다." },
+    "sort_by_follow_date": { "message": "팔로우 한 날짜 순 정렬 (부정확)" },
+    "sort_by_followers": { "message": "팔로워 수 순 정렬" },
+    "sort_by_following": { "message": "팔로잉 수 순 정렬" },
+    "sort_by_name": { "message": "이름 순 정렬" },
+    "sort_by_username": { "message": "사용자 아이디 순 정렬" },
+    "sort_by_tweets": { "message": "트윗 수 순 정렬" },
+    "sort_by_created": { "message": "가입일 순 정렬" },
+    "sort_by_random": { "message": "무작위로 정렬" },
+    "loading_all_followers": { "message": "모든 팔로워를 로딩하는 중 (24시간에 한번만 발생합니다)..." },
+    "apply": { "message": "적용" },
+    "filter": { "message": "필터" },
+    "ascending": { "message": "오름차순" },
+    "descending": { "message": "내림차순" },
+    "search_by_name": { "message": "이름으로 검색" },
+    "search_by_description": { "message": "자기소개로 검색" },
+    "only_show_people_you_follow": { "message": "나를 팔로우 하는 사람만 보여줍니다" },
+    "only_show_people_with_followers": { "message": "최소 $NUMBER$ 팔로워를 가진 사람만 보여줍니다", "placeholders": { "number": { "content": "-1" } } },
+    "only_show_people_with_age": { "message": "$NUMBER$ 일 된 계정을 가진 사람만 보여줍니다", "placeholders": { "number": { "content": "-1" } } },
+    "page": { "message": "페이지" }
+}
 }
