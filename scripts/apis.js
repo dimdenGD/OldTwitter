@@ -3444,9 +3444,18 @@ const API = {
                         
                         return parseTweet(tweetData);
                     }).filter(t => t);
+                    let newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
+                    if(!newCursor) {
+                        let replacerEntry = data.data.search_by_raw_query.search_timeline.timeline.instructions.find(i => i.entry_id_to_replace && i.entry_id_to_replace.startsWith('cursor-bottom-'));
+                        if(replacerEntry) {
+                            newCursor = replacerEntry.entry.content.value;
+                        }
+                    } else {
+                        newCursor = newCursor.content.value;
+                    }
                     let out = {
                         list,
-                        cursor: entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                        cursor: newCursor
                     };
                     debugLog('tweet.getQuotes', 'end', id, out);
                     resolve(out);

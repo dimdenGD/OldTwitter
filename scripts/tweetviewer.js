@@ -400,6 +400,7 @@ class TweetViewer {
         } catch(e) {
             console.error(e);
             tvl.hidden = true;
+            this.container.getElementsByClassName('retweets_with_comments-more')[0].innerText = LOC.load_more.message;
             return this.retweetCommentsCursor = undefined;
         }
         let retweetDiv = document.getElementsByClassName('retweets_with_comments')[0];
@@ -431,6 +432,7 @@ class TweetViewer {
         } else {
             this.container.getElementsByClassName('retweets_with_comments-more')[0].hidden = false;
         }
+        this.container.getElementsByClassName('retweets_with_comments-more')[0].innerText = LOC.load_more.message;
     
         for(let i in tweetRetweeters) {
             await this.appendTweet(tweetRetweeters[i], retweetDiv);
@@ -2523,7 +2525,8 @@ class TweetViewer {
             let id = location.pathname.match(/status\/(\d{1,32})/)[1];
             this.updateRetweets(id, this.retweetCursor);
         });
-        document.getElementsByClassName('retweets_with_comments-more')[0].addEventListener('click', async () => {
+        document.getElementsByClassName('retweets_with_comments-more')[0].addEventListener('click', async e => {
+            e.target.innerText = LOC.loading_tweets.message;
             if(!this.retweetCommentsCursor) return;
             let id = location.pathname.match(/status\/(\d{1,32})/)[1];
             this.updateRetweetsWithComments(id, this.retweetCommentsCursor);
