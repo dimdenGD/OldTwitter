@@ -561,5 +561,6 @@
     "only_show_people_with_followers": { "message": "Только показывать людей у которых не менее $NUMBER$ подписчиков", "placeholders": { "number": { "content": "-1" } } },
     "only_show_people_with_age": { "message": "Только показывать людей у которых аккаунту не меньше $NUMBER$ дней", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "Страница" },
-	"update": {"message": "Обновить" }
+	"update": {"message": "Обновить" },
+    "show_quote_count": { "message": "Показывать кол-во цитат на твитах" }
 }

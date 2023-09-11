@@ -1047,6 +1047,9 @@ class TweetViewer {
                         ` : ''}
                     </div>
                     <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
+                    ${vars.showQuoteCount && options.mainTweet && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ? 
+                        /*html*/`<span title="${LOC.quote_tweets.message}" class="tweet-interact-quote" data-val="${t.quote_count}">${formatLargeNumber(t.quote_count).replace(/\s/g, ',')}</span>` :
+                    ''}
                     ${(vars.showBookmarkCount || options.mainTweet) && typeof t.bookmark_count !== 'undefined' ? 
                         /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
                     ''}
@@ -1340,6 +1343,7 @@ class TweetViewer {
         const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
         const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
         const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
+        const tweetInteractQuote = tweet.getElementsByClassName('tweet-interact-quote')[0];
         const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
         const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
 
@@ -1655,6 +1659,9 @@ class TweetViewer {
                 });
             }
         };
+        if(tweetInteractQuote) tweetInteractQuote.addEventListener('click', () => {
+            tweetInteractRetweetMenuQuotes.click();
+        });
         if(tweetInteractBookmark) tweetInteractBookmark.addEventListener('click', switchBookmark);
         if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', switchBookmark);
     

@@ -31,7 +31,7 @@ async function loadVars() {
             'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
             'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
             'disableRetweetHotkey', 'disableLikeHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType',
-            'showUserFollowerCountsInLists'
+            'showUserFollowerCountsInLists', 'showQuoteCount'
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {

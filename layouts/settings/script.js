@@ -170,6 +170,7 @@ setTimeout(async () => {
     let hideFollowers = document.getElementById('hide-followers');
     let disablePersonalizedTrends = document.getElementById('disable-personalized-trends');
     let showBookmarkCount = document.getElementById('show-bookmark-count');
+    let showQuoteCount = document.getElementById('show-quote-count');
     let hideCommunityNotes = document.getElementById('hide-community-notes');
     let disableGifAutoplay = document.getElementById('disable-gif-autoplay');
     let showMediaCount = document.getElementById('show-media-count');
@@ -549,6 +550,11 @@ setTimeout(async () => {
             showBookmarkCount: showBookmarkCount.checked
         }, () => { });
     });
+    showQuoteCount.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showQuoteCount: showQuoteCount.checked
+        }, () => { });
+    });
     hideCommunityNotes.addEventListener('change', () => {
         chrome.storage.sync.set({
             hideCommunityNotes: hideCommunityNotes.checked
@@ -862,6 +868,8 @@ setTimeout(async () => {
     extensionCompatibilityMode.checked = !!vars.extensionCompatibilityMode;
     disableDataSaver.checked = !!vars.disableDataSaver;
     disableAcceptType.checked = !!vars.disableAcceptType;
+    showUserFollowerCountsInLists.checked = !!vars.showUserFollowerCountsInLists;
+    showQuoteCount.checked = !!vars.showQuoteCount;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

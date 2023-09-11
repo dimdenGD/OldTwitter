@@ -570,5 +570,6 @@
     "only_show_people_with_followers": { "message": "Only show people with at least $NUMBER$ followers", "placeholders": { "number": { "content": "-1" } } },
     "only_show_people_with_age": { "message": "Only show people with an account that is at least $NUMBER$ days old", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "Page" },
-	"update": {"message": "Update" }
+	"update": {"message": "Update" },
+    "show_quote_count": { "message": "Show quote count on tweets" }
 }
