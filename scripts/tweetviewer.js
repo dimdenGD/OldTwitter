@@ -427,7 +427,7 @@ class TweetViewer {
                 this.currentLocation = location.pathname;
             });
         }
-        if(!this.retweetCommentsCursor) {
+        if(!this.retweetCommentsCursor || tweetRetweeters.length === 0) {
             this.container.getElementsByClassName('retweets_with_comments-more')[0].hidden = true;
         } else {
             this.container.getElementsByClassName('retweets_with_comments-more')[0].hidden = false;
