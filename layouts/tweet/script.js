@@ -352,6 +352,7 @@ async function updateRetweetsWithComments(id, c) {
     } else {
         document.getElementById('retweets_with_comments-more').hidden = false;
     }
+    document.getElementById('retweets_with_comments-more').innerText = LOC.load_more.message;
 
     for(let i in tweetRetweeters) {
         await appendTweet(tweetRetweeters[i], retweetDiv);
@@ -789,6 +790,7 @@ setTimeout(async () => {
     document.getElementById('retweets_with_comments-more').addEventListener('click', async () => {
         if(!retweetCommentsCursor) return;
         let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+        document.getElementById('retweets_with_comments-more').innerText = LOC.loading_tweets.message;
         updateRetweetsWithComments(id, retweetCommentsCursor);
     });
 
