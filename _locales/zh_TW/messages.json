@@ -569,5 +569,6 @@
     "only_show_people_you_follow": { "message": "僅顯示你跟隨中的人" },
     "only_show_people_with_followers": { "message": "僅顯示超過 $NUMBER$ 粉絲的人", "placeholders": { "number": { "content": "-1" } } },
     "only_show_people_with_age": { "message": "僅顯示加入了至少 $NUMBER$ 天的人", "placeholders": { "number": { "content": "-1" } } },
-    "page": { "message": "分頁" }
+    "page": { "message": "分頁" },
+    "update": {"message": "更新" }
 }
