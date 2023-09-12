@@ -885,12 +885,15 @@ let userDataFunction = async user => {
                 if(attachment.photo) {
                     let photo = attachment.photo;
                     let photoElement = document.createElement('img');
-                    photoElement.src = photo.media_url_https;
+                    photoElement.src = photo.media_url_https + (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? ':small' : '');
                     photoElement.classList.add('message-element-media');
                     let [w, h] = calculateSize(photo.original_info.width, photo.original_info.height, 400, 500);
                     photoElement.width = w;
                     photoElement.height = h;
                     photoElement.addEventListener('click', e => {
+                        if(e.target.src.includes(':small')) {
+                            e.target.src = e.target.src.replace(':small', '');
+                        };
                         new Viewer(photoElement, {
                             transition: false
                         });
