@@ -227,6 +227,12 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                     div.append(cw);
                     mediaContainer.append(div);
                 });
+                
+                setTimeout(() => {
+                    let messageModalElement = document.getElementsByClassName('messages-container')[0];
+                    let inboxModalElement = document.getElementsByClassName('inbox-modal')[0];
+                    if(messageModalElement) inboxModalElement.scrollTop = inboxModalElement.scrollHeight;
+                }, 10);
             }
         }
     }
