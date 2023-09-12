@@ -1096,7 +1096,10 @@ async function renderProfile() {
         document.getElementById('profile-bio').append(document.createElement('br'), translateBtn);
     }
     
-    if(vars.enableTwemoji) twemoji.parse(document.getElementById('profile-name'));
+    if(vars.enableTwemoji) {
+        twemoji.parse(document.getElementById('profile-name'));
+        twemoji.parse(document.getElementById('profile-bio'));
+    }
     document.getElementById('profile-stat-tweets-value').innerText = formatLargeNumber(pageUser.statuses_count).replace(/\s/g, ',');
     document.getElementById('profile-stat-following-value').innerText = formatLargeNumber(pageUser.friends_count).replace(/\s/g, ',');
     document.getElementById('profile-stat-followers-value').innerText = formatLargeNumber(pageUser.followers_count).replace(/\s/g, ',');
