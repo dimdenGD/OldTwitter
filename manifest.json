@@ -12,7 +12,8 @@
     "storage",
     "declarativeNetRequest",
     "contextMenus",
-    "scripting"
+    "scripting",
+    "unlimitedStorage"
   ],
   "host_permissions": [
     "*://*.twitter.com/*",
