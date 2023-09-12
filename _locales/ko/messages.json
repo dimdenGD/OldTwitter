@@ -569,5 +569,10 @@
     "only_show_people_you_follow": { "message": "나를 팔로우 하는 사람만 보여줍니다" },
     "only_show_people_with_followers": { "message": "최소 $NUMBER$ 팔로워를 가진 사람만 보여줍니다", "placeholders": { "number": { "content": "-1" } } },
     "only_show_people_with_age": { "message": "$NUMBER$ 일 된 계정을 가진 사람만 보여줍니다", "placeholders": { "number": { "content": "-1" } } },
-    "page": { "message": "페이지" }
+    "page": { "message": "페이지" },
+	"update": {"message": "업데이트" },
+    "show_quote_count": { "message": "트윗의 인용 수를 보여줍니다" },
+    "uploading": { "message": "업로드 중" },
+    "finalization": { "message": "마무리 하는 중" },
+    "processing": { "message": "처리 중" }
 }
