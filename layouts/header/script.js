@@ -415,6 +415,7 @@ function hideStuff() {
             #user-followers-div { display: none !important; }
             #profile-stat-followers-link { display: none !important; }
             #profile-stat-follower-mobile-out { display: none !important; }
+            #navbar-user-menu-unfollowers { display: none !important; }
         `;
     }
     if(vars.showBookmarkCount && vars.seeTweetViews) {
