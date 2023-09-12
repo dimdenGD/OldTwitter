@@ -563,7 +563,7 @@
     "page": { "message": "Страница" },
 	"update": {"message": "Обновить" },
     "show_quote_count": { "message": "Показывать кол-во цитат на твитах" },
-    "uploading_media": { "message": "Загрузка" },
+    "uploading": { "message": "Загрузка" },
     "finalization": { "message": "Завершение" },
     "processing": { "message": "Обработка" }
 }
