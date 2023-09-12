@@ -1582,6 +1582,9 @@ body.body-old-ui .user-item-btn.follow:before {
 .body-modern-ui .user-item-text {
     bottom: 8px !important;
 }
+.tweet-viewer .user-item-text {
+    bottom: 6px !important;
+}
 #tweet-nav-replies>.mobile-text{
     display: none;
 }

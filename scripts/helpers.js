@@ -1422,7 +1422,7 @@ async function appendUser(u, container, label) {
                 </div>
             </a>
         </div>
-        <div>
+        <div${u.id_str === user.id_str ? ' hidden' : ''}>
             <button class="user-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
         </div>
     `;
