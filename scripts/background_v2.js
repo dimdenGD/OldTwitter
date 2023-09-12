@@ -34,7 +34,7 @@ chrome.webRequest.onBeforeRequest.addListener(
                     !details.originUrl.includes("tweetdeck.twitter.com")
                 ) && 
                 ( // includes
-                    details.url.includes("abs.twimg.com/responsive-web/client-web/")
+                    details.url.includes("abs.twimg.com/responsive-web/client-web")
                 )
         };
     }, {
