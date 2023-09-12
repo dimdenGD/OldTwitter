@@ -974,10 +974,14 @@ let userDataFunction = async user => {
             messageElements.push(messageElement);
         }
         if(!newMessages) {
+            let savedScroll = messageBox.parentElement.scrollTop;
+            let oldHeight = messageBox.parentElement.scrollHeight;
             messageElements = messageElements.reverse();
             for(let i in messageElements) {
                 messageBox.prepend(messageElements[i], document.createElement('br'));
             }
+            let newScroll = messageBox.scrollHeight - oldHeight + savedScroll;
+            messageBox.parentElement.scrollTop = newScroll;
         } else {
             for(let i in messageElements) {
                 messageBox.append(messageElements[i], document.createElement('br'));
