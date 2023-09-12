@@ -562,5 +562,8 @@
     "only_show_people_with_age": { "message": "Только показывать людей у которых аккаунту не меньше $NUMBER$ дней", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "Страница" },
 	"update": {"message": "Обновить" },
-    "show_quote_count": { "message": "Показывать кол-во цитат на твитах" }
+    "show_quote_count": { "message": "Показывать кол-во цитат на твитах" },
+    "uploading_media": { "message": "Загрузка" },
+    "finalization": { "message": "Завершение" },
+    "processing": { "message": "Обработка" }
 }

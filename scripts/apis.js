@@ -5007,18 +5007,37 @@ const API = {
                 media_type: data.media_type
             };
             if(data.media_category) obj.media_category = data.media_category;
-            let initUpload = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
-                headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-                credentials: "include",
-                method: "post",
-                body: new URLSearchParams(obj).toString()
-            }).then(i => i.json());
+            let initUpload, initAttempts = 0;
+            if(data.loadCallback) data.loadCallback({
+                text: LOC.initialization.message,
+                progress: 0
+            });
+            async function tryInitializing() {
+                if(data.loadCallback) data.loadCallback({
+                    text: LOC.initialization.message + ".".repeat(initAttempts),
+                    progress: 0
+                });
+                if(initAttempts++ > 7) return reject("Failed to initialize media upload");
+                try {
+                    initUpload = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
+                        headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                        credentials: "include",
+                        method: "post",
+                        body: new URLSearchParams(obj).toString()
+                    }).then(i => i.json());
+                } catch(e) {
+                    console.error(e);
+                    await sleep(2000 * initAttempts);
+                    return tryInitializing();
+                }
+            }
+            await tryInitializing();
             if (initUpload.errors && initUpload.errors[0]) {
                 return reject(initUpload.errors[0].message);
             }
             let mediaId = initUpload.media_id_string;
             let segments = [];
-            let segmentSize = 1084576;
+            let segmentSize = (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver) ? 1084576 / 2 : 1084576; // smaller chunks for cellular data
             let segmentCount = Math.ceil(data.media.byteLength / segmentSize);
             for (let i = 0; i < segmentCount; i++) {
                 let segmentData = data.media.slice(i * segmentSize, (i + 1) * segmentSize);
@@ -5026,59 +5045,62 @@ const API = {
             }
             for(let i in segments) {
                 let segment = segments[i];
+                let attempts = 0;
+                async function tryUploadingChunk() {
+                    if(data.loadCallback) {
+                        data.loadCallback({
+                            text: LOC.uploading.message + ".".repeat(attempts),
+                            progress: Math.round(((+i + 1) / segments.length)*100)
+                        });
+                    }
+                    if(attempts++ > 7) return reject("Failed to upload chunk");
+                    let fd = new FormData();
+                    fd.append("media", new Blob([segment], { type: data.media_type }));
+                    try {
+                        await fetch(`https://upload.twitter.com/1.1/media/upload.json?command=APPEND&media_id=${mediaId}&segment_index=${i}`, {
+                            headers: {
+                                "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/"
+                            },
+                            credentials: "include",
+                            method: "post",
+                            body: fd
+                        }).then(i => i.text());
+                    } catch(e) {
+                        console.error(e);
+                        await sleep(2000 * attempts);
+                        return tryUploadingChunk();
+                    }
+                }
+                await tryUploadingChunk();
+            }
+            if(data.loadCallback) data.loadCallback({
+                text: LOC.finalization.message,
+                progress: 100
+            });
+            let finalData, finalAttempts = 0;
+            async function tryFinalizing() {
+                if(data.loadCallback) data.loadCallback({
+                    text: LOC.finalization.message + ".".repeat(finalAttempts),
+                    progress: 100
+                });
+                if(finalAttempts++ > 7) return reject("Failed to finalize media upload");
                 try {
-                    await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
+                    finalData = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
                         headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                         credentials: "include",
                         method: "post",
                         body: new URLSearchParams({
-                            command: "APPEND",
-                            media_id: mediaId,
-                            media_data: arrayBufferToBase64(segment),
-                            segment_index: +i
+                            command: "FINALIZE",
+                            media_id: mediaId
                         }).toString()
-                    }).then(i => i.text());
-                } catch (e) {
-                    await new Promise((resolve, reject) => {
-                        console.error(e);
-                        setTimeout(async () => {
-                            await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
-                                headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-                                credentials: "include",
-                                method: "post",
-                                body: new URLSearchParams({
-                                    command: "APPEND",
-                                    media_id: mediaId,
-                                    media_data: arrayBufferToBase64(segment),
-                                    segment_index: +i
-                                }).toString()
-                            }).then(i => i.text()).catch(reject);
-                            if(data.loadCallback) {
-                                data.loadCallback({
-                                    text: `Uploading`,
-                                    progress: Math.round(((+i + 1) / segments.length)*100)
-                                });
-                            }
-                            resolve(true);
-                        }, 1000);
-                    });
-                }
-                if(data.loadCallback) {
-                    data.loadCallback({
-                        text: `Uploading`,
-                        progress: Math.round(((+i + 1) / segments.length)*100)
-                    });
+                    }).then(i => i.json());
+                } catch(e) {
+                    console.error(e);
+                    await sleep(2000 * finalAttempts);
+                    return tryFinalizing();
                 }
             }
-            let finalData = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
-                headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "x-twitter-client-version": "Twitter-TweetDeck-blackbird-chrome/4.0.220630115210 web/", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
-                credentials: "include",
-                method: "post",
-                body: new URLSearchParams({
-                    command: "FINALIZE",
-                    media_id: mediaId
-                }).toString()
-            }).then(i => i.json());
+            await tryFinalizing();
             if (finalData.errors && finalData.errors[0]) {
                 return reject(finalData.errors[0].message);
             }
@@ -5136,7 +5158,7 @@ const API = {
                         setTimeout(checkStatus, i.processing_info.check_after_secs*1000);
                         if(data.loadCallback) {
                             data.loadCallback({
-                                text: `Processing`,
+                                text: LOC.processing.message,
                                 progress: i.processing_info.progress_percent
                             });
                         }

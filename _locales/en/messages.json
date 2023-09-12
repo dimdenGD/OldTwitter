@@ -571,5 +571,8 @@
     "only_show_people_with_age": { "message": "Only show people with an account that is at least $NUMBER$ days old", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "Page" },
 	"update": {"message": "Update" },
-    "show_quote_count": { "message": "Show quote count on tweets" }
+    "show_quote_count": { "message": "Show quote count on tweets" },
+    "uploading": { "message": "Uploading" },
+    "finalization": { "message": "Finalization" },
+    "processing": { "message": "Processing" }
 }
