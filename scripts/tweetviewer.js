@@ -2493,17 +2493,19 @@ class TweetViewer {
         }
     }
     async appendTombstone(timelineContainer, text) {
-        this.tweets.push(['tombstone', text]);
-        let tombstone = document.createElement('div');
-        tombstone.className = 'tweet-tombstone';
-        tombstone.innerHTML = text;
         try {
             if(typeof text === 'string') LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
                 let [or, nr] = el.split('->');
                 or = or[0].toUpperCase() + or.slice(1);
                 text = text.replace(new RegExp(or, "g"), nr);
             });
-        } catch(e) {}
+        } catch(e) {
+            console.error(e);
+        }
+        this.tweets.push(['tombstone', text]);
+        let tombstone = document.createElement('div');
+        tombstone.className = 'tweet-tombstone';
+        tombstone.innerHTML = text;
         timelineContainer.append(tombstone);
     }
     init() {

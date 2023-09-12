@@ -688,9 +688,6 @@ async function appendComposeComponent(container, replyTweet) {
     });
 }
 async function appendTombstone(timelineContainer, text, replyTweet) {
-    tweets.push(['tombstone', text, replyTweet]);
-    let tombstone = document.createElement('div');
-    tombstone.className = 'tweet-tombstone';
     try {
         if(typeof text === 'string') LOC.replacer_post_to_tweet.message.split('|').forEach(el => {
             let [or, nr] = el.split('->');
@@ -698,6 +695,9 @@ async function appendTombstone(timelineContainer, text, replyTweet) {
             text = text.replace(new RegExp(or, "g"), nr);
         });
     } catch(e) {}
+    tweets.push(['tombstone', text, replyTweet]);
+    let tombstone = document.createElement('div');
+    tombstone.className = 'tweet-tombstone';
     tombstone.innerHTML = text;
     timelineContainer.append(tombstone);
     if(replyTweet) {
