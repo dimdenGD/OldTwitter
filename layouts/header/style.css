@@ -2198,6 +2198,24 @@ emoji-picker {
     vertical-align: text-bottom;
     margin-right: 5px;
 }
+.message-reactions {
+    position: relative;
+    display: block;
+}
+.message-reactions > span {
+    margin-top: -13px;
+    display: inline-block;
+    font-size: 24px;
+    user-select: none;
+    margin-left: -15px;
+}
+.message-element-other .message-reactions > span {
+    margin-left: 0;
+}
+.message-reaction .emoji {
+    width: 24px;
+    height: 24px;
+}
 .tweet-media-cws {
     color: var(--cw);
     font-size: 12px;
