@@ -985,7 +985,6 @@ let userDataFunction = async user => {
         } else {
             for(let i in messageElements) {
                 messageBox.append(messageElements[i], document.createElement('br'));
-                
             }
         }
         messageLists=document.getElementsByClassName("message-element");
@@ -1315,9 +1314,15 @@ let userDataFunction = async user => {
             }
             renderInboxMessages(moreInbox, inboxList);
         });
+        let loadingMessages = false;
         loadMoreMessages.addEventListener('click', async () => {
+            if(loadingMessages) return;
+            loadingMessages = true;
+            loadMoreMessages.innerText = LOC.loading.message;
             let moreMessages = await API.inbox.getConversation(lastConvo.conversation_id, lastConvo.min_entry_id);
+            loadingMessages = false;
             renderConversation(moreMessages, lastConvo.conversation_id, false);
+            loadMoreMessages.innerText = LOC.load_more.message;
         });
 
         readAll.addEventListener('click', async () => {
