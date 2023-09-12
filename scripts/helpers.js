@@ -76,7 +76,10 @@ async function handleFiles(files, mediaArray, mediaContainer) {
             videos.push(file);
         } else if (file.type.includes('image')) {
             // max 5 mb
-            if (file.size > 5000000) {
+            if (
+                file.size > 5000000 ||
+                (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver)
+            ) {
                 // convert png to jpeg
                 await new Promise(resolve => {
                     let canvas = document.createElement('canvas');
@@ -86,7 +89,7 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                         canvas.width = img.width;
                         canvas.height = img.height;
                         ctx.drawImage(img, 0, 0);
-                        let dataURL = canvas.toDataURL('image/jpeg', 0.9);
+                        let dataURL = canvas.toDataURL('image/jpeg', (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver) ? 0.5 : 0.9);
                         let blobBin = atob(dataURL.split(',')[1]);
                         let array = [];
                         for (let i = 0; i < blobBin.length; i++) {
