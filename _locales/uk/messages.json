@@ -565,5 +565,6 @@
     "show_quote_count": { "message": "Показувати кількість цитат на твітах" },
     "uploading": { "message": "Завантаження" },
     "finalization": { "message": "Завершення" },
-    "processing": { "message": "Обробка" }
+    "processing": { "message": "Обробка" },
+    "quotes": { "message": "Цитати" }
 }

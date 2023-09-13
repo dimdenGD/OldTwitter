@@ -565,5 +565,6 @@
     "show_quote_count": { "message": "Показывать кол-во цитат на твитах" },
     "uploading": { "message": "Загрузка" },
     "finalization": { "message": "Завершение" },
-    "processing": { "message": "Обработка" }
+    "processing": { "message": "Обработка" },
+    "quotes": { "message": "Цитаты" }
 }
