@@ -2138,7 +2138,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweet.querySelector('.tweet-top').append(icon, span);
         }
         if(options.mainTweet) {
-            let likers = (vars.showQuoteCount) ? mainTweetLikers.slice(0, 6) : mainTweetLikers.slice(0, 8);
+            let likers = (vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ) ? mainTweetLikers.slice(0, 6) : mainTweetLikers.slice(0, 8);
             for(let i in likers) {
                 let liker = likers[i];
                 let a = document.createElement('a');

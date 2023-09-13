@@ -1247,7 +1247,7 @@ class TweetViewer {
             tweet.querySelector('.tweet-top').append(icon, span);
         }
         if(options.mainTweet) {
-            let likers = (vars.showQuoteCount) ? this.mainTweetLikers.slice(0, 6) : this.mainTweetLikers.slice(0, 8);
+            let likers = (vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ) ? this.mainTweetLikers.slice(0, 6) : this.mainTweetLikers.slice(0, 8);
             for(let i in likers) {
                 let liker = likers[i];
                 let a = document.createElement('a');
