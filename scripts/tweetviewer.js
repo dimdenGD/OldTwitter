@@ -1292,6 +1292,23 @@ class TweetViewer {
                 this.updateRetweets(id);
                 this.currentLocation = location.pathname;
             });
+            if(vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0){
+                let quotesLink = tweet.getElementsByClassName('tweet-footer-stat-q')[0];
+                quotesLink.addEventListener('click', e => {
+                    e.preventDefault();
+                    history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
+                    this.updateSubpage();
+                    this.mediaToUpload = [];
+                    this.excludeUserMentions = [];
+                    this.linkColors = {};
+                    this.cursor = undefined;
+                    this.seenReplies = [];
+                    this.mainTweetLikers = [];
+                    let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+                    this.updateRetweetsWithComments(id);
+                    this.currentLocation = location.pathname;
+                });
+            }
             let repliesLink = tweet.getElementsByClassName('tweet-footer-stat-o')[0];
             repliesLink.addEventListener('click', e => {
                 e.preventDefault();
