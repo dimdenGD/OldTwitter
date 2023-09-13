@@ -1894,6 +1894,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                             <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</b>
                         </a>
+                        ${vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ? 
+                        /*html*/`<a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-q">
+                            <span class="tweet-footer-stat-text">${LOC.quotes.message}</span>
+                            <b class="tweet-footer-stat-count tweet-footer-stat-quotes">${formatLargeNumber(t.quote_count).replace(/\s/g, ',')}</b>
+                        </a>` :
+                        ''}
                         <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
                             <span class="tweet-footer-stat-text">${vars.heartsNotStars ? LOC.likes.message : LOC.favorites.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-favorites">${formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</b>
@@ -1915,9 +1921,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         ` : ''}
                     </div>
                     <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
-                    ${vars.showQuoteCount && options.mainTweet && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ? 
-                        /*html*/`<span title="${LOC.quote_tweets.message}" class="tweet-interact-quote" data-val="${t.quote_count}">${formatLargeNumber(t.quote_count).replace(/\s/g, ',')}</span>` :
-                    ''}
                     ${(vars.showBookmarkCount || options.mainTweet) && typeof t.bookmark_count !== 'undefined' ? 
                         /*html*/`<span title="${LOC.bookmarks_count.message}${!vars.disableHotkeys ? ' (B)' : ''}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
                     ''}
@@ -2257,7 +2260,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
         const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
         const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
-        const tweetInteractQuote = tweet.getElementsByClassName('tweet-interact-quote')[0];
         const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
         const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
 
@@ -2619,9 +2621,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 });
             }
         };
-        if(tweetInteractQuote) tweetInteractQuote.addEventListener('click', () => {
-            tweetInteractRetweetMenuQuotes.click();
-        });
         if(tweetInteractBookmark) tweetInteractBookmark.addEventListener('click', switchBookmark);
         if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', switchBookmark);
         if(tweetDeleteBookmark) tweetDeleteBookmark.addEventListener('click', async () => {

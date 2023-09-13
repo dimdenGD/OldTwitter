@@ -574,5 +574,6 @@
     "show_quote_count": { "message": "트윗의 인용 수를 표시합니다" },
     "uploading": { "message": "업로드 중" },
     "finalization": { "message": "마무리 하는 중" },
-    "processing": { "message": "처리 중" }
+    "processing": { "message": "처리 중" },
+    "quotes": { "message": "인용" }
 }
