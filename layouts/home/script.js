@@ -68,17 +68,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added ability to sort, filter and search your followers (only for people with less than 50k followers).</li>
-                            <li>Added support for tweeting long tweets.</li>
-                            <li>Added support for WEBP uploads.</li>
-                            <li>Fixed like/follow tweets being inserted in between threads.</li>
-                            <li>Fixed scheduled tweets erroring when you add media to them.</li>
-                            <li>Improved new Twitter scripts blocking speed (might improve performance).</li>
-                            <li>Fixed notification for when you get added to lists by multiple people.</li>
-                            <li>Fixed replies appearing twice on timeline on "new tweets" button click.</li>
-                            <li>Added following/follower counts in titles so if you have shortening enabled you can see actual count.</li>
-                            <li>Fixed bug with notifications getting closed on back button press from different page.</li>
-                            <li>Lot of other small bug fixes and improvements.</li>
+                            <li>Fixed everything.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
