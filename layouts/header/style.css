@@ -2344,6 +2344,10 @@ rt.furigana {
     color: #00aced;
     content: "\f012"
 }
+.ni-milestone:before {
+    color: #00aced;
+    content: "\f007"
+}
 .wtf-user-name {
     max-width: 180px;
 }

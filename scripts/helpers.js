@@ -3590,7 +3590,8 @@ const iconClasses = {
     'bird_icon': 'ni-twitter',
     'security_alert_icon': 'ni-alert',
     'bell_icon': 'ni-bell',
-    'list_icon': 'ni-list'
+    'list_icon': 'ni-list',
+    'milestone_icon': 'ni-milestone'
 };
 let aRegex = /<a[^>]*>([\s\S]*?)<\/a>/g;
 let replacerLocs;

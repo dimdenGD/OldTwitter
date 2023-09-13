@@ -644,6 +644,10 @@ a:hover,
     color: #5c913b;
     content: "\f006"
 }
+.ni-milestone:before {
+    color: #00aced;
+    content: "\f007"
+}
 
 .center-text {
     background-color: var(--background-color);
