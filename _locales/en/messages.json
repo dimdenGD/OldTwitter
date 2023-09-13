@@ -574,5 +574,6 @@
     "show_quote_count": { "message": "Show quote count on tweets" },
     "uploading": { "message": "Uploading" },
     "finalization": { "message": "Finalization" },
-    "processing": { "message": "Processing" }
+    "processing": { "message": "Processing" },
+    "quotes": { "message": "Quotes" }
 }

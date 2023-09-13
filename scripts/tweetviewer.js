@@ -1028,6 +1028,12 @@ class TweetViewer {
                             <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</b>
                         </a>
+                        ${vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ? /*html*/
+                        `<a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-q">
+                            <span class="tweet-footer-stat-text">${LOC.quotes.message}</span>
+                            <b class="tweet-footer-stat-count tweet-footer-stat-quotes">${formatLargeNumber(t.quote_count).replace(/\s/g, ',')}</b>
+                        </a>` :
+                        ''}
                         <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
                             <span class="tweet-footer-stat-text">${vars.heartsNotStars ? LOC.likes.message : LOC.favorites.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-favorites">${formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</b>
@@ -1049,9 +1055,6 @@ class TweetViewer {
                         ` : ''}
                     </div>
                     <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
-                    ${vars.showQuoteCount && options.mainTweet && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ? 
-                        /*html*/`<span title="${LOC.quote_tweets.message}" class="tweet-interact-quote" data-val="${t.quote_count}">${formatLargeNumber(t.quote_count).replace(/\s/g, ',')}</span>` :
-                    ''}
                     ${(vars.showBookmarkCount || options.mainTweet) && typeof t.bookmark_count !== 'undefined' ? 
                         /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
                     ''}
@@ -1244,7 +1247,7 @@ class TweetViewer {
             tweet.querySelector('.tweet-top').append(icon, span);
         }
         if(options.mainTweet) {
-            let likers = this.mainTweetLikers.slice(0, 8);
+            let likers = (vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ) ? this.mainTweetLikers.slice(0, 6) : this.mainTweetLikers.slice(0, 8);
             for(let i in likers) {
                 let liker = likers[i];
                 let a = document.createElement('a');
@@ -1289,6 +1292,23 @@ class TweetViewer {
                 this.updateRetweets(id);
                 this.currentLocation = location.pathname;
             });
+            if(vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0){
+                let quotesLink = tweet.getElementsByClassName('tweet-footer-stat-q')[0];
+                quotesLink.addEventListener('click', e => {
+                    e.preventDefault();
+                    history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
+                    this.updateSubpage();
+                    this.mediaToUpload = [];
+                    this.excludeUserMentions = [];
+                    this.linkColors = {};
+                    this.cursor = undefined;
+                    this.seenReplies = [];
+                    this.mainTweetLikers = [];
+                    let id = location.pathname.match(/status\/(\d{1,32})/)[1];
+                    this.updateRetweetsWithComments(id);
+                    this.currentLocation = location.pathname;
+                });
+            }
             let repliesLink = tweet.getElementsByClassName('tweet-footer-stat-o')[0];
             repliesLink.addEventListener('click', e => {
                 e.preventDefault();
@@ -1345,7 +1365,6 @@ class TweetViewer {
         const tweetInteractReply = tweet.getElementsByClassName('tweet-interact-reply')[0];
         const tweetInteractRetweet = tweet.getElementsByClassName('tweet-interact-retweet')[0];
         const tweetInteractFavorite = tweet.getElementsByClassName('tweet-interact-favorite')[0];
-        const tweetInteractQuote = tweet.getElementsByClassName('tweet-interact-quote')[0];
         const tweetInteractBookmark = tweet.getElementsByClassName('tweet-interact-bookmark')[0];
         const tweetInteractMore = tweet.getElementsByClassName('tweet-interact-more')[0];
 
@@ -1661,9 +1680,6 @@ class TweetViewer {
                 });
             }
         };
-        if(tweetInteractQuote) tweetInteractQuote.addEventListener('click', () => {
-            tweetInteractRetweetMenuQuotes.click();
-        });
         if(tweetInteractBookmark) tweetInteractBookmark.addEventListener('click', switchBookmark);
         if(tweetInteractMoreMenuBookmark) tweetInteractMoreMenuBookmark.addEventListener('click', switchBookmark);
     

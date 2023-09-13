@@ -1972,9 +1972,6 @@ emoji-picker {
 .tweet-interact-bookmark:before {
     content: "\f093";
 }
-.tweet-interact-quote:before {
-    content: "\f029";
-}
 .user-verified::after {
     content: "\f099";
     color: #ee55a1;
@@ -2170,10 +2167,6 @@ emoji-picker {
 .tweet-interact-bookmark:hover {
     color: #3b918a !important
 }
-.tweet-interact-quote:hover:before,
-.tweet-interact-quote:hover {
-    color: #913b8d !important
-}
 
 .tweet-birdwatch {
     margin-top: 10px;
@@ -2350,6 +2343,10 @@ rt.furigana {
 .ni-list:before {
     color: #00aced;
     content: "\f012"
+}
+.ni-milestone:before {
+    color: #00aced;
+    content: "\f007"
 }
 .wtf-user-name {
     max-width: 180px;
