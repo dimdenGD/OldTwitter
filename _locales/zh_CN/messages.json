@@ -570,5 +570,10 @@
     "only_show_people_with_followers": { "message": "仅显示至少拥有 $NUMBER$ 名粉丝的用户", "placeholders": { "number": { "content": "-1" } } },
     "only_show_people_with_age": { "message": "仅显示加入了至少 $NUMBER$ 天的用户", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "分页" },
-	"update": {"message": "更新" }
+	"update": {"message": "更新" },
+	"show_quote_count": { "message": "显示推文被引用的数量" },
+    "uploading": { "message": "上传中" },
+    "finalization": { "message": "完成中" },
+    "processing": { "message": "处理中" },
+    "quotes": { "message": "引用" }
 }
