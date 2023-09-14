@@ -570,5 +570,10 @@
     "only_show_people_with_followers": { "message": "僅顯示超過 $NUMBER$ 粉絲的人", "placeholders": { "number": { "content": "-1" } } },
     "only_show_people_with_age": { "message": "僅顯示加入了至少 $NUMBER$ 天的人", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "分頁" },
-    "update": {"message": "更新" }
+    "update": {"message": "更新" },
+    "show_quote_count": { "message": "顯示推文被引用的次數" },
+    "uploading": { "message": "上傳中" },
+    "finalization": { "message": "正在結束" },
+    "processing": { "message": "處理中" },
+    "quotes": { "message": "引用" }
 }
