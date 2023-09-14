@@ -1167,7 +1167,7 @@ setTimeout(async () => {
             for(let i in data.pinnedSearches) {
                 let option = document.createElement('option');
                 option.value = `search-${data.pinnedSearches[i]}`;
-                option.innerText = `${LOC.search.message} - ${data.pinnedSearches[i]}`;
+                option.innerText = `${LOC.search.message} - ${data.pinnedSearches[i].slice(0, 40)}${data.pinnedSearches[i].length > 40 ? '...' : ''}`;
                 optgroup.appendChild(option);
             }
             let addOption = document.createElement('option');
