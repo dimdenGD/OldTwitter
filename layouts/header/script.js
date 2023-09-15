@@ -1168,6 +1168,13 @@ let userDataFunction = async user => {
         const userSearch = modal.querySelector('.new-message-user-search');
         const newMessageResults = modal.querySelector('.new-message-results');
         const leaveConvo = modal.querySelector('.message-leave');
+        const messagesContainer = modal.querySelector('.messages-container');
+
+        messagesContainer.addEventListener('scroll', () => {
+            if(messagesContainer.scrollTop <= 50 && lastConvo.status === "HAS_MORE") {
+                loadMoreMessages.click();
+            }
+        }, { passive: true });
 
         newInbox.addEventListener('click', () => {
             modal.querySelector('.inbox').hidden = true;
@@ -1304,7 +1311,6 @@ let userDataFunction = async user => {
             });
         });
         
-
         loadMore.addEventListener('click', async () => {
             let moreInbox = await API.inbox.get(cursor);
             if(moreInbox.status === "HAS_MORE") {
