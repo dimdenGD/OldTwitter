@@ -1284,13 +1284,10 @@ let userDataFunction = async user => {
                 conversation_id: lastConvo.conversation_id
             };
             if (uploadedMedia.length > 0) {
-                obj.media_id = uploadedMedia.join(',');
+                obj.media_id = uploadedMedia[0];
             }
             try {
                 let sentMessage = await API.inbox.send(obj);
-                newSend.disabled = false;
-                mediaToUpload = [];
-                newMedia.innerHTML = "";
                 sentMessage.conversation_id = lastConvo.conversation_id;
                 renderConversation(sentMessage, lastConvo.conversation_id, true, false);
             } catch (e) {
@@ -1302,6 +1299,18 @@ let userDataFunction = async user => {
                 }
                 newSend.disabled = false;
             }
+            if(uploadedMedia.length > 1) {
+                for(let i = 1; i < uploadedMedia.length; i++) {
+                    await API.inbox.send({
+                        text: '',
+                        conversation_id: lastConvo.conversation_id,
+                        media_id: uploadedMedia[i]
+                    }).catch(console.error);
+                }
+            }
+            newSend.disabled = false;
+            mediaToUpload = [];
+            newMedia.innerHTML = "";
         });
         emojiButton.addEventListener('click', () => {
             let rect = emojiButton.getBoundingClientRect();
