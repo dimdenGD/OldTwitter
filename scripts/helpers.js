@@ -46,8 +46,15 @@ function createModal(html, className, onclose, canclose) {
         }
     }
     close.addEventListener('click', removeModal);
+    let isHoldingMouseFromContent = false;
+    modal_content.addEventListener('mousedown', () => {
+        isHoldingMouseFromContent = true;
+    });
+    document.addEventListener('mouseup', () => {
+        setTimeout(() => isHoldingMouseFromContent = false, 10);
+    });
     modal.addEventListener('click', e => {
-        if(e.target === modal) {
+        if(e.target === modal && !isHoldingMouseFromContent) {
             if(!canclose || canclose()) removeModal();
         }
     });
