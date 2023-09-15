@@ -124,6 +124,7 @@ function parseTweet(res) {
         }
         if(
             result.quoted_status_result && 
+            result.quoted_status_result.result && 
             result.quoted_status_result.result.legacy &&
             result.quoted_status_result.result.core &&
             result.quoted_status_result.result.core.user_results.result.legacy    
