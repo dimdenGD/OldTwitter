@@ -3863,7 +3863,11 @@ const API = {
                     let instructions = data.data.search_by_raw_query.search_timeline.timeline.instructions;
                     let entries = instructions.find(i => i.entries);
                     if(!entries) {
-                        return resolve([]);
+                        return resolve({
+                            list: [],
+                            cursorBottom: undefined,
+                            cursorTop: undefined
+                        });
                     }
                     entries = entries.entries;
                     let res = [];
