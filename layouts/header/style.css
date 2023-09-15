@@ -1576,6 +1576,10 @@ span.tweet-body-text {
 .changelog-modal ul {
     margin: 5px;
 }
+.tweet-avatar {
+    z-index: 2;
+    position: relative;
+}
 
 .tweet-active:not(.tweet-view)::after {
     content: "•";
