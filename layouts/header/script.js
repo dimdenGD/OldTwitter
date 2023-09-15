@@ -1088,6 +1088,8 @@ let userDataFunction = async user => {
     }
     document.getElementById('messages').addEventListener('click', async e => {
         e.preventDefault();
+        location.hash = '#dm';
+
         let inbox = inboxData;
 
         modal = createModal(/*html*/`
@@ -3145,13 +3147,17 @@ setInterval(() => {
     }
     window.addEventListener('popstate', () => {
         if(document.querySelector('iframe.iframe-navigation')) return;
+        let tv = document.querySelector('.tweet-viewer');
+        if(tv) return;
         let nm = document.querySelector('.notifications-modal');
         if(nm) {
-            let tv = document.querySelector('.tweet-viewer');
-            if(!tv) {
-                nm.parentElement.removeModal();
-            }
-        }   
+            nm.parentElement.removeModal();
+            return;
+        }
+        let im = document.querySelector('.inbox-modal');
+        if(im) {
+            im.parentElement.removeModal();
+        }
     });
 
     switchDarkMode(vars.darkMode || (vars.timeMode && isDark()));
