@@ -2446,14 +2446,6 @@ let userDataFunction = async user => {
             activeTweet = newActiveTweet;
         }
     }, { passive: true });
-    window.addEventListener("popstate", e => {
-        if(document.querySelector('.message-leave')) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            e.stopPropagation();
-            document.querySelector(".message-header-back").click();
-        }
-    });
 
     // menu
     let userMenu = document.getElementById('navbar-user-menu');
@@ -3145,7 +3137,7 @@ setInterval(() => {
             if(style) style.remove();
         }
     }
-    window.addEventListener('popstate', () => {
+    window.addEventListener('popstate', e => {
         if(document.querySelector('iframe.iframe-navigation')) return;
         let tv = document.querySelector('.tweet-viewer');
         if(tv) return;
@@ -3154,9 +3146,18 @@ setInterval(() => {
             nm.parentElement.removeModal();
             return;
         }
+        let messageBox = document.querySelector('.message-box');
+        if(messageBox && !messageBox.hidden) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            e.stopPropagation();
+            document.querySelector(".message-header-back").click();
+            return;
+        }
         let im = document.querySelector('.inbox-modal');
         if(im) {
             im.parentElement.removeModal();
+            return;
         }
     });
 
