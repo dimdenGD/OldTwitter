@@ -61,28 +61,28 @@ function updateElementsStats(tweet) {
     let renderedTweets = Array.from(document.querySelectorAll(`div.tweet[data-tweet-id="${tr.id_str}"]:not(.tweet-main)`));
     for(let t of renderedTweets) {
         if(t.tweet) {
-            t.tweet.favorite_count = tr.favorite_count;
-            t.tweet.retweet_count = tr.retweet_count;
-            t.tweet.reply_count = tr.reply_count;
-            t.tweet.bookmark_count = tr.bookmark_count;
+            if(typeof tr.favorite_count === 'number') t.tweet.favorite_count = tr.favorite_count;
+            if(typeof tr.retweet_count === 'number') t.tweet.retweet_count = tr.retweet_count;
+            if(typeof tr.reply_count === 'number') t.tweet.reply_count = tr.reply_count;
+            if(typeof tr.bookmark_count === 'number') t.tweet.bookmark_count = tr.bookmark_count;
         }
         let interactFavorite = t.querySelector('span.tweet-interact-favorite');
-        if(interactFavorite) {
+        if(interactFavorite && typeof tr.favorite_count === 'number') {
             interactFavorite.dataset.val = tr.favorite_count;
             interactFavorite.innerText = formatLargeNumber(tr.favorite_count);
         }
         let interactRetweet = t.querySelector('span.tweet-interact-retweet');
-        if(interactRetweet) {
+        if(interactRetweet && typeof tr.retweet_count === 'number') {
             interactRetweet.dataset.val = tr.retweet_count;
             interactRetweet.innerText = formatLargeNumber(tr.retweet_count);
         }
         let interactReply = t.querySelector('span.tweet-interact-reply');
-        if(interactReply) {
+        if(interactReply && typeof tr.reply_count === 'number') {
             interactReply.dataset.val = tr.reply_count;
             interactReply.innerText = formatLargeNumber(tr.reply_count);
         }
         let interactBookmark = t.querySelector('span.tweet-interact-bookmark');
-        if(interactBookmark) {
+        if(interactBookmark && typeof tr.bookmark_count === 'number') {
             interactBookmark.dataset.val = tr.bookmark_count;
             interactBookmark.innerText = formatLargeNumber(tr.bookmark_count);
         }
@@ -1206,6 +1206,7 @@ const API = {
                                     let user = tweet ? data.globalObjects.users[tweet.user_id_str] : undefined;
                                     user.id_str = tweet.user_id_str;
                                     tweet.user = user;
+                                    updateElementsStats(tweet);
                                 }
 
                                 n.entry = e;
@@ -1227,6 +1228,7 @@ const API = {
                                     t.quoted_status = data.globalObjects.tweets[t.quoted_status_id_str];
                                     t.quoted_status.user = data.globalObjects.users[t.quoted_status.user_id_str];
                                 }
+                                updateElementsStats(t);
 
                                 t.type = 'tweet';
                                 if(+entries[i].sortIndex > unreadBefore) {
