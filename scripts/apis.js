@@ -115,7 +115,7 @@ function parseTweet(res) {
     }
     if(tweet.retweeted_status_result) {
         let result = tweet.retweeted_status_result.result;
-        if(result.limitedActionResults) {
+        if(result.limitedActionResults && result.tweet && result.tweet.legacy) {
             let limitation = result.limitedActionResults.limited_actions.find(l => l.action === "Reply");
             if(limitation) {
                 result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
