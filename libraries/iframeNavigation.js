@@ -1,3 +1,5 @@
+// i don't understand how this file works anymore please send help
+
 function getFrameDepth(winToID) {
     if (winToID === window.top) {
         return 0;
@@ -9,14 +11,12 @@ function getFrameDepth(winToID) {
     return 1 + getFrameDepth(winToID.parent);
 }
 
-if(!window.top.windows) window.top.windows = [];
-if(!window.top.windows.includes(window)) window.top.windows.push(window);
-if(!window._realPath) window._realPath = location.pathname;
-
-window.addEventListener('unload', () => {
-    window.top.windows = window.top.windows.filter(w => w !== window);
-});
-if(window.top === window) {
+if(!window.top.windows && window.top === window) {
+    window.top.windows = [];
+    window.top._title = document.title;
+    setTimeout(() => {
+        window.top._title = document.title;
+    }, 1000);
     setInterval(() => {
         let iframe = document.getElementsByClassName('iframe-navigation')[0];
         if(window.top.windows.slice(1).some(w => w.location.pathname === '/home') || (iframe && iframe.src === "https://twitter.com/home")) {
@@ -24,10 +24,27 @@ if(window.top === window) {
             window.top.windows = [window];
             iframe.remove();
             window.focus();
+
+            window.top.document.title = window.top._title;
+        }
+        if(!iframe) {
+            window.top._title = document.title;
         }
     }, 250);
 }
+if(!window.top.windows.includes(window)) window.top.windows.push(window);
+if(!window._realPath) window._realPath = location.pathname;
+if(window.top !== window) {
+    setTimeout(() => {
+        window.top.document.title = document.title;
+    }, 1000);
+}
 
+window.addEventListener('unload', () => {
+    window.top.windows = window.top.windows.filter(w => w !== window);
+});
+
+let lastNavigation = 0;
 function useIframeNavigation(e) {
     if(e.defaultPrevented) return;
     if(typeof vars === 'undefined') return;
@@ -50,7 +67,10 @@ function useIframeNavigation(e) {
         we.document.body.style.overflowY = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
         we.focus();
 
-        window.top.history.pushState(null, null, a.href);
+        window.top.document.title = we.document.title;
+        if(window.top.windows.length === 1) window.top.document.title = window.top._title;
+
+        if(location.href !== a.href) window.top.history.pushState(null, null, a.href);
         if(iframe) iframe.remove();
         return;
     };
@@ -62,7 +82,7 @@ function useIframeNavigation(e) {
         window.previousOverflow = document.body.style.overflowY;
         document.body.style.overflowY = 'hidden';
 
-        window.top.history.pushState(null, null, a.href);
+        if(location.href !== a.href) window.top.history.pushState(null, null, a.href);
 
         let iframe = document.createElement('iframe');
         iframe.classList.add('iframe-navigation');
@@ -91,17 +111,26 @@ function useIframeNavigation(e) {
             we.document.body.style.overflowY = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
             we.focus();
             
+            window.top.document.title = we.document.title;
+            if(window.top.windows.length === 1) window.top.document.title = window.top._title;
+            
             if(iframe) iframe.remove();
         } else {
             if(location.pathname === '/notifications' || location.pathname.includes('/status/')) {
                 let we = window.top.windows[Math.max(window.top.windows.length - 2, 0)];
                 let iframe = we.document.getElementsByClassName('iframe-navigation')[0];
                 window.top.windows = window.top.windows.slice(0, window.top.windows.length - 1);
+                if(window.top.windows.length === 0) window.top.windows = [window];
                 we.document.body.style.overflowY = we.previousOverflow && we.previousOverflow !== 'hidden' ? we.previousOverflow : 'auto';
                 we.focus();
 
+                window.top.document.title = we.document.title;
+                if(window.top.windows.length === 1) window.top.document.title = window.top._title;
+
                 if(iframe) iframe.remove();
             } else {
+                if(Date.now() - lastNavigation < 20) return;
+                lastNavigation = Date.now();
                 useIframeNavigation({
                     target: { closest: () => ({ href: location.href }) },
                     preventDefault: () => {},
