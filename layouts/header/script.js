@@ -1483,10 +1483,10 @@ let userDataFunction = async user => {
                 newTweetPoll.hidden = false;
                 newTweetPoll.style.width = "364px";
                 document.getElementById('navbar-new-tweet-poll').innerHTML = `
-                    <input class="navbar-poll-question" data-variant="1" placeholder="${LOC.variant.message} 1"><br>
-                    <input class="navbar-poll-question" data-variant="2" placeholder="${LOC.variant.message} 2"><br>
-                    <input class="navbar-poll-question" data-variant="3" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
-                    <input class="navbar-poll-question" data-variant="4" placeholder="${LOC.variant.message} 4 ${LOC.optional.message}"><br>
+                    <input class="navbar-poll-question" data-variant="1" maxlength="25" placeholder="${LOC.variant.message} 1"><br>
+                    <input class="navbar-poll-question" data-variant="2" maxlength="25" placeholder="${LOC.variant.message} 2"><br>
+                    <input class="navbar-poll-question" data-variant="3" maxlength="25" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
+                    <input class="navbar-poll-question" data-variant="4" maxlength="25" placeholder="${LOC.variant.message} 4 ${LOC.optional.message}"><br>
                     <hr>
                     ${LOC.days.message}: <input class="navbar-poll-date" id="navbar-poll-days" type="number" min="0" max="7" value="1">
                     ${LOC.hours.message}: <input class="navbar-poll-date" id="navbar-poll-hours" type="number" min="0" max="23" value="0">
