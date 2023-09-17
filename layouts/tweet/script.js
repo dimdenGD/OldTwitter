@@ -133,7 +133,8 @@ async function updateReplies(id, c) {
             return;
         }
         tl = tlData.value;
-        tweetLikers = tweetLikersData.value;
+        if(tweetLikersData.value) tweetLikers = tweetLikersData.value;
+        else tweetLikers = { list: [], cursor: undefined };
         loadingNewTweets = false;
     } catch(e) {
         loadingNewTweets = false;

@@ -176,7 +176,8 @@ class TweetViewer {
             for(let u in tl.users) {
                 this.users[u] = tl.users[u];
             }
-            tweetLikers = tweetLikersData.value;
+            if(tweetLikersData.value) tweetLikers = tweetLikersData.value;
+            else tweetLikers = { list: [], cursor: undefined };
             this.loadingNewTweets = false;
             document.getElementsByClassName('timeline-more')[0].innerText = LOC.load_more.message;
         } catch(e) {

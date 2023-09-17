@@ -3322,6 +3322,7 @@ const API = {
                                 loadingLikers[id].listeners.forEach(l => l[0]({ list: [], cursor: undefined }));
                                 delete loadingLikers[id];
                             }
+                            debugLog('tweet.getLikers', 'end', id, { list: [], cursor: undefined, data });
                             return resolve({ list: [], cursor: undefined });
                         }
                         list = list.entries;
