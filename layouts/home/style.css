@@ -967,3 +967,9 @@ a:hover,
         margin-left: auto;
     }
 }
+@media screen and (max-width: 590px) {
+    .tweet .tweet-header-name {
+        white-space: pre !important;
+        text-overflow: ellipsis;
+    }
+}
