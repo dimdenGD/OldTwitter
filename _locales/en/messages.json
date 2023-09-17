@@ -575,5 +575,7 @@
     "uploading": { "message": "Uploading" },
     "finalization": { "message": "Finalization" },
     "processing": { "message": "Processing" },
-    "quotes": { "message": "Quotes" }
+    "quotes": { "message": "Quotes" },
+    "share_tweet_in_dms": { "message": "Share tweet in DMs" },
+    "share_tweet_to": { "message": "Share tweet to..." }
 }

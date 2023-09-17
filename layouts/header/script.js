@@ -8,6 +8,7 @@ let notificationsOpened = false;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 let activeTweet;
 let seenAlgoTweets = [], algoTweetsChanged = false;
+let tweetUrlToShareInDMs = null;
 setInterval(() => {
     if(!algoTweetsChanged) return;
     algoTweetsChanged = false;
@@ -1065,6 +1066,7 @@ let userDataFunction = async user => {
                 if(messageUsers.length === 1) messageHeaderLink.href = `https://twitter.com/${messageUsers[0].screen_name}`;
                 setTimeout(() => {
                     modal.querySelector(".message-new-input").focus();
+                    if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
                 });
 
                 renderConversation(messageData, c.conversation_id);
@@ -1153,6 +1155,7 @@ let userDataFunction = async user => {
             if(location.hash === '#dm') {
                 location.hash = "";
             }
+            tweetUrlToShareInDMs = null;
         });
         modal.querySelector('.modal-close').hidden = true;
         const inboxList = modal.querySelector('.inbox-list');
@@ -1228,6 +1231,7 @@ let userDataFunction = async user => {
                     messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
                     setTimeout(() => {
                         modal.querySelector(".message-new-input").focus();
+                        if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
                     });
 
                     renderConversation(messageData, `${user.id_str}-${u.id_str}`);
@@ -2249,6 +2253,7 @@ let userDataFunction = async user => {
             messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
             setTimeout(() => {
                 modal.querySelector(".message-new-input").focus();
+                if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
             });
 
             renderConversation(messageData, convo_id);

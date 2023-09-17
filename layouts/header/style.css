@@ -1621,6 +1621,9 @@ span.tweet-body-text {
 .tweet-interact-more-menu-share:before {
     content: "\f185"
 }
+.tweet-interact-more-menu-share-dms:before {
+    content: "\f157"
+}
 
 .tweet-interact-more-menu-analytics:before {
     content: "\f200"

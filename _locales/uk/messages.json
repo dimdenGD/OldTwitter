@@ -566,5 +566,7 @@
     "uploading": { "message": "Завантаження" },
     "finalization": { "message": "Завершення" },
     "processing": { "message": "Обробка" },
-    "quotes": { "message": "Цитати" }
+    "quotes": { "message": "Цитати" },
+    "share_tweet_in_dms": { "message": "Поширити твіт повідомленням" },
+    "share_tweet_to": { "message": "Поширити твіт..." }
 }

@@ -1940,6 +1940,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         <span class="tweet-interact-more-menu-copy">${LOC.copy_link.message}</span>
                         <span class="tweet-interact-more-menu-embed">${LOC.embed_tweet.message}</span>
                         ${navigator.canShare ? `<span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>` : ''}
+                        <span class="tweet-interact-more-menu-share-dms">${LOC.share_tweet_in_dms.message}</span>
                         <span class="tweet-interact-more-menu-newtwitter">${LOC.open_tweet_newtwitter.message}</span>
                         ${t.user.id_str === user.id_str ? /*html*/`
                         <hr>
@@ -2317,6 +2318,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         const tweetInteractMoreMenuCopyUserId = tweet.getElementsByClassName('tweet-interact-more-menu-copy-user-id')[0];
         const tweetInteractMoreMenuEmbed = tweet.getElementsByClassName('tweet-interact-more-menu-embed')[0];
         const tweetInteractMoreMenuShare = tweet.getElementsByClassName('tweet-interact-more-menu-share')[0];
+        const tweetInteractMoreMenuShareDMs = tweet.getElementsByClassName('tweet-interact-more-menu-share-dms')[0];
         const tweetInteractMoreMenuNewtwitter = tweet.getElementsByClassName('tweet-interact-more-menu-newtwitter')[0];
         const tweetInteractMoreMenuAnalytics = tweet.getElementsByClassName('tweet-interact-more-menu-analytics')[0];
         const tweetInteractMoreMenuRefresh = tweet.getElementsByClassName('tweet-interact-more-menu-refresh')[0];
@@ -3297,6 +3299,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         });
         if(tweetInteractMoreMenuShare) tweetInteractMoreMenuShare.addEventListener('click', () => {
             navigator.share({ url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}` });
+        });
+        tweetInteractMoreMenuShareDMs.addEventListener('click', () => {
+            tweetUrlToShareInDMs = `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`;
+            document.getElementById('messages').click();
+            setTimeout(() => {
+                let title = document.querySelector('div.inbox h1.nice-header.larger');
+                title.innerText = LOC.share_tweet_to.message;
+            });
         });
         tweetInteractMoreMenuNewtwitter.addEventListener('click', () => {
             openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}?newtwitter=true`);
