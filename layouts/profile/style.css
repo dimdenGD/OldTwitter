@@ -242,7 +242,6 @@ body {
     text-decoration: none
 }
 
-.tweet-interact span:before,
 #profile-settings-div span:before {
     -webkit-font-smoothing: antialiased;
     margin-right: 10px;
@@ -250,6 +249,8 @@ body {
     cursor: pointer;
     vertical-align: sub;
     font: 400 16px var(--icon-font);
+    min-width: 16px;
+    display: inline-block
 }
 
 .tweet-interact-reply:before {

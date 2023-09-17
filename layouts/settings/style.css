@@ -504,28 +504,6 @@ select, input, textarea {
     user-select: none
 }
 
-.tweet-interact span {
-    color: var(--light-gray);
-    cursor: pointer;
-    display: inline-block;
-    font-size: 12px;
-    font-weight: 700;
-    margin-left: 6px;
-    margin-right: 20px;
-    position: relative;
-    text-decoration: none;
-    top: -2px
-}
-
-.tweet-interact span:before {
-    -webkit-font-smoothing: antialiased;
-    color: #ccd6dd;
-    cursor: pointer;
-    font: 400 16px var(--icon-font);;
-    margin-right: 10px;
-    vertical-align: sub
-}
-
 .tweet-interact-reply:before {
     content: "\f151"
 }

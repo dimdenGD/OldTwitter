@@ -1466,6 +1466,30 @@ span.tweet-body-text {
     text-align: center;
     width: 43px
 }
+.tweet-interact span {
+    color: var(--light-gray);
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    margin-left: 6px;
+    margin-right: 20px;
+    position: relative;
+    text-decoration: none;
+    top: -2px
+}
+
+.tweet-interact span:before {
+    -webkit-font-smoothing: antialiased;
+    color: #ccd6dd;
+    cursor: pointer;
+    font: 400 16px var(--icon-font);;
+    margin-right: 10px;
+    vertical-align: sub;
+    display: inline-block;
+    min-width: 16px;
+}
+
 .tweet-view-self-thread-div {
     bottom: 35px;
     position: relative
