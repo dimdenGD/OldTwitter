@@ -3082,7 +3082,8 @@ video::-internal-media-controls-overlay-cast-button {
         vertical-align: sub;
         margin-right: 7px;
         font-size: 20px;
-
+        display: inline-block;
+        min-width: 21px;
     }
     #navbar-user-menu-settings:before {
         content: "\f059";
@@ -3104,6 +3105,9 @@ video::-internal-media-controls-overlay-cast-button {
     }
     #navbar-user-menu-accounts:before {
         content: "\f178";
+    }
+    .body-old-ui #navbar-user-menu-accounts:before {
+        content: "\f056";
     }
     #navbar-user-menu-links{
         display:flex;
