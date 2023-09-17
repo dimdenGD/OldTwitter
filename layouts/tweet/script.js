@@ -132,6 +132,9 @@ async function updateReplies(id, c) {
             document.getElementById('loading-box').hidden = true;
             return;
         }
+        if(!tweetLikersData.value) {
+            console.error(tweetLikersData.reason);
+        }
         tl = tlData.value;
         if(tweetLikersData.value) tweetLikers = tweetLikersData.value;
         else tweetLikers = { list: [], cursor: undefined };

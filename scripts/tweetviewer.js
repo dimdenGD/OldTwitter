@@ -172,6 +172,9 @@ class TweetViewer {
                 this.cursor = undefined;
                 return console.error(tlData.reason);
             }
+            if(!tweetLikersData.value) {
+                console.error(tweetLikersData.reason);
+            }
             tl = tlData.value;
             for(let u in tl.users) {
                 this.users[u] = tl.users[u];

@@ -3328,7 +3328,10 @@ const API = {
                         list = list.entries;
                         let rdata = {
                             list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
-                                if(e.content.itemContent.user_results.result.__typename === "UserUnavailable") return;
+                                if(
+                                    !e.content.itemContent.user_results.result ||
+                                    e.content.itemContent.user_results.result.__typename === "UserUnavailable"
+                                ) return;
                                 let user = e.content.itemContent.user_results.result;
                                 user.legacy.id_str = user.rest_id;
                                 return user.legacy;
@@ -3402,7 +3405,10 @@ const API = {
                     list = list.entries;
                     let out = {
                         list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
-                            if(e.content.itemContent.user_results.result.__typename === "UserUnavailable") return;
+                            if(
+                                !e.content.itemContent.user_results.result ||
+                                e.content.itemContent.user_results.result.__typename === "UserUnavailable"
+                            ) return;
                             let user = e.content.itemContent.user_results.result;
                             user.legacy.id_str = user.rest_id;
                             return user.legacy;
