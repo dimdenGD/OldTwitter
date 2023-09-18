@@ -22,6 +22,81 @@ function getAllCSSVariables() {
         });
     return vars;
 }
+function initColors() {
+    let root = document.querySelector(":root");
+    let colorsDiv = document.getElementById('colors');
+    let theme = getThemeVariables(isDarkModeEnabled);
+    let defaultVars = parseVariables(theme);
+    customVars = parseVariables(vars.customCSSVariables);
+
+    colorsDiv.innerHTML = '';
+
+    for(let v in defaultVars) {
+        try {
+            let color = parseCssColor(customVars[v] ? customVars[v] : defaultVars[v]);
+            if(!color || v === '--link-color' || v === '--favorite-icon-color') continue;
+
+            let div = document.createElement('div');
+            div.classList.add('color-div');
+            div.innerHTML = /*html*/`
+                <input data-coloris class="color-value" type="text" data-var="${v}" value="${rgb2hex(...color.values)}${Math.round(color.alpha*255).toString(16).padStart(2, '0')}">
+                <span class="color-name">${v[2].toUpperCase() + v.slice(3).replace(/-/g, ' ')}</span>
+                <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>${LOC.reset.message}</button>
+            `;
+            colorsDiv.append(div);
+            function colorUpdate() {
+                let colorValue = div.querySelector('.color-value');
+
+                customVars[colorValue.dataset.var] = colorValue.value;
+                let css = Object.entries(customVars).map(([k, v]) => `${k}: ${v};`).join('\n');
+                chrome.storage.sync.set({
+                    customCSSVariables: css
+                }, () => {
+                    vars.customCSSVariables = css;
+                    root.style.setProperty(colorValue.dataset.var, customVars[colorValue.dataset.var]);
+                    customCSSBus.postMessage({type: 'vars'});
+                    div.querySelector('.color-reset').disabled = false;
+                });
+            }
+            let colorValue = div.querySelector('.color-value');
+            colorValue.style.color = colorValue.value;
+            colorValue.style.backgroundColor = colorValue.value;
+            colorValue.addEventListener('click', e => {
+                Coloris({
+                    alpha: true,
+                    themeMode: isDarkModeEnabled ? 'dark' : 'light',
+                    swatches: []
+                });
+            });
+            colorValue.addEventListener('change', colorUpdate);
+            colorValue.addEventListener('input', e => {
+                colorValue.style.color = colorValue.value;
+                colorValue.style.backgroundColor = colorValue.value;
+
+                root.style.setProperty(colorValue.dataset.var, colorValue.value);
+            });
+            div.querySelector('.color-reset').addEventListener('click', () => {
+                delete customVars[v];
+                let css = Object.entries(customVars).map(([k, v]) => `${k}: ${v};`).join('\n');
+                chrome.storage.sync.set({
+                    customCSSVariables: css
+                }, () => {
+                    vars.customCSSVariables = css;
+                    root.style.setProperty(v, defaultVars[v]);
+                    customCSSBus.postMessage({type: 'vars'});
+                    div.querySelector('.color-reset').disabled = true;
+                    let defColor = parseCssColor(defaultVars[v]);
+                    colorValue.value = rgb2hex(...defColor.values) + Math.round(defColor.alpha*255).toString(16).padStart(2, '0');
+                    colorValue.style.color = colorValue.value;
+                    colorValue.style.backgroundColor = colorValue.value;
+                });
+            });
+    
+        } catch(e) {
+            console.error(e);
+        }
+    }
+}
 
 function updateUserData() {
     API.account.verifyCredentials().then(async u => {
@@ -651,15 +726,18 @@ setTimeout(async () => {
         switchDarkMode(isDarkModeEnabled);
         chrome.storage.sync.set({
             darkMode: isDarkModeEnabled
-        }, () => { });
+        }, () => {
+            initColors();
+        });
     });
     pitchBlackMode.addEventListener('change', () => {
         vars.pitchBlack = pitchBlackMode.checked;
         chrome.storage.sync.set({
             pitchBlack: pitchBlackMode.checked
-        }, () => {});
+        }, () => { });
         themeBus.postMessage([darkMode.checked, pitchBlackMode.checked]);
         switchDarkMode(isDarkModeEnabled);
+        initColors();
     });
     timeMode.addEventListener('change', () => {
         if(timeMode.checked) {
@@ -667,6 +745,7 @@ setTimeout(async () => {
             chrome.storage.sync.set({
                 darkMode: false
             }, () => { });
+            vars.darkMode = false;
             darkModeText.style.color = 'var(--darker-gray)';
             let dark = isDark();
             darkMode.checked = dark;
@@ -687,7 +766,9 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             timeMode: timeMode.checked,
             systemDarkMode: false
-        }, () => { });
+        }, () => {
+            initColors();
+        });
     });
     systemDarkMode.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -719,6 +800,7 @@ setTimeout(async () => {
                 isDarkModeEnabled = false;
                 switchDarkMode(false);
             }
+            initColors();
         });
     });
     copyLinksAs.addEventListener('change', () => {
@@ -1055,83 +1137,8 @@ setTimeout(async () => {
     });
 
     // Colors
-    let colorsDiv = document.getElementById('colors');
-    let theme = getThemeVariables(isDarkModeEnabled);
-    let defaultVars = parseVariables(theme);
-    customVars = parseVariables(vars.customCSSVariables);
+    initColors();
 
-    for(let v in defaultVars) {
-        try {
-            let color = parseCssColor(customVars[v] ? customVars[v] : defaultVars[v]);
-            if(!color || v === '--link-color' || v === '--favorite-icon-color') continue;
-
-            let div = document.createElement('div');
-            div.classList.add('color-div');
-            div.innerHTML = /*html*/`
-                <input data-coloris class="color-value" type="text" data-var="${v}" value="${rgb2hex(...color.values)}${Math.round(color.alpha*255).toString(16).padStart(2, '0')}">
-                <span class="color-name">${v[2].toUpperCase() + v.slice(3).replace(/-/g, ' ')}</span>
-                <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>${LOC.reset.message}</button>
-            `;
-            colorsDiv.append(div);
-            function colorUpdate() {
-                let colorValue = div.querySelector('.color-value');
-
-                customVars[colorValue.dataset.var] = colorValue.value;
-                let css = Object.entries(customVars).map(([k, v]) => `${k}: ${v};`).join('\n');
-                chrome.storage.sync.set({
-                    customCSSVariables: css
-                }, () => {
-                    vars.customCSSVariables = css;
-                    root.style.setProperty(colorValue.dataset.var, customVars[colorValue.dataset.var]);
-                    customCSSBus.postMessage({type: 'vars'});
-                    div.querySelector('.color-reset').disabled = false;
-                    if(colorValue.dataset.var === '--background-color') {
-                        document.getElementById("color-preview-custom").style.color = makeSeeableColor(customVars[colorValue.dataset.var]);
-                        document.getElementById("color-preview-custom").hidden = false;
-                    }
-                });
-            }
-            let colorValue = div.querySelector('.color-value');
-            colorValue.style.color = colorValue.value;
-            colorValue.style.backgroundColor = colorValue.value;
-            colorValue.addEventListener('click', e => {
-                Coloris({
-                    alpha: true,
-                    themeMode: isDarkModeEnabled ? 'dark' : 'light',
-                    swatches: []
-                });
-            });
-            colorValue.addEventListener('change', colorUpdate);
-            colorValue.addEventListener('input', e => {
-                colorValue.style.color = colorValue.value;
-                colorValue.style.backgroundColor = colorValue.value;
-
-                root.style.setProperty(colorValue.dataset.var, colorValue.value);
-            });
-            div.querySelector('.color-reset').addEventListener('click', () => {
-                delete customVars[v];
-                let css = Object.entries(customVars).map(([k, v]) => `${k}: ${v};`).join('\n');
-                chrome.storage.sync.set({
-                    customCSSVariables: css
-                }, () => {
-                    vars.customCSSVariables = css;
-                    root.style.setProperty(v, defaultVars[v]);
-                    customCSSBus.postMessage({type: 'vars'});
-                    div.querySelector('.color-reset').disabled = true;
-                    let defColor = parseCssColor(defaultVars[v]);
-                    colorValue.value = rgb2hex(...defColor.values) + Math.round(defColor.alpha*255).toString(16).padStart(2, '0');
-                    colorValue.style.color = colorValue.value;
-                    colorValue.style.backgroundColor = colorValue.value;
-                    if(v === '--background-color') {
-                        document.getElementById("color-preview-custom").hidden = true;
-                    }
-                });
-            });
-    
-        } catch(e) {
-            console.error(e);
-        }
-    }
     document.getElementById('reset-all-colors').addEventListener('click', () => {
         let sure = confirm(LOC.reset_colors_sure.message);
         if(!sure) return;
