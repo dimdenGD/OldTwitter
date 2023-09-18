@@ -3093,6 +3093,8 @@ setInterval(() => {
             if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'EMOJI-PICKER') return;
 
             if(!e.altKey && !e.ctrlKey && e.keyCode === 70) { // F
+                if(vars.disableFindHotkey) return;
+
                 // focus search bar
                 searchInput.focus();
                 e.preventDefault();

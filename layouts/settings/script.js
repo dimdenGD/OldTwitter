@@ -148,6 +148,7 @@ setTimeout(async () => {
     let disableHotkeys = document.getElementById('disable-hotkeys');
     let disableRetweetHotkey = document.getElementById('disable-retweet-hotkey');
     let disableLikeHotkey = document.getElementById('disable-like-hotkey');
+    let disableFindHotkey = document.getElementById('disable-find-hotkey');
     let customCSS = document.getElementById('custom-css');
     let customCSSSave = document.getElementById('custom-css-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
@@ -492,6 +493,11 @@ setTimeout(async () => {
             disableLikeHotkey: disableLikeHotkey.checked
         }, () => { });
     });
+    disableFindHotkey.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            disableFindHotkey: disableFindHotkey.checked
+        }, () => { });
+    });
     savePreferredQuality.addEventListener('change', () => {
         chrome.storage.sync.set({
             savePreferredQuality: savePreferredQuality.checked
@@ -834,6 +840,7 @@ setTimeout(async () => {
     disableHotkeys.checked = !!vars.disableHotkeys;
     disableRetweetHotkey.checked = !!vars.disableRetweetHotkey;
     disableLikeHotkey.checked = !!vars.disableLikeHotkey;
+    disableFindHotkey.checked = !!vars.disableFindHotkey;
     noBigFont.checked = !!vars.noBigFont;
     autoplayVideos.checked = !!vars.autoplayVideos;
     displaySensitiveContent.checked = !!vars.displaySensitiveContent;
