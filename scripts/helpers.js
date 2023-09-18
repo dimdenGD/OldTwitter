@@ -209,7 +209,7 @@ async function handleFiles(files, mediaArray, mediaContainer) {
 
                     let mediaObject = {
                         div, img,
-                        id: img.id,
+                        id: div.id,
                         data: data,
                         type: file.type,
                         cw: [],
@@ -226,7 +226,7 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                         div.remove();
                         for (let i = mediaArray.length - 1; i >= 0; i--) {
                             let m = mediaArray[i];
-                            if (m.id === img.id) mediaArray.splice(i, 1);
+                            if (m.id === div.id) mediaArray.splice(i, 1);
                         }
                     });
                     div.append(img, progress, remove);
