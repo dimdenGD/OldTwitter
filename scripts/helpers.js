@@ -88,25 +88,34 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                 (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver)
             ) {
                 // convert png to jpeg
-                await new Promise(resolve => {
-                    let canvas = document.createElement('canvas');
-                    let ctx = canvas.getContext('2d');
-                    let img = new Image();
-                    img.onload = function () {
-                        canvas.width = img.width;
-                        canvas.height = img.height;
-                        ctx.drawImage(img, 0, 0);
-                        let dataURL = canvas.toDataURL('image/jpeg', (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver) ? 0.5 : 0.9);
-                        let blobBin = atob(dataURL.split(',')[1]);
-                        let array = [];
-                        for (let i = 0; i < blobBin.length; i++) {
-                            array.push(blobBin.charCodeAt(i));
-                        }
-                        file = new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
-                        resolve();
-                    };
-                    img.src = URL.createObjectURL(file);
-                });
+                let toBreak = false, i = 0;
+                while(file.size > 5000000) {
+                    await new Promise(resolve => {
+                        let canvas = document.createElement('canvas');
+                        let ctx = canvas.getContext('2d');
+                        let img = new Image();
+                        img.onload = function () {
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            ctx.drawImage(img, 0, 0);
+                            let dataURL = canvas.toDataURL('image/jpeg', (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver) ? (0.5 - i*0.1) : (0.9 - i*0.1));
+                            let blobBin = atob(dataURL.split(',')[1]);
+                            let array = [];
+                            for (let i = 0; i < blobBin.length; i++) {
+                                array.push(blobBin.charCodeAt(i));
+                            }
+                            let newFile = new Blob([new Uint8Array(array)], { type: 'image/jpeg' });
+                            if(newFile.size > file.size) {
+                                toBreak = true;
+                            } else {
+                                file = newFile;
+                            }
+                            resolve();
+                        };
+                        img.src = URL.createObjectURL(file);
+                    });
+                    if(toBreak || i++ > 5) break;
+                }
                 if(file.size > 5000000) {
                     return alert(LOC.images_max.message);
                 }
