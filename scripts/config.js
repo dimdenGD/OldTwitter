@@ -32,7 +32,7 @@ async function loadVars() {
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'openNotifsAsModal', 'enableIframeNavigation',
             'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
             'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
-            'disableRetweetHotkey', 'disableLikeHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType',
+            'disableRetweetHotkey', 'disableLikeHotkey', 'disableFindHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType',
             'showUserFollowerCountsInLists', 'showQuoteCount'
         ], data => {
             // default variables
