@@ -1679,21 +1679,34 @@ let userDataFunction = async user => {
                     let media = mediaToUpload[i];
                     try {
                         media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                        let mediaId = await API.uploadMedia({
-                            media_type: media.type,
-                            media_category: media.category,
-                            media: media.data,
-                            alt: media.alt,
-                            cw: media.cw,
-                            loadCallback: data => {
-                                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                            }
-                        });
+                        let mediaId;
+                        if(!media.div.dataset.mediaId) {
+                            mediaId = await API.uploadMedia({
+                                media_type: media.type,
+                                media_category: media.category,
+                                media: media.data,
+                                alt: media.alt,
+                                cw: media.cw,
+                                loadCallback: data => {
+                                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                                }
+                            });
+                        } else {
+                            mediaId = media.div.dataset.mediaId;
+                        }
                         uploadedMedia.push(mediaId);
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = LOC.uploaded.message;
+                        media.div.dataset.mediaId = mediaId;
                     } catch (e) {
-                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
                         console.error(e);
                         alert(e);
+                        for(let j in mediaToUpload) {
+                            let media = mediaToUpload[j];
+                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = '';
+                        }
+                        newTweetButton.disabled = false;
+                        return; // cancel tweeting
                     }
                 }
                 try {

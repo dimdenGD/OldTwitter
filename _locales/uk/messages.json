@@ -569,5 +569,6 @@
     "quotes": { "message": "Цитати" },
     "share_tweet_in_dms": { "message": "Поширити твіт повідомленням" },
     "share_tweet_to": { "message": "Поширити твіт..." },
-    "disable_find_hotkey": { "message": "Виключити гарячу клавішу для пошуку (F)" }
+    "disable_find_hotkey": { "message": "Виключити гарячу клавішу для пошуку (F)" },
+    "uploaded": { "message": "Завантажено" }
 }

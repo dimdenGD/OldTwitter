@@ -696,21 +696,34 @@ class TweetViewer {
                 let media = this.mediaToUpload[i];
                 try {
                     media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                    let mediaId = await API.uploadMedia({
-                        media_type: media.type,
-                        media_category: media.category,
-                        media: media.data,
-                        alt: media.alt,
-                        cw: media.cw,
-                        loadCallback: data => {
-                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                        }
-                    });
+                    let mediaId;
+                    if(!media.div.dataset.mediaId) {
+                        mediaId = await API.uploadMedia({
+                            media_type: media.type,
+                            media_category: media.category,
+                            media: media.data,
+                            alt: media.alt,
+                            cw: media.cw,
+                            loadCallback: data => {
+                                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                            }
+                        });
+                    } else {
+                        mediaId = media.div.dataset.mediaId;
+                    }
                     uploadedMedia.push(mediaId);
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = LOC.uploaded.message;
+                    media.div.dataset.mediaId = mediaId;
                 } catch (e) {
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
                     console.error(e);
                     alert(e);
+                    for(let j in this.mediaToUpload) {
+                        let media = this.mediaToUpload[j];
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = '';
+                    }
+                    document.getElementsByClassName('new-tweet-button')[0].disabled = false;
+                    return; // cancel tweeting
                 }
             }
             let tweetObject = {
@@ -1790,21 +1803,34 @@ class TweetViewer {
                 let media = replyMedia[i];
                 try {
                     media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                    let mediaId = await API.uploadMedia({
-                        media_type: media.type,
-                        media_category: media.category,
-                        media: media.data,
-                        alt: media.alt,
-                        cw: media.cw,
-                        loadCallback: data => {
-                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                        }
-                    });
+                    let mediaId;
+                    if(!media.div.dataset.mediaId) {
+                        mediaId = await API.uploadMedia({
+                            media_type: media.type,
+                            media_category: media.category,
+                            media: media.data,
+                            alt: media.alt,
+                            cw: media.cw,
+                            loadCallback: data => {
+                                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                            }
+                        });
+                    } else {
+                        mediaId = media.div.dataset.mediaId;
+                    }
                     uploadedMedia.push(mediaId);
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = LOC.uploaded.message;
+                    media.div.dataset.mediaId = mediaId;
                 } catch (e) {
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
                     console.error(e);
                     alert(e);
+                    for(let j in replyMedia) {
+                        let media = replyMedia[j];
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = '';
+                    }
+                    tweetReplyButton.disabled = false;
+                    return; // cancel tweeting
                 }
             }
             let tweetObject = {
@@ -2049,21 +2075,34 @@ class TweetViewer {
                 let media = quoteMedia[i];
                 try {
                     media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                    let mediaId = await API.uploadMedia({
-                        media_type: media.type,
-                        media_category: media.category,
-                        media: media.data,
-                        alt: media.alt,
-                        cw: media.cw,
-                        loadCallback: data => {
-                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                        }
-                    });
+                    let mediaId;
+                    if(!media.div.dataset.mediaId) {
+                        mediaId = await API.uploadMedia({
+                            media_type: media.type,
+                            media_category: media.category,
+                            media: media.data,
+                            alt: media.alt,
+                            cw: media.cw,
+                            loadCallback: data => {
+                                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                            }
+                        });
+                    } else {
+                        mediaId = media.div.dataset.mediaId;
+                    }
                     uploadedMedia.push(mediaId);
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = LOC.uploaded.message;
+                    media.div.dataset.mediaId = mediaId;
                 } catch (e) {
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
                     console.error(e);
                     alert(e);
+                    for(let j in quoteMedia) {
+                        let media = quoteMedia[j];
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = '';
+                    }
+                    tweetQuoteButton.disabled = false;
+                    return; // cancel tweeting
                 }
             }
             let tweetObject = {

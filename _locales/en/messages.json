@@ -578,5 +578,6 @@
     "quotes": { "message": "Quotes" },
     "share_tweet_in_dms": { "message": "Share tweet in DMs" },
     "share_tweet_to": { "message": "Share tweet to..." },
-    "disable_find_hotkey": { "message": "Disable find hotkey (F)" }
+    "disable_find_hotkey": { "message": "Disable find hotkey (F)" },
+    "uploaded": { "message": "Uploaded" }
 }

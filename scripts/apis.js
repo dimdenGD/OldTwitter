@@ -3050,6 +3050,7 @@ const API = {
                                 if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[0](out));
                                 delete loadingReplies[id];
                             }
+                            debugLog('tweet.getRepliesV2', 'end', {cursor, out, data});
                             return resolve(out);
                         }
                         let entries = ae.entries;
@@ -5035,7 +5036,7 @@ const API = {
                     }).then(i => i.json());
                 } catch(e) {
                     console.error(e);
-                    await sleep(2000 * initAttempts);
+                    await sleep(1500 * initAttempts);
                     return tryInitializing();
                 }
             }
