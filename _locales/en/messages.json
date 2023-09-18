@@ -541,7 +541,6 @@
     "favorited_by": { "message": "Favorited by" },
     "disable_retweet_hotkey": { "message": "Disable retweet hotkey (T)" },
     "disable_like_hotkey": { "message": "Disable like hotkey (L)" },
-    "disable_find_hotkey": { "message": "Disable find hotkey (F)" },
     "enable_extension_compatibility": { "message": "Enable extension compatibility mode (only enable if you want to make some extension work with OldTwitter, if it still doesn't work (and most likely won't) disable this again, because this option can make page buggy/laggy)" },
 	"enter_custom_font_name": {"message": "Enter a custom font name" },
     "disable_data_saver": { "message": "Disable data saver for cellular connection", "description": "This option only appears on mobile" },
@@ -578,5 +577,6 @@
     "processing": { "message": "Processing" },
     "quotes": { "message": "Quotes" },
     "share_tweet_in_dms": { "message": "Share tweet in DMs" },
-    "share_tweet_to": { "message": "Share tweet to..." }
+    "share_tweet_to": { "message": "Share tweet to..." },
+    "disable_find_hotkey": { "message": "Disable find hotkey (F)" }
 }
