@@ -575,5 +575,9 @@
     "uploading": { "message": "업로드 중" },
     "finalization": { "message": "마무리 하는 중" },
     "processing": { "message": "처리 중" },
-    "quotes": { "message": "인용" }
+    "quotes": { "message": "인용" },
+    "share_tweet_in_dms": { "message": "쪽지로 공유하기" },
+    "share_tweet_to": { "message": "공유하기..." },
+    "disable_find_hotkey": { "message": "검색 단축키(F)를 비활성화 합니다" },
+    "uploaded": { "message": "업로드됨" }
 }
