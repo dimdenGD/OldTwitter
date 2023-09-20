@@ -577,5 +577,7 @@
     "processing": { "message": "处理中" },
     "quotes": { "message": "引用" },
     "share_tweet_in_dms": { "message": "在私信中分享推文" },
-    "share_tweet_to": { "message": "分享推文给..." }
+    "share_tweet_to": { "message": "分享推文给..." },
+    "disable_find_hotkey": { "message": "禁用搜索热键 (F键)" },
+    "uploaded": { "message": "上传成功" }
 }
