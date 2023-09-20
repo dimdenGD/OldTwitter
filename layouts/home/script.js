@@ -140,6 +140,10 @@ async function updateTimeline(mode = 'rewrite') {
             case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
             default: fn = API.timeline.getChronologicalV2; break;
         }
+        if(mode === 'prepend' && vars.timelineType === 'chrono-social') {
+            fn = API.timeline.getAlgorithmicalV2;
+            args = [];
+        }
     }
     if(mode === 'prepend') {
         args.push(cursorTop);
