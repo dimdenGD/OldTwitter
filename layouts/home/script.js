@@ -124,9 +124,6 @@ async function updateTimeline(mode = 'rewrite') {
     if(vars.timelineType.startsWith('list-')) {
         fn = API.list.getTweets;
         args.push(vars.timelineType.split('-')[1]);
-        if(mode === 'prepend') {
-            args.push(cursorTop);
-        }
     } else if(vars.timelineType.startsWith('search-')) {
         fn = API.search.adaptiveV2;
         args.push({
@@ -135,23 +132,18 @@ async function updateTimeline(mode = 'rewrite') {
             querySource: 'typed_query',
             product: "Latest",
         });
-        if(mode === 'prepend') {
-            args.push(cursorTop);
-        }
     } else {
-        if(mode === 'prepend') {
-            fn = API.timeline.getChronologicalV2;
-            args.push(cursorTop);
-        } else {
-            switch(vars.timelineType) {
-                case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
-                case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
-                case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-                case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
-                default: fn = API.timeline.getChronologicalV2; break;
-            }
+        switch(vars.timelineType) {
+            case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
+            case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
+            case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
+            case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
+            default: fn = API.timeline.getChronologicalV2; break;
         }
-    } 
+    }
+    if(mode === 'prepend') {
+        args.push(cursorTop);
+    }
 
     let [tl, s] = await Promise.allSettled([fn(...args), API.account.getSettings()]);
     if(!tl.value) {
@@ -1271,9 +1263,6 @@ setTimeout(async () => {
     setInterval(updateUserData, 60000 * 3);
     let timer = 0;
     setInterval(() => {
-        if(vars.timelineType === 'algo') {
-            return;
-        }
         if(!vars.timelineType.startsWith('chrono')) {
             // don't waste precious API calls
             if(timer === 0) {
