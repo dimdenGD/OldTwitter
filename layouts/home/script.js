@@ -137,12 +137,15 @@ async function updateTimeline(mode = 'rewrite') {
             case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
             case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
             case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-            case 'chrono-social': fn = API.timeline.getMixed; args.push(seenAlgoTweets); break;
+            case 'chrono-social':
+                if(mode === 'prepend') {
+                    fn = API.timeline.getChronologicalV2;
+                } else {
+                    fn = API.timeline.getMixed;
+                    args.push(seenAlgoTweets);
+                }
+                break;
             default: fn = API.timeline.getChronologicalV2; break;
-        }
-        if(mode === 'prepend' && vars.timelineType === 'chrono-social') {
-            fn = API.timeline.getChronologicalV2;
-            args = [];
         }
     }
     if(mode === 'prepend') {
