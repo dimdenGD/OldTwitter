@@ -141,7 +141,7 @@ async function updateTimeline(mode = 'rewrite') {
             default: fn = API.timeline.getChronologicalV2; break;
         }
         if(mode === 'prepend' && vars.timelineType === 'chrono-social') {
-            fn = API.timeline.getAlgorithmicalV2;
+            fn = API.timeline.getChronologicalV2;
             args = [];
         }
     }
