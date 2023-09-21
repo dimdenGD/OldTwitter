@@ -475,7 +475,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.twitter.com/1.1/account/update_profile.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session"
                     },
@@ -532,7 +532,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.twitter.com/1.1/statuses/home_timeline.json?count=40&include_my_retweet=1&cards_platform=Web-12&include_cards=1&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified&include_reply_count=true${max_id ? `&max_id=${max_id}` : ''}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -902,7 +902,7 @@ const API = {
                     }
                     fetch(`https://api.twitter.com/1.1/trends/plus.json?max_trends=8`, {
                         headers: {
-                            "authorization": OLDTWITTER_CONFIG.oauth_key,
+                            "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -1307,7 +1307,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/2/notifications/device_follow.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&ext=mediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe${cursor ? `&cursor=${cursor}` : ''}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -1353,7 +1353,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/2/notifications/view/${id}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -1502,7 +1502,7 @@ const API = {
                 fetch(`https://api.twitter.com/1.1/friendships/create.json`, {
                     method: 'POST',
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -1540,7 +1540,7 @@ const API = {
                 fetch(`https://api.twitter.com/1.1/friendships/destroy.json`, {
                     method: 'POST',
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -1599,7 +1599,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=100&exclude_replies=${!replies}&include_my_retweet=1&include_rts=1&user_id=${id}${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-12&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session"
                     },
@@ -1736,7 +1736,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/graphql/qJPOeW9Q8icdlpfnPhsqJQ/UserMedia?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":20,"cursor":cursor,"includePromotedContent":false,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withClientEventToken":false,"withBirdwatchNotes":false,"withVoice":true,"withV2Timeline":true}))}&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_richtext_consumption_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -1823,7 +1823,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/friendships/update.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -1848,7 +1848,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/blocks/create.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -1873,7 +1873,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/blocks/destroy.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -1898,7 +1898,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/mutes/users/create.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -1923,7 +1923,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/mutes/users/destroy.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -2244,7 +2244,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/friendships/update.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -2269,7 +2269,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/friendships/incoming.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cursor=${cursor}&stringify_ids=true&count=100`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session"
                     },
@@ -2341,7 +2341,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/strato/column/None/profileUserId=${id},destinationLanguage=None,translationSource=Some(Google)/translation/service/translateProfile`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -2751,7 +2751,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://caps.twitter.com/v2/capi/${api.split('//')[1]}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -3475,7 +3475,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/mutes/conversations/create.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -3500,7 +3500,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/mutes/conversations/destroy.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -3525,7 +3525,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.twitter.com/1.1/statuses/lookup.json?id=${ids.join(',')}&include_entities=true&include_ext_alt_text=true&include_card_uri=true&tweet_mode=extended&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -3555,7 +3555,7 @@ const API = {
                     // Translate by Google
                     let res = translateLimit > Date.now() ? { ok: false } : await fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
                         headers: {
-                            "authorization": OLDTWITTER_CONFIG.oauth_key,
+                            "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -3751,7 +3751,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.twitter.com/1.1/search/typeahead.json?q=${encodeURIComponent(query)}&include_can_dm=1&count=5&prefetch=false&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -3943,7 +3943,7 @@ const API = {
                     }
                     fetch(`https://twitter.com/i/api/1.1/saved_searches/list.json`, {
                         headers: {
-                            "authorization": OLDTWITTER_CONFIG.oauth_key,
+                            "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                         },
@@ -3970,7 +3970,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/saved_searches/destroy/${id}.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -3995,7 +3995,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/saved_searches/create.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded"
@@ -4076,7 +4076,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.twitter.com/1.1/dm/conversation/mark_read.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -4095,7 +4095,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/1.1/dm/conversation/${id}.json?${max_id ? `max_id=${max_id}&` : ''}count=50&context=FETCH_DM_CONVERSATION_HISTORY&include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&dm_secret_conversations_enabled=false&krs_registration_enabled=true&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&dm_users=false&include_groups=true&include_inbox_timelines=true&include_ext_media_color=true&supports_reactions=true&include_conversation_info=true&ext=mediaColor%2CaltText%2CmediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -4115,7 +4115,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.twitter.com/1.1/dm/new.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -4170,7 +4170,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.twitter.com/1.1/dm/destroy.json`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
@@ -5029,7 +5029,7 @@ const API = {
                 if(initAttempts++ > 7) return reject("Failed to initialize media upload");
                 try {
                     initUpload = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
-                        headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                        headers: { "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                         credentials: "include",
                         method: "post",
                         body: new URLSearchParams(obj).toString()
@@ -5068,7 +5068,7 @@ const API = {
                     try {
                         await fetch(`https://upload.twitter.com/1.1/media/upload.json?command=APPEND&media_id=${mediaId}&segment_index=${i}`, {
                             headers: {
-                                "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session",
+                                "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session",
                             },
                             credentials: "include",
                             method: "post",
@@ -5095,7 +5095,7 @@ const API = {
                 if(finalAttempts++ > 7) return reject("Failed to finalize media upload");
                 try {
                     finalData = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
-                        headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                        headers: { "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                         credentials: "include",
                         method: "post",
                         body: new URLSearchParams({
@@ -5127,7 +5127,7 @@ const API = {
                         obj.sensitive_media_warning = data.cw;
                     }
                     await fetch(`https://upload.twitter.com/1.1/media/metadata/create.json`, {
-                        headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session" },
+                        headers: { "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session" },
                         credentials: "include",
                         method: "post",
                         body: JSON.stringify(obj)
@@ -5143,7 +5143,7 @@ const API = {
             async function checkStatus() {
                 if(statusTries++ > 60*20) return clearInterval(statusInterval);
                 await fetch(`https://upload.twitter.com/1.1/media/upload.json?${new URLSearchParams({ command: "STATUS", media_id: mediaId }).toString()}`, {
-                    headers: { "authorization": OLDTWITTER_CONFIG.oauth_key, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
+                    headers: { "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     credentials: "include",
                 }).then(i => i.json()).then(i => {
                     if (i.processing_info.state === "succeeded") {
