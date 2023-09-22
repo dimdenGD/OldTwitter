@@ -2496,7 +2496,7 @@ const API = {
                 fetch(`https://twitter.com/i/api/graphql/${parsedTweet.weightedLength > 280 ? 'pokID4auGUSzBxijrqpIlw/CreateNoteTweet' : 'tTsjMKyhajZvK4q76mpIBg/CreateTweet'}`, {
                     method: 'POST',
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw",
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json; charset=utf-8",
