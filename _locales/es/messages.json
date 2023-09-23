@@ -575,5 +575,9 @@
     "uploading": { "message": "Subiendo" },
     "finalization": { "message": "Finalización" },
     "processing": { "message": "Procesando" },
-    "quotes": { "message": "Citas" }
+    "quotes": { "message": "Citas" },
+    "share_tweet_in_dms": { "message": "Compartir tweet en MDs" },
+    "share_tweet_to": { "message": "Comparte tweet con..." },
+    "disable_find_hotkey": { "message": "Deshabilitar la tecla de búsqueda (F)" },
+    "uploaded": { "message": "Subido" }
 }
