@@ -289,12 +289,6 @@ body {
 }
 
 .tweet-interact-favorited,
-.tweet-interact-favorited:before,
-.tweet-interact-favorite:hover:before,
-.tweet-interact-favorite:hover {
-    color: var(--favorite-icon-color) !important
-}
-.tweet-interact-favorited,
 .tweet-interact-favorited:before{
     content: var(--favorite-icon-content-click) !important
 }
@@ -496,8 +490,6 @@ a:hover,
 
 .tweet-interact-retweeted,
 .tweet-interact-retweeted:before,
-.tweet-interact-retweet:hover:before,
-.tweet-interact-retweet:hover,
 .tweet-interact-retweet-menu span:hover {
     color: #5c913b !important
 }
