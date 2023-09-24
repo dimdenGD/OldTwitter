@@ -2128,7 +2128,7 @@ setTimeout(async () => {
     });
     window.addEventListener("popstate", async () => {
         if(document.querySelector('.tweet-viewer')) return;
-        if(notificationsOpened) return;
+        if(notificationsOpened || inboxOpened) return;
         
         let path = location.pathname;
         if(path.endsWith("/")) path = path.substring(0, path.length - 1);

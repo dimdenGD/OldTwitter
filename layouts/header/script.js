@@ -4,7 +4,7 @@ let inboxData = [];
 let followRequestsData = [];
 let customSet = false;
 let menuFn;
-let notificationsOpened = false;
+let notificationsOpened = false, inboxOpened = false;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 let activeTweet;
 let seenAlgoTweets = [], algoTweetsChanged = false;
@@ -1090,6 +1090,7 @@ let userDataFunction = async user => {
     }
     document.getElementById('messages').addEventListener('click', async e => {
         e.preventDefault();
+        inboxOpened = true;
         location.hash = '#dm';
 
         let inbox = inboxData;
@@ -1153,9 +1154,10 @@ let userDataFunction = async user => {
             </div>
         `, "inbox-modal", () => {
             if(location.hash === '#dm') {
-                location.hash = "";
+                location.hash = "##";
             }
             tweetUrlToShareInDMs = null;
+            setTimeout(() => inboxOpened = false, 100);
         });
         modal.querySelector('.modal-close').hidden = true;
         const inboxList = modal.querySelector('.inbox-list');
