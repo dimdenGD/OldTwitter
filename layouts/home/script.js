@@ -22,9 +22,9 @@ function fixTweetThreadLine() {
         let tweet = tweets[i];
         let tweet2 = tweets[i + 1];
         if(!tweet2) continue;
-        if(tweet.tweet.threadContinuation && !tweet2.tweet.noTop) {
-            delete tweet2.tweet.threadContinuation;
+        if(tweet.classList.contains('tweet-self-thread-continuation') && !tweet2.classList.contains('tweet-no-top')) {
             tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
+            tweet.classList.remove('tweet-self-thread-continuation');
         }
     }
 }
