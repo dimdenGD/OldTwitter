@@ -570,5 +570,6 @@
     "share_tweet_in_dms": { "message": "Поширити твіт повідомленням" },
     "share_tweet_to": { "message": "Поширити твіт..." },
     "disable_find_hotkey": { "message": "Виключити гарячу клавішу для пошуку (F)" },
-    "uploaded": { "message": "Завантажено" }
+    "uploaded": { "message": "Завантажено" },
+    "hide_unfollowers_page": { "message": "Сховати сторінку відписників" }
 }

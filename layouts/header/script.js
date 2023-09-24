@@ -424,6 +424,11 @@ function hideStuff() {
             .tweet-interact-more-menu { margin-left: 250px }
         `;
     }
+    if(vars.hideUnfollowersPage) {
+        hideStyle.innerHTML += `
+            #navbar-user-menu-unfollowers { display: none !important; }
+        `;
+    }
     if(hideStyle.innerHTML !== '') {
         document.head.appendChild(hideStyle);
     }

@@ -278,6 +278,7 @@ setTimeout(async () => {
     let disableDataSaver = document.getElementById('disable-data-saver');
     let disableAcceptType = document.getElementById('disable-accept-type');
     let showUserFollowerCountsInLists = document.getElementById('show-user-follower-counts-in-lists');
+    let hideUnfollowersPage = document.getElementById('hide-unfollowers-page');
 
     let root = document.querySelector(":root");
     {
@@ -540,6 +541,14 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             useOldStyleReply: useOldStyleReply.checked
         }, () => { });
+    });
+    hideUnfollowersPage.addEventListener('change', () => {
+        vars.hideUnfollowersPage = hideUnfollowersPage.checked;
+        chrome.storage.sync.set({
+            hideUnfollowersPage: hideUnfollowersPage.checked
+        }, () => {
+            hideStuff();
+        });
     });
     enableAd.addEventListener('change', () => {
         vars.enableAd = enableAd.checked;
@@ -959,6 +968,7 @@ setTimeout(async () => {
     disableAcceptType.checked = !!vars.disableAcceptType;
     showUserFollowerCountsInLists.checked = !!vars.showUserFollowerCountsInLists;
     showQuoteCount.checked = !!vars.showQuoteCount;
+    hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }
