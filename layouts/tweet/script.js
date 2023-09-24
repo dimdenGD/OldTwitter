@@ -873,6 +873,8 @@ setTimeout(async () => {
         currentLocation = location.pathname;
     });
 
+    history.scrollRestoration = 'auto';
+
     // Run
     updateUserData();
     updateSubpage();

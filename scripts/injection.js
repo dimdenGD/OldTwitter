@@ -537,7 +537,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     icon.id = "site-icon";
     document.head.appendChild(icon);
 
-    history.scrollRestoration = 'manual'; // let's test if it'll make things better
+    history.scrollRestoration = 'manual';
 
     chrome.runtime.sendMessage({
         action: "inject",
