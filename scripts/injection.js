@@ -101,7 +101,7 @@ if(/^\/hashtag\/(.*?)/.test(realPath)) {
     location.replace(`https://twitter.com/search?q=%23${hashtag}`);
 }
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath)) {
-    let path = realPath.split("/photo/")[0];
+    let path = realPath.split("/photo/")[0].split("/video/")[0];
     location.replace(path);
 }
 if(realPath === '/messages') {

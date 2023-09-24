@@ -3196,13 +3196,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
+                t.renderFavoritesDown();
                 API.tweet.unfavorite(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesUp();
                 });
-                t.renderFavoritesDown();
             } else {
+                t.renderFavoritesUp();
                 API.tweet.favorite(t.id_str).catch(e => {
                     console.error(e);
                     if(e && e.errors && e.errors[0] && e.errors[0].code === 139) {
@@ -3211,7 +3212,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     alert(e);
                     t.renderFavoritesDown();
                 });
-                t.renderFavoritesUp();
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
