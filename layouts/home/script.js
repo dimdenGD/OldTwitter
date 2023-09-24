@@ -89,8 +89,8 @@ setTimeout(() => {
                             <li>Fixed closing DMs scrolling page to top.</li>
                             <li>Made emoji-only messages in DMs prettier.</li>
                             <li>Made like and retweet buttons don't get colored on touch hold on mobile.</li>
-                            <li>Made OldTwitter use cached users instead of requesting them every time for user previews.</li>
                             <li>Fixed random thread line sometimes appearing in timeline.</li>
+                            <li>Made OldTwitter use cached users instead of requesting them every time for user previews.</li>
                         </ul>
                         Updates you may have already received:
                         <ul>

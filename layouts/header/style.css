@@ -1606,6 +1606,7 @@ span.tweet-body-text {
 }
 .changelog-modal ul {
     margin: 5px;
+    padding-inline-start: 30px;
 }
 .tweet-avatar {
     z-index: 2;
