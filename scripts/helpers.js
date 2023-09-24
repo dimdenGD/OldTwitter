@@ -3754,6 +3754,9 @@ function renderNotification(n, options = {}) {
                 }
             }
         });
+        for(let i in n.users) {
+            if(!userStorage[i]) userStorage[i] = n.users[i];
+        }
     
         let users = n.template.aggregateUserActionsV1.fromUsers.map(u => n.users[u.user.id]);
         if(n.icon.id === 'recommendation_icon') {

@@ -2095,7 +2095,8 @@ let userDataFunction = async user => {
                 document.addEventListener('click', mobileClickFunction, true);
             }
 
-            let user = await API.user.get(id ? id : username, !!id);
+            let cachedUser = Object.values(userStorage).find(i => i.screen_name.toLowerCase() === username.toLowerCase());
+            let user = cachedUser ? cachedUser : await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;
             let userPreviews = Array.from(document.getElementsByClassName('user-preview'));
             if(userPreviews.length > 0) {

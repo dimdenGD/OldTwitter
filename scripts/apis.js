@@ -2,6 +2,7 @@ let loadingDetails = {};
 let loadingReplies = {};
 let loadingLikers = {};
 let tweetStorage = {};
+let userStorage = {};
 let hashflagStorage = {};
 let translateLimit = 0;
 let loadingNotifs;
@@ -16,6 +17,9 @@ setInterval(() => {
     chrome.storage.local.set({listData: {}}, () => {});
     chrome.storage.local.set({trends: {}}, () => {});
     chrome.storage.local.set({trendsv2: {}}, () => {});
+
+    tweetStorage = tweetStorage.filter(t => t.cacheDate && Date.now() - t.cacheDate < 60000*15);
+    userStorage = userStorage.filter(t => t.cacheDate && Date.now() - t.cacheDate < 60000*15);
 }, 60000*10);
 
 setInterval(() => {
@@ -137,6 +141,10 @@ function parseTweet(res) {
                     result.legacy.quoted_status.user.verified = true;
                     result.legacy.quoted_status.user.verified_type = "Blue";
                 }
+                tweetStorage[result.legacy.quoted_status.id_str] = result.legacy.quoted_status;
+                tweetStorage[result.legacy.quoted_status.id_str].cacheDate = Date.now();
+                userStorage[result.legacy.quoted_status.user.id_str] = result.legacy.quoted_status.user;
+                userStorage[result.legacy.quoted_status.user.id_str].cacheDate = Date.now();
             } else {
                 console.warn("No retweeted quoted status", result);
             }
@@ -157,6 +165,10 @@ function parseTweet(res) {
             if(res.card && res.card.legacy && res.card.legacy.binding_values) {
                 tweet.retweeted_status.card = res.card.legacy;
             }
+            tweetStorage[tweet.retweeted_status.id_str] = tweet.retweeted_status;
+            tweetStorage[tweet.retweeted_status.id_str].cacheDate = Date.now();
+            userStorage[tweet.retweeted_status.user.id_str] = tweet.retweeted_status.user;
+            userStorage[tweet.retweeted_status.user.id_str].cacheDate = Date.now();
         } else {
             console.warn("No retweeted status", result);
         }
@@ -202,6 +214,10 @@ function parseTweet(res) {
                 if(result.views) {
                     tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                 }
+                tweetStorage[tweet.quoted_status.id_str] = tweet.quoted_status;
+                tweetStorage[tweet.quoted_status.id_str].cacheDate = Date.now();
+                userStorage[tweet.quoted_status.user.id_str] = tweet.quoted_status.user;
+                userStorage[tweet.quoted_status.user.id_str].cacheDate = Date.now();
             }
         } else {
             console.warn("No quoted status", result);
@@ -241,6 +257,9 @@ function parseTweet(res) {
 
     updateElementsStats(tweet);
     tweetStorage[tweet.id_str] = tweet;
+    tweetStorage[tweet.id_str].cacheDate = Date.now();
+    userStorage[tweet.user.id_str] = tweet.user;
+    userStorage[tweet.user.id_str].cacheDate = Date.now();
     return tweet;
 }
 
@@ -1530,6 +1549,11 @@ const API = {
                         sortedFollowers[user.id_str].followers[index][1]++;
                         chrome.storage.local.set({sortedFollowers}, () => {});
                     });
+                    let cachedUser = Object.values(userStorage).find(u => u.screen_name.toLowerCase() === screen_name.toLowerCase());
+                    if(cachedUser) {
+                        cachedUser.following = true;
+                        cachedUser.following_count++;
+                    }
                 }).catch(e => {
                     reject(e);
                 });
@@ -1568,6 +1592,11 @@ const API = {
                         sortedFollowers[user.id_str].followers[index][1]--;
                         chrome.storage.local.set({sortedFollowers}, () => {});
                     });
+                    let cachedUser = Object.values(userStorage).find(u => u.screen_name.toLowerCase() === screen_name.toLowerCase());
+                    if(cachedUser) {
+                        cachedUser.following = false;
+                        cachedUser.following_count--;
+                    }
                 }).catch(e => {
                     reject(e);
                 });
