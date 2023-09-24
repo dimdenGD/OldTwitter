@@ -16,6 +16,19 @@ let selectedCircle = undefined;
 let cursorBottom, cursorTop;
 let repliesToIgnore = [];
 
+function fixTweetThreadLine() {
+    let tweets = document.getElementsByClassName('tweet');
+    for(let i = 0; i < tweets.length; i++) {
+        let tweet = tweets[i];
+        let tweet2 = tweets[i + 1];
+        if(!tweet2) continue;
+        if(tweet.tweet.threadContinuation && !tweet2.tweet.noTop) {
+            delete tweet2.tweet.threadContinuation;
+            tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
+        }
+    }
+}
+
 async function createShamelessPlug(firstTime = true) {
     let dimden = await API.user.getV2('dimdenEFF');
     chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
@@ -68,7 +81,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Fixed everything.</li>
+                            <li>Added rate limit bypass again!</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
@@ -316,6 +329,8 @@ async function renderTimeline(options = {}) {
     document.getElementById('loading-box').hidden = true;
     document.getElementById('tweets-loading').hidden = true;
     document.getElementById('load-more').hidden = false;
+
+    setTimeout(fixTweetThreadLine, 100);
     return true;
 }
 function renderNewTweetsButton() {
@@ -1003,6 +1018,7 @@ setTimeout(async () => {
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
         newTweetButton.disabled = false;
+        setTimeout(fixTweetThreadLine, 100);
     });
     newTweetText.addEventListener('blur', () => {
         newTweetText.dataset.blurSince = Date.now();
@@ -1228,6 +1244,7 @@ setTimeout(async () => {
     document.addEventListener('newTweet', e => {
         let tweet = e.detail;
         appendTweet(tweet, document.getElementById('timeline'), { prepend: true, bigFont: tweet.full_text.length < 75 });
+        setTimeout(fixTweetThreadLine, 100);
     });
 
     if(location.hash === "#dm") {
