@@ -163,6 +163,7 @@ async function updateTimeline(mode = 'rewrite') {
     if(mode === 'rewrite' || mode === 'prepend') cursorTop = tl.cursorTop;
     tl = tl.list;
     if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
+        tl = tl.filter(t => !seenTweets.includes(t.id_str));
         for(let t of tl) {
             seenTweets.push(t.id_str);
         }
