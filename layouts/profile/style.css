@@ -1859,7 +1859,7 @@ body.body-old-ui .user-item-btn.follow:before {
     #tweet-to:before{
         content: var(--at-icon);
         font-family: var(--icon-font);
-        color: var(--background-color);
+        color: white;
         font-size: 20px;
         vertical-align: -60%;
         padding-right:20px;
@@ -1891,6 +1891,20 @@ body.body-old-ui .user-item-btn.follow:before {
         padding-right: 7px;
     }
 }
+@media screen and (max-width: 430px){
+    #tweet-nav-replies > .pc-text {
+        display: none;
+    }
+    #tweet-nav-replies > .mobile-text {
+        display: inline;
+    }
+    #tweet-nav-media > .pc-text {
+        display: none;
+    }
+    #tweet-nav-media > .mobile-text {
+        display: inline;
+    }
+}
 
 @media screen and (max-width: 400px) {
 
@@ -1910,18 +1924,6 @@ body.body-old-ui .user-item-btn.follow:before {
     }
     #profile-name {
         font-size: 20px;
-    }
-    #tweet-nav-replies>.pc-text{
-        display: none;
-    }
-    #tweet-nav-replies>.mobile-text{
-        display: inline;
-    }
-    #tweet-nav-media>.pc-text{
-        display: none;
-    }
-    #tweet-nav-media>.mobile-text{
-        display: inline;
     }
 }
 @media screen and (max-width: 320px) {

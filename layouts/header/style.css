@@ -3072,6 +3072,9 @@ video::-internal-media-controls-overlay-cast-button {
     .navbar-new-tweet-modal {
         top: 33%;
     }
+    #navbar-tweet-button:before {
+        color: white;
+    }
 
     /* workaround for stretching profile timelines */
     .tweet .tweet-header-name {
