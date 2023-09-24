@@ -809,6 +809,8 @@ let userDataFunction = async user => {
             let m = lastConvo.entries[i].message;
             if(!m) continue;
             let sender = lastConvo.users[m.message_data.sender_id];
+            let clearText = m.message_data.text.replace(/(\s|\n)/g, '');
+            let isOnlyEmojis = isEmojiOnly(clearText) && clearText.length > 0 && clearText.length <= 48;
 
             let messageElement = document.createElement('div');
             messageElement.classList.add('message-element');
@@ -816,6 +818,9 @@ let userDataFunction = async user => {
                 messageElement.classList.add('message-element-other');
             } else {
                 messageElement.classList.add('message-element-self');
+            }
+            if(isOnlyEmojis) {
+                messageElement.classList.add('message-element-emojis');
             }
             messageElement.dataset.messageId = m.id;
             messageElement.innerHTML = /*html*/`

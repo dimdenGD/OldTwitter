@@ -872,7 +872,14 @@ input, textarea {
     margin-top: -4px;
     margin-left: -4px;
 }
-
+.message-element-emojis .message-body {
+    background-color: transparent;
+    font-size: 32px;
+}
+.message-element-emojis .emoji {
+    width: 32px;
+    height: 32px;
+}
 
 .message-element-self.message-element-continue .message-body:after,
 .message-element-other.message-element-continue .message-body:after {
