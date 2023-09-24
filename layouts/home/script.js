@@ -82,6 +82,23 @@ setTimeout(() => {
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
                             <li>Added rate limit bypass again!</li>
+                            <li>Made algorithmic timeline receive new tweets without having to reload the page.</li>
+                            <li>Fixed scroll position not being restored on tweet page.</li>
+                            <li>Added option to hide unfollowers page.</li>
+                            <li>Fixed opening DMs on profile page reloading it.</li>
+                            <li>Fixed closing DMs scrolling page to top.</li>
+                            <li>Made emoji-only messages in DMs prettier.</li>
+                            <li>Made like and retweet buttons don't get colored on touch hold on mobile.</li>
+                            <li>Made OldTwitter use cached users instead of requesting them every time for user previews.</li>
+                            <li>Fixed random thread line sometimes appearing in timeline.</li>
+                        </ul>
+                        Updates you may have already received:
+                        <ul>
+                            <li>Made older messages load automatically in DMs.</li>
+                            <li>Added support for multiple media uploads in DMs.</li>
+                            <li>Made back button work for DMs.</li>
+                            <li>Added "Share tweet in DMs" button.</li>
+                            <li>Improved experimental iframe navigation a lot.</li>
                         </ul>
                         <p style="margin-bottom:5px">
                             Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>

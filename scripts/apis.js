@@ -18,8 +18,16 @@ setInterval(() => {
     chrome.storage.local.set({trends: {}}, () => {});
     chrome.storage.local.set({trendsv2: {}}, () => {});
 
-    tweetStorage = tweetStorage.filter(t => t.cacheDate && Date.now() - t.cacheDate < 60000*15);
-    userStorage = userStorage.filter(t => t.cacheDate && Date.now() - t.cacheDate < 60000*15);
+    for(let i in tweetStorage) {
+        if(tweetStorage[i].cacheDate && Date.now() - tweetStorage[i].cacheDate > 60000*15) {
+            delete tweetStorage[i];
+        }
+    }
+    for(let i in userStorage) {
+        if(userStorage[i].cacheDate && Date.now() - userStorage[i].cacheDate > 60000*15) {
+            delete userStorage[i];
+        }
+    }
 }, 60000*10);
 
 setInterval(() => {
