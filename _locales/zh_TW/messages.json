@@ -580,5 +580,7 @@
     "share_tweet_to": { "message": "分享推文給..." },
     "disable_find_hotkey": { "message": "停用搜尋快捷鍵 (F)" },
     "uploaded": { "message": "上傳成功" },
-    "hide_unfollowers_page": { "message": "隱藏「取消跟隨你的人」頁面" }
+    "hide_unfollowers_page": { "message": "隱藏「取消跟隨你的人」頁面" },
+	"custom_font": { "message":"<自訂>" },
+	"current_font": { "message": "正在使用："}
 }
