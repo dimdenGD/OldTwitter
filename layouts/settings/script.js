@@ -113,7 +113,7 @@ function updateUserData() {
 function refreshFontSelectLabels(element, baselabel, fontname) {
 	element.innerHTML = baselabel;
 	if (fontname) {
-		element.innerHTML += "<br>" + LOC.current_font.message + fontname;
+		element.innerHTML += "<br>" + LOC.current_font.message.replace('$FONT$', fontname);
 	}
 }
 // Render
