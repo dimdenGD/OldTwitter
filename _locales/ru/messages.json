@@ -571,5 +571,7 @@
     "share_tweet_to": { "message": "Поделиться твитом..." },
     "disable_find_hotkey": { "message": "Выключить горячую клавишу для поиска (F)" },
     "uploaded": { "message": "Загружено" },
-    "hide_unfollowers_page": { "message": "Скрыть страницу отписчиков" }
+    "hide_unfollowers_page": { "message": "Скрыть страницу отписчиков" },
+	"custom_font": { "message": "<КАСТОМНЫЙ>" },
+	"current_font": { "message": "Текущий шрифт: $FONT$", "placeholders": { "font": { "content": "Arial" } } }
 }

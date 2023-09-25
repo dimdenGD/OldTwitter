@@ -580,5 +580,7 @@
     "share_tweet_to": { "message": "分享推文给..." },
     "disable_find_hotkey": { "message": "禁用搜索热键 (F键)" },
     "uploaded": { "message": "上传成功" },
-    "hide_unfollowers_page": { "message": "隐藏取关者页面" }
+    "hide_unfollowers_page": { "message": "隐藏【取关者】页面入口" },
+	"custom_font": { "message":"<自定义>" },
+	"current_font": { "message": "正在使用："}
 }
