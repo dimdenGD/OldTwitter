@@ -1263,6 +1263,12 @@ setTimeout(async () => {
         appendTweet(tweet, document.getElementById('timeline'), { prepend: true, bigFont: tweet.full_text.length < 75 });
         setTimeout(fixTweetThreadLine, 100);
     });
+    document.getElementById('home').addEventListener('click', e => {
+        if(document.documentElement.scrollTop > 500) {
+            e.preventDefault();
+            window.scrollTo(0, 0);
+        }
+    });
 
     if(location.hash === "#dm") {
         setTimeout(() => {
