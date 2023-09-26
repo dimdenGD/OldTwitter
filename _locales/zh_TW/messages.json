@@ -582,5 +582,5 @@
     "uploaded": { "message": "上傳成功" },
     "hide_unfollowers_page": { "message": "隱藏「取消跟隨你的人」頁面" },
 	"custom_font": { "message":"<自訂>" },
-	"current_font": { "message": "正在使用："}
+	"current_font": { "message": "正在使用：$FONT$", "placeholders": { "font": { "content": "Arial" } } }
 }
