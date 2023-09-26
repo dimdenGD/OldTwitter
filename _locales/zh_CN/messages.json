@@ -582,5 +582,5 @@
     "uploaded": { "message": "上传成功" },
     "hide_unfollowers_page": { "message": "隐藏【取关者】页面入口" },
 	"custom_font": { "message":"<自定义>" },
-	"current_font": { "message": "正在使用："}
+	"current_font": { "message": "正在使用：$FONT$", "placeholders": { "font": { "content": "Arial" } } }
 }
