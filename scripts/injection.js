@@ -93,6 +93,11 @@ if (realPath.startsWith('/i/web/status/')) {
         location.replace("/" + tweet.user.screen_name + "/status/" + tweet.id_str);
     });
 }
+if(realPath.startsWith('/i/redirect')) {
+    let search = new URLSearchParams(location.search);
+    let url = search.get('url');
+    location.replace(url);
+}
 if(/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
     location.href = `https://twitter.com/${realPath.split("/direct_messages/create/")[1]}#dm`;
 }
