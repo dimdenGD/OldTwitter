@@ -1773,7 +1773,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/graphql/qJPOeW9Q8icdlpfnPhsqJQ/UserMedia?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":20,"cursor":cursor,"includePromotedContent":false,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withClientEventToken":false,"withBirdwatchNotes":false,"withVoice":true,"withV2Timeline":true}))}&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_richtext_consumption_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -2033,7 +2033,7 @@ const API = {
                     "responsive_web_enhance_cards_enabled": false
                 }))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
