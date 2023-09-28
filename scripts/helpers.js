@@ -3388,6 +3388,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
                     else options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText = (+options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText - 1).toString();
                 }
+                if(typeof fixTweetThreadLine !== 'undefined') setTimeout(fixTweetThreadLine, 100);
             });
             if(tweetInteractMoreMenuPin) tweetInteractMoreMenuPin.addEventListener('click', async () => {
                 if(pinnedTweet && pinnedTweet.id_str === t.id_str) {
