@@ -386,6 +386,7 @@ function escapeHTML(unsafe) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "’");
 }
+const splitEmoji = (string) => [...new Intl.Segmenter().segment(string)].map(x => x.segment);
 async function renderTweetBodyHTML(t, is_quoted) {
     let result = "",
         last_pos = 0,
@@ -398,14 +399,18 @@ async function renderTweetBodyHTML(t, is_quoted) {
 
     if(is_quoted) t = t.quoted_status
 
-    full_text_array = Array.from(t.full_text);
+    if(Intl.Segmenter) {
+        full_text_array = splitEmoji(t.full_text);
+    } else {
+        full_text_array = Array.from(t.full_text);
+    }
 
     if (t.entities.richtext) {
         t.entities.richtext.forEach(snippet => {
             index_map[snippet.from_index] = [
                 snippet.to_index,
                 text => {
-                    let snippetText = escapeHTML(t.full_text.slice(snippet.from_index, snippet.to_index));
+                    let snippetText = escapeHTML(full_text_array.slice(snippet.from_index, snippet.to_index).join(""));
                     let startingTags = `${snippet.richtext_types.includes('Bold') ? '<b>' : ''}${snippet.richtext_types.includes('Italic') ? '<i>' : ''}`;
                     let endingTags = `${snippet.richtext_types.includes('Bold') ? '</b>' : ''}${snippet.richtext_types.includes('Italic') ? '</i>' : ''}`;
                     
