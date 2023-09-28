@@ -1586,13 +1586,13 @@
 		"message": "CSS personalizado do perfil"
 	},
 	"pccss_not_eligible": {
-		"message": "Você não tem acesso a customização CSS de perfil! <br><br>Se você quiser ter um perfil legal com fontes, cores, fundo costumizado e tudo mais que todo mundo poderá ver, você pode se tornar apoiador da extensão (não são apenas doações).<br><br>Clique <a target='_blank' href='https://dimden.dev/ot/custom-css/'>aqui</a> para saber mais."
+		"message": "Você não tem acesso à customização CSS de perfil! <br><br>Se você quiser ter um perfil legal com fontes, cores, fundo costumizado e tudo mais que todo mundo poderá ver, você pode se tornar apoiador da extensão (não são apenas doações).<br><br>Clique <a target='_blank' href='https://dimden.dev/ot/custom-css/'>aqui</a> para saber mais."
 	},
 	"pccss_eligible": {
-		"message": "Você tem acesso a customização CSS de perfil!"
+		"message": "Você tem acesso à customização CSS de perfil!"
 	},
 	"pccss_congrats": {
-		"message": "Parabéns, você foi dado acesso a customização CSS de perfil! Apenas uma pequena porcentagem de usuários do OldTwitter tem acesso a isso, aproveite e continue sendo incrível!"
+		"message": "Parabéns, você ganhou acesso à customização CSS de perfil! Apenas uma pequena porcentagem de usuários do OldTwitter tem acesso a isso, aproveite e continue sendo incrível!"
 	},
 	"yay": {
 		"message": "Uhu!"
@@ -1607,7 +1607,7 @@
 		"message": "Por favor, não publique 'estilos de doer os olhos' ou nenhum outros estilos enganosos (por exemplo fazer o botão Seguir muito grande ou algo do tipo), você vai perder seu acesso por fazer isso.<br><br>Seu CSS substituirá o estilo local definido pelo usuário.<br><br>Você só pode usar i.imgur.com para imagens e fonts.googleapis.com para fontes (e fontes de <a target='_blank' href='https://dimden.dev/fonts/'>aqui</a>).<br><br>Você pode ver a lista de variáveis CSS <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>aqui</a>.<br><br>Para direcionar o tema específico, você pode usar <code>.body-dark</code>, <code>.body-pitch-black</code> (o modo breu também incluirá <code>.body-dark</code>) e <code>.body-light</code> classes."
 	},
 	"profile_colors_moved": {
-		"message": "A sincronização de cores do link foi movida para o seu perfil (botão de lápis à esquerda do botão Editar perfil)."
+		"message": "A sincronização de cores do link foi movida para o seu perfil (botão de lápis à esquerda do botão 'Editar perfil')."
 	},
 	"click_here_more_info": {
 		"message": "Clique aqui para mais informações"
@@ -1630,7 +1630,7 @@
 		"message": "Rascunho carregado!"
 	},
 	"no_draft": {
-		"message": "Você não tem nenhum rascunho salvo ainda!"
+		"message": "Você não tem nenhum rascunho salvo!"
 	},
 	"invalid_auth_token": {
 		"message": "Seu token de autenticação era inválido e foi removido. Já pode tentar novamente, se o erro persistir entre em contato com @dimdenEFF."
@@ -1645,7 +1645,7 @@
 		"message": "Carregar"
 	},
 	"disable_profile_customizations": {
-		"message": "Disabilitar customizações do perfil"
+		"message": "Desabilitar customizações do perfil"
 	},
 	"replying_to_and": {
 		"message": " e ",
@@ -1681,10 +1681,10 @@
 	},
 
 	"modern_ui": {
-		"message": "Use o design do Twitter de 2018, inclui botões redondos e símbolos"
+		"message": "Use o design do Twitter de 2018, que inclui botões redondos e símbolos"
 	},
 	"show_exact_values": {
-		"message": "Mostra o número exato de retweets, curtidas, seguidores e etc."
+		"message": "Mostra o número exato de retweets, curtidas/favoritos, seguidores e etc."
 	},
 	"hide_timeline_types": {
 		"message": "Ocultar a opção de tipo de linha do tempo na página inicial"
@@ -1696,19 +1696,19 @@
 		"message": "Modo de Tradução Automática de Tweets"
 	},
 	"translate_in_list": {
-		"message": "Traduzir quando na lista de Linguagens"
+		"message": "Traduzir quando na lista de idiomas"
 	},
 	"translate_not_in_list": {
-		"message": "Traduzir quando não estiver na lista de Linguagens"
+		"message": "Traduzir quando não estiver na lista de idiomas"
 	},
 	"language_list": {
-		"message": "Lista de Linguagens"
+		"message": "Lista de idiomas"
 	},
 	"select_language": {
-		"message": "Selecionar Linguagens"
+		"message": "Selecionar idiomas"
 	},
 	"mute_videos": {
-		"message": "Mute videos por padrão"
+		"message": "Mutar videos por padrão"
 	},
 	"dont_pause_videos": {
 		"message": "Não pausar vídeos quando estiver rolando a timeline"
@@ -1726,22 +1726,22 @@
 		"description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap"
 	},
 	"leave_conversation": {
-		"message": "Você tem certeza que desja sair/remover essa conversa?"
+		"message": "Você tem certeza que deseja sair/remover esta conversa?"
 	},
 	"autotranslation_help1": {
-		"message": "Essa função permite achar tweets e traduzí-los instantâneamente, sem necessidade de clicar no botão."
+		"message": "Essa função permite achar tweets e traduzí-los automaticamente, sem necessidade de clicar no botão."
 	},
 	"autotranslation_help2": {
-		"message": "Para usar isso, selecione o Modo de Tradução Automática e defina a lista de linguagens. Os tweets que atenderem as condições serão traduzidos automaticamente."
+		"message": "Para usar isso, selecione o Modo de Tradução Automática e defina a lista de idiomas. Os tweets que atenderem as condições serão traduzidos automaticamente."
 	},
 	"autotranslation_help3": {
 		"message": "Especificamente:"
 	},
 	"autotranslation_help4": {
-		"message": "\"Traduzir quando na lista de linguagens\" se nenhuma linguagens for definida fará com que a função seja desativada (padrão)."
+		"message": "\"Traduzir quando estiver na lista de idiomas\" se nenhuma linguagens for definida fará com que a função seja desativada (padrão)."
 	},
 	"autotranslation_help5": {
-		"message": "\"Traduzir quando não estiver na lista de linguagens\" se nenhuma linguagem for definida fará com que todo tweet seja traduzido. É melhor adicionar linguagens que você conheça para não traduzí-las desnecessariamente."
+		"message": "\"Traduzir quando não estiver na lista de idiomas\" se nenhum idioma for definido fará com que todo tweet seja traduzido. É melhor adicionar idiomas que você conheça para não traduzí-las desnecessariamente."
 	},
 	"go_back_to_top": {
 		"message": "Voltar ao topo"
@@ -1750,15 +1750,15 @@
 		"message": "Seguir as configurações do sistema para modo escuro"
 	},
 	"replacer_post_to_tweet": {
-		"message": "post->tuíte",
+		"message": "post->tweet",
 		"description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
 	},
 	"replacer_repost_to_retweet": {
-		"message": "repost->retuíte",
+		"message": "repost->retweet",
 		"description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)."
 	},
 	"mute_user": {
-		"message": "Silênciar @$SCREEN_NAME$",
+		"message": "Silenciar @$SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
@@ -1774,7 +1774,7 @@
 		}
 	},
 	"muted_user": {
-		"message": "Silênciado @$SCREEN_NAME$",
+		"message": "Silenciado @$SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
@@ -1790,7 +1790,7 @@
 		}
 	},
 	"mmdd": {
-		"message": "$MONTH$ $DATE$",
+		"message": "$DATE$ $MONTH$",
 		"description": "July 1st",
 		"placeholders": {
 			"month": {
@@ -1802,7 +1802,7 @@
 		}
 	},
 	"mmddyy": {
-		"message": "$MONTH$ $DATE$, $YEAR$",
+		"message": "$DATE$ $MONTH$, $YEAR$",
 		"description": "July 1st, 2015",
 		"placeholders": {
 			"year": {
