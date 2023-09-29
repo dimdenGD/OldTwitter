@@ -169,6 +169,10 @@ class TweetViewer {
         try {
             let [tlData, tweetLikersData] = await Promise.allSettled([API.tweet.getRepliesV2(id, c), API.tweet.getLikers(id, undefined, 40)]);
             if(!tlData.value) {
+                if(!c) {
+                    tvl.hidden = true;
+                    document.getElementsByClassName('timeline')[0].innerHTML = `<span style="color:var(--almost-black)">${tlData.reason}</span>`;
+                }
                 this.cursor = undefined;
                 return console.error(tlData.reason);
             }

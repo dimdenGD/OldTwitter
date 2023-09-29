@@ -3284,6 +3284,8 @@ const API = {
                             });
                         }
                     }).catch(e => {
+                        if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[1](e));
+                        delete loadingReplies[id];
                         reject(e);
                     });
                 });
