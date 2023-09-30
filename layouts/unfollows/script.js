@@ -115,7 +115,7 @@ function renderUnfollows(page = 0) {
             } else {
                 if(user.following) continue;
             }
-            if(unfollowersPage && user.id_str === '1123203847776763904') continue; // dimden
+            if(unfollowersPage && user.id_str === '1708130407663759360') continue; // dimden
             
             appendUser(user, timeline, new Date(unfollows[i][1]).toLocaleString());
         }

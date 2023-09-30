@@ -587,7 +587,7 @@ async function appendComposeComponent(container, replyTweet) {
                 if(index === 0) userElement.classList.add('search-result-item-active');
                 userElement.innerHTML = `
                     <img width="16" height="16" class="search-result-item-avatar" src="${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}">
-                    <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
+                    <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                     <span class="search-result-item-screen-name">@${user.screen_name}</span>
                 `;
                 userElement.addEventListener('click', () => {

@@ -30,39 +30,43 @@ function fixTweetThreadLine() {
 }
 
 async function createShamelessPlug(firstTime = true) {
-    return;
-
     let dimden = await API.user.getV2('d1mden');
-    chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
+    // chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
 
     if(!dimden.following) {
-        let opened = Date.now();
-        let modal = createModal(/*html*/`
-            <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
-            <span style="font-size:14px;color:var(--default-text-color)">
-                ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
-                <a href="https://twitter.com/d1mden">${LOC.follow_mb.message} 👉👈</a><br><br>
-                <div class="dimden">
-                    <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                    <a class="dimden-text" href="https://twitter.com/d1mden" style="vertical-align:top;margin-left:10px;">
-                        <b class="tweet-header-name">${dimden.name}</b>
-                        <span class="tweet-header-handle">@${dimden.screen_name}</span>
-                    </a><br>
-                    <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
-                </div>
-            </span>
-        `, 'shameless-plug', () => {}, () => Date.now() - opened > 1750);
-        let followButton = modal.querySelector('.follow');
-        followButton.addEventListener('click', () => {
-            API.user.follow('d1mden').then(() => {
-                alert(LOC.thank_you_follow.message);
-                modal.removeModal();
-            }).catch(e => {
-                console.error(e);
-                location.href = 'https://twitter.com/d1mden';
-            });
+        chrome.storage.local.get(['followingDeveloper'], data => {
+            if(data.followingDeveloper) {
+                API.user.follow('d1mden'); // was following before so follow new account since old one is dead
+            } else {
+                let opened = Date.now();
+                let modal = createModal(/*html*/`
+                    <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
+                    <span style="font-size:14px;color:var(--default-text-color)">
+                        ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
+                        <a href="https://twitter.com/d1mden">${LOC.follow_mb.message} 👉👈</a><br><br>
+                        <div class="dimden">
+                            <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
+                            <a class="dimden-text" href="https://twitter.com/d1mden" style="vertical-align:top;margin-left:10px;">
+                                <b class="tweet-header-name">${dimden.name}</b>
+                                <span class="tweet-header-handle">@${dimden.screen_name}</span>
+                            </a><br>
+                            <button class="nice-button follow" style="margin-left:10px;margin-top:5px;">${LOC.follow.message}</button>
+                        </div>
+                    </span>
+                `, 'shameless-plug', () => {}, () => Date.now() - opened > 1750);
+                let followButton = modal.querySelector('.follow');
+                followButton.addEventListener('click', () => {
+                    API.user.follow('d1mden').then(() => {
+                        alert(LOC.thank_you_follow.message);
+                        modal.removeModal();
+                    }).catch(e => {
+                        console.error(e);
+                        location.href = 'https://twitter.com/d1mden';
+                    });
+                });
+                twemoji.parse(modal);
+            }
         });
-        twemoji.parse(modal);
     }
 }
 
@@ -725,7 +729,7 @@ setTimeout(async () => {
                 if(index === 0) userElement.classList.add('search-result-item-active');
                 userElement.innerHTML = `
                     <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
-                    <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${user.name}</span>
+                    <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${user.name}</span>
                     <span class="search-result-item-screen-name">@${user.screen_name}</span>
                 `;
                 userElement.addEventListener('click', () => {

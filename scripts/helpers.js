@@ -1289,7 +1289,7 @@ async function renderDiscovery(cache = true) {
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${`${(userData.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(userData.id_str) % 7}_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
-                        <b class="tweet-header-name wtf-user-name${userData.verified || userData.verified_type ? ' user-verified' : userData.id_str === '1123203847776763904' ? ' user-verified user-verified-dimden' : ''} ${userData.verified_type === 'Government' ? 'user-verified-gray' : userData.verified_type === 'Business' ? 'user-verified-yellow' : userData.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(userData.name)}</b>
+                        <b class="tweet-header-name wtf-user-name${userData.verified || userData.verified_type ? ' user-verified' : userData.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${userData.verified_type === 'Government' ? 'user-verified-gray' : userData.verified_type === 'Business' ? 'user-verified-yellow' : userData.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(userData.name)}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
                     </a>
                     <br>
@@ -1447,7 +1447,7 @@ async function appendUser(u, container, label) {
             <a href="https://twitter.com/${u.screen_name}" class="user-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
-                    <span${u.id_str === '1123203847776763904' ? ' title="Old Twitter Layout extension developer"' : ''} class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.muting ? ' user-muted' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1123203847776763904' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
+                    <span${u.id_str === '1708130407663759360' ? ' title="Old Twitter Layout extension developer"' : ''} class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.muting ? ' user-muted' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
                     ${u.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
                     ${label ? `<br><span class="user-item-additional">${escapeHTML(label)}</span>` : ''}
@@ -1827,8 +1827,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
                 <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
                     <b
-                        ${t.user.id_str === '1123203847776763904' ? 'title="Old Twitter Layout extension developer" ' : ''}
-                        class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}"
+                        ${t.user.id_str === '1708130407663759360' ? 'title="Old Twitter Layout extension developer" ' : ''}
+                        class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1708130407663759360' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}"
                     >${escapeHTML(t.user.name)}</b>
                     <span class="tweet-header-handle">@${t.user.screen_name}</span>
                 </a>
@@ -1881,7 +1881,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
                         <span class="tweet-header-info-quote">
-                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified ? 'user-verified' : t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''} ${t.quoted_status.user.verified_type === 'Government' ? 'user-verified-gray' : t.quoted_status.user.verified_type === 'Business' ? 'user-verified-yellow' : t.quoted_status.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
+                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified ? 'user-verified' : t.quoted_status.user.id_str === '1708130407663759360' ? 'user-verified user-verified-dimden' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''} ${t.quoted_status.user.verified_type === 'Government' ? 'user-verified-gray' : t.quoted_status.user.verified_type === 'Business' ? 'user-verified-yellow' : t.quoted_status.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                         </span>
                     </div>
