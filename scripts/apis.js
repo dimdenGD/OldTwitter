@@ -1544,7 +1544,7 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     resolve(data);
-                    if(screen_name === 'dimdenEFF') {
+                    if(screen_name === 'd1mden') {
                         chrome.storage.local.set({'followingDeveloper': true}, () => {});
                     }
                     chrome.storage.local.get(['sortedFollowers'], async d => {
@@ -1587,7 +1587,7 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     resolve(data);
-                    if(screen_name === 'dimdenEFF') {
+                    if(screen_name === 'd1mden') {
                         chrome.storage.local.set({'followingDeveloper': false}, () => {});
                     }
                     chrome.storage.local.get(['sortedFollowers'], async d => {

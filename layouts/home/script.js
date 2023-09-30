@@ -32,7 +32,7 @@ function fixTweetThreadLine() {
 async function createShamelessPlug(firstTime = true) {
     return;
 
-    let dimden = await API.user.getV2('dimdenEFF');
+    let dimden = await API.user.getV2('d1mden');
     chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
 
     if(!dimden.following) {
@@ -41,10 +41,10 @@ async function createShamelessPlug(firstTime = true) {
             <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
             <span style="font-size:14px;color:var(--default-text-color)">
                 ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
-                <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
+                <a href="https://twitter.com/d1mden">${LOC.follow_mb.message} 👉👈</a><br><br>
                 <div class="dimden">
                     <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                    <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
+                    <a class="dimden-text" href="https://twitter.com/d1mden" style="vertical-align:top;margin-left:10px;">
                         <b class="tweet-header-name">${dimden.name}</b>
                         <span class="tweet-header-handle">@${dimden.screen_name}</span>
                     </a><br>
@@ -54,12 +54,12 @@ async function createShamelessPlug(firstTime = true) {
         `, 'shameless-plug', () => {}, () => Date.now() - opened > 1750);
         let followButton = modal.querySelector('.follow');
         followButton.addEventListener('click', () => {
-            API.user.follow('dimdenEFF').then(() => {
+            API.user.follow('d1mden').then(() => {
                 alert(LOC.thank_you_follow.message);
                 modal.removeModal();
             }).catch(e => {
                 console.error(e);
-                location.href = 'https://twitter.com/dimdenEFF';
+                location.href = 'https://twitter.com/d1mden';
             });
         });
         twemoji.parse(modal);
@@ -103,7 +103,7 @@ setTimeout(() => {
                             <li>Improved experimental iframe navigation a lot.</li>
                         </ul>
                         <p style="margin-bottom:5px">
-                            Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
+                            Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/d1mden" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
                             Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a>
                         </p>
                     </span>

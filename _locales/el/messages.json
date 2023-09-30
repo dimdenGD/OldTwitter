@@ -497,13 +497,13 @@
       "message": "Από αυτόν τον χρήστη"
     },
     "from_this_user_example": {
-      "message": "Παράδειγμα: @dimdenEFF - από τον χρήστη dimdenEFF"
+      "message": "Παράδειγμα: @d1mden - από τον χρήστη d1mden"
     },
     "mentions_this_user": {
       "message": "Αναφέρει αυτόν τον χρήστη"
     },
     "mentions_this_user_example": {
-      "message": "Παράδειγμα: @dimdenEFF - σε απάντηση στο dimdenEFF"
+      "message": "Παράδειγμα: @d1mden - σε απάντηση στο d1mden"
     },
     "interactions": {
       "message": "Interactions"
