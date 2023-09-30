@@ -31,7 +31,7 @@ function fixTweetThreadLine() {
 
 async function createShamelessPlug(firstTime = true) {
     return;
-    
+
     let dimden = await API.user.getV2('dimdenEFF');
     chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
 
@@ -197,7 +197,7 @@ async function updateTimeline(mode = 'rewrite') {
     let suspended = tl.suspended;
 
     tl = tl.list;
-    if((vars.timelineType === 'algo' || vars.timelineType === 'algov2') && !suspended) {
+    if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
         tl = tl.filter(t => !seenTweets.includes(t.id_str));
         for(let t of tl) {
             seenTweets.push(t.id_str);
@@ -207,7 +207,7 @@ async function updateTimeline(mode = 'rewrite') {
     } else if(vars.timelineType === 'chrono-no-retweets') {
         tl = tl.filter(t => !t.retweeted_status);
     }
-    if(!user.friends_count && tl.length === 0 && vars.timelineType.startsWith('chrono')) {
+    if(!user.friends_count && tl.length === 0 && vars.timelineType.startsWith('chrono') && !suspended) {
         document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.no_tl_tweets.message}</span>`;
         return;
     }
