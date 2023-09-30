@@ -30,6 +30,8 @@ function fixTweetThreadLine() {
 }
 
 async function createShamelessPlug(firstTime = true) {
+    return;
+    
     let dimden = await API.user.getV2('dimdenEFF');
     chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
 
@@ -191,8 +193,11 @@ async function updateTimeline(mode = 'rewrite') {
     s = s.value; tl = tl.value;
     if(mode === 'rewrite' || mode === 'append') cursorBottom = tl.cursorBottom;
     if(mode === 'rewrite' || mode === 'prepend') cursorTop = tl.cursorTop;
+
+    let suspended = tl.suspended;
+
     tl = tl.list;
-    if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
+    if((vars.timelineType === 'algo' || vars.timelineType === 'algov2') && !suspended) {
         tl = tl.filter(t => !seenTweets.includes(t.id_str));
         for(let t of tl) {
             seenTweets.push(t.id_str);
@@ -221,7 +226,7 @@ async function updateTimeline(mode = 'rewrite') {
     // first update
     if (timeline.data.length === 0) {
         timeline.data = tl;
-        renderTimeline({ mode: 'rewrite', data: tl });
+        renderTimeline({ mode: 'rewrite', data: tl, suspended });
     }
     // update
     else {
@@ -290,7 +295,25 @@ async function renderTimeline(options = {}) {
     if(!options.mode) options.mode = 'rewrite';
     if(!options.data) options.data = timeline.data;
     let timelineContainer = document.getElementById('timeline');
-    if(options.mode === 'rewrite') timelineContainer.innerHTML = '';
+    if(options.mode === 'rewrite') {
+        if(options.suspended) {
+            try {
+                timelineContainer.innerHTML = /*html*/`
+                    <div style="color:var(--almost-black);padding:20px;word-break: break-word;" class="box">
+                        <h2 class="nice-header" style="margin-bottom:0">${options.suspended.content.itemContent.content.headerText}</h2>
+                        <p>${options.suspended.content.itemContent.content.bodyText.replace(/\sX\s/g, ' Twitter ')}</p>
+                        <div>
+                            ${options.suspended.content.itemContent.content.bodyRichText.entities.map(e => `<a href="${e.ref.url}" target="_blank">${e.ref.url}</a>`).join('<br>')}
+                        </div>
+                    </div>
+                `;
+                document.getElementById('tweets-loading').hidden = true;
+                document.getElementById('load-more').hidden = true;
+            } catch(e) {
+                console.error(e);
+            }
+        } else timelineContainer.innerHTML = '';
+    }
     let data = options.data;
 
     let toRender = [];

@@ -1547,11 +1547,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         if(t.socialContext) {
             options.top = {};
-            if(t.socialContext.description) {
-                options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.topic_id}">${t.socialContext.name}</a>`;
-                options.top.icon = "\uf008";
-                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
-            } else if(t.socialContext.contextType === "Like") { 
+            if(t.socialContext.contextType === "Like") { 
                 if (!vars.heartsNotStars) {
                     LOC.replacer_liked_to_favorited.message.split('|').forEach(el => {
                         t.socialContext.text = t.socialContext.text.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
@@ -1576,6 +1572,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else if(t.socialContext.contextType === "Sparkle") {
                 options.top.text = t.socialContext.text;
                 options.top.icon = "\uf011";
+                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
+            } else if(t.socialContext.topic_id) {
+                options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.topic_id}">${t.socialContext.name}</a>`;
+                options.top.icon = "\uf008";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else {
                 console.log(t.socialContext);

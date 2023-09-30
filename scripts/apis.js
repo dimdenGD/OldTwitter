@@ -627,7 +627,8 @@ const API = {
                     let out = {
                         list: tweets,
                         cursorBottom: cb ? cb.content.value : undefined,
-                        cursorTop: ct ? ct.content.value : undefined
+                        cursorTop: ct ? ct.content.value : undefined,
+                        suspended: entries.find(e => e.entryId === 'messageprompt-suspended-prompt')
                     }
                     debugLog('timeline.getChronologicalV2', 'end', {cursor, count, out});
                     return resolve(out);
@@ -713,7 +714,8 @@ const API = {
                     let out = {
                         list,
                         cursorBottom: cb ? cb.content.operation.cursor.value : undefined,
-                        cursorTop: ct ? ct.content.operation.cursor.value : undefined
+                        cursorTop: ct ? ct.content.operation.cursor.value : undefined,
+                        suspended: entries.find(e => e.entryId === 'messageprompt-suspended-prompt')
                     }
                     debugLog('timeline.getAlgorithmical', 'end', {cursor, count, out});
                     return resolve(out)
@@ -777,7 +779,8 @@ const API = {
                     let out = {
                         list: tweets,
                         cursorBottom: cb ? cb.content.value : undefined,
-                        cursorTop: ct ? ct.content.value : undefined
+                        cursorTop: ct ? ct.content.value : undefined,
+                        suspended: entries.find(e => e.entryId === 'messageprompt-suspended-prompt')
                     }
                     for(let tweet of out.list) {
                         tweet.algo = true;
