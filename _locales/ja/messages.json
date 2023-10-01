@@ -415,7 +415,7 @@
     "bookmarked_tweet": { "message": "ツイートをブックマークしました" },
     "unbookmarked_tweet": { "message": "ツイートのブックマークを解除しました" },
     "muted_convo": { "message": "会話をミュートしました" },
-    "unmuted_convo": { "message": "会話のミュート解除しました" },
+    "unmuted_convo": { "message": "会話のミュートを解除しました" },
     "show_media_count": { "message": "プロフィールページにメディア数を表示する" },
     "media": { "message": "メディア", "note": "Keep this short" },
     "pin_profile_on_navbar": { "message": "メニューバーに「プロフィール」リンクを表示する" },
