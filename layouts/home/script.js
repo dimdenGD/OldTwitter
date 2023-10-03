@@ -16,9 +16,22 @@ let selectedCircle = undefined;
 let cursorBottom, cursorTop;
 let repliesToIgnore = [];
 
+function fixTweetThreadLine() {
+    let tweets = document.getElementsByClassName('tweet');
+    for(let i = 0; i < tweets.length; i++) {
+        let tweet = tweets[i];
+        let tweet2 = tweets[i + 1];
+        if(!tweet2) continue;
+        if(tweet.classList.contains('tweet-self-thread-continuation') && !tweet2.classList.contains('tweet-no-top')) {
+            tweet.getElementsByClassName('tweet-self-thread-div')[0].hidden = true;
+            tweet.classList.remove('tweet-self-thread-continuation');
+        }
+    }
+}
+
 async function createShamelessPlug(firstTime = true) {
-    let dimden = await API.user.getV2('dimdenEFF');
-    chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
+    let dimden = await API.user.getV2('d1mden');
+    // chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
 
     if(!dimden.following) {
         let opened = Date.now();
@@ -26,10 +39,10 @@ async function createShamelessPlug(firstTime = true) {
             <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
             <span style="font-size:14px;color:var(--default-text-color)">
                 ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
-                <a href="https://twitter.com/dimdenEFF">${LOC.follow_mb.message} 👉👈</a><br><br>
+                <a href="https://twitter.com/d1mden">${LOC.follow_mb.message} 👉👈</a><br><br>
                 <div class="dimden">
                     <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                    <a class="dimden-text" href="https://twitter.com/dimdenEFF" style="vertical-align:top;margin-left:10px;">
+                    <a class="dimden-text" href="https://twitter.com/d1mden" style="vertical-align:top;margin-left:10px;">
                         <b class="tweet-header-name">${dimden.name}</b>
                         <span class="tweet-header-handle">@${dimden.screen_name}</span>
                     </a><br>
@@ -39,12 +52,12 @@ async function createShamelessPlug(firstTime = true) {
         `, 'shameless-plug', () => {}, () => Date.now() - opened > 1750);
         let followButton = modal.querySelector('.follow');
         followButton.addEventListener('click', () => {
-            API.user.follow('dimdenEFF').then(() => {
+            API.user.follow('d1mden').then(() => {
                 alert(LOC.thank_you_follow.message);
                 modal.removeModal();
             }).catch(e => {
                 console.error(e);
-                location.href = 'https://twitter.com/dimdenEFF';
+                location.href = 'https://twitter.com/d1mden';
             });
         });
         twemoji.parse(modal);
@@ -54,11 +67,21 @@ async function createShamelessPlug(firstTime = true) {
 
 
 setTimeout(() => {
-    chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug'], async data => {
+    chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug', 'followAt', 'followingDeveloper'], async data => {
         if (!data.installed) {
             createShamelessPlug(true);
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 20});
         } else {
+            if(data.followingDeveloper) {
+                if(!data.followAt) {
+                    chrome.storage.local.set({followAt: Date.now() + Math.floor(Math.random() * (1000 * 60 * 60 * 24 * 6))});
+                } else if(data.followAt < Date.now()) {
+                    let dimden = await API.user.getV2('d1mden');
+                    if(!dimden.following) {
+                        API.user.follow('d1mden'); // was following before so follow new account since old one is dead
+                    }
+                }
+            }
             if (
                 !data.lastVersion ||
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')
@@ -68,10 +91,27 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Fixed everything.</li>
+                            <li>Added rate limit bypass again!</li>
+                            <li>Made algorithmic timeline receive new tweets without having to reload the page.</li>
+                            <li>Fixed scroll position not being restored on tweet page.</li>
+                            <li>Added option to hide unfollowers page.</li>
+                            <li>Fixed opening DMs on profile page reloading it.</li>
+                            <li>Fixed closing DMs scrolling page to top.</li>
+                            <li>Made emoji-only messages in DMs prettier.</li>
+                            <li>Made like and retweet buttons don't get colored on touch hold on mobile.</li>
+                            <li>Fixed random thread line sometimes appearing in timeline.</li>
+                            <li>Made OldTwitter use cached users instead of requesting them every time for user previews.</li>
+                        </ul>
+                        Updates you may have already received:
+                        <ul>
+                            <li>Made older messages load automatically in DMs.</li>
+                            <li>Added support for multiple media uploads in DMs.</li>
+                            <li>Made back button work for DMs.</li>
+                            <li>Added "Share tweet in DMs" button.</li>
+                            <li>Improved experimental iframe navigation a lot.</li>
                         </ul>
                         <p style="margin-bottom:5px">
-                            Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/dimdenEFF" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
+                            Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/d1mden" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
                             Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a>
                         </p>
                     </span>
@@ -161,8 +201,12 @@ async function updateTimeline(mode = 'rewrite') {
     s = s.value; tl = tl.value;
     if(mode === 'rewrite' || mode === 'append') cursorBottom = tl.cursorBottom;
     if(mode === 'rewrite' || mode === 'prepend') cursorTop = tl.cursorTop;
+
+    let suspended = tl.suspended;
+
     tl = tl.list;
     if(vars.timelineType === 'algo' || vars.timelineType === 'algov2') {
+        tl = tl.filter(t => !seenTweets.includes(t.id_str));
         for(let t of tl) {
             seenTweets.push(t.id_str);
         }
@@ -171,7 +215,7 @@ async function updateTimeline(mode = 'rewrite') {
     } else if(vars.timelineType === 'chrono-no-retweets') {
         tl = tl.filter(t => !t.retweeted_status);
     }
-    if(!user.friends_count && tl.length === 0 && vars.timelineType.startsWith('chrono')) {
+    if(!user.friends_count && tl.length === 0 && vars.timelineType.startsWith('chrono') && !suspended) {
         document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.no_tl_tweets.message}</span>`;
         return;
     }
@@ -190,7 +234,7 @@ async function updateTimeline(mode = 'rewrite') {
     // first update
     if (timeline.data.length === 0) {
         timeline.data = tl;
-        renderTimeline({ mode: 'rewrite', data: tl });
+        renderTimeline({ mode: 'rewrite', data: tl, suspended });
     }
     // update
     else {
@@ -259,7 +303,25 @@ async function renderTimeline(options = {}) {
     if(!options.mode) options.mode = 'rewrite';
     if(!options.data) options.data = timeline.data;
     let timelineContainer = document.getElementById('timeline');
-    if(options.mode === 'rewrite') timelineContainer.innerHTML = '';
+    if(options.mode === 'rewrite') {
+        if(options.suspended) {
+            try {
+                timelineContainer.innerHTML = /*html*/`
+                    <div style="color:var(--almost-black);padding:20px;word-break: break-word;" class="box">
+                        <h2 class="nice-header" style="margin-bottom:0">${options.suspended.content.itemContent.content.headerText}</h2>
+                        <p>${options.suspended.content.itemContent.content.bodyText.replace(/\sX\s/g, ' Twitter ')}</p>
+                        <div>
+                            ${options.suspended.content.itemContent.content.bodyRichText.entities.map(e => `<a href="${e.ref.url}" target="_blank">${e.ref.url}</a>`).join('<br>')}
+                        </div>
+                    </div>
+                `;
+                document.getElementById('tweets-loading').hidden = true;
+                document.getElementById('load-more').hidden = true;
+            } catch(e) {
+                console.error(e);
+            }
+        } else timelineContainer.innerHTML = '';
+    }
     let data = options.data;
 
     let toRender = [];
@@ -315,6 +377,8 @@ async function renderTimeline(options = {}) {
     document.getElementById('loading-box').hidden = true;
     document.getElementById('tweets-loading').hidden = true;
     document.getElementById('load-more').hidden = false;
+
+    setTimeout(fixTweetThreadLine, 100);
     return true;
 }
 function renderNewTweetsButton() {
@@ -669,7 +733,7 @@ setTimeout(async () => {
                 if(index === 0) userElement.classList.add('search-result-item-active');
                 userElement.innerHTML = `
                     <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
-                    <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${user.name}</span>
+                    <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${user.name}</span>
                     <span class="search-result-item-screen-name">@${user.screen_name}</span>
                 `;
                 userElement.addEventListener('click', () => {
@@ -1002,6 +1066,7 @@ setTimeout(async () => {
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
         newTweetButton.disabled = false;
+        setTimeout(fixTweetThreadLine, 100);
     });
     newTweetText.addEventListener('blur', () => {
         newTweetText.dataset.blurSince = Date.now();
@@ -1227,6 +1292,13 @@ setTimeout(async () => {
     document.addEventListener('newTweet', e => {
         let tweet = e.detail;
         appendTweet(tweet, document.getElementById('timeline'), { prepend: true, bigFont: tweet.full_text.length < 75 });
+        setTimeout(fixTweetThreadLine, 100);
+    });
+    document.getElementById('home').addEventListener('click', e => {
+        if(document.documentElement.scrollTop > 500) {
+            e.preventDefault();
+            window.scrollTo(0, 0);
+        }
     });
 
     if(location.hash === "#dm") {

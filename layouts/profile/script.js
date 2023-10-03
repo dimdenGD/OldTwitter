@@ -1029,9 +1029,9 @@ async function renderProfile() {
     });
 
     document.getElementById('profile-name').className = "";
-    if(pageUser.verified || pageUser.verified_type || pageUser.id_str === '1123203847776763904') {
+    if(pageUser.verified || pageUser.verified_type || pageUser.id_str === '1708130407663759360') {
         if(!(!vars.twitterBlueCheckmarks && pageUser.verified_type === "Blue")) document.getElementById('profile-name').classList.add('user-verified');
-        if(pageUser.id_str === '1123203847776763904') document.getElementById('profile-name').classList.add('user-verified-green');
+        if(pageUser.id_str === '1708130407663759360') document.getElementById('profile-name').classList.add('user-verified-green');
         if(vars.twitterBlueCheckmarks && pageUser.verified_type === "Blue") document.getElementById('profile-name').classList.add('user-verified-blue');
         if(pageUser.verified_type === "Government") document.getElementById('profile-name').classList.add('user-verified-gray');
         if(pageUser.verified_type === "Business") document.getElementById('profile-name').classList.add('user-verified-yellow');
@@ -2128,7 +2128,7 @@ setTimeout(async () => {
     });
     window.addEventListener("popstate", async () => {
         if(document.querySelector('.tweet-viewer')) return;
-        if(notificationsOpened) return;
+        if(notificationsOpened || inboxOpened) return;
         
         let path = location.pathname;
         if(path.endsWith("/")) path = path.substring(0, path.length - 1);

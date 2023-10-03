@@ -386,6 +386,7 @@ function escapeHTML(unsafe) {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "’");
 }
+const splitEmoji = (string) => [...new Intl.Segmenter().segment(string)].map(x => x.segment);
 async function renderTweetBodyHTML(t, is_quoted) {
     let result = "",
         last_pos = 0,
@@ -398,14 +399,18 @@ async function renderTweetBodyHTML(t, is_quoted) {
 
     if(is_quoted) t = t.quoted_status
 
-    full_text_array = Array.from(t.full_text);
+    if(Intl.Segmenter) {
+        full_text_array = splitEmoji(t.full_text);
+    } else {
+        full_text_array = Array.from(t.full_text);
+    }
 
     if (t.entities.richtext) {
         t.entities.richtext.forEach(snippet => {
             index_map[snippet.from_index] = [
                 snippet.to_index,
                 text => {
-                    let snippetText = escapeHTML(t.full_text.slice(snippet.from_index, snippet.to_index));
+                    let snippetText = escapeHTML(full_text_array.slice(snippet.from_index, snippet.to_index).join(""));
                     let startingTags = `${snippet.richtext_types.includes('Bold') ? '<b>' : ''}${snippet.richtext_types.includes('Italic') ? '<i>' : ''}`;
                     let endingTags = `${snippet.richtext_types.includes('Bold') ? '</b>' : ''}${snippet.richtext_types.includes('Italic') ? '</i>' : ''}`;
                     
@@ -889,6 +894,11 @@ function createEmojiPicker(container, input, style = {}) {
 
     return picker;
 }
+function isEmojiOnly(str) {
+    const stringToTest = str.replace(/ /g,'');
+    const emojiRegex = /^(?:(?:\p{RI}\p{RI}|\p{Emoji}(?:\p{Emoji_Modifier}|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?(?:\u{200D}\p{Emoji}(?:\p{Emoji_Modifier}|\u{FE0F}\u{20E3}?|[\u{E0020}-\u{E007E}]+\u{E007F})?)*)|[\u{1f900}-\u{1f9ff}\u{2600}-\u{26ff}\u{2700}-\u{27bf}])+$/u;
+    return emojiRegex.test(stringToTest) && Number.isNaN(Number(stringToTest));
+}
 
 const RED = 0.2126;
 const GREEN = 0.7152;
@@ -1279,7 +1289,7 @@ async function renderDiscovery(cache = true) {
                 <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${`${(userData.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(userData.id_str) % 7}_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header wtf-header">
                     <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
-                        <b class="tweet-header-name wtf-user-name${userData.verified || userData.verified_type ? ' user-verified' : userData.id_str === '1123203847776763904' ? ' user-verified user-verified-dimden' : ''} ${userData.verified_type === 'Government' ? 'user-verified-gray' : userData.verified_type === 'Business' ? 'user-verified-yellow' : userData.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(userData.name)}</b>
+                        <b class="tweet-header-name wtf-user-name${userData.verified || userData.verified_type ? ' user-verified' : userData.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${userData.verified_type === 'Government' ? 'user-verified-gray' : userData.verified_type === 'Business' ? 'user-verified-yellow' : userData.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(userData.name)}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
                     </a>
                     <br>
@@ -1437,7 +1447,7 @@ async function appendUser(u, container, label) {
             <a href="https://twitter.com/${u.screen_name}" class="user-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
-                    <span${u.id_str === '1123203847776763904' ? ' title="Old Twitter Layout extension developer"' : ''} class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.muting ? ' user-muted' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1123203847776763904' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
+                    <span${u.id_str === '1708130407663759360' ? ' title="Old Twitter Layout extension developer"' : ''} class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.muting ? ' user-muted' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
                     ${u.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
                     ${label ? `<br><span class="user-item-additional">${escapeHTML(label)}</span>` : ''}
@@ -1537,11 +1547,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         if(t.socialContext) {
             options.top = {};
-            if(t.socialContext.description) {
-                options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.topic_id}">${t.socialContext.name}</a>`;
-                options.top.icon = "\uf008";
-                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
-            } else if(t.socialContext.contextType === "Like") { 
+            if(t.socialContext.contextType === "Like") { 
                 if (!vars.heartsNotStars) {
                     LOC.replacer_liked_to_favorited.message.split('|').forEach(el => {
                         t.socialContext.text = t.socialContext.text.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
@@ -1566,6 +1572,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else if(t.socialContext.contextType === "Sparkle") {
                 options.top.text = t.socialContext.text;
                 options.top.icon = "\uf011";
+                options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
+            } else if(t.socialContext.topic_id) {
+                options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.topic_id}">${t.socialContext.name}</a>`;
+                options.top.icon = "\uf008";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else {
                 console.log(t.socialContext);
@@ -1817,8 +1827,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
                 <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
                     <b
-                        ${t.user.id_str === '1123203847776763904' ? 'title="Old Twitter Layout extension developer" ' : ''}
-                        class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}"
+                        ${t.user.id_str === '1708130407663759360' ? 'title="Old Twitter Layout extension developer" ' : ''}
+                        class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1708130407663759360' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}"
                     >${escapeHTML(t.user.name)}</b>
                     <span class="tweet-header-handle">@${t.user.screen_name}</span>
                 </a>
@@ -1871,7 +1881,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
                         <span class="tweet-header-info-quote">
-                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified ? 'user-verified' : t.quoted_status.user.id_str === '1123203847776763904' ? 'user-verified user-verified-dimden' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''} ${t.quoted_status.user.verified_type === 'Government' ? 'user-verified-gray' : t.quoted_status.user.verified_type === 'Business' ? 'user-verified-yellow' : t.quoted_status.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
+                        <b class="tweet-header-name-quote ${t.quoted_status.user.verified ? 'user-verified' : t.quoted_status.user.id_str === '1708130407663759360' ? 'user-verified user-verified-dimden' : ''} ${t.quoted_status.user.protected ? 'user-protected' : ''} ${t.quoted_status.user.verified_type === 'Government' ? 'user-verified-gray' : t.quoted_status.user.verified_type === 'Business' ? 'user-verified-yellow' : t.quoted_status.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.quoted_status.user.name)}</b>
                         <span class="tweet-header-handle-quote">@${t.quoted_status.user.screen_name}</span>
                         </span>
                     </div>
@@ -3196,13 +3206,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         tweetInteractFavorite.addEventListener('click', () => {
             if (t.favorited) {
+                t.renderFavoritesDown();
                 API.tweet.unfavorite(t.id_str).catch(e => {
                     console.error(e);
                     alert(e);
                     t.renderFavoritesUp();
                 });
-                t.renderFavoritesDown();
             } else {
+                t.renderFavoritesUp();
                 API.tweet.favorite(t.id_str).catch(e => {
                     console.error(e);
                     if(e && e.errors && e.errors[0] && e.errors[0].code === 139) {
@@ -3211,7 +3222,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     alert(e);
                     t.renderFavoritesDown();
                 });
-                t.renderFavoritesUp();
             }
             chrome.storage.local.set({tweetReplies: {}, tweetDetails: {}}, () => {});
         });
@@ -3383,6 +3393,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     if(!options.after.classList.contains('tweet-main')) options.after.getElementsByClassName('tweet-interact-reply')[0].innerText = (+options.after.getElementsByClassName('tweet-interact-reply')[0].innerText - 1).toString();
                     else options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText = (+options.after.getElementsByClassName('tweet-footer-stat-replies')[0].innerText - 1).toString();
                 }
+                if(typeof fixTweetThreadLine !== 'undefined') setTimeout(fixTweetThreadLine, 100);
             });
             if(tweetInteractMoreMenuPin) tweetInteractMoreMenuPin.addEventListener('click', async () => {
                 if(pinnedTweet && pinnedTweet.id_str === t.id_str) {
@@ -3671,9 +3682,9 @@ function renderNotification(n, options = {}) {
                 let user = n.users[e.ref.user.id];
                 notificationHeader = Array.from(notificationHeader);
                 notificationHeader = arrayInsert(notificationHeader, e.toIndex+additionalLength, '</a>');
-                notificationHeader = arrayInsert(notificationHeader, e.fromIndex+additionalLength, `<a href="/dimdenEFF">`);
+                notificationHeader = arrayInsert(notificationHeader, e.fromIndex+additionalLength, `<a href="/d1mden">`);
                 notificationHeader = notificationHeader.join('');
-                additionalLength += `<a href="/dimdenEFF"></a>`.length;
+                additionalLength += `<a href="/d1mden"></a>`.length;
                 let mi = 0;
                 let newText = notificationHeader.replace(aRegex, (_, m) => {
                     if(mi++ !== matches) return _;
@@ -3754,6 +3765,9 @@ function renderNotification(n, options = {}) {
                 }
             }
         });
+        for(let i in n.users) {
+            if(!userStorage[i]) userStorage[i] = n.users[i];
+        }
     
         let users = n.template.aggregateUserActionsV1.fromUsers.map(u => n.users[u.user.id]);
         if(n.icon.id === 'recommendation_icon') {

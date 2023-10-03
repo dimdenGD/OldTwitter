@@ -872,7 +872,14 @@ input, textarea {
     margin-top: -4px;
     margin-left: -4px;
 }
-
+.message-element-emojis .message-body {
+    background-color: transparent;
+    font-size: 32px;
+}
+.message-element-emojis .emoji {
+    width: 32px;
+    height: 32px;
+}
 
 .message-element-self.message-element-continue .message-body:after,
 .message-element-other.message-element-continue .message-body:after {
@@ -1599,6 +1606,7 @@ span.tweet-body-text {
 }
 .changelog-modal ul {
     margin: 5px;
+    padding-inline-start: 30px;
 }
 .tweet-avatar {
     z-index: 2;
@@ -2197,6 +2205,39 @@ emoji-picker {
 .tweet-interact-bookmark:hover:before,
 .tweet-interact-bookmark:hover {
     color: #3b918a !important
+}
+.tweet-interact-retweet:before,
+.tweet-interact-retweet-menu-retweet:before {
+    content: "\f152"
+}
+
+.tweet-interact-reply-clicked,
+.tweet-interact-reply-clicked:before,
+.tweet-interact-reply:hover:before,
+.tweet-interact-reply:hover,
+.tweet-interact-more:hover:before {
+    color: var(--more-color) !important
+}
+
+.tweet-interact-retweeted,
+.tweet-interact-retweeted:before {
+    color: #5c913b !important
+}
+@media screen and (min-width: 590px) {
+    .tweet-interact-retweet:hover:before,
+    .tweet-interact-retweet:hover {
+        color: #5c913b !important
+    }
+}
+.tweet-interact-favorited,
+.tweet-interact-favorited:before {
+    color: var(--favorite-icon-color) !important
+}
+@media screen and (min-width: 590px) {
+    .tweet-interact-favorite:hover:before,
+    .tweet-interact-favorite:hover {
+        color: var(--favorite-icon-color) !important
+    }
 }
 
 .tweet-birdwatch {
@@ -3071,6 +3112,9 @@ video::-internal-media-controls-overlay-cast-button {
     }
     .navbar-new-tweet-modal {
         top: 33%;
+    }
+    #navbar-tweet-button:before {
+        color: white;
     }
 
     /* workaround for stretching profile timelines */

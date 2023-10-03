@@ -93,6 +93,11 @@ if (realPath.startsWith('/i/web/status/')) {
         location.replace("/" + tweet.user.screen_name + "/status/" + tweet.id_str);
     });
 }
+if(realPath.startsWith('/i/redirect')) {
+    let search = new URLSearchParams(location.search);
+    let url = search.get('url');
+    location.replace(url);
+}
 if(/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
     location.href = `https://twitter.com/${realPath.split("/direct_messages/create/")[1]}#dm`;
 }
@@ -101,7 +106,7 @@ if(/^\/hashtag\/(.*?)/.test(realPath)) {
     location.replace(`https://twitter.com/search?q=%23${hashtag}`);
 }
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath)) {
-    let path = realPath.split("/photo/")[0];
+    let path = realPath.split("/photo/")[0].split("/video/")[0];
     location.replace(path);
 }
 if(realPath === '/messages') {
@@ -537,7 +542,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     icon.id = "site-icon";
     document.head.appendChild(icon);
 
-    history.scrollRestoration = 'manual'; // let's test if it'll make things better
+    history.scrollRestoration = 'manual';
 
     chrome.runtime.sendMessage({
         action: "inject",

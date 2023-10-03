@@ -110,6 +110,12 @@ function updateUserData() {
         console.error(e);
     });
 }
+function refreshFontSelectLabels(element, baselabel, fontname) {
+	element.innerHTML = baselabel;
+	if (fontname) {
+		element.innerHTML += "<br>" + LOC.current_font.message.replace('$FONT$', fontname);
+	}
+}
 // Render
 function renderUserData() {
     document.getElementById('user-name').innerText = user.name;
@@ -208,7 +214,13 @@ setTimeout(async () => {
         return [...fontAvailable.values()];
     })();
     let fontElement = document.getElementById('font');
+	let fontElementLabel = [...document.getElementsByTagName('label')].filter((el) =>
+		el.htmlFor == "font"
+	);
     let tweetFontElement = document.getElementById('tweet-font');
+    let tweetFontElementLabel = [...document.getElementsByTagName('label')].filter((el) =>
+		el.htmlFor == "tweet-font"
+	);
     let linkColor = document.getElementById('link-color');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
@@ -278,12 +290,13 @@ setTimeout(async () => {
     let disableDataSaver = document.getElementById('disable-data-saver');
     let disableAcceptType = document.getElementById('disable-accept-type');
     let showUserFollowerCountsInLists = document.getElementById('show-user-follower-counts-in-lists');
+    let hideUnfollowersPage = document.getElementById('hide-unfollowers-page');
 
     let root = document.querySelector(":root");
     {
         let option = document.createElement('option');
         option.value = "_custom";
-        option.innerText = '<CUSTOM FONT>';
+        option.innerText = LOC.custom_font.message;
         fontElement.append(option);
         tweetFontElement.append(option.cloneNode(true));
     }
@@ -300,7 +313,10 @@ setTimeout(async () => {
         let font = fontElement.value;
         if(font === '_custom') {
             font = prompt(LOC.enter_custom_font_name.message);
-        }
+			refreshFontSelectLabels(fontElementLabel[0], LOC.font.message, font);
+        } else {
+			refreshFontSelectLabels(fontElementLabel[0], LOC.font.message);
+		}
         root.style.setProperty('--font', `"${font}"`);
         chrome.storage.sync.set({
             font: font
@@ -310,7 +326,10 @@ setTimeout(async () => {
         let font = tweetFontElement.value;
         if(font === '_custom') {
             font = prompt(LOC.enter_custom_font_name.message);
-        }
+			refreshFontSelectLabels(tweetFontElementLabel[0], LOC.tweet_text_font.message, font);
+        } else {
+			refreshFontSelectLabels(tweetFontElementLabel[0], LOC.tweet_text_font.message);
+		}
         root.style.setProperty('--tweet-font', `"${font}"`);
         chrome.storage.sync.set({
             tweetFont: font
@@ -540,6 +559,14 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             useOldStyleReply: useOldStyleReply.checked
         }, () => { });
+    });
+    hideUnfollowersPage.addEventListener('change', () => {
+        vars.hideUnfollowersPage = hideUnfollowersPage.checked;
+        chrome.storage.sync.set({
+            hideUnfollowersPage: hideUnfollowersPage.checked
+        }, () => {
+            hideStuff();
+        });
     });
     enableAd.addEventListener('change', () => {
         vars.enableAd = enableAd.checked;
@@ -896,12 +923,20 @@ setTimeout(async () => {
         linkColor.style.backgroundColor = '#4bacd2';
     }
     if(vars.font) {
-        fontElement.value = vars.font;
+		fontElement.value = vars.font;
         root.style.setProperty('--font', `"${vars.font}"`);
+		if (fontElement.selectedIndex==-1) {
+			fontElement.value = "_custom";
+			refreshFontSelectLabels(fontElementLabel[0], LOC.font.message, vars.font);
+		}
     }
     if(vars.tweetFont) {
-        tweetFontElement.value = vars.tweetFont;
+		tweetFontElement.value = vars.tweetFont;
         root.style.setProperty('--tweet-font', `"${vars.tweetFont}"`);
+		if (tweetFontElement.selectedIndex==-1) {
+			tweetFontElement.value = "_custom";
+			refreshFontSelectLabels(tweetFontElementLabel[0], LOC.tweet_text_font.message, vars.tweetFont);
+		}
     }
     if(vars.modernUI){
         root.style.setProperty('--icon-font', `"edgeicons", "RosettaIcons"`);
@@ -959,6 +994,7 @@ setTimeout(async () => {
     disableAcceptType.checked = !!vars.disableAcceptType;
     showUserFollowerCountsInLists.checked = !!vars.showUserFollowerCountsInLists;
     showQuoteCount.checked = !!vars.showQuoteCount;
+    hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
     if(vars.customCSS) {
         customCSS.value = vars.customCSS;
     }

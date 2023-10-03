@@ -2,6 +2,7 @@ let loadingDetails = {};
 let loadingReplies = {};
 let loadingLikers = {};
 let tweetStorage = {};
+let userStorage = {};
 let hashflagStorage = {};
 let translateLimit = 0;
 let loadingNotifs;
@@ -16,6 +17,17 @@ setInterval(() => {
     chrome.storage.local.set({listData: {}}, () => {});
     chrome.storage.local.set({trends: {}}, () => {});
     chrome.storage.local.set({trendsv2: {}}, () => {});
+
+    for(let i in tweetStorage) {
+        if(tweetStorage[i].cacheDate && Date.now() - tweetStorage[i].cacheDate > 60000*15) {
+            delete tweetStorage[i];
+        }
+    }
+    for(let i in userStorage) {
+        if(userStorage[i].cacheDate && Date.now() - userStorage[i].cacheDate > 60000*15) {
+            delete userStorage[i];
+        }
+    }
 }, 60000*10);
 
 setInterval(() => {
@@ -137,6 +149,10 @@ function parseTweet(res) {
                     result.legacy.quoted_status.user.verified = true;
                     result.legacy.quoted_status.user.verified_type = "Blue";
                 }
+                tweetStorage[result.legacy.quoted_status.id_str] = result.legacy.quoted_status;
+                tweetStorage[result.legacy.quoted_status.id_str].cacheDate = Date.now();
+                userStorage[result.legacy.quoted_status.user.id_str] = result.legacy.quoted_status.user;
+                userStorage[result.legacy.quoted_status.user.id_str].cacheDate = Date.now();
             } else {
                 console.warn("No retweeted quoted status", result);
             }
@@ -157,6 +173,10 @@ function parseTweet(res) {
             if(res.card && res.card.legacy && res.card.legacy.binding_values) {
                 tweet.retweeted_status.card = res.card.legacy;
             }
+            tweetStorage[tweet.retweeted_status.id_str] = tweet.retweeted_status;
+            tweetStorage[tweet.retweeted_status.id_str].cacheDate = Date.now();
+            userStorage[tweet.retweeted_status.user.id_str] = tweet.retweeted_status.user;
+            userStorage[tweet.retweeted_status.user.id_str].cacheDate = Date.now();
         } else {
             console.warn("No retweeted status", result);
         }
@@ -202,6 +222,10 @@ function parseTweet(res) {
                 if(result.views) {
                     tweet.quoted_status.ext.views = {r: {ok: {count: +result.views.count}}};
                 }
+                tweetStorage[tweet.quoted_status.id_str] = tweet.quoted_status;
+                tweetStorage[tweet.quoted_status.id_str].cacheDate = Date.now();
+                userStorage[tweet.quoted_status.user.id_str] = tweet.quoted_status.user;
+                userStorage[tweet.quoted_status.user.id_str].cacheDate = Date.now();
             }
         } else {
             console.warn("No quoted status", result);
@@ -241,6 +265,9 @@ function parseTweet(res) {
 
     updateElementsStats(tweet);
     tweetStorage[tweet.id_str] = tweet;
+    tweetStorage[tweet.id_str].cacheDate = Date.now();
+    userStorage[tweet.user.id_str] = tweet.user;
+    userStorage[tweet.user.id_str].cacheDate = Date.now();
     return tweet;
 }
 
@@ -600,7 +627,8 @@ const API = {
                     let out = {
                         list: tweets,
                         cursorBottom: cb ? cb.content.value : undefined,
-                        cursorTop: ct ? ct.content.value : undefined
+                        cursorTop: ct ? ct.content.value : undefined,
+                        suspended: entries.find(e => e.entryId === 'messageprompt-suspended-prompt')
                     }
                     debugLog('timeline.getChronologicalV2', 'end', {cursor, count, out});
                     return resolve(out);
@@ -686,7 +714,8 @@ const API = {
                     let out = {
                         list,
                         cursorBottom: cb ? cb.content.operation.cursor.value : undefined,
-                        cursorTop: ct ? ct.content.operation.cursor.value : undefined
+                        cursorTop: ct ? ct.content.operation.cursor.value : undefined,
+                        suspended: entries.find(e => e.entryId === 'messageprompt-suspended-prompt')
                     }
                     debugLog('timeline.getAlgorithmical', 'end', {cursor, count, out});
                     return resolve(out)
@@ -750,7 +779,8 @@ const API = {
                     let out = {
                         list: tweets,
                         cursorBottom: cb ? cb.content.value : undefined,
-                        cursorTop: ct ? ct.content.value : undefined
+                        cursorTop: ct ? ct.content.value : undefined,
+                        suspended: entries.find(e => e.entryId === 'messageprompt-suspended-prompt')
                     }
                     for(let tweet of out.list) {
                         tweet.algo = true;
@@ -1514,7 +1544,7 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     resolve(data);
-                    if(screen_name === 'dimdenEFF') {
+                    if(screen_name === 'd1mden') {
                         chrome.storage.local.set({'followingDeveloper': true}, () => {});
                     }
                     chrome.storage.local.get(['sortedFollowers'], async d => {
@@ -1530,6 +1560,11 @@ const API = {
                         sortedFollowers[user.id_str].followers[index][1]++;
                         chrome.storage.local.set({sortedFollowers}, () => {});
                     });
+                    let cachedUser = Object.values(userStorage).find(u => u.screen_name.toLowerCase() === screen_name.toLowerCase());
+                    if(cachedUser) {
+                        cachedUser.following = true;
+                        cachedUser.following_count++;
+                    }
                 }).catch(e => {
                     reject(e);
                 });
@@ -1552,7 +1587,7 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     resolve(data);
-                    if(screen_name === 'dimdenEFF') {
+                    if(screen_name === 'd1mden') {
                         chrome.storage.local.set({'followingDeveloper': false}, () => {});
                     }
                     chrome.storage.local.get(['sortedFollowers'], async d => {
@@ -1568,6 +1603,11 @@ const API = {
                         sortedFollowers[user.id_str].followers[index][1]--;
                         chrome.storage.local.set({sortedFollowers}, () => {});
                     });
+                    let cachedUser = Object.values(userStorage).find(u => u.screen_name.toLowerCase() === screen_name.toLowerCase());
+                    if(cachedUser) {
+                        cachedUser.following = false;
+                        cachedUser.following_count--;
+                    }
                 }).catch(e => {
                     reject(e);
                 });
@@ -1736,7 +1776,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://twitter.com/i/api/graphql/qJPOeW9Q8icdlpfnPhsqJQ/UserMedia?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":20,"cursor":cursor,"includePromotedContent":false,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withClientEventToken":false,"withBirdwatchNotes":false,"withVoice":true,"withV2Timeline":true}))}&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_richtext_consumption_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -1996,7 +2036,7 @@ const API = {
                     "responsive_web_enhance_cards_enabled": false
                 }))}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -2496,7 +2536,7 @@ const API = {
                 fetch(`https://twitter.com/i/api/graphql/${parsedTweet.weightedLength > 280 ? 'pokID4auGUSzBxijrqpIlw/CreateNoteTweet' : 'tTsjMKyhajZvK4q76mpIBg/CreateTweet'}`, {
                     method: 'POST',
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw",
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json; charset=utf-8",
@@ -3247,6 +3287,8 @@ const API = {
                             });
                         }
                     }).catch(e => {
+                        if(loadingReplies[id]) loadingReplies[id].listeners.forEach(l => l[1](e));
+                        delete loadingReplies[id];
                         reject(e);
                     });
                 });

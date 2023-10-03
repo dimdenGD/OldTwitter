@@ -266,12 +266,6 @@ body {
 }
 
 .tweet-interact-favorited,
-.tweet-interact-favorited:before,
-.tweet-interact-favorite:hover:before,
-.tweet-interact-favorite:hover {
-    color: var(--favorite-icon-color) !important
-}
-.tweet-interact-favorited,
 .tweet-interact-favorited:before{
     content: var(--favorite-icon-content-click) !important
 }
@@ -472,26 +466,6 @@ a:hover,
 .tweet-avatar,
 .tweet-avatar-quote {
     border-radius: 5px
-}
-
-.tweet-interact-retweet:before,
-.tweet-interact-retweet-menu-retweet:before {
-    content: "\f152"
-}
-
-.tweet-interact-reply-clicked,
-.tweet-interact-reply-clicked:before,
-.tweet-interact-reply:hover:before,
-.tweet-interact-reply:hover,
-.tweet-interact-more:hover:before {
-    color: var(--more-color) !important
-}
-
-.tweet-interact-retweeted,
-.tweet-interact-retweeted:before,
-.tweet-interact-retweet:hover:before,
-.tweet-interact-retweet:hover {
-    color: #5c913b !important
 }
 
 .tweet-interact-retweet-menu-quote:before,
@@ -1859,7 +1833,7 @@ body.body-old-ui .user-item-btn.follow:before {
     #tweet-to:before{
         content: var(--at-icon);
         font-family: var(--icon-font);
-        color: var(--background-color);
+        color: white;
         font-size: 20px;
         vertical-align: -60%;
         padding-right:20px;
@@ -1891,6 +1865,20 @@ body.body-old-ui .user-item-btn.follow:before {
         padding-right: 7px;
     }
 }
+@media screen and (max-width: 430px){
+    #tweet-nav-replies > .pc-text {
+        display: none;
+    }
+    #tweet-nav-replies > .mobile-text {
+        display: inline;
+    }
+    #tweet-nav-media > .pc-text {
+        display: none;
+    }
+    #tweet-nav-media > .mobile-text {
+        display: inline;
+    }
+}
 
 @media screen and (max-width: 400px) {
 
@@ -1910,18 +1898,6 @@ body.body-old-ui .user-item-btn.follow:before {
     }
     #profile-name {
         font-size: 20px;
-    }
-    #tweet-nav-replies>.pc-text{
-        display: none;
-    }
-    #tweet-nav-replies>.mobile-text{
-        display: inline;
-    }
-    #tweet-nav-media>.pc-text{
-        display: none;
-    }
-    #tweet-nav-media>.mobile-text{
-        display: inline;
     }
 }
 @media screen and (max-width: 320px) {

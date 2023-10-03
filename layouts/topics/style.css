@@ -492,12 +492,6 @@ body {
 }
 
 .tweet-interact-favorited,
-.tweet-interact-favorited:before,
-.tweet-interact-favorite:hover:before,
-.tweet-interact-favorite:hover {
-    color: var(--favorite-icon-color) !important
-}
-.tweet-interact-favorited,
 .tweet-interact-favorited:before{
     content: var(--favorite-icon-content-click) !important
 }
@@ -671,25 +665,7 @@ a:hover,
     border-radius: 5px
 }
 
-.tweet-interact-retweet:before,
-.tweet-interact-retweet-menu-retweet:before {
-    content: "\f152"
-}
 
-.tweet-interact-reply-clicked,
-.tweet-interact-reply-clicked:before,
-.tweet-interact-reply:hover:before,
-.tweet-interact-reply:hover,
-.tweet-interact-more:hover:before {
-    color: var(--more-color) !important
-}
-
-.tweet-interact-retweeted,
-.tweet-interact-retweeted:before,
-.tweet-interact-retweet:hover:before,
-.tweet-interact-retweet:hover {
-    color: #5c913b !important
-}
 
 .tweet-interact-retweet-menu-quote:before,
 .tweet-interact-more-menu-embed:before {

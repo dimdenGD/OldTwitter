@@ -4,7 +4,7 @@ let inboxData = [];
 let followRequestsData = [];
 let customSet = false;
 let menuFn;
-let notificationsOpened = false;
+let notificationsOpened = false, inboxOpened = false;
 let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.timeMode && isDark())) : false;
 let activeTweet;
 let seenAlgoTweets = [], algoTweetsChanged = false;
@@ -424,6 +424,11 @@ function hideStuff() {
             .tweet-interact-more-menu { margin-left: 250px }
         `;
     }
+    if(vars.hideUnfollowersPage) {
+        hideStyle.innerHTML += `
+            #navbar-user-menu-unfollowers { display: none !important; }
+        `;
+    }
     if(hideStyle.innerHTML !== '') {
         document.head.appendChild(hideStyle);
     }
@@ -623,7 +628,7 @@ let userDataFunction = async user => {
                         <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
                             <img src="${`${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                             <div class="following-item-text">
-                                <span class="tweet-header-name following-item-name ${u.verified || u.id_str === '1123203847776763904' ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
+                                <span class="tweet-header-name following-item-name ${u.verified || u.id_str === '1708130407663759360' ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
                                 <span class="tweet-header-handle">@${u.screen_name}</span>
                             </div>
                         </a>
@@ -804,6 +809,8 @@ let userDataFunction = async user => {
             let m = lastConvo.entries[i].message;
             if(!m) continue;
             let sender = lastConvo.users[m.message_data.sender_id];
+            let clearText = m.message_data.text.replace(/(\s|\n)/g, '');
+            let isOnlyEmojis = isEmojiOnly(clearText) && clearText.length > 0 && clearText.length <= 48;
 
             let messageElement = document.createElement('div');
             messageElement.classList.add('message-element');
@@ -811,6 +818,9 @@ let userDataFunction = async user => {
                 messageElement.classList.add('message-element-other');
             } else {
                 messageElement.classList.add('message-element-self');
+            }
+            if(isOnlyEmojis) {
+                messageElement.classList.add('message-element-emojis');
             }
             messageElement.dataset.messageId = m.id;
             messageElement.innerHTML = /*html*/`
@@ -1090,6 +1100,7 @@ let userDataFunction = async user => {
     }
     document.getElementById('messages').addEventListener('click', async e => {
         e.preventDefault();
+        inboxOpened = true;
         location.hash = '#dm';
 
         let inbox = inboxData;
@@ -1153,9 +1164,10 @@ let userDataFunction = async user => {
             </div>
         `, "inbox-modal", () => {
             if(location.hash === '#dm') {
-                location.hash = "";
+                location.hash = "##";
             }
             tweetUrlToShareInDMs = null;
+            setTimeout(() => inboxOpened = false, 100);
         });
         modal.querySelector('.modal-close').hidden = true;
         const inboxList = modal.querySelector('.inbox-list');
@@ -1625,7 +1637,7 @@ let userDataFunction = async user => {
                     if(index === 0) userElement.classList.add('search-result-item-active');
                     userElement.innerHTML = `
                         <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
-                        <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
+                        <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                         <span class="search-result-item-screen-name">@${user.screen_name}</span>
                     `;
                     userElement.addEventListener('click', () => {
@@ -1978,7 +1990,7 @@ let userDataFunction = async user => {
             userElement.className = 'search-result-item';
             userElement.innerHTML = `
                 <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
-                <span class="search-result-item-name ${user.verified || user.id_str === '1123203847776763904' ? 'search-result-item-verified' : ''}">${user.name}</span>
+                <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${user.name}</span>
                 <span class="search-result-item-screen-name">@${user.screen_name}</span>
             `;
             searchResults.appendChild(userElement);
@@ -2088,7 +2100,8 @@ let userDataFunction = async user => {
                 document.addEventListener('click', mobileClickFunction, true);
             }
 
-            let user = await API.user.get(id ? id : username, !!id);
+            let cachedUser = Object.values(userStorage).find(i => i.screen_name.toLowerCase() === username.toLowerCase());
+            let user = cachedUser ? cachedUser : await API.user.get(id ? id : username, !!id);
             if(stopLoad) return;
             let userPreviews = Array.from(document.getElementsByClassName('user-preview'));
             if(userPreviews.length > 0) {
