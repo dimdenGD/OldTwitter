@@ -482,7 +482,7 @@
     "yay": { "message": "太好了！" },
     "light_mode_vars": { "message": "淺色主題變數" },
     "dark_mode_vars": { "message": "深色主題變數" },
-    "css_theme_hint": { "message": "請不要設定太令人刺眼的個人資料，例如將按鈕設定超級大，如果你這麼做，你可能會被剝奪使用這個功能的權利<br><br>你的 CSS 會覆寫現有的個人資料<br><br>你只能用 i.imgur.com 或 cdn.discordapp.com 上傳圖片和 fonts.googleapis.com 上傳字體（還有<a target='_blank' href='https://dimden.dev/fonts/'>這裡</a>）的字體。<br><br>你可以在<a href='https://github.com/dimdenGD/OldTwitter/blob/1f4fad6662dc0bd963b95748106a7dc167a4fa4c/scripts/injection.js#L205' target='_blank'>這裡</a>看到 CSS 變數的清單。<br><br>如果想要設定某個特定的主題你可以使用<code>.body-dark</code>, <code>.body-pitch-black</code>（OLED 深色主題也會包含<code>.body-dark</code>) 以及 <code>.body-light</code>。" },
+    "css_theme_hint": { "message": "請不要設定太令人刺眼的個人資料，例如將按鈕設定超級大，如果你這麼做，你可能會被剝奪使用這個功能的權利<br><br>你的 CSS 會覆寫現有的個人資料<br><br>你只能用 i.imgur.com 上傳圖片和 fonts.googleapis.com 上傳字體（還有<a target='_blank' href='https://dimden.dev/fonts/'>這裡</a>）的字體。<br><br>你可以在<a href='https://github.com/dimdenGD/OldTwitter/blob/1f4fad6662dc0bd963b95748106a7dc167a4fa4c/scripts/injection.js#L205' target='_blank'>這裡</a>看到 CSS 變數的清單。<br><br>如果想要設定某個特定的主題你可以使用<code>.body-dark</code>, <code>.body-pitch-black</code>（OLED 深色主題也會包含<code>.body-dark</code>) 以及 <code>.body-light</code>。" },
     "profile_colors_moved": { "message": "已經移至個人資料頁面（“編輯個人資料”按鈕左側的鉛筆圖示）。" },
     "click_here_more_info": { "message": "請點擊這裡以了解更多" },
     "profile_must_be_public_to_auth": { "message": "你的個人資料必須設為公開來同步，但之後你仍然可以設為私人。" },

@@ -473,7 +473,7 @@
     "yay": { "message": "わ～い！" },
     "light_mode_vars": { "message": "ライト モード変数" },
     "dark_mode_vars": { "message": "ダークモード変数" },
-    "css_theme_hint": { "message": "「目の出血」やごまかしのスタイルを公開しないでください（例えば、フォローボタンをとても大きくするなど）。そうするとアクセスできなくなります。<br><br>CSS は、ユーザが設定したローカル スタイルを上書きします。i.imgur.com と cdn.discordapp.com は、イメージ用としてのみ使用でき、fonts.googleapis.com はフォント用として使用できます（および<a target='_blank' href='https://dimden.dev/fonts/'>ここ</a>からフォント用）。<br><br><a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>ここ</a>にCSS変数のリストが表示されます。特定のテーマをターゲットにするには、<code>.body-dark</code>、<code>.body-pitch-black</code>（ピッチブラックモードでは、.body-darkクラスも含まれます）と<code>.body-light</code>クラスを使用できます。" },
+    "css_theme_hint": { "message": "「目の出血」やごまかしのスタイルを公開しないでください（例えば、フォローボタンをとても大きくするなど）。そうするとアクセスできなくなります。<br><br>CSS は、ユーザが設定したローカル スタイルを上書きします。i.imgur.com は、イメージ用としてのみ使用でき、fonts.googleapis.com はフォント用として使用できます（および<a target='_blank' href='https://dimden.dev/fonts/'>ここ</a>からフォント用）。<br><br><a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>ここ</a>にCSS変数のリストが表示されます。特定のテーマをターゲットにするには、<code>.body-dark</code>、<code>.body-pitch-black</code>（ピッチブラックモードでは、.body-darkクラスも含まれます）と<code>.body-light</code>クラスを使用できます。" },
     "profile_colors_moved": { "message": "プロフィールカラーの設定はプロフィールページに移動しました。（編集ボタン左側の鉛筆マークのボタンから設定できます。）" },
     "click_here_more_info": { "message": "詳細については、こちらをクリックしてください" },
     "profile_must_be_public_to_auth": { "message": "初めて同期するには、プロファイルをパブリックにする必要があります。その後、プロファイルをプライベートに戻すことができます。" },
