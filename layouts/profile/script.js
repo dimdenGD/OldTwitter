@@ -264,7 +264,7 @@ function updateUserData() {
         const lightModeVars = document.getElementById('light-mode-vars');
         const cssTextArea = document.getElementById('profile-css-textarea');
 
-        profileLinkColor.value = `#${usedProfileColor}`;
+        profileLinkColor.value = `#${usedProfileColor.startsWith('#') ? usedProfileColor.slice(1) : usedProfileColor}`;
         profileLinkColor.addEventListener('input', () => {
             let color = profileLinkColor.value;
             if(color.startsWith('#')) color = color.slice(1);
@@ -277,9 +277,9 @@ function updateUserData() {
             colorPreviewBlack.style.color = makeSeeableColor(`#${color}`, "#000000");
         });
 
-        colorPreviewLight.style.color = makeSeeableColor(`#${usedProfileColor}`, "#ffffff");
-        colorPreviewDark.style.color = makeSeeableColor(`#${usedProfileColor}`, "#1b2836");
-        colorPreviewBlack.style.color = makeSeeableColor(`#${usedProfileColor}`, "#000000");
+        colorPreviewLight.style.color = makeSeeableColor(`#${usedProfileColor.startsWith('#') ? usedProfileColor.slice(1) : usedProfileColor}`, "#ffffff");
+        colorPreviewDark.style.color = makeSeeableColor(`#${usedProfileColor.startsWith('#') ? usedProfileColor.slice(1) : usedProfileColor}`, "#1b2836");
+        colorPreviewBlack.style.color = makeSeeableColor(`#${usedProfileColor.startsWith('#') ? usedProfileColor.slice(1) : usedProfileColor}`, "#000000");
 
         let profileCustomCSSData = {};
         let pccss = await new Promise(resolve => {
