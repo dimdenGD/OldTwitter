@@ -2723,7 +2723,7 @@ const API = {
                 });
             });
         },
-        getV2: id => {
+        getV2: (id, useDiffKey) => {
             return new Promise((resolve, reject) => {
                 chrome.storage.local.get(['tweetDetails'], d => {
                     if(!d.tweetDetails) d.tweetDetails = {};
@@ -2738,6 +2738,9 @@ const API = {
                             listeners: []
                         };
                     }
+                    if(typeof useDiffKey === 'undefined' && isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now()) {
+                        useDiffKey = true;
+                    }
                     fetch(`https://twitter.com/i/api/graphql/KwGBbJZc6DBx8EKmyQSP7g/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
                         "focalTweetId":id,
                         "with_rux_injections":false,
@@ -2749,7 +2752,7 @@ const API = {
                         "withV2Timeline":true
                     }))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                         headers: {
-                            "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
+                            "authorization": useDiffKey ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
@@ -2758,6 +2761,10 @@ const API = {
                     }).then(i => i.json()).then(data => {
                         debugLog('tweet.getV2', 'start', id, data);
                         if (data.errors && data.errors[0]) {
+                            if(data.errors[0].code === 88 && !useDiffKey) {
+                                localStorage.hitRateLimit = Date.now() + 600000;
+                                return resolve(tweet.getV2(id, true));
+                            }
                             if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
                             delete loadingDetails[id];
                             return reject(data.errors[0].message);
