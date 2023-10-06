@@ -2732,7 +2732,7 @@ const API = {
                         return resolve(d.tweetDetails[id].data);
                     }
                     if(loadingDetails[id]) {
-                        return loadingDetails[id].listeners.push([resolve, reject]);
+                        if(!useDiffKey) return loadingDetails[id].listeners.push([resolve, reject]);
                     } else {
                         loadingDetails[id] = {
                             listeners: []
@@ -2763,7 +2763,8 @@ const API = {
                         if (data.errors && data.errors[0]) {
                             if(data.errors[0].code === 88 && !useDiffKey) {
                                 localStorage.hitRateLimit = Date.now() + 600000;
-                                return resolve(tweet.getV2(id, true));
+                                API.tweet.getV2(id, true).then(resolve).catch(reject);
+                                return;
                             }
                             if(loadingDetails[id]) loadingDetails[id].listeners.forEach(l => l[1](data.errors[0].message));
                             delete loadingDetails[id];
