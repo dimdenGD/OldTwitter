@@ -579,5 +579,8 @@
     "share_tweet_in_dms": { "message": "쪽지로 공유하기" },
     "share_tweet_to": { "message": "공유하기..." },
     "disable_find_hotkey": { "message": "검색 단축키(F)를 비활성화 합니다" },
-    "uploaded": { "message": "업로드됨" }
+    "uploaded": { "message": "업로드됨" },
+    "hide_unfollowers_page": { "message": "언팔로워 페이지를 숨깁니다" },
+	"custom_font": { "message": "<사용자 지정>" },
+	"current_font": { "message": "현재 글꼴: $FONT$", "placeholders": { "font": { "content": "Arial" } } }
 }
