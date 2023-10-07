@@ -122,12 +122,15 @@ if(realPath === '/intent/follow') {
     let screen_name = location.search.split('screen_name=')[1].split('&')[0];
     location.replace(`/${screen_name}`);
 }
-if (!hrefUrl.includes('newtwitter=true') &&
+if (
+    !hrefUrl.includes('newtwitter=true') &&
     (
         realPath.startsWith('/i/flow/') ||
         realPath.startsWith('/i/premium_sign_up/') ||
         realPath.startsWith('/i/events/') ||
         realPath.startsWith('/i/spaces/') ||
+        realPath.startsWith('/i/oauth2') ||
+        realPath.startsWith('/account') ||
         realPath.startsWith('/settings') ||
         /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath)
     )
