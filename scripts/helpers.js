@@ -683,6 +683,7 @@ function generateCard(tweet, tweetElement, user) {
         let [w, h] = sizeFunctions[1](+tweet.card.binding_values.player_width.string_value, +tweet.card.binding_values.player_height.string_value);
         iframe.width = w;
         iframe.height = h;
+        iframe.loading = 'lazy';
         tweetElement.getElementsByClassName('tweet-card')[0].innerHTML = '';
         tweetElement.getElementsByClassName('tweet-card')[0].append(iframe);
     } else if(tweet.card.name === "unified_card") {
