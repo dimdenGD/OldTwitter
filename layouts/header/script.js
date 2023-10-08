@@ -2527,7 +2527,7 @@ let userDataFunction = async user => {
 
             let cursorTop = undefined;
             let cursorBottom = undefined;
-            let loadingMore = false;
+            let loadingMore = true;
 
             async function updateNotifications(options = { mode: 'rewrite', quiet: false }) {
                 if(options.mode === 'rewrite' && !options.quiet) {
