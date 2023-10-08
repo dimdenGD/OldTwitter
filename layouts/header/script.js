@@ -1247,7 +1247,7 @@ let userDataFunction = async user => {
                 let userElement = document.createElement('div');
                 userElement.classList.add('new-message-user');
                 userElement.innerHTML = `
-                    <img class="new-message-user-avatar" src="${`${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`.replace("_normal", "_bigger")}" width="48" height="48">
+                    <img class="new-message-user-avatar" src="${`${(u.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`.replace("_normal", "_bigger")}" width="48" height="48">
                     <div class="new-message-user-text">
                         <b class="new-message-user-name">${escapeHTML(u.name)}</b>
                         <span class="new-message-user-screenname">@${u.screen_name}</span>
@@ -1264,7 +1264,7 @@ let userDataFunction = async user => {
                     modal.querySelector('.inbox').hidden = true;
                     modal.querySelector('.new-message-box').hidden = true;
                     messageHeaderName.innerText = u.name;
-                    messageHeaderAvatar.src = `${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`;
+                    messageHeaderAvatar.src = `${(u.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`;
                     messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
                     setTimeout(() => {
                         modal.querySelector(".message-new-input").focus();
@@ -1661,7 +1661,7 @@ let userDataFunction = async user => {
                     userElement.className = 'search-result-item';
                     if(index === 0) userElement.classList.add('search-result-item-active');
                     userElement.innerHTML = `
-                        <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
+                        <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
                         <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                         <span class="search-result-item-screen-name">@${user.screen_name}</span>
                     `;
@@ -2014,7 +2014,7 @@ let userDataFunction = async user => {
             userElement.href = `/${user.screen_name}`;
             userElement.className = 'search-result-item';
             userElement.innerHTML = `
-                <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
+                <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
                 <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${user.name}</span>
                 <span class="search-result-item-screen-name">@${user.screen_name}</span>
             `;
