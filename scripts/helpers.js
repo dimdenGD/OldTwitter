@@ -678,7 +678,7 @@ function generateCard(tweet, tweetElement, user) {
         tweetElement.getElementsByClassName('tweet-card')[0].append(buttonGroup);
     } else if(tweet.card.name === "player") {
         let iframe = document.createElement('iframe');
-        iframe.src = tweet.card.binding_values.player_url.string_value.replace("autoplay=true", "autoplay=false");
+        iframe.src = tweet.card.binding_values.player_url.string_value.replace("autoplay=true", "autoplay=false").replace("autoplay=1", "autoplay=0");
         iframe.classList.add('tweet-player');
         let [w, h] = sizeFunctions[1](+tweet.card.binding_values.player_width.string_value, +tweet.card.binding_values.player_height.string_value);
         iframe.width = w;
