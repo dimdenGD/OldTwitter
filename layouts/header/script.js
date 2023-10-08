@@ -791,9 +791,10 @@ let userDataFunction = async user => {
         if(inboxData) {
             let conversations = Array.isArray(inboxData.conversations) ? inboxData.conversations : Object.values(inboxData.conversations);
             let realConvo = conversations.find(c => c.id_str === lastConvo.id_str);
-            if(+lastConvo.max_entry_id >= +realConvo.last_read_event_id) {
-                API.inbox.markRead(lastConvo.max_entry_id);
-                realConvo.last_read_event_id = lastConvo.max_entry_id;
+            let lastEventId = lastConvo.conversations[lastConvo.conversation_id].sort_event_id; //reactions dont count towards max_entry_id, but they do towards sort_event_id so that conversations appear above others when theres a new reaction
+            if(+lastEventId >= +realConvo.last_read_event_id) {
+                API.inbox.markRead(lastEventId);
+                realConvo.last_read_event_id = lastEventId;
             }
         }
         window.history.pushState(null, document.title, window.location.href)
@@ -1048,11 +1049,35 @@ let userDataFunction = async user => {
                 messageElement.classList.add('inbox-message-unread');
                 isUnread = true;
             }
+            let messageEntry = {}
+            if(messageUsers.length === 1) { //regular user
+                if (messageUsers[0].default_profile_image && vars.useOldDefaultProfileImage) {
+                    messageEntry.icon = chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(messageUsers[0].id_str) % 7}_normal.png`);
+                } else {
+                    messageEntry.icon = messageUsers[0].profile_image_url_https;
+                }
+
+                messageEntry.name = escapeHTML(messageUsers[0].name);
+                messageEntry.screen_name = '@' + messageUsers[0].screen_name;
+            } else if (messageUsers.length > 1) { //groups
+                messageEntry.icon = c.avatar_image_https || chrome.runtime.getURL('/images/group.jpg');
+                messageEntry.name = c.name ? escapeHTML(c.name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128);
+                messageEntry.screen_name = '';
+            } else if (messageUsers.length === 0) { //weird twitter bug, if you dm yourself (why?) it counts as no messageUsers
+                if (user.default_profile_image && vars.useOldDefaultProfileImage) {
+                    messageEntry.icon = chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`);
+                } else {
+                    messageEntry.icon = user.profile_image_url_https;
+                }
+
+                messageEntry.name = user.name;
+                messageEntry.screen_name = '@' + user.screen_name;
+            }
             messageElement.innerHTML = /*html*/`
-                <img src="${messageUsers.length === 1 ? `${(messageUsers[0].default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(messageUsers[0].id_str) % 7}_normal.png`): messageUsers[0].profile_image_url_https}` : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`))}" width="48" height="48" class="inbox-message-avatar">
+                <img src="${messageEntry.icon}" width="48" height="48" class="inbox-message-avatar">
                 <div class="inbox-text">
-                    <b class="inbox-name">${messageUsers.length === 1 ? escapeHTML(messageUsers[0].name) : (c.name ? escapeHTML(c.name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128))}</b>
-                    <span class="inbox-screenname">${messageUsers.length === 1 ? "@"+messageUsers[0].screen_name : ''}</span>
+                    <b class="inbox-name">${messageEntry.name}</b>
+                    <span class="inbox-screenname">${messageEntry.screen_name}</span>
                     <span class="inbox-time">${timeElapsed(new Date(+lastMessage.time))}</span>
                     <br>
                     <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text.startsWith('dmservice_reaction_') ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${escapeHTML(lastMessageUser.name)} reacted to message`}` : escapeHTML(lastMessage.message_data.text)}</span>
@@ -1071,9 +1096,9 @@ let userDataFunction = async user => {
                 modal.querySelector('.name-top').hidden = false;
                 modal.querySelector('.inbox').hidden = true;
                 modal.querySelector('.new-message-box').hidden = true;
-                messageHeaderName.innerText = messageUsers.length === 1 ? messageUsers[0].name : (c.name || messageUsers.map(i => i.name).join(', ').slice(0, 80));
-                messageHeaderAvatar.src = messageUsers.length === 1 ? `${(messageUsers[0].default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(messageUsers[0].id_str) % 7}_normal.png`): messageUsers[0].profile_image_url_https}` : (c.avatar_image_https || chrome.runtime.getURL(`/images/group.jpg`));
-                if(messageUsers.length === 1) messageHeaderLink.href = `https://twitter.com/${messageUsers[0].screen_name}`;
+                messageHeaderName.innerText = messageEntry.name;
+                messageHeaderAvatar.src = messageEntry.icon;
+                if(messageUsers.length <= 1) messageHeaderLink.href = `https://twitter.com/${messageEntry.screen_name}`;
                 setTimeout(() => {
                     modal.querySelector(".message-new-input").focus();
                     if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
