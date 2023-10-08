@@ -2479,10 +2479,6 @@ let userDataFunction = async user => {
                         qvideo.pause();
                     }
                 }
-                let gifs = Array.from(activeTweet.querySelectorAll('.tweet-media > .tweet-media-gif'));
-                let qgifs = Array.from(activeTweet.querySelectorAll('.tweet-media-quote > .tweet-media-gif'));
-                gifs.forEach(gif => gif.pause());
-                qgifs.forEach(gif => gif.pause());
                 if(activeTweet.tweet && activeTweet.tweet.algo) {
                     if(!seenAlgoTweets.includes(activeTweet.tweet.id_str)) seenAlgoTweets.push(activeTweet.tweet.id_str);
                     if(seenAlgoTweets.length > 100) {
@@ -2501,14 +2497,6 @@ let userDataFunction = async user => {
                     } else if(newVideoOverlay && !newVideoOverlay.style.display) {
                         newVideoOverlay.click();
                     }
-                }
-            }
-            if(!vars.disableGifAutoplay) {
-                if(newActiveTweet) {
-                    let newGifs = Array.from(newActiveTweet.querySelectorAll('.tweet-media > .tweet-media-gif'));
-                    let newQGifs = Array.from(newActiveTweet.querySelectorAll('.tweet-media-quote > .tweet-media-gif'));
-                    newGifs.forEach(gif => gif.play());
-                    newQGifs.forEach(gif => gif.play());
                 }
             }
             activeTweet = newActiveTweet;

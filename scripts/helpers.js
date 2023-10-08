@@ -1379,6 +1379,7 @@ function renderMedia(t) {
                     loop
                     disableRemotePlayback
                     onclick="if(this.paused) this.play(); else this.pause()"
+                    ${vars.disableGifAutoplay ? '' : 'autoplay'}
                     muted
                     class="tweet-media-element tweet-media-gif ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
                 >
