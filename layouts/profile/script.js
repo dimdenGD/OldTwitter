@@ -655,7 +655,7 @@ async function renderFollowers(clear = true, cursor) {
                         <button class="tiny-button" id="switch-filtering" style="vertical-align:text-bottom">${LOC.filter.message}</button>
                     ` : ''}
                 </h1>
-                <a href="/old/unfollows/followers" style="float: right;font-size: 14px;">${LOC.unfollowers.message}</a>
+                <a href="/old/unfollows/followers" style="float: right;font-size: 14px;" class="unfollowers-link">${LOC.unfollowers.message}</a>
                 <div id="follower-filtering-menu" hidden>
                     <div>
                         <select id="sort-followers">

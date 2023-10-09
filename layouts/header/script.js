@@ -427,6 +427,7 @@ function hideStuff() {
     if(vars.hideUnfollowersPage) {
         hideStyle.innerHTML += `
             #navbar-user-menu-unfollowers { display: none !important; }
+            .unfollowers-link { display: none !important; }
         `;
     }
     if(hideStyle.innerHTML !== '') {
