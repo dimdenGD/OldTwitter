@@ -595,15 +595,19 @@ let userDataFunction = async user => {
             });
         });
     }
-    async function updateInboxData() {
+    async function updateInboxData(conversationIds) {
         let inboxModal = document.getElementsByClassName('inbox-modal')[0];
-        if(inboxModal && inboxModal.scrollTop > 600 && cursor) return;
+        if(inboxModal && inboxModal.scrollTop > 600 && cursor && !update) return;
         inboxData = await API.inbox.get();
         if(inboxData.status === "HAS_MORE" && !cursor) {
             cursor = inboxData.min_entry_id;
         } else {
             cursor = undefined;
         };
+        if(inboxModal && conversationIds) {
+            let inboxList = inboxModal.querySelector('.inbox-list');
+            renderInboxMessages(inboxData, inboxList, conversationIds);
+        }
 
         return true;
     }
@@ -1027,10 +1031,11 @@ let userDataFunction = async user => {
             loadMoreMessages.hidden = true;
         }
     }
-    function renderInboxMessages(inbox, inboxList) {
+    function renderInboxMessages(inbox, inboxList, conversationIds) {
         inbox.conversations = inbox.conversations ? Object.values(inbox.conversations).sort((a, b) => (+b.sort_timestamp)-(+a.sort_timestamp)) : [];
         for(let i in inbox.conversations) {
             let c = inbox.conversations[i];
+            if(conversationIds && !conversationIds.includes(c.conversation_id)) continue;
             let lastMessage = inbox.entries.find(e => (e.message && e.message.id === c.max_entry_id) || (e.trust_conversation && e.trust_conversation.id === c.max_entry_id));
             if(!lastMessage) {
                 continue;
@@ -1042,11 +1047,17 @@ let userDataFunction = async user => {
             };
             let messageUsers = c.participants.filter(p => p.user_id !== user.id_str).map(p => inbox.users[p.user_id]);
             let lastMessageUser = lastMessage.message_data ? messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id) : messageUsers[0];
-            let messageElement = document.createElement('div');
-            messageElement.classList.add('inbox-message');
+            let messageElement;
+            let messageExists = !!modal.querySelector(`div.inbox-message[data-conversation-id="${c.conversation_id}"]`);
+            if(conversationIds && messageExists) {
+                messageElement = modal.querySelector(`div.inbox-message[data-conversation-id="${c.conversation_id}"]`);
+            } else {
+                messageElement = document.createElement('div');
+                messageElement.classList.add('inbox-message');
+                messageElement.setAttribute('data-conversation-id', c.conversation_id);
+            }
             let isUnread = false;
-            if(compare(lastMessage.id, c.last_read_event_id) < 1) {}
-            else {
+            if(compare(lastMessage.id, c.last_read_event_id) >= 1) {
                 messageElement.classList.add('inbox-message-unread');
                 isUnread = true;
             }
@@ -1074,23 +1085,34 @@ let userDataFunction = async user => {
                 messageEntry.name = user.name;
                 messageEntry.screen_name = '@' + user.screen_name;
             }
+            if(lastMessage.reason) {
+                messageEntry.preview = 'Accepted conversation';
+            } else if(lastMessage.message_data.text.startsWith('dmservice_reaction_')) {
+                messageEntry.preview = `${lastMessage.message_data.sender_id === user.id_str ? 'You' : escapeHTML(lastMessageUser.name)} reacted to message`;
+            } else if(lastMessage.message_data.attachment) {
+                let attachmentType = lastMessage.message_data.attachment.video ? 'video' : 'photo';
+                messageEntry.preview = `${lastMessage.message_data.sender_id === user.id_str ? 'You' : escapeHTML(lastMessageUser.name)} sent a ${attachmentType}`;
+            } else {
+                messageEntry.preview = escapeHTML(lastMessage.message_data.text);
+            }
             messageElement.innerHTML = /*html*/`
                 <img src="${messageEntry.icon}" width="48" height="48" class="inbox-message-avatar">
                 <div class="inbox-text">
                     <b class="inbox-name">${messageEntry.name}</b>
                     <span class="inbox-screenname">${messageEntry.screen_name}</span>
-                    <span class="inbox-time">${timeElapsed(new Date(+lastMessage.time))}</span>
+                    <span class="inbox-time" data-timestamp="${+lastMessage.time}">${timeElapsed(new Date(+lastMessage.time))}</span>
                     <br>
-                    <span class="inbox-message-preview">${lastMessage.reason ? 'Accepted conversation' : lastMessage.message_data.text.startsWith('dmservice_reaction_') ? `${lastMessage.message_data.sender_id === user.id_str ? 'You reacted to message' : `${escapeHTML(lastMessageUser.name)} reacted to message`}` : escapeHTML(lastMessage.message_data.text)}</span>
+                    <span class="inbox-message-preview">${messageEntry.preview}</span>
                 </div>
             `;
             if(vars.enableTwemoji) {
                 twemoji.parse(messageElement);
             }
+            let messageInIds = conversationIds && conversationIds.includes(c.conversation_id);
             const messageHeaderName = modal.querySelector('.message-header-name');
             const messageHeaderAvatar = modal.querySelector('.message-header-avatar');
             const messageHeaderLink = modal.querySelector('.message-header-link');
-            messageElement.addEventListener('click', async () => {
+            if((!messageExists && messageInIds) || !conversationIds) messageElement.addEventListener('click', async () => {
                 let messageData = await API.inbox.getConversation(c.conversation_id);
                 modal.querySelector('.message-box').hidden = false;
                 modal.querySelector('.home-top').hidden = true;
@@ -1114,7 +1136,7 @@ let userDataFunction = async user => {
             }
         }
         const messageHeaderBack = modal.querySelector('.message-header-back');
-        messageHeaderBack.addEventListener('click', e => {
+        if(!conversationIds) messageHeaderBack.addEventListener('click', e => { //same deal as last thing
             modal.removeModal();
             chrome.storage.local.remove(['inboxData'], () => {});
             setTimeout(() => {
@@ -1385,7 +1407,7 @@ let userDataFunction = async user => {
         });
 
         readAll.addEventListener('click', async () => {
-            await API.inbox.markRead(inbox.last_seen_event_id);
+            await API.inbox.markRead(inbox.max_entry_id);
             let unreadMessages = Array.from(document.getElementsByClassName('inbox-message-unread'));
             unreadMessages.forEach(message => {
                 message.classList.remove('inbox-message-unread');
@@ -1404,8 +1426,14 @@ let userDataFunction = async user => {
 
         renderInboxMessages(inbox, inboxList);
     });
-    setInterval(() => {
+    setInterval(() => { //for messages
         let times = Array.from(document.getElementsByClassName('message-time'));
+        times.forEach(time => {
+            time.innerText = timeElapsed(+time.dataset.timestamp);
+        });
+    }, 10000);
+    setInterval(() => { //for inbox list
+        let times = Array.from(document.getElementsByClassName('inbox-time'));
         times.forEach(time => {
             time.innerText = timeElapsed(+time.dataset.timestamp);
         });
@@ -1414,7 +1442,7 @@ let userDataFunction = async user => {
     setInterval(async () => {
         let updates = await API.inbox.getUpdates(updateCursor);
         updateCursor = Object.values(updates)[0].cursor;
-        if(updates.user_events && updates.user_events.conversations && lastConvo) {
+        if(updates.user_events && updates.user_events.conversations && lastConvo) { //new messages in loaded convo
             for(let i in updates.user_events.conversations) {
                 let c = updates.user_events.conversations[i];
                 if(c.conversation_id === lastConvo.conversation_id) {
@@ -1463,6 +1491,11 @@ let userDataFunction = async user => {
                     renderConversation(updates.user_events, lastConvo.conversation_id, true, false);
                 }
             }
+        }
+
+        if(updates.user_events && updates.user_events.entries) { //new messages in inbox
+            let conversationIds = updates.user_events.entries.map(m => m.message.conversation_id);
+            await updateInboxData(conversationIds);
         }
     }, 5000);
     if(!INSIDE_IFRAME) {

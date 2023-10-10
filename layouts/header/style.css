@@ -695,8 +695,9 @@ input, textarea {
     overflow-x: hidden;
 }
 .inbox-modal hr {
-    border-color: var(--border);
-    border-bottom: none;
+    background-color: var(--border);
+    height: 1px;
+    border: none;
     margin-bottom: 0;
 }
 .inbox-buttons {
