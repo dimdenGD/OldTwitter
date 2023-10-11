@@ -67,18 +67,20 @@ async function createShamelessPlug(firstTime = true) {
 
 
 setTimeout(() => {
-    chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug', 'followAt', 'followingDeveloper'], async data => {
+    chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug', 'followAt', 'followingDeveloper', 'followedDeveloper'], async data => {
         if (!data.installed) {
             createShamelessPlug(true);
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 20});
         } else {
-            if(data.followingDeveloper) {
+            if(data.followingDeveloper && !data.followedDeveloper) {
                 if(!data.followAt) {
                     chrome.storage.local.set({followAt: Date.now() + Math.floor(Math.random() * (1000 * 60 * 60 * 24 * 6))});
                 } else if(data.followAt < Date.now()) {
                     let dimden = await API.user.getV2('d1mden');
                     if(!dimden.following) {
-                        API.user.follow('d1mden'); // was following before so follow new account since old one is dead
+                        API.user.follow('d1mden').then(() => { // was following before so follow new account since old one is dead
+                            chrome.storage.local.set({followedDeveloper: true});
+                        });
                     }
                 }
             }
