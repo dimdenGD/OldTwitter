@@ -38,6 +38,14 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     manifest.background.scripts = ['scripts/background.js'];
     manifest.web_accessible_resources = manifest.web_accessible_resources[0].resources;
     manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest' && p !== 'contextMenus' && p !== 'scripting');
+    manifest.browser_specific_settings = {
+        "gecko": {
+            "strict_min_version": "60.0"
+        },
+        "gecko_android": {
+            "strict_min_version": "60.0"
+        }
+    }
     manifest.permissions = [
         ...manifest.permissions,
         ...manifest.host_permissions,
