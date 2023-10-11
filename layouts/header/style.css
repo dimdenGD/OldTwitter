@@ -1587,6 +1587,9 @@ span.tweet-body-text {
     margin-top: 8px;
     margin-bottom: 5px;
 }
+.body-pitch-black .tweet-warning {
+    background-color: rgba(255, 0, 0, 0.1);
+}
 .message-element .emoji {
     vertical-align: middle;
 }
@@ -2107,6 +2110,9 @@ emoji-picker {
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+.body-pitch-black .tweet-limited {
+    background-color: rgb(0 255 40 / 10%);
 }
 
 .tweet-reply-text,
