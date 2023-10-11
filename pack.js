@@ -40,10 +40,10 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest' && p !== 'contextMenus' && p !== 'scripting');
     manifest.browser_specific_settings = {
         "gecko": {
-            "strict_min_version": "60.0"
+            "strict_min_version": "78.0"
         },
         "gecko_android": {
-            "strict_min_version": "60.0"
+            "strict_min_version": "78.0"
         }
     }
     manifest.permissions = [
