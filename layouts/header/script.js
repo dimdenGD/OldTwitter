@@ -9,6 +9,15 @@ let isDarkModeEnabled = typeof vars !== 'undefined' ? (vars.darkMode || (vars.ti
 let activeTweet;
 let seenAlgoTweets = [], algoTweetsChanged = false;
 let tweetUrlToShareInDMs = null;
+let legacyReactionKeys = {
+    'agree': '👍',
+    'disagree': '👎',
+    'funny': '😂',
+    'sad': '😢',
+    'surprised': '😲',
+    'excited': '🔥',
+    'like': '❤️'
+}
 setInterval(() => {
     if(!algoTweetsChanged) return;
     algoTweetsChanged = false;
@@ -968,11 +977,19 @@ let userDataFunction = async user => {
                 }
             }
             if(m.message_reactions) {
-                for(let reaction of m.message_reactions) {
+                for (let reaction of m.message_reactions) {
                     let reactionElement = document.createElement('span');
                     reactionElement.classList.add('message-reaction');
-                    reactionElement.innerText = reaction.emoji_reaction;
                     reactionElement.dataset.userId = reaction.sender_id;
+                    let reactionEmoji = reaction.emoji_reaction //on updated twitter clients, this is just an emoji
+                    if(reaction.reaction_key === 'emoji' && /\p{Extended_Pictographic}/u.test(reaction.emoji_reaction)) { //if its a custom reaction thats not not in the legacy keys, then reaction.emoji_reaction is the emoji and reaction_key is "emoji"
+                        reactionEmoji = reaction.emoji_reaction;
+                    } else if(reaction.reaction_key === 'emoji') { //if its an older message/client, then reaction.emoji_reaction is the reaction key and reaction_key is "emoji"
+                        reactionEmoji = legacyReactionKeys[reaction.emoji_reaction.toLowerCase()];
+                    } else if(reaction.reaction_key && reaction.reaction_key != 'emoji') { //if reaction_key is present and its not "emoji", its from an old messags/client, and the reaction_key is just meant to be put into a key-value map
+                        reactionEmoji = legacyReactionKeys[reaction.reaction_key];
+                    }
+                    reactionElement.innerText = reactionEmoji || '';
                     if(vars.enableTwemoji) twemoji.parse(reactionElement);
                     messageReactions.append(reactionElement);
                 }
@@ -1036,17 +1053,43 @@ let userDataFunction = async user => {
         for(let i in inbox.conversations) {
             let c = inbox.conversations[i];
             if(conversationIds && !conversationIds.includes(c.conversation_id)) continue;
-            let lastMessage = inbox.entries.find(e => (e.message && e.message.id === c.max_entry_id) || (e.trust_conversation && e.trust_conversation.id === c.max_entry_id));
-            if(!lastMessage) {
+
+            let lastEvent;
+            let unseenEvents = [];
+            let affectsSort = null;
+            for (let i in inbox.entries) {
+                let e = inbox.entries[i];
+                let keyName = Object.keys(e)[0];
+                let key = e[keyName];
+                if(key.conversation_id !== c.conversation_id) continue;
+                if(key && key.id === c.max_entry_id) {
+                    lastEvent = {
+                        type: keyName,
+                        data: key
+                    };
+
+                    if(affectsSort === null) affectsSort = false;
+
+                    break;
+                }
+
+                if(key && compare(key.id, c.last_read_event_id) >= 1) {
+                    unseenEvents.push(key)
+                    if(key.affects_sort === true && affectsSort === null) affectsSort = true;
+                }
+            }
+
+            if(!lastEvent) {
                 continue;
             };
+
+            let lastMessage = lastEvent.data;
             if(lastMessage.message) {
                 lastMessage = lastMessage.message;
             } else if(lastMessage.trust_conversation) {
                 lastMessage = lastMessage.trust_conversation;
-            };
-            let messageUsers = c.participants.filter(p => p.user_id !== user.id_str).map(p => inbox.users[p.user_id]);
-            let lastMessageUser = lastMessage.message_data ? messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id) : messageUsers[0];
+            }
+
             let messageElement;
             let messageExists = !!modal.querySelector(`div.inbox-message[data-conversation-id="${c.conversation_id}"]`);
             if(conversationIds && messageExists) {
@@ -1055,14 +1098,17 @@ let userDataFunction = async user => {
                 messageElement = document.createElement('div');
                 messageElement.classList.add('inbox-message');
                 messageElement.setAttribute('data-conversation-id', c.conversation_id);
-            }
+            };
+
             let isUnread = false;
-            if(compare(lastMessage.id, c.last_read_event_id) >= 1) {
+            if(compare(lastMessage.id, c.last_read_event_id) >= 1 && affectsSort) {
                 messageElement.classList.add('inbox-message-unread');
                 isUnread = true;
             }
-            let messageEntry = {}
-            if(messageUsers.length === 1) { //regular user
+
+            let messageUsers = c.participants.filter(p => p.user_id !== user.id_str).map(p => inbox.users[p.user_id]);
+            let messageEntry = {};
+            if(c.type == 'ONE_TO_ONE' && messageUsers.length === 1) { //regular one to one dm (messageUsers.length is one because the messageUsers variable filters out yourself)
                 if (messageUsers[0].default_profile_image && vars.useOldDefaultProfileImage) {
                     messageEntry.icon = chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(messageUsers[0].id_str) % 7}_normal.png`);
                 } else {
@@ -1071,11 +1117,15 @@ let userDataFunction = async user => {
 
                 messageEntry.name = escapeHTML(messageUsers[0].name);
                 messageEntry.screen_name = '@' + messageUsers[0].screen_name;
-            } else if (messageUsers.length > 1) { //groups
+            } else if (c.type == 'GROUP_DM') { //groups
                 messageEntry.icon = c.avatar_image_https || chrome.runtime.getURL('/images/group.jpg');
                 messageEntry.name = c.name ? escapeHTML(c.name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128);
                 messageEntry.screen_name = '';
-            } else if (messageUsers.length === 0) { //weird twitter bug, if you dm yourself (why?) it counts as no messageUsers
+
+                if(messageUsers.length === 1) { //when you have a three person group dm and one leaves, its just a one to one thats technically a group dm
+                    messageEntry.name += ' and You';
+                }
+            } else if (c.type == 'ONE_TO_ONE' && messageUsers.length === 0) { //dming yourself (the length is zero because same reason as above)
                 if (user.default_profile_image && vars.useOldDefaultProfileImage) {
                     messageEntry.icon = chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`);
                 } else {
@@ -1085,15 +1135,26 @@ let userDataFunction = async user => {
                 messageEntry.name = user.name;
                 messageEntry.screen_name = '@' + user.screen_name;
             }
+
             if(lastMessage.reason) {
                 messageEntry.preview = 'Accepted conversation';
-            } else if(lastMessage.message_data.text.startsWith('dmservice_reaction_')) {
-                messageEntry.preview = `${lastMessage.message_data.sender_id === user.id_str ? 'You' : escapeHTML(lastMessageUser.name)} reacted to message`;
-            } else if(lastMessage.message_data.attachment) {
-                let attachmentType = lastMessage.message_data.attachment.video ? 'video' : 'photo';
-                messageEntry.preview = `${lastMessage.message_data.sender_id === user.id_str ? 'You' : escapeHTML(lastMessageUser.name)} sent a ${attachmentType}`;
-            } else {
-                messageEntry.preview = escapeHTML(lastMessage.message_data.text);
+            } else if(lastEvent.type == 'participants_leave') {
+                let leftUser = inbox.users[lastMessage.participants[0].user_id];
+                messageEntry.preview = `${escapeHTML(leftUser.name)} left`
+            } else if(lastEvent.type == 'participants_join') {
+                let joinedUser = inbox.users[lastMessage.participants[0].user_id];
+                let userWhoAdded = inbox.users[lastMessage.sender_id];
+                messageEntry.preview = `${escapeHTML(userWhoAdded.name)} added ${escapeHTML(joinedUser.name)}`
+            } else if(lastMessage.message_data) {
+                let lastMessageUser = lastMessage.message_data ? messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id) : messageUsers[0];
+                if (lastMessage.message_data.text.startsWith('dmservice_reaction_')) {
+                    messageEntry.preview = `${lastMessage.message_data.sender_id === user.id_str ? 'You' : escapeHTML(lastMessageUser.name)} reacted to message`;
+                } else if(lastMessage.message_data.attachment) {
+                    let attachmentType = lastMessage.message_data.attachment.video ? 'video' : 'photo';
+                    messageEntry.preview = `${lastMessage.message_data.sender_id === user.id_str ? 'You' : escapeHTML(lastMessageUser.name)} sent a ${attachmentType}`;
+                } else {
+                    messageEntry.preview = escapeHTML(lastMessage.message_data.text);
+                }
             }
             messageElement.innerHTML = /*html*/`
                 <img src="${messageEntry.icon}" width="48" height="48" class="inbox-message-avatar">
@@ -1466,9 +1527,19 @@ let userDataFunction = async user => {
                             if(messageElement) {
                                 let reactionElement = document.createElement('span');
                                 reactionElement.classList.add('message-reaction');
-                                reactionElement.innerText = reaction.emoji_reaction;
+
+                                let reactionEmoji = reaction.emoji_reaction //on updated twitter clients, this is just an emoji
+                                if(reaction.reaction_key === 'emoji' && /\p{Extended_Pictographic}/u.test(reaction.emoji_reaction)) { //if its a custom reaction thats not not in the legacy keys, then reaction.emoji_reaction is the emoji and reaction_key is "emoji"
+                                    reactionEmoji = reaction.emoji_reaction;
+                                } else if(reaction.reaction_key === 'emoji') { //if its an older message/client, then reaction.emoji_reaction is the reaction key and reaction_key is "emoji"
+                                    reactionEmoji = legacyReactionKeys[reaction.emoji_reaction.toLowerCase()];
+                                } else if(reaction.reaction_key && reaction.reaction_key != 'emoji') { //if reaction_key is present and its not "emoji", its from an old messags/client, and the reaction_key is just meant to be put into a key-value map
+                                    reactionEmoji = legacyReactionKeys[reaction.reaction_key];
+                                }
+
+                                reactionElement.innerText = reactionEmoji || '';
                                 reactionElement.dataset.userId = reaction.sender_id;
-                                
+
                                 if(vars.enableTwemoji) twemoji.parse(reactionElement);
                                 let oldReaction = messageElement.querySelector(`span.message-reaction[data-user-id="${reaction.sender_id}"]`);
                                 if(oldReaction) {
