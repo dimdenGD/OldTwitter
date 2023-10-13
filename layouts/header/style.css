@@ -901,6 +901,23 @@ input, textarea {
 .message-element.message-element-continue {
     margin-bottom: 2px;
 }
+.message-announcement {
+    color: var(--light-gray);
+    font-size: 12px;
+    text-align: center;
+    clear: both;
+}
+.message-announcement a {
+    color: var(--light-gray) !important;
+}
+.message-announcement .message-announcement-icon {
+    display: block;
+    border-radius: 5px;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto;
+    margin-bottom: 6px;
+}
 .message-header-link {
     text-align: center;
     display: block;

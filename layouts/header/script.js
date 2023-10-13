@@ -821,191 +821,270 @@ let userDataFunction = async user => {
         let messageElements = [];
         for(let i in lastConvo.entries) {
             if(lastConvo.entries[i].added) continue;
-            let m = lastConvo.entries[i].message;
-            if(!m) continue;
-            let sender = lastConvo.users[m.message_data.sender_id];
-            let clearText = m.message_data.text.replace(/(\s|\n)/g, '');
-            let isOnlyEmojis = isEmojiOnly(clearText) && clearText.length > 0 && clearText.length <= 48;
 
-            let messageElement = document.createElement('div');
-            messageElement.classList.add('message-element');
-            if(sender.id_str !== user.id_str) {
-                messageElement.classList.add('message-element-other');
-            } else {
-                messageElement.classList.add('message-element-self');
-            }
-            if(isOnlyEmojis) {
-                messageElement.classList.add('message-element-emojis');
-            }
-            messageElement.dataset.messageId = m.id;
-            messageElement.innerHTML = /*html*/`
-                ${sender.id_str !== user.id_str ? /*html*/`
-                    <div class="profile-block" style="float:left">
-                        <a class="sender-profile-url" href="https://twitter.com/${sender.screen_name}">
-                            <img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar">
-                        </a>
-                    </div>
-                    <div class="message-block" style="float:left">
-                        <div class="message-block-inner">
-                            <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
-                            <div class="message-attachments"></div>
-                            <div class="message-reactions"></div>
+            let lastEntry;
+            let e = lastConvo.entries[i];
+            let keyName = Object.keys(e)[0];
+            let key = e[keyName];
+            lastEntry = {
+                type: keyName,
+                data: key
+            };
+
+            if(!lastEntry) {
+                continue;
+            };
+
+            let m = lastEntry.data;
+
+            if(lastEntry.type == 'message') {
+                let sender = lastConvo.users[m.message_data.sender_id];
+                let clearText = m.message_data.text.replace(/(\s|\n)/g, '');
+                let isOnlyEmojis = isEmojiOnly(clearText) && clearText.length > 0 && clearText.length <= 48;
+    
+                let messageElement = document.createElement('div');
+                messageElement.classList.add('message-element');
+                if(sender.id_str !== user.id_str) {
+                    messageElement.classList.add('message-element-other');
+                } else {
+                    messageElement.classList.add('message-element-self');
+                }
+                if(isOnlyEmojis) {
+                    messageElement.classList.add('message-element-emojis');
+                }
+                messageElement.dataset.messageId = m.id;
+                messageElement.innerHTML = /*html*/`
+                    ${sender.id_str !== user.id_str ? /*html*/`
+                        <div class="profile-block" style="float:left">
+                            <a class="sender-profile-url" href="https://twitter.com/${sender.screen_name}">
+                                <img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar">
+                            </a>
                         </div>
-                    </div>
-                ` : /*html*/`
-                    <div class="message-block" style="margin-left: auto">
-                        <div class="message-block-inner" style="margin-left: auto">
-                            <span class="message-menu-open"></span>
-                            <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
-                            <div class="message-menu" hidden>
-                                <span class="message-menu-delete">${LOC.delete_for_you.message}</span>
+                        <div class="message-block" style="float:left">
+                            <div class="message-block-inner">
+                                <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
+                                <div class="message-attachments"></div>
+                                <div class="message-reactions"></div>
                             </div>
-                            <div class="message-attachments"></div>
-                            <div class="message-reactions"></div>
                         </div>
-                    </div>
-                    <div class="profile-block profile-block-me" style="float:right">
-                        <a class="sender-profile-url" href="https://twitter.com/${sender.screen_name}">
-                            <img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar">
-                        </a>
-                    </div>
-                `}
-            `;
-            let messageBlockInner = messageElement.querySelector('.message-block-inner');
-            let messageBlock = messageElement.querySelector('.message-block');
-            let menuOpen = messageBlockInner.querySelector('.message-menu-open');
-            let messageAttachments = messageElement.querySelector('.message-attachments');
-            let messageReactions = messageElement.querySelector('.message-reactions');
-            
-            if(menuOpen) {
-                let menu = messageBlockInner.querySelector('.message-menu');
-                let menuDelete = messageBlockInner.querySelector('.message-menu-delete');
-
-                menuDelete.addEventListener('click', () => {
-                    API.inbox.deleteMessage(m.id);
-                    messageBlockInner.remove();
-                });
-
-                let clicked;
-                menuOpen.addEventListener('click', () => {
-                    if(clicked) return;
-                    clicked = true;
-                    menu.hidden = false;
-                    setTimeout(() => {
-                        menuFn = () => {
-                            setTimeout(() => {
-                                clicked = false;
-                                menu.hidden = true;
-                            }, 100);
-                        };
-                        document.addEventListener('click', menuFn, { once: true })
-                    }, 100);
-                });
-            }
-            let as = Array.from(messageBlockInner.getElementsByTagName('a'));
-            if(m.message_data.entities && m.message_data.entities.urls) {
-                m.message_data.entities.urls.forEach(url => {
-                    let a = as.find(a => a.href === url.url);
-                    if(!a) return;
-                    let removed = false;
-                    if(m.message_data.attachment) {
-                        if(m.message_data.attachment.photo) {
-                            if(a.href === m.message_data.attachment.photo.url) {
-                                removed = true;
-                                a.remove();
+                    ` : /*html*/`
+                        <div class="message-block" style="margin-left: auto">
+                            <div class="message-block-inner" style="margin-left: auto">
+                                <span class="message-menu-open"></span>
+                                <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
+                                <div class="message-menu" hidden>
+                                    <span class="message-menu-delete">${LOC.delete_for_you.message}</span>
+                                </div>
+                                <div class="message-attachments"></div>
+                                <div class="message-reactions"></div>
+                            </div>
+                        </div>
+                        <div class="profile-block profile-block-me" style="float:right">
+                            <a class="sender-profile-url" href="https://twitter.com/${sender.screen_name}">
+                                <img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar">
+                            </a>
+                        </div>
+                    `}
+                `;
+                let messageBlockInner = messageElement.querySelector('.message-block-inner');
+                let messageBlock = messageElement.querySelector('.message-block');
+                let menuOpen = messageBlockInner.querySelector('.message-menu-open');
+                let messageAttachments = messageElement.querySelector('.message-attachments');
+                let messageReactions = messageElement.querySelector('.message-reactions');
+                
+                if(menuOpen) {
+                    let menu = messageBlockInner.querySelector('.message-menu');
+                    let menuDelete = messageBlockInner.querySelector('.message-menu-delete');
+    
+                    menuDelete.addEventListener('click', () => {
+                        API.inbox.deleteMessage(m.id);
+                        messageBlockInner.remove();
+                    });
+    
+                    let clicked;
+                    menuOpen.addEventListener('click', () => {
+                        if(clicked) return;
+                        clicked = true;
+                        menu.hidden = false;
+                        setTimeout(() => {
+                            menuFn = () => {
+                                setTimeout(() => {
+                                    clicked = false;
+                                    menu.hidden = true;
+                                }, 100);
+                            };
+                            document.addEventListener('click', menuFn, { once: true })
+                        }, 100);
+                    });
+                }
+                let as = Array.from(messageBlockInner.getElementsByTagName('a'));
+                if(m.message_data.entities && m.message_data.entities.urls) {
+                    m.message_data.entities.urls.forEach(url => {
+                        let a = as.find(a => a.href === url.url);
+                        if(!a) return;
+                        let removed = false;
+                        if(m.message_data.attachment) {
+                            if(m.message_data.attachment.photo) {
+                                if(a.href === m.message_data.attachment.photo.url) {
+                                    removed = true;
+                                    a.remove();
+                                }
+                            }
+                            if(m.message_data.attachment.animated_gif) {
+                                if(a.href === m.message_data.attachment.animated_gif.url) {
+                                    removed = true;
+                                    a.remove();
+                                }
                             }
                         }
-                        if(m.message_data.attachment.animated_gif) {
-                            if(a.href === m.message_data.attachment.animated_gif.url) {
-                                removed = true;
-                                a.remove();
-                            }
+                        if(a && !removed) {
+                            a.href = url.expanded_url;
+                            a.innerText = url.display_url;
+                            a.target = "_blank";
                         }
+                    });
+                }
+                let span = messageBlockInner.getElementsByClassName('message-body')[0];
+                if(m.message_data.attachment) {
+                    let attachment = m.message_data.attachment;
+                    if(attachment.photo) {
+                        let photo = attachment.photo;
+                        let photoElement = document.createElement('img');
+                        photoElement.src = photo.media_url_https + (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? ':small' : '');
+                        photoElement.classList.add('message-element-media');
+                        let [w, h] = calculateSize(photo.original_info.width, photo.original_info.height, 400, 500);
+                        photoElement.width = w;
+                        photoElement.height = h;
+                        photoElement.addEventListener('click', e => {
+                            if(e.target.src.includes(':small')) {
+                                e.target.src = e.target.src.replace(':small', '');
+                            };
+                            new Viewer(photoElement, {
+                                transition: false
+                            });
+                            e.target.click();
+                        })
+                        messageAttachments.append(photoElement);
                     }
-                    if(a && !removed) {
-                        a.href = url.expanded_url;
-                        a.innerText = url.display_url;
-                        a.target = "_blank";
+                    if(attachment.animated_gif) {
+                        let gif = attachment.animated_gif;
+                        let gifElement = document.createElement('video');
+                        gifElement.src = gif.video_info.variants[0].url;
+                        gifElement.muted = true;
+                        gifElement.loop = true;
+                        gifElement.autoplay = true;
+                        let [w, h] = calculateSize(gif.original_info.width, gif.original_info.height, 400, 500);
+                        gifElement.width = w;
+                        gifElement.height = h;
+                        gifElement.classList.add('message-element-media');
+                        messageAttachments.append(gifElement);
                     }
-                });
-            }
-            let span = messageBlockInner.getElementsByClassName('message-body')[0];
-            if(m.message_data.attachment) {
-                let attachment = m.message_data.attachment;
-                if(attachment.photo) {
-                    let photo = attachment.photo;
-                    let photoElement = document.createElement('img');
-                    photoElement.src = photo.media_url_https + (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? ':small' : '');
-                    photoElement.classList.add('message-element-media');
-                    let [w, h] = calculateSize(photo.original_info.width, photo.original_info.height, 400, 500);
-                    photoElement.width = w;
-                    photoElement.height = h;
-                    photoElement.addEventListener('click', e => {
-                        if(e.target.src.includes(':small')) {
-                            e.target.src = e.target.src.replace(':small', '');
-                        };
-                        new Viewer(photoElement, {
-                            transition: false
-                        });
-                        e.target.click();
-                    })
-                    messageAttachments.append(photoElement);
-                }
-                if(attachment.animated_gif) {
-                    let gif = attachment.animated_gif;
-                    let gifElement = document.createElement('video');
-                    gifElement.src = gif.video_info.variants[0].url;
-                    gifElement.muted = true;
-                    gifElement.loop = true;
-                    gifElement.autoplay = true;
-                    let [w, h] = calculateSize(gif.original_info.width, gif.original_info.height, 400, 500);
-                    gifElement.width = w;
-                    gifElement.height = h;
-                    gifElement.classList.add('message-element-media');
-                    messageAttachments.append(gifElement);
-                }
-                if(attachment.video) {
-                    let video = attachment.video;
-                    let videoElement = document.createElement('video');
-                    videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
-                    videoElement.controls = true;
-                    let [w, h] = calculateSize(video.original_info.width, video.original_info.height, 400, 500);
-                    videoElement.width = w;
-                    videoElement.height = h;
-                    videoElement.classList.add('message-element-media');
-                    messageAttachments.append(videoElement);
-                }
-            }
-            if(m.message_reactions) {
-                for (let reaction of m.message_reactions) {
-                    let reactionElement = document.createElement('span');
-                    reactionElement.classList.add('message-reaction');
-                    reactionElement.dataset.userId = reaction.sender_id;
-                    let reactionEmoji = reaction.emoji_reaction //on updated twitter clients, this is just an emoji
-                    if(reaction.reaction_key === 'emoji' && /\p{Extended_Pictographic}/u.test(reaction.emoji_reaction)) { //if its a custom reaction thats not not in the legacy keys, then reaction.emoji_reaction is the emoji and reaction_key is "emoji"
-                        reactionEmoji = reaction.emoji_reaction;
-                    } else if(reaction.reaction_key === 'emoji') { //if its an older message/client, then reaction.emoji_reaction is the reaction key and reaction_key is "emoji"
-                        reactionEmoji = legacyReactionKeys[reaction.emoji_reaction.toLowerCase()];
-                    } else if(reaction.reaction_key && reaction.reaction_key != 'emoji') { //if reaction_key is present and its not "emoji", its from an old messags/client, and the reaction_key is just meant to be put into a key-value map
-                        reactionEmoji = legacyReactionKeys[reaction.reaction_key];
+                    if(attachment.video) {
+                        let video = attachment.video;
+                        let videoElement = document.createElement('video');
+                        videoElement.src = video.video_info.variants.find(v => v.content_type === 'video/mp4').url;
+                        videoElement.controls = true;
+                        let [w, h] = calculateSize(video.original_info.width, video.original_info.height, 400, 500);
+                        videoElement.width = w;
+                        videoElement.height = h;
+                        videoElement.classList.add('message-element-media');
+                        messageAttachments.append(videoElement);
                     }
-                    reactionElement.innerText = reactionEmoji || '';
-                    if(vars.enableTwemoji) twemoji.parse(reactionElement);
-                    messageReactions.append(reactionElement);
                 }
+                if(m.message_reactions) {
+                    for (let reaction of m.message_reactions) {
+                        let reactionElement = document.createElement('span');
+                        reactionElement.classList.add('message-reaction');
+                        reactionElement.dataset.userId = reaction.sender_id;
+                        let reactionEmoji = reaction.emoji_reaction //on updated twitter clients, this is just an emoji
+                        if(reaction.reaction_key === 'emoji' && /\p{Extended_Pictographic}/u.test(reaction.emoji_reaction)) { //if its a custom reaction thats not not in the legacy keys, then reaction.emoji_reaction is the emoji and reaction_key is "emoji"
+                            reactionEmoji = reaction.emoji_reaction;
+                        } else if(reaction.reaction_key === 'emoji') { //if its an older message/client, then reaction.emoji_reaction is the reaction key and reaction_key is "emoji"
+                            reactionEmoji = legacyReactionKeys[reaction.emoji_reaction.toLowerCase()];
+                        } else if(reaction.reaction_key && reaction.reaction_key != 'emoji') { //if reaction_key is present and its not "emoji", its from an old messags/client, and the reaction_key is just meant to be put into a key-value map
+                            reactionEmoji = legacyReactionKeys[reaction.reaction_key];
+                        }
+                        reactionElement.innerText = reactionEmoji || '';
+                        if(vars.enableTwemoji) twemoji.parse(reactionElement);
+                        messageReactions.append(reactionElement);
+                    }
+                }
+                timestamp=document.createElement('span');
+                timestamp.classList.add('message-time');
+                timestamp.setAttribute("data-timestamp", m.time);
+                timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
+                messageBlock.append(timestamp);
+                if(span.innerHTML === '' || span.innerHTML === ' ') {
+                    span.remove();
+                }
+                if(vars.enableTwemoji) {
+                    twemoji.parse(messageBlock);
+                }
+                messageElements.push(messageElement);
+            } else if (lastEntry.type == 'participants_leave') {
+                let leftUser = lastConvo.users[lastEntry.data.participants[0].user_id];
+                let messageText = `<a href="/@${leftUser.screen_name}">${escapeHTML(leftUser.name)}</a> left`;
+
+                let messageElement = document.createElement('div');
+                messageElement.classList.add('message-announcement');
+                messageElement.dataset.messageId = m.id;
+
+                if(vars.enableTwemoji) {
+                    twemoji.parse(messageText);
+                }
+
+                messageElement.innerHTML = messageText;
+
+                messageElements.push(messageElement);
+            } else if (lastEntry.type == 'participants_join') {
+                let joinedUser = lastConvo.users[lastEntry.data.participants[0].user_id];
+                let userWhoAdded = lastConvo.users[lastEntry.data.sender_id];
+                let messageText = `<a href="/@${userWhoAdded.screen_name}">${escapeHTML(userWhoAdded.name)}</a> added <a href="/@${joinedUser.screen_name}">${escapeHTML(joinedUser.name)}</a>`
+
+                let messageElement = document.createElement('div');
+                messageElement.classList.add('message-announcement');
+                messageElement.dataset.messageId = m.id;
+
+                if(vars.enableTwemoji) {
+                    twemoji.parse(messageText);
+                }
+
+                messageElement.innerHTML = messageText;
+
+                messageElements.push(messageElement);
+            } else if (lastEntry.type == 'conversation_name_update') {
+                let userWhoUpdated = lastConvo.users[lastEntry.data.by_user_id];
+                let messageText = `<a href="/@${userWhoUpdated.screen_name}">${escapeHTML(userWhoUpdated.name)}</a> changed the group name to <b>${escapeHTML(lastEntry.data.conversation_name)}</b>`
+
+                let messageElement = document.createElement('div');
+                messageElement.classList.add('message-announcement');
+                messageElement.dataset.messageId = m.id;
+
+                if(vars.enableTwemoji) {
+                    twemoji.parse(messageText);
+                }
+
+                messageElement.innerHTML = messageText;
+
+                messageElements.push(messageElement);
+            } else if (lastEntry.type == 'conversation_avatar_update') {
+                let userWhoUpdated = lastConvo.users[lastEntry.data.by_user_id];
+                let messageText = `<img src="${lastEntry.data.conversation_avatar_image_https}" class="message-announcement-icon"><a href="/@${userWhoUpdated.screen_name}">${escapeHTML(userWhoUpdated.name)}</a> changed the group photo`
+
+                let messageElement = document.createElement('div');
+                messageElement.classList.add('message-announcement');
+                messageElement.dataset.messageId = m.id;
+
+                if(vars.enableTwemoji) {
+                    twemoji.parse(messageText);
+                }
+
+                messageElement.innerHTML = messageText;
+
+                messageElements.push(messageElement);
+            } else {
+                console.log(lastEntry)
             }
-            timestamp=document.createElement('span');
-            timestamp.classList.add('message-time');
-            timestamp.setAttribute("data-timestamp", m.time);
-            timestamp.innerText = `${timeElapsed(new Date(+m.time))}`;
-            messageBlock.append(timestamp);
-            if(span.innerHTML === '' || span.innerHTML === ' ') {
-                span.remove();
-            }
-            if(vars.enableTwemoji) {
-                twemoji.parse(messageBlock);
-            }
-            messageElements.push(messageElement);
         }
         if(!newMessages) {
             let savedScroll = messageBox.parentElement.scrollTop;
@@ -1023,7 +1102,6 @@ let userDataFunction = async user => {
         }
         messageLists=document.getElementsByClassName("message-element");
         for(let i=0 ; i < messageLists.length - 1; i++) {
-            
             current_timestamp = messageLists[i].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
             next_timestamp = messageLists[i + 1].getElementsByClassName('message-time')[0].getAttribute("data-timestamp");
 
@@ -1122,7 +1200,7 @@ let userDataFunction = async user => {
                 messageEntry.name = c.name ? escapeHTML(c.name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128);
                 messageEntry.screen_name = '';
 
-                if(messageUsers.length === 1) { //when you have a three person group dm and one leaves, its just a one to one thats technically a group dm
+                if(messageUsers.length === 1 && !c.name) { //when you have a three person group dm and one leaves, its just a one to one thats technically a group dm
                     messageEntry.name += ' and You';
                 }
             } else if (c.type == 'ONE_TO_ONE' && messageUsers.length === 0) { //dming yourself (the length is zero because same reason as above)
@@ -1144,7 +1222,13 @@ let userDataFunction = async user => {
             } else if(lastEvent.type == 'participants_join') {
                 let joinedUser = inbox.users[lastMessage.participants[0].user_id];
                 let userWhoAdded = inbox.users[lastMessage.sender_id];
-                messageEntry.preview = `${escapeHTML(userWhoAdded.name)} added ${escapeHTML(joinedUser.name)}`
+                messageEntry.preview = `${escapeHTML(userWhoAdded.name)} added ${escapeHTML(joinedUser.name)}`;
+            } else if (lastEvent.type == 'conversation_name_update') {
+                let userWhoUpdated = inbox.users[lastMessage.by_user_id];
+                messageEntry.preview = `${escapeHTML(userWhoUpdated.name)} changed the group name to ${escapeHTML(lastMessage.conversation_name)}`;
+            } else if (lastEvent.type == 'conversation_avatar_update') {
+                let userWhoUpdated = inbox.users[lastMessage.by_user_id];
+                messageEntry.preview `${escapeHTML(userWhoUpdated.name)} changed the group photo`;
             } else if(lastMessage.message_data) {
                 let lastMessageUser = lastMessage.message_data ? messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id) : messageUsers[0];
                 if (lastMessage.message_data.text.startsWith('dmservice_reaction_')) {
