@@ -335,8 +335,8 @@
     "when_theyll_tweet": { "message": "Їх твіти появляться тут." },
     "thank_you2": { "message": "Дякую за використання OldTwitter! На розробку пішло багато часу, вы можете підтримати мене підпискою або <a target='_blank' href='https://dimden.dev/donate/'>донатом</a>. Я буду дуже вдячним." },
     "something_went_wrong": { "message": "Щось пішло не так" },
-    "notifications_error": { "message": "Деякі сповіщені не змогли бути показані із-за помилок." },
-    "tweet_error": { "message": "Деякі твіти не змогли бути показані із-за помилок." },
+    "notifications_error": { "message": "Деякі сповіщення не вдалося показати через помилки." },
+    "tweet_error": { "message": "Деякі твіти не вдалося показати через помилки." },
     "error_instructions": {
         "message": "Будь ласка скопіюйте текст знизу і відправте його в $AT1$трекер помилок$AT2$ або на $AT3$мою пошту$AT2$. Дякую.",
         "placeholders": {
