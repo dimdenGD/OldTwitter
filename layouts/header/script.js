@@ -805,7 +805,7 @@ let userDataFunction = async user => {
         if(inboxData) {
             let conversations = Array.isArray(inboxData.conversations) ? inboxData.conversations : Object.values(inboxData.conversations);
             let realConvo = conversations.find(c => c.id_str === lastConvo.id_str);
-            let lastEventId = lastConvo.conversations[lastConvo.conversation_id].sort_event_id; //reactions dont count towards max_entry_id, but they do towards sort_event_id so that conversations appear above others when theres a new reaction
+            let lastEventId = lastConvo.conversations[lastConvo.conversation_id]?.sort_event_id; //reactions dont count towards max_entry_id, but they do towards sort_event_id so that conversations appear above others when theres a new reaction
             if(+lastEventId >= +realConvo.last_read_event_id) {
                 API.inbox.markRead(lastEventId);
                 realConvo.last_read_event_id = lastEventId;
@@ -837,7 +837,7 @@ let userDataFunction = async user => {
 
             let m = lastEntry.data;
 
-            if(lastEntry.type == 'message') {
+            if(lastEntry.type == 'message' || lastEntry.type == 'welcome_message_create') {
                 let sender = lastConvo.users[m.message_data.sender_id];
                 let clearText = m.message_data.text.replace(/(\s|\n)/g, '');
                 let isOnlyEmojis = isEmojiOnly(clearText) && clearText.length > 0 && clearText.length <= 48;
@@ -1023,7 +1023,10 @@ let userDataFunction = async user => {
                 messageElements.push(messageElement);
             } else if (lastEntry.type == 'participants_leave') {
                 let leftUser = lastConvo.users[lastEntry.data.participants[0].user_id];
-                let messageText = `<a href="/@${leftUser.screen_name}">${escapeHTML(leftUser.name)}</a> left`;
+                let messageText = LOC.user_left.message
+                .replace('$NAME$', escapeHTML(leftUser.name))
+                .replace('$A_START$', `<a href="/${leftUser.screen_name}">`)
+                .replace('$A_END$', '</a>');
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1039,7 +1042,12 @@ let userDataFunction = async user => {
             } else if (lastEntry.type == 'participants_join') {
                 let joinedUser = lastConvo.users[lastEntry.data.participants[0].user_id];
                 let userWhoAdded = lastConvo.users[lastEntry.data.sender_id];
-                let messageText = `<a href="/@${userWhoAdded.screen_name}">${escapeHTML(userWhoAdded.name)}</a> added <a href="/@${joinedUser.screen_name}">${escapeHTML(joinedUser.name)}</a>`
+                let messageText = LOC.user_added.message
+                .replace('$USER_WHO_ADDED$', escapeHTML(userWhoAdded.name))
+                .replace('$USER_WHO_JOINED$', escapeHTML(joinedUser.name))
+                .replace('$A1$', `<a href="/${userWhoAdded.screen_name}">`)
+                .replace('$A2$', `<a href="/${joinedUser.screen_name}">`)
+                .replaceAll('$A_END$', '</a>');
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1054,7 +1062,11 @@ let userDataFunction = async user => {
                 messageElements.push(messageElement);
             } else if (lastEntry.type == 'conversation_name_update') {
                 let userWhoUpdated = lastConvo.users[lastEntry.data.by_user_id];
-                let messageText = `<a href="/@${userWhoUpdated.screen_name}">${escapeHTML(userWhoUpdated.name)}</a> changed the group name to <b>${escapeHTML(lastEntry.data.conversation_name)}</b>`
+                let messageText = LOC.user_changed_group_name.message
+                .replace('$NAME$', escapeHTML(userWhoUpdated.name))
+                .replace('$GROUP_NAME$', escapeHTML(lastEntry.data.conversation_name))
+                .replace('$A_START$', `<a href="/${userWhoUpdated.screen_name}">`)
+                .replace('$A_END$', '</a>');
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1069,7 +1081,31 @@ let userDataFunction = async user => {
                 messageElements.push(messageElement);
             } else if (lastEntry.type == 'conversation_avatar_update') {
                 let userWhoUpdated = lastConvo.users[lastEntry.data.by_user_id];
-                let messageText = `<img src="${lastEntry.data.conversation_avatar_image_https}" class="message-announcement-icon"><a href="/@${userWhoUpdated.screen_name}">${escapeHTML(userWhoUpdated.name)}</a> changed the group photo`
+                let messageText = `<img src="${lastEntry.data.conversation_avatar_image_https}" class="message-announcement-icon">` +
+                LOC.user_changed_group_photo.message
+                .replace('$NAME$', escapeHTML(userWhoUpdated.name))
+                .replace('$A_START$', `<a href="/${userWhoUpdated.screen_name}">`)
+                .replace('$A_END$', '</a>');
+
+                let messageElement = document.createElement('div');
+                messageElement.classList.add('message-announcement');
+                messageElement.dataset.messageId = m.id;
+
+                if(vars.enableTwemoji) {
+                    twemoji.parse(messageText);
+                }
+
+                messageElement.innerHTML = messageText;
+
+                messageElements.push(messageElement);
+            } else if (lastEntry.type == 'join_conversation') { //only when YOU get added to a conversation
+                let userWhoAdded = lastConvo.users[lastEntry.data.sender_id];
+                let otherUsers = (lastConvo.conversations[lastConvo.conversation_id].participants.length - 1).toLocaleString();
+                let messageText = LOC.user_added_you_msg.message
+                .replace('$NAME$', escapeHTML(userWhoAdded.name))
+                .replace('$NUMBER$', otherUsers)
+                .replace('$A_START$', `<a href="/${userWhoAdded.screen_name}">`)
+                .replace('$A_END$', `</a>`);
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1214,31 +1250,59 @@ let userDataFunction = async user => {
                 messageEntry.screen_name = '@' + user.screen_name;
             }
 
+            let lastSenderWasUser = lastMessage.message_data && lastMessage.message_data.sender_id === user.id_str
+
             if(lastMessage.reason) {
-                messageEntry.preview = 'Accepted conversation';
+                messageEntry.preview = LOC.accepted_conversation.message;
             } else if(lastEvent.type == 'participants_leave') {
                 let leftUser = inbox.users[lastMessage.participants[0].user_id];
-                messageEntry.preview = `${escapeHTML(leftUser.name)} left`
+                messageEntry.preview = LOC.user_left.message
+                .replace('$NAME$', escapeHTML(leftUser.name))
+                .replace('$A_START$', '')
+                .replace('$A_END$', '');
             } else if(lastEvent.type == 'participants_join') {
                 let joinedUser = inbox.users[lastMessage.participants[0].user_id];
                 let userWhoAdded = inbox.users[lastMessage.sender_id];
+                messageEntry.preview = LOC.user_added.message
+                .replace('$USER_WHO_ADDED$', escapeHTML(userWhoAdded.name))
+                .replace('$USER_WHO_JOINED$', escapeHTML(joinedUser.name))
+                .replace('$A1$', '')
+                .replace('$A2$', '')
+                .replaceAll('$A_END$', '');
                 messageEntry.preview = `${escapeHTML(userWhoAdded.name)} added ${escapeHTML(joinedUser.name)}`;
             } else if (lastEvent.type == 'conversation_name_update') {
                 let userWhoUpdated = inbox.users[lastMessage.by_user_id];
-                messageEntry.preview = `${escapeHTML(userWhoUpdated.name)} changed the group name to ${escapeHTML(lastMessage.conversation_name)}`;
+                messageEntry.preview = LOC.user_changed_group_name.message
+                .replace('$NAME$', escapeHTML(userWhoUpdated.name))
+                .replace('$GROUP_NAME$', escapeHTML(lastMessage.conversation_name))
+                .replace('$A_START$', '')
+                .replace('$A_END$', '');
             } else if (lastEvent.type == 'conversation_avatar_update') {
                 let userWhoUpdated = inbox.users[lastMessage.by_user_id];
-                messageEntry.preview `${escapeHTML(userWhoUpdated.name)} changed the group photo`;
+                messageEntry.preview = LOC.user_changed_group_photo.message
+                .replace('$NAME$', escapeHTML(userWhoUpdated.name))
+                .replace('$A_START$', '')
+                .replace('$A_END$', '');
             } else if(lastMessage.message_data) {
                 let lastMessageUser = lastMessage.message_data ? messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id) : messageUsers[0];
                 if (lastMessage.message_data.text.startsWith('dmservice_reaction_')) {
-                    messageEntry.preview = `${lastMessage.message_data.sender_id === user.id_str ? 'You' : escapeHTML(lastMessageUser.name)} reacted to message`;
+                    messageEntry.preview = lastSenderWasUser ? LOC.you_reacted_message.message : LOC.user_reacted_message.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
                 } else if(lastMessage.message_data.attachment) {
-                    let attachmentType = lastMessage.message_data.attachment.video ? 'video' : 'photo';
-                    messageEntry.preview = `${lastMessage.message_data.sender_id === user.id_str ? 'You' : escapeHTML(lastMessageUser.name)} sent a ${attachmentType}`;
+                    if (lastMessage.message_data.attachment.video) {
+                        messageEntry.preview = lastSenderWasUser ? LOC.you_sent_video.message : LOC.user_sent_video.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
+                    } else if (lastMessage.message_data.attachment.photo) {
+                        messageEntry.preview = lastSenderWasUser ? LOC.you_sent_photo.message : LOC.user_sent_photo.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
+                    } else if (lastMessage.message_data.attachment.card) {
+                        messageEntry.preview = escapeHTML(lastMessage.message_data.text); //whats the difference?
+                    }
                 } else {
                     messageEntry.preview = escapeHTML(lastMessage.message_data.text);
                 }
+            } else if (lastEvent.type == 'join_conversation') {
+                let userWhoAdded = inbox.users[lastMessage.sender_id];
+                messageEntry.preview = LOC.user_added_you_inbox.message.replace('$NAME$', escapeHTML(userWhoAdded.name));
+            } else {
+                console.log(lastEvent)
             }
             messageElement.innerHTML = /*html*/`
                 <img src="${messageEntry.icon}" width="48" height="48" class="inbox-message-avatar">
