@@ -153,12 +153,20 @@
 		"message": "Deixar de seguir"
 	},
 	"follow_user": {
-		"message": "Seguir",
-		"example": "->Follow<- @CoolPerson2000"
+		"message": "Seguir @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
 	},
 	"unfollow_user": {
-		"message": "Deixar de seguir",
-		"example": "->Unfollow<- @CoolPerson2000"
+		"message": "Deixar de seguir @$SCREEN_NAME$",
+		"placeholders": {
+			"screen_name": {
+				"content": "CoolPerson2000"
+			}
+		}
 	},
 	"thank_you_follow": {
 		"message": "Obrigado por me seguir!"
