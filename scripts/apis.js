@@ -600,9 +600,6 @@ const API = {
                     credentials: "include"
                 }).then(response => response.json()).then(async data => {
                     debugLog('timeline.getChronologicalV2', 'start', {cursor, count, data});
-                    if (data.errors && data.errors[0]) {
-                        return reject(data.errors[0].message);
-                    }
                     let instructions = data.data.home.home_timeline_urt.instructions;
                     let entries = instructions.find(i => i.type === 'TimelineAddEntries');
                     if(!entries) {
@@ -614,6 +611,10 @@ const API = {
                     }
                     entries = entries.entries;
                     let tweets = parseHomeTimeline(entries, data);
+                    if (data.errors && data.errors[0]) {
+                        if(tweets.length === 0) return reject(data.errors[0].message);
+                        console.log(`Server errors`, data.errors);
+                    }
                     let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
                     let ct = entries.find(e => e.entryId.startsWith('cursor-top-'));
                     let messagePromptIndex = entries.findIndex(e => e.entryId.startsWith('messageprompt-'));
@@ -1256,7 +1257,7 @@ const API = {
                                 t.user = data.globalObjects.users[t.user_id_str];
                                 if(t.quoted_status_id_str) {
                                     t.quoted_status = data.globalObjects.tweets[t.quoted_status_id_str];
-                                    t.quoted_status.user = data.globalObjects.users[t.quoted_status.user_id_str];
+                                    if(t.quoted_status) t.quoted_status.user = data.globalObjects.users[t.quoted_status.user_id_str];
                                 }
                                 updateElementsStats(t);
 
