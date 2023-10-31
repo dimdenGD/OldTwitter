@@ -281,6 +281,7 @@ setInterval(async () => {
         if(data.length === 0) return;
 
         toRender = [...data, ...toRender];
+        toRender = toRender.filter((t, i, self) => self.findIndex(t2 => t2.id_str === t.id_str) === i);
         newTweets.hidden = false;
         if(vars.updateTimelineAutomatically) {
             setTimeout(() => newTweets.click(), 10);
