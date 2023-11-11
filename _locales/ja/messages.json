@@ -153,7 +153,7 @@
     "no_results": { "message": "一致する結果は見つかりませんでした。左側の条件を変えてみてください。" },
     "words": { "message": "単語" },
     "all_these_words": { "message": "キーワードをすべて含む" },
-    "all_these_words_example": { "message": "例: whats happening - 「what’s」と「happening」の両方を含む" },
+    "all_these_words_example": { "message": "例: what’s happening - 「what’s」と「happening」の両方を含む" },
     "exact_phrase": { "message": "キーワード全体を含む" },
     "exact_phrase_example": { "message": "例: happy time - 「happy time」というキーワード全体を含む" },
     "any_words": { "message": "キーワードのいずれかを含む" },
