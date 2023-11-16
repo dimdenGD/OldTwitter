@@ -1,577 +1,1039 @@
 {
-    "ext_description": { "message": "Возвращает старый интерфейс Твиттера с 2015." },
-    "timeline": { "message": "Лента" },
-    "loading": { "message": "Загрузка" },
-    "tweets": { "message": "Твиты" },
-    "following_btn": { "message": "Подписан(а)", "description": "This one is used in button showing that user is following someone." },
-    "following": { "message": "Подписки", "description": "Try to keep this word equal or less than 9 characters" },
-    "followers": { "message": "Подписчики", "description": "Try to keep this word equal or less than 9 characters" },
-    "trends": { "message": "Тренды" },
-    "tweet": { "message": "Твит" },
-    "load_more": { "message": "Загрузить ещё" },
-    "who_to_follow": { "message": "Люди" },
-    "refresh": { "message": "Обновить" },
-    "view_all": { "message": "Посмотреть всех" },
-    "running": { "message": "Используется", "example": "->Running<- OldTwitter v0.0.0" },
-    "created_by": { "message": "Создано: ", "example": "->Created by<- dimden" },
-    "website": { "message": "Сайт" },
-    "help": { "message": "Помощь", "description": "noun" },
-    "terms": { "message": "Условия", "description": "Shortest word that you can find for Terms of service" },
-    "privacy": { "message": "Конф.", "description": "Shortest word that you can find for Privacy policy" },
-    "about": { "message": "Инфо" },
-    "donate": { "message": "Донат" },
-    "home": { "message": "Лента", "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline" },
-    "notifications": { "message": "Уведомления" },
-    "messages": { "message": "Сообщения" },
-    "search_twitter": { "message": "Поиск в Twitter" },
-    "profile": { "message": "Профиль" },
-    "settings": { "message": "Настройки" },
-    "lists": { "message": "Списки" },
-    "list": { "message": "Список" },
-    "bookmarks": { "message": "Закладки" },
-    "manage_accounts": { "message": "Аккаунты" },
-    "logout": { "message": "Выход" },
-    "whats_happening": { "message": "Что происходит?" },
-    "variant": { "message": "Вариант" },
-    "optional": { "message": "(не обязательно)" },
-    "days": { "message": "Дни" },
-    "hours": { "message": "Часы" },
-    "minutes": { "message": "Минуты" },
-    "remove_poll": { "message": "Убрать опрос" },
-    "open_newtwitter": { "message": "Открыть страницу в новом Твиттере" },
-    "last_version": { "message": "посл. версия" },
-    "thank_you": { "message": "Спасибо за скачивание OldTwitter!! <a target=\"_blank\" href=\"https://twitter.com/old/settings\">Настройте</a> расширение!" },
-    "follow_mb": { "message": "Подпишитесь на меня?" },
-    "follow": { "message": "Подписаться" },
-    "unfollow": { "message": "Отписаться" },
-    "follow_user": { "message": "Подписаться на", "example": "->Follow<- @CoolPerson2000" },
-    "unfollow_user": { "message": "Отписаться от", "example": "->Unfollow<- @CoolPerson2000" },
-    "thank_you_follow": { "message": "Спасибо за подписку!!" },
-    "loading_tweets": { "message": "Загрузка твитов..." },
-    "retweeted": { "message": "ретвитнул(а)", "example": "CoolPerson2000 ->retweeted<-" },
-    "see_new_tweets": { "message": "Посмотреть новые твиты" },
-    "must2variants": { "message": "Нужно как минимум 2 варианта." },
-    "delete_all": { "message": "Удалить всё" },
-    "empty": { "message": "Пусто", "description": "Funky message about nothing found" },
-    "delete_bookmarks": { "message": "Вы уверены что хотите удалить свои закладки? Это нельзя отменить." },
-    "members": { "message": "Участники" },
-    "subscribers": { "message": "Подписчики" },
-    "list_members": { "message": "Участники списка" },
-    "list_subscribers": { "message": "Подписчики списка" },
-    "edit": { "message": "Изменить" },
-    "delete": { "message": "Удалить" },
-    "remove": { "message": "Убрать" },
-    "edit_list": { "message": "Изменить список" },
-    "edit_members": { "message": "Изменить участников" },
-    "save": { "message": "Сохранить" },
-    "back": { "message": "Назад" },
-    "delete_list": { "message": "Удалить список" },
-    "delete_list_sure": { "message": "Вы уверены что хотите удалить список?" },
-    "unsubscribe": { "message": "Отписаться" },
-    "subscribe": { "message": "Подписаться" },
-    "list_not_found": { "message": "Список не найден." },
-    "go_homepage": { "message": "Домой." },
-    "mentions": { "message": "Упоминания" },
-    "tweeted_like": { "message": "твитнул то что вам может понравиться", "example": "CoolPerson2000 ->tweeted something you might like<-" },
-    "favorites": { "message": "Понравившееся" },
-    "follows_you": { "message": "Подписаны на вас" },
-    "tweet_to_user": { "message": "Твитнуть пользователю" },
-    "followers_you_know": { "message": "подписчиков которых вы знаете", "example": "123 ->followers you know<-" },
-    "photos_and_videos": { "message": "Фото и видео" },
-    "photos_and_videos2": { "message": "Фото & видео" },
-    "tweets_and_replies": { "message": "Твиты & ответы" },
-    "you_may_also_like": { "message": "Люди" },
-    "user_was_suspended": { "message": "Пользователь был заблокирован Твиттером." },
-    "user_was_not_found": { "message": "Пользователь не найден." },
-    "timeline_not_authorized": { "message": "У вас нет доступа чтобы посмотреть ленту этого пользователя." },
-    "create_btn": { "message": "[создать]" },
-    "create_list": { "message": "Создать список" },
-    "create": { "message": "Создать" },
-    "name": { "message": "Название" },
-    "description": { "message": "Описание" },
-    "no_description": { "message": "Нет описания." },
-    "born": { "message": "Родился" },
-    "january": { "message": "января", "description": "Used in 'Born January 1'. You can move on left if it sounds better in your language like that." },
-    "february": { "message": "февраля" },
-    "march": { "message": "марта" },
-    "april": { "message": "апреля" },
-    "may": { "message": "мая" },
-    "june": { "message": "июня" },
-    "july": { "message": "июля" },
-    "august": { "message": "августа" },
-    "september": { "message": "сентября" },
-    "october": { "message": "октября" },
-    "november": { "message": "ноября" },
-    "december": { "message": "декабря" },
-    "tweet_to": { "message": "Твитнуть", "example": "->Tweet to<- @CoolPerson2000" },
-    "translated_from": { "message": "Переведено с", "example": "->Translated from<- Japanese" },
-    "translate_bio": { "message": "Перевести описание" },
-    "edit_profile": { "message": "Изменить профиль" },
-    "follow_request_sent": { "message": "Запрос отправлен" },
-    "unblock_user": { "message": "Разблокировать", "example": "->Unblock<- @CoolPerson2000" },
-    "unblock": { "message": "Разблокировать", "description": "Just for unblock button" },
-    "block_user": { "message": "Заблокировать", "example": "->Block<- @CoolPerson2000" },
-    "block": { "message": "Заблокировать", "description": "Just for block button" },
-    "mute": { "message": "Игнорировать" },
-    "unmute": { "message": "Перестать игнорировать" },
-    "see_lists": { "message": "Посмотреть списки" },
-    "stop_notifications": { "message": "Перестать получать уведомления" },
-    "receive_notifications": { "message": "Получать уведомления" },
-    "from_list": { "message": "Добавить/убрать из списка" },
-    "share_user": { "message": "Поделиться" },
-    "copy_profile_link": { "message": "Скопировать ссылку" },
-    "remove_from_followers": { "message": "Убрать с подписчиков", "description": "This button unfollows person from you, not unfollows you from them" },
-    "remove_from_followers_sure": { "message": "Вы уверены что хотите убрать @$SCREEN_NAME$ из ваших подписчиков?", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "remove_from_followers_warn": { "message": "ЭТО УДАЛИТ ПОЛЬЗОВАТЕЛЯ ИЗ ВАШИХ ПОДПИСЧИКОВ А НЕ ОТПИШЕТ ВАС ОТ НИХ." },
-    "remove_from_followers_button": { "message": "Удалить пользователя с моих подписчиков" },
-    "able_in_future": { "message": "Они смогут подписаться снова в будущем." },
-    "block_sure": { "message": "Вы уверены что хотите заблокировать", "example": "->Are you sure you want to block<- @CoolPerson2000?" },
-    "add": { "message": "Добавить" },
-    "joined": { "message": "Создан", "example": "->Joined<- April 30, 2019" },
-    "birthday_today": { "message": "(сегодня!)" },
-    "pinned_tweet": { "message": "Закреплённый твит" },
-    "search": { "message": "Поиск" },
-    "popular": { "message": "Популярное" },
-    "live": { "message": "Недавнее" },
-    "people": { "message": "Люди" },
-    "photos": { "message": "Фото" },
-    "videos": { "message": "Видео" },
-    "all_people": { "message": "Все" },
-    "people_yk": { "message": "Знакомые" },
-    "everywhere": { "message": "Везде" },
-    "near_you": { "message": "Возле меня" },
-    "advanced_search": { "message": "Продвинутый поиск" },
-    "save_search": { "message": "Сохранить поиск" },
-    "remove_search": { "message": "Убрать с сохранённого" },
-    "try_again": { "message": "Попробовать снова" },
-    "no_results": { "message": "Ничего не найдено. Попробуйте поменять что-то слева?" },
-    "words": { "message": "Слова" },
-    "all_these_words": { "message": "Все эти слова" },
-    "all_these_words_example": { "message": "Например: что происходит - содержит \"что\", \"происходит\"" },
-    "exact_phrase": { "message": "Точная фраза" },
-    "exact_phrase_example": { "message": "Например: счастливое время - includes \"счастливое время\"" },
-    "any_words": { "message": "Любые из слов" },
-    "any_words_example": { "message": "Например: коты собаки - содержит или \"коты\" или \"собаки\"" },
-    "not_these_words": { "message": "Ничего из этих слов" },
-    "not_these_words_example": { "message": "Например: коты собаки - убирает \"коты\" и \"собаки\"" },
-    "user": { "message": "Пользователи" },
-    "from_this_user": { "message": "От этого пользователя" },
-    "from_this_user_example": { "message": "Например: @d1mden - от d1mden" },
-    "mentions_this_user": { "message": "Упоминания пользователя" },
-    "mentions_this_user_example": { "message": "Например: @d1mden - в ответ d1mden'у" },
-    "interactions": { "message": "Взаимодействия" },
-    "min_replies": { "message": "Минимум ответов" },
-    "min_replies_example": { "message": "Например: 10 - твиты с минимум 10 ответов" },
-    "min_retweets": { "message": "Минимум ретвитов" },
-    "min_retweets_example": { "message": "Например: 10 - твиты с минимум 10 ретвитов" },
-    "min_favorites": { "message": "Минимум лайков" },
-    "min_favorites_example": { "message": "Например: 10 - твиты с минимум 10 лайков" },
-    "dates": { "message": "Даты" },
-    "since": { "message": "С" },
-    "until": { "message": "До" },
-    "twitter_settings": { "message": "Настройки Twitter" },
-    "oldtwitter_settings": { "message": "Настройки OldTwitter" },
-    "edit_twitter_settings": { "message": "Изменить настройки Твиттера" },
-    "refresh_tabs": { "message": "Перезагрузите вкладки чтобы применить изменения" },
-    "chrono": { "message": "Хронологическая" },
-    "chrono_social": { "message": "Хронологическая + лайки друзей" },
-    "algo": { "message": "Алгоритмическая V1 (без лимита)" },
-    "timeline_type": { "message": "Тип ленты" },
-    "show_topic_tweets": { "message": "Показывать твиты тем (только алгоритмическая)" },
-    "show_colors_in_timeline": { "message": "Показывать пользовательские цвета в ленте" },
-    "enable_twemoji": { "message": "Показывать Twemoji" },
-    "hearts_instead_stars": { "message": "Показывать сердца (лайки) вместо звёзд (любимое)" },
-    "dark_mode": { "message": "Тёмная тема" },
-    "disable_hotkeys": { "message": "Выключить горячие клавиши" },
-    "hotkeys_list": { "message": "Список горячих клавиш можно посмотреть тут" },
-    "no_big_font": { "message": "Выключить большой шрифт на коротких/популярных твитах." },
-    "save_preferred_quality": { "message": "Сохранять предпочитаемое качество видео. Если включено, OldTwitter будет сохранять предпочитаемое качество видео (или использовать самое близкое к нему). Если выключено, будет OldTwitter будет предпочитать самое высокое качество." },
-    "preferred_quality": { "message": "Предпочитаемое качество" },
-    "default_link_color": { "message": "Стандартный цвет ссылок" },
-    "font": { "message": "Шрифт" },
-    "color_sync": { "message": "Синхронизация цвета ссылок" },
-    "by_pressing_sync": { "message": "Нажимая кнопку Синхронизировать ваш цвет ссылок будет сохранен и будет показываться другим пользователям расширения." },
-    "color_years_ago": { "message": "Если вы раньше ставили цвет (годы назад, когда ещё можно было), это перезапишет ваш старый цвет." },
-    "sync": { "message": "Синхронизировать" },
-    "profile_link_color": { "message": "Цвет ссылок профиля" },
-    "light_mode_link": { "message": "Ссылка в светлой теме" },
-    "dark_mode_link": { "message": "Ссылка в темной теме" },
-    "custom_css": { "message": "Кастомный CSS" },
-    "css_var_override": { "message": "Перезаписать CSS переменные. Пишите их как <code>--some-variable: property</code>. Разделять новой строкой." },
-    "css_var_list": { "message": "Посмотреть список переменных можно тут." },
-    "save_vars": { "message": "Сохранить переменные" },
-    "custom_css_text": { "message": "Кастомный CSS который будет добавляться на каждую страницу." },
-    "save_css": { "message": "Сохранить CSS" },
-    "error_setting_color": { "message": "Ошибка установки цвета" },
-    "link_color_set": { "message": "Цвет установлен!" },
-    "retweeted_by": { "message": "Ретвитнут" },
-    "see_quotes": { "message": "посмотреть цитаты" },
-    "see_quotes_big": { "message": "Посмотреть цитаты" },
-    "quote_tweets": { "message": "Цитаты" },
-    "see_retweets": { "message": "посмотреть ретвиты" },
-    "reply_to": { "message": "Ответ", "example": "->Reply to<- @CoolGuy2000" },
-    "error_loading_tweet": { "message": "Ошибка загрузки твита" },
-    "direct_messages": { "message": "Сообщения" },
-    "mark_all_read": { "message": "Позначить всё как прочитаное" },
-    "send": { "message": "Отпр." },
-    "new_message": { "message": "Новое сообщение" },
-    "create_new_group": { "message": "Создать группу" },
-    "search_people": { "message": "Поиск людей" },
-    "type_message": { "message": "Напишите ваше сообщение" },
-    "cant_send": { "message": "Вы не можете писать сообщения этому человеку." },
-    "gifs_max": { "message": "Гифки должны весить меньше чем 15 МБ" },
-    "videos_max": { "message": "Видео должны весить меньше чем 500 МБ" },
-    "images_max": { "message": "Картинки должны весить меньше чем 5 МБ" },
-    "max_count": { "message": "Можно загрузить до 4 картинок, или 1 видео, или 1 гифка" },
-    "alt_text": { "message": "Введите текст для описания картки (обычно делается для слабовидящих)" },
-    "vote": { "message": "голос" },
-    "votes": { "message": "голосов" },
-    "ends_at": { "message": "Заканчивается", "example": "->Ends at<- 16th November" },
-    "view_translation": { "message": "Посмотреть перевод" },
-    "unsupported_video": { "message": "Ваш браузер не поддерживает это видео." },
-    "views": { "message": "просмотров", "example": "10 ->views<-" },
-    "reload": { "message": "Перезагрузить" },
-    "circle_limited_tweet": { "message": "Твит виден только пользователям в близком круге @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "learn_more": { "message": "Узнать больше." },
-    "limited_tweet": { "message": "Твит имеет ограничения на то кто может отвечать." },
-    "replies": { "message": "Ответы" },
-    "retweets": { "message": "Ретвиты" },
-    "likes": { "message": "Лайки" },
-    "show_this_thread": { "message": "Посмотреть этот тред" },
-    "quote_tweet": { "message": "Цитировать твит" },
-    "see_retweeters": { "message": "Посмотреть ретвитеров" },
-    "copy_link": { "message": "Скопировать ссылку" },
-    "embed_tweet": { "message": "Встроить твит" },
-    "share_tweet": { "message": "Поделиться твитом" },
-    "tweet_analytics": { "message": "Аналитика твита" },
-    "delete_tweet": { "message": "Удалить твит" },
-    "unpin_tweet": { "message": "Открепить твит" },
-    "pin_tweet": { "message": "Закрепить твит" },
-    "bookmark_tweet": { "message": "В закладки" },
-    "topic_not_interested": { "message": "Тема не интересна" },
-    "refresh_tweet": { "message": "Обновить данные о твите" },
-    "download_media": { "message": "Скачать медиа" },
-    "download_gif": { "message": "Скачать как GIF" },
-    "replying_to_tweet": { "message": "Ответ на твит" },
-    "upload_media_btn": { "message": "[загрузить медиа]" },
-    "cancel_btn": { "message": "[отмена]" },
-    "quote": { "message": "Цитата" },
-    "reply_example": { "message": "Классный ответ" },
-    "quote_example": { "message": "Классная цитата" },
-    "error_sending_tweet": { "message": "Ошибка отправки твита" },
-    "retweet_sure": { "message": "Вы уверены что хотите ретвитнуть этот твит?" },
-    "unretweet": { "message": "Убрать ретвит" },
-    "retweet": { "message": "Ретвнитнуть" },
-    "delete_sure": { "message": "Вы уверены что хотите удалить этот твит?" },
-    "long_vid": { "message": "Видео дольше 10 секунд. Конвертация может лагать, вы уверены?" },
-    "feedback_thanks": { "message": "Спасибо за ответ!" },
-    "liked_by": { "message": "Нравится" },
-    "reply": { "message": "Ответ" },
-    "language": { "message": "Язык (Language)" },
-    "translated_by": { "message": "Перевод: $TRANSLATOR$.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
-    "everyone": { "message": "Все" },
-    "last_searches": { "message": "Последние поиски" },
-    "saved_searches": { "message": "Сохранённые поиски" },
-    "topic": { "message": "Тема" },
-    "not_interested": { "message": "Не интересно" },
-    "cancel": { "message": "Отменить" },
-    "youre_not_interested": { "message": "Вам не интересна эта тема." },
-    "autoplay_videos": { "message": "Автовоспроизведение видео." },
-    "turn_on_retweets": { "message": "Показывать ретвиты" },
-    "turn_off_retweets": { "message": "Скрыть ретвиты" },
-    "you_can_reply": { "message": "(вы можете ответить)" },
-    "audience": { "message": "Аудитория" },
-    "who_can_reply": { "message": "Кто может ответить" },
-    "people_you_follow": { "message": "Люди на которых вы подписаны" },
-    "people_you_mention": { "message": "Люди которых вы упоминаете" },
-    "new_version": { "message": "Обновлено до новой версии" },
-    "display_sensitive_content": { "message": "Показывать медиа с возможно деликатным контентом" },
-    "is_private": { "message": "Приватный" },
-    "s": { "message": "$NUMBER$сек", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
-    "m": { "message": "$NUMBER$мин", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
-    "h": { "message": "$NUMBER$ч", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$д", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
-    "follow_requests": { "message": "Запросы на подписку" },
-    "accept": { "message": "Принять" },
-    "decline": { "message": "Отклонить" },
-    "mute_convo": { "message": "Игнорировать переписку" },
-    "unmute_convo": { "message": "Не игнорировать переписку" },
-    "emoji": { "message": "Смайлы" },
-    "emoji_btn": { "message": "[смайлы]" },
-    "add_emoji": { "message": "Добавить смайлик" },
-    "custom": { "message": "Кастомные" },
-    "smileys_emotion": { "message": "Смайлы и эмоции" },
-    "people_body": { "message": "Люди и тело" },
-    "animals_nature": { "message": "Животные и природа" },
-    "food_drink": { "message": "Еда" },
-    "travel_places": { "message": "Путешествия и места" },
-    "activities": { "message": "Деятельность" },
-    "objects": { "message": "Объекты" },
-    "symbols": { "message": "Символы" },
-    "flags": { "message": "Флаги" },
-    "categories": { "message": "Категории" },
-    "unsupported_emoji": { "message": "Ваш браузер не поддерживает цветные смайлики." },
-    "cant_load_emoji": { "message": "Не удалось загрузить смайлик." },
-    "emoji_picker": { "message": "Выбор смайла" },
-    "emoji_search_description": { "message": "Когда результат поиска доступен, нажимайте вверх или вниз для выбора и энтер для ввода." },
-    "search_results": { "message": "Результаты поиска" },
-    "skin_tone_description": { "message": "Когда открыто, нажимайте вверх или вниз для выбора и энтер для ввода." },
-    "skin_tone_label": { "message": "Выберите тон кожи (сейчас: $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
-    "skin_tones_label": { "message": "Тона кожи" },
-    "add_media": { "message": "Добавить медиа" },
-    "add_poll": { "message": "Добавить опрос" },
-    "add_location": { "message": "Добавить локацию" },
-    "schedule_tweet": { "message": "Запланировать твит" },
-    "location": { "message": "Локация" },
-    "scheduled": { "message": "Запланированные" },
-    "drafts": { "message": "Черновики" },
-    "unsent_tweets": { "message": "Неотправленные твиты" },
-    "unsent": { "message": "Неотправленные" },
-    "will_send": { "message": "Отправится" },
-    "schedule": { "message": "Запланировать" },
-    "scheduled_success": { "message": "Твит запланирован!" },
-    "see_scheduled": { "message": "Посмотреть запланированные" },
-    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ ещё не твитил(-а)", "placeholders": { "screen_name": { "content": "loading" } } },
-    "when_theyll_tweet": { "message": "Их твиты появятся тут." },
-    "thank_you2": { "message": "Спасибо за использование OldTwitter! На разработку ушло много времени, вы можете поддержать меня подпиской или <a target='_blank' href='https://dimden.dev/donate/'>донатом</a>. Я буду очень благодарен." },
-    "something_went_wrong": { "message": "Что-то пошло не так" },
-    "notifications_error": { "message": "Некоторые уведомления не смогли быть показаны из-за ошибок." },
-    "tweet_error": { "message": "Некоторые твиты не смогли быть показаны из-за ошибок." },
-    "error_instructions": {
-        "message": "Пожалуйста скопируйте текст ниже и отправьте его в $AT1$трекер ошибок$AT2$ или на $AT3$мою почту$AT2$. Спасибо.",
-        "placeholders": {
-            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
-            "at2": { "content": "</a>" },
-            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
-        }
-    },
-    "initialization": { "message": "Инициализация" },
-    "converting": { "message": "Конвертация" },
-    "time_mode": { "message": "Включать тёмную тему между 19:00-09:00" },
-    "show_original_images": { "message": "Всегда показывать картинки с оригинальным качеством" },
-    "pitch_black_mode": { "message": "Режим полной темноты (только когда включена тёмная тема)" },
-    "hide_retweets": { "message": "Скрыть ретвиты" },
-    "see_tweet_views": { "message": "Видеть количество просмотров на твитах" },
-    "history": { "message": "История" },
-    "autotranslate_tweets": { "message": "Переводить твиты автоматически" },
-    "dont_autotranslate": { "message": "Не переводить твиты автоматически" },
-    "round_avatars": { "message": "Круглые аватарки" },
-    "search_user_tweets": { "message": "Поиск твитов пользователя" },
-    "no_tl_tweets": { "message": "Вы ни на кого не подписаны так что никаких твитов не было найдено! Поменяйте тип ленты на 'Алгоритмическую' в <a href='https://twitter.com/old/settings'>настройках расширения</a>." },
-    "replying_to": { "message": "Упоминания", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
-    "display": { "message": "Отображение" },
-    "twitter_blue_checkmarks": { "message": "Показывать галочки Twitter Blue" },
-    "retweet_hotkey_warn": { "message": "Вы только что нажали T (русская Е) на клавиатуре, это горячая клавиша для ретвитов. Вы хотите ретвитнуть этот твит? Если вы нажмёте 'да' это сообщение больше не будет показываться." },
-    "reply_btn": { "message": "Ответить", "description": "Used for reply button." },
-    "retweet_btn": { "message": "Ретвитнуть / Цитировать", "description": "Used for retweet menu button." },
-    "like_btn": { "message": "Лайк / Убрать лайк", "description": "Used for like button." },
-    "favorite_btn": { "message": "В любимое / Убрать из любимого", "description": "Used for favorite button." },
-    "views_count": { "message": "Просмотры", "description": "Used for views button." },
-    "developer_mode": { "message": "Режим разработчика" },
-    "copy_user_id": { "message": "Копировать ID пользователя" },
-    "copy_tweet_id": { "message": "Копировать ID твита" },
-    "unfollowers": { "message": "Отписавшиеся" },
-    "unfollowings": { "message": "Отписки" },
-    "no_unfollowers": { "message": "От вас ещё не отписывались!" },
-    "no_unfollowings": { "message": "Вы ещё не отписывались!" },
-    "recent_unfollow_update": { "message": "Отписки были обновлены менее чем 15 минут назад." },
-    "deleted_accounts": { "message": "Все в этом списке удалили свой аккаунт." },
-    "open_tweet_newtwitter": { "message": "Открыть в новом Твиттере" },
-    "black_mode_link": { "message": "Ссылка в чёрной теме" },
-    "custom_mode_link": { "message": "Ссылка в кастомной теме" },
-    "tweet_verb": { "message": "Твитнуть", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "Вы хотите твитнуть \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } }  },
-    "user_protected" : { "message": "Твиты этого аккаунта защищены." },
-    "follow_to_see": { "message": "Только подтвержденные пользователи имеют доступ до твитов и полного профиля @$SCREEN_NAME$. Нажмите \"Подписаться\" чтобы отправить запрос на подписку.", "placeholders": { "screen_name": { "content": "dimden" } } },
-    "copy_tweet_links_as": { "message": "Копировать ссылки на твиты как", "example": "->Copy links as<- vxtwitter.com" },
-    "use_new_icon": { "message": "Использовать новый логотип для иконки вкладок" },
-    "update_timeline_automatically": { "message": "Обновлять ленту автоматически при новых твитах." },
-    "chrono_no_retweets": { "message": "Хронологическая (без ретвитов)" },
-    "chrono_retweets": { "message": "Хронологическая (только ретвиты)" },
-    "hide_trends": { "message": "Не показывать тренды" },
-    "hide_wtf": { "message": "Не показывать рекомендации для подписок" },
-    "hide_likes": { "message": "Не показывать количество лайков, ретвитов и ответов на твитах" },
-    "hide_followers": { "message": "Не показывать количество подписчиков" },
-    "block_sure_desc": { "message": "Они не смогут подписаться или видеть ваши твиты, а вы не будете видеть твиты и упоминания от @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "blocked_by_user" : { "message": "@$SCREEN_NAME$ вас заблокировал", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "why_you_cant_see_block_user": { "message": "Вы не можете смотреть твиты @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "you_blocked_user": { "message": "Вы заблокировали @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "do_you_want_see_blocked_user": { "message": "Вы уверены что хотите увидеть эти твиты? Просмотр твитов не разблокирует @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "I_want_see_blocked_user": { "message": "Да, посмотреть твиты" },
-    "logout_title": { "message": "Вы уверены что хотите выйти?" },
-    "logout_desc_1": { "message": "OldTwitter работает только с аккаунтом." },
-    "logout_desc_2": { "message": "Если у вас нет других аккаунтов в списке, вы будет перенаправлены на страницу авторизации." },
-    "logout_button": { "message": "Выйти из аккаунта" },
-    "disable_personalized_trends": { "message": "Отключить персонализированные тренды" },
-    "show_bookmark_count": { "message": "Показывать кол-во закладок на твитах" },
-    "bookmarks_count": { "message": "Закладки" },
-    "remove_bookmark": { "message": "Убрать закладку" },
-    "hide_community_notes": { "message": "Не показывать заметки общества (Community Notes)" },
-    "disable_gif_autoplay": { "message": "Отключить автовоспроизведение GIF" },
-    "hide_tweet": { "message": "Скрыть твит от всех" },
-    "unhide_tweet": { "message": "Показывать твит" },
-    "hide_tweet_sure": { "message": "Вы уверены что хотите скрыть этот твит?" },
-    "see_hidden_replies": { "message": "Посмотреть скрытые ответы" },
-    "bookmarked_tweet": { "message": "Добавлено закладку" },
-    "unbookmarked_tweet": { "message": "Убрано с закладок" },
-    "muted_convo": { "message": "Переписка теперь игнорируется" },
-    "unmuted_convo": { "message": "Переписка теперь не игнорируется" },
-    "show_media_count": { "message": "Показывать кол-во медиа на профилях" },
-    "media": { "message": "Медиа", "note": "Keep this short" },
-    "pin_profile_on_navbar": { "message": "Закрепить Профиль на панеле навигации" },
-    "pin_bookmarks_on_navbar": { "message": "Закрепить Закладки на панеле навигации" },
-    "pin_lists_on_navbar": { "message": "Закрепить Списки на панеле навигации" },
-    "me": { "message": "Профиль", "description": "You should probably use word 'Profile' in your language, used for navbar pin" },
-    "tweet_text_font": { "message": "Шрифт для текста твитов" },
-    "use_old_default_profile": { "message": "Использовать иконку яйца как аватар по умолчанию" },
-    "colors": { "message": "Цвета" },
-    "enable_hashflags": { "message": "Показывать значки хештегов (может немного повлиять на скорость загрузки страницы)" },
-    "content_warning": { "message": "Содержание: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
-    "graphic_violence": { "message": "Насилие" },
-    "adult_content": { "message": "Контент для взрослых" },
-    "sensitive_content": { "message": "Чувствительный контент" },
-    "uncensor_graphic_violence_automatically": { "message": "Автоматически раскрывать цензуру с медиа с насилием" },
-    "uncensor_adult_content_automatically": { "message": "Автоматически раскрывать цензуру с медиа с наготой" },
-    "uncensor_sensitive_content_automatically": { "message": "Автоматически раскрывать цензуру с медиа с деликатным контентом" },
-    "replying_to_user": { "message": "В ответ $SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "content_warnings": { "message": "Содержание" },
-    "transparency": { "message": "Прозрачность" },
-    "reset": { "message": "Скинуть" },
-    "reset_all": { "message": "Скинуть всё" },
-    "import": { "message": "Импортировать" },
-    "export": { "message": "Экспортировать" },
-    "reset_colors_sure": { "message": "Вы уверены что хотите скинуть все цвета до умолчания?" },
-    "navbar": { "message":"Панель навигации", "description":"Setting Text"},
-    "sidebar": { "message":"Боковая панель", "description":"Setting Text"},
-    "advanced_options": { "message":"Расширенные настройки", "description":"Setting Text"},
-    "advanced_colors": { "message":"Расширенные цвета", "description":"Setting Text"},
-    "accessibility": { "message":"Доступность", "description":"Setting Text"},
-    "tweets_and_timeline": { "message":"Твиты & Лента", "description":"Setting Text"},
-    "dark_mode_setting": { "message": "Тёмная тема", "description":"Setting Text"},
-    "old_twitter_look": {"message": "Старый стиль Твиттера", "description":"Setting Text"},
-    "content_you_see": {"message": "Контент вы видите", "description":"Setting Text"},
-    "use_old_style_reply": {"message": "Использовать старый стиль ответов"},
-    "algov2": { "message": "Алгоритмическая" },
-    "chrono_help": { "message": "Классическая хронологическая лента, показывает новые твиты и ретвиты сверху." },
-    "chrono_no_retweets_help": { "message": "Тоже что и первое, но без ретвитов." },
-    "chrono_retweets_help": { "message": "Тоже что и первое, но только ретвиты." },
-    "chrono_social_help": { "message": "Смесь хронологической и алгоритмической лент, иногда твиты с 'кому-то понравилось' и 'кто-то читает' будут добавлены между хронологическими твитами." },
-    "algo_help": { "message": "Старая алгоритмическая лента, показывает твиты которые Твиттер думает вам понравятся. Версия 1 это старая версия, у неё нет лимитов (или они очень большие) но у твитов нет меток почему твит был добавлен в ленту." },
-    "algov2_help": { "message": "Алгоритмическая лента, показывает твиты которые Твиттер думает вам понравятся." },
-    "import_settings": { "message": "Импорт настроек" },
-    "export_settings": { "message": "Экспорт настроек" },
-    "import_style_settings": { "message": "Импорт стиля" },
-    "export_style_settings": { "message": "Экспорт стиля" },
-    "reset_settings": { "message": "Сбросить все настройки" },
-    "reset_settings_sure": { "message": "Вы уверены что хотите сбросить все настройки?" },
-    "clear_caches": { "message": "Очистить кэши" },
-    "hide_non_replies": { "message": "Скрывать не-ответы" },
-    "profile_custom_css": { "message": "CSS Профиля" },
-    "pccss_not_eligible": { "message": "Сейчас у вас нет доступа к кастомизации CSS в вашем профиле.<br><br>Если вы хотите поставить себе свой шрифт, цвета, фон и многое другое на свой профиль (и все это будут видеть), вы можете поддержать расширение (это не только донат).<br><br>Нажмите <a target='_blank' href='https://dimden.dev/ot/custom-css/'>тут</a> чтобы узнать больше." },
-    "pccss_eligible": { "message": "У вас есть доступ к кастомизации CSS!" },
-    "pccss_congrats": { "message": "Поздавляем, вам был дан доступ до кастомизации CSS! Только у очень маленького процента пользователей OldTwitter есть доступ к этому, наслаждайтесь!" },
-    "yay": { "message": "Ура!" },
-    "light_mode_vars": { "message": "Переменные светлой темы" },
-    "dark_mode_vars": { "message": "Переменные тёмной темы" },
-    "css_theme_hint": { "message": "Пожалуйста, не публикуйте выедающие глаза или обманчивые стили (например изменение кнопки подписки на огромную), ваш доступ будет убран. <b>Всегда проверяйте как ваш стиль выглядит на тёмной и светлой теме.</b><br><br>Ваш CSS перепишет локальные настройки стилей что стоит в пользователя.<br><br>Вы можете использовать только i.imgur.com для картинок и fonts.googleapis.com для шрифтов (а также шрифты <a target='_blank' href='https://dimden.dev/fonts/'>отсюда</a>).<br><br>Вы можете увидеть список CSS переменных <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>тут</a>.<br><br>Чтобы стилизировать конкретную тему, используйте классы <code>.body-dark</code>, <code>.body-pitch-black</code> (чёрная тема также имеет <code>.body-dark</code>) и <code>.body-light</code>." },
-    "profile_colors_moved": { "message": "Синхронизация цвета ссылок переместилась в ваш профиль (кнопка с карандашом слева от кнопки изменения профиля)" },
-    "click_here_more_info": { "message": "Нажмите тут для больше информации" },
-    "profile_must_be_public_to_auth": { "message": "Ваш профиль должен быть публичным для первой синхронизации, после неё можно поставить приватный профиль назад." },
-    "save_draft": { "message": "Сохр. черновик" },
-    "load_draft": { "message": "Загр. черновик" },
-    "draft_saved": { "message": "Черновик сохранён!" },
-    "draft_loaded": { "message": "Черновик загружен!" },
-    "no_draft": { "message": "Вы не сохраняли черновик!" },
-    "invalid_auth_token": { "message": "Ваш ключ был недействительным и был удалён. Вы можете попытаться снова, если эта ошибка продолжает происходить напишите @d1mden." },
-    "css_set": { "message": "CSS был успешно поставлен!" },
-    "error_setting_css": { "message": "Ошибка установки CSS" },
-    "load": { "message": "Загрузить" },
-    "disable_profile_customizations": { "message": "Выключить кастомизацию профиля" },
-    "replying_to_and":  { "message": " и ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
-    "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
-    "twitter": {"message": "Твиттер"},
-    "move_navbar_to_bottom": {"message": "Переместить панель навигации вниз"},
-    "styled_profile": {"message": "Стилизированный профиль"},
-    "open_notifs_as_modal": {"message": "Открывать уведомления в модальном окне"},
-    "clear_ot_token": {"message": "Очистить токен OldTwitter"},
-    "enable_iframe_navigation": {"message": "Включить экспериментальную навигацию сохраняющую страницу, это сделает возможным клики на ссылки и возврат на предыдущую страницу без перезагрузок. Это экспериментально и может ломаться и лагать."},
-    "style_your_profile": {"message": "Стилизируте ваш профиль тут!"},
-    "modern_ui": { "message": "Использовать дизайн Твиттера из 2018" },
-    "show_exact_values": { "message": "Показывать точное кол-во лайков, ретвитов, подписчиков, и т.д." },
-    "hide_timeline_types": { "message": "Скрыть переключатель типа ленты на главной странице" },
-    "autotranslation": { "message": "Автоматический перевод" },
-    "autotranslation_mode": { "message": "Режим автоматического перевода твитов" },
-    "translate_in_list": { "message": "Переводить когда в списке языков" },
-    "translate_not_in_list": { "message": "Переводить когда не в списке языков" },
-    "language_list": { "message": "Список языков" },
-    "select_language": { "message": "Выберите язык" },
-    "mute_videos": { "message": "Воспроизводить видео без звука по умолчанию" },
-    "dont_pause_videos": { "message": "Не ставить видео на паузу при пролистывании через ленту" },
-    "delete_for_you":{ "message": "Удалить для себя",  "description":"DM Message Delete menu"},
-    "show_user_previews_on_mobile": { "message": "Показывать превью профиля при долгом нажатии (это может быть надоедливым)" },
-    "separate_text": { "message": "Отделить текст", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
-	"leave_conversation": {"message":"Вы уверены что хотите выйти с этой переписки?"},
-	"autotranslation_help1": {"message": "Эта функция будет находить твиты и переводить их автоматически."},
-	"autotranslation_help2": {"message": "Чтобы использовать её, выберите режим автоматического перевода и добавьте языки. Твиты которые подходят будут переведены автоматически."},
-	"autotranslation_help3": {"message": "Режимы"},
-	"autotranslation_help4": {"message": "\"Переводить когда в списке языков\" без добавленных языков не будет переводить ничего автоматически;"},
-	"autotranslation_help5": {"message": "\"Переводить когда не в списке языков\" без добавленных языков будет переводить все твиты."},
-    "go_back_to_top": { "message": "Вернуться вверх" },
-    "follow_system_settings_dark_mode": { "message": "Использовать предпочитаемую тему системы" },
-    "replacer_post_to_tweet": { "message": "пост->твит", "description": "This string will be used to replace word 'post' with 'tweet' in various places. On left side use word for 'post' that Twitter officially uses (open notifications and you'll probably see 'someone liked your post' in your language, find word post and place on left side, and translated 'tweet' on right side, so when replaced it'll look like 'someone liked your tweet'" },
-    "replacer_repost_to_retweet": { "message": "repost->retweet", "description": "Support for some languages where translation is not unified. If there's no problem, you can write the same thing with adove." },
-    "mute_user": { "message": "Игнорировать @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "unmute_user": { "message": "Не игнорировать @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "muted_user": { "message": "Теперь вы игнорируете @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "unmuted_user": { "message": "Теперь вы не игнорируете @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
-    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
-    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
-    "localize_digit":{ "message" : "Use Asian four-digit notation. (CJK only)", "description":"Non-CJK dont need to translate this message, just copy and paste"},
-    "replacer_liked_to_favorited": { "message": "liked->favorited", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked your tweet' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited your tweet'" },
-    "favorited_by": { "message": "Понравилось" },
-    "disable_retweet_hotkey": { "message": "Выключить горячую клавишу для ретвитов (T)" },
-    "disable_like_hotkey": { "message": "Выключить горячую клавишу для лайков (L)" },
-    "enable_extension_compatibility": { "message": "Включить режим совместимости (включайте только если хотите сделать другое расширение совместимым с OldTwitter, если оно всё ещё не работает (скорее всего не будет), выключите эту опцию, так как она может сделать страницу лагучей)" },
-    "enter_custom_font_name": {"message": "Введите название шрифта"},
-    "disable_data_saver": { "message": "Выключить экономию трафика когда используется мобильная сеть" },
-    "mobile": { "message": "Мобильные настройки", "description": "Title for mobile settings"},
-    "disable_accept_type": { "message": "Выключить 'accept-type' при открытии галереи для загрузки медиа. Включите если на вашем Андроиде нельзя выбрать/найти некоторые картинки в галерее.", "description": "This option only appears on mobile" },
-    "manage_searches": { "message": "Изменить поиски" },
-    "add_search": { "message": "Добавить поиск" },
-    "pinned_searches": { "message": "Закреплённые поиски" },
-    "show_follower_counts_in_lists": { "message": "Показывать кол-во подписчиков пользователей в списке подписок." },
-    "not_possible_to_see_unfollowers": { "message": "К сожалению, информация про отписчиков не доступна для аккаунтов с более чем 50,000 подписчиков." },
-    "sort_by_follow_date": { "message": "Сортировать по дате подписки (не точно)" },
-    "sort_by_followers": { "message": "Сортировать по кол-ве подписчиков" },
-    "sort_by_following": { "message": "Сортировать по кол-ве подписок" },
-    "sort_by_name": { "message": "Сортировать по имени" },
-    "sort_by_username": { "message": "Сортировать по нику" },
-    "sort_by_tweets": { "message": "Сортировать по кол-ве твитов" },
-    "sort_by_created": { "message": "Сортировать по дате создания аккаунта" },
-    "sort_by_random": { "message": "Сортировать по рандому" },
-    "loading_all_followers": { "message": "Загрузка всех подписчиков (это будет происходить каждых 24 часа)..." },
-    "apply": { "message": "Применить" },
-    "filter": { "message": "Фильтр" },
-    "ascending": { "message": "По возрастанию" },
-    "descending": { "message": "По убыванию" },
-    "search_by_name": { "message": "Поиск по имени" },
-    "search_by_description": { "message": "Поиск по описанию" },
-    "only_show_people_you_follow": { "message": "Только показывать людей на которых вы подписаны" },
-    "only_show_people_with_followers": { "message": "Только показывать людей у которых не менее $NUMBER$ подписчиков", "placeholders": { "number": { "content": "-1" } } },
-    "only_show_people_with_age": { "message": "Только показывать людей у которых аккаунту не меньше $NUMBER$ дней", "placeholders": { "number": { "content": "-1" } } },
-    "page": { "message": "Страница" },
-	"update": {"message": "Обновить" },
-    "show_quote_count": { "message": "Показывать кол-во цитат на твитах" },
-    "uploading": { "message": "Загрузка" },
-    "finalization": { "message": "Завершение" },
-    "processing": { "message": "Обработка" },
-    "quotes": { "message": "Цитаты" },
-    "share_tweet_in_dms": { "message": "Поделиться твитом в сообщениях" },
-    "share_tweet_to": { "message": "Поделиться твитом..." },
-    "disable_find_hotkey": { "message": "Выключить горячую клавишу для поиска (F)" },
-    "uploaded": { "message": "Загружено" },
-    "hide_unfollowers_page": { "message": "Скрыть страницу отписчиков" },
-	"custom_font": { "message": "<КАСТОМНЫЙ>" },
-	"current_font": { "message": "Текущий шрифт: $FONT$", "placeholders": { "font": { "content": "Arial" } } }
+  "ext_description": {
+    "message": "Возвращает старый интерфейс Твиттера с 2015."
+  },
+  "timeline": { "message": "Лента" },
+  "loading": { "message": "Загрузка" },
+  "tweets": { "message": "Твиты" },
+  "following_btn": {
+    "message": "Подписан(а)",
+    "description": "Используется в кнопке, показывающей, что пользователь подписан на кого-то."
+  },
+  "following": {
+    "message": "Подписки",
+    "description": "Постарайтесь, чтобы это слово было равно или меньше 9 символов"
+  },
+  "followers": {
+    "message": "Подписчики",
+    "description": "Постарайтесь, чтобы это слово было равно или меньше 9 символов"
+  },
+  "trends": { "message": "Тренды" },
+  "tweet": { "message": "Твит" },
+  "load_more": { "message": "Загрузить ещё" },
+  "who_to_follow": { "message": "Люди" },
+  "refresh": { "message": "Обновить" },
+  "view_all": { "message": "Посмотреть всех" },
+  "running": {
+    "message": "Используется",
+    "example": "->Используется<- OldTwitter v0.0.0"
+  },
+  "created_by": { "message": "Создано: ", "example": "->Cоздано: <- dimden" },
+  "website": { "message": "Сайт" },
+  "help": { "message": "Помощь", "description": "Существительное" },
+  "terms": {
+    "message": "Условия",
+    "description": "Самое короткое слово, которое можно найти для Политики конфиденциальности"
+  },
+  "privacy": {
+    "message": "Конф.",
+    "description": "Самое короткое слово, которое можно найти для обозначения Условий предоставления услуг"
+  },
+  "about": { "message": "Инфо" },
+  "donate": { "message": "Донат" },
+  "home": {
+    "message": "Лента",
+    "description": "Это предназначено для меню на панели навигации. Если подходящего слова нет, можно использовать что-то вроде Feed или Timeline"
+  },
+  "notifications": { "message": "Уведомления" },
+  "messages": { "message": "Сообщения" },
+  "search_twitter": { "message": "Поиск в Twitter" },
+  "profile": { "message": "Профиль" },
+  "settings": { "message": "Настройки" },
+  "lists": { "message": "Списки" },
+  "list": { "message": "Список" },
+  "bookmarks": { "message": "Закладки" },
+  "manage_accounts": { "message": "Аккаунты" },
+  "logout": { "message": "Выход" },
+  "whats_happening": { "message": "Что происходит?" },
+  "variant": { "message": "Вариант" },
+  "optional": { "message": "(не обязательно)" },
+  "days": { "message": "Дни" },
+  "hours": { "message": "Часы" },
+  "minutes": { "message": "Минуты" },
+  "remove_poll": { "message": "Убрать опрос" },
+  "open_newtwitter": { "message": "Открыть страницу в новом Твиттере" },
+  "last_version": { "message": "посл. версия" },
+  "thank_you": {
+    "message": "Спасибо за скачивание OldTwitter!! <a target=\"_blank\" href=\"https://twitter.com/old/settings\">Настройте</a> расширение!",
+    "placeholders": {
+      "at1": {
+        "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">"
+      },
+      "at2": { "content": "</a>" }
+    }
+  },
+  "follow_mb": { "message": "Подпишитесь на меня?" },
+  "follow": { "message": "Подписаться" },
+  "unfollow": { "message": "Отписаться" },
+  "follow_user": {
+    "message": "Подписаться на @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "@CoolPerson2000" } }
+  },
+  "unfollow_user": {
+    "message": "Отписаться от @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "@CoolPerson2000" } }
+  },
+  "thank_you_follow": { "message": "Спасибо за подписку!!" },
+  "loading_tweets": { "message": "Загрузка твитов..." },
+  "retweeted": {
+    "message": "ретвитнул(а)",
+    "example": "CoolPerson2000 ->retweeted<-"
+  },
+  "see_new_tweets": { "message": "Посмотреть новые твиты" },
+  "must2variants": { "message": "Нужно как минимум 2 варианта." },
+  "delete_all": { "message": "Удалить всё" },
+  "empty": {
+    "message": "Пусто",
+    "description": "Странное сообщение о том, что ничего не найдено"
+  },
+  "delete_bookmarks": {
+    "message": "Вы уверены что хотите удалить свои закладки? Это нельзя отменить."
+  },
+  "members": { "message": "Участники" },
+  "subscribers": { "message": "Подписчики" },
+  "list_members": { "message": "Участники списка" },
+  "list_subscribers": { "message": "Подписчики списка" },
+  "edit": { "message": "Изменить" },
+  "delete": { "message": "Удалить" },
+  "remove": { "message": "Убрать" },
+  "edit_list": { "message": "Изменить список" },
+  "edit_members": { "message": "Изменить участников" },
+  "save": { "message": "Сохранить" },
+  "back": { "message": "Назад" },
+  "delete_list": { "message": "Удалить список" },
+  "delete_list_sure": { "message": "Вы уверены что хотите удалить список?" },
+  "unsubscribe": { "message": "Отписаться" },
+  "subscribe": { "message": "Подписаться" },
+  "list_not_found": { "message": "Список не найден." },
+  "go_homepage": { "message": "Домой." },
+  "mentions": { "message": "Упоминания" },
+  "tweeted_like": {
+    "message": "твитнул то что вам может понравиться",
+    "example": "CoolPerson2000 ->твитнул то что вам может понравиться<-"
+  },
+  "favorites": { "message": "Понравившееся" },
+  "follows_you": { "message": "Подписаны на вас" },
+  "tweet_to_user": { "message": "Твитнуть пользователю" },
+  "followers_you_know": {
+    "message": "$NUMBER$ подписчиков которых вы знаете",
+    "example": "123 followers you know",
+    "placeholders": { "number": { "content": "123" } }
+  },
+  "photos_and_videos": { "message": "Фото и видео" },
+  "photos_and_videos2": { "message": "Фото & видео" },
+  "tweets_and_replies": { "message": "Твиты & ответы" },
+  "you_may_also_like": { "message": "Люди" },
+  "user_was_suspended": {
+    "message": "Пользователь был заблокирован Твиттером."
+  },
+  "user_was_not_found": { "message": "Пользователь не найден." },
+  "timeline_not_authorized": {
+    "message": "У вас нет доступа чтобы посмотреть ленту этого пользователя."
+  },
+  "create_btn": { "message": "[создать]" },
+  "create_list": { "message": "Создать список" },
+  "create": { "message": "Создать" },
+  "name": { "message": "Название" },
+  "description": { "message": "Описание" },
+  "no_description": { "message": "Нет описания." },
+  "born": { "message": "Родился" },
+  "january": {
+    "message": "января",
+    "description": "Используется в 'Родился 1 января'. Вы можете перенести $NUMBER$ влево, если так лучше звучит на вашем языке.",
+    "placeholders": { "number": { "content": "1" } }
+  },
+  "february": { "message": "февраля" },
+  "march": { "message": "марта" },
+  "april": { "message": "апреля" },
+  "may": { "message": "мая" },
+  "june": { "message": "июня" },
+  "july": { "message": "июля" },
+  "august": { "message": "августа" },
+  "september": { "message": "сентября" },
+  "october": { "message": "октября" },
+  "november": { "message": "ноября" },
+  "december": { "message": "декабря" },
+  "tweet_to": {
+    "message": "Твитнуть @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "translated_from": {
+    "message": "Переведено с $LANGUAGE$",
+    "placeholders": { "language": { "content": "японского" } }
+  },
+  "translate_bio": { "message": "Перевести описание" },
+  "edit_profile": { "message": "Изменить профиль" },
+  "follow_request_sent": { "message": "Запрос отправлен" },
+  "unblock_user": {
+    "message": "Разблокировать @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "unblock": {
+    "message": "Разблокировать",
+    "description": "Just for unblock button"
+  },
+  "block_user": {
+    "message": "Заблокировать @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "block": {
+    "message": "Заблокировать",
+    "description": "Just for block button"
+  },
+  "mute": { "message": "Игнорировать" },
+  "unmute": { "message": "Перестать игнорировать" },
+  "see_lists": { "message": "Посмотреть списки" },
+  "stop_notifications": { "message": "Перестать получать уведомления" },
+  "receive_notifications": { "message": "Получать уведомления" },
+  "from_list": { "message": "Добавить/убрать из списка" },
+  "share_user": { "message": "Поделиться" },
+  "copy_profile_link": { "message": "Скопировать ссылку" },
+  "remove_from_followers": {
+    "message": "Убрать с подписчиков",
+    "description": "Эта кнопка отписывает человека от вас, а не отписывает вас от них"
+  },
+  "remove_from_followers_sure": {
+    "message": "Вы уверены что хотите убрать @$SCREEN_NAME$ из ваших подписчиков?",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "remove_from_followers_warn": {
+    "message": "ЭТО УДАЛИТ ПОЛЬЗОВАТЕЛЯ ИЗ ВАШИХ ПОДПИСЧИКОВ А НЕ ОТПИШЕТ ВАС ОТ НИХ."
+  },
+  "remove_from_followers_button": {
+    "message": "Удалить пользователя с моих подписчиков"
+  },
+  "able_in_future": { "message": "Они смогут подписаться снова в будущем." },
+  "block_sure": {
+    "message": "Вы уверены что хотите заблокировать @$SCREEN_NAME$?",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "add": { "message": "Добавить" },
+  "joined": { "message": "Создан", "example": "->Создан<- 30 апреля, 2019" },
+  "birthday_today": { "message": "(сегодня!)" },
+  "pinned_tweet": { "message": "Закреплённый твит" },
+  "search": { "message": "Поиск" },
+  "popular": { "message": "Популярное" },
+  "live": { "message": "Недавнее" },
+  "people": { "message": "Люди" },
+  "photos": { "message": "Фото" },
+  "videos": { "message": "Видео" },
+  "all_people": { "message": "Все" },
+  "people_yk": { "message": "Знакомые" },
+  "everywhere": { "message": "Везде" },
+  "near_you": { "message": "Возле меня" },
+  "advanced_search": { "message": "Продвинутый поиск" },
+  "save_search": { "message": "Сохранить поиск" },
+  "remove_search": { "message": "Убрать с сохранённого" },
+  "try_again": { "message": "Попробовать снова" },
+  "no_results": {
+    "message": "Ничего не найдено. Попробуйте поменять что-то слева?"
+  },
+  "words": { "message": "Слова" },
+  "all_these_words": { "message": "Все эти слова" },
+  "all_these_words_example": {
+    "message": "Например: что происходит - содержит \"что\", \"происходит\""
+  },
+  "exact_phrase": { "message": "Точная фраза" },
+  "exact_phrase_example": {
+    "message": "Например: счастливое время - includes \"счастливое время\""
+  },
+  "any_words": { "message": "Любые из слов" },
+  "any_words_example": {
+    "message": "Например: коты собаки - содержит или \"коты\" или \"собаки\""
+  },
+  "not_these_words": { "message": "Ничего из этих слов" },
+  "not_these_words_example": {
+    "message": "Например: коты собаки - убирает \"коты\" и \"собаки\""
+  },
+  "user": { "message": "Пользователи" },
+  "from_this_user": { "message": "От этого пользователя" },
+  "from_this_user_example": { "message": "Например: @d1mden - от d1mden" },
+  "mentions_this_user": { "message": "Упоминания пользователя" },
+  "mentions_this_user_example": {
+    "message": "Например: @d1mden - в ответ d1mden'у"
+  },
+  "interactions": { "message": "Взаимодействия" },
+  "min_replies": { "message": "Минимум ответов" },
+  "min_replies_example": {
+    "message": "Например: 10 - твиты с минимум 10 ответов"
+  },
+  "min_retweets": { "message": "Минимум ретвитов" },
+  "min_retweets_example": {
+    "message": "Например: 10 - твиты с минимум 10 ретвитов"
+  },
+  "min_favorites": { "message": "Минимум лайков" },
+  "min_favorites_example": {
+    "message": "Например: 10 - твиты с минимум 10 лайков"
+  },
+  "dates": { "message": "Даты" },
+  "since": { "message": "С" },
+  "until": { "message": "До" },
+  "twitter_settings": { "message": "Настройки Twitter" },
+  "oldtwitter_settings": { "message": "Настройки OldTwitter" },
+  "edit_twitter_settings": { "message": "Изменить настройки Твиттера" },
+  "refresh_tabs": {
+    "message": "Перезагрузите вкладки чтобы применить изменения"
+  },
+  "chrono": { "message": "Хронологическая" },
+  "chrono_social": { "message": "Хронологическая + лайки друзей" },
+  "algo": { "message": "Алгоритмическая" },
+  "timeline_type": { "message": "Тип ленты" },
+  "show_topic_tweets": {
+    "message": "Показывать твиты тем (только алгоритмическая)"
+  },
+  "show_colors_in_timeline": {
+    "message": "Показывать пользовательские цвета в ленте"
+  },
+  "enable_twemoji": { "message": "Включить Twemoji" },
+  "hearts_instead_stars": {
+    "message": "Показывать сердца (лайки) вместо звёзд (любимое)"
+  },
+  "dark_mode": { "message": "Тёмная тема" },
+  "disable_hotkeys": { "message": "Выключить горячие клавиши" },
+  "hotkeys_list": { "message": "Список горячих клавиш можно посмотреть тут" },
+  "no_big_font": {
+    "message": "Выключить большой шрифт на коротких/популярных твитах."
+  },
+  "save_preferred_quality": {
+    "message": "Сохранять предпочитаемое качество видео. Если включено, OldTwitter будет сохранять предпочитаемое качество видео (или использовать самое близкое к нему). Если выключено, будет OldTwitter будет предпочитать самое высокое качество."
+  },
+  "preferred_quality": { "message": "Предпочитаемое качество" },
+  "default_link_color": { "message": "Стандартный цвет ссылок" },
+  "font": { "message": "Шрифт" },
+  "color_sync": { "message": "Синхронизация цвета ссылок" },
+  "by_pressing_sync": {
+    "message": "Нажимая кнопку Синхронизировать ваш цвет ссылок будет сохранен и будет показываться другим пользователям расширения."
+  },
+  "color_years_ago": {
+    "message": "Если вы раньше ставили цвет (годы назад, когда ещё можно было), это перезапишет ваш старый цвет."
+  },
+  "sync": { "message": "Синхронизировать" },
+  "profile_link_color": { "message": "Цвет ссылок профиля" },
+  "light_mode_link": { "message": "Ссылка в светлой теме" },
+  "dark_mode_link": { "message": "Ссылка в темной теме" },
+  "custom_css": { "message": "Кастомный CSS" },
+  "css_var_override": {
+    "message": "Перезаписать CSS переменные. Пишите их как <code>--some-variable: property</code>. Разделять новой строкой."
+  },
+  "css_var_list": { "message": "Посмотреть список переменных можно тут." },
+  "save_vars": { "message": "Сохранить переменные" },
+  "custom_css_text": {
+    "message": "Кастомный CSS который будет добавляться на каждую страницу."
+  },
+  "save_css": { "message": "Сохранить CSS" },
+  "error_setting_color": { "message": "Ошибка установки цвета" },
+  "link_color_set": { "message": "Цвет установлен!" },
+  "retweeted_by": { "message": "Ретвитнут" },
+  "see_quotes": { "message": "посмотреть цитаты" },
+  "see_quotes_big": { "message": "Посмотреть цитаты" },
+  "quote_tweets": { "message": "Цитаты" },
+  "see_retweets": { "message": "посмотреть ретвиты" },
+  "reply_to": {
+    "message": "Ответить @$SCREEN_NAME$",
+    "example": "Reply to @CoolGuy2000",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "error_loading_tweet": { "message": "Ошибка загрузки твита" },
+  "direct_messages": { "message": "Сообщения" },
+  "mark_all_read": { "message": "Позначить всё как прочитаное" },
+  "send": { "message": "Отпр." },
+  "new_message": { "message": "Новое сообщение" },
+  "create_new_group": { "message": "Создать группу" },
+  "search_people": { "message": "Поиск людей" },
+  "type_message": { "message": "Напишите ваше сообщение" },
+  "cant_send": { "message": "Вы не можете писать сообщения этому человеку." },
+  "gifs_max": { "message": "Гифки должны весить меньше чем 15 МБ" },
+  "videos_max": { "message": "Видео должны весить меньше чем 500 МБ" },
+  "images_max": { "message": "Картинки должны весить меньше чем 5 МБ" },
+  "max_count": {
+    "message": "Можно загрузить до 4 картинок, или 1 видео, или 1 гифка"
+  },
+  "alt_text": {
+    "message": "Введите текст для описания картки (обычно делается для слабовидящих)"
+  },
+  "vote": { "message": "голос" },
+  "votes": { "message": "голосов" },
+  "ends_at": {
+    "message": "Заканчивается $DATE$",
+    "example": "Заканчивается 16 ноября",
+    "placeholders": { "date": { "content": "16 ноября" } }
+  },
+  "view_translation": { "message": "Посмотреть перевод" },
+  "unsupported_video": { "message": "Ваш браузер не поддерживает это видео." },
+  "views": { "message": "просмотров", "example": "10 ->просмотров<-" },
+  "reload": { "message": "Перезагрузить" },
+  "circle_limited_tweet": {
+    "message": "Твит виден только пользователям в близком круге @$SCREEN_NAME$.",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "learn_more": { "message": "Узнать больше." },
+  "limited_tweet": {
+    "message": "Твит имеет ограничения на то кто может отвечать."
+  },
+  "replies": { "message": "Ответы" },
+  "retweets": { "message": "Ретвиты" },
+  "likes": { "message": "Лайки" },
+  "show_this_thread": { "message": "Посмотреть этот тред" },
+  "quote_tweet": { "message": "Цитировать твит" },
+  "see_retweeters": { "message": "Посмотреть ретвитеров" },
+  "copy_link": { "message": "Скопировать ссылку" },
+  "embed_tweet": { "message": "Встроить твит" },
+  "share_tweet": { "message": "Поделиться твитом" },
+  "tweet_analytics": { "message": "Аналитика твита" },
+  "delete_tweet": { "message": "Удалить твит" },
+  "unpin_tweet": { "message": "Открепить твит" },
+  "pin_tweet": { "message": "Закрепить твит" },
+  "bookmark_tweet": { "message": "В закладки" },
+  "topic_not_interested": { "message": "Тема не интересна" },
+  "refresh_tweet": { "message": "Обновить данные о твите" },
+  "download_media": { "message": "Скачать медиа" },
+  "download_gif": { "message": "Скачать как GIF" },
+  "replying_to_tweet": { "message": "Ответ на твит" },
+  "upload_media_btn": { "message": "[загрузить медиа]" },
+  "cancel_btn": { "message": "[отмена]" },
+  "quote": { "message": "Цитата" },
+  "reply_example": { "message": "Классный ответ" },
+  "quote_example": { "message": "Классная цитата" },
+  "error_sending_tweet": { "message": "Ошибка отправки твита" },
+  "retweet_sure": { "message": "Вы уверены что хотите ретвитнуть этот твит?" },
+  "unretweet": { "message": "Убрать ретвит" },
+  "retweet": { "message": "Ретвнитнуть" },
+  "delete_sure": { "message": "Вы уверены что хотите удалить этот твит?" },
+  "long_vid": {
+    "message": "Видео дольше 10 секунд. Конвертация может лагать, вы уверены?"
+  },
+  "feedback_thanks": { "message": "Спасибо за ответ!" },
+  "liked_by": { "message": "Нравится" },
+  "reply": { "message": "Ответ" },
+  "language": { "message": "Язык (Language)" },
+  "translated_by": {
+    "message": "Перевод: $TRANSLATOR$.",
+    "placeholders": { "translator": { "content": "CoolPerson2000" } }
+  },
+  "everyone": { "message": "Все" },
+  "last_searches": { "message": "Последние поиски" },
+  "saved_searches": { "message": "Сохранённые поиски" },
+  "topic": { "message": "Тема" },
+  "not_interested": { "message": "Не интересно" },
+  "cancel": { "message": "Отменить" },
+  "youre_not_interested": { "message": "Вам не интересна эта тема." },
+  "autoplay_videos": { "message": "Автовоспроизведение видео" },
+  "turn_on_retweets": { "message": "Показывать ретвиты" },
+  "turn_off_retweets": { "message": "Скрыть ретвиты" },
+  "you_can_reply": { "message": "(вы можете ответить)" },
+  "audience": { "message": "Аудитория" },
+  "who_can_reply": { "message": "Кто может ответить" },
+  "people_you_follow": { "message": "Люди на которых вы подписаны" },
+  "people_you_mention": { "message": "Люди которых вы упоминаете" },
+  "new_version": { "message": "Обновлено до новой версии" },
+  "display_sensitive_content": {
+    "message": "Показывать медиа с возможно деликатным контентом"
+  },
+  "is_private": { "message": "Приватный" },
+  "s": {
+    "message": "$NUMBER$сек",
+    "description": "Сокращение от 'секунд'; например, '1сек' означает 1 секунду",
+    "placeholders": { "number": { "content": "1" } }
+  },
+  "m": {
+    "message": "$NUMBER$мин",
+    "description": "Сокращение от 'минут'; например, '1мин' означает 1 минуту",
+    "placeholders": { "number": { "content": "1" } }
+  },
+  "h": {
+    "message": "$NUMBER$ч",
+    "description": "Сокращение от 'час'; например '1ч' означает 1 час",
+    "placeholders": { "number": { "content": "1" } }
+  },
+  "d": {
+    "message": "$NUMBER$д",
+    "description": "Сокращение от 'день'; например, '1д' означает 1 день",
+    "placeholders": { "number": { "content": "1" } }
+  },
+  "follow_requests": { "message": "Запросы на подписку" },
+  "accept": { "message": "Принять" },
+  "decline": { "message": "Отклонить" },
+  "mute_convo": { "message": "Игнорировать переписку" },
+  "unmute_convo": { "message": "Не игнорировать переписку" },
+  "emoji": { "message": "Смайлы" },
+  "emoji_btn": { "message": "[смайлы]" },
+  "add_emoji": { "message": "Добавить смайлик" },
+  "custom": { "message": "Кастомные" },
+  "smileys_emotion": { "message": "Смайлы и эмоции" },
+  "people_body": { "message": "Люди и тело" },
+  "animals_nature": { "message": "Животные и природа" },
+  "food_drink": { "message": "Еда" },
+  "travel_places": { "message": "Путешествия и места" },
+  "activities": { "message": "Деятельность" },
+  "objects": { "message": "Объекты" },
+  "symbols": { "message": "Символы" },
+  "flags": { "message": "Флаги" },
+  "categories": { "message": "Категории" },
+  "unsupported_emoji": {
+    "message": "Ваш браузер не поддерживает цветные смайлики."
+  },
+  "cant_load_emoji": { "message": "Не удалось загрузить смайлик." },
+  "emoji_picker": { "message": "Выбор смайла" },
+  "emoji_search_description": {
+    "message": "Когда результат поиска доступен, нажимайте вверх или вниз для выбора и энтер для ввода."
+  },
+  "search_results": { "message": "Результаты поиска" },
+  "skin_tone_description": {
+    "message": "Когда открыто, нажимайте вверх или вниз для выбора и энтер для ввода."
+  },
+  "skin_tone_label": {
+    "message": "Выберите тон кожи (сейчас: $SKIN_TONE$)",
+    "placeholders": { "skin_tone": { "content": "default" } }
+  },
+  "skin_tones_label": { "message": "Тона кожи" },
+  "add_media": { "message": "Добавить медиа" },
+  "add_poll": { "message": "Добавить опрос" },
+  "add_location": { "message": "Добавить локацию" },
+  "schedule_tweet": { "message": "Запланировать твит" },
+  "location": { "message": "Локация" },
+  "scheduled": { "message": "Запланированные" },
+  "drafts": { "message": "Черновики" },
+  "unsent_tweets": { "message": "Неотправленные твиты" },
+  "unsent": { "message": "Неотправленные" },
+  "will_send": { "message": "Отправится" },
+  "schedule": { "message": "Запланировать" },
+  "scheduled_success": { "message": "Твит запланирован!" },
+  "see_scheduled": { "message": "Посмотреть запланированные" },
+  "hasnt_tweeted": {
+    "message": "@$SCREEN_NAME$ ещё не твитил(-а)",
+    "placeholders": { "screen_name": { "content": "загрузка" } }
+  },
+  "when_theyll_tweet": { "message": "Их твиты появятся тут." },
+  "thank_you2": {
+    "message": "Спасибо за использование OldTwitter! На разработку ушло много времени, вы можете поддержать меня подпиской или $AT1$донатом$AT2$. Я буду очень благодарен.",
+    "placeholders": {
+      "at1": {
+        "content": "<a target='_blank' href='https://dimden.dev/donate/'>"
+      },
+      "at2": { "content": "</a>" }
+    }
+  },
+  "something_went_wrong": { "message": "Что-то пошло не так" },
+  "notifications_error": {
+    "message": "Некоторые уведомления не смогли быть показаны из-за ошибок."
+  },
+  "tweet_error": {
+    "message": "Некоторые твиты не смогли быть показаны из-за ошибок."
+  },
+  "error_instructions": {
+    "message": "Пожалуйста скопируйте текст ниже и отправьте его в $AT1$трекер ошибок$AT2$ или на $AT3$мою почту$AT2$. Спасибо!",
+    "placeholders": {
+      "at1": {
+        "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
+      },
+      "at2": { "content": "</a>" },
+      "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+    }
+  },
+  "initialization": { "message": "Инициализация" },
+  "converting": { "message": "Конвертация" },
+  "time_mode": { "message": "Включать тёмную тему между 19:00-09:00" },
+  "show_original_images": {
+    "message": "Всегда показывать картинки с оригинальным качеством"
+  },
+  "pitch_black_mode": {
+    "message": "Режим полной темноты (только когда включена тёмная тема)"
+  },
+  "hide_retweets": { "message": "Скрыть ретвиты" },
+  "see_tweet_views": { "message": "Видеть количество просмотров на твитах" },
+  "history": { "message": "История" },
+  "autotranslate_tweets": { "message": "Переводить твиты автоматически" },
+  "dont_autotranslate": { "message": "Не переводить твиты автоматически" },
+  "round_avatars": { "message": "Круглые аватарки" },
+  "search_user_tweets": { "message": "Поиск твитов пользователя" },
+  "no_tl_tweets": {
+    "message": "Вы ни на кого не подписаны так что никаких твитов не было найдено! Поменяйте тип ленты на 'Алгоритмическую' в <a href='https://twitter.com/old/settings'>настройках расширения</a>."
+  },
+  "replying_to": {
+    "message": "В ответ",
+    "description": "Используется для списка упоминаний. Используйте 'Упоминания', если на вашем языке перевод звучит плохо.",
+    "example": "В ответ: - user1, - user2"
+  },
+  "display": { "message": "Отображение" },
+  "twitter_blue_checkmarks": { "message": "Показывать галочки Twitter Blue" },
+  "retweet_hotkey_warn": {
+    "message": "Вы только что нажали T (русская Е) на клавиатуре, это горячая клавиша для ретвитов. Вы хотите ретвитнуть этот твит? Если вы нажмёте 'да' это сообщение больше не будет показываться."
+  },
+  "reply_btn": {
+    "message": "Ответить",
+    "description": "Используется для кнопки ответить."
+  },
+  "retweet_btn": {
+    "message": "Ретвитнуть / Цитировать",
+    "description": "Используется для кнопки меню ретвитов."
+  },
+  "like_btn": {
+    "message": "Лайк / Убрать лайк",
+    "description": "Используется для кнопки лайк."
+  },
+  "favorite_btn": {
+    "message": "В любимое / Убрать из любимого",
+    "description": "Используется для кнопки любимые."
+  },
+  "views_count": {
+    "message": "Просмотры",
+    "description": "Используется для кнопки просмотров."
+  },
+  "developer_mode": { "message": "Режим разработчика" },
+  "copy_user_id": { "message": "Копировать ID пользователя" },
+  "copy_tweet_id": { "message": "Копировать ID твита" },
+  "unfollowers": { "message": "Отписавшиеся" },
+  "unfollowings": { "message": "Отписки" },
+  "no_unfollowers": { "message": "От вас ещё не отписывались!" },
+  "no_unfollowings": { "message": "Вы ещё не отписывались!" },
+  "recent_unfollow_update": {
+    "message": "Отписки были обновлены менее чем 15 минут назад."
+  },
+  "deleted_accounts": { "message": "Все в этом списке удалили свой аккаунт." },
+  "open_tweet_newtwitter": { "message": "Открыть в новом Твиттере" },
+  "black_mode_link": { "message": "Ссылка в чёрной теме" },
+  "custom_mode_link": { "message": "Ссылка в кастомной теме" },
+  "tweet_verb": {
+    "message": "Твитнуть",
+    "description": "Используется для глагола 'твит'.",
+    "example": "->Твитнуть<- #itsokay"
+  },
+  "do_you_want_to_tweet": {
+    "message": "Вы хотите твитнуть \"$TWEET_TEXT$\"?",
+    "placeholders": { "tweet_text": { "content": "it's okay" } }
+  },
+  "user_protected": { "message": "Твиты этого аккаунта защищены." },
+  "follow_to_see": {
+    "message": "Только подтвержденные пользователи имеют доступ до твитов и полного профиля @$SCREEN_NAME$. Нажмите \"Подписаться\" чтобы отправить запрос на подписку.",
+    "placeholders": { "screen_name": { "content": "dimden" } }
+  },
+  "copy_tweet_links_as": {
+    "message": "Копировать ссылки на твиты как",
+    "example": "->Копировать ссылки как<- vxtwitter.com"
+  },
+  "use_new_icon": {
+    "message": "Использовать новый логотип для иконки вкладок"
+  },
+  "update_timeline_automatically": {
+    "message": "Обновлять ленту автоматически при новых твитах."
+  },
+  "chrono_no_retweets": { "message": "Хронологическая (без ретвитов)" },
+  "chrono_retweets": { "message": "Хронологическая (только ретвиты)" },
+  "hide_trends": { "message": "Не показывать тренды" },
+  "hide_wtf": { "message": "Не показывать рекомендации для подписок" },
+  "hide_likes": {
+    "message": "Не показывать количество лайков, ретвитов и ответов на твитах"
+  },
+  "hide_followers": { "message": "Не показывать количество подписчиков" },
+  "block_sure_desc": {
+    "message": "Они не смогут подписаться или видеть ваши твиты, а вы не будете видеть твиты и упоминания от @$SCREEN_NAME$.",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "blocked_by_user": {
+    "message": "@$SCREEN_NAME$ вас заблокировал",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "why_you_cant_see_block_user": {
+    "message": "Вы не можете смотреть твиты @$SCREEN_NAME$.",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "you_blocked_user": {
+    "message": "Вы заблокировали @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "do_you_want_see_blocked_user": {
+    "message": "Вы уверены что хотите увидеть эти твиты? Просмотр твитов не разблокирует @$SCREEN_NAME$.",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "I_want_see_blocked_user": { "message": "Да, посмотреть твиты" },
+  "logout_title": { "message": "Вы уверены что хотите выйти?" },
+  "logout_desc_1": { "message": "OldTwitter работает только с аккаунтом." },
+  "logout_desc_2": {
+    "message": "Если у вас нет других аккаунтов в списке, вы будет перенаправлены на страницу авторизации."
+  },
+  "logout_button": { "message": "Выйти из аккаунта" },
+  "disable_personalized_trends": {
+    "message": "Отключить персонализированные тренды"
+  },
+  "show_bookmark_count": { "message": "Показывать кол-во закладок на твитах" },
+  "bookmarks_count": { "message": "Закладки" },
+  "remove_bookmark": { "message": "Убрать закладку" },
+  "hide_community_notes": {
+    "message": "Не показывать заметки общества (Community Notes)"
+  },
+  "disable_gif_autoplay": { "message": "Отключить автовоспроизведение GIF" },
+  "hide_tweet": { "message": "Скрыть твит от всех" },
+  "unhide_tweet": { "message": "Показывать твит" },
+  "hide_tweet_sure": { "message": "Вы уверены что хотите скрыть этот твит?" },
+  "see_hidden_replies": { "message": "Посмотреть скрытые ответы" },
+  "bookmarked_tweet": { "message": "Добавлено закладку" },
+  "unbookmarked_tweet": { "message": "Убрано с закладок" },
+  "muted_convo": { "message": "Переписка теперь игнорируется" },
+  "unmuted_convo": { "message": "Переписка теперь не игнорируется" },
+  "show_media_count": { "message": "Показывать кол-во медиа на профилях" },
+  "media": { "message": "Медиа", "note": "Keep this short" },
+  "pin_profile_on_navbar": {
+    "message": "Закрепить Профиль на панеле навигации"
+  },
+  "pin_bookmarks_on_navbar": {
+    "message": "Закрепить Закладки на панеле навигации"
+  },
+  "pin_lists_on_navbar": { "message": "Закрепить Списки на панеле навигации" },
+  "me": {
+    "message": "Профиль",
+    "description": "You should probably use word 'Profile' in your language, used for navbar pin"
+  },
+  "tweet_text_font": { "message": "Шрифт для текста твитов" },
+  "use_old_default_profile": {
+    "message": "Использовать иконку яйца как аватар по умолчанию"
+  },
+  "colors": { "message": "Цвета" },
+  "enable_hashflags": {
+    "message": "Показывать значки хештегов (может немного повлиять на скорость загрузки страницы)"
+  },
+  "content_warning": {
+    "message": "Содержание: $WARNINGS$",
+    "placeholders": { "warnings": { "content": "Graphic violence" } }
+  },
+  "graphic_violence": { "message": "Насилие" },
+  "adult_content": { "message": "Контент для взрослых" },
+  "sensitive_content": { "message": "Чувствительный контент" },
+  "uncensor_graphic_violence_automatically": {
+    "message": "Автоматически раскрывать цензуру с медиа с насилием"
+  },
+  "uncensor_adult_content_automatically": {
+    "message": "Автоматически раскрывать цензуру с медиа с наготой"
+  },
+  "uncensor_sensitive_content_automatically": {
+    "message": "Автоматически раскрывать цензуру с медиа с деликатным контентом"
+  },
+  "replying_to_user": {
+    "message": "В ответ $SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "content_warnings": { "message": "Содержание" },
+  "transparency": { "message": "Прозрачность" },
+  "reset": { "message": "Скинуть" },
+  "reset_all": { "message": "Скинуть всё" },
+  "import": { "message": "Импортировать" },
+  "export": { "message": "Экспортировать" },
+  "reset_colors_sure": {
+    "message": "Вы уверены что хотите скинуть все цвета до умолчания?"
+  },
+  "navbar": {
+    "message": "Панель навигации",
+    "description": "Текст для настроек"
+  },
+  "sidebar": {
+    "message": "Боковая панель",
+    "description": "Текст для настроек"
+  },
+  "advanced_options": {
+    "message": "Расширенные настройки",
+    "description": "Текст для настроек"
+  },
+  "advanced_colors": {
+    "message": "Расширенные цвета",
+    "description": "Текст для настроек"
+  },
+  "accessibility": {
+    "message": "Доступность",
+    "description": "Текст для настроек"
+  },
+  "tweets_and_timeline": {
+    "message": "Твиты & Лента",
+    "description": "Текст для настроек"
+  },
+  "dark_mode_setting": {
+    "message": "Тёмная тема",
+    "description": "Текст для настроек"
+  },
+  "old_twitter_look": {
+    "message": "Старый стиль Твиттера",
+    "description": "Текст для настроек"
+  },
+  "content_you_see": {
+    "message": "Контент вы видите",
+    "description": "Текст для настроек"
+  },
+  "use_old_style_reply": { "message": "Использовать старый стиль ответов" },
+  "algov2": { "message": "Алгоритмическая" },
+  "chrono_help": {
+    "message": "Классическая хронологическая лента, показывает новые твиты и ретвиты сверху."
+  },
+  "chrono_no_retweets_help": {
+    "message": "Тоже что и первое, но без ретвитов."
+  },
+  "chrono_retweets_help": {
+    "message": "Тоже что и первое, но только ретвиты."
+  },
+  "chrono_social_help": {
+    "message": "Смесь хронологической и алгоритмической лент, иногда твиты с 'кому-то понравилось' и 'кто-то читает' будут добавлены между хронологическими твитами."
+  },
+  "algo_help": {
+    "message": "Старая алгоритмическая лента, показывает твиты которые Твиттер думает вам понравятся. Версия 1 это старая версия, у неё нет лимитов (или они очень большие) но у твитов нет меток почему твит был добавлен в ленту."
+  },
+  "algov2_help": {
+    "message": "Алгоритмическая лента, показывает твиты которые Твиттер думает вам понравятся."
+  },
+  "import_settings": { "message": "Импорт настроек" },
+  "export_settings": { "message": "Экспорт настроек" },
+  "import_style_settings": { "message": "Импорт стиля" },
+  "export_style_settings": { "message": "Экспорт стиля" },
+  "reset_settings": { "message": "Сбросить все настройки" },
+  "reset_settings_sure": {
+    "message": "Вы уверены что хотите сбросить все настройки?"
+  },
+  "clear_caches": { "message": "Очистить кэши" },
+  "hide_non_replies": { "message": "Скрывать не-ответы" },
+  "profile_custom_css": { "message": "CSS Профиля" },
+  "pccss_not_eligible": {
+    "message": "Сейчас у вас нет доступа к кастомизации CSS в вашем профиле.<br><br>Если вы хотите поставить себе свой шрифт, цвета, фон и многое другое на свой профиль (и все это будут видеть), вы можете поддержать расширение (это не только донат).<br><br>Нажмите <a target='_blank' href='https://dimden.dev/ot/custom-css/'>тут</a> чтобы узнать больше."
+  },
+  "pccss_eligible": { "message": "У вас есть доступ к кастомизации CSS!" },
+  "pccss_congrats": {
+    "message": "Поздавляем, вам был дан доступ до кастомизации CSS! Только у очень маленького процента пользователей OldTwitter есть доступ к этому, наслаждайтесь!"
+  },
+  "yay": { "message": "Ура!" },
+  "light_mode_vars": { "message": "Переменные светлой темы" },
+  "dark_mode_vars": { "message": "Переменные тёмной темы" },
+  "css_theme_hint": {
+    "message": "Пожалуйста, не публикуйте выедающие глаза или обманчивые стили (например изменение кнопки подписки на огромную), ваш доступ будет убран. <b>Всегда проверяйте как ваш стиль выглядит на тёмной и светлой теме.</b><br><br>Ваш CSS перепишет локальные настройки стилей что стоит в пользователя.<br><br>Вы можете использовать только i.imgur.com для картинок и fonts.googleapis.com для шрифтов (а также шрифты <a target='_blank' href='https://dimden.dev/fonts/'>отсюда</a>).<br><br>Вы можете увидеть список CSS переменных <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>тут</a>.<br><br>Чтобы стилизировать конкретную тему, используйте классы <code>.body-dark</code>, <code>.body-pitch-black</code> (чёрная тема также имеет <code>.body-dark</code>) и <code>.body-light</code>."
+  },
+  "profile_colors_moved": {
+    "message": "Синхронизация цвета ссылок переместилась в ваш профиль (кнопка с карандашом слева от кнопки изменения профиля)"
+  },
+  "click_here_more_info": { "message": "Нажмите тут для больше информации" },
+  "profile_must_be_public_to_auth": {
+    "message": "Ваш профиль должен быть публичным для первой синхронизации, после неё можно поставить приватный профиль назад."
+  },
+  "save_draft": { "message": "Сохр. черновик" },
+  "load_draft": { "message": "Загр. черновик" },
+  "draft_saved": { "message": "Черновик сохранён!" },
+  "draft_loaded": { "message": "Черновик загружен!" },
+  "no_draft": { "message": "Вы не сохраняли черновик!" },
+  "invalid_auth_token": {
+    "message": "Ваш ключ был недействительным и был удалён. Вы можете попытаться снова, если эта ошибка продолжает происходить напишите @d1mden."
+  },
+  "css_set": { "message": "CSS был успешно поставлен!" },
+  "error_setting_css": { "message": "Ошибка установки CSS" },
+  "load": { "message": "Загрузить" },
+  "disable_profile_customizations": {
+    "message": "Выключить кастомизацию профиля"
+  },
+  "replying_to_and": {
+    "message": " и ",
+    "description": "Для некоторых языков, использующих адресные термины",
+    "example": "Replying to @A-> and <-@B , @C"
+  },
+  "replying_to_comma": {
+    "message": ", ",
+    "description": "Для некоторых языков, использующих адресные термины",
+    "example": "Replying to @A and @B-> , <-@C"
+  },
+  "twitter": { "message": "Твиттер" },
+  "move_navbar_to_bottom": { "message": "Переместить панель навигации вниз" },
+  "styled_profile": { "message": "Стилизированный профиль" },
+  "open_notifs_as_modal": {
+    "message": "Открывать уведомления в модальном окне"
+  },
+  "clear_ot_token": { "message": "Очистить токен OldTwitter" },
+  "enable_iframe_navigation": {
+    "message": "Включить экспериментальную навигацию сохраняющую страницу, это сделает возможным клики на ссылки и возврат на предыдущую страницу без перезагрузок. Это экспериментально и может ломаться и лагать."
+  },
+  "style_your_profile": { "message": "Стилизируте ваш профиль тут!" },
+  "modern_ui": { "message": "Использовать дизайн Твиттера из 2018" },
+  "show_exact_values": {
+    "message": "Показывать точное кол-во лайков, ретвитов, подписчиков, и т.д."
+  },
+  "hide_timeline_types": {
+    "message": "Скрыть переключатель типа ленты на главной странице"
+  },
+  "autotranslation": { "message": "Автоматический перевод" },
+  "autotranslation_mode": {
+    "message": "Режим автоматического перевода твитов"
+  },
+  "translate_in_list": { "message": "Переводить когда в списке языков" },
+  "translate_not_in_list": { "message": "Переводить когда не в списке языков" },
+  "language_list": { "message": "Список языков" },
+  "select_language": { "message": "Выберите язык" },
+  "mute_videos": { "message": "Воспроизводить видео без звука по умолчанию" },
+  "dont_pause_videos": {
+    "message": "Не ставить видео на паузу при пролистывании через ленту"
+  },
+  "delete_for_you": {
+    "message": "Удалить для себя",
+    "description": "DM Message Delete menu"
+  },
+  "show_user_previews_on_mobile": {
+    "message": "Показывать превью профиля при долгом нажатии (это может быть надоедливым)"
+  },
+  "separate_text": {
+    "message": "Отделить текст",
+    "description": "Эта опция появляется в меню твитов с тремя точками только на мобильных устройствах и делает текст крупнее. Также добавляет подложку сверху и снизу при касании"
+  },
+  "leave_conversation": {
+    "message": "Вы уверены что хотите выйти с этой переписки?"
+  },
+  "autotranslation_help1": {
+    "message": "Эта функция будет находить твиты и переводить их автоматически."
+  },
+  "autotranslation_help2": {
+    "message": "Чтобы использовать её, выберите режим автоматического перевода и добавьте языки. Твиты которые подходят будут переведены автоматически."
+  },
+  "autotranslation_help3": { "message": "Режимы" },
+  "autotranslation_help4": {
+    "message": "\"Переводить когда в списке языков\" без добавленных языков не будет переводить ничего автоматически;"
+  },
+  "autotranslation_help5": {
+    "message": "\"Переводить когда не в списке языков\" без добавленных языков будет переводить все твиты."
+  },
+  "go_back_to_top": { "message": "Вернуться вверх" },
+  "follow_system_settings_dark_mode": {
+    "message": "Использовать предпочитаемую тему системы"
+  },
+  "replacer_post_to_tweet": {
+    "message": "пост->твит",
+    "description": "Эта строка будет использоваться для замены слова 'пост' на 'твит' в различных местах. В левой части используется слово 'пост', которое официально используется в Twitter (откройте уведомления и, вероятно, увидите 'кому-то понравился ваш пост' на вашем языке, найдите слово post и поместите его в левую часть, а переведенное слово 'твит' - в правую, так что при замене оно будет выглядеть как 'кому-то понравился ваш твит')."
+  },
+  "replacer_repost_to_retweet": {
+    "message": "repost->retweet",
+    "description": "Поддержка некоторых языков, для которых перевод не единый. Если проблем нет, то можно написать то же самое, что и выше."
+  },
+  "mute_user": {
+    "message": "Игнорировать @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "unmute_user": {
+    "message": "Не игнорировать @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "muted_user": {
+    "message": "Теперь вы игнорируете @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "unmuted_user": {
+    "message": "Теперь вы не игнорируете @$SCREEN_NAME$",
+    "placeholders": { "screen_name": { "content": "CoolPerson2000" } }
+  },
+  "mmdd": {
+    "message": "$DATE$ $MONTH$",
+    "description": "1 июля",
+    "placeholders": {
+      "month": { "content": "июля" },
+      "date": { "content": "1" }
+    }
+  },
+  "mmddyy": {
+    "message": "$DATE$ $MONTH$, $YEAR$",
+    "description": "1 июля, 2015",
+    "placeholders": {
+      "year": { "content": "2015" },
+      "month": { "content": "июля" },
+      "date": { "content": "1" }
+    }
+  },
+  "yyyy": {
+    "message": "$YEAR$",
+    "description": "2015",
+    "placeholders": { "year": { "content": "2015" } }
+  },
+  "localize_digit": {
+    "message": "Использовать азиатскую четырехзначную нотацию. (Только CJK)",
+    "description": "Non-CJK dont need to translate this message, just copy and paste"
+  },
+  "replacer_liked_to_favorited": {
+    "message": "liked->favorited",
+    "description": "This string will be used to replace word 'liked' with 'favorited' in various places. On left side use word for 'liked' that Twitter officially uses (open notifications and you'll probably see 'someone liked your tweet' in your language, find word post and place on left side, and translated 'favorited' on right side, so when replaced it'll look like 'someone favorited your tweet'"
+  },
+  "favorited_by": { "message": "Понравилось" },
+  "disable_retweet_hotkey": {
+    "message": "Выключить горячую клавишу для ретвитов (T)"
+  },
+  "disable_like_hotkey": {
+    "message": "Выключить горячую клавишу для лайков (L)"
+  },
+  "enable_extension_compatibility": {
+    "message": "Включить режим совместимости (включайте только если хотите сделать другое расширение совместимым с OldTwitter, если оно всё ещё не работает (скорее всего не будет), выключите эту опцию, так как она может сделать страницу лагучей)"
+  },
+  "enter_custom_font_name": { "message": "Введите название шрифта" },
+  "disable_data_saver": {
+    "message": "Выключить экономию трафика когда используется мобильная сеть"
+  },
+  "mobile": {
+    "message": "Мобильные настройки",
+    "description": "Заголовок для мобильных настроек"
+  },
+  "disable_accept_type": {
+    "message": "Выключить 'accept-type' при открытии галереи для загрузки медиа. Включите если на вашем Андроиде нельзя выбрать/найти некоторые картинки в галерее.",
+    "description": "This option only appears on mobile"
+  },
+  "manage_searches": { "message": "Изменить поиски" },
+  "add_search": { "message": "Добавить поиск" },
+  "pinned_searches": { "message": "Закреплённые поиски" },
+  "show_follower_counts_in_lists": {
+    "message": "Показывать кол-во подписчиков пользователей в списке подписок."
+  },
+  "not_possible_to_see_unfollowers": {
+    "message": "К сожалению, информация про отписчиков не доступна для аккаунтов с более чем 50,000 подписчиков."
+  },
+  "sort_by_follow_date": {
+    "message": "Сортировать по дате подписки (не точно)"
+  },
+  "sort_by_followers": { "message": "Сортировать по кол-ве подписчиков" },
+  "sort_by_following": { "message": "Сортировать по кол-ве подписок" },
+  "sort_by_name": { "message": "Сортировать по имени" },
+  "sort_by_username": { "message": "Сортировать по нику" },
+  "sort_by_tweets": { "message": "Сортировать по кол-ве твитов" },
+  "sort_by_created": { "message": "Сортировать по дате создания аккаунта" },
+  "sort_by_random": { "message": "Сортировать по рандому" },
+  "loading_all_followers": {
+    "message": "Загрузка всех подписчиков (это будет происходить каждых 24 часа)..."
+  },
+  "apply": { "message": "Применить" },
+  "filter": { "message": "Фильтр" },
+  "ascending": { "message": "По возрастанию" },
+  "descending": { "message": "По убыванию" },
+  "search_by_name": { "message": "Поиск по имени" },
+  "search_by_description": { "message": "Поиск по описанию" },
+  "only_show_people_you_follow": {
+    "message": "Только показывать людей на которых вы подписаны"
+  },
+  "only_show_people_with_followers": {
+    "message": "Только показывать людей у которых не менее $NUMBER$ подписчиков",
+    "placeholders": { "number": { "content": "-1" } }
+  },
+  "only_show_people_with_age": {
+    "message": "Только показывать людей у которых аккаунту не меньше $NUMBER$ дней",
+    "placeholders": { "number": { "content": "-1" } }
+  },
+  "page": { "message": "Страница" },
+  "update": { "message": "Обновить" },
+  "show_quote_count": { "message": "Показывать кол-во цитат на твитах" },
+  "uploading": { "message": "Загрузка" },
+  "finalization": { "message": "Завершение" },
+  "processing": { "message": "Обработка" },
+  "quotes": { "message": "Цитаты" },
+  "share_tweet_in_dms": { "message": "Поделиться твитом в сообщениях" },
+  "share_tweet_to": { "message": "Поделиться твитом..." },
+  "disable_find_hotkey": {
+    "message": "Выключить горячую клавишу для поиска (F)"
+  },
+  "uploaded": { "message": "Загружено" },
+  "hide_unfollowers_page": { "message": "Скрыть страницу отписчиков" },
+  "custom_font": { "message": "<КАСТОМНЫЙ>" },
+  "current_font": {
+    "message": "Текущий шрифт: $FONT$",
+    "placeholders": { "font": { "content": "Arial" } }
+  }
 }
