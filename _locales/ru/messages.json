@@ -64,7 +64,7 @@
   "open_newtwitter": { "message": "Открыть страницу в новом Твиттере" },
   "last_version": { "message": "посл. версия" },
   "thank_you": {
-    "message": "Спасибо за скачивание OldTwitter!! <a target=\"_blank\" href=\"https://twitter.com/old/settings\">Настройте</a> расширение!",
+    "message": "Спасибо за скачивание OldTwitter!! Надеюсь, вам понравится. $AT1$Настройте$AT2$ расширение!",
     "placeholders": {
       "at1": {
         "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">"
