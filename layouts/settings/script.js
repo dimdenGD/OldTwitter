@@ -187,6 +187,27 @@ async function writeCSSToDB(cssData) {
     });
 }
 
+async function readCSSFromDB() {
+    let db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction(["cssStore"]);
+        let objectStore = transaction.objectStore("cssStore");
+        let request = objectStore.get("customCSS");
+
+        request.onerror = function(event) {
+            reject("Error reading CSS");
+        };
+
+        request.onsuccess = function(event) {
+            if (request.result) {
+                resolve(request.result.css);
+            } else {
+                resolve('');
+            }
+        };
+    });
+}
+
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
@@ -873,7 +894,6 @@ setTimeout(async () => {
         let cssValue = customCSS.value;
     
         writeCSSToDB(cssValue).then(() => {
-            // Dispatching custom event and messaging after successful save
             let event = new CustomEvent('customCSS', { detail: cssValue });
             customCSSBus.postMessage({ type: 'css' });
             document.dispatchEvent(event);
@@ -1015,9 +1035,7 @@ setTimeout(async () => {
     showUserFollowerCountsInLists.checked = !!vars.showUserFollowerCountsInLists;
     showQuoteCount.checked = !!vars.showQuoteCount;
     hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
-    if(vars.customCSS) {
-        customCSS.value = vars.customCSS;
-    }
+    customCSS.value = await readCSSFromDB();
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
@@ -1143,10 +1161,11 @@ setTimeout(async () => {
         });
         input.click();
     });
-    document.getElementById('export-style').addEventListener('click', () => {
+    document.getElementById('export-style').addEventListener('click', async () => {
+        let customCssfromDb = await readCSSFromDB();
         let json = {
             customCSSVariables: vars.customCSSVariables,
-            customCSS: vars.customCSS,
+            customCSS: customCssfromDb,
             font: vars.font,
             tweetFont: vars.tweetFont,
             linkColor: vars.linkColor

@@ -227,7 +227,6 @@ function isDark() {
 }
 let customCSS, profileCSS = false;
 
-// Function to open IndexedDB database
 async function openDatabase() {
     return new Promise((resolve, reject) => {
         let request = indexedDB.open("CustomCSSDatabase", 1);
