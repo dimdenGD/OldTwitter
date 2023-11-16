@@ -170,6 +170,23 @@ function renderUserData() {
     });
 }
 
+async function writeCSSToDB(cssData) {
+    let db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction(["cssStore"], "readwrite");
+        let store = transaction.objectStore("cssStore");
+        let request = store.put({ id: "customCSS", css: cssData });
+
+        request.onerror = function(event) {
+            reject("Error writing CSS to DB");
+        };
+
+        request.onsuccess = function(event) {
+            resolve();
+        };
+    });
+}
+
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
@@ -853,12 +870,15 @@ setTimeout(async () => {
         }
     });
     customCSSSave.addEventListener('click', () => {
-        chrome.storage.sync.set({
-            customCSS: customCSS.value
-        }, () => {
-            let event = new CustomEvent('customCSS', { detail: customCSS.value });
-            customCSSBus.postMessage({type: 'css'});
+        let cssValue = customCSS.value;
+    
+        writeCSSToDB(cssValue).then(() => {
+            // Dispatching custom event and messaging after successful save
+            let event = new CustomEvent('customCSS', { detail: cssValue });
+            customCSSBus.postMessage({ type: 'css' });
             document.dispatchEvent(event);
+        }).catch(error => {
+            console.error("Error saving CSS to DB:", error);
         });
     });
     autotranslateLanguageList.addEventListener('change', () => {

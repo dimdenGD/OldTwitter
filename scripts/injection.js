@@ -226,20 +226,63 @@ function isDark() {
     return hours < 9 || hours >= 19;
 }
 let customCSS, profileCSS = false;
-async function updateCustomCSS() {
-    let data = await new Promise(resolve => {
-        chrome.storage.sync.get(['customCSS'], data => {
-            resolve(data);
-        });
+
+// Function to open IndexedDB database
+async function openDatabase() {
+    return new Promise((resolve, reject) => {
+        let request = indexedDB.open("CustomCSSDatabase", 1);
+
+        request.onerror = function(event) {
+            reject('Database error: ' + event.target.errorCode);
+        };
+
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+
+        // Only runs if the database was just created (like on first run)
+        request.onupgradeneeded = function(event) {
+            let db = event.target.result;
+            db.createObjectStore("cssStore", { keyPath: "id" });
+        };
     });
-    if(!data.customCSS) data.customCSS = '';
+}
+
+async function readCSSFromDB() {
+    let db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction(["cssStore"]);
+        let objectStore = transaction.objectStore("cssStore");
+        let request = objectStore.get("customCSS");
+
+        request.onerror = function(event) {
+            reject("Error reading CSS");
+        };
+
+        request.onsuccess = function(event) {
+            if (request.result) {
+                resolve(request.result.css);
+            } else {
+                resolve('');
+            }
+        };
+    });
+}
+
+async function updateCustomCSS() {
+    let cssData = await readCSSFromDB();
+    
     if(profileCSS) return;
+    
     if(customCSS) customCSS.remove();
+    
     customCSS = document.createElement('style');
     customCSS.id = 'oldtwitter-custom-css';
-    customCSS.innerHTML = data.customCSS;
-    if(document.head) document.head.appendChild(customCSS);
-    else {
+    customCSS.innerHTML = cssData;
+    
+    if(document.head) {
+        document.head.appendChild(customCSS);
+    } else {
         let int = setInterval(() => {
             if(document.head) {
                 clearInterval(int);
@@ -248,6 +291,7 @@ async function updateCustomCSS() {
         }, 100);
     }
 }
+
 async function updateCustomCSSVariables() {
     let root = document.querySelector(":root");
     let data = await new Promise(resolve => {
