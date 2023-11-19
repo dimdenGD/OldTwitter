@@ -170,6 +170,44 @@ function renderUserData() {
     });
 }
 
+async function writeCSSToDB(cssData) {
+    let db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction(["cssStore"], "readwrite");
+        let store = transaction.objectStore("cssStore");
+        let request = store.put({ id: "customCSS", css: cssData });
+
+        request.onerror = function(event) {
+            reject("Error writing CSS to DB");
+        };
+
+        request.onsuccess = function(event) {
+            resolve();
+        };
+    });
+}
+
+async function readCSSFromDB() {
+    let db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction(["cssStore"]);
+        let objectStore = transaction.objectStore("cssStore");
+        let request = objectStore.get("customCSS");
+
+        request.onerror = function(event) {
+            reject("Error reading CSS");
+        };
+
+        request.onsuccess = function(event) {
+            if (request.result) {
+                resolve(request.result.css);
+            } else {
+                resolve('');
+            }
+        };
+    });
+}
+
 setTimeout(async () => {
     if(!vars) {
         await loadVars();
@@ -853,12 +891,14 @@ setTimeout(async () => {
         }
     });
     customCSSSave.addEventListener('click', () => {
-        chrome.storage.sync.set({
-            customCSS: customCSS.value
-        }, () => {
-            let event = new CustomEvent('customCSS', { detail: customCSS.value });
-            customCSSBus.postMessage({type: 'css'});
+        let cssValue = customCSS.value;
+    
+        writeCSSToDB(cssValue).then(() => {
+            let event = new CustomEvent('customCSS', { detail: cssValue });
+            customCSSBus.postMessage({ type: 'css' });
             document.dispatchEvent(event);
+        }).catch(error => {
+            console.error("Error saving CSS to DB:", error);
         });
     });
     autotranslateLanguageList.addEventListener('change', () => {
@@ -996,8 +1036,9 @@ setTimeout(async () => {
     showQuoteCount.checked = !!vars.showQuoteCount;
     hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
     if(vars.customCSS) {
-        customCSS.value = vars.customCSS;
+        writeCSSToDB(vars.customCSS)
     }
+    customCSS.value = await readCSSFromDB();
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
@@ -1123,10 +1164,11 @@ setTimeout(async () => {
         });
         input.click();
     });
-    document.getElementById('export-style').addEventListener('click', () => {
+    document.getElementById('export-style').addEventListener('click', async () => {
+        let customCssfromDb = await readCSSFromDB();
         let json = {
             customCSSVariables: vars.customCSSVariables,
-            customCSS: vars.customCSS,
+            customCSS: customCssfromDb,
             font: vars.font,
             tweetFont: vars.tweetFont,
             linkColor: vars.linkColor
