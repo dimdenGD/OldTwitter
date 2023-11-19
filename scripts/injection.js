@@ -268,8 +268,35 @@ async function readCSSFromDB() {
     });
 }
 
+async function writeCSSToDB(cssData) {
+    let db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        let transaction = db.transaction(["cssStore"], "readwrite");
+        let store = transaction.objectStore("cssStore");
+        let request = store.put({ id: "customCSS", css: cssData });
+
+        request.onerror = function(event) {
+            reject("Error writing CSS to DB");
+        };
+
+        request.onsuccess = function(event) {
+            resolve();
+        };
+    });
+}
+
 async function updateCustomCSS() {
-    let cssData = await readCSSFromDB();
+    let data = await new Promise(resolve => {
+        chrome.storage.sync.get(['customCSS'], data => {
+            resolve(data);
+        });
+    });
+
+    if(data.customCSS) {
+        writeCSSToDB(data.customCSS)
+        chrome.storage.sync.remove('customCSS');
+    }
+    data.customCSS = await readCSSFromDB();
     
     if(profileCSS) return;
     
@@ -277,7 +304,7 @@ async function updateCustomCSS() {
     
     customCSS = document.createElement('style');
     customCSS.id = 'oldtwitter-custom-css';
-    customCSS.innerHTML = cssData;
+    customCSS.innerHTML = data.customCSS;
     
     if(document.head) {
         document.head.appendChild(customCSS);

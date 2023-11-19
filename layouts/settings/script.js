@@ -1035,6 +1035,9 @@ setTimeout(async () => {
     showUserFollowerCountsInLists.checked = !!vars.showUserFollowerCountsInLists;
     showQuoteCount.checked = !!vars.showQuoteCount;
     hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
+    if(vars.customCSS) {
+        writeCSSToDB(vars.customCSS)
+    }
     customCSS.value = await readCSSFromDB();
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
