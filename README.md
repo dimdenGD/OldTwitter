@@ -159,3 +159,4 @@ Simplified Chinese - [am1006](https://github.com/am1006), [CarimoWuling](https:/
 Czech - Menal  
 German - [basti564](https://twitter.com/basti564)  
 Catalan - [elmees21](https://twitter.com/elmees21)  
+Swedish - [actuallyaridan](https://twitter.com/actuallyaridan)  
