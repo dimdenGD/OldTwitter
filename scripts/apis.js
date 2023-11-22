@@ -1034,7 +1034,7 @@ const API = {
                                 desc = desc.replace(` posts`, ` ${LOC.tweets.message}`)
                             }
                             if(desc.find('Only on X')) {
-                                desc = desc.replace(`Only on X`, ` ${LOC.only_on_twitter.message}`)
+                                desc = desc.replace(`Only on X`, `Only on ${LOC.twitter.message}`)
                             }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,

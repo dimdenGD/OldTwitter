@@ -582,6 +582,5 @@
     "uploaded": { "message": "Uploaded" },
     "hide_unfollowers_page": { "message": "Hide unfollowers page" },
 	"custom_font": { "message": "<CUSTOM>" },
-    "only_on_twitter": { "message": "Only on Twitter" },
 	"current_font": { "message": "Current font: $FONT$", "placeholders": { "font": { "content": "Arial" } } }
 }
