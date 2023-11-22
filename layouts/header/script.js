@@ -1119,7 +1119,7 @@ let userDataFunction = async user => {
 
                 messageElements.push(messageElement);
             } else {
-                console.log(lastEntry)
+                //console.log(lastEntry)
             }
         }
         if(!newMessages) {
@@ -1302,7 +1302,7 @@ let userDataFunction = async user => {
                 let userWhoAdded = inbox.users[lastMessage.sender_id];
                 messageEntry.preview = LOC.user_added_you_inbox.message.replace('$NAME$', escapeHTML(userWhoAdded.name));
             } else {
-                console.log(lastEvent)
+                //console.log(lastEvent)
             }
             messageElement.innerHTML = /*html*/`
                 <img src="${messageEntry.icon}" width="48" height="48" class="inbox-message-avatar">
