@@ -1215,7 +1215,7 @@ let userDataFunction = async user => {
             };
 
             let isUnread = false;
-            if(compare(lastMessage.id, c.last_read_event_id) >= 1 && affectsSort) {
+            if(compare(lastMessage.id, c.last_read_event_id) >= 1) { //adding "&& affectsSort" makes some things (like links) show as read, i dont know why, so im omitting it
                 messageElement.classList.add('inbox-message-unread');
                 isUnread = true;
             }
@@ -1292,8 +1292,8 @@ let userDataFunction = async user => {
                         messageEntry.preview = lastSenderWasUser ? LOC.you_sent_video.message : LOC.user_sent_video.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
                     } else if (lastMessage.message_data.attachment.photo) {
                         messageEntry.preview = lastSenderWasUser ? LOC.you_sent_photo.message : LOC.user_sent_photo.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
-                    } else if (lastMessage.message_data.attachment.card) {
-                        messageEntry.preview = escapeHTML(lastMessage.message_data.text); //whats the difference?
+                    } else {
+                        messageEntry.preview = escapeHTML(lastMessage.message_data.text); //other attachments like tweets, links, cards, etc (this should just end up being a t.co link)
                     }
                 } else {
                     messageEntry.preview = escapeHTML(lastMessage.message_data.text);
