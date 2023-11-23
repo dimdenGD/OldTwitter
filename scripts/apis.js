@@ -1033,7 +1033,7 @@ const API = {
                             if(desc.endsWith(' posts')) {//why they changed to lower-case
                                 desc = desc.replace(` posts`, ` ${LOC.tweets.message}`)
                             }
-                            if(desc.find('Only on X')) {
+                            if(desc.includes('Only on X')) {
                                 desc = desc.replace(`Only on X`, `Only on ${LOC.twitter.message}`)
                             }
                             data.push({trend:{
@@ -1048,6 +1048,7 @@ const API = {
                             data: {modules: data}
                         }}, () => {});
                     }).catch(e => {
+                        console.error(e);
                         reject(e);
                     });
                 });
