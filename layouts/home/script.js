@@ -67,7 +67,7 @@ async function createShamelessPlug(firstTime = true) {
 
 
 setTimeout(() => {
-    chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug', 'followAt'], async data => {
+    chrome.storage.local.get(['installed', 'lastVersion', 'nextPlug'], async data => {
         if (!data.installed) {
             createShamelessPlug(true);
             chrome.storage.local.set({installed: true, lastVersion: chrome.runtime.getManifest().version, nextPlug: Date.now() + 1000 * 60 * 60 * 24 * 20});
