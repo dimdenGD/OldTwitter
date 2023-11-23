@@ -1033,6 +1033,9 @@ const API = {
                             if(desc.endsWith(' posts')) {//why they changed to lower-case
                                 desc = desc.replace(` posts`, ` ${LOC.tweets.message}`)
                             }
+                            if(desc.find('Only on X')) {
+                                desc = desc.replace(`Only on X`, `Only on ${LOC.twitter.message}`)
+                            }
                             data.push({trend:{
                                 name: trend.item.content.trend.name,
                                 meta_description: desc,
