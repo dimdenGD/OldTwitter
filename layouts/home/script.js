@@ -436,7 +436,22 @@ setTimeout(async () => {
         return setTimeout(() => location.reload(), 500);
     }
     try {
+        let lastNewTweetPress = Date.now();
         document.getElementById('new-tweets').addEventListener('click', () => {
+            if(Date.now() - lastNewTweetPress > 60000 * 60 * 5) { // 5 hours
+                lastNewTweetPress = Date.now();
+                timeline.toBeUpdated = 0;
+                timeline.data = [];
+                timeline.dataToUpdate = [];
+                seenThreads = [];
+                seenTweets = [];
+                cursorBottom = undefined;
+                cursorTop = undefined;
+                renderNewTweetsButton();
+                updateTimeline();
+                return;
+            }
+            lastNewTweetPress = Date.now();
             timeline.toBeUpdated = 0;
             timeline.data = [...timeline.dataToUpdate, ...timeline.data];
             renderNewTweetsButton();
@@ -1170,7 +1185,7 @@ setTimeout(async () => {
             document.getElementById('timeline-type-center').value = vars.timelineType;
             timeline.data = [];
             timeline.dataToUpdate = [];
-            timeline.toBeUpdated = [];
+            timeline.toBeUpdated = 0;
             seenThreads = [];
             seenTweets = [];
             cursorBottom = undefined;
@@ -1194,7 +1209,7 @@ setTimeout(async () => {
             document.getElementById('timeline-type-right').value = vars.timelineType;
             timeline.data = [];
             timeline.dataToUpdate = [];
-            timeline.toBeUpdated = [];
+            timeline.toBeUpdated = 0;
             seenThreads = [];
             seenTweets = [];
             cursorBottom = undefined;
