@@ -626,5 +626,6 @@
             "a_end": { "content": "</a>" }
         }
     },
-    "accepted_conversation": { "message": "Accepted conversation" }
+    "accepted_conversation": { "message": "Accepted conversation" },
+    "anniversary_tweet": { "message": "Do you remember when you joined Twitter? I do!\n#MyTwitterAnniversary" }
 }
