@@ -139,7 +139,7 @@ if (
     url.searchParams.set('newtwitter', 'true');
     location.replace(url);
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca", "sv"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca", "sv", "bg"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -206,7 +206,8 @@ const TRANSLATORS = {
     "cs": ["Menal"],
     "de": ["basti564", "https://twitter.com/basti564"],
     "ca": ["elmees21", "https://twitter.com/elmees21"],
-    "sv": ["actuallyaridan", "https://twitter.com/actuallyaridan"]
+    "sv": ["actuallyaridan", "https://twitter.com/actuallyaridan"],
+    "bg": ["Scarlett7447", "https://twitter.com/Scarlett7447"],
 };
 let LOC = {};
 let LOC_EN = {};

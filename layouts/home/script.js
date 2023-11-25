@@ -438,7 +438,7 @@ setTimeout(async () => {
     try {
         let lastNewTweetPress = Date.now();
         document.getElementById('new-tweets').addEventListener('click', () => {
-            if(Date.now() - lastNewTweetPress > 60000 * 60 * 5) { // 5 hours
+            if(Date.now() - lastNewTweetPress > 60000 * 60 * 4) { // 4 hours
                 lastNewTweetPress = Date.now();
                 timeline.toBeUpdated = 0;
                 timeline.data = [];

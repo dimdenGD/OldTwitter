@@ -160,3 +160,4 @@ Czech - Menal
 German - [basti564](https://twitter.com/basti564)  
 Catalan - [elmees21](https://twitter.com/elmees21)  
 Swedish - [actuallyaridan](https://twitter.com/actuallyaridan)  
+Bulgarian - [Scarlett7447)](https://twitter.com/Scarlett7447)  
