@@ -457,7 +457,7 @@
     "accessibility": { "message":"Accesibilidad", "description":"Setting Text"},
     "tweets_and_timeline": { "message":"Tweets y Cronología", "description":"Setting Text"},
     "dark_mode_setting": { "message": "Modo oscuro", "description":"Setting Text"},
-    "old_twitter_look": {"message": "Aspecto de OldTwitter", "description":"Setting Text"},
+    "old_twitter_look": {"message": "Aspecto del Viejo Twitter", "description":"Setting Text"},
     "content_you_see": {"message": "Contenido que ves", "description":"Setting Text"},
     "use_old_style_reply": {"message": "Usar el estilo de menciones antiguo"},
     "algov2": { "message": "Por algoritmo (\"Para ti\")" },
