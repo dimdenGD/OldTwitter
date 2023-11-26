@@ -3729,6 +3729,22 @@ function renderNotification(n, options = {}) {
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
+                } else if(n.icon.id === "milestone_icon") {
+                    //this is such a stupid way to implement it but it works
+                    document.getElementById('navbar-tweet-button').click();
+                    setTimeout(async () => {
+                        document.getElementsByClassName('navbar-new-tweet-text')[0].value = LOC.anniversary_tweet.message;
+
+                        var userJoinDate = new Date(user.created_at).getTime();
+                        var timeSinceJoin = Date.now() - userJoinDate;
+                        var yearsSinceJoin = Math.floor(timeSinceJoin / 31556952000); //ms is 1 year
+                        var anniversaryPicUrl = `https://ton.twimg.com/ntab_public/twitterversary/year${yearsSinceJoin}.jpg`;
+                        var anniversaryPicBlob = await (await fetch(anniversaryPicUrl)).blob();
+                        var anniversaryPicFile = new File([anniversaryPicBlob], `year${yearsSinceJoin}.jpg`, { type: 'image/jpeg' });
+
+                        mediaToUpload = [];
+                        handleFiles([anniversaryPicFile], mediaToUpload, document.getElementsByClassName('navbar-new-tweet-media-c')[0]);
+                    }, 10);
                 } else if(n.tweet && n.tweet.user) {
                     new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
                 }
@@ -3778,6 +3794,9 @@ function renderNotification(n, options = {}) {
                 notificationHeader = notificationHeader.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
             });
         }
+        if (n.icon.id === 'milestone_icon') {
+            notificationHeader = notificationHeader.replace('X anniversary', 'Twitter anniversary');
+        }
         LOC.replacer_repost_to_retweet.message.split('|').forEach(el => {
             notificationHeader = notificationHeader.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
         });
@@ -3818,7 +3837,9 @@ function renderNotification(n, options = {}) {
                     body: `feedback_type=${n.feedback.feedbackType}&feedback_metadata=${n.feedback.metadata}&undo=false`
                 }).then(i => i.text()).then(i => {
                     notification.remove();
-                    alert(n.feedback.confirmation);
+                    let confirmation = n.feedback.confirmation;
+                    confirmation = confirmation.replace(/\bX\b/g, LOC.twitter.message); //replace X (by itself) in a string with Twitter (wont replace X in a word but that wouldnt happen anyways)
+                    alert(confirmation);
                 });
             });
         }
