@@ -639,5 +639,6 @@
             "a_end": { "content": "</a>" }
         }
     },
-    "accepted_conversation": { "message": "Приняли приглашение в переписку" }
+    "accepted_conversation": { "message": "Приняли приглашение в переписку" },
+    "anniversary_tweet": { "message": "А вы помните когда вы зарегистрировались в Твиттере? Я да!\n#MyTwitterAnniversary" }
 }
