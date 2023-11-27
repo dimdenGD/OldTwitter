@@ -3735,9 +3735,9 @@ function renderNotification(n, options = {}) {
                     setTimeout(async () => {
                         document.getElementsByClassName('navbar-new-tweet-text')[0].value = LOC.anniversary_tweet.message;
 
-                        var userJoinDate = new Date(user.created_at).getTime();
-                        var timeSinceJoin = Date.now() - userJoinDate;
-                        var yearsSinceJoin = Math.floor(timeSinceJoin / 31556952000); //ms is 1 year
+                        var userJoinYear = new Date(user.created_at).getFullYear();
+                        var currentYear = new Date().getFullYear();
+                        var yearsSinceJoin = currentYear - userJoinYear;
                         var anniversaryPicUrl = `https://ton.twimg.com/ntab_public/twitterversary/year${yearsSinceJoin}.jpg`;
                         var anniversaryPicBlob = await (await fetch(anniversaryPicUrl)).blob();
                         var anniversaryPicFile = new File([anniversaryPicBlob], `year${yearsSinceJoin}.jpg`, { type: 'image/jpeg' });
