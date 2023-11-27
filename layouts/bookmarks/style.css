@@ -62,7 +62,7 @@ body {
 }
 #user-avatar {
     margin-left: 7px;
-    border: 4px solid white;
+    border: 4px solid var(--background-color);
     margin-top: -32px;
     border-radius: 7px;
 }

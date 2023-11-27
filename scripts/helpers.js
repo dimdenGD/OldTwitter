@@ -3735,18 +3735,23 @@ function renderNotification(n, options = {}) {
                     setTimeout(async () => {
                         document.getElementsByClassName('navbar-new-tweet-text')[0].value = LOC.anniversary_tweet.message;
 
-                        var userJoinYear = new Date(user.created_at).getFullYear();
-                        var currentYear = new Date().getFullYear();
-                        var yearsSinceJoin = currentYear - userJoinYear;
-                        var anniversaryPicUrl = `https://ton.twimg.com/ntab_public/twitterversary/year${yearsSinceJoin}.jpg`;
-                        var anniversaryPicBlob = await (await fetch(anniversaryPicUrl)).blob();
-                        var anniversaryPicFile = new File([anniversaryPicBlob], `year${yearsSinceJoin}.jpg`, { type: 'image/jpeg' });
+                        let userJoinYear = new Date(user.created_at).getFullYear();
+                        let currentYear = new Date().getFullYear();
+                        let yearsSinceJoin = currentYear - userJoinYear;
+                        let anniversaryPicUrl = `https://ton.twimg.com/ntab_public/twitterversary/year${yearsSinceJoin}.jpg`;
+                        let anniversaryPicBlob = await (await fetch(anniversaryPicUrl)).blob();
+                        let anniversaryPicFile = new File([anniversaryPicBlob], `year${yearsSinceJoin}.jpg`, { type: 'image/jpeg' });
 
                         mediaToUpload = [];
                         handleFiles([anniversaryPicFile], mediaToUpload, document.getElementsByClassName('navbar-new-tweet-media-c')[0]);
                     }, 10);
                 } else if(n.tweet && n.tweet.user) {
                     new TweetViewer(user, n.tweet.retweeted_status ? n.tweet.retweeted_status : n.tweet);
+                } else if(n.entry.content.notification.url) { //this should always be last because most (if not all) notifications have a url for good measure
+                    let url = new URL(n.entry.content.notification.url.url);
+                    url.searchParams.append('newtwitter', true);
+
+                    openInNewTab(url.href)
                 }
             }
         });
