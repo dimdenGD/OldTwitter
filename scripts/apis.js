@@ -1209,7 +1209,7 @@ const API = {
 
                         let entries = data.timeline.instructions.find(i => i.addEntries).addEntries.entries;
                         let cursorTop = entries.find(e => e.entryId.startsWith('cursor-top-')).content.operation.cursor.value;
-                        let cursorBottom = entries.find(e => e.entryId.startsWith('cursor-bottom-')).content.operation.cursor.value;
+                        let cursorBottom = entries.find(e => e.entryId.startsWith('cursor-bottom-'))?.content.operation.cursor.value;
                         let unreadBefore = +data.timeline.instructions.find(i => i.markEntriesUnreadGreaterThanSortIndex).markEntriesUnreadGreaterThanSortIndex.sortIndex;
                         let unreadNotifications = 0;
                         let res = [];
