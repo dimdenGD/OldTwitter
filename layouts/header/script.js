@@ -1713,7 +1713,7 @@ let userDataFunction = async user => {
         }
 
         if(updates.user_events && updates.user_events.entries) { //new messages in inbox
-            let conversationIds = updates.user_events.entries.map(m => m.message.conversation_id);
+            let conversationIds = updates.user_events.entries.map(m => m.message && m.message.conversation_id);
             await updateInboxData(conversationIds);
         }
     }, 5000);
