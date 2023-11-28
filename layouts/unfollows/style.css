@@ -97,7 +97,7 @@ body {
 .user-stat-div>h2 {
     color: var(--lil-darker-gray);
     font-size: 14px;
-    font-weight: 100;
+    font-weight: 400;
     margin: 0 10px;
     text-transform: uppercase;
     white-space: nowrap;
