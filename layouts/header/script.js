@@ -1330,7 +1330,7 @@ let userDataFunction = async user => {
                 modal.querySelector('.new-message-box').hidden = true;
                 messageHeaderName.innerText = messageEntry.name;
                 messageHeaderAvatar.src = messageEntry.icon;
-                if(messageUsers.length <= 1) messageHeaderLink.href = `https://twitter.com/${messageEntry.screen_name}`;
+                if(messageUsers.length <= 1) messageHeaderLink.href = `https://twitter.com/${messageEntry.screen_name.startsWith('@') ? messageEntry.screen_name.slice(1) : messageEntry.screen_name}`;
                 setTimeout(() => {
                     modal.querySelector(".message-new-input").focus();
                     if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
