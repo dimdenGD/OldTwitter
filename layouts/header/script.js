@@ -567,10 +567,14 @@ let userDataFunction = async user => {
         let accounts = (await API.account.getAccounts()).users;
         let accountsElement = document.getElementById('navbar-user-accounts');
         accountsElement.innerHTML = '';
-        accounts.forEach(account => {
+        accounts.forEach(async account => {
+            let accountUnreads = await API.notifications.getUnreadCount(true, account.user_id);
             let accountElement = document.createElement('div');
             accountElement.classList.add('navbar-user-account');
             accountElement.innerHTML = `<img src="${account.avatar_image_url.replace("_normal", "_bigger")}" class="navbar-user-account-avatar" width="16" height="16"> ${account.screen_name}`;
+            if (accountUnreads.total_unread_count > 0) {
+                accountElement.innerHTML += ` <span class="navbar-user-account-notifications">${accountUnreads.total_unread_count}</span>`;
+            }
             accountElement.addEventListener('click', async () => {
                 if(account.screen_name === user.screen_name) return alert("You're already on this account!");
                 try {
@@ -2943,7 +2947,7 @@ let userDataFunction = async user => {
     updateUnread();
     updateAccounts();
     updateInboxData();
-    setInterval(updateAccounts, 60000*5);
+    setInterval(updateAccounts, 20000);
     setInterval(updateUnread, 20000);
     setInterval(updateInboxData, 20000);
 }

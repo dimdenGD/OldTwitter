@@ -1128,17 +1128,20 @@ const API = {
         },
     },
     notifications: {
-        getUnreadCount: (cache = true) => {
+        getUnreadCount: (cache = true, userId = '') => {
             return new Promise((resolve, reject) => {
                 chrome.storage.local.get(['unreadCount'], d => {
-                    if(cache && d.unreadCount && Date.now() - d.unreadCount.date < 18000) {
+                    if(cache && d.unreadCount && Date.now() - d.unreadCount.date < 18000 && d.unreadCount.userId == userId) {
                         return resolve(d.unreadCount.data);
                     }
+                    if(userId == user.id_str) userId = '';
+                    let multiAuthHeader = userId ? { "x-web-auth-multi-user-id": userId } : {};
                     fetch(`https://twitter.com/i/api/2/badge_count/badge_count.json?supports_ntab_urt=1`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
+                            ...multiAuthHeader
                         },
                         credentials: "include"
                     }).then(i => i.json()).then(data => {
@@ -1151,7 +1154,8 @@ const API = {
                         resolve(data);
                         chrome.storage.local.set({unreadCount: {
                             date: Date.now(),
-                            data
+                            data,
+                            userId
                         }}, () => {});
                     }).catch(e => {
                         reject(e);
