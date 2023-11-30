@@ -588,7 +588,7 @@
     "user_reacted_message": { "message": "$NAME$ 對這則訊息做出了反應", "placeholders": { "name": { "content": "Display Name" } } },
     "you_sent_photo": { "message": "你發送了一張照片" },
     "you_sent_video": { "message": "你發送了一部影片" },
-    "you_reacted_message": { "message": "你對這則訊息做出了反應"" },
+    "you_reacted_message": { "message": "你對這則訊息做出了反應" },
     "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ 已將 $A2$$USER_WHO_JOINED$$A_END$ 加入", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
         "user_who_added": { "content": "Group Admin" },
         "user_who_joined": { "content": "Group Admin's Friend" },
