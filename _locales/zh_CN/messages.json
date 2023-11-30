@@ -582,5 +582,50 @@
     "uploaded": { "message": "上传成功" },
     "hide_unfollowers_page": { "message": "隐藏【取关者】页面入口" },
 	"custom_font": { "message":"<自定义>" },
-	"current_font": { "message": "正在使用：$FONT$", "placeholders": { "font": { "content": "Arial" } } }
+	"current_font": { "message": "正在使用：$FONT$", "placeholders": { "font": { "content": "Arial" } } },
+    "user_sent_photo": { "message": "$NAME$ 发送了一张照片", "placeholders": { "name": { "content": "Display Name" } } },
+    "user_sent_video": { "message": "$NAME$ 发送了一个视频", "placeholders": { "name": { "content": "Display Name" } } },
+    "user_reacted_message": { "message": "$NAME$ 对这条消息做出了反应", "placeholders": { "name": { "content": "Display Name" } } },
+    "you_sent_photo": { "message": "你发送了一张照片" },
+    "you_sent_video": { "message": "你发送了一个视频" },
+    "you_reacted_message": { "message": "你对这条消息做出了反应" },
+    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ 添加了 $A2$$USER_WHO_JOINED$$A_END$", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
+        "user_who_added": { "content": "Group Admin" },
+        "user_who_joined": { "content": "Group Admin's Friend" },
+        "a1": { "content": "<a href=\"/GroupAdmin\">" },
+        "a2": { "content": "<a href=\"/GroupAdminsFriend\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_left": { "message": "$A_START$$NAME$$A_END$ 离开了对话", "description": "This is used when a user in a group leaves (display name)", "placeholders": {
+        "name": { "content": "Group Admin's Friend" },
+        "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ 更换了群组照片", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
+        "name": { "content": "Group Admin" },
+        "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ 改变群组名称至 $GROUP_NAME$", "description": "This is used when a user in a group changes the group name (display name)", "placeholders": {
+        "name": { "content": "Group Admin" },
+        "group_name": { "content": "Example Group" },
+        "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_added_you_inbox": { "message": "$NAME$ 添加了你", "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)", "placeholders": {
+        "name": { "content": "Group Admin" }
+    } },
+    "user_added_you_msg": {
+        "message": "$A_START$$NAME$$A_END$ 添加了你<br>这个群组里还有其他 $NUMBER$ 个人",
+        "description": "This is used when a group admin adds you to the group chat (display names, messages only)",
+        "example": "<a href=\"/GroupAdmin\">Group Admin</a> added you<br>There are 6 other people in this group",
+        "placeholders": {
+            "name": { "content": "Group Admin" },
+            "number": { "content": "6" },
+            "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+            "a_end": { "content": "</a>" }
+        }
+    },
+    "accepted_conversation": { "message": "接受了对话" },
+    "anniversary_tweet": { "message": "还记得你何时加入 Twitter 吗？我知道！#我的Twitter周年纪念日" }
 }
