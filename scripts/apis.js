@@ -156,6 +156,28 @@ function parseTweet(res) {
             } else {
                 console.warn("No retweeted quoted status", result);
             }
+        } else if(
+            result.quoted_status_result && 
+            result.quoted_status_result.result.tweet && 
+            result.quoted_status_result.result.tweet.legacy &&
+            result.quoted_status_result.result.tweet.core &&
+            result.quoted_status_result.result.tweet.core.user_results.result.legacy    
+        ) {
+            result.legacy.quoted_status = result.quoted_status_result.result.tweet.legacy;
+            if(result.legacy.quoted_status) {
+                result.legacy.quoted_status.user = result.quoted_status_result.result.tweet.core.user_results.result.legacy;
+                result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
+                if(result.quoted_status_result.result.tweet.core.user_results.result.is_blue_verified) {
+                    result.legacy.quoted_status.user.verified = true;
+                    result.legacy.quoted_status.user.verified_type = "Blue";
+                }
+                tweetStorage[result.legacy.quoted_status.id_str] = result.legacy.quoted_status;
+                tweetStorage[result.legacy.quoted_status.id_str].cacheDate = Date.now();
+                userStorage[result.legacy.quoted_status.user.id_str] = result.legacy.quoted_status.user;
+                userStorage[result.legacy.quoted_status.user.id_str].cacheDate = Date.now();
+            } else {
+                console.warn("No retweeted quoted status", result);
+            }
         }
         tweet.retweeted_status = result.legacy;
         if(tweet.retweeted_status && result.core.user_results.result.legacy) {

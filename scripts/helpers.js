@@ -396,19 +396,30 @@ async function renderTweetBodyHTML(t, is_quoted) {
         hashflags = await API.discover.getHashflagsV2();
     }
 
-    if(is_quoted) t = t.quoted_status
+    if(is_quoted) t = t.quoted_status;
 
     full_text_array = Array.from(t.full_text);
 
     if (t.entities.richtext) {
         t.entities.richtext.forEach(snippet => {
-            index_map[snippet.from_index] = [
-                snippet.to_index,
+            //if i felt like it, id write a long-winded series of comments on how much i hate emojis. but i'll refrain
+            //and this *still* doesnt work properly with flag emojis
+            //im just glad it works at all
+
+            let textBeforeSnippet = t.full_text.slice(0, snippet.from_index);
+            let emojisBeforeSnippet = textBeforeSnippet.match(/\p{Extended_Pictographic}/gu);
+            emojisBeforeSnippet = emojisBeforeSnippet ? emojisBeforeSnippet.length : 0;
+
+            let fromIndex = snippet.from_index - emojisBeforeSnippet;
+            let toIndex = snippet.to_index - emojisBeforeSnippet;
+
+            index_map[fromIndex] = [
+                toIndex,
                 text => {
-                    let snippetText = escapeHTML(t.full_text.slice(snippet.from_index, snippet.to_index));
+                    let snippetText = escapeHTML(full_text_array.slice(fromIndex, toIndex).join(''));
                     let startingTags = `${snippet.richtext_types.includes('Bold') ? '<b>' : ''}${snippet.richtext_types.includes('Italic') ? '<i>' : ''}`;
                     let endingTags = `${snippet.richtext_types.includes('Bold') ? '</b>' : ''}${snippet.richtext_types.includes('Italic') ? '</i>' : ''}`;
-                    
+
                     return `${startingTags}${snippetText}${endingTags}`;
                 }
             ];
@@ -1763,14 +1774,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) {
             full_text = "";
         }
-        if(t.quoted_status_id_str && !t.quoted_status && options.mainTweet) { //t.quoted_status is undefined if the user blocked the quoter (this also applies to deleted/private tweets too, but it just results in original behavior then)
+        if(!t.quoted_status) { //t.quoted_status is undefined if the user blocked the quoter (this also applies to deleted/private tweets too, but it just results in original behavior then)
             try {
                 if(t.quoted_status_result && t.quoted_status_result.result.tweet) {
                     t.quoted_status = t.quoted_status_result.result.tweet.legacy;
                     t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
-                } else {
+                }/* else if(t.quoted_status_id_str) {
                     t.quoted_status = await API.tweet.getV2(t.quoted_status_id_str);
-                }
+                    console.log(t.quoted_status);
+                }*/
             } catch {
                 t.quoted_status = undefined;
             }
@@ -3751,7 +3763,7 @@ function renderNotification(n, options = {}) {
                     let url = new URL(n.entry.content.notification.url.url);
                     url.searchParams.append('newtwitter', true);
 
-                    openInNewTab(url.href)
+                    openInNewTab(url.href);
                 }
             }
         });
