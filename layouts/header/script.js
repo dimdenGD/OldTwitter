@@ -519,7 +519,12 @@ let userDataFunction = async user => {
     // util
     let firstTime = false;
     async function updateUnread() {
-        let unread = await API.notifications.getUnreadCount(firstTime);
+        let unread;
+        try {
+            unread = await API.notifications.getUnreadCount(firstTime);
+        } catch {
+            unread = { dm_unread_count: 0, ntab_unread_count: 0, total_unread_count: 0 };
+        }
         if(!firstTime) firstTime = true;
         let dms = unread.dm_unread_count;
         let notifs = unread.ntab_unread_count;
@@ -568,7 +573,12 @@ let userDataFunction = async user => {
         let accountsElement = document.getElementById('navbar-user-accounts');
         accountsElement.innerHTML = '';
         accounts.forEach(async account => {
-            let accountUnreads = await API.notifications.getUnreadCount(true, account.user_id);
+            let accountUnreads;
+            try {
+                accountUnreads = await API.notifications.getUnreadCount(true, account.user_id);
+            } catch {
+                accountUnreads = { total_unread_count: 0 };
+            }
             let accountElement = document.createElement('div');
             accountElement.classList.add('navbar-user-account');
             accountElement.innerHTML = `<img src="${account.avatar_image_url.replace("_normal", "_bigger")}" class="navbar-user-account-avatar" width="16" height="16"> ${account.screen_name}`;

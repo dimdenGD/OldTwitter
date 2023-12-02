@@ -121,7 +121,7 @@ function parseTweet(res) {
     if(!res.core) return;
     tweet.user = res.core.user_results.result.legacy;
     tweet.user.id_str = tweet.user_id_str;
-    if(res.core.user_results.result.is_blue_verified) {
+    if(res.core.user_results.result.is_blue_verified && !res.core.user_results.result.legacy.verified_type) {
         tweet.user.verified = true;
         tweet.user.verified_type = "Blue";
     }
@@ -145,7 +145,7 @@ function parseTweet(res) {
             if(result.legacy.quoted_status) {
                 result.legacy.quoted_status.user = result.quoted_status_result.result.core.user_results.result.legacy;
                 result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
-                if(result.quoted_status_result.result.core.user_results.result.is_blue_verified) {
+                if(result.quoted_status_result.result.core.user_results.result.is_blue_verified && !result.quoted_status_result.result.core.user_results.result.legacy.verified_type) {
                     result.legacy.quoted_status.user.verified = true;
                     result.legacy.quoted_status.user.verified_type = "Blue";
                 }
@@ -157,7 +157,8 @@ function parseTweet(res) {
                 console.warn("No retweeted quoted status", result);
             }
         } else if(
-            result.quoted_status_result && 
+            result.quoted_status_result &&
+            result.quoted_status_result.result &&  
             result.quoted_status_result.result.tweet && 
             result.quoted_status_result.result.tweet.legacy &&
             result.quoted_status_result.result.tweet.core &&
@@ -167,7 +168,7 @@ function parseTweet(res) {
             if(result.legacy.quoted_status) {
                 result.legacy.quoted_status.user = result.quoted_status_result.result.tweet.core.user_results.result.legacy;
                 result.legacy.quoted_status.user.id_str = result.legacy.quoted_status.user_id_str;
-                if(result.quoted_status_result.result.tweet.core.user_results.result.is_blue_verified) {
+                if(result.quoted_status_result.result.tweet.core.user_results.result.is_blue_verified && !result.core.user_results.result.verified_type) {
                     result.legacy.quoted_status.user.verified = true;
                     result.legacy.quoted_status.user.verified_type = "Blue";
                 }
@@ -183,7 +184,7 @@ function parseTweet(res) {
         if(tweet.retweeted_status && result.core.user_results.result.legacy) {
             tweet.retweeted_status.user = result.core.user_results.result.legacy;
             tweet.retweeted_status.user.id_str = tweet.retweeted_status.user_id_str;
-            if(result.core.user_results.result.is_blue_verified) {
+            if(result.core.user_results.result.is_blue_verified && !result.core.user_results.result.legacy.verified_type) {
                 tweet.retweeted_status.user.verified = true;
                 tweet.retweeted_status.user.verified_type = "Blue";
             }
@@ -236,7 +237,7 @@ function parseTweet(res) {
                 delete tweet.quoted_status;
             } else {
                 tweet.quoted_status.user.id_str = tweet.quoted_status.user_id_str;
-                if(result.core.user_results.result.is_blue_verified) {
+                if(result.core.user_results.result.is_blue_verified && !result.core.user_results.result.legacy.verified_type) {
                     tweet.quoted_status.user.verified = true;
                     tweet.quoted_status.user.verified_type = "Blue";
                 }
@@ -1153,7 +1154,7 @@ const API = {
         getUnreadCount: (cache = true, userId = '') => {
             return new Promise((resolve, reject) => {
                 chrome.storage.local.get(['unreadCount'], d => {
-                    if(cache && d.unreadCount && Date.now() - d.unreadCount.date < 18000 && d.unreadCount.userId == userId) {
+                    if(cache && d.unreadCount && Date.now() - d.unreadCount.date < 30000 && d.unreadCount.userId == userId) {
                         return resolve(d.unreadCount.data);
                     }
                     if(userId == user.id_str) userId = '';
