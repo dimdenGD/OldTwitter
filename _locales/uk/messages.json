@@ -589,7 +589,7 @@
     } },
     "user_left": { "message": "$A_START$$NAME$$A_END$ вийшов(-ла)", "description": "This is used when a user in a group leaves (display name)", "placeholders": {
         "name": { "content": "Group Admin's Friend" },
-        "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" },
+        "a_start": { "content": "<a href=\"/GroupAdminsFriend\">" },
         "a_end": { "content": "</a>" }
     } },
     "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ змінив(-ла) аватар групи", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
