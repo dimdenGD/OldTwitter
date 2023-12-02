@@ -1235,7 +1235,7 @@ let userDataFunction = async user => {
                 }
 
                 messageEntry.name = escapeHTML(messageUsers[0].name);
-                messageEntry.screen_name = '@' + messageUsers[0].screen_name;
+                messageEntry.screen_name = messageUsers[0].screen_name;
             } else if (c.type == 'GROUP_DM') { //groups
                 messageEntry.icon = c.avatar_image_https || chrome.runtime.getURL('/images/group.jpg');
                 messageEntry.name = c.name ? escapeHTML(c.name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128);
@@ -1252,7 +1252,7 @@ let userDataFunction = async user => {
                 }
 
                 messageEntry.name = user.name;
-                messageEntry.screen_name = '@' + user.screen_name;
+                messageEntry.screen_name = user.screen_name;
             }
 
             let lastSenderWasUser = lastMessage.message_data && lastMessage.message_data.sender_id === user.id_str
@@ -1335,7 +1335,7 @@ let userDataFunction = async user => {
                 modal.querySelector('.new-message-box').hidden = true;
                 messageHeaderName.innerText = messageEntry.name;
                 messageHeaderAvatar.src = messageEntry.icon;
-                if(messageUsers.length <= 1) messageHeaderLink.href = `https://twitter.com/${messageEntry.screen_name.startsWith('@') ? messageEntry.screen_name.slice(1) : messageEntry.screen_name}`;
+                if(messageUsers.length <= 1) messageHeaderLink.href = `https://twitter.com/${messageEntry.screen_name}`;
                 setTimeout(() => {
                     modal.querySelector(".message-new-input").focus();
                     if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
