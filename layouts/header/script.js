@@ -1323,7 +1323,7 @@ let userDataFunction = async user => {
                 <img src="${messageEntry.icon}" width="48" height="48" class="inbox-message-avatar">
                 <div class="inbox-text">
                     <b class="inbox-name">${messageEntry.name}</b>
-                    <span class="inbox-screenname">${messageEntry.screen_name}</span>
+                    <span class="inbox-screenname">@${messageEntry.screen_name}</span>
                     <span class="inbox-time" data-timestamp="${+lastMessage.time}">${timeElapsed(new Date(+lastMessage.time))}</span>
                     <br>
                     <span class="inbox-message-preview">${messageEntry.preview}</span>
