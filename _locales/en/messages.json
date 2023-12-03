@@ -476,7 +476,7 @@
     "clear_caches": { "message": "Clear caches" },
     "hide_non_replies": { "message": "Hide non-replies" },
     "profile_custom_css": { "message": "Profile custom CSS" },
-    "pccss_not_eligible": { "message": "You currently don't have profile CSS customization access.<br><br>If you want to have a cool profile with custom font, colors, background and everything else that everyone will be able to see, you can become extension supporter (it's not only donations).<br><br>Click <a target='_blank' href='https://dimden.dev/ot/custom-css/'>here</a> to learn more." },
+    "pccss_not_eligible": { "message": "You currently don't have profile CSS customization access.<br><br>If you want to have a cool profile with custom font, colors, background and everything else that <b>everyone</b> will be able to see, you can become extension supporter (it's not only donations).<br><br>Click <a target='_blank' href='https://dimden.dev/ot/custom-css/'>here</a> to learn more." },
     "pccss_eligible": { "message": "You have access to profile CSS customization!" },
     "pccss_congrats": { "message": "Congratulations, you were given access to profile CSS customization! Only a very small percentage of OldTwitter users have access to this, enjoy and stay awesome!" },
     "yay": { "message": "Yay!" },
