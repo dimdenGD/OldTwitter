@@ -582,7 +582,7 @@ let userDataFunction = async user => {
             let accountElement = document.createElement('div');
             accountElement.classList.add('navbar-user-account');
             accountElement.innerHTML = `<img src="${account.avatar_image_url.replace("_normal", "_bigger")}" class="navbar-user-account-avatar" width="16" height="16"> ${account.screen_name}`;
-            let unreadCount = accountUnreads.total_unread_count >= 20 ? '20+' : accountUnreads.total_unread_count; //">=" because twitter api will send "20" at most, and newtwitter says "20+" when you have 20 notifs on the account switcher
+            let unreadCount = accountUnreads.total_unread_count >= 21 ? '20+' : accountUnreads.total_unread_count;
             if (unreadCount != 0) {
                 accountElement.innerHTML += ` <span class="navbar-user-account-notifications">${unreadCount}</span>`;
             }
