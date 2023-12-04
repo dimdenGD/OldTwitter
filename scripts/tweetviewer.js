@@ -819,7 +819,7 @@ class TweetViewer {
                 if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`div.tweet[data-tweet-id="${t.id_str}"]`)) {
                     return;
                 }
-                if (!isChildOfClass(e.target, "tweet-button") && !isChildOfClass(e.target, "tweet-edit-section") && !isChildOfClass(e.target, "dropdown-menu") && !isChildOfClass(e.target, "tweet-media-element") && !isChildOfTag(e.target, "A") && !isChildOfTag(e.target, "BUTTON")) {
+                if (!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
                     this.savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     this.updateSubpage();
@@ -846,7 +846,7 @@ class TweetViewer {
             tweet.addEventListener('mousedown', e => {
                 if(e.button === 1) {
                     // tweet-media-element is clickable, since it should open the tweet in a new tab.
-                    if(!isChildOfClass(e.target, "tweet-button") && !isChildOfClass(e.target, "tweet-edit-section") && !isChildOfClass(e.target, "dropdown-menu") && !isChildOfTag(e.target, "A") && !isChildOfTag(e.target, "BUTTON")) {
+                    if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest("a") && !e.target.closest("button")) {
                         e.preventDefault();
                         openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     }

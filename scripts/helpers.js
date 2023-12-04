@@ -14,34 +14,6 @@ function arrayBufferToBase64(buffer) {
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-function isChildOfClass(element, className) {
-    var cur = element;
-    while (true) {
-        if (cur.className && cur.classList.contains(className)) {
-            return true;
-        }
-        if (cur.parentElement != null) {
-            cur = cur.parentElement;
-        } else {
-            break;
-        }
-    }
-    return false;
-}
-function isChildOfTag(element, tagName) {
-    var cur = element;
-    while (true) {
-        if (cur.tagName && cur.tagName.toUpperCase() == tagName.toUpperCase()) {
-            return true;
-        }
-        if (cur.parentElement != null) {
-            cur = cur.parentElement;
-        } else {
-            break;
-        }
-    }
-    return false;
-}
 function createModal(html, className, onclose, canclose) {
     let modal = document.createElement('div');
     modal.classList.add('modal');
@@ -1643,7 +1615,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
         if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments") && !document.querySelector('.modal')) {
             tweet.addEventListener('click', async e => {
-                if (!isChildOfClass(e.target, "tweet-button") && !isChildOfClass(e.target, "tweet-edit-section") && !isChildOfClass(e.target, "dropdown-menu") && !isChildOfClass(e.target, "tweet-media-element") && !isChildOfTag(e.target, "A") && !isChildOfTag(e.target, "BUTTON")) {
+                if (!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
                     document.getElementById('loading-box').hidden = false;
                     savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
@@ -1672,7 +1644,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         } else {
             if(!options.mainTweet) {
                 tweet.addEventListener('click', e => {
-                    if(!isChildOfClass(e.target, "tweet-button") && !isChildOfClass(e.target, "tweet-edit-section") && !isChildOfClass(e.target, "dropdown-menu") && !isChildOfClass(e.target, "tweet-media-element") && !isChildOfTag(e.target, "A") && !isChildOfTag(e.target, "BUTTON")) {
+                    if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
                         let tweetData = t;
                         if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
                         tweet.classList.add('tweet-preload');
@@ -1688,7 +1660,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         tweet.addEventListener('mousedown', e => {
             if(e.button === 1) {
                 // tweet-media-element is clickable, since it should open the tweet in a new tab.
-                if(!isChildOfClass(e.target, "tweet-button") && !isChildOfClass(e.target, "tweet-edit-section") && !isChildOfClass(e.target, "dropdown-menu") && !isChildOfTag(e.target, "A") && !isChildOfTag(e.target, "BUTTON")) {
+                if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest("a") && !e.target.closest("button")) {
                     e.preventDefault();
                     openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                 }
