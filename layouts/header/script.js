@@ -519,7 +519,12 @@ let userDataFunction = async user => {
     // util
     let firstTime = false;
     async function updateUnread() {
-        let unread = await API.notifications.getUnreadCount(firstTime);
+        let unread;
+        try {
+            unread = await API.notifications.getUnreadCount(firstTime);
+        } catch {
+            unread = { dm_unread_count: 0, ntab_unread_count: 0, total_unread_count: 0 };
+        }
         if(!firstTime) firstTime = true;
         let dms = unread.dm_unread_count;
         let notifs = unread.ntab_unread_count;
@@ -567,10 +572,20 @@ let userDataFunction = async user => {
         let accounts = (await API.account.getAccounts()).users;
         let accountsElement = document.getElementById('navbar-user-accounts');
         accountsElement.innerHTML = '';
-        accounts.forEach(account => {
+        accounts.forEach(async account => {
+            let accountUnreads;
+            try {
+                accountUnreads = await API.notifications.getUnreadCount(true, account.user_id);
+            } catch {
+                accountUnreads = { total_unread_count: 0 };
+            }
             let accountElement = document.createElement('div');
             accountElement.classList.add('navbar-user-account');
             accountElement.innerHTML = `<img src="${account.avatar_image_url.replace("_normal", "_bigger")}" class="navbar-user-account-avatar" width="16" height="16"> ${account.screen_name}`;
+            let unreadCount = accountUnreads.total_unread_count >= 21 ? '20+' : accountUnreads.total_unread_count;
+            if (unreadCount != 0) {
+                accountElement.innerHTML += ` <span class="navbar-user-account-notifications">${unreadCount}</span>`;
+            }
             accountElement.addEventListener('click', async () => {
                 if(account.screen_name === user.screen_name) return alert("You're already on this account!");
                 try {
@@ -1230,7 +1245,7 @@ let userDataFunction = async user => {
                 }
 
                 messageEntry.name = escapeHTML(messageUsers[0].name);
-                messageEntry.screen_name = '@' + messageUsers[0].screen_name;
+                messageEntry.screen_name = messageUsers[0].screen_name;
             } else if (c.type == 'GROUP_DM') { //groups
                 messageEntry.icon = c.avatar_image_https || chrome.runtime.getURL('/images/group.jpg');
                 messageEntry.name = c.name ? escapeHTML(c.name) : messageUsers.map(i => escapeHTML(i.name)).join(', ').slice(0, 128);
@@ -1247,7 +1262,7 @@ let userDataFunction = async user => {
                 }
 
                 messageEntry.name = user.name;
-                messageEntry.screen_name = '@' + user.screen_name;
+                messageEntry.screen_name = user.screen_name;
             }
 
             let lastSenderWasUser = lastMessage.message_data && lastMessage.message_data.sender_id === user.id_str
@@ -1308,7 +1323,7 @@ let userDataFunction = async user => {
                 <img src="${messageEntry.icon}" width="48" height="48" class="inbox-message-avatar">
                 <div class="inbox-text">
                     <b class="inbox-name">${messageEntry.name}</b>
-                    <span class="inbox-screenname">${messageEntry.screen_name}</span>
+                    <span class="inbox-screenname">${messageEntry.screen_name ? '@' + messageEntry.screen_name : ''}</span>
                     <span class="inbox-time" data-timestamp="${+lastMessage.time}">${timeElapsed(new Date(+lastMessage.time))}</span>
                     <br>
                     <span class="inbox-message-preview">${messageEntry.preview}</span>
@@ -1330,7 +1345,7 @@ let userDataFunction = async user => {
                 modal.querySelector('.new-message-box').hidden = true;
                 messageHeaderName.innerText = messageEntry.name;
                 messageHeaderAvatar.src = messageEntry.icon;
-                if(messageUsers.length <= 1) messageHeaderLink.href = `https://twitter.com/${messageEntry.screen_name.startsWith('@') ? messageEntry.screen_name.slice(1) : messageEntry.screen_name}`;
+                if(messageUsers.length <= 1) messageHeaderLink.href = `https://twitter.com/${messageEntry.screen_name}`;
                 setTimeout(() => {
                     modal.querySelector(".message-new-input").focus();
                     if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
@@ -2943,7 +2958,7 @@ let userDataFunction = async user => {
     updateUnread();
     updateAccounts();
     updateInboxData();
-    setInterval(updateAccounts, 60000*5);
+    setInterval(updateAccounts, 20000);
     setInterval(updateUnread, 20000);
     setInterval(updateInboxData, 20000);
 }
