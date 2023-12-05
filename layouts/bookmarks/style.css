@@ -636,6 +636,10 @@ body {
     text-decoration: none
 }
 
+#bulletpoint {
+    color: var(--light-gray)
+}
+
 a:hover,
 .tweet-header-info:hover,
 .tweet-body-text a:hover,

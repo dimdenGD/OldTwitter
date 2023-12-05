@@ -40,7 +40,7 @@ let pages = [
     },
     {
         name: "tweet",
-        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}(|\/likes|\/retweets|\/retweets\/with_comments|)$/]
+        paths: [/^\/[A-z-0-9-_]{1,15}\/status\/\d{2,32}(|\/likes|\/retweets|\/retweets\/with_comments|)$/]
     },
     {
         name: "profile",

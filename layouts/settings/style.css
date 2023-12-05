@@ -188,6 +188,10 @@ body {
     text-decoration: underline;
 }
 
+#bulletpoint {
+    color: var(--light-gray)
+}
+
 .wtf-user {
     width:100%;
     display: inline-block;

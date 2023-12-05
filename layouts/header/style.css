@@ -627,6 +627,15 @@ input, textarea {
     margin-bottom: 3px;
     margin-right: 3px;
 }
+.navbar-user-account-notifications {
+    background: var(--link-color);
+    color: var(--background-color) !important;
+    border-radius: 8px !important;
+    border: 1px solid var(--background-color);
+    padding: 3px 5px !important;
+    font-size: 10px !important;
+    display: inline !important;
+}
 
 .search-result-item {
     display: block;

@@ -819,7 +819,7 @@ class TweetViewer {
                 if(selection.toString().length > 0 && selection.focusNode && selection.focusNode.closest(`div.tweet[data-tweet-id="${t.id_str}"]`)) {
                     return;
                 }
-                if(e.target.classList.contains('tweet-view') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
+                if (!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
                     this.savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     this.updateSubpage();
@@ -845,8 +845,9 @@ class TweetViewer {
             });
             tweet.addEventListener('mousedown', e => {
                 if(e.button === 1) {
-                    e.preventDefault();
-                    if(e.target.classList.contains('tweet-view') || e.target.classList.contains('tweet-body') || e.target.className === 'tweet-interact') {
+                    // tweet-media-element is clickable, since it should open the tweet in a new tab.
+                    if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest("a") && !e.target.closest("button")) {
+                        e.preventDefault();
                         openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
                     }
                 }
@@ -979,7 +980,7 @@ class TweetViewer {
                 </div>
                 ${!isMatchingLanguage ? /*html*/`
                 <br>
-                <span class="tweet-translate">${LOC.view_translation.message}</span>
+                <span class="tweet-button tweet-translate">${LOC.view_translation.message}</span>
                 ` : ``}
                 ${t.extended_entities && t.extended_entities.media ? /*html*/`
                     <div class="tweet-media">
@@ -1025,7 +1026,7 @@ class TweetViewer {
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? /*html*/`
-                    <span class="tweet-quote-translate">${LOC.view_translation.message}</span>
+                    <span class="tweet-button tweet-quote-translate">${LOC.view_translation.message}</span>
                     ` : ``}
                 </a>
                 ` : ``}
@@ -1065,8 +1066,8 @@ class TweetViewer {
                 ` : ''}
                 <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source ? t.source.split('>')[1].split('<')[0] : 'Unknown'}</a>
                 <div class="tweet-interact">
-                    <span class="tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</span>
-                    <span title="${LOC.retweet_btn.message}" class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</span>
+                    <span class="tweet-button tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</span>
+                    <span title="${LOC.retweet_btn.message}" class="tweet-button tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</span>
                     <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
                         <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? LOC.unretweet.message : LOC.retweet.message}</span>
                         <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}</span>
@@ -1075,12 +1076,12 @@ class TweetViewer {
                             <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span>
                         ` : ''}
                     </div>
-                    <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
+                    <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-button tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
                     ${(vars.showBookmarkCount || options.mainTweet) && typeof t.bookmark_count !== 'undefined' ? 
                         /*html*/`<span title="${LOC.bookmarks_count.message}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
                     ''}
                     ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ',')}</span>` : ''}
-                    <span class="tweet-interact-more"></span>
+                    <span class="tweet-button tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         ${innerWidth < 590 ? /*html*/`
                         <span class="tweet-interact-more-menu-separate">${LOC.separate_text.message}</span>
@@ -1125,7 +1126,7 @@ class TweetViewer {
                         ` : ''}
                     </div>
                 </div>
-                <div class="tweet-reply" hidden>
+                <div class="tweet-edit-section tweet-reply" hidden>
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+R"' : ''} class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-reply-error" style="color:red"></span>
@@ -1134,7 +1135,7 @@ class TweetViewer {
                     <span class="tweet-reply-char">${localStorage.OTisBlueVerified ? '0/25000' : '0/280'}</span><br>
                     <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
                 </div>
-                <div class="tweet-quote" hidden>
+                <div class="tweet-edit-section tweet-quote" hidden>
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+Q"' : ''} class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-quote-error" style="color:red"></span>

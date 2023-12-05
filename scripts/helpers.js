@@ -396,19 +396,30 @@ async function renderTweetBodyHTML(t, is_quoted) {
         hashflags = await API.discover.getHashflagsV2();
     }
 
-    if(is_quoted) t = t.quoted_status
+    if(is_quoted) t = t.quoted_status;
 
     full_text_array = Array.from(t.full_text);
 
     if (t.entities.richtext) {
         t.entities.richtext.forEach(snippet => {
-            index_map[snippet.from_index] = [
-                snippet.to_index,
+            //if i felt like it, id write a long-winded series of comments on how much i hate emojis. but i'll refrain
+            //and this *still* doesnt work properly with flag emojis
+            //im just glad it works at all
+
+            let textBeforeSnippet = t.full_text.slice(0, snippet.from_index);
+            let emojisBeforeSnippet = textBeforeSnippet.match(/\p{Extended_Pictographic}/gu);
+            emojisBeforeSnippet = emojisBeforeSnippet ? emojisBeforeSnippet.length : 0;
+
+            let fromIndex = snippet.from_index - emojisBeforeSnippet;
+            let toIndex = snippet.to_index - emojisBeforeSnippet;
+
+            index_map[fromIndex] = [
+                toIndex,
                 text => {
-                    let snippetText = escapeHTML(t.full_text.slice(snippet.from_index, snippet.to_index));
+                    let snippetText = escapeHTML(full_text_array.slice(fromIndex, toIndex).join(''));
                     let startingTags = `${snippet.richtext_types.includes('Bold') ? '<b>' : ''}${snippet.richtext_types.includes('Italic') ? '<i>' : ''}`;
                     let endingTags = `${snippet.richtext_types.includes('Bold') ? '</b>' : ''}${snippet.richtext_types.includes('Italic') ? '</i>' : ''}`;
-                    
+
                     return `${startingTags}${snippetText}${endingTags}`;
                 }
             ];
@@ -1615,7 +1626,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
 
         if(!options.mainTweet && typeof mainTweetLikers !== 'undefined' && !location.pathname.includes("retweets/with_comments") && !document.querySelector('.modal')) {
             tweet.addEventListener('click', async e => {
-                if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
+                if (!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
                     document.getElementById('loading-box').hidden = false;
                     savePageData();
                     history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
@@ -1641,18 +1652,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     currentLocation = location.pathname;
                 }
             });
-            tweet.addEventListener('mousedown', e => {
-                if(e.button === 1) {
-                    e.preventDefault();
-                    if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
-                        openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
-                    }
-                }
-            });
         } else {
             if(!options.mainTweet) {
                 tweet.addEventListener('click', e => {
-                    if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact' || e.target.className === 'tweet-media')) {
+                    if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
                         let tweetData = t;
                         if(tweetData.retweeted_status) tweetData = tweetData.retweeted_status;
                         tweet.classList.add('tweet-preload');
@@ -1663,16 +1666,17 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         new TweetViewer(user, tweetData);
                     }
                 });
-                tweet.addEventListener('mousedown', e => {
-                    if(e.button === 1) {
-                        e.preventDefault();
-                        if(e.target.className && (e.target.classList.contains('tweet') || e.target.classList.contains('tweet-body') || e.target.classList.contains('tweet-reply-to') || e.target.className === 'tweet-interact')) {
-                            openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
-                        }
-                    }
-                });
             }
         }
+        tweet.addEventListener('mousedown', e => {
+            if(e.button === 1) {
+                // tweet-media-element is clickable, since it should open the tweet in a new tab.
+                if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest("a") && !e.target.closest("button")) {
+                    e.preventDefault();
+                    openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                }
+            }
+        });
         tweet.tabIndex = -1;
         tweet.className = `tweet ${options.mainTweet ? 'tweet-main' : location.pathname.includes('/status/') ? 'tweet-replying' : ''}`.trim();
         tweet.dataset.tweetId = t.id_str;
@@ -1763,14 +1767,15 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(t.withheld_in_countries && (t.withheld_in_countries.includes("XX") || t.withheld_in_countries.includes("XY"))) {
             full_text = "";
         }
-        if(t.quoted_status_id_str && !t.quoted_status && options.mainTweet) { //t.quoted_status is undefined if the user blocked the quoter (this also applies to deleted/private tweets too, but it just results in original behavior then)
+        if(!t.quoted_status) { //t.quoted_status is undefined if the user blocked the quoter (this also applies to deleted/private tweets too, but it just results in original behavior then)
             try {
                 if(t.quoted_status_result && t.quoted_status_result.result.tweet) {
                     t.quoted_status = t.quoted_status_result.result.tweet.legacy;
                     t.quoted_status.user = t.quoted_status_result.result.tweet.core.user_results.result.legacy;
-                } else {
+                }/* else if(t.quoted_status_id_str) {
                     t.quoted_status = await API.tweet.getV2(t.quoted_status_id_str);
-                }
+                    console.log(t.quoted_status);
+                }*/
             } catch {
                 t.quoted_status = undefined;
             }
@@ -1847,7 +1852,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 </div>
                 ${!isMatchingLanguage && options.mainTweet ? /*html*/`
                 <br>
-                <span class="tweet-translate">${LOC.view_translation.message}</span>
+                <span class="tweet-button tweet-translate">${LOC.view_translation.message}</span>
                 ` : ``}
                 ${t.extended_entities && t.extended_entities.media ? /*html*/`
                     <div class="tweet-media">
@@ -1893,7 +1898,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? /*html*/`
-                    <span class="tweet-quote-translate">${LOC.view_translation.message}</span>
+                    <span class="tweet-button tweet-quote-translate">${LOC.view_translation.message}</span>
                     ` : ``}
                 </a>
                 ` : ``}
@@ -1933,8 +1938,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ` : ''}
                 <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source ? t.source.split('>')[1].split('<')[0] : 'Unknown'}</a>
                 <div class="tweet-interact">
-                    <span class="tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</span>
-                    <span title="${LOC.retweet_btn.message}" class="tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</span>
+                    <span class="tweet-button tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</span>
+                    <span title="${LOC.retweet_btn.message}" class="tweet-button tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</span>
                     <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
                         <span class="tweet-interact-retweet-menu-retweet">${t.retweeted ? LOC.unretweet.message : LOC.retweet.message}${!vars.disableHotkeys ? ' (T)' : ''}</span>
                         <span class="tweet-interact-retweet-menu-quote">${LOC.quote_tweet.message}${!vars.disableHotkeys ? ' (Q)' : ''}</span>
@@ -1943,12 +1948,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                             <span class="tweet-interact-retweet-menu-retweeters">${LOC.see_retweeters.message}</span>
                         ` : ''}
                     </div>
-                    <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
+                    <span title="${vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message}${!vars.disableHotkeys ? ' (L)' : ''}" class="tweet-button tweet-interact-favorite ${t.favorited ? 'tweet-interact-favorited' : ''}" data-val="${t.favorite_count}">${options.mainTweet ? '' : formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</span>
                     ${(vars.showBookmarkCount || options.mainTweet) && typeof t.bookmark_count !== 'undefined' ? 
-                        /*html*/`<span title="${LOC.bookmarks_count.message}${!vars.disableHotkeys ? ' (B)' : ''}" class="tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
+                        /*html*/`<span title="${LOC.bookmarks_count.message}${!vars.disableHotkeys ? ' (B)' : ''}" class="tweet-button tweet-interact-bookmark${t.bookmarked ? ' tweet-interact-bookmarked' : ''}" data-val="${t.bookmark_count}">${formatLargeNumber(t.bookmark_count).replace(/\s/g, ',')}</span>` :
                     ''}
                     ${vars.seeTweetViews && t.ext && t.ext.views && t.ext.views.r && t.ext.views.r.ok && t.ext.views.r.ok.count ? /*html*/`<span title="${LOC.views_count.message}" class="tweet-interact-views" data-val="${t.ext.views.r.ok.count}">${formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ',')}</span>` : ''}
-                    <span class="tweet-interact-more"></span>
+                    <span class="tweet-button tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         ${innerWidth < 590 ? /*html*/`
                         <span class="tweet-interact-more-menu-separate">${LOC.separate_text.message}</span>
@@ -1997,7 +2002,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? /*html*/`<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
                     ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
                 </div>
-                <div class="tweet-reply" hidden>
+                <div class="tweet-edit-section tweet-reply" hidden>
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.replying_to_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-reply-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-reply-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+R"' : ''} class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-reply-error" style="color:red"></span>
@@ -2006,7 +2011,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-reply-char">${localStorage.OTisBlueVerified ? '0/25000' : '0/280'}</span><br>
                     <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
                 </div>
-                <div class="tweet-quote" hidden>
+                <div class="tweet-edit-section tweet-quote" hidden>
                     <br>
                     <b style="font-size: 12px;display: block;margin-bottom: 5px;">${LOC.quote_tweet.message} <span ${!vars.disableHotkeys ? 'title="ALT+M"' : ''} class="tweet-quote-upload">${LOC.upload_media_btn.message}</span> <span class="tweet-quote-add-emoji">${LOC.emoji_btn.message}</span> <span ${!vars.disableHotkeys ? 'title="ALT+Q"' : ''} class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
                     <span class="tweet-quote-error" style="color:red"></span>
@@ -3751,7 +3756,7 @@ function renderNotification(n, options = {}) {
                     let url = new URL(n.entry.content.notification.url.url);
                     url.searchParams.append('newtwitter', true);
 
-                    openInNewTab(url.href)
+                    openInNewTab(url.href);
                 }
             }
         });
