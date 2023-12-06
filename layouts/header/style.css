@@ -786,6 +786,7 @@ input, textarea {
     word-break: break-word;
     white-space: break-spaces;
     font-family: var(--tweet-font);
+    cursor: text;
 }
 .modal-top  {
     width: 495px;
