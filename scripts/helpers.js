@@ -531,7 +531,7 @@ function generatePoll(tweet, tweetElement, user) {
             if(user.id_str !== tweet.user.id_str && poll.selected_choice && choice.id === +poll.selected_choice.string_value) {
                 choice.selected = true;
             }
-            choice.percentage = Math.round(choice.count / voteCount * 100);
+            choice.percentage = Math.round(choice.count / voteCount * 100) || 0;
             let choiceElement = document.createElement('div');
             choiceElement.classList.add('choice');
             choiceElement.innerHTML = `
@@ -549,6 +549,7 @@ function generatePoll(tweet, tweetElement, user) {
             let choice = choices[i];
             let choiceElement = document.createElement('div');
             choiceElement.classList.add('choice', 'choice-unselected');
+            choiceElement.classList.add('tweet-button');
             choiceElement.innerHTML = `
                 <div class="choice-bg" style="width:100%"></div>
                 <div class="choice-label">${escapeHTML(choice.label)}</div>
