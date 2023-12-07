@@ -1721,7 +1721,8 @@ class TweetViewer {
                         e.target.src = e.target.src.replace('?name=small', '?name=large');
                     }
                     new Viewer(tweetMedia, {
-                        transition: false
+                        transition: false,
+                        zoomRatio: 0.3
                     });
                     e.target.click();
                 }

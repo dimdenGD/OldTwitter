@@ -233,7 +233,8 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                     if (!file.type.includes('video')) {
                         img.addEventListener('click', () => {
                             new Viewer(mediaContainer, {
-                                transition: false
+                                transition: false,
+                                zoomRatio: 0.3
                             });
                         });
                         div.append(alt);
@@ -715,7 +716,8 @@ function generateCard(tweet, tweetElement, user) {
                     img.src = media.media_url_https;
                     img.addEventListener('click', () => {
                         new Viewer(img, {
-                            transition: false
+                            transition: false,
+                            zoomRatio: 0.3
                         });
                     });
                     tweetElement.getElementsByClassName('tweet-card')[0].append(img, document.createElement('br'));
@@ -2523,7 +2525,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                             e.target.src = e.target.src.replace('?name=small', '?name=large');
                         }
                         new Viewer(e.target.parentElement, {
-                            transition: false
+                            transition: false,
+                            zoomRatio: 0.3
                         });
                         e.target.click();
                         return;
@@ -2695,7 +2698,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         e.target.src = e.target.src.replace('?name=small', '?name=large');
                     }
                     new Viewer(tweetMedia, {
-                        transition: false
+                        transition: false,
+                        zoomRatio: 0.3
                     });
                     e.target.click();
                 }

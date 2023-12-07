@@ -975,7 +975,8 @@ let userDataFunction = async user => {
                                 e.target.src = e.target.src.replace(':small', '');
                             };
                             new Viewer(photoElement, {
-                                transition: false
+                                transition: false,
+                        zoomRatio: 0.3
                             });
                             e.target.click();
                         })
