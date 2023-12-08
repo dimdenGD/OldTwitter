@@ -2134,13 +2134,14 @@ const API = {
                     const out = {
                         list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
                             let user = e.content.itemContent.user_results.result;
+                            if(!user) return;
                             user.legacy.id_str = user.rest_id;
                             if(user.is_blue_verified && !user.legacy.verified_type) {
                                 user.legacy.verified = true;
                                 user.legacy.verified_type = "Blue";
                             }
                             return user.legacy;
-                        }),
+                        }).filter(e => e),
                         cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                     }
                     debugLog('user.getFollowing', 'end', out);
