@@ -1827,10 +1827,16 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     let entries = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
-                    let tweets = entries.filter(i => i.entryId.startsWith('tweet-')).map(t => {
-                        let tweet = parseTweet(t.content.itemContent.tweet_results.result);
+                    let items;
+                    if (cursor) {
+                        items = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddToModule').moduleItems;
+                    } else {
+                        items = entries.find(e => e.entryId === 'profile-grid-0').content.items;
+                    }
+                    let tweets = items.filter(e => e.entryId.startsWith('profile-grid-0-tweet-')).map(t => {
+                        let tweet = parseTweet(t.item.itemContent.tweet_results.result);
                         if(tweet) {
-                            tweet.hasModeratedReplies = t.content.itemContent.hasModeratedReplies;
+                            tweet.hasModeratedReplies = t.item.itemContent.hasModeratedReplies;
                         }
                         return tweet;
                     }).filter(i => i);
