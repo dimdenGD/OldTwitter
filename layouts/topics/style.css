@@ -34,7 +34,7 @@ a:hover {
 
 body {
     background-color: var(--darker-background-color) !important;
-    font-family: var(--font);
+    font-family: var(--font-override);
     margin: 0;
 }
 #container {
@@ -163,7 +163,7 @@ body {
     font-weight: bold;
     line-height: normal;
     padding: 8px 16px;
-    font-family: var(--font);
+    font-family: var(--font-override);
 }
 .nice-button:hover:not([disabled]) {
     color: var(--almost-black);
@@ -517,7 +517,7 @@ body {
     color: var(--almost-black);
     color: var(--darker-gray);
     cursor: pointer;
-    font: 700 14px/normal var(--font);
+    font: 700 14px/normal var(--font-override);
     padding: 8px 16px
 }
 

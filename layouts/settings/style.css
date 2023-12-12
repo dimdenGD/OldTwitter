@@ -34,7 +34,7 @@ a:hover {
 
 body {
     background-color: var(--darker-background-color) !important;
-    font-family: var(--font);
+    font-family: var(--font-override);
     margin: 0;
 }
 #container {

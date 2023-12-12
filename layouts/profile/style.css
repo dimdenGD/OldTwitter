@@ -28,7 +28,7 @@ a {
 
 body {
     background-color: var(--darker-background-color) !important;
-    font-family: var(--font);
+    font-family: var(--font-override);
     margin: 0
 }
 
@@ -291,7 +291,7 @@ body {
     color: var(--darker-gray);
     cursor: pointer;
     padding: 8px 16px;
-    font: 700 14px/normal var(--font)
+    font: 700 14px/normal var(--font-override)
 }
 
 .nice-button:hover:not([disabled]) {
@@ -617,7 +617,7 @@ body.body-old-ui .user-item-btn.follow:before {
     height: 23px;
     padding-right: 40px;
     scrollbar-width: thin;
-    font: 18px var(--font)
+    font: 18px var(--font-override)
 }
 
 #new-tweet-text::-webkit-scrollbar {
@@ -1375,7 +1375,7 @@ body.body-old-ui .user-item-btn.follow:before {
     border-radius: 3px;
     width: 80%;
     padding: 5px;
-    font-family: var(--font);
+    font-family: var(--font-override);
     display: inline-block;
     font-size: 18px;
     padding-right: 40px;
@@ -1825,7 +1825,7 @@ body.body-old-ui .user-item-btn.follow:before {
         width: 58px;
         height: 38px;
         border: 1px solid rgba(0, 0, 0, 0.4);
-        font-family: var(--font);
+        font-family: var(--font-override);
     }
     #tweet-to:hover {
         background-color: var(--link-color);

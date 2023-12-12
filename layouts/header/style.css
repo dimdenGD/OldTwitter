@@ -2,8 +2,10 @@
     --link-color: #4bacd2;
 
     --font: Arial, sans-serif;
-    --icon-font: "RosettaIcons";
     --tweet-font: Arial, sans-serif;
+    --font-override: "JustBird", var(--font);
+    --tweet-font-override: "JustBird", var(--tweet-font);
+    --icon-font: "RosettaIcons";
 
     --video-cover: contain;
     --background-color: white;
@@ -48,6 +50,11 @@
 @font-face {
     font-family: "edgeicons";
     src: url(chrome-extension://__MSG_@@extension_id__/fonts/edge-icons-Regular.woff);
+}
+@font-face {
+    font-family: 'JustBird';
+    src: url(chrome-extension://__MSG_@@extension_id__/fonts/JustBird.woff2);
+    unicode-range: U+EA00;
 }
 h1, h2, h3, h4, h5, h6 {
     text-rendering: optimizeLegibility;
@@ -277,7 +284,7 @@ input, textarea {
     border: 1px solid var(--border);
     border-radius: 21px;
     transition: all .2s ease-in-out;
-    font-family: var(--font);
+    font-family: var(--font-override);
 }
 #user-search {
     padding: 0;
@@ -387,7 +394,7 @@ input, textarea {
     border: 1px solid rgba(0, 0, 0, 0.4);
     padding: 1px 15px 10px 15px;
     margin-left: 15px;
-    font-family: var(--font);
+    font-family: var(--font-override);
 }
 #navbar-tweet-button:hover {
     filter: brightness(0.9);
@@ -420,7 +427,7 @@ input, textarea {
     border-radius: 3px;
     width: 450px;
     padding: 5px;
-    font-family: var(--font);
+    font-family: var(--font-override);
     display: inline-block;
     height: 100px;
     font-size: 18px;
@@ -565,7 +572,7 @@ input, textarea {
     font-weight: bold;
     line-height: normal;
     padding: 8px 16px;
-    font-family: var(--font)
+    font-family: var(--font-override)
 }
 .nice-button:hover:not([disabled]) {
     color: var(--almost-black);
@@ -785,7 +792,7 @@ input, textarea {
 .tweet-body-text span {
     word-break: break-word;
     white-space: break-spaces;
-    font-family: var(--tweet-font);
+    font-family: var(--tweet-font-override);
     cursor: text;
 }
 .modal-top  {
@@ -1054,7 +1061,7 @@ input, textarea {
     border-radius: 3px;
     width: 426px;
     padding: 5px;
-    font-family: var(--font);
+    font-family: var(--font-override);
     display: inline-block;
     height: 22px;
     font-size: 14px;
@@ -1206,7 +1213,7 @@ input, textarea {
 .navbar-poll-question, .navbar-poll-date {
     border: 1px solid var(--border);
     border-radius: 5px;
-    font: 16px var(--font);
+    font: 16px var(--font-override);
     padding: 3px;
     width: 100%
 }
@@ -1306,10 +1313,10 @@ input, textarea {
 span.tweet-body-text {
     white-space: pre-wrap;
     word-break: break-word;
-    font-family: var(--tweet-font);
+    font-family: var(--tweet-font-override);
 }
 #notification-text {
-    font-family: var(--tweet-font);
+    font-family: var(--tweet-font-override);
 }
 
 .tweet-body-main {
@@ -1422,7 +1429,7 @@ span.tweet-body-text {
     border: 1px solid var(--border);
     border-radius: 3px;
     display: inline-block;
-    font: 18px var(--font);
+    font: 18px var(--font-override);
     height: 23px;
     padding: 5px;
     padding-right: 40px;
@@ -2065,7 +2072,7 @@ emoji-picker {
     background-color: #82ff9d !important;
     content: "DEV" !important;
     color: black !important;
-    font-family: var(--font) !important;
+    font-family: var(--font-override) !important;
     padding: 1px 6px 0px 6px;
     font-size: 12px;
     vertical-align: middle;
@@ -2148,7 +2155,7 @@ emoji-picker {
     border: 1px solid var(--border);
     border-radius: 5px;
     display: inline-block;
-    font-family: var(--font);
+    font-family: var(--font-override);
     height: 30px;
     min-height: 30px;
     padding: 5px;
@@ -2379,7 +2386,7 @@ rt.furigana {
     left: 57px;
     position: relative;
     width: 475px;
-    font-family: var(--tweet-font);
+    font-family: var(--tweet-font-override);
 }
 
 .notification-avatars {

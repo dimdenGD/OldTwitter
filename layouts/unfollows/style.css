@@ -28,7 +28,7 @@ a {
 
 body {
     background-color: var(--darker-background-color) !important;
-    font-family: var(--font);
+    font-family: var(--font-override);
     margin: 0
 }
 
@@ -281,7 +281,7 @@ body {
     border: 1px solid var(--border);
     border-radius: 5px;
     display: inline-block;
-    font-family: var(--font);
+    font-family: var(--font-override);
     height: 30px;
     padding: 5px;
     resize: none;
@@ -309,7 +309,7 @@ body {
     color: var(--almost-black);
     color: var(--darker-gray);
     cursor: pointer;
-    font: 700 14px/normal var(--font);
+    font: 700 14px/normal var(--font-override);
     padding: 8px 16px
 }
 
@@ -586,7 +586,7 @@ a:hover,
     border: 1px solid var(--border);
     border-radius: 3px;
     display: inline-block;
-    font: 18px var(--font);
+    font: 18px var(--font-override);
     height: 23px;
     padding: 5px;
     padding-right: 40px;
@@ -805,7 +805,7 @@ a:hover,
 .poll-question, .poll-date {
     border: 1px solid var(--border);
     border-radius: 5px;
-    font: 16px var(--font);
+    font: 16px var(--font-override);
     padding: 3px;
     width: 100%
 }

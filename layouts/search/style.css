@@ -28,7 +28,7 @@ a {
 
 body {
     background-color: var(--darker-background-color) !important;
-    font-family: var(--font);
+    font-family: var(--font-override);
     margin: 0
 }
 
@@ -708,7 +708,7 @@ a:hover,
 .search-advanced-input {
     border: 1px solid var(--border);
     border-radius: 5px;
-    font: 16px var(--font);
+    font: 16px var(--font-override);
     padding: 3px;
     width: 100%
 }
