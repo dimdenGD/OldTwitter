@@ -3799,7 +3799,7 @@ function renderNotification(n, options = {}) {
     
         let users = n.template.aggregateUserActionsV1.fromUsers.map(u => n.users[u.user.id]);
         if(n.icon.id === 'recommendation_icon') {
-            notificationHeader = `<b><a href="https://twitter.com/${users[0].screen_name}">${escapeHTML(notificationHeader)}</a></b>`;
+            notificationHeader = `<b><a href="https://twitter.com/${users[0] ? users[0].screen_name : '#'}">${escapeHTML(notificationHeader)}</a></b>`;
         }
         if(!iconClasses[n.icon.id]) {
             console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);
