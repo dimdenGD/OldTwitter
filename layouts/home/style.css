@@ -871,6 +871,7 @@ a:hover,
     width: 100%;
     max-width: 275px;
     font-family: var(--font);
+    padding-left: 5px;
 }
 #timeline-type-center {
     color: var(--almost-black);
@@ -883,6 +884,7 @@ a:hover,
     max-width: 590px;
     outline: none;
     font-family: var(--font);
+    padding-left: 5px;
 }
 #content {
     min-height: 800px;
