@@ -4,7 +4,6 @@
     --font: Arial, sans-serif;
     --tweet-font: Arial, sans-serif;
     --font-override: "JustBird", var(--font);
-    --tweet-font-override: "JustBird", var(--tweet-font);
     --icon-font: "RosettaIcons";
 
     --video-cover: contain;
@@ -792,7 +791,7 @@ input, textarea {
 .tweet-body-text span {
     word-break: break-word;
     white-space: break-spaces;
-    font-family: var(--tweet-font-override);
+    font-family: var(--tweet-font);
     cursor: text;
 }
 .modal-top  {
@@ -1313,10 +1312,10 @@ input, textarea {
 span.tweet-body-text {
     white-space: pre-wrap;
     word-break: break-word;
-    font-family: var(--tweet-font-override);
+    font-family: var(--tweet-font);
 }
 #notification-text {
-    font-family: var(--tweet-font-override);
+    font-family: var(--tweet-font);
 }
 
 .tweet-body-main {
@@ -2386,7 +2385,7 @@ rt.furigana {
     left: 57px;
     position: relative;
     width: 475px;
-    font-family: var(--tweet-font-override);
+    font-family: var(--tweet-font);
 }
 
 .notification-avatars {
