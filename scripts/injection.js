@@ -151,7 +151,7 @@ const TRANSLATORS = {
     ],
     "pt_BR": [
         ["kigi", "https://twitter.com/kigidere"],
-        ["umgustavo", "https://github.com/umgustavo"]
+        ["guko", "https://twitter.com/gukodev"]
     ],
     "es": [
         ["Ruchi", "https://twitter.com/anbulansia"],
