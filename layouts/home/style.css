@@ -862,7 +862,7 @@ a:hover,
     color: gray !important;
 }
 #timeline-type-right {
-    color: var(--default-text-color);
+    color: var(--almost-black);
     background-color: var(--background-color);
     border: 1px solid var(--border);
     border-radius: 4px;
@@ -870,9 +870,10 @@ a:hover,
     padding: 5px 2px;
     width: 100%;
     max-width: 275px;
+    font-family: var(--font);
 }
 #timeline-type-center {
-    color: var(--default-text-color);
+    color: var(--almost-black);
     background-color: var(--background-color);
     border: 1px solid var(--border);
     border-radius: 4px;
@@ -881,6 +882,7 @@ a:hover,
     width: 100%;
     max-width: 590px;
     outline: none;
+    font-family: var(--font);
 }
 #content {
     min-height: 800px;
