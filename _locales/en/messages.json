@@ -585,11 +585,9 @@
 	"current_font": { "message": "Current font: $FONT$", "placeholders": { "font": { "content": "Arial" } } },
     "user_sent_photo": { "message": "$NAME$ sent a photo", "placeholders": { "name": { "content": "Display Name" } } },
     "user_sent_video": { "message": "$NAME$ sent a video", "placeholders": { "name": { "content": "Display Name" } } },
-    "user_shared_tweet": { "message": "$NAME$ shared a tweet", "placeholders": { "name": { "content": "Display Name" } } },
     "user_reacted_message": { "message": "$NAME$ reacted to message", "placeholders": { "name": { "content": "Display Name" } } },
     "you_sent_photo": { "message": "You sent a photo" },
     "you_sent_video": { "message": "You sent a video" },
-    "you_shared_tweet": { "message": "You shared a tweet" },
     "you_reacted_message": { "message": "You reacted to message" },
     "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ added $A2$$USER_WHO_JOINED$$A_END$", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
         "user_who_added": { "content": "Group Admin" },
@@ -629,5 +627,7 @@
         }
     },
     "accepted_conversation": { "message": "Accepted conversation" },
-    "anniversary_tweet": { "message": "Do you remember when you joined Twitter? I do!\n#MyTwitterAnniversary" }
+    "anniversary_tweet": { "message": "Do you remember when you joined Twitter? I do!\n#MyTwitterAnniversary" },
+    "you_shared_tweet": { "message": "You shared a tweet" },
+    "user_shared_tweet": { "message": "$NAME$ shared a tweet", "placeholders": { "name": { "content": "Display Name" } } }
 }
