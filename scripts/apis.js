@@ -1831,7 +1831,7 @@ const API = {
                     if (cursor) {
                         items = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddToModule').moduleItems;
                     } else {
-                        items = entries.find(e => e.entryId === 'profile-grid-0').content.items;
+                        items = entries.find(e => e.entryId === 'profile-grid-0')?.content?.items || [];
                     }
                     let tweets = items.filter(e => e.entryId.startsWith('profile-grid-0-tweet-')).map(t => {
                         let tweet = parseTweet(t.item.itemContent.tweet_results.result);
