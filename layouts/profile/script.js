@@ -993,7 +993,16 @@ let months = [];
 let everAddedAdditional = false;
 let toAutotranslate = false;
 async function renderProfile() {
-    document.getElementById('profile-banner').src = pageUser.profile_banner_url ? pageUser.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
+    let banner = document.getElementById('profile-banner');
+    if(pageUser.profile_banner_url) {
+        banner.onerror = () => {
+            banner.onerror = null;
+            banner.src += "/1500x500";
+        }
+        banner.src = pageUser.profile_banner_url;
+    } else {
+        banner.src = 'https://abs.twimg.com/images/themes/theme1/bg.png';
+    }
     let attempts = 0;
     document.getElementById('profile-avatar').addEventListener('error', () => {
         if(attempts > 3) return document.getElementById('profile-avatar').src = `${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_400x400.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png'}`;
