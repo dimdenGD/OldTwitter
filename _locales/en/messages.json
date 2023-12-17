@@ -627,5 +627,7 @@
         }
     },
     "accepted_conversation": { "message": "Accepted conversation" },
-    "anniversary_tweet": { "message": "Do you remember when you joined Twitter? I do!\n#MyTwitterAnniversary" }
+    "anniversary_tweet": { "message": "Do you remember when you joined Twitter? I do!\n#MyTwitterAnniversary" },
+    "you_shared_tweet": { "message": "You shared a tweet" },
+    "user_shared_tweet": { "message": "$NAME$ shared a tweet", "placeholders": { "name": { "content": "Display Name" } } }
 }

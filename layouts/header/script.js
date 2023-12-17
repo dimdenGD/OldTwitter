@@ -1268,15 +1268,15 @@ let userDataFunction = async user => {
 
             let lastSenderWasUser = lastMessage.message_data && lastMessage.message_data.sender_id === user.id_str
 
-            if(lastMessage.reason) {
+            if (lastMessage.reason) {
                 messageEntry.preview = LOC.accepted_conversation.message;
-            } else if(lastEvent.type == 'participants_leave') {
+            } else if (lastEvent.type == 'participants_leave') {
                 let leftUser = inbox.users[lastMessage.participants[0].user_id];
                 messageEntry.preview = LOC.user_left.message
                 .replace('$NAME$', escapeHTML(leftUser.name))
                 .replace('$A_START$', '')
                 .replace('$A_END$', '');
-            } else if(lastEvent.type == 'participants_join') {
+            } else if (lastEvent.type == 'participants_join') {
                 let joinedUser = inbox.users[lastMessage.participants[0].user_id];
                 let userWhoAdded = inbox.users[lastMessage.sender_id];
                 messageEntry.preview = LOC.user_added.message
@@ -1299,18 +1299,24 @@ let userDataFunction = async user => {
                 .replace('$NAME$', escapeHTML(userWhoUpdated.name))
                 .replace('$A_START$', '')
                 .replace('$A_END$', '');
-            } else if(lastMessage.message_data) {
+            } else if (lastMessage.message_data) {
                 let lastMessageUser = lastMessage.message_data ? messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id) : messageUsers[0];
                 if (lastMessage.message_data.text.startsWith('dmservice_reaction_')) {
                     messageEntry.preview = lastSenderWasUser ? LOC.you_reacted_message.message : LOC.user_reacted_message.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
-                } else if(lastMessage.message_data.attachment) {
+                } else if (lastMessage.message_data.attachment) {
                     if (lastMessage.message_data.attachment.video) {
                         messageEntry.preview = lastSenderWasUser ? LOC.you_sent_video.message : LOC.user_sent_video.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
                     } else if (lastMessage.message_data.attachment.photo) {
                         messageEntry.preview = lastSenderWasUser ? LOC.you_sent_photo.message : LOC.user_sent_photo.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
+                    } else if (lastMessage.message_data.attachment.tweet) {
+                        messageEntry.preview = lastSenderWasUser ? LOC.you_shared_tweet.message : LOC.user_shared_tweet.message.replace('$NAME$', escapeHTML(lastMessageUser.name));
+                    } else if (c.type == 'GROUP_DM') { //other attachments like tweets, links, cards, etc (this should just end up being a t.co link) (same with the last else)
+                        messageEntry.preview = escapeHTML(lastMessageUser.name) + ': ' + escapeHTML(lastMessage.message_data.text);
                     } else {
-                        messageEntry.preview = escapeHTML(lastMessage.message_data.text); //other attachments like tweets, links, cards, etc (this should just end up being a t.co link)
+                        messageEntry.preview = escapeHTML(lastMessage.message_data.text);
                     }
+                } else if (c.type == 'GROUP_DM') {
+                    messageEntry.preview = escapeHTML(lastMessageUser.name) + ': ' + escapeHTML(lastMessage.message_data.text);
                 } else {
                     messageEntry.preview = escapeHTML(lastMessage.message_data.text);
                 }
