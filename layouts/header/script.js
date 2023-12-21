@@ -1316,7 +1316,7 @@ let userDataFunction = async user => {
                         messageEntry.preview = escapeHTML(lastMessage.message_data.text);
                     }
                 } else if (c.type == 'GROUP_DM') {
-                    messageEntry.preview = escapeHTML(lastMessageUser.name) + ': ' + escapeHTML(lastMessage.message_data.text);
+                    messageEntry.preview = lastSenderWasUser ? escapeHTML(lastMessage.message_data.text) : (escapeHTML(lastMessageUser.name) + ': ' + escapeHTML(lastMessage.message_data.text));
                 } else {
                     messageEntry.preview = escapeHTML(lastMessage.message_data.text);
                 }
