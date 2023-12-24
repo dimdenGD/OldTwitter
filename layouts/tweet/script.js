@@ -305,6 +305,7 @@ async function updateRetweets(id, c) {
                 <div class="following-item-text">
                     <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
                     <span class="tweet-header-handle">@${u.screen_name}</span>
+                    ${u.followed_by ? `<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
                 </div>
             </a>
         </div>
