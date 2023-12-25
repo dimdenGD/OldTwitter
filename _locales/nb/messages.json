@@ -180,7 +180,7 @@
     "edit_twitter_settings": { "message": "Endre Twitter-instillinger" },
     "refresh_tabs": { "message": "Last fanen på nytt for å innføre endringene" },
     "chrono": { "message": "Omvendt kronologist" },
-    "chrono_social": { "message": "Omvendt kronologist med venners likes" },
+    "chrono_social": { "message": "Omvendt kronologisk med venners likes" },
     "algo": { "message": "Algorytmisk" },
     "timeline_type": { "message": "Tidslinjetype" },
     "show_topic_tweets": { "message": "Vis emne-tweets (kun algorytmisk)" },
