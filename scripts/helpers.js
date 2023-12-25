@@ -1589,6 +1589,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.top.icon = "\uf008";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else {
+                options.top = null; //otherwise, undefined values in options.top
                 console.log(t.socialContext);
             }
         }
