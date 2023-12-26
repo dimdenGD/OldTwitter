@@ -400,7 +400,7 @@
     "hide_trends": { "message": "Gjem trender" },
     "hide_wtf": { "message": "Gjem \"Folk å følge\"" },
     "hide_likes": { "message": "Gjem like, retweet og svar antall på tweets" },
-    "hide_followers": { "message": "Hjem antall følgere" },
+    "hide_followers": { "message": "Gjem antall følgere" },
     "block_sure_desc": { "message": "De kommer ikke til å kunne følge deg eller se dine Tweets, og du vil ikke se Tweets eller varsler fra @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user" : { "message": "@$SCREEN_NAME$ blokket deg", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "why_you_cant_see_block_user": { "message": "Du kan ikke følge eller se @$SCREEN_NAME$ sine Tweets.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
