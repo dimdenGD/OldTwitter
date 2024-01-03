@@ -86,7 +86,7 @@ if (realPath === '/intent/user') {
 }
 if (realPath.startsWith('/i/web/status/')) {
     let id = location.pathname.split('/i/web/status/')[1];
-    API.tweet.get(id).then(tweet => {
+    API.tweet.getV2(id).then(tweet => {
         if (tweet.error) {
             return;
         }
