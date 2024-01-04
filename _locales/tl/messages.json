@@ -428,7 +428,7 @@
     "pin_profile_on_navbar": { "message": "I-pin ang Profile link sa navbar" },
     "pin_bookmarks_on_navbar": { "message": "I-pin ang Bookmarks link sa navbar" },
     "pin_lists_on_navbar": { "message": "I-pin ang Lists link sa navbar" },
-    "me": { "message": "Me", "description": "You should probably use word 'Profile' in your language" },
+    "me": { "message": "Profile", "description": "You should probably use word 'Profile' in your language" },
     "tweet_text_font": { "message": "Tweet text font" },
     "use_old_default_profile": { "message": "Set default profile picture to Egg" },
     "colors": { "message": "Mga Kulay" },
