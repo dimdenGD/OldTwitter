@@ -76,7 +76,7 @@
     "unsubscribe": { "message": "Sluta följa" },
     "subscribe": { "message": "Följ" },
     "list_not_found": { "message": "Listan hittades inte." },
-    "go_homepage": { "message": "Gå till startsidan." },
+    "go_homepage": { "message": "OK" },
     "mentions": { "message": "Omnämnanden" },
     "tweeted_like": { "message": "tweetade något som du kanske gillar", "example": "CoolPerson2000 ->tweeted something you might like<-" },
     "favorites": { "message": "Favoritmarkeringar" },
@@ -87,7 +87,7 @@
     "photos_and_videos2": { "message": "Bilder & videor" },
     "tweets_and_replies": { "message": "Tweets & svar" },
     "you_may_also_like": { "message": "Du kanske gillar...", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Twitter stänger regelbundet ned konton som bryter mot dess regler. Det här kontot har spärrats." },
+    "user_was_suspended": { "message": "Det här kontot har spärrats.<br>Twitter stänger regelbundet av konton som bryter mot dess regler." },
     "user_was_not_found": { "message": "Kontot hittades inte." },
     "timeline_not_authorized": { "message": "Du har inte behörighet att visa den här användarens tidslinje." },
     "create_btn": { "message": "[skapa]" },
@@ -442,7 +442,7 @@
     "uncensor_graphic_violence_automatically": { "message": "Censurera inte bilder och videor med våld" },
     "uncensor_adult_content_automatically": { "message": "Censurera inte bilder och videor med naket innehåll" },
     "uncensor_sensitive_content_automatically": { "message": "Censurera inte bilder och videor med känsligt innehåll" },
-    "replying_to_user": { "message": "Svarar till $SCREEN_NAME$", "description": "Do not add '@'", "placeholders": { "screen_name": { "content": "@CoolPerson2000" } } },
+    "replying_to_user": { "message": "Svarar på $SCREEN_NAME$", "description": "Do not add '@'", "placeholders": { "screen_name": { "content": "@CoolPerson2000" } } },
     "content_warnings": { "message": "Innehållsvarningar" },
     "transparency": { "message": "Genomskinlighet", "note": "Color" },
     "reset": { "message": "Återställ" },
@@ -626,8 +626,8 @@
             "a_end": { "content": "</a>" }
         }
     },
-    "accepted_conversation": { "message": "Accepted conversation" },
-    "anniversary_tweet": { "message": "Minns du när du gick med på twitter? Det gör jag!\n#MyTwitterAnniversary" },
+    "accepted_conversation": { "message": "Meddelandeförfrågan accepterades" },
+    "anniversary_tweet": { "message": "Minns du när du gick med på Twitter? Det gör jag!\n#MyTwitterAnniversary" },
     "you_shared_tweet": { "message": "Du delade en Tweet" },
     "user_shared_tweet": { "message": "$NAME$ delade en Tweet", "placeholders": { "name": { "content": "Display Name" } } }
 }
