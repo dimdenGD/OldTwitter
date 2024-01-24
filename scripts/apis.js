@@ -4444,6 +4444,7 @@ const API = {
                             let res = e.content.itemContent.tweet_results.result;
                             let tweet = parseTweet(res);
                             if(tweet) {
+                                if(tweet.user.blocking || tweet.user.muting) continue;
                                 tweet.hasModeratedReplies = e.content.itemContent.hasModeratedReplies;
                                 tweets.push(tweet);
                             }
@@ -4461,6 +4462,7 @@ const API = {
                                     if(i !== 0) {
                                         tweet.noTop = true;
                                     }
+                                    if(tweet.user.blocking || tweet.user.muting) continue;
                                     tweet.hasModeratedReplies = t.item.itemContent.hasModeratedReplies;
                                     tweets.push(tweet);
                                 }
