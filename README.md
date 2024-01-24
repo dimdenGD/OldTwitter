@@ -1,5 +1,4 @@
 # OldTwitter (2023)
-
 Browser extension to return old Twitter layout from 2015 (and option to use 2018 design).  
 This extension doesn't add any CSS on top of original Twitter. It's fully original client that replaces Twitter, making it much faster than alternatives.
 
@@ -162,7 +161,7 @@ Portuguese (Brazil) - [kigidere](https://twitter.com/kigidere), [guko](https://t
 Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitter.com/gaelcoral), [hue](https://twitter.com/huey1116), Beelzenef, [elderreka](https://twitter.com/elderreka)  
 Greek - [VasilisTheChu](https://pikachu.systems/)  
 Romanian - [Skyrina](https://skyrina.dev/), [AlexSem](https://twitter.com/AlexSem5399)  
-Tagalog - [Eurasian](https://twitter.com/NotPROxV)  
+Tagalog - [Eurasian](https://twitter.com/NotPROxV), [@conc1erge](https://twitter.com/conc1erge), [@cheesee_its](https://twitter.com/cheesee_its)  
 Latvian - [yourfriend](https://3.141.lv/)  
 Hebrew - "ugh", qqqq, [kriterin](https://twitter.com/kriterin)  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
