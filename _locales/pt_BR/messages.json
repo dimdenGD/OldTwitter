@@ -1758,11 +1758,11 @@
 		"message": "Seguir as configurações do sistema para modo escuro"
 	},
 	"replacer_post_to_tweet": {
-		"message": "post->tuíte",
+		"message": "post->tweet",
 		"description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
 	},
 	"replacer_repost_to_retweet": {
-		"message": "repost->retuíte",
+		"message": "repost->retweet",
 		"description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)."
 	},
 	"mute_user": {
@@ -1782,7 +1782,7 @@
 		}
 	},
 	"muted_user": {
-		"message": "Silenciado @$SCREEN_NAME$",
+		"message": "Silenciou @$SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
@@ -1790,7 +1790,7 @@
 		}
 	},
 	"unmuted_user": {
-		"message": "Reativado @$SCREEN_NAME$",
+		"message": "Reativou @$SCREEN_NAME$",
 		"placeholders": {
 			"screen_name": {
 				"content": "CoolPerson2000"
