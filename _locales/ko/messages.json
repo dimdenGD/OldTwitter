@@ -582,5 +582,52 @@
     "uploaded": { "message": "업로드됨" },
     "hide_unfollowers_page": { "message": "언팔로워 페이지를 숨깁니다" },
 	"custom_font": { "message": "<사용자 지정>" },
-	"current_font": { "message": "현재 글꼴: $FONT$", "placeholders": { "font": { "content": "Arial" } } }
+	"current_font": { "message": "현재 글꼴: $FONT$", "placeholders": { "font": { "content": "Arial" } } },
+    "user_sent_photo": { "message": "$NAME$ 님이 사진을 보냈습니다", "placeholders": { "name": { "content": "Display Name" } } },
+    "user_sent_video": { "message": "$NAME$ 님이 동영상을 보냈습니다", "placeholders": { "name": { "content": "Display Name" } } },
+    "user_reacted_message": { "message": "$NAME$ 님이 반응을 보냈습니다", "placeholders": { "name": { "content": "Display Name" } } },
+    "you_sent_photo": { "message": "사진을 보냈습니다" },
+    "you_sent_video": { "message": "동영상을 보냈습니다" },
+    "you_reacted_message": { "message": "반응을 보냈습니다" },
+    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$  님이 $A2$$USER_WHO_JOINED$$A_END$ 님을 추가했습니다", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
+        "user_who_added": { "content": "Group Admin" },
+        "user_who_joined": { "content": "Group Admin's Friend" },
+        "a1": { "content": "<a href=\"/GroupAdmin\">" },
+        "a2": { "content": "<a href=\"/GroupAdminsFriend\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_left": { "message": "$A_START$$NAME$$A_END$ 님이 퇴장했습니다", "description": "This is used when a user in a group leaves (display name)", "placeholders": {
+        "name": { "content": "Group Admin's Friend" },
+        "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ 님이 그룹 사진을 업데이트했습니다", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
+        "name": { "content": "Group Admin" },
+        "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ 님이 그룹 이름을 $GROUP_NAME$(으)로 변경했습니다", "description": "This is used when a user in a group changes the group name (display name)", "placeholders": {
+        "name": { "content": "Group Admin" },
+        "group_name": { "content": "Example Group" },
+        "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_added_you_inbox": { "message": "$NAME$ 님이 나를 추가했습니다", "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)", "placeholders": {
+        "name": { "content": "Group Admin" }
+    } },
+    "user_added_you_msg": {
+        "message": "$A_START$$NAME$$A_END$ 님이 나를 추가했습니다<br>이 그룹에 기타 $NUMBER$명이 있습니다",
+        "description": "This is used when a group admin adds you to the group chat (display names, messages only)",
+        "example": "<a href=\"/GroupAdmin\">Group Admin</a> added you<br>There are 6 other people in this group",
+        "placeholders": {
+            "name": { "content": "Group Admin" },
+            "number": { "content": "6" },
+            "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+            "a_end": { "content": "</a>" }
+        }
+    },
+    "accepted_conversation": { "message": "승인된 대화" },
+    "anniversary_tweet": { "message": "트위터에 가입한 날이 언제인지 기억하시나요? 트위터는 기억한답니다!\n#MyTwitterAnniversary" },
+    "you_shared_tweet": { "message": "트윗을 전송했습니다" },
+    "user_shared_tweet": { "message": "$NAME$ 님이 트윗을 전송했습니다", "placeholders": { "name": { "content": "Display Name" } } }
 }

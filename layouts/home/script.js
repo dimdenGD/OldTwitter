@@ -81,29 +81,10 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added rate limit bypass again!</li>
-                            <li>Made algorithmic timeline receive new tweets without having to reload the page.</li>
-                            <li>Fixed scroll position not being restored on tweet page.</li>
-                            <li>Added option to hide unfollowers page.</li>
-                            <li>Fixed opening DMs on profile page reloading it.</li>
-                            <li>Fixed closing DMs scrolling page to top.</li>
-                            <li>Made emoji-only messages in DMs prettier.</li>
-                            <li>Made like and retweet buttons don't get colored on touch hold on mobile.</li>
-                            <li>Fixed random thread line sometimes appearing in timeline.</li>
-                            <li>Made OldTwitter use cached users instead of requesting them every time for user previews.</li>
+                            <li>Added new languages and updated translations.</li>
+                            <li>Small bug fixes.</li>
+                            <li>Check out <a href="https://whispy.org/" target="_blank">whispy.org</a> if you're looking for actually good Twitter alternative (from creator of this extension)</li>
                         </ul>
-                        Updates you may have already received:
-                        <ul>
-                            <li>Made older messages load automatically in DMs.</li>
-                            <li>Added support for multiple media uploads in DMs.</li>
-                            <li>Made back button work for DMs.</li>
-                            <li>Added "Share tweet in DMs" button.</li>
-                            <li>Improved experimental iframe navigation a lot.</li>
-                        </ul>
-                        <p style="margin-bottom:5px">
-                            Want to support me? You can <a href="https://dimden.dev/donate" target="_blank">donate</a>, <a href="https://twitter.com/d1mden" target="_blank">follow me</a> or <a href="https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf" target="_blank">leave a review</a>.<br>
-                            Found some bug? Report it here: <a target="_blank" href="https://github.com/dimdenGD/OldTwitter/issues">https://github.com/dimdenGD/OldTwitter/issues</a>
-                        </p>
                     </span>
                 `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
                 let changelog = document.getElementById('changelog');

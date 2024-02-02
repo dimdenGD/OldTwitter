@@ -139,7 +139,7 @@ if (
     url.searchParams.set('newtwitter', 'true');
     location.replace(url);
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca", "sv", "bg", "nb"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca", "sv", "bg", "nb", "fi"];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -151,7 +151,8 @@ const TRANSLATORS = {
     ],
     "pt_BR": [
         ["kigi", "https://twitter.com/kigidere"],
-        ["guko", "https://twitter.com/gukodev"]
+        ["guko", "https://twitter.com/gukodev"],
+        ["prophamoon", "https://twitter.com/prophamoon"]
     ],
     "es": [
         ["Ruchi", "https://twitter.com/anbulansia"],
@@ -208,7 +209,8 @@ const TRANSLATORS = {
     "ca": ["elmees21", "https://twitter.com/elmees21"],
     "sv": ["actuallyaridan", "https://twitter.com/actuallyaridan"],
     "bg": ["Scarlett7447", "https://twitter.com/Scarlett7447"],
-    "nb": ["twistquest", "https://twitter.com/twistquest"]
+    "nb": ["twistquest", "https://twitter.com/twistquest"],
+    "fi": ["scepixel.fla", "https://caenogo.nl/pages/pxww"]
 };
 let LOC = {};
 let LOC_EN = {};
