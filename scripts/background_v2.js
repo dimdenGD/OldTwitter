@@ -31,6 +31,8 @@ chrome.webRequest.onBeforeRequest.addListener(
                     !details.originUrl.includes("newtwitter=true") &&
                     !details.originUrl.includes("/i/flow/login") &&
                     !details.originUrl.includes("/settings/download_your_data") &&
+                    !details.originUrl.includes("/i/broadcasts") &&
+                    !details.originUrl.includes("/i/communitynotes") &&
                     !details.originUrl.includes("tweetdeck.twitter.com")
                 ) && 
                 ( // includes
