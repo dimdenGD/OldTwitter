@@ -627,5 +627,7 @@
         }
     },
     "accepted_conversation": { "message": "接受了对话" },
-    "anniversary_tweet": { "message": "还记得你何时加入 Twitter 吗？我知道！#我的Twitter周年纪念日" }
+    "anniversary_tweet": { "message": "还记得你何时加入 Twitter 吗？我知道！#我的Twitter周年纪念日" },
+    "you_shared_tweet": { "message": "你分享了一则推文" },
+    "user_shared_tweet": { "message": "$NAME$ 分享了一则推文", "placeholders": { "name": { "content": "Display Name" } } }
 }
