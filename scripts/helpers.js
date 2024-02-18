@@ -1876,7 +1876,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     ${videos ? /*html*/`
                         <div class="tweet-media-controls">
                             ${videos[0].ext && videos[0].ext.mediaStats && videos[0].ext.mediaStats.r && videos[0].ext.mediaStats.r.ok ? `<span class="tweet-video-views tweet-button">${Number(videos[0].ext.mediaStats.r.ok.viewCount).toLocaleString().replace(/\s/g, ',')} ${LOC.views.message}</span> • ` : ''}<span class="tweet-video-reload tweet-button">${LOC.reload.message}</span> •
-                            ${videos[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality tweet-button" data-url="${v.url}">${v.url.match(/\/(\d+)x/)[1] + 'p'}</span> `).join(" / ")}
+                            ${videos[0].video_info.variants.filter(v => v.bitrate).map(v => `<span class="tweet-video-quality tweet-button" data-url="${v.url}">${v.url.map(url => {
+                                let wh = url.match(/\/(\d+)x(\d+)/);
+                                let w = parseInt(wh[1]);
+                                let h = parseInt(wh[2]);
+                                return w < h ? w : h;
+                            }) + 'p'}</span> `).join(" / ")}
                         </div>
                     ` : ``}
                     <span class="tweet-media-data"></span>
