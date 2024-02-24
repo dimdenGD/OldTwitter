@@ -63,7 +63,7 @@ function createModal(html, className, onclose, canclose) {
     document.body.appendChild(modal);
     return modal;
 }
-async function handleFiles(files, mediaArray, mediaContainer) {
+async function handleFiles(files, mediaArray, mediaContainer, is_dm = false) {
     let images = [];
     let videos = [];
     let gifs = [];
@@ -213,7 +213,7 @@ async function handleFiles(files, mediaArray, mediaContainer) {
                         data: data,
                         type: file.type,
                         cw: [],
-                        category: file.type.includes('gif') ? 'tweet_gif' : file.type.includes('video') ? 'tweet_video' : 'tweet_image'
+                        category: file.type.includes('gif') ? (is_dm ? 'dm_gif' : 'tweet_gif') : file.type.includes('video') ? (is_dm ? 'dm_video' : 'tweet_video') : (is_dm ? 'dm_image' : 'tweet_image')
                     };
                     mediaArray.push(mediaObject);
                     if(file.type.includes('video')) {
@@ -271,7 +271,7 @@ function handleDrop(event, mediaArray, mediaContainer) {
         handleFiles(files, mediaArray, mediaContainer);
     }
 }
-function getMedia(mediaArray, mediaContainer) {
+function getMedia(mediaArray, mediaContainer, is_dm = false) {
     let input = document.createElement('input');
     input.type = 'file';
     input.multiple = true;
@@ -279,7 +279,7 @@ function getMedia(mediaArray, mediaContainer) {
         input.accept = 'image/jpeg,image/png,image/webp,image/gif,video/mp4,video/quicktime';
     }
     input.addEventListener('change', () => {
-        handleFiles(input.files, mediaArray, mediaContainer);
+        handleFiles(input.files, mediaArray, mediaContainer, is_dm);
     });
     input.click();
 };

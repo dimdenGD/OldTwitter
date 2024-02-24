@@ -1533,7 +1533,7 @@ let userDataFunction = async user => {
 
         let mediaToUpload = []; 
         newMediaButton.addEventListener('click', () => {
-            getMedia(mediaToUpload, newMedia, document.querySelector('.modal-content')); 
+            getMedia(mediaToUpload, newMedia, true); 
         });
         newInput.addEventListener('paste', event => {
             let items = (event.clipboardData || event.originalEvent.clipboardData).items;
@@ -1541,7 +1541,7 @@ let userDataFunction = async user => {
                 let item = items[index];
                 if (item.kind === 'file') {
                     let file = item.getAsFile();
-                    handleFiles([file], mediaToUpload, newMedia);
+                    handleFiles([file], mediaToUpload, newMedia, true);
                 }
             }
         });
@@ -1562,6 +1562,7 @@ let userDataFunction = async user => {
                 try {
                     media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
                     let mediaId = await API.uploadMedia({
+                        media_category: media.category,
                         media_type: media.type,
                         media: media.data,
                         cw: [],
