@@ -554,42 +554,42 @@
     "sort_by_follow_date": { "message": "Sort by follow date (inaccurate)" },
     "sort_by_followers": { "message": "Sort by follower count" },
     "sort_by_following": { "message": "Sort by following count" },
-    "sort_by_name": { "message": "Sort by name" },
-    "sort_by_username": { "message": "Sort by username" },
-    "sort_by_tweets": { "message": "Sort by tweet count" },
-    "sort_by_created": { "message": "Sort by account creation date" },
-    "sort_by_random": { "message": "Sort by random" },
+    "sort_by_name": { "message": "Sort dari nama" },
+    "sort_by_username": { "message": "Sortir dari nama pengguna" },
+    "sort_by_tweets": { "message": "Sortir dari jumlah hitungan tweet" },
+    "sort_by_created": { "message": "Sortir dari tanggal pembuatan akun" },
+    "sort_by_random": { "message": "Sortir secara acak" },
     "loading_all_followers": { "message": "Loading all followers (this will happen once per 24 hours)..." },
-    "apply": { "message": "Apply" },
+    "apply": { "message": "Terapkan" },
     "filter": { "message": "Filter" },
     "ascending": { "message": "Ascending" },
     "descending": { "message": "Descending" },
-    "search_by_name": { "message": "Search by name" },
-    "search_by_description": { "message": "Search by description" },
-    "only_show_people_you_follow": { "message": "Only show people you follow" },
-    "only_show_people_with_followers": { "message": "Only show people with at least $NUMBER$ followers", "placeholders": { "number": { "content": "-1" } } },
-    "only_show_people_with_age": { "message": "Only show people with an account that is at least $NUMBER$ days old", "placeholders": { "number": { "content": "-1" } } },
+    "search_by_name": { "message": "Cari dengan nama" },
+    "search_by_description": { "message": "Cari dengan deskripsi" },
+    "only_show_people_you_follow": { "message": "Hanya tampilkan orang yang anda ikuti" },
+    "only_show_people_with_followers": { "message": "Hanya tampilkan orang dengan setidaknya $NUMBER$ pengikut", "placeholders": { "number": { "content": "-1" } } },
+    "only_show_people_with_age": { "message": "Hanya tampilkan orang dengan akun yang setidaknya berusia $NUMBER$ hari", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "Halaman" },
 	"update": {"message": "Perbarui" },
-    "show_quote_count": { "message": "Show quote count on tweets" },
+    "show_quote_count": { "message": "Tampilkan jumlah hitungan kutipan pada tweet" },
     "uploading": { "message": "Mengunggah" },
     "finalization": { "message": "Finalisasi" },
     "processing": { "message": "Sedang memproses" },
     "quotes": { "message": "Kutipan" },
     "share_tweet_in_dms": { "message": "Bagikan tweet di Pesan Langsung" },
-    "share_tweet_to": { "message": "Share tweet to..." },
-    "disable_find_hotkey": { "message": "Disable find hotkey (F)" },
-    "uploaded": { "message": "Uploaded" },
-    "hide_unfollowers_page": { "message": "Hide unfollowers page" },
-	"custom_font": { "message": "<CUSTOM>" },
-	"current_font": { "message": "Current font: $FONT$", "placeholders": { "font": { "content": "Arial" } } },
-    "user_sent_photo": { "message": "$NAME$ sent a photo", "placeholders": { "name": { "content": "Display Name" } } },
-    "user_sent_video": { "message": "$NAME$ sent a video", "placeholders": { "name": { "content": "Display Name" } } },
-    "user_reacted_message": { "message": "$NAME$ reacted to message", "placeholders": { "name": { "content": "Display Name" } } },
-    "you_sent_photo": { "message": "You sent a photo" },
-    "you_sent_video": { "message": "You sent a video" },
-    "you_reacted_message": { "message": "You reacted to message" },
-    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ added $A2$$USER_WHO_JOINED$$A_END$", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
+    "share_tweet_to": { "message": "Bagikan tweet kepada..." },
+    "disable_find_hotkey": { "message": "Matikan kunci pintas cari (F)" },
+    "uploaded": { "message": "Terunggah" },
+    "hide_unfollowers_page": { "message": "Sembunyikan halaman mantan pengikut" },
+	"custom_font": { "message": "<KHUSUS>" },
+	"current_font": { "message": "Font saat ini: $FONT$", "placeholders": { "font": { "content": "Arial" } } },
+    "user_sent_photo": { "message": "$NAME$ mengirim foto", "placeholders": { "name": { "content": "Display Name" } } },
+    "user_sent_video": { "message": "$NAME$ mengirim video", "placeholders": { "name": { "content": "Display Name" } } },
+    "user_reacted_message": { "message": "$NAME$ menanggapi pesan", "placeholders": { "name": { "content": "Display Name" } } },
+    "you_sent_photo": { "message": "Anda mengirim foto" },
+    "you_sent_video": { "message": "Anda mengirim video" },
+    "you_reacted_message": { "message": "Anda menanggapi pesan" },
+    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ Menambahkan $A2$$USER_WHO_JOINED$$A_END$", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
         "user_who_added": { "content": "Group Admin" },
         "user_who_joined": { "content": "Group Admin's Friend" },
         "a1": { "content": "<a href=\"/GroupAdmin\">" },
@@ -601,22 +601,22 @@
         "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" },
         "a_end": { "content": "</a>" }
     } },
-    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ changed the group photo", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
+    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ mengubah foto grup", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
         "name": { "content": "Group Admin" },
         "a_start": { "content": "<a href=\"/GroupAdmin\">" },
         "a_end": { "content": "</a>" }
     } },
-    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ changed the group name to $GROUP_NAME$", "description": "This is used when a user in a group changes the group name (display name)", "placeholders": {
+    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ mengubah nama grup ke $GROUP_NAME$", "description": "This is used when a user in a group changes the group name (display name)", "placeholders": {
         "name": { "content": "Group Admin" },
         "group_name": { "content": "Example Group" },
         "a_start": { "content": "<a href=\"/GroupAdmin\">" },
         "a_end": { "content": "</a>" }
     } },
-    "user_added_you_inbox": { "message": "$NAME$ added you", "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)", "placeholders": {
+    "user_added_you_inbox": { "message": "$NAME$ menambahkan anda", "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)", "placeholders": {
         "name": { "content": "Group Admin" }
     } },
     "user_added_you_msg": {
-        "message": "$A_START$$NAME$$A_END$ added you<br>There are $NUMBER$ other people in this group",
+        "message": "$A_START$$NAME$$A_END$ menambahkan anda<br>Grup ini memiliki $NUMBER$ orang lain",
         "description": "This is used when a group admin adds you to the group chat (display names, messages only)",
         "example": "<a href=\"/GroupAdmin\">Group Admin</a> added you<br>There are 6 other people in this group",
         "placeholders": {
@@ -626,8 +626,8 @@
             "a_end": { "content": "</a>" }
         }
     },
-    "accepted_conversation": { "message": "Accepted conversation" },
+    "accepted_conversation": { "message": "Menerima percakapan" },
     "anniversary_tweet": { "message": "Do you remember when you joined Twitter? I do!\n#MyTwitterAnniversary" },
-    "you_shared_tweet": { "message": "You shared a tweet" },
-    "user_shared_tweet": { "message": "$NAME$ shared a tweet", "placeholders": { "name": { "content": "Display Name" } } }
+    "you_shared_tweet": { "message": "Anda membagikan tweet" },
+    "user_shared_tweet": { "message": "$NAME$ membagikan tweet", "placeholders": { "name": { "content": "Display Name" } } }
 }
