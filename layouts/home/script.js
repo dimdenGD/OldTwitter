@@ -186,7 +186,7 @@ async function updateTimeline(mode = 'rewrite') {
     } else if(vars.timelineType === 'chrono-no-retweets') {
         tl = tl.filter(t => !t.retweeted_status);
     }
-    if(!user.friends_count && tl.length === 0 && vars.timelineType.startsWith('chrono') && !suspended) {
+    if(!user.friends_count && tl.length === 0 && vars.timelineType.startsWith('chrono') && !suspended && mode === 'rewrite') {
         document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.no_tl_tweets.message}</span>`;
         return;
     }
