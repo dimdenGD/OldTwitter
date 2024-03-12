@@ -107,6 +107,14 @@ function updateElementsStats(tweet) {
     }
 }
 
+
+// Added this function to support Blue Blocker specifically.
+// When a request is made, forward the request body to the window event listener
+// so that other extensions can listen to it.
+function sendRequestToEventListeners(url, body) {
+    window.postMessage({ type: "OLDTWITTER_REQUEST_LOAD", url, body });
+}
+
 // transform ugly useless twitter api reply to usable legacy tweet
 function parseTweet(res) {
     if(typeof res !== "object") return;
@@ -635,6 +643,9 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+
+                    sendRequestToEventListeners('HomeLatestTimeline', data);
+
                     let tweets = parseHomeTimeline(entries, data);
                     if (data.errors && data.errors[0]) {
                         if(tweets.length === 0) return reject(data.errors[0].message);
@@ -688,6 +699,9 @@ const API = {
                         });
                     }
                     entries = entries.addEntries.entries;
+
+                    sendRequestToEventListeners('timeline/home.json', data);
+
                     let list = [];
                     for (let i = 0; i < entries.length; i++) {
                         let e = entries[i].content.item;
@@ -789,6 +803,8 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+
+                    sendRequestToEventListeners('HomeTimeline', data);
 
                     let tweets = parseHomeTimeline(entries, data);
                     let cb = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
@@ -1752,6 +1768,9 @@ const API = {
                             return reject("Nothing here");
                         }
                         entries = entries.entries;
+
+                        sendRequestToEventListeners('UserTweets', data);
+
                         let tweets = [];
                         for(let entry of entries) {
                             if(entry.entryId.startsWith("tweet-")) {
@@ -1969,6 +1988,9 @@ const API = {
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
+
+                    sendRequestToEventListeners('blocks/destroy.json', data);
+
                     resolve(data);
                 }).catch(e => {
                     reject(e);
@@ -2019,6 +2041,9 @@ const API = {
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
+
+                    sendRequestToEventListeners('mutes/users/destroy.json', data);
+
                     resolve(data);
                 }).catch(e => {
                     reject(e);
@@ -2814,6 +2839,9 @@ const API = {
                             delete loadingDetails[id];
                             return reject(data.errors[0].message);
                         }
+
+                        sendRequestToEventListeners('TweetDetail', data);
+
                         let ic = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === "TimelineAddEntries").entries.find(e => e.entryId === `tweet-${id}`).content.itemContent;
                         let res = ic.tweet_results.result;
                         let tweet = parseTweet(res);
@@ -3162,6 +3190,9 @@ const API = {
                             return resolve(out);
                         }
                         let entries = ae.entries;
+
+                        sendRequestToEventListeners('TweetDetail', data);
+
                         let list = [];
                         let users = {};
 
@@ -3554,6 +3585,9 @@ const API = {
                     let entries = data.data.search_by_raw_query.search_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
                     if(!entries) return resolve({ list: [], cursor: undefined });
                     entries = entries.entries;
+
+                    sendRequestToEventListeners('SearchTimeline', data);
+
                     let list = entries.filter(e => e.entryId.startsWith('tweet-')).map(e => {
                         let tweetData = e.content.itemContent.tweet_results.result;
                         if(!tweetData) return;
@@ -3874,6 +3908,9 @@ const API = {
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
+
+                    sendRequestToEventListeners('search/typeahead.json', data);
+
                     resolve(data);
                 }).catch(e => {
                     reject(e);
@@ -3906,6 +3943,9 @@ const API = {
                         cursor: undefined
                     });
                     entries = entries.addEntries.entries;
+
+                    sendRequestToEventListeners('search/adaptive.json', data);
+
                     let list = entries.filter(e => e.entryId.startsWith('sq-I-t-') || e.entryId.startsWith('user-') || e.entryId.startsWith('tweet-'));
                     let cursor = entries.find(e => e.entryId.startsWith('sq-cursor-bottom') || e.entryId.startsWith('cursor-bottom'));
                     if(!cursor) {
@@ -3990,6 +4030,9 @@ const API = {
                         });
                     }
                     entries = entries.entries;
+
+                    sendRequestToEventListeners('SearchTimeline', data);
+
                     let res = [];
                     for(let entry of entries) {
                         if(entry.entryId.startsWith('sq-I-t-') || entry.entryId.startsWith('tweet-')) {
