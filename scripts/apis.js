@@ -112,7 +112,13 @@ function updateElementsStats(tweet) {
 // When a request is made, forward the request body to the window event listener
 // so that other extensions can listen to it.
 function sendRequestToEventListeners(url, body) {
-    window.postMessage({ type: "OLDTWITTER_REQUEST_LOAD", url, body });
+    window.postMessage({ type: "OLDTWITTER_REQUEST_LOAD", url, body, headers: {
+        "authorization": OLDTWITTER_CONFIG.public_token,
+        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+        "x-twitter-auth-type": "OAuth2Session",
+        "x-twitter-active-user": "yes",
+        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
+    }});
 }
 
 // transform ugly useless twitter api reply to usable legacy tweet
