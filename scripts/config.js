@@ -9,7 +9,7 @@ const OLDTWITTER_CONFIG = {
 };
 
 // https://developer.twitter.com/en/docs/twitter-for-websites/supported-languages
-const TRANSLATION_SUPPORTED_LANGUAGES = ['en', 'ar', 'bn', 'cs', 'da', 'de', 'el', 'es', 'fa', 'fi', 'fil', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'ko', 'msa', 'nl', 'no', 'pl', 'pt', 'ro', 'ru', 'sv', 'th', 'tr', 'uk', 'ur', 'vi', 'zh-cn', 'zh-tw', 'pt-BR', 'pt'];
+const TRANSLATION_SUPPORTED_LANGUAGES = ['en', 'ar', 'bn', 'cs', 'da', 'de', 'el', 'es', 'fa', 'fi', 'fil', 'fr', 'he', 'hi', 'hu', 'id', 'it', 'ja', 'ko', 'msa', 'nl', 'no', 'pl', 'pt', 'ro', 'ru', 'sv', 'th', 'tr', 'uk', 'ur', 'vi', 'zh', 'zh-cn', 'zh-tw', 'pt-BR', 'pt'];
 
 const INSIDE_IFRAME = window !== window.top;
 
