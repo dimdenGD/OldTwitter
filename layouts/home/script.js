@@ -1339,7 +1339,7 @@ setTimeout(async () => {
         } else {
             updateTimeline('prepend');
         }
-    }, 30000);
+    }, 60000);
     if(vars.timelineType.startsWith('chrono')) {
         setInterval(async () => {
             let tweets = (await API.timeline.getChronologicalV2()).list;
@@ -1350,7 +1350,7 @@ setTimeout(async () => {
                     timeline.dataToUpdate[i] = newTweet;
                 }
             }
-        }, 60000 * 2.25);
+        }, 60000 * 3);
     }
     setInterval(() => renderDiscovery(false), 60000 * 5);
     setInterval(renderTrends, 60000 * 5);

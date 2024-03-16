@@ -287,7 +287,7 @@ setInterval(async () => {
             setTimeout(() => newTweets.click(), 10);
         }
     }
-}, 60000);
+}, 60000 * 2);
 
 setTimeout(async () => {
     if(!vars) {
