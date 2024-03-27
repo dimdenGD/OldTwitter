@@ -65,13 +65,13 @@ fetch = async function(url, options) {
 window.addEventListener('message', e => {
     if(e.source !== solverIframe.contentWindow) return;
     let data = e.data;
-    if(data.action === 'solved' && data.id) {
+    if(data.action === 'solved' && typeof data.id === 'number') {
         let { id, result } = data;
         if(solveCallbacks[id]) {
             solveCallbacks[id].resolve(result);
             delete solveCallbacks[id];
         }
-    } else if(data.action === 'error' && data.id) {
+    } else if(data.action === 'error' && typeof data.id === 'number') {
         let { id, error } = data;
         if(solveCallbacks[id]) {
             solveCallbacks[id].reject(error);

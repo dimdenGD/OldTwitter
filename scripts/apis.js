@@ -1193,6 +1193,7 @@ const API = {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
+                            "x-twitter-active-user": userId ? "no" : "yes",
                             ...multiAuthHeader
                         },
                         credentials: "include"

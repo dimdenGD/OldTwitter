@@ -575,7 +575,7 @@ let userDataFunction = async user => {
         accounts.forEach(async account => {
             let accountUnreads;
             try {
-                accountUnreads = await API.notifications.getUnreadCount(true, account.user_id);
+                accountUnreads = await API.notifications.getUnreadCount(true, user.id_str !== account.user_id ? account.user_id : undefined);
             } catch {
                 accountUnreads = { total_unread_count: 0 };
             }
