@@ -74,7 +74,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         {
           "matches": ["https://twitter.com/*"],
           "exclude_matches": ["https://twitter.com/*?*newtwitter=true*", "https://twitter.com/settings/download_your_data", "https://twitter.com/i/flow/login*", "https://twitter.com/i/tweetdeck", "https://twitter.com/i/communitynotes", "https://twitter.com/i/broadcasts/*"],
-          "js": ["scripts/blockBeforeInject.js", "scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/injection.js", "libraries/twemoji.min.js", "libraries/custom-elements.min.js", "libraries/emojipicker.js", "libraries/twitter-text.js"],
+          "js": ["scripts/blockBeforeInject.js", "scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/injection.js", "scripts/twchallenge.js", "libraries/twemoji.min.js", "libraries/custom-elements.min.js", "libraries/emojipicker.js", "libraries/twitter-text.js"],
           "all_frames": true,
           "run_at": "document_start"
         },
