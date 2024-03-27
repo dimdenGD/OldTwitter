@@ -30,7 +30,7 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
                 allFrames : true
             },
             injectImmediately: true,
-            files: request.data
+            files: request.files
         }).then(res => {
             console.log('injected', res);
         }).catch(e => {

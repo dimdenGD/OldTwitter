@@ -593,6 +593,21 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     LOC = LOC_DATA; LOC_EN = LOC_EN_DATA;
     LOC_EN.extension_id = {message: chrome.runtime.id};
 
+    OLDTWITTER_CONFIG.verificationKey = document.querySelector('meta[name="twitter-site-verification"]')?.content;
+
+    let cryptoKey = await readCryptoKey();
+    if(cryptoKey) {
+        OLDTWITTER_CONFIG.deviceId = cryptoKey.deviceId;
+    } else {
+        OLDTWITTER_CONFIG.deviceId = localStorage.getItem('device_id');
+        if(!OLDTWITTER_CONFIG.deviceId) {
+            OLDTWITTER_CONFIG.deviceId = uuidV4();
+            localStorage.setItem('device_id', OLDTWITTER_CONFIG.deviceId);
+        }
+    }
+
+    LOC_EN.twitter_site_verification = {message: OLDTWITTER_CONFIG.verificationKey};
+
     // internationalization
     for(let i in LOC_EN) {
         if(!LOC[i]) {
@@ -611,19 +626,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         for (let i = 0; i < msgs.length; i++) {
             let m = msgs[i].slice(6, -2);
             if(LOC[m]) header_html = replaceAll(header_html, msgs[i], LOC[m].message);
-        }
-    }
-
-    OLDTWITTER_CONFIG.verificationKey = document.querySelector('meta[name="twitter-site-verification"]')?.content;
-
-    let cryptoKey = await readCryptoKey();
-    if(cryptoKey) {
-        OLDTWITTER_CONFIG.deviceId = cryptoKey.deviceId;
-    } else {
-        OLDTWITTER_CONFIG.deviceId = localStorage.getItem('device_id');
-        if(!OLDTWITTER_CONFIG.deviceId) {
-            OLDTWITTER_CONFIG.deviceId = uuidV4();
-            localStorage.setItem('device_id', OLDTWITTER_CONFIG.deviceId);
         }
     }
 
@@ -685,7 +687,8 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     chrome.runtime.sendMessage({
         action: "inject",
-        data: [
+        files: [
+            "scripts/twchallenge.js",
             "libraries/twemoji.min.js",
             (page.name === 'settings' ? 'libraries/parseCssColor.js' : ''),
             (page.name === 'settings' ? 'libraries/coloris.min.js' : ''),

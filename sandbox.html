@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandbox</title>
+    <meta name="twitter-site-verification" content="loading" />
+</head>
+<body>
+    <div id="anims" style="display:none"></div>
+    <script>
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        let initError = false, solver;
+        window.addEventListener('message', async function(event) {
+            if (event.origin !== 'https://twitter.com' && event.origin !== 'https://x.com') {
+                return;
+            }
+            let data = event.data;
+            if (data.action === 'init') {
+                let animsDiv = document.getElementById('anims');
+                for(let anim of data.anims) {
+                    animsDiv.innerHTML += `\n${anim}`;
+                }
+                let verif = document.querySelector('meta[name="twitter-site-verification"]');
+                verif.content = data.verificationCode;
+                let headerRegex = /(\d+):(.+)=>.+default:\(\)=>(\w).+,\w\(\d+\)\;/;
+                let headerMatch = data.code.match(headerRegex);
+                if(!headerMatch) {
+                    console.error('Uh oh, header not found!! Report to https://github.com/dimdenGD/OldTwitter/issues');
+                    event.source.postMessage({action: 'initError'}, event.origin);
+                    initError = true;
+                    return;
+                }
+                eval(data.code.replace(headerRegex, '$1:$2=>{window._CHALLENGE=()=>$3;'));
+                let id = headerMatch[1];
+                webpackChunk_twitter_responsive_web[0][1][id]();
+                solver = window._CHALLENGE()();
+                event.source.postMessage({action: 'ready'}, event.origin);
+            } else if (data.action === 'solve') {
+                if(initError) {
+                    event.source.postMessage({action: 'error', error: 'Initialization error', id: data.id }, event.origin);
+                    return;
+                }
+                if(!solver) {
+                    await sleep(50);
+                    if(!solver) {
+                        await sleep(100);
+                    }
+                    if(!solver) {
+                        await sleep(100);
+                    }
+                    if(initError || !solver) {
+                        event.source.postMessage({action: 'error', error: 'Initialization error', id: data.id }, event.origin);
+                        return;
+                    }
+                }
+                try {
+                    let result = await solver(data.path, data.method);
+                    event.source.postMessage({action: 'solved', result, id: data.id}, event.origin);
+                } catch(e) {
+                    event.source.postMessage({action: 'error', error: e.message, id: data.id}, event.origin);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

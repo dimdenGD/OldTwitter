@@ -21,6 +21,9 @@
     "*://twimg.com/*",
     "*://*.twimg.com/*"
   ],
+  "sandbox": {
+    "pages": ["sandbox.html"]
+  },
   
   "declarative_net_request": {
     "rule_resources" : [{
@@ -36,7 +39,8 @@
         "images/*",
         "fonts/*",
         "libraries/*",
-        "_locales/*"
+        "_locales/*",
+        "sandbox.html"
       ],
       "matches": [
         "*://*.twitter.com/*"
