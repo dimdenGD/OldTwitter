@@ -54,6 +54,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         "webRequest",
         "webRequestBlocking"
     ];
+    delete manifest.sandbox;
     delete manifest.host_permissions;
     delete manifest.declarative_net_request;
     delete manifest.background.service_worker;
