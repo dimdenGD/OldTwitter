@@ -33,7 +33,8 @@ chrome.webRequest.onBeforeRequest.addListener(
                     !details.originUrl.includes("/settings/download_your_data") &&
                     !details.originUrl.includes("/i/broadcasts") &&
                     !details.originUrl.includes("/i/communitynotes") &&
-                    !details.originUrl.includes("tweetdeck.twitter.com")
+                    !details.originUrl.includes("tweetdeck.twitter.com") &&
+                    !details.url.includes("ondemand.s.")
                 ) && 
                 ( // includes
                     details.url.includes("abs.twimg.com/responsive-web/client-web")

@@ -8,6 +8,7 @@
 </head>
 <body>
     <div id="anims" style="display:none"></div>
+    <!-- Don't forget to change SHA hash in CSP when changing this script -->
     <script>
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -50,7 +51,7 @@
                         await sleep(100);
                     }
                     if(!solver) {
-                        await sleep(100);
+                        await sleep(500);
                     }
                     if(initError || !solver) {
                         event.source.postMessage({action: 'error', error: 'Initialization error', id: data.id }, event.origin);
@@ -61,7 +62,7 @@
                     let result = await solver(data.path, data.method);
                     event.source.postMessage({action: 'solved', result, id: data.id}, event.origin);
                 } catch(e) {
-                    event.source.postMessage({action: 'error', error: e.message, id: data.id}, event.origin);
+                    event.source.postMessage({action: 'error', error: `${e.message}\n${e.stack}`, id: data.id}, event.origin);
                 }
             }
         });

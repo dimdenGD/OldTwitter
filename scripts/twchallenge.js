@@ -3,19 +3,38 @@ let solveCallbacks = {};
 
 let solverIframe = document.createElement('iframe');
 solverIframe.style.display = 'none';
-solverIframe.src = `chrome-extension://${chrome.runtime.id}/sandbox.html`;
-document.body.appendChild(solverIframe);
+solverIframe.src = chrome.runtime.getURL(`sandbox.html`);
+if(document.body) {
+    document.body.appendChild(solverIframe);
+} else {
+    let int = setInterval(() => {
+        if(document.body) {
+            document.body.appendChild(solverIframe);
+            clearInterval(int);
+        }
+    }, 30);
+}
 
 function solveChallenge(path, method) {
     return new Promise((resolve, reject) => {
         let id = solveId++;
         solveCallbacks[id] = { resolve, reject };
-        solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
+        if(solverIframe && solverIframe.contentWindow) {
+            solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
+        } else {
+            setTimeout(() => {
+                if(solverIframe && solverIframe.contentWindow) {
+                    solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
+                } else {
+                    reject('Solver iframe not ready');
+                }
+            }, 200);
+        }
     });
 }
 
 let _fetch = window.fetch;
-window.fetch = async function(url, options) {
+fetch = async function(url, options) {
     if(!url.startsWith('https://twitter.com/i/api') && !url.startsWith('https://api.twitter.com')) return _fetch(url, options);
     if(!options) options = {};
     if(!options.headers) options.headers = {};
@@ -46,13 +65,13 @@ window.fetch = async function(url, options) {
 window.addEventListener('message', e => {
     if(e.source !== solverIframe.contentWindow) return;
     let data = e.data;
-    if(data.action === 'solved') {
+    if(data.action === 'solved' && data.id) {
         let { id, result } = data;
         if(solveCallbacks[id]) {
             solveCallbacks[id].resolve(result);
             delete solveCallbacks[id];
         }
-    } else if(data.action === 'error') {
+    } else if(data.action === 'error' && data.id) {
         let { id, error } = data;
         if(solveCallbacks[id]) {
             solveCallbacks[id].reject(error);
