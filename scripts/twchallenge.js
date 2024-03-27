@@ -28,7 +28,7 @@ function solveChallenge(path, method) {
                 } else {
                     reject('Solver iframe not ready');
                 }
-            }, 200);
+            }, 500);
         }
     });
 }
