@@ -1,5 +1,6 @@
 let solveId = 0;
 let solveCallbacks = {};
+let solverErrored = false;
 
 let solverIframe = document.createElement('iframe');
 solverIframe.style.display = 'none';
@@ -17,14 +18,30 @@ if(document.body) {
 
 function solveChallenge(path, method) {
     return new Promise((resolve, reject) => {
+        if(solverErrored) {
+            reject('Solver errored during initialization');
+            return;
+        }
         let id = solveId++;
         solveCallbacks[id] = { resolve, reject };
         if(solverIframe && solverIframe.contentWindow) {
             solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
+            setTimeout(() => {
+                if(solveCallbacks[id]) {
+                    solveCallbacks[id].reject('Solver timed out');
+                    delete solveCallbacks[id];
+                }
+            }, 500);
         } else {
             setTimeout(() => {
                 if(solverIframe && solverIframe.contentWindow) {
                     solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
+                    setTimeout(() => {
+                        if(solveCallbacks[id]) {
+                            solveCallbacks[id].reject('Solver timed out');
+                            delete solveCallbacks[id];
+                        }
+                    }, 500);
                 } else {
                     reject('Solver iframe not ready');
                 }
@@ -77,6 +94,14 @@ window.addEventListener('message', e => {
             solveCallbacks[id].reject(error);
             delete solveCallbacks[id];
         }
+    } else if(data.action === 'initError') {
+        solverErrored = true;
+        for(let id in solveCallbacks) {
+            solveCallbacks[id].reject('Solver errored during initialization');
+            delete solveCallbacks[id];
+        }
+        console.error('Error initializing solver:');
+        console.error(data.error);
     }
 });
 

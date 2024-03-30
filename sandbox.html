@@ -21,25 +21,31 @@
             }
             let data = event.data;
             if (data.action === 'init') {
-                let animsDiv = document.getElementById('anims');
-                for(let anim of data.anims) {
-                    animsDiv.innerHTML += `\n${anim}`;
-                }
-                let verif = document.querySelector('meta[name="twitter-site-verification"]');
-                verif.content = data.verificationCode;
-                let headerRegex = /(\d+):(.+)=>.+default:\(\)=>(\w).+,\w\(\d+\)\;/;
-                let headerMatch = data.code.match(headerRegex);
-                if(!headerMatch) {
-                    console.error('Uh oh, header not found!! Report to https://github.com/dimdenGD/OldTwitter/issues');
-                    event.source.postMessage({action: 'initError'}, event.origin);
+                try {
+                    let animsDiv = document.getElementById('anims');
+                    for(let anim of data.anims) {
+                        animsDiv.innerHTML += `\n${anim}`;
+                    }
+                    let verif = document.querySelector('meta[name="twitter-site-verification"]');
+                    verif.content = data.verificationCode;
+                    let headerRegex = /(\d+):(.+)=>.+default:\(\)=>(\w).+,\w\(\d+\)\;/;
+                    let headerMatch = data.code.match(headerRegex);
+                    if(!headerMatch) {
+                        console.error('Uh oh, header not found!! Report to https://github.com/dimdenGD/OldTwitter/issues');
+                        event.source.postMessage({action: 'initError'}, event.origin);
+                        initError = true;
+                        return;
+                    }
+                    eval(data.code.replace(headerRegex, '$1:$2=>{window._CHALLENGE=()=>$3;'));
+                    let id = headerMatch[1];
+                    webpackChunk_twitter_responsive_web[0][1][id]();
+                    solver = window._CHALLENGE()();
+                    event.source.postMessage({action: 'ready'}, event.origin);
+                } catch(e) {
+                    console.error(e);
+                    event.source.postMessage({action: 'initError', error: String(e) }, event.origin);
                     initError = true;
-                    return;
                 }
-                eval(data.code.replace(headerRegex, '$1:$2=>{window._CHALLENGE=()=>$3;'));
-                let id = headerMatch[1];
-                webpackChunk_twitter_responsive_web[0][1][id]();
-                solver = window._CHALLENGE()();
-                event.source.postMessage({action: 'ready'}, event.origin);
             } else if (data.action === 'solve') {
                 if(initError) {
                     event.source.postMessage({action: 'error', error: 'Initialization error', id: data.id }, event.origin);
