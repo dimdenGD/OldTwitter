@@ -31,7 +31,7 @@ function solveChallenge(path, method) {
                     solveCallbacks[id].reject('Solver timed out');
                     delete solveCallbacks[id];
                 }
-            }, 500);
+            }, 1500);
         } else {
             setTimeout(() => {
                 if(solverIframe && solverIframe.contentWindow) {
@@ -45,7 +45,7 @@ function solveChallenge(path, method) {
                 } else {
                     reject('Solver iframe not ready');
                 }
-            }, 500);
+            }, 1500);
         }
     });
 }
