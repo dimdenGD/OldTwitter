@@ -595,10 +595,19 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     OLDTWITTER_CONFIG.verificationKey = document.querySelector('meta[name="twitter-site-verification"]')?.content;
 
-    let cryptoKey = await readCryptoKey();
-    if(cryptoKey) {
-        OLDTWITTER_CONFIG.deviceId = cryptoKey.deviceId;
-    } else {
+    try {
+        let cryptoKey = await readCryptoKey();
+        if(cryptoKey) {
+            OLDTWITTER_CONFIG.deviceId = cryptoKey.deviceId;
+        } else {
+            OLDTWITTER_CONFIG.deviceId = localStorage.getItem('device_id');
+            if(!OLDTWITTER_CONFIG.deviceId) {
+                OLDTWITTER_CONFIG.deviceId = uuidV4();
+                localStorage.setItem('device_id', OLDTWITTER_CONFIG.deviceId);
+            }
+        }
+    } catch(e) {
+        console.error('Error reading crypto key', e);
         OLDTWITTER_CONFIG.deviceId = localStorage.getItem('device_id');
         if(!OLDTWITTER_CONFIG.deviceId) {
             OLDTWITTER_CONFIG.deviceId = uuidV4();
