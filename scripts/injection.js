@@ -593,7 +593,8 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     LOC = LOC_DATA; LOC_EN = LOC_EN_DATA;
     LOC_EN.extension_id = {message: chrome.runtime.id};
 
-    OLDTWITTER_CONFIG.verificationKey = document.querySelector('meta[name="twitter-site-verification"]')?.content;
+    let verif = document.querySelector('meta[name="twitter-site-verification"]');
+    if(verif) OLDTWITTER_CONFIG.verificationKey = verif.content;
 
     try {
         let cryptoKey = await readCryptoKey();
