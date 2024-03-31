@@ -109,10 +109,13 @@ window.addEventListener('message', e => {
     try {
         let homepageData = await _fetch('https://twitter.com/').then(res => res.text());
         let dom = new DOMParser().parseFromString(homepageData, 'text/html');
+        let verificationKey = dom.querySelector('meta[name="twitter-site-verification"]').content;
         let anims = Array.from(dom.querySelectorAll('svg[id^="loading-x"]')).map(svg => svg.outerHTML);
 
         let challengeCode = homepageData.match(/"ondemand.s":"(\w+)"/)[1];
         let challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
+
+        OLDTWITTER_CONFIG.verificationKey = verificationKey;
 
         function sendInit() {
             solverIframe.contentWindow.postMessage({
