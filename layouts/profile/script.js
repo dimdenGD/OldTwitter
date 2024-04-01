@@ -1810,7 +1810,7 @@ setTimeout(async () => {
 
     // weird bug
     if(!document.getElementById('new-tweets')) {
-        return setTimeout(() => location.reload(), 500);
+        return setTimeout(() => location.reload(), 1500);
     }
     try {
         document.getElementById('new-tweets').addEventListener('click', () => {
@@ -1821,7 +1821,7 @@ setTimeout(async () => {
             renderTimeline();
         });
     } catch(e) {
-        setTimeout(() => location.reload(), 500);
+        setTimeout(() => location.reload(), 1500);
         console.error(e);
         return;
     }
