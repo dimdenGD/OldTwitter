@@ -5,12 +5,14 @@ let solverErrored = false;
 let solverIframe = document.createElement('iframe');
 solverIframe.style.display = 'none';
 solverIframe.src = chrome.runtime.getURL(`sandbox.html`);
-if(document.body) {
-    document.body.appendChild(solverIframe);
+let injectedBody = document.getElementById('injected-body');
+if(injectedBody) {
+    injectedBody.appendChild(solverIframe);
 } else {
     let int = setInterval(() => {
-        if(document.body) {
-            document.body.appendChild(solverIframe);
+        let injectedBody = document.getElementById('injected-body');
+        if(injectedBody) {
+            injectedBody.appendChild(solverIframe);
             clearInterval(int);
         }
     }, 30);
@@ -23,7 +25,7 @@ function solveChallenge(path, method) {
             return;
         }
         let id = solveId++;
-        solveCallbacks[id] = { resolve, reject };
+        solveCallbacks[id] = { resolve, reject, time: Date.now() };
         if(solverIframe && solverIframe.contentWindow) {
             solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
             setTimeout(() => {
@@ -33,22 +35,36 @@ function solveChallenge(path, method) {
                 }
             }, 1500);
         } else {
-            setTimeout(() => {
-                if(solverIframe && solverIframe.contentWindow) {
-                    solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
-                    setTimeout(() => {
-                        if(solveCallbacks[id]) {
-                            solveCallbacks[id].reject('Solver timed out');
-                            delete solveCallbacks[id];
-                        }
-                    }, 500);
-                } else {
-                    reject('Solver iframe not ready');
-                }
-            }, 1500);
+            reject('Solver iframe not ready');
         }
     });
 }
+
+window.addEventListener('message', e => {
+    if(e.source !== solverIframe.contentWindow) return;
+    let data = e.data;
+    if(data.action === 'solved' && typeof data.id === 'number') {
+        let { id, result } = data;
+        if(solveCallbacks[id]) {
+            solveCallbacks[id].resolve(result);
+            delete solveCallbacks[id];
+        }
+    } else if(data.action === 'error' && typeof data.id === 'number') {
+        let { id, error } = data;
+        if(solveCallbacks[id]) {
+            solveCallbacks[id].reject(error);
+            delete solveCallbacks[id];
+        }
+    } else if(data.action === 'initError') {
+        solverErrored = true;
+        for(let id in solveCallbacks) {
+            solveCallbacks[id].reject('Solver errored during initialization');
+            delete solveCallbacks[id];
+        }
+        console.error('Error initializing solver:');
+        console.error(data.error);
+    }
+});
 
 let _fetch = window.fetch;
 fetch = async function(url, options) {
@@ -79,33 +95,7 @@ fetch = async function(url, options) {
     return _fetch(url, options);
 }
 
-window.addEventListener('message', e => {
-    if(e.source !== solverIframe.contentWindow) return;
-    let data = e.data;
-    if(data.action === 'solved' && typeof data.id === 'number') {
-        let { id, result } = data;
-        if(solveCallbacks[id]) {
-            solveCallbacks[id].resolve(result);
-            delete solveCallbacks[id];
-        }
-    } else if(data.action === 'error' && typeof data.id === 'number') {
-        let { id, error } = data;
-        if(solveCallbacks[id]) {
-            solveCallbacks[id].reject(error);
-            delete solveCallbacks[id];
-        }
-    } else if(data.action === 'initError') {
-        solverErrored = true;
-        for(let id in solveCallbacks) {
-            solveCallbacks[id].reject('Solver errored during initialization');
-            delete solveCallbacks[id];
-        }
-        console.error('Error initializing solver:');
-        console.error(data.error);
-    }
-});
-
-(async () => {
+async function initChallenge() {
     try {
         let homepageData = await _fetch('https://twitter.com/').then(res => res.text());
         let dom = new DOMParser().parseFromString(homepageData, 'text/html');
@@ -134,4 +124,4 @@ window.addEventListener('message', e => {
         console.error(`Error during challenge:`);
         console.error(e);
     }
-})()
+};

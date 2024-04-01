@@ -593,8 +593,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     LOC = LOC_DATA; LOC_EN = LOC_EN_DATA;
     LOC_EN.extension_id = {message: chrome.runtime.id};
 
-    let verif = document.querySelector('meta[name="twitter-site-verification"]');
-    if(verif) OLDTWITTER_CONFIG.verificationKey = verif.content;
+    await initChallenge();
 
     try {
         let cryptoKey = await readCryptoKey();
@@ -698,7 +697,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     chrome.runtime.sendMessage({
         action: "inject",
         files: [
-            "scripts/twchallenge.js",
             "libraries/twemoji.min.js",
             (page.name === 'settings' ? 'libraries/parseCssColor.js' : ''),
             (page.name === 'settings' ? 'libraries/coloris.min.js' : ''),

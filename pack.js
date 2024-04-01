@@ -37,7 +37,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     manifest.manifest_version = 2;
     manifest.background.scripts = ['scripts/background.js'];
     manifest.web_accessible_resources = manifest.web_accessible_resources[0].resources;
-    manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest' && p !== 'contextMenus' && p !== 'scripting');
+    manifest.permissions = manifest.permissions.filter(p => p !== 'declarativeNetRequest' && p !== 'contextMenus');
     manifest.browser_specific_settings = {
         "gecko": {
             "strict_min_version": "78.0"
@@ -60,154 +60,6 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     delete manifest.declarative_net_request;
     delete manifest.background.service_worker;
     delete manifest.action;
-    manifest.content_scripts = [
-        {
-          "matches": ["https://twitter.com/*?*newtwitter=true*"],
-          "js": ["scripts/xIconRemove.js"],
-          "all_frames": true,
-          "run_at": "document_start"
-        },
-        {
-          "matches": ["https://twitter.com/*?*newtwitter=true*"],
-          "js": ["scripts/newtwitter.js"],
-          "all_frames": true,
-          "run_at": "document_end"
-        },
-        {
-          "matches": ["https://twitter.com/*"],
-          "exclude_matches": ["https://twitter.com/*?*newtwitter=true*", "https://twitter.com/settings/download_your_data", "https://twitter.com/i/flow/login*", "https://twitter.com/i/tweetdeck", "https://twitter.com/i/communitynotes", "https://twitter.com/i/broadcasts/*"],
-          "js": ["scripts/blockBeforeInject.js", "scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/injection.js", "scripts/twchallenge.js", "libraries/twemoji.min.js", "libraries/custom-elements.min.js", "libraries/emojipicker.js", "libraries/twitter-text.js"],
-          "all_frames": true,
-          "run_at": "document_start"
-        },
-        {
-          "matches": ["https://twitter.com/*"],
-          "exclude_matches": ["https://twitter.com/*?*newtwitter=true*", "https://twitter.com/settings/download_your_data", "https://twitter.com/i/flow/login*", "https://twitter.com/i/tweetdeck", "https://twitter.com/i/communitynotes", "https://twitter.com/i/broadcasts/*"],
-          "js": ["layouts/header/script.js", "scripts/tweetviewer.js", "libraries/gif.js", "libraries/viewer.min.js", "libraries/tinytoast.js"],
-          "css": ["libraries/viewer.min.css"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/home", "https://twitter.com/home?*", "https://twitter.com/", "https://twitter.com/?*", "https://twitter.com/home/", "https://twitter.com/home/?*"],
-          "js": ["layouts/home/script.js", "libraries/iframeNavigation.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": [
-            "https://twitter.com/notifications", "https://twitter.com/notifications/", "https://twitter.com/notifications?*", "https://twitter.com/notifications/?*", 
-            "https://twitter.com/notifications/mentions", "https://twitter.com/notifications/mentions?*", "https://twitter.com/notifications/mentions/", "https://twitter.com/notifications/mentions/?*"
-          ],
-          "js": ["layouts/notifications/script.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/old/settings", "https://twitter.com/old/settings/", "https://twitter.com/old/settings?*", "https://twitter.com/old/settings/?*"],
-          "js": ["libraries/parseCssColor.js", "libraries/coloris.min.js", "layouts/settings/script.js", "libraries/viewer.min.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/search", "https://twitter.com/search?*", "https://twitter.com/search/", "https://twitter.com/search/?*"],
-          "js": ["layouts/search/script.js"],
-          "run_at": "document_idle",
-          "all_frames": true
-        },
-        {
-          "matches": [
-            "https://twitter.com/*/status/*", "https://twitter.com/*/status/*?*", "https://twitter.com/*/status/*/", "https://twitter.com/*/status/*/?*",
-            "https://twitter.com/*/status/*/likes", "https://twitter.com/*/status/*/likes/", "https://twitter.com/*/status/*/likes?*", "https://twitter.com/*/status/*/likes/?*",
-            "https://twitter.com/*/status/*/retweets", "https://twitter.com/*/status/*/retweets/", "https://twitter.com/*/status/*/retweets?*", "https://twitter.com/*/status/*/retweets/?*",
-            "https://twitter.com/*/status/*/retweets/with_comments", "https://twitter.com/*/status/*/retweets/with_comments/", "https://twitter.com/*/status/*/retweets/with_comments?*", "https://twitter.com/*/status/*/retweets/with_comments/?*"
-          ],
-          "js": ["layouts/tweet/script.js"],
-          "run_at": "document_idle",
-          "all_frames": true
-        },
-        {
-          "matches": [
-            "https://twitter.com/i/lists/*", "https://twitter.com/i/lists/*/", "https://twitter.com/i/lists/*?*", "https://twitter.com/i/lists/*/?*",
-            "https://twitter.com/i/lists/*/members", "https://twitter.com/i/lists/*/members/", "https://twitter.com/i/lists/*/members?*", "https://twitter.com/i/lists/*/members/?*",
-            "https://twitter.com/i/lists/*/followers", "https://twitter.com/i/lists/*/followers/", "https://twitter.com/i/lists/*/followers?*", "https://twitter.com/i/lists/*/followers/?*"
-          ],
-          "js": ["layouts/lists/script.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/i/bookmarks", "https://twitter.com/i/bookmarks/", "https://twitter.com/i/bookmarks?*", "https://twitter.com/i/bookmarks/?*"],
-          "js": ["layouts/bookmarks/script.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/i/topics/*", "https://twitter.com/i/topics/*/", "https://twitter.com/i/topics/*?*", "https://twitter.com/i/topics/*/?*"],
-          "js": ["layouts/topics/script.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/old/history", "https://twitter.com/old/history/", "https://twitter.com/old/history?*", "https://twitter.com/old/history/?*"],
-          "js": ["layouts/history/script.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/old/unfollows/*", "https://twitter.com/old/unfollows/*/", "https://twitter.com/old/unfollows/*?*", "https://twitter.com/old/unfollows/*/?*"],
-          "js": ["layouts/unfollows/script.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/i/timeline", "https://twitter.com/i/timeline?*", "https://twitter.com/i/timeline/", "https://twitter.com/i/timeline/?*"],
-          "js": ["layouts/itl/script.js"],
-          "all_frames": true,
-          "run_at": "document_idle"
-        },
-        {
-          "matches": ["https://twitter.com/*", "https://twitter.com/*/", "https://twitter.com/*/with_replies", "https://twitter.com/*/with_replies/", "https://twitter.com/*/media", "https://twitter.com/*/likes", "https://twitter.com/*/following", "https://twitter.com/*/followers", "https://twitter.com/*/followers_you_follow", "https://twitter.com/*/followers_you_follow/", "https://twitter.com/*/media/", "https://twitter.com/*/likes/", "https://twitter.com/*/following/", "https://twitter.com/*/followers/"],
-          "exclude_matches": [
-            "https://twitter.com/",
-            "https://twitter.com/home",
-            "https://twitter.com/notifications",
-            "https://twitter.com/notifications/",
-            "https://twitter.com/messages",
-            "https://twitter.com/messages/",
-            "https://twitter.com/settings",
-            "https://twitter.com/settings/",
-            "https://twitter.com/explore",
-            "https://twitter.com/explore/",
-            "https://twitter.com/old/*",
-            "https://twitter.com/login",
-            "https://twitter.com/login/",
-            "https://twitter.com/register",
-            "https://twitter.com/register/",
-            "https://twitter.com/signin",
-            "https://twitter.com/signin/",
-            "https://twitter.com/signup",
-            "https://twitter.com/signup/",
-            "https://twitter.com/logout",
-            "https://twitter.com/logout/",
-            "https://twitter.com/i/*",
-            "https://twitter.com/*/status/*",
-            "https://twitter.com/*/status/*/",
-            "https://twitter.com/search?*",
-            "https://twitter.com/search",
-            "https://twitter.com/search/",
-            "https://twitter.com/search/?*",
-            "https://twitter.com/tos",
-            "https://twitter.com/privacy",
-            "https://twitter.com/*/tos",
-            "https://twitter.com/*/privacy"
-          ],
-          "js": ["layouts/profile/script.js"],
-          "run_at": "document_idle",
-          "all_frames": true
-        }
-    ];
-
     let config = fs.readFileSync('../OldTwitterFirefox/scripts/config.js', 'utf8');
     config = config.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     let helpers = fs.readFileSync('../OldTwitterFirefox/scripts/helpers.js', 'utf8');
@@ -215,7 +67,6 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     let tweetviewer = fs.readFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', 'utf8');
     tweetviewer = tweetviewer.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     let content = fs.readFileSync('../OldTwitterFirefox/scripts/injection.js', 'utf8');
-    content = content.replace(/chrome.runtime.sendMessage\(\{.+?\}\)/gs, "");
     content = content.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
 
     let apis = fs.readFileSync('../OldTwitterFirefox/scripts/apis.js', 'utf8');
