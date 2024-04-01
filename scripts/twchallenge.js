@@ -120,8 +120,10 @@ async function initChallenge() {
         } else {
             solverIframe.addEventListener('load', () => sendInit());
         }
+        return true;
     } catch (e) {
         console.error(`Error during challenge:`);
         console.error(e);
+        return false;
     }
 };

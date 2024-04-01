@@ -274,6 +274,9 @@ async function readCryptoKey() {
             
                     // Move to the next entry
                     cursor.continue();
+                } else {
+                    // No more entries, reject the promise
+                    resolve("No key found");
                 }
             };
         };
@@ -593,8 +596,11 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     LOC = LOC_DATA; LOC_EN = LOC_EN_DATA;
     LOC_EN.extension_id = {message: chrome.runtime.id};
 
-    await initChallenge();
-
+    try {
+        await initChallenge();
+    } catch(e) {
+        console.error('Error initializing challenge', e);
+    }
     try {
         let cryptoKey = await readCryptoKey();
         if(cryptoKey) {
