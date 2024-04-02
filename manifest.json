@@ -77,7 +77,7 @@
     },
     {
       "matches": ["https://twitter.com/*"],
-      "exclude_matches": ["https://twitter.com/*?*newtwitter=true*", "https://twitter.com/settings/download_your_data", "https://twitter.com/i/flow/login*", "https://twitter.com/i/tweetdeck", "https://twitter.com/i/communitynotes", "https://twitter.com/i/broadcasts/*"],
+      "exclude_matches": ["https://twitter.com/*?*newtwitter=true*", "https://twitter.com/settings/download_your_data", "https://twitter.com/i/flow/login*", "https://twitter.com/i/tweetdeck", "https://twitter.com/i/communitynotes", "https://twitter.com/i/broadcasts/*", "https://twitter.com/search-advanced"],
       "js": ["scripts/blockBeforeInject.js", "scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/twchallenge.js", "scripts/injection.js"],
       "css": ["libraries/viewer.min.css"],
       "all_frames": true,
