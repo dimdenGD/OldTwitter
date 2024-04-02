@@ -127,3 +127,5 @@ async function initChallenge() {
         return false;
     }
 };
+
+initChallenge();

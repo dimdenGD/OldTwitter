@@ -412,7 +412,7 @@ setTimeout(async () => {
 
     // weird bug
     if(!document.getElementById('new-tweets')) {
-        return // setTimeout(() => location.reload(), 1500);
+        return setTimeout(() => location.reload(), 2500);
     }
     try {
         let lastNewTweetPress = Date.now();
@@ -438,7 +438,7 @@ setTimeout(async () => {
             timeline.dataToUpdate = [];
         });
     } catch(e) {
-        // setTimeout(() => location.reload(), 1500);
+        setTimeout(() => location.reload(), 2500);
         console.error(e);
         return;
     }

@@ -597,11 +597,6 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     LOC_EN.extension_id = {message: chrome.runtime.id};
 
     try {
-        await initChallenge();
-    } catch(e) {
-        console.error('Error initializing challenge', e);
-    }
-    try {
         let cryptoKey = await readCryptoKey();
         if(cryptoKey) {
             OLDTWITTER_CONFIG.deviceId = cryptoKey.deviceId;
