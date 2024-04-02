@@ -2442,7 +2442,7 @@ class TweetViewer {
                 downloading = true;
                 let media = t.extended_entities.media[0];
                 let url = media.type === 'photo' ? media.media_url_https : media.video_info.variants[0].url;
-                fetch(url).then(res => res.blob()).then(blob => {
+                _fetch(url).then(res => res.blob()).then(blob => {
                     downloading = false;
                     let a = document.createElement('a');
                     a.href = URL.createObjectURL(blob);

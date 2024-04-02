@@ -66,7 +66,7 @@ window.addEventListener('message', e => {
     }
 });
 
-let _fetch = window.fetch;
+window._fetch = window.fetch;
 fetch = async function(url, options) {
     if(!url.startsWith('https://twitter.com/i/api') && !url.startsWith('https://api.twitter.com')) return _fetch(url, options);
     if(!options) options = {};

@@ -3502,7 +3502,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     if (item.type === 'photo') {
                         url.searchParams.set("name", "orig"); // force original resolution
                     }
-                    fetch(url).then(res => res.blob()).then(blob => {
+                    _fetch(url).then(res => res.blob()).then(blob => {
                         downloading = false;
                         let a = document.createElement('a');
                         a.href = URL.createObjectURL(blob);
