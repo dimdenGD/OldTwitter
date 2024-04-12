@@ -260,25 +260,29 @@ async function readCryptoKey() {
             const db = event.target.result;
 
             // Open a transaction to access the keyvaluepairs object store
-            const transaction = db.transaction(['keyvaluepairs'], 'readonly');
-            const objectStore = transaction.objectStore('keyvaluepairs');
-          
-            objectStore.openCursor().onsuccess = function(event) {
-                const cursor = event.target.result;
-                if (cursor) {
-                    // Check if the key matches the pattern
-                    const key = cursor.key;
-                    if (key.startsWith('device:rweb.dmCryptoKeys')) {
-                        resolve(cursor.value);
-                    }
+            if (db.objectStoreNames.contains('keyvaluepairs')) {
+                const transaction = db.transaction(['keyvaluepairs'], 'readonly');
+                const objectStore = transaction.objectStore('keyvaluepairs');
             
-                    // Move to the next entry
-                    cursor.continue();
-                } else {
-                    // No more entries, reject the promise
-                    resolve("No key found");
-                }
-            };
+                objectStore.openCursor().onsuccess = function(event) {
+                    const cursor = event.target.result;
+                    if (cursor) {
+                        // Check if the key matches the pattern
+                        const key = cursor.key;
+                        if (key.startsWith('device:rweb.dmCryptoKeys')) {
+                            resolve(cursor.value);
+                        }
+                
+                        // Move to the next entry
+                        cursor.continue();
+                    } else {
+                        // No more entries, reject the promise
+                        reject("No key found");
+                    }
+                };
+            } else {
+                reject("No key found");
+            }
         };
     });
 }
@@ -598,6 +602,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     try {
         let cryptoKey = await readCryptoKey();
+        console.log('Crypto key', cryptoKey);
         if(cryptoKey) {
             OLDTWITTER_CONFIG.deviceId = cryptoKey.deviceId;
         } else {
