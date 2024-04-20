@@ -97,7 +97,7 @@
     "description": { "message": "Deskripsi" },
     "no_description": { "message": "Tidak ada deskripsi." },
     "born": { "message": "Lahir" },
-    "january": { "message": "$NUMBER$ Januari", "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.", "placeholders": { "number": { "content": "1" } } },
+    "january": { "message": "Januari", "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.", "placeholders": { "number": { "content": "1" } } },
     "february": { "message": "Februari" },
     "march": { "message": "Maret" },
     "april": { "message": "April" },
