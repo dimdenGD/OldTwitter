@@ -4,9 +4,8 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 
 ## Installation
 
-**Chrome, Opera, Brave & Chromium browsers:** [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf)  
+**Chrome, Edge, Opera, Brave & Chromium browsers:** [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf)  
 **Firefox:** [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/)  
-**Edge:** [Microsoft Edge Addons](https://microsoftedge.microsoft.com/addons/detail/old-twitter-layout-2022/hdkjgmbkdljifoabcjaopefegogcinal)
 
 ## Donate
 
@@ -182,4 +181,4 @@ Catalan - [elmees21](https://twitter.com/elmees21)
 Swedish - [actuallyaridan](https://twitter.com/actuallyaridan)  
 Bulgarian - [Scarlett7447)](https://twitter.com/Scarlett7447)  
 Norwegian - [twistquest](https://twitter.com/twistquest)  
-Indonesian - [lorizade](https://twitter.com/lorizade), [Feerse_](https://twitter.com/Feerse_)  
+Indonesian - [lorizade](https://twitter.com/lorizade), [Feerse_](https://twitter.com/Feerse_), [DaGamerFiles](https://twitter.com/DaGamerFiles)  

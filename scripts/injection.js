@@ -213,7 +213,8 @@ const TRANSLATORS = {
     "fi": ["scepixel.fla", "https://caenogo.nl/pages/pxww"],
     "id": [
         ["lorizade", "https://twitter.com/lorizade"],
-        ["Feerse_", "https://twitter.com/Feerse_"]
+        ["Feerse_", "https://twitter.com/Feerse_"],
+        ["DaGamerFiles", "https://twitter.com/DaGamerFiles"]
     ]
 };
 let LOC = {};

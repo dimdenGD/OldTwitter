@@ -381,6 +381,7 @@ function onVisibilityChange(callback) {
     window.onpagehide = window.onblur = unfocused;
 };
 function escapeHTML(unsafe) {
+    if(typeof unsafe !== 'string') return unsafe;
     return unsafe
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -461,6 +462,7 @@ async function renderTweetBodyHTML(t, is_quoted) {
             });
         }
 
+        console.log(t);
         if (t.entities.urls) {
             t.entities.urls.forEach(url => {
                 index_map[url.indices[0]] = [url.indices[1], text =>
@@ -1529,6 +1531,7 @@ const sizeFunctions = [
     (w, h) => calculateSize(w, h, 450, 500),
     (w, h) => calculateSize(w, h, 225, 400),
     (w, h) => innerWidth < 590 ? calculateSize(w, h, 225, 400) : calculateSize(w, h, 150, 250),
+    (w, h) => calculateSize(w, h, 225, 400),
     (w, h) => calculateSize(w, h, 225, 400)
 ];
 
@@ -1537,6 +1540,7 @@ const quoteSizeFunctions = [
     (w, h) => calculateSize(w, h, 400, 400),
     (w, h) => calculateSize(w, h, 200, 400),
     (w, h) => calculateSize(w, h, 125, 200),
+    (w, h) => calculateSize(w, h, 100, 150),
     (w, h) => calculateSize(w, h, 100, 150)
 ];
 async function appendTweet(t, timelineContainer, options = {}) {
