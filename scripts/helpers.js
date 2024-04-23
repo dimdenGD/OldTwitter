@@ -1723,6 +1723,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
         }
         let full_text = t.full_text ? t.full_text : '';
         let tweetLanguage = t.lang; // originally i used i18n api to detect languages simply because i didn't know of t.lang existence
+        if(!tweetLanguage) {
+            tweetLanguage = 'und';
+        }
         if(tweetLanguage.includes('-')) {
             let [lang, country] = tweetLanguage.split('-');
             tweetLanguage = `${lang}_${country.toUpperCase()}`;
