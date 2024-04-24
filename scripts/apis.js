@@ -147,8 +147,8 @@ function parseTweet(res) {
             if(limitation) {
                 result.tweet.legacy.limited_actions_text = limitation.prompt ? limitation.prompt.subtext.text : LOC.limited_tweet.message;
             }
-            result = result.tweet;
         }
+        if(result.tweet) result = result.tweet;
         if(
             result.quoted_status_result && 
             result.quoted_status_result.result && 

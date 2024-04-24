@@ -462,7 +462,6 @@ async function renderTweetBodyHTML(t, is_quoted) {
             });
         }
 
-        console.log(t);
         if (t.entities.urls) {
             t.entities.urls.forEach(url => {
                 index_map[url.indices[0]] = [url.indices[1], text =>
