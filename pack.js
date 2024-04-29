@@ -46,6 +46,11 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
             "strict_min_version": "78.0"
         }
     }
+    if(args[0] === '-a') {
+      manifest.browser_specific_settings.gecko.id = "oldtwitter@dimden.dev";
+    } else {
+      setTimeout(() => console.warn("Warning: Extension ID is not set."), 1500);
+    }
     manifest.permissions = [
         ...manifest.permissions,
         ...manifest.host_permissions,
