@@ -88,7 +88,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     }
     if(args[0] !== '-a') {
       try {
-        require('node-fetch')('/manifest.json').then(res => res.text()).then(json => {
+        require('node-fetch')('https://twitter.com/manifest.json').then(res => res.text()).then(json => {
           if(json.includes("content_security_policy")) {
             for(let i = 0; i < 5; i++) {
               console.warn("\x1b[33m", "Warning: Twitter returned CSP in manifest.json!!!!", '\x1b[0m');

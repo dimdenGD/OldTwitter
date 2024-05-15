@@ -11,13 +11,13 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.contextMenus.onClicked.addListener(info => {
     if (info.menuItemId === 'open_settings') {
         chrome.tabs.create({
-            url: '/old/settings'
+            url: 'https://twitter.com/old/settings'
         });
     }
 });
 chrome.action.onClicked.addListener(() => {
     chrome.tabs.create({
-        url: '/old/settings'
+        url: 'https://twitter.com/old/settings'
     });
 });
 
