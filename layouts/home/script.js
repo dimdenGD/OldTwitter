@@ -89,7 +89,7 @@ setTimeout(() => {
                 let text = changelog.innerText;
                 let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
                 if(!lang.startsWith('en')) {
-                    changelog.innerHTML += `<span class="tweet-translate">${LOC.view_translation.message}</span>`;
+                    changelog.innerHTML += html`<span class="tweet-translate">${LOC.view_translation.message}</span>`;
                     changelog.querySelector('.tweet-translate').addEventListener('click', () => {
                         openInNewTab('https://translate.google.com/?sl=en&tl=' + lang + '&text=' + encodeURIComponent(text) + '&op=translate');
                     });
@@ -125,7 +125,7 @@ function updateUserData() {
 async function updateTimeline(mode = 'rewrite') {
     seenThreads = [];
     if (timeline.data.length === 0) {
-        document.getElementById('timeline').innerHTML = ``;
+        document.getElementById('timeline').innerHTML = html``;
         document.getElementById('tweets-loading').hidden = false;
         document.getElementById('load-more').hidden = true;
     }
@@ -185,7 +185,7 @@ async function updateTimeline(mode = 'rewrite') {
         tl = tl.filter(t => !t.retweeted_status);
     }
     if(!user.friends_count && tl.length === 0 && vars.timelineType.startsWith('chrono') && !suspended && mode === 'rewrite') {
-        document.getElementById('timeline').innerHTML = `<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.no_tl_tweets.message}</span>`;
+        document.getElementById('timeline').innerHTML = html`<span style="color:var(--darker-gray);margin-top:10px;display:block">${LOC.no_tl_tweets.message}</span>`;
         return;
     }
     if(!vars.showTopicTweets) {
@@ -263,7 +263,7 @@ function renderUserData() {
 
     if(document.getElementById('user-stats').clientWidth > 300) {
         let style = document.createElement('style');
-        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        style.innerHTML = html`.user-stat-div > h2 { font-size: 10px !important }`;
         document.head.appendChild(style);
     }
 }
@@ -352,7 +352,7 @@ async function renderTimeline(options = {}) {
 }
 function renderNewTweetsButton() {
     if (timeline.toBeUpdated > 0) {
-        document.getElementById("new-tweets-bug-fix").innerHTML = `
+        document.getElementById("new-tweets-bug-fix").innerHTML = html`
             .tweet:first-child .tweet-translate-after {
                 margin-right: 0 !important;
             }
@@ -365,7 +365,7 @@ function renderNewTweetsButton() {
             });
         }
     } else {
-        document.getElementById("new-tweets-bug-fix").innerHTML = ``;
+        document.getElementById("new-tweets-bug-fix").innerHTML = html``;
         document.getElementById('new-tweets').hidden = true;
     }
 }
@@ -591,7 +591,7 @@ setTimeout(async () => {
             mediaToUpload = [];
             document.getElementById('new-tweet-media-c').innerHTML = '';
             document.getElementById('new-tweet-poll').hidden = false;
-            document.getElementById('new-tweet-poll').innerHTML = `
+            document.getElementById('new-tweet-poll').innerHTML = html`
                 <input maxlength="25" class="poll-question" data-variant="1" placeholder="${LOC.variant.message} 1"><br>
                 <input maxlength="25" class="poll-question" data-variant="2" placeholder="${LOC.variant.message} 2"><br>
                 <input maxlength="25" class="poll-question" data-variant="3" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
@@ -715,7 +715,7 @@ setTimeout(async () => {
                 let userElement = document.createElement('span');
                 userElement.className = 'search-result-item';
                 if(index === 0) userElement.classList.add('search-result-item-active');
-                userElement.innerHTML = `
+                userElement.innerHTML = html`
                     <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
                     <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${user.name}</span>
                     <span class="search-result-item-screen-name">@${user.screen_name}</span>

@@ -171,7 +171,7 @@ class TweetViewer {
             if(!tlData.value) {
                 if(!c) {
                     tvl.hidden = true;
-                    document.getElementsByClassName('timeline')[0].innerHTML = `<span style="color:var(--almost-black)">${tlData.reason}</span>`;
+                    document.getElementsByClassName('timeline')[0].innerHTML = html`<span style="color:var(--almost-black)">${tlData.reason}</span>`;
                 }
                 this.cursor = undefined;
                 return console.error(tlData.reason);
@@ -334,7 +334,7 @@ class TweetViewer {
             tweet.style.marginBottom = '10px';
             tweet.style.borderRadius = '5px';
             let h1 = document.createElement('h1');
-            h1.innerHTML = `${LOC.retweeted_by.message} (<a href="/${tweetData.user.screen_name}/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
+            h1.innerHTML = html`${LOC.retweeted_by.message} (<a href="/${tweetData.user.screen_name}/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
             h1.className = 'cool-header';
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
@@ -362,7 +362,7 @@ class TweetViewer {
             let u = tweetRetweeters[i];
             let retweetElement = document.createElement('div');
             retweetElement.classList.add('following-item');
-            retweetElement.innerHTML = `
+            retweetElement.innerHTML = html`
             <div>
                 <a href="/${u.screen_name}" class="following-item-link">
                     <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
@@ -417,7 +417,7 @@ class TweetViewer {
         if(!c) {
             retweetDiv.innerHTML = '';
             let h1 = document.createElement('h1');
-            h1.innerHTML = `${LOC.quote_tweets.message} (<a href="/${tweetData.user.screen_name}/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
+            h1.innerHTML = html`${LOC.quote_tweets.message} (<a href="/${tweetData.user.screen_name}/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
             h1.className = 'cool-header';
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
@@ -643,7 +643,7 @@ class TweetViewer {
                     let userElement = document.createElement('span');
                     userElement.className = 'search-result-item';
                     if(index === 0) userElement.classList.add('search-result-item-active');
-                    userElement.innerHTML = `
+                    userElement.innerHTML = html`
                         <img width="16" height="16" class="search-result-item-avatar" src="${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}">
                         <span class="search-result-item-name ${user.verified ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                         <span class="search-result-item-screen-name">@${user.screen_name}</span>
@@ -767,7 +767,7 @@ class TweetViewer {
         this.insertedMores.push(data.cursor);
         let div = document.createElement('div');
         div.className = 'show-more';
-        div.innerHTML = `
+        div.innerHTML = html`
             <button class="show-more-button center-text">${data.labelText ? data.labelText : data.actionText}</button>
         `;
         let loading = false;
@@ -1463,7 +1463,7 @@ class TweetViewer {
                 let l = lists[i];
                 let listElement = document.createElement('div');
                 listElement.classList.add('list-item');
-                listElement.innerHTML = `
+                listElement.innerHTML = html`
                     <div style="display:inline-block;">
                         <a href="/i/lists/${l.id_str}" class="following-item-link">
                             <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
@@ -1857,7 +1857,7 @@ class TweetViewer {
             }
             if (!tweetData) {
                 tweetReplyButton.disabled = false;
-                tweetReplyError.innerHTML = `${LOC.error_sending_tweet.message}<br>`;
+                tweetReplyError.innerHTML = html`${LOC.error_sending_tweet.message}<br>`;
                 return;
             }
             tweetReplyText.value = '';
@@ -2128,7 +2128,7 @@ class TweetViewer {
                 return;
             }
             if (!tweetData) {
-                tweetQuoteError.innerHTML = `${LOC.error_sending_tweet.message}<br>`;
+                tweetQuoteError.innerHTML = html`${LOC.error_sending_tweet.message}<br>`;
                 tweetQuoteButton.disabled = false;
                 return;
             }

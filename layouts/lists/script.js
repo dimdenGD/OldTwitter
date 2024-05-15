@@ -64,9 +64,9 @@ function renderListData(data) {
         document.getElementById('list-user').href = `/${data.user_results.result.legacy.screen_name}/lists`;
         document.getElementById('list-avatar').src = `${(data.user_results.result.legacy.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(data.user_results.result.legacy.id_str) % 7}_normal.png`): data.user_results.result.legacy.profile_image_url_https}`.replace('_normal', '_bigger');
         let actions = document.getElementById('list-actions');
-        actions.innerHTML = ``;
+        actions.innerHTML = html``;
         if(data.user_results.result.rest_id === user.id_str) {
-            actions.innerHTML = `
+            actions.innerHTML = html`
                 <button class="nice-button" id="list-btn-edit">${LOC.edit.message}</button>
                 <button class="nice-button" id="list-btn-delete">${LOC.delete.message}</button>
             `;
@@ -117,7 +117,7 @@ function renderListData(data) {
                         let t = listMembers[i];
                         let followingElement = document.createElement('div');
                         followingElement.classList.add('following-item');
-                        followingElement.innerHTML = `
+                        followingElement.innerHTML = html`
                         <div style="height:48px">
                             <a href="/${t.screen_name}" class="following-item-link">
                                 <img src="${(t.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.id_str) % 7}_normal.png`): t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
@@ -168,7 +168,7 @@ function renderListData(data) {
                 });
             });
         } else {
-            actions.innerHTML = `<button class="nice-button" id="list-btn-subscribe">${data.following ? LOC.unsubscribe.message : LOC.subscribe.message}</button>`;
+            actions.innerHTML = html`<button class="nice-button" id="list-btn-subscribe">${data.following ? LOC.unsubscribe.message : LOC.subscribe.message}</button>`;
             document.getElementById('list-btn-subscribe').addEventListener('click', async () => {
                 if(data.following) {
                     await API.list.unsubscribe(data.id_str);
@@ -195,7 +195,7 @@ async function renderListTweets(c) {
     if(listTweets.reason) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
-        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
+        document.getElementById('loading-box-error').innerHTML = html`${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -238,7 +238,7 @@ async function renderListMembers(c) {
     if(listMembers.reason) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
-        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
+        document.getElementById('loading-box-error').innerHTML = html`${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -267,7 +267,7 @@ async function renderListFollowers(c) {
     if(listFollowers.reason) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
-        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
+        document.getElementById('loading-box-error').innerHTML = html`${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -283,7 +283,7 @@ async function renderListFollowers(c) {
         let t = listFollowers[i];
         let followingElement = document.createElement('div');
         followingElement.classList.add('user-item');
-        followingElement.innerHTML = `
+        followingElement.innerHTML = html`
         <div style="height:48px">
             <a href="/${t.screen_name}" class="user-item-link">
                 <img src="${(t.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.id_str) % 7}_normal.png`): t.profile_image_url_https}" alt="${t.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">

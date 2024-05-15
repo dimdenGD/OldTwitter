@@ -542,7 +542,7 @@ function generatePoll(tweet, tweetElement, user) {
             choice.percentage = Math.round(choice.count / voteCount * 100) || 0;
             let choiceElement = document.createElement('div');
             choiceElement.classList.add('choice');
-            choiceElement.innerHTML = `
+            choiceElement.innerHTML = html`
                 <div class="choice-bg" style="width:${choice.percentage}%" data-percentage="${choice.percentage}"></div>
                 <div class="choice-label">
                     <span>${escapeHTML(choice.label)}</span>
@@ -558,7 +558,7 @@ function generatePoll(tweet, tweetElement, user) {
             let choiceElement = document.createElement('div');
             choiceElement.classList.add('choice', 'choice-unselected');
             choiceElement.classList.add('tweet-button');
-            choiceElement.innerHTML = `
+            choiceElement.innerHTML = html`
                 <div class="choice-bg" style="width:100%"></div>
                 <div class="choice-label">${escapeHTML(choice.label)}</div>
             `;
@@ -579,7 +579,7 @@ function generatePoll(tweet, tweetElement, user) {
         } else {
             endsAtMessage = `${LOC.ends_at.message} ${new Date(poll.end_datetime_utc.string_value).toLocaleString()}`;
         }
-        footer.innerHTML = `${voteCount} ${voteCount === 1 ? LOC.vote.message : LOC.votes.message}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ ${endsAtMessage}` : ''}`;
+        footer.innerHTML = html`${voteCount} ${voteCount === 1 ? LOC.vote.message : LOC.votes.message}${(!poll.counts_are_final || !poll.counts_are_final.boolean_value) && poll.end_datetime_utc ? ` ・ ${endsAtMessage}` : ''}`;
         pollElement.append(footer);
     }
 }
@@ -776,7 +776,7 @@ function generateCard(tweet, tweetElement, user) {
                 let app = uc.app_store_data[uc.destination_objects[co.data.destination].data.app_id][0];
                 let appElement = document.createElement('div');
                 appElement.classList.add('tweet-app-info');
-                appElement.innerHTML = `
+                appElement.innerHTML = html`
                     <h3>${escapeHTML(app.title.content)}</h3>
                     <span>${escapeHTML(app.category.content)}</span>
                     <br>
@@ -810,7 +810,7 @@ function generateCard(tweet, tweetElement, user) {
         a.target = '_blank';
         a.href = url;
         a.className = 'tweet-card-link box';
-        a.innerHTML = `
+        a.innerHTML = html`
             ${vals.thumbnail_image ? `<img src="${vals.thumbnail_image.image_value.url}" class="tweet-card-link-thumbnail">` : ''}
             <div class="tweet-card-link-text">
                 ${vals.vanity_url ? `<span class="tweet-card-link-vanity">${escapeHTML(vals.vanity_url.string_value)}</span><br>` : ''}
@@ -1461,7 +1461,7 @@ async function appendUser(u, container, label) {
         delete u.verified_type;
         u.verified = false;
     }
-    userElement.innerHTML = `
+    userElement.innerHTML = html`
         <div>
             <a href="/${u.screen_name}" class="user-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
@@ -2407,7 +2407,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 let l = lists[i];
                 let listElement = document.createElement('div');
                 listElement.classList.add('list-item');
-                listElement.innerHTML = `
+                listElement.innerHTML = html`
                     <div style="display:inline-block;">
                         <a href="/i/lists/${l.id_str}" class="following-item-link">
                             <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
@@ -2657,7 +2657,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     if(tweetDeleteBookmark) {
                         tweet.remove();
                         if(timelineContainer.children.length === 0) {
-                            timelineContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
+                            timelineContainer.innerHTML = html`<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
                             document.getElementById('delete-all').hidden = true;
                         }
                         return;
@@ -2700,7 +2700,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             await API.bookmarks.delete(t.id_str);
             tweet.remove();
             if(timelineContainer.children.length === 0) {
-                timelineContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
+                timelineContainer.innerHTML = html`<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
                 document.getElementById('delete-all').hidden = true;
             }
         });
@@ -2873,7 +2873,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             if (!tweetData) {
                 tweetReplyButton.disabled = false;
-                tweetReplyError.innerHTML = `${LOC.error_sending_tweet.message}<br>`;
+                tweetReplyError.innerHTML = html`${LOC.error_sending_tweet.message}<br>`;
                 return;
             }
             tweetReplyChar.innerText = localStorage.OTisBlueVerified ? '0/25000' : '0/280';
@@ -3167,7 +3167,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 return;
             }
             if (!tweetData) {
-                tweetQuoteError.innerHTML = `${LOC.error_sending_tweet}<br>`;
+                tweetQuoteError.innerHTML = html`${LOC.error_sending_tweet}<br>`;
                 tweetQuoteButton.disabled = false;
                 return;
             }
@@ -3715,7 +3715,7 @@ function renderNotification(n, options = {}) {
                 let mi = 0;
                 let newText = notificationHeader.replace(aRegex, (_, m) => {
                     if(mi++ !== matches) return _;
-                    return `<a href="/${user.screen_name}"${user.verified ? 'class="user-verified"' : ''}>${escapeHTML(m)}</a>`;
+                    return `<a href="/${escapeHTML(user.screen_name)}"${user.verified ? 'class="user-verified"' : ''}>${escapeHTML(m)}</a>`;
                 });
                 additionalLength += newText.length - notificationHeader.length;
                 notificationHeader = newText;
@@ -3845,7 +3845,7 @@ function renderNotification(n, options = {}) {
             </div>
             <div class="notification-text">${escapeHTML(n.tweet.full_text.replace(/^(@[\w+]{1,15}\b\s)((@[\w+]{1,15}\b\s)+)/g, '$1'))}</div>
             <div class="notification-avatars">
-                ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img class="notification-avatar-img" src="${`${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
+                ${users.map(u => `<a class="notification-avatar" href="/${u.screen_name}"><img class="notification-avatar-img" src="${`${(!u.profile_image_url_https && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(u.name)}" width="32" height="32"></a>`).join('')}
             </div>
         `;
         let notifText = notification.querySelector('.notification-text');

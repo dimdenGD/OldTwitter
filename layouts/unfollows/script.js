@@ -46,7 +46,7 @@ function renderUserData() {
     document.getElementById('user-info').href = `/${user.screen_name}`;
 
     if(user.followers_count > 50000 || user.friends_count > 50000) {
-        document.getElementById('timeline').innerHTML = `<span style="color:var(--light-gray)">${LOC.not_possible_to_see_unfollowers.message}</span>`;
+        document.getElementById('timeline').innerHTML = html`<span style="color:var(--light-gray)">${LOC.not_possible_to_see_unfollowers.message}</span>`;
     }
 
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
@@ -55,7 +55,7 @@ function renderUserData() {
 
     if(document.getElementById('user-stats').clientWidth > 300) {
         let style = document.createElement('style');
-        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        style.innerHTML = html`.user-stat-div > h2 { font-size: 10px !important }`;
         document.head.appendChild(style);
     }
 }
@@ -89,7 +89,7 @@ function renderUnfollows(page = 0) {
         if(page === 0) timeline.innerHTML = '';
 
         if(unfollows.length === 0) {
-            return timeline.innerHTML = `<span style="color:var(--light-gray)">${unfollowersPage ? LOC.no_unfollowers.message : LOC.no_unfollowings.message}</span>`;
+            return timeline.innerHTML = html`<span style="color:var(--light-gray)">${unfollowersPage ? LOC.no_unfollowers.message : LOC.no_unfollowings.message}</span>`;
         }
 
         let userData;
@@ -98,9 +98,9 @@ function renderUnfollows(page = 0) {
         } catch(e) {
             console.error(e);
             if(String(e).includes('No user matches for specified terms.')) {
-                return timeline.innerHTML = `<span style="color:var(--light-gray)">${LOC.deleted_accounts.message}</span>`;
+                return timeline.innerHTML = html`<span style="color:var(--light-gray)">${LOC.deleted_accounts.message}</span>`;
             } else {
-                return timeline.innerHTML = `<span style="color:#ff4545">${escapeHTML(String(e))}</span>`;
+                return timeline.innerHTML = html`<span style="color:#ff4545">${escapeHTML(String(e))}</span>`;
             }
         }
         document.getElementById('load-more').hidden = raw.length < page * 100 + 100;

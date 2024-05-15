@@ -72,7 +72,7 @@ function switchRoundAvatars(enabled) {
     if(enabled) {
         let style = document.createElement('style');
         style.id = 'round-avatars';
-        style.innerHTML = `
+        style.innerHTML = html`
             .navbar-user-account-avatar,
             .search-result-item-avatar,
             .inbox-message-avatar,
@@ -404,7 +404,7 @@ function hideStuff() {
         hideStyle.innerHTML += '#wtf { display: none !important; }';
     }
     if(vars.hideLikes) {
-        hideStyle.innerHTML += `
+        hideStyle.innerHTML += html`
             .tweet-interact-favorite { color: var(--background-color) !important }
             .tweet-interact-retweet { color: var(--background-color) !important }
             .tweet-interact-reply { color: var(--background-color) !important }
@@ -415,13 +415,13 @@ function hideStuff() {
             .tweet:hover .tweet-interact-bookmark { color: var(--dark-background-color) !important }
         `;
     }if(vars.hideTimelineTypes) {
-        hideStyle.innerHTML += `
+        hideStyle.innerHTML += html`
             #timeline-type-center { display: none !important; }
             #timeline-type-right { display: none !important; }
         `;
     }
     if(vars.hideFollowers) {
-        hideStyle.innerHTML += `
+        hideStyle.innerHTML += html`
             #user-followers-div { display: none !important; }
             #profile-stat-followers-link { display: none !important; }
             #profile-stat-follower-mobile-out { display: none !important; }
@@ -429,12 +429,12 @@ function hideStuff() {
         `;
     }
     if(vars.showBookmarkCount && vars.seeTweetViews) {
-        hideStyle.innerHTML += `
+        hideStyle.innerHTML += html`
             .tweet-interact-more-menu { margin-left: 250px }
         `;
     }
     if(vars.hideUnfollowersPage) {
-        hideStyle.innerHTML += `
+        hideStyle.innerHTML += html`
             #navbar-user-menu-unfollowers { display: none !important; }
             .unfollowers-link { display: none !important; }
         `;
@@ -581,10 +581,10 @@ let userDataFunction = async user => {
             }
             let accountElement = document.createElement('div');
             accountElement.classList.add('navbar-user-account');
-            accountElement.innerHTML = `<img src="${account.avatar_image_url.replace("_normal", "_bigger")}" class="navbar-user-account-avatar" width="16" height="16"> ${account.screen_name}`;
+            accountElement.innerHTML = html`<img src="${account.avatar_image_url.replace("_normal", "_bigger")}" class="navbar-user-account-avatar" width="16" height="16"> ${account.screen_name}`;
             let unreadCount = accountUnreads.total_unread_count >= 21 ? '20+' : accountUnreads.total_unread_count;
             if (unreadCount != 0) {
-                accountElement.innerHTML += ` <span class="navbar-user-account-notifications">${unreadCount}</span>`;
+                accountElement.innerHTML += html` <span class="navbar-user-account-notifications">${unreadCount}</span>`;
             }
             accountElement.addEventListener('click', async () => {
                 if(account.screen_name === user.screen_name) return alert("You're already on this account!");
@@ -1500,7 +1500,7 @@ let userDataFunction = async user => {
             res.users.slice(0, 5).forEach(u => {
                 let userElement = document.createElement('div');
                 userElement.classList.add('new-message-user');
-                userElement.innerHTML = `
+                userElement.innerHTML = html`
                     <img class="new-message-user-avatar" src="${`${(u.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`.replace("_normal", "_bigger")}" width="48" height="48">
                     <div class="new-message-user-text">
                         <b class="new-message-user-name">${escapeHTML(u.name)}</b>
@@ -1799,7 +1799,7 @@ let userDataFunction = async user => {
                 newTweetMediaDiv.innerHTML = '';
                 newTweetPoll.hidden = false;
                 newTweetPoll.style.width = "364px";
-                document.getElementById('navbar-new-tweet-poll').innerHTML = `
+                document.getElementById('navbar-new-tweet-poll').innerHTML = html`
                     <input class="navbar-poll-question" data-variant="1" maxlength="25" placeholder="${LOC.variant.message} 1"><br>
                     <input class="navbar-poll-question" data-variant="2" maxlength="25" placeholder="${LOC.variant.message} 2"><br>
                     <input class="navbar-poll-question" data-variant="3" maxlength="25" placeholder="${LOC.variant.message} 3 ${LOC.optional.message}"><br>
@@ -1936,7 +1936,7 @@ let userDataFunction = async user => {
                     let userElement = document.createElement('span');
                     userElement.className = 'search-result-item';
                     if(index === 0) userElement.classList.add('search-result-item-active');
-                    userElement.innerHTML = `
+                    userElement.innerHTML = html`
                         <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
                         <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                         <span class="search-result-item-screen-name">@${user.screen_name}</span>
@@ -2289,7 +2289,7 @@ let userDataFunction = async user => {
             let userElement = document.createElement('a');
             userElement.href = `/${user.screen_name}`;
             userElement.className = 'search-result-item';
-            userElement.innerHTML = `
+            userElement.innerHTML = html`
                 <img width="16" height="16" class="search-result-item-avatar" src="${`${(user.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`}">
                 <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${user.name}</span>
                 <span class="search-result-item-screen-name">@${user.screen_name}</span>
@@ -3010,8 +3010,8 @@ setInterval(() => {
         let version2 = document.getElementById('oldtwitter-version-left');
         if(version) {
             fetch(`https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`).then(res => res.json()).then(res => {
-                version.innerHTML+= ` <div style="display:inline;white-space : nowrap;">(${LOC.last_version.message}: ${res.version})</div>`;
-                version2.innerHTML +=  ` <div style="display:inline;white-space : nowrap;">(${LOC.last_version.message}: ${res.version})</div>`;
+                version.innerHTML+= html` <div style="display:inline;white-space : nowrap;">(${LOC.last_version.message}: ${res.version})</div>`;
+                version2.innerHTML +=  html` <div style="display:inline;white-space : nowrap;">(${LOC.last_version.message}: ${res.version})</div>`;
                 if(TRANSLATORS[LANGUAGE]) {
                     let translated_by = document.createElement('span');
                     let translated_by_2 = document.createElement('span');
@@ -3020,11 +3020,11 @@ setInterval(() => {
                         for(let translator of TRANSLATORS[LANGUAGE]) {
                             as.push(`<a${translator[1] ? ` target="_blank" href="${translator[1]}"` : ''}>${translator[0]}</a>`);
                         }
-                        translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
-                        translated_by_2.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
+                        translated_by.innerHTML = html` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
+                        translated_by_2.innerHTML = html` ${LOC.translated_by.message.replace("$TRANSLATOR$", as.join(', '))}<br>`;
                     } else {
-                        translated_by.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
-                        translated_by_2.innerHTML = ` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
+                        translated_by.innerHTML = html` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
+                        translated_by_2.innerHTML = html` ${LOC.translated_by.message.replace("$TRANSLATOR$", `<a${TRANSLATORS[LANGUAGE][1] ? ` target="_blank" href="${TRANSLATORS[LANGUAGE][1]}"` : ''}>${TRANSLATORS[LANGUAGE][0]}</a>`)}<br>`;
                     }
                     document.getElementById('about-right').children[0].append(translated_by);
                     document.getElementById('about-left').children[0].append(translated_by_2);
@@ -3456,14 +3456,14 @@ setInterval(() => {
         });
     } else {
         let style = document.createElement('style');
-        style.innerHTML = `.tweet-interact::after { content: '' !important; }`;
+        style.innerHTML = html`.tweet-interact::after { content: '' !important; }`;
         document.head.appendChild(style);
     }
 
     function fullscreenEvent(fullscreen) {
         if(fullscreen) {
             let style = document.createElement('style');
-            style.innerHTML = `.tweet-media-element-quote { object-fit: contain !important; }`;
+            style.innerHTML = html`.tweet-media-element-quote { object-fit: contain !important; }`;
             style.id = 'fullscreen-style';
             document.head.appendChild(style);
         } else {

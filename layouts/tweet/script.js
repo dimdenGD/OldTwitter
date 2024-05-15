@@ -284,7 +284,7 @@ async function updateRetweets(id, c) {
         tweet.style.marginBottom = '10px';
         tweet.style.borderRadius = '5px';
         let h1 = document.createElement('h1');
-        h1.innerHTML = `${LOC.retweeted_by.message} (<a href="/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
+        h1.innerHTML = html`${LOC.retweeted_by.message} (<a href="/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
     }
@@ -298,7 +298,7 @@ async function updateRetweets(id, c) {
         let u = tweetRetweeters[i];
         let retweetElement = document.createElement('div');
         retweetElement.classList.add('following-item');
-        retweetElement.innerHTML = `
+        retweetElement.innerHTML = html`
         <div>
             <a href="/${u.screen_name}" class="following-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
@@ -348,7 +348,7 @@ async function updateRetweetsWithComments(id, c) {
         let t = await API.tweet.getV2(id);
         retweetDiv.innerHTML = '';
         let h1 = document.createElement('h1');
-        h1.innerHTML = `${LOC.quote_tweets.message} (<a href="/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
+        h1.innerHTML = html`${LOC.quote_tweets.message} (<a href="/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
     }
@@ -397,7 +397,7 @@ function renderUserData() {
 
     if(document.getElementById('user-stats').clientWidth > 300) {
         let style = document.createElement('style');
-        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        style.innerHTML = html`.user-stat-div > h2 { font-size: 10px !important }`;
         document.head.appendChild(style);
     }
 }
@@ -586,7 +586,7 @@ async function appendComposeComponent(container, replyTweet) {
                 let userElement = document.createElement('span');
                 userElement.className = 'search-result-item';
                 if(index === 0) userElement.classList.add('search-result-item-active');
-                userElement.innerHTML = `
+                userElement.innerHTML = html`
                     <img width="16" height="16" class="search-result-item-avatar" src="${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}">
                     <span class="search-result-item-name ${user.verified || user.id_str === '1708130407663759360' ? 'search-result-item-verified' : ''}">${escapeHTML(user.name)}</span>
                     <span class="search-result-item-screen-name">@${user.screen_name}</span>
@@ -721,7 +721,7 @@ async function appendTombstone(timelineContainer, text, replyTweet) {
     if(replyTweet) {
         let threadDiv = document.createElement('div');
         threadDiv.className = "tweet-self-thread-div tombstone-thread";
-        threadDiv.innerHTML = `
+        threadDiv.innerHTML = html`
             <span style="margin-left: 33px;margin-top: 8px;" class="tweet-self-thread-line"></span>
             <div style="margin-left: 29px;margin-top: 10px;" class="tweet-self-thread-line-dots"></div>
         `;
@@ -734,7 +734,7 @@ async function appendShowMore(container, data, id) {
     insertedMores.push(data.cursor);
     let div = document.createElement('div');
     div.className = 'show-more';
-    div.innerHTML = `
+    div.innerHTML = html`
         <button class="show-more-button center-text">${data.labelText ? data.labelText : data.actionText}</button>
     `;
     let loading = false;

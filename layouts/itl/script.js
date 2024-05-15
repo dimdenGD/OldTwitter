@@ -46,7 +46,7 @@ function renderUserData() {
 
     if(document.getElementById('user-stats').clientWidth > 300) {
         let style = document.createElement('style');
-        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        style.innerHTML = html`.user-stat-div > h2 { font-size: 10px !important }`;
         document.head.appendChild(style);
     }
 }

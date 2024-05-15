@@ -189,7 +189,7 @@ setTimeout(async () => {
         history.pushState({}, null, '/notifications/mentions');
         document.getElementById('notifs-loading').hidden = false;
         document.getElementById('notifications-more').hidden = true;
-        document.getElementById('notifications-div').innerHTML = ``;
+        document.getElementById('notifications-div').innerHTML = html``;
         updateSubpage();
         updateNotifications();
     });
@@ -199,7 +199,7 @@ setTimeout(async () => {
         history.pushState({}, null, '/notifications');
         document.getElementById('notifs-loading').hidden = false;
         document.getElementById('notifications-more').hidden = true;
-        document.getElementById('notifications-div').innerHTML = ``;
+        document.getElementById('notifications-div').innerHTML = html``;
         updateSubpage();
         updateNotifications();
     });

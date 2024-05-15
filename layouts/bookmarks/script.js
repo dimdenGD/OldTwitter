@@ -43,7 +43,7 @@ function renderUserData() {
 
     if(document.getElementById('user-stats').clientWidth > 300) {
         let style = document.createElement('style');
-        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        style.innerHTML = html`.user-stat-div > h2 { font-size: 10px !important }`;
         document.head.appendChild(style);
     }
 }
@@ -55,7 +55,7 @@ async function renderBookmarks(cursor) {
         bookmarks = await API.bookmarks.get(cursor);
     } catch(e) {
         console.error(e);
-        bookmarksContainer.innerHTML = `<div style="color:var(--light-gray)">${e}</div>`;
+        bookmarksContainer.innerHTML = html`<div style="color:var(--light-gray)">${e}</div>`;
         document.getElementById('loading-box').hidden = true;
         return;
     }
@@ -67,7 +67,7 @@ async function renderBookmarks(cursor) {
     }
     bookmarks = bookmarks.list;
     if(bookmarks.length === 0 && !cursor) {
-        bookmarksContainer.innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
+        bookmarksContainer.innerHTML = html`<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
         document.getElementById('delete-all').hidden = true;
         document.getElementById('loading-box').hidden = true;
         return;
@@ -115,13 +115,13 @@ setTimeout(async () => {
         }
     }, { passive: true });
     document.getElementById('delete-all').addEventListener('click', async () => {
-        let modal = createModal(`
+        let modal = createModal(html`
             <p style="color:var(--almost-black);margin-top:0">${LOC.delete_bookmarks.message}</p>
             <button class="nice-button" id="delete-all-confirm">${LOC.delete_all.message}</button>
         `);
         modal.getElementsByClassName('nice-button')[0].addEventListener('click', () => {
             API.bookmarks.deleteAll().then(() => {
-                document.getElementById('timeline').innerHTML = `<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
+                document.getElementById('timeline').innerHTML = html`<div style="color:var(--light-gray)">${LOC.empty.message}</div>`;
                 document.getElementById('delete-all').hidden = true;
                 modal.remove();
             });

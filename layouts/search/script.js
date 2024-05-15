@@ -108,7 +108,7 @@ async function renderSearch(c, force = false) {
         } catch(e) {
             console.error(e);
             if(!c) {
-                searchDiv.innerHTML = `<div class="no-results">
+                searchDiv.innerHTML = html`<div class="no-results">
                     <br><br>
                     <span style="color:var(--default-text-color)">${String(e)}</span><br><br>
                     <button class="nice-button">${LOC.try_again.message}</button>
@@ -153,7 +153,7 @@ async function renderSearch(c, force = false) {
     }
     if(search.length === 0) {
         if(!currentCursor) {
-            searchDiv.innerHTML = `<div class="no-results">
+            searchDiv.innerHTML = html`<div class="no-results">
                 <br><br>
                 <span style="color:var(--default-text-color)">${LOC.no_results.message}</span><br><br>
                 <button class="nice-button">${LOC.try_again.message}</button>

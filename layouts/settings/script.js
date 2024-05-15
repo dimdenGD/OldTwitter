@@ -149,7 +149,7 @@ function renderUserData() {
 
     if(document.getElementById('user-stats').clientWidth > 300) {
         let style = document.createElement('style');
-        style.innerHTML = `.user-stat-div > h2 { font-size: 10px !important }`;
+        style.innerHTML = html`.user-stat-div > h2 { font-size: 10px !important }`;
         document.head.appendChild(style);
     }
 
@@ -921,7 +921,7 @@ setTimeout(async () => {
             let div = document.createElement('div');
             div.classList.add('autotranslate-language');
             div.dataset.lang = lang;
-            div.innerHTML = `<span>${ln}</span><button class="remove-autotranslate-language nice-button">${LOC.remove.message}</button>`;
+            div.innerHTML = html`<span>${ln}</span><button class="remove-autotranslate-language nice-button">${LOC.remove.message}</button>`;
             div.querySelector('button').addEventListener('click', () => {
                 vars.autotranslateLanguages = vars.autotranslateLanguages.filter(l => l !== lang);
                 chrome.storage.sync.set({
@@ -939,7 +939,7 @@ setTimeout(async () => {
         let div = document.createElement('div');
         div.classList.add('autotranslate-language');
         div.dataset.lang = lang;
-        div.innerHTML = `<span>${ln}</span><button class="remove-autotranslate-language nice-button">${LOC.remove.message}</button>`;
+        div.innerHTML = html`<span>${ln}</span><button class="remove-autotranslate-language nice-button">${LOC.remove.message}</button>`;
         div.querySelector('button').addEventListener('click', () => {
             vars.autotranslateLanguages = vars.autotranslateLanguages.filter(l => l !== lang);
             chrome.storage.sync.set({
