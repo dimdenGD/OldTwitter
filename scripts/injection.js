@@ -701,11 +701,21 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
 
     history.scrollRestoration = 'manual';
 
+    // gif.js
+    fetch(chrome.runtime.getURL("libraries/gif.worker.js")).then(response => response.text()).then(text => {
+        window.gifWorkerUrl = window.URL.createObjectURL(new Blob([text],{type:"text/javascript"}));
+    });
+
+    // tinytoast
+    if(document.querySelector('.t-wrap')) {
+        document.querySelector('.t-wrap').remove();
+    }
+
     chrome.runtime.sendMessage({
         action: "inject",
         files: [
             "libraries/purify.min.js",
-            "libraries/twemoji.min.js",
+            "libraries/twemoji.js",
             (page.name === 'settings' ? 'libraries/parseCssColor.js' : ''),
             (page.name === 'settings' ? 'libraries/coloris.min.js' : ''),
             "libraries/twitter-text.js",
@@ -717,7 +727,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
             "libraries/custom-elements.min.js",
             "libraries/emojipicker.js",
             "libraries/tinytoast.js",
-            "libraries/iframeNavigation.js",
+            "scripts/iframeNavigation.js",
         ].filter(i => i)
     });
 })();

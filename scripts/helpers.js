@@ -3560,7 +3560,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 let gif = new GIF({
                     workers: 4,
                     quality: 15,
-                    debug: true
+                    debug: true,
+                    workerScript: window.gifWorkerUrl
                 });
                 video.currentTime = 0;
                 video.loop = false;
