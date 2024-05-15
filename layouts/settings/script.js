@@ -38,7 +38,7 @@ function initColors() {
 
             let div = document.createElement('div');
             div.classList.add('color-div');
-            div.innerHTML = /*html*/`
+            div.innerHTML = html`
                 <input data-coloris class="color-value" type="text" data-var="${v}" value="${rgb2hex(...color.values)}${Math.round(color.alpha*255).toString(16).padStart(2, '0')}">
                 <span class="color-name">${v[2].toUpperCase() + v.slice(3).replace(/-/g, ' ')}</span>
                 <button class="color-reset nice-button"${!customVars[v] ? ' disabled' : ''}>${LOC.reset.message}</button>

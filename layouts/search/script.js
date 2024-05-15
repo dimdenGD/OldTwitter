@@ -381,7 +381,7 @@ setTimeout(async () => {
         s.addEventListener('click', async () => {
             let id = s.id.split('-')[1];
             if(s.id === "advanced") {
-                let modal = createModal(/*html*/`
+                let modal = createModal(html`
                     <h1 class="nice-header">${LOC.advanced_search.message}</h1>
                     <div class="search-advanced-div">
                         <h3 class="nice-subheader">${LOC.words.message}</h3><br>

@@ -35,7 +35,7 @@ async function createShamelessPlug(firstTime = true) {
 
     if(!dimden.following) {
         let opened = Date.now();
-        let modal = createModal(/*html*/`
+        let modal = createModal(html`
             <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
             <span style="font-size:14px;color:var(--default-text-color)">
                 ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
@@ -77,7 +77,7 @@ setTimeout(() => {
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')
             ) {
                 let opened = Date.now();
-                createModal(/*html*/`
+                createModal(html`
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
@@ -275,7 +275,7 @@ async function renderTimeline(options = {}) {
     if(options.mode === 'rewrite') {
         if(options.suspended) {
             try {
-                timelineContainer.innerHTML = /*html*/`
+                timelineContainer.innerHTML = html`
                     <div style="color:var(--almost-black);padding:20px;word-break: break-word;" class="box">
                         <h2 class="nice-header" style="margin-bottom:0">${options.suspended.content.itemContent.content.headerText}</h2>
                         <p>${options.suspended.content.itemContent.content.bodyText.replace(/\sX\s/g, ' Twitter ')}</p>
@@ -788,7 +788,7 @@ setTimeout(async () => {
         }
     });
     document.getElementById('new-tweet-circle-edit').addEventListener('click', async () => {
-        let modal = createModal(/*html*/`
+        let modal = createModal(html`
             <div class="modal-top">
                 <div class="circle-menu-selector">
                     <span class="larger nice-header circle-menu-selector-selected circle-menu-edit_members" style="float: left;margin-left: 14px;">${LOC.edit_members.message}</span>
@@ -810,7 +810,7 @@ setTimeout(async () => {
             members.forEach(u => {
                 let userElement = document.createElement('div');
                 userElement.className = 'circle-user';
-                userElement.innerHTML = /*html*/`
+                userElement.innerHTML = html`
                     <a href="/${u.legacy.screen_name}" target="_blank" style="text-decoration:none!important">
                         <img class="new-message-user-avatar" src="${`${(u.legacy.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.legacy.id_str) % 7}_normal.png`): u.legacy.profile_image_url_https}`.replace("_normal", "_bigger")}" width="48" height="48">
                         <div class="new-message-user-text">
@@ -840,7 +840,7 @@ setTimeout(async () => {
             res.slice(0, 5).forEach(u => {
                 let userElement = document.createElement('div');
                 userElement.classList.add('circle-user');
-                userElement.innerHTML = /*html*/`
+                userElement.innerHTML = html`
                     <a href="/${u.legacy.screen_name}" target="_blank" style="text-decoration:none!important">
                         <img class="new-message-user-avatar" src="${`${(u.legacy.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.legacy.id_str) % 7}_normal.png`): u.legacy.profile_image_url_https}`.replace("_normal", "_bigger")}" width="48" height="48">
                         <div class="new-message-user-text">
@@ -1060,7 +1060,7 @@ setTimeout(async () => {
     });
 
     function createManageSearchesModal() {
-        let modal = createModal(/*html*/`
+        let modal = createModal(html`
             <h3 class="nice-header">${LOC.manage_searches.message}</h3><br>
             <div class="manage-searches-list"></div>
             <h3 class="nice-header" style="margin-bottom:5px">${LOC.add_search.message}</h3><br>
@@ -1074,7 +1074,7 @@ setTimeout(async () => {
             data.pinnedSearches.forEach(search => {
                 let searchElement = document.createElement('div');
                 searchElement.className = 'manage-searches-item';
-                searchElement.innerHTML = /*html*/`
+                searchElement.innerHTML = html`
                     <span class="manage-searches-item-text">${escapeHTML(search)}</span>
                     <button class="nice-button manage-searches-item-remove">${LOC.remove.message}</button>
                 `;
@@ -1128,7 +1128,7 @@ setTimeout(async () => {
             }, () => {});
             let searchElement = document.createElement('div');
             searchElement.className = 'manage-searches-item';
-            searchElement.innerHTML = /*html*/`
+            searchElement.innerHTML = html`
                 <span class="manage-searches-item-text">${escapeHTML(search)}</span>
                 <button class="nice-button manage-searches-item-remove">${LOC.remove.message}</button>
             `;

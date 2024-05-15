@@ -603,7 +603,7 @@ let userDataFunction = async user => {
             accountsElement.appendChild(accountElement, document.createElement('br'));
         });
         document.getElementById('navbar-user-menu-logout').addEventListener('click', async () => {
-            let modal = createModal(/*html*/`
+            let modal = createModal(html`
                 <h1 class="cool-header">${LOC.logout_title.message}</h1><br>
                 <span style="font-size:14px;color:var(--almost-black)">${LOC.logout_desc_1.message}<br>
                 ${LOC.logout_desc_2.message}</span>
@@ -652,7 +652,7 @@ let userDataFunction = async user => {
                 let u = followRequestsData.ids[i];
                 let userElement = document.createElement('div');
                 userElement.classList.add('follow-requests-user');
-                userElement.innerHTML = /*html*/`
+                userElement.innerHTML = html`
                     <div>
                         <a href="/${u.screen_name}" class="following-item-link">
                             <img src="${`${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
@@ -717,7 +717,7 @@ let userDataFunction = async user => {
             }
         }
         followRequests.addEventListener('click', async () => {
-            let modal = createModal(/*html*/`
+            let modal = createModal(html`
                 <h1 class="larger nice-header">${LOC.follow_requests.message}</h1>
                 <div class="follow-requests-list"></div>
                 <div class="requests-load-more center-text">${LOC.load_more.message}</div>
@@ -868,8 +868,8 @@ let userDataFunction = async user => {
                     messageElement.classList.add('message-element-emojis');
                 }
                 messageElement.dataset.messageId = m.id;
-                messageElement.innerHTML = /*html*/`
-                    ${sender.id_str !== user.id_str ? /*html*/`
+                messageElement.innerHTML = html`
+                    ${sender.id_str !== user.id_str ? html`
                         <div class="profile-block" style="float:left">
                             <a class="sender-profile-url" href="/${sender.screen_name}">
                                 <img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar">
@@ -882,7 +882,7 @@ let userDataFunction = async user => {
                                 <div class="message-reactions"></div>
                             </div>
                         </div>
-                    ` : /*html*/`
+                    ` : html`
                         <div class="message-block" style="margin-left: auto">
                             <div class="message-block-inner" style="margin-left: auto">
                                 <span class="message-menu-open"></span>
@@ -1326,7 +1326,7 @@ let userDataFunction = async user => {
             } else {
                 //console.log(lastEvent)
             }
-            messageElement.innerHTML = /*html*/`
+            messageElement.innerHTML = html`
                 <img src="${messageEntry.icon}" width="48" height="48" class="inbox-message-avatar">
                 <div class="inbox-text">
                     <b class="inbox-name">${messageEntry.name}</b>
@@ -1384,7 +1384,7 @@ let userDataFunction = async user => {
 
         let inbox = inboxData;
 
-        modal = createModal(/*html*/`
+        modal = createModal(html`
             <div class="inbox">
                 <div class="inbox-top home-top">
                     <h1 class="larger nice-header">${LOC.direct_messages.message}</h1>
@@ -1749,7 +1749,7 @@ let userDataFunction = async user => {
     
     // tweet
     document.getElementById('navbar-tweet-button').addEventListener('click', () => {
-        let modal = createModal(/*html*/`
+        let modal = createModal(html`
             <div class="navbar-new-tweet-container">
                 <div class="navbar-new-tweet">
                     <img width="35" height="35" class="navbar-new-tweet-avatar">
@@ -2411,7 +2411,7 @@ let userDataFunction = async user => {
                 }
             };
             let div = document.createElement('div');
-            div.innerHTML = /*html*/`
+            div.innerHTML = html`
                 <style>
                     :host{font-weight:initial;line-height:initial;text-align:initial;word-spacing:initial;white-space:initial}
                     .follows-you-label{font-size:11px;letter-spacing:.02em;text-transform:uppercase;color:var(--darker-gray);background:rgba(0,0,0,0.08);width:fit-content;padding:3px 7px;border-radius:5px;margin-bottom:5px;margin-top:5px;display:block}
@@ -2426,12 +2426,12 @@ let userDataFunction = async user => {
                     .user-stat-div>h2 {color: var(--lil-darker-gray);font-size: 14px;font-weight: 100;margin: 0 10px;text-transform: uppercase;white-space: nowrap;}
                     .user-stat-div>h1 {color: var(--link-color);font-size: 20px;margin: 0 10px }
                     .user-stat-div {text-decoration: none !important;}
-                    ${modernUIEnabled ? /*html*/`
+                    ${modernUIEnabled ? html`
                     .nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: var(--link-color);background-color: var(--link-color);background-repeat: no-repeat;border: none;border-radius: 999px;color: white;cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}
                     .nice-button:hover:not([disabled]) {filter: brightness(0.9);}
                     .nice-button:disabled {opacity:0.6;}
                     .nice-button:disabled:before {opacity:0.6;}
-                    .follow{border: 1px solid var(--link-color) !important;color:var(--link-color) !important;background-image: var(--background-color) !important;background-color: var(--background-color) !important;}`:/*html*/`
+                    .follow{border: 1px solid var(--link-color) !important;color:var(--link-color) !important;background-image: var(--background-color) !important;background-color: var(--background-color) !important;}`:html`
                     .nice-button {color: var(--almost-black);background-color: var(--darker-background-color);background-image: linear-gradient(var(--background-color),var(--darker-background-color));background-repeat: no-repeat;border: 1px solid var(--border);border-radius: 4px;color: var(--darker-gray);cursor: pointer;font-size: 14px;font-weight: bold;line-height: normal;padding: 8px 16px;}
                     .nice-button:hover:not([disabled]) {color: var(--almost-black);text-decoration: none;background-color: var(--border);background-image: linear-gradient(var(--background-color),var(--border));border-color: var(--border);}
                     .nice-button:disabled {color: lightgray !important;cursor: not-allowed;}
@@ -2458,7 +2458,7 @@ let userDataFunction = async user => {
                     <a class="preview-user-info" href="/${user.screen_name}">
                         <h1 class="preview-user-name">${escapeHTML(user.name)}</h1>
                         <h2 class="preview-user-handle">@${user.screen_name}</h2>
-                        ${user.followed_by ? /*html*/`<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
+                        ${user.followed_by ? html`<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
                     </a>
                     <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? LOC.following_btn.message : LOC.follow.message}</button>
                     <span class="preview-user-description">${escapeHTML(user.description).replace(/\n/g, '<br>').replace(/((http|https):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="/hashtag/$1">#$1</a>`)}</span>

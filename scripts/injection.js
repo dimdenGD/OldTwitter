@@ -704,6 +704,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     chrome.runtime.sendMessage({
         action: "inject",
         files: [
+            "libraries/purify.min.js",
             "libraries/twemoji.min.js",
             (page.name === 'settings' ? 'libraries/parseCssColor.js' : ''),
             (page.name === 'settings' ? 'libraries/coloris.min.js' : ''),

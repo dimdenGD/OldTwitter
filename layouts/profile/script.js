@@ -356,7 +356,7 @@ function updateUserData() {
                         if(adminControls) adminControls.remove();
                         adminControls = document.createElement('div');
                         adminControls.id = 'admin-controls';
-                        adminControls.innerHTML = /*html*/`
+                        adminControls.innerHTML = html`
                             <br>
                             Eligible for custom profile CSS: <span id="admin-css-eligible">${data.css_eligible ? 'yes' : 'no'}</span><br>
                             Can get access automatically: <span id="admin-css-eligible-auto">${data.css_eligible_auto ? 'yes' : 'no'}</span><br>
@@ -647,11 +647,11 @@ async function renderFollowers(clear = true, cursor) {
                     resolve(res[user.id_str]);
                 });
             });
-            userList.innerHTML = /*html*/`
+            userList.innerHTML = html`
                 <h1 class="nice-header">
                     ${LOC.followers.message} 
                     (${pageUser.followers_count.toLocaleString('en-US')})
-                    ${unfollows.followers.length > 5 && unfollows.followers.length < 50000 ? /*html*/`
+                    ${unfollows.followers.length > 5 && unfollows.followers.length < 50000 ? html`
                         <button class="tiny-button" id="switch-filtering" style="vertical-align:text-bottom">${LOC.filter.message}</button>
                     ` : ''}
                 </h1>
@@ -973,7 +973,7 @@ async function renderLists() {
         if(!l) continue;
         let listElement = document.createElement('div');
         listElement.classList.add('list-item');
-        listElement.innerHTML = /*html*/`
+        listElement.innerHTML = html`
             <div>
                 <a href="/i/lists/${l.id_str}" class="following-item-link">
                     <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
@@ -1216,7 +1216,7 @@ async function renderProfile() {
         } else if(localStorage.OTisBlueVerified && localStorage.OTisBlueVerified !== "always") {
             delete localStorage.OTisBlueVerified;
         }
-        buttonsElement.innerHTML = /*html*/`
+        buttonsElement.innerHTML = html`
             <a class="nice-button" id="edit-profile" target="_blank" href="/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>
             <button class="profile-additional-thing nice-button" id="profile-style"></button>
         `;
@@ -1239,7 +1239,7 @@ async function renderProfile() {
         document.getElementById('private-profile-warn').hidden = true;
         styling.hidden = true;
         document.getElementById('tweet-to-bg').hidden = pageUser.blocked_by? true : false;
-        buttonsElement.innerHTML = /*html*/`
+        buttonsElement.innerHTML = html`
             <button ${(pageUser.blocking || pageUser.blocked_by)  ? 'hidden' : ''} class="nice-button ${pageUser.following || pageUser.follow_request_sent ? 'following' : 'follow'} control-btn" id="control-follow">${pageUser.following || (pageUser.protected && pageUser.follow_request_sent) ? ((pageUser.protected && pageUser.follow_request_sent) ? LOC.follow_request_sent.message : LOC.following_btn.message) : LOC.follow.message}</button>
             <button class="nice-button control-btn" id="control-unblock" ${pageUser.blocking ? '' : 'hidden'}>${LOC.unblock.message}</button>
             <a ${pageUser.can_dm && !pageUser.blocking && !pageUser.blocked_by ? '' : 'hidden'} class="nice-button" id="message-user"></a>
@@ -1255,13 +1255,13 @@ async function renderProfile() {
             blockUserText = `${LOC.block_user.message} @${pageUser.screen_name}`;
             unblockUserText = `${LOC.unblock_user.message} @${pageUser.screen_name}`;
         }
-        buttonsElement.innerHTML += /*html*/`
+        buttonsElement.innerHTML += html`
             <span class="profile-additional-thing" id="profile-settings"></span>
             <div id="profile-settings-div" class="dropdown-menu" hidden>
                 <span ${!pageUser.following || pageUser.blocking ? 'hidden' : ''} id="profile-settings-notifications" class="${pageUser.notifications ? 'profile-settings-offnotifications' : 'profile-settings-notifications'}">${pageUser.notifications ? LOC.stop_notifications.message : LOC.receive_notifications.message}</span>
                 <span id="profile-settings-block" class="${pageUser.blocking ? 'profile-settings-unblock' : 'profile-settings-block'}">${pageUser.blocking ? unblockUserText : blockUserText}</span>
                 <span ${pageUser.blocking || ((pageUser.protected || pageUser.blocked_by)  && !pageUser.following) ? 'hidden' : ''} id="profile-settings-mute" class="${pageUser.muting ? 'profile-settings-unmute' : 'profile-settings-mute'}">${pageUser.muting ? LOC.unmute.message : LOC.mute.message}</span>
-                ${pageUser.followed_by ? /*html*/`<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span>` : ''}
+                ${pageUser.followed_by ? html`<span id="profile-settings-removefollowing">${LOC.remove_from_followers.message}</span>` : ''}
                 <span id="profile-settings-lists-action" ${pageUser.blocking || ((pageUser.protected || pageUser.blocked_by)  && !pageUser.following) ? 'hidden' : ''}>${LOC.from_list.message}</span>
                 <span id="profile-settings-autotranslate">${toAutotranslate ? LOC.dont_autotranslate.message : LOC.autotranslate_tweets.message}</span>
                 <span id="profile-settings-retweets" ${pageUser.following ? '' : 'hidden'}>${pageUser.want_retweets ? LOC.turn_off_retweets.message : LOC.turn_on_retweets.message}</span>
@@ -1269,7 +1269,7 @@ async function renderProfile() {
                 <span id="profile-settings-lists" ${(pageUser.protected || pageUser.blocked_by) && !pageUser.following ? 'hidden' : ''}>${LOC.see_lists.message}</span>
                 <span id="profile-settings-share">${LOC.share_user.message}</span>
                 <span id="profile-settings-copy">${LOC.copy_profile_link.message}</span>
-                ${vars.developerMode ? /*html*/`<span id="profile-settings-copy-id">${LOC.copy_user_id.message}</span>` : ''}
+                ${vars.developerMode ? html`<span id="profile-settings-copy-id">${LOC.copy_user_id.message}</span>` : ''}
             </div>
         `;
         let messageUser = document.getElementById('message-user');

@@ -427,7 +427,7 @@ async function appendComposeComponent(container, replyTweet) {
         replyMessage = `${LOC.reply_to.message} @${replyTweet.user.screen_name}`;
     }
 
-    el.innerHTML = /*html*/`
+    el.innerHTML = html`
         <div id="new-tweet" class="box">
             <img width="35" height="35" class="tweet-avatar" id="new-tweet-avatar">
             <span id="new-tweet-char" hidden>${localStorage.OTisBlueVerified ? '0' : '0/280'}</span>
@@ -438,7 +438,7 @@ async function appendComposeComponent(container, replyTweet) {
             </div>
             <div id="new-tweet-focused" hidden>
                 <span id="new-tweet-emojis" title="${LOC.emoji.message}"></span>
-                ${mentions.length > 0 ? /*html*/`<span id="new-tweet-mentions" title="${LOC.mentions.message}"></span>` : ''}
+                ${mentions.length > 0 ? html`<span id="new-tweet-mentions" title="${LOC.mentions.message}"></span>` : ''}
                 <div id="new-tweet-media-cc"><div id="new-tweet-media-c"></div></div>
                 <button id="new-tweet-button" class="nice-button">${LOC.tweet.message}</button>
                 <br><br>
@@ -472,7 +472,7 @@ async function appendComposeComponent(container, replyTweet) {
                 if(!u) continue;
                 users[u.id_str] = u;
             }
-            let modal = createModal(/*html*/`
+            let modal = createModal(html`
                 <div id="new-tweet-mentions-modal" style="color:var(--almost-black)">
                     <h3 class="nice-header">${LOC.replying_to.message}</h3>
                     <div class="new-tweet-mentions-modal-item">
@@ -482,7 +482,7 @@ async function appendComposeComponent(container, replyTweet) {
                     ${mentions.map(m => {
                         let u = Object.values(users).find(u => u.screen_name === m);
                         if(!u) return '';
-                        return /*html*/`
+                        return html`
                         <div class="new-tweet-mentions-modal-item">
                             <input type="checkbox" data-user-id="${u.id_str}" id="new-tweet-mentions-modal-item-${m}"${excludeUserMentions.includes(u.id_str) ? '' : ' checked'}${user.screen_name === m ? ' hidden' : ''}>
                             <label for="new-tweet-mentions-modal-item-${m}"${user.screen_name === m ? ' hidden' : ''}>${u.name} (@${m})</label>
