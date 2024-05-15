@@ -309,7 +309,7 @@ async function renderTimeline(options = {}) {
         if (t.retweeted_status) {
             let o = {
                 top: {
-                    text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    text: html`<a href="/${t.user.screen_name}">${t.user.name}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255",
                     class: 'retweet-label'
@@ -1002,7 +1002,7 @@ setTimeout(async () => {
                 document.getElementById('new-tweet-poll-btn').classList.remove('poll-disabled');
                 schedule.style.display = 'none';
                 scheduleInput.value = '';
-                createModal(`
+                createModal(html`
                     <span style="color:var(--almost-black);font-size:14px">${LOC.scheduled_success.message}</span><br><br>
                     <a href="/compose/tweet/unsent/scheduled?newtwitter=true" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
                 `);

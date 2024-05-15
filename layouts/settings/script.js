@@ -1060,7 +1060,7 @@ setTimeout(async () => {
     }
 
     document.getElementById('tl-help').addEventListener('click', () => {
-        createModal(`
+        createModal(html`
             <div style="color:var(--almost-black);max-width:600px" class="help-modal">
                 <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">${LOC.timeline_type.message}</h2>
                 <div><b>${LOC.chrono.message}</b> - ${LOC.chrono_help.message}</div>
@@ -1073,7 +1073,7 @@ setTimeout(async () => {
     });
 
 	document.getElementById('autotl-help').addEventListener('click', () => {
-        createModal(`
+        createModal(html`
             <div style="color:var(--almost-black);max-width:600px" class="help-modal">
                 <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">${LOC.autotranslation.message}</h2>
                 <div>${LOC.autotranslation_help1.message}</div>
@@ -1104,7 +1104,7 @@ setTimeout(async () => {
         let lang = document.querySelector(`option[value="${LANGUAGE}"]`).innerText;
         if(!lang) lang = LANGUAGE.toUpperCase();
         // Don't translate this
-        createModal(`
+        createModal(html`
         <div style="color:var(--almost-black);max-width:600px" class="help-modal">
             <h2 class="help-header larger" style="padding-top: 0;margin-bottom: 5px;">Do you know English?</h2>
             <div>Do you know English (at least B2) and ${lang}? If so, you can help translate this extension into your language!</div>

@@ -71,7 +71,7 @@ function renderListData(data) {
                 <button class="nice-button" id="list-btn-delete">${LOC.delete.message}</button>
             `;
             document.getElementById('list-btn-edit').addEventListener('click', () => {
-                let modal = createModal(`
+                let modal = createModal(html`
                     <div id="list-editor">
                         <h1 class="cool-header">${LOC.edit_list.message}</h1><br>
                         <span id="list-editor-error" style="color:red"></span><br>
@@ -155,7 +155,7 @@ function renderListData(data) {
                 });
             });
             document.getElementById('list-btn-delete').addEventListener('click', async () => {
-                let modal = createModal(`
+                let modal = createModal(html`
                     <h1 class="cool-header">${LOC.delete_list.message}</h1><br>
                     <span>${LOC.delete_list_sure.message}</span>
                     <br><br>
@@ -417,7 +417,7 @@ setTimeout(async () => {
             if(t.retweeted_status) {
                 toInsert.push(await appendTweet(t.retweeted_status, container, {
                     top: {
-                        text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                        text: html`<a href="/${t.user.screen_name}">${t.user.name}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255",
                         class: 'retweet-label'

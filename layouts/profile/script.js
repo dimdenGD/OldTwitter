@@ -464,7 +464,7 @@ function updateUserData() {
                         document.getElementById('custom-css-eligible').hidden = false;
                         document.getElementById('custom-css-not-eligible').hidden = true;
                         if(!vars.acknowledgedCssAccess && !data.css && !data.css_vars_dark && !data.css_vars_light) {
-                            let modal = createModal(`
+                            let modal = createModal(html`
                                 <div style="color:var(--almost-black);max-width:500px">
                                     <h2 class="nice-header">${LOC.profile_custom_css.message}</h2><br>
                                     <span>${LOC.pccss_congrats.message}</span>
@@ -945,7 +945,7 @@ async function renderLists() {
     if(pageUser.id_str === user.id_str) {
         listsList.innerHTML += html`<h1 class="nice-header" style="float:right;cursor:pointer" id="create-list">${LOC.create_btn.message}</h1>`;
         document.getElementById('create-list').addEventListener('click', () => {
-            let modal = createModal(`
+            let modal = createModal(html`
                 <div id="list-creator">
                     <h1 class="cool-header">${LOC.create_list.message}</h1><br>
                     <span id="list-editor-error" style="color:red"></span><br>
@@ -1406,7 +1406,7 @@ async function renderProfile() {
                 } else {
                     blockMessageDesc = `${LOC.block_sure_desc.message} @${pageUser.screen_name}?`;
                 }
-                let modal = createModal(`
+                let modal = createModal(html`
                 <h1 class="cool-header">${blockMessage}</span>
                     <br><br>
                     <span style='font-size:14px;color:var(--almost-black)'>${blockMessageDesc}</h1>
@@ -1544,7 +1544,7 @@ async function renderProfile() {
             }
         });
         if(document.getElementById('profile-settings-removefollowing')) document.getElementById('profile-settings-removefollowing').addEventListener('click', async () => {
-            let modal = createModal(`
+            let modal = createModal(html`
             <h1 class="cool-header">${LOC.remove_from_followers_sure.message}</h1><br>
             <span style='font-size:14px;color:var(--almost-black)'>
             ${LOC.able_in_future.message}
@@ -1729,7 +1729,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
             if(pageUser.id_str === user.id_str) t.retweeted_status.current_user_retweet = t;
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
-                    text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    text: html`<a href="/${t.user.screen_name}">${t.user.name}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255",
                     class: 'retweet-label'

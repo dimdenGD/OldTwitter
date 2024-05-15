@@ -69,7 +69,7 @@ async function renderDeviceNotificationTimeline(cursor) {
             await appendTweet(t.retweeted_status, container, {
                 bigFont: false,
                 top: {
-                    text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    text: html`<a href="/${t.user.screen_name}">${t.user.name}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255",
                     class: 'retweet-label'
@@ -95,7 +95,7 @@ async function renderLikesTimeline() {
                 await appendTweet(d.data.retweeted_status, tweetContainer, {
                     bigFont: false,
                     top: {
-                        text: `<a href="/${d.data.user.screen_name}">${escapeHTML(d.data.user.name)}</a> ${LOC.retweeted.message}`,
+                        text: html`<a href="/${d.data.user.screen_name}">${d.data.user.name}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255",
                         class: 'retweet-label'

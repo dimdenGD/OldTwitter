@@ -24,34 +24,34 @@ Direct URL: *No official build provided, need to build it yourself*
 Build notes: Building using `npm run build` produces 2 files: `picker.js` and `database.js`. To bundle them into 1 file use Rollup: `rollup picker.js --file emojipicker.js --format iife -n EmojiPicker`  
 
 ### GIF.js
-Files: `libraries/gif.js`, `libraries/gif.worker.js`
-Repo: https://github.com/jnordberg/gif.js/tree/92d27a02841339e202c75150dcf6fe5f4fa42ec5
-Direct URLs: https://raw.githubusercontent.com/jnordberg/gif.js/92d27a02841339e202c75150dcf6fe5f4fa42ec5/dist/gif.js, https://raw.githubusercontent.com/jnordberg/gif.js/92d27a02841339e202c75150dcf6fe5f4fa42ec5/dist/gif.worker.js
+Files: `libraries/gif.js`, `libraries/gif.worker.js`  
+Repo: https://github.com/jnordberg/gif.js/tree/92d27a02841339e202c75150dcf6fe5f4fa42ec5  
+Direct URLs: https://raw.githubusercontent.com/jnordberg/gif.js/92d27a02841339e202c75150dcf6fe5f4fa42ec5/dist/gif.js, https://raw.githubusercontent.com/jnordberg/gif.js/92d27a02841339e202c75150dcf6fe5f4fa42ec5/dist/gif.worker.js  
 
 ### parse-css-color
-File: `libraries/parseCssColor.js`
-Repo: https://github.com/noeldelgado/parse-css-color/tree/3b1825a4c65eed06dcbcfa9976d9053466b9f5f5
+File: `libraries/parseCssColor.js`  
+Repo: https://github.com/noeldelgado/parse-css-color/tree/3b1825a4c65eed06dcbcfa9976d9053466b9f5f5  
 Direct URL: *No official build provided, need to build it yourself*  
-Build notes: Build using Rollup: `rollup -c rollup.config.js  --bundleConfigAsCjs`, use `dist/index.umd.js` file
+Build notes: Build using Rollup: `rollup -c rollup.config.js  --bundleConfigAsCjs`, use `dist/index.umd.js` file  
 
 ### Tiny.toast
-File: `libraries/tinytoast.js`
-Repo: https://github.com/catdad/tiny.toast/tree/4ec659d3444cd33cc1b0a8b6acb82a5d333e512a
-Direct URL: https://www.kirilv.com/tiny.cdn/lib/toast/1.0.0/toast.min.js
+File: `libraries/tinytoast.js`  
+Repo: https://github.com/catdad/tiny.toast/tree/4ec659d3444cd33cc1b0a8b6acb82a5d333e512a  
+Direct URL: https://www.kirilv.com/tiny.cdn/lib/toast/1.0.0/toast.min.js  
 
 ### Twemoji
-File: `libraries/twemoji.js`
-Repo: https://github.com/twitter/twemoji/tree/d94f4cf793e6d5ca592aa00f58a88f6a4229ad43
+File: `libraries/twemoji.js`  
+Repo: https://github.com/twitter/twemoji/tree/d94f4cf793e6d5ca592aa00f58a88f6a4229ad43  
 Direct URL: *No official build provided, need to build it yourself*  
-Build notes: Build using `npm run build`
+Build notes: Build using `npm run build`  
 
 ### twitter-text-js
-File: `libraries/twitter-text.js`
-Repo: https://github.com/twitter/twitter-text/tree/30e2430d90cff3b46393ea54caf511441983c260/js
-Direct URL: *No official build provided, need to build it yourself*
-Build notes: Build using Rollup: `rollup -c rollup.config.js --bundleConfigAsCjs`
+File: `libraries/twitter-text.js`  
+Repo: https://github.com/twitter/twitter-text/tree/30e2430d90cff3b46393ea54caf511441983c260/js  
+Direct URL: *No official build provided, need to build it yourself*  
+Build notes: Build using Rollup: `rollup -c rollup.config.js --bundleConfigAsCjs`  
 
 ### Viewer.js
-File: `libraries/viewer.min.js`
-Repo: https://github.com/fengyuanchen/viewerjs/tree/cf6fb29a6bef0577cecad18a25770403c89a579d
-Direct URL: https://raw.githubusercontent.com/fengyuanchen/viewerjs/cf6fb29a6bef0577cecad18a25770403c89a579d/dist/viewer.min.js
+File: `libraries/viewer.min.js`  
+Repo: https://github.com/fengyuanchen/viewerjs/tree/cf6fb29a6bef0577cecad18a25770403c89a579d  
+Direct URL: https://raw.githubusercontent.com/fengyuanchen/viewerjs/cf6fb29a6bef0577cecad18a25770403c89a579d/dist/viewer.min.js  

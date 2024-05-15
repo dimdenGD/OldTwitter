@@ -176,7 +176,7 @@ async function renderSearch(c, force = false) {
             if (t.retweeted_status) {
                 await appendTweet(t.retweeted_status, searchDiv, {
                     top: {
-                        text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                        text: html`<a href="/${t.user.screen_name}">${t.user.name}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255"
                     },
@@ -354,7 +354,7 @@ setTimeout(async () => {
             if(t.retweeted_status) {
                 toInsert.push(await appendTweet(t.retweeted_status, container, {
                     top: {
-                        text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                        text: html`<a href="/${t.user.screen_name}">${t.user.name}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255",
                         class: 'retweet-label'
