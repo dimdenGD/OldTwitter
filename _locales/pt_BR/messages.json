@@ -136,7 +136,7 @@
 		"message": "Muito obrigado por instalar OldTwitter!! Espero que goste. Dê uma olhada nas $AT1$configurações$AT2$!",
 		"placeholders": {
 			"at1": {
-				"content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">"
+				"content": "<a target=\"_blank\" href=\"/old/settings\">"
 			},
 			"at2": {
 				"content": "</a>"
@@ -1193,7 +1193,7 @@
 		"message": "Buscar tweets do usuário"
 	},
 	"no_tl_tweets": {
-		"message": "Você não está seguindo ninguém então não encontramos nenhum tweet! Mude o tipo da sua timeline para 'Algoritmo' em <a href='https://twitter.com/old/settings'>OldTwitter settings</a>."
+		"message": "Você não está seguindo ninguém então não encontramos nenhum tweet! Mude o tipo da sua timeline para 'Algoritmo' em <a href='/old/settings'>OldTwitter settings</a>."
 	},
 	"replying_to": {
 		"message": "Respondendo a",

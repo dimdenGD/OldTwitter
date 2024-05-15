@@ -44,7 +44,7 @@
         "message": "Спасибо за скачивание OldTwitter!! Надеюсь, вам понравится. $AT1$Настройте$AT2$ расширение!",
         "placeholders": {
             "at1": {
-                "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">"
+                "content": "<a target=\"_blank\" href=\"/old/settings\">"
             },
             "at2": { "content": "</a>" }
         }
@@ -379,7 +379,7 @@
     "dont_autotranslate": { "message": "Не переводить твиты автоматически" },
     "round_avatars": { "message": "Круглые аватарки" },
     "search_user_tweets": { "message": "Поиск твитов пользователя" },
-    "no_tl_tweets": { "message": "Вы ни на кого не подписаны так что никаких твитов не было найдено! Поменяйте тип ленты на 'Алгоритмическую' в <a href='https://twitter.com/old/settings'>настройках расширения</a>." },
+    "no_tl_tweets": { "message": "Вы ни на кого не подписаны так что никаких твитов не было найдено! Поменяйте тип ленты на 'Алгоритмическую' в <a href='/old/settings'>настройках расширения</a>." },
     "replying_to": { "message": "В ответ", "description": "Используется для списка упоминаний. Используйте 'Упоминания', если на вашем языке перевод звучит плохо.", "example": "В ответ: - user1, - user2" },
     "display": { "message": "Отображение" },
     "twitter_blue_checkmarks": { "message": "Показывать галочки Twitter Blue" },

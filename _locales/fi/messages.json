@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Kiitos että latasit OldTwitterin!! Toivon että tykkäät siitä. Katso $AT1$laajennuksen asetukset$AT2$!",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "Älä käännä twiittejä automaattisesti" },
     "round_avatars": { "message": "Pyöreät avatarit" },
     "search_user_tweets": { "message": "Hae käyttäjän twiiteistä" },
-    "no_tl_tweets": { "message": "Twiittejä ei löytynyt koska et seuraa ketään! Vaihda 'Algoritmiseen' aikajanaan <a href='https://twitter.com/old/settings'>OldTwitterin asetuksissa</a>." },
+    "no_tl_tweets": { "message": "Twiittejä ei löytynyt koska et seuraa ketään! Vaihda 'Algoritmiseen' aikajanaan <a href='/old/settings'>OldTwitterin asetuksissa</a>." },
     "replying_to": { "message": "Vastauksena käyttäjälle", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Näytä", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Näytä siniset checkmarkit" },

@@ -127,7 +127,7 @@
       "message": "τελευταία έκδοση"
     },
     "thank_you": {
-      "message": "Σας ευχαριστούμε που εγκαταστήσατε το OldTwitter!! Ελπίζω να σας αρέσει. Ελέγξτε τις <a target=\"_blank\" href=\"https://twitter.com/old/settings\">ρυθμίσεις επέκτασης</a>!"
+      "message": "Σας ευχαριστούμε που εγκαταστήσατε το OldTwitter!! Ελπίζω να σας αρέσει. Ελέγξτε τις <a target=\"_blank\" href=\"/old/settings\">ρυθμίσεις επέκτασης</a>!"
     },
     "follow_mb": {
       "message": "Ακολουθήστε με ίσως;"
@@ -944,7 +944,7 @@
     "dont_autotranslate": { "message": "Μην μεταφράζετε αυτόματα tweets" },
     "round_avatars": { "message": "Στρογγυλά avatars" },
     "search_user_tweets": { "message": "Αναζήτηση tweets χρηστών" },
-    "no_tl_tweets": { "message": "Δεν ακολουθείτε κανέναν, οπότε δεν βρέθηκαν tweets! Αλλάξτε τον τύπο του χρονολογίου σας σε 'Αλγοριθμικός' στις <a href='https://twitter.com/old/settings'>ρυθμίσεις του OldTwitter</a>." },
+    "no_tl_tweets": { "message": "Δεν ακολουθείτε κανέναν, οπότε δεν βρέθηκαν tweets! Αλλάξτε τον τύπο του χρονολογίου σας σε 'Αλγοριθμικός' στις <a href='/old/settings'>ρυθμίσεις του OldTwitter</a>." },
     "replying_to": { "message": "Απάντηση στο", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Παρουσίαση", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Εμφάνιση σημαδιών επιλογής Twitter Blue" },

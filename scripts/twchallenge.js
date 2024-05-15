@@ -68,7 +68,7 @@ window.addEventListener('message', e => {
 
 window._fetch = window.fetch;
 fetch = async function(url, options) {
-    if(!url.startsWith('https://twitter.com/i/api') && !url.startsWith('https://api.twitter.com')) return _fetch(url, options);
+    if(!url.startsWith('/i/api') && !url.startsWith('https://api.twitter.com') && !url.startsWith('https://api.x.com')) return _fetch(url, options);
     if(!options) options = {};
     if(!options.headers) options.headers = {};
     if(!options.headers['x-twitter-auth-type']) {
@@ -79,6 +79,9 @@ fetch = async function(url, options) {
     }
     if(!options.headers['X-Client-UUID']) {
         options.headers['X-Client-UUID'] = OLDTWITTER_CONFIG.deviceId;
+    }
+    if(!url.startsWith('http:') && !url.startsWith('https:')) {
+        url = `https://${location.host}${url}`;
     }
     let parsedUrl = new URL(url);
     try {
@@ -97,7 +100,7 @@ fetch = async function(url, options) {
 
 async function initChallenge() {
     try {
-        let homepageData = await _fetch('https://twitter.com/').then(res => res.text());
+        let homepageData = await _fetch('/').then(res => res.text());
         let dom = new DOMParser().parseFromString(homepageData, 'text/html');
         let verificationKey = dom.querySelector('meta[name="twitter-site-verification"]').content;
         let anims = Array.from(dom.querySelectorAll('svg[id^="loading-x"]')).map(svg => svg.outerHTML);

@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Благодаря, че инсталирахте OldTwitter!! Надявам се да ви хареса. $AT1$Настройте$AT2$ разширението!",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "Не превеждай туитове" },
     "round_avatars": { "message": "Кръгли аватари" },
     "search_user_tweets": { "message": "Търси потребителски туитове" },
-    "no_tl_tweets": { "message": "Вие не следвате никой, затова никакви туитове не са намерени! Сменете типа лента на 'Алгоритмичен' в <a href='https://twitter.com/old/settings'>OldTwitter настройки</a>." },
+    "no_tl_tweets": { "message": "Вие не следвате никой, затова никакви туитове не са намерени! Сменете типа лента на 'Алгоритмичен' в <a href='/old/settings'>OldTwitter настройки</a>." },
     "replying_to": { "message": "В отговор на", "description": "За списък от споменати. Използвайте 'Споменати' ако превода звучи зле във вашият език.", "example": "В отговор на: - user1, - user2" },
     "display": { "message": "Външен вид", "description": "Използва се за визуални настройки (шрифтове, цветове, стил и т.н.)" },
     "twitter_blue_checkmarks": { "message": "Покажи сини тикчета на Twitter Blue" },

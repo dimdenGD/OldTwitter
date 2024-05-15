@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Tack för att du installerade OldTwitter! Vi hoppas att du kommer gilla det. Gå till $AT1$inställningarna$AT2$ ifall du vill ändra något!",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "Översätt inte några Tweets" },
     "round_avatars": { "message": "Använd runda profilbilder" },
     "search_user_tweets": { "message": "Sök Tweets från detta konto" },
-    "no_tl_tweets": { "message": "Du följer ingen, så inga Tweets kan hittas! Ändra till en algoritmisk ordning i <a href='https://twitter.com/old/settings'>inställningarna</a>." },
+    "no_tl_tweets": { "message": "Du följer ingen, så inga Tweets kan hittas! Ändra till en algoritmisk ordning i <a href='/old/settings'>inställningarna</a>." },
     "replying_to": { "message": "Svarar på", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Visning", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Visa betalda verifieringsbockar" },

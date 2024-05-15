@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Danke für das Benutzen von OldTwitter!! Ich hoffe, es gefällt dir. Guck dir die $AT1$Erweiterungs-Einstellungen$AT2$ an!",
         "placeholders": {
-            "at1": {"content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">"},
+            "at1": {"content": "<a target=\"_blank\" href=\"/old/settings\">"},
             "at2": {"content": "</a>"}
         }
     },
@@ -368,7 +368,7 @@
     "dont_autotranslate": {"message": "Tweets nicht automatisch übersetzen"},
     "round_avatars": {"message": "Runde Avatare"},
     "search_user_tweets": {"message": "Benutzertweets durchsuchen"},
-    "no_tl_tweets": {"message": "Du folgst niemandem, daher wurden keine Tweets gefunden! Ändere deinen Zeitlinientyp in 'Algorithmisch' in den <a href='https://twitter.com/old/settings'>OldTwitter-Einstellungen</a>."},
+    "no_tl_tweets": {"message": "Du folgst niemandem, daher wurden keine Tweets gefunden! Ändere deinen Zeitlinientyp in 'Algorithmisch' in den <a href='/old/settings'>OldTwitter-Einstellungen</a>."},
     "replying_to": {"message": "Antwort auf", "description": "Wird für die Erwähnungsliste verwendet. Verwende 'Erwähnungen', wenn die Übersetzung in deiner Sprache schlecht klingt.", "example": "Antwort auf: - Benutzer1, - Benutzer2"},
     "display": {"message": "Anzeige", "description": "Wird für Anzeigeeinstellungen (Schriften, Farben, Stil, usw.) verwendet"},
     "twitter_blue_checkmarks": {"message": "Twitter Blue-Häkchen anzeigen"},

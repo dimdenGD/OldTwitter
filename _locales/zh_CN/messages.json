@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "感谢您安装 OldTwitter！希望您会喜欢。查看 $AT1$扩展设置$AT2$！",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
      },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "不自动翻译推文" },
     "round_avatars": { "message": "圆形头像" },
     "search_user_tweets": { "message": "搜索用户推文" },
-    "no_tl_tweets": { "message": "您没有关注任何人，所以没有找到推文！<br>在<a href='https://twitter.com/old/settings'>OldTwitter 设置</a>中将您的时间线类型更改为“算法时间线”。" },
+    "no_tl_tweets": { "message": "您没有关注任何人，所以没有找到推文！<br>在<a href='/old/settings'>OldTwitter 设置</a>中将您的时间线类型更改为“算法时间线”。" },
     "replying_to": { "message": "回复给", "description": "用于提及列表。如果翻译在您的语言中听起来不好，请使用“提及”。", "example": "回复给：- user1, - user2" },
     "display": { "message": "显示", "description": "用于显示设置（字体、颜色、样式等）" },
     "twitter_blue_checkmarks": { "message": "显示 Twitter Blue (现 X Premium) 订阅者蓝勾标记" },

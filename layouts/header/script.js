@@ -593,7 +593,7 @@ let userDataFunction = async user => {
                     window.location.reload();
                 } catch(e) {
                     if((typeof(e) === 'string' && e.includes('User not found.')) || e.errors[0].code === 50) {
-                        window.location = 'https://twitter.com/account/switch?newtwitter=true';
+                        window.location = '/account/switch?newtwitter=true';
                     } else {
                         alert(e);
                     }
@@ -654,7 +654,7 @@ let userDataFunction = async user => {
                 userElement.classList.add('follow-requests-user');
                 userElement.innerHTML = /*html*/`
                     <div>
-                        <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
+                        <a href="/${u.screen_name}" class="following-item-link">
                             <img src="${`${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                             <div class="following-item-text">
                                 <span class="tweet-header-name following-item-name ${u.verified || u.id_str === '1708130407663759360' ? 'user-verified' : ''} ${u.protected ? 'user-protected' : ''}">${escapeHTML(u.name)}</span><br>
@@ -871,13 +871,13 @@ let userDataFunction = async user => {
                 messageElement.innerHTML = /*html*/`
                     ${sender.id_str !== user.id_str ? /*html*/`
                         <div class="profile-block" style="float:left">
-                            <a class="sender-profile-url" href="https://twitter.com/${sender.screen_name}">
+                            <a class="sender-profile-url" href="/${sender.screen_name}">
                                 <img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar">
                             </a>
                         </div>
                         <div class="message-block" style="float:left">
                             <div class="message-block-inner">
-                                <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
+                                <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="/$1">@$1</a>`)}</span>
                                 <div class="message-attachments"></div>
                                 <div class="message-reactions"></div>
                             </div>
@@ -886,7 +886,7 @@ let userDataFunction = async user => {
                         <div class="message-block" style="margin-left: auto">
                             <div class="message-block-inner" style="margin-left: auto">
                                 <span class="message-menu-open"></span>
-                                <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`)}</span>
+                                <span class="message-body">${escapeHTML(m.message_data.text).replace(/((http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="/$1">@$1</a>`)}</span>
                                 <div class="message-menu" hidden>
                                     <span class="message-menu-delete">${LOC.delete_for_you.message}</span>
                                 </div>
@@ -895,7 +895,7 @@ let userDataFunction = async user => {
                             </div>
                         </div>
                         <div class="profile-block profile-block-me" style="float:right">
-                            <a class="sender-profile-url" href="https://twitter.com/${sender.screen_name}">
+                            <a class="sender-profile-url" href="/${sender.screen_name}">
                                 <img src="${`${(sender.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(sender.id_str) % 7}_normal.png`): sender.profile_image_url_https}`.replace("_normal", "_bigger")}" class="message-avatar">
                             </a>
                         </div>
@@ -1352,7 +1352,7 @@ let userDataFunction = async user => {
                 modal.querySelector('.new-message-box').hidden = true;
                 messageHeaderName.innerText = messageEntry.name;
                 messageHeaderAvatar.src = messageEntry.icon;
-                if(messageUsers.length <= 1) messageHeaderLink.href = `https://twitter.com/${messageEntry.screen_name}`;
+                if(messageUsers.length <= 1) messageHeaderLink.href = `/${messageEntry.screen_name}`;
                 setTimeout(() => {
                     modal.querySelector(".message-new-input").focus();
                     if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
@@ -1519,7 +1519,7 @@ let userDataFunction = async user => {
                     modal.querySelector('.new-message-box').hidden = true;
                     messageHeaderName.innerText = u.name;
                     messageHeaderAvatar.src = `${(u.profile_image_url_https.includes('default_profile_images') && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`;
-                    messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
+                    messageHeaderLink.href = `/${u.screen_name}`;
                     setTimeout(() => {
                         modal.querySelector(".message-new-input").focus();
                         if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
@@ -2451,27 +2451,27 @@ let userDataFunction = async user => {
                 </style>
                 <img class="preview-user-banner" height="100" width="300" src="${user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png'}">
                 <div class="preview-user-data">
-                    <a class="preview-user-avatar-link" href="https://twitter.com/${user.screen_name}">
+                    <a class="preview-user-avatar-link" href="/${user.screen_name}">
                         <img class="preview-user-avatar" width="50" height="50" src="${`${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace('_normal.', '_400x400.')}">
                     </a>
                     <br>
-                    <a class="preview-user-info" href="https://twitter.com/${user.screen_name}">
+                    <a class="preview-user-info" href="/${user.screen_name}">
                         <h1 class="preview-user-name">${escapeHTML(user.name)}</h1>
                         <h2 class="preview-user-handle">@${user.screen_name}</h2>
                         ${user.followed_by ? /*html*/`<span class="follows-you-label">${LOC.follows_you.message}</span>` : ''}
                     </a>
                     <button class="nice-button preview-user-follow ${user.following ? 'following' : 'follow'}">${user.following ? LOC.following_btn.message : LOC.follow.message}</button>
-                    <span class="preview-user-description">${escapeHTML(user.description).replace(/\n/g, '<br>').replace(/((http|https):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="https://twitter.com/hashtag/$1">#$1</a>`)}</span>
+                    <span class="preview-user-description">${escapeHTML(user.description).replace(/\n/g, '<br>').replace(/((http|https):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="/$1">@$1</a>`).replace(/(?<!\w)#([\w+]+\b)/g, `<a href="/hashtag/$1">#$1</a>`)}</span>
                     <div class="preview-user-additional-info">
                         <span class="profile-additional-thing profile-additional-joined">${LOC.joined.message} ${new Date(user.created_at).toLocaleDateString(LANGUAGE.replace("_", "-"), {month: 'long', year: 'numeric', day: 'numeric'})}</span>
                     </div>
                     <br>
                     <div class="preview-user-stats">
-                        <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/following">
+                        <a class="user-stat-div" href="/${user.screen_name}/following">
                             <h2>${LOC.following.message}</h2>
                             <h1 class="preview-user-following">${formatLargeNumber(user.friends_count).replace(/\s/g, ',')}</h1>
                         </a>
-                        <a class="user-stat-div" href="https://twitter.com/${user.screen_name}/followers">
+                        <a class="user-stat-div" href="/${user.screen_name}/followers">
                             <h2>${LOC.followers.message}</h2>
                             <h1 class="preview-user-followers">${formatLargeNumber(user.followers_count).replace(/\s/g, ',')}</h1>
                         </a>
@@ -2499,7 +2499,7 @@ let userDataFunction = async user => {
                 let realUrl = user.entities.url.urls[0];
                 url.innerText = realUrl.display_url;
                 url.href = realUrl.expanded_url;
-                if(!url.href.startsWith('https://twitter.com/')) url.target = "_blank";
+                if(!url.href.startsWith('/')) url.target = "_blank";
                 additionalInfoElement.prepend(url);
             }
             div.addEventListener('mouseleave', leaveFunction);
@@ -2508,7 +2508,7 @@ let userDataFunction = async user => {
                 let realLink = user.entities.description.urls.find(u => u.url === link.href);
                 if (realLink) {
                     link.href = realLink.expanded_url;
-                    if(!link.href.startsWith('https://twitter.com/')) link.target = '_blank';
+                    if(!link.href.startsWith('/')) link.target = '_blank';
                     link.innerText = realLink.display_url;
                 }
             });
@@ -2520,7 +2520,7 @@ let userDataFunction = async user => {
                     followBtn.classList.add('follow');
                     followBtn.innerText = LOC.follow.message;
                     user.following = false;
-                    let wtfFollow = document.querySelector(`.wtf-user > .tweet-avatar-link[href="https://twitter.com/${user.screen_name}"]`);
+                    let wtfFollow = document.querySelector(`.wtf-user > .tweet-avatar-link[href="/${user.screen_name}"]`);
                     if(!wtfFollow) return;
                     wtfFollow = wtfFollow.parentElement.getElementsByClassName('discover-follow-btn')[0];
                     wtfFollow.classList.remove('following');
@@ -2532,7 +2532,7 @@ let userDataFunction = async user => {
                     followBtn.classList.remove('follow');
                     followBtn.innerText = LOC.following_btn.message;
                     user.following = true;
-                    let wtfFollow = document.querySelector(`.wtf-user > .tweet-avatar-link[href="https://twitter.com/${user.screen_name}"]`);
+                    let wtfFollow = document.querySelector(`.wtf-user > .tweet-avatar-link[href="/${user.screen_name}"]`);
                     if(!wtfFollow) return;
                     wtfFollow = wtfFollow.parentElement.getElementsByClassName('discover-follow-btn')[0];
                     wtfFollow.classList.add('following');
@@ -2577,7 +2577,7 @@ let userDataFunction = async user => {
             modal.querySelector('.new-message-box').hidden = true;
             messageHeaderName.innerText = u.name;
             messageHeaderAvatar.src = `${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}`;
-            messageHeaderLink.href = `https://twitter.com/${u.screen_name}`;
+            messageHeaderLink.href = `/${u.screen_name}`;
             setTimeout(() => {
                 modal.querySelector(".message-new-input").focus();
                 if(tweetUrlToShareInDMs) modal.querySelector(".message-new-input").value = tweetUrlToShareInDMs;
@@ -2820,7 +2820,7 @@ let userDataFunction = async user => {
             });
             notificationsOpened = true;
 
-            history.pushState({}, null, `https://twitter.com/notifications`);
+            history.pushState({}, null, `/notifications`);
 
             let notifLoading = modal.getElementsByClassName('nav-notifications-loading')[0];
             let notifList = modal.getElementsByClassName('nav-notification-list')[0];

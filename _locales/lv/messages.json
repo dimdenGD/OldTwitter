@@ -133,7 +133,7 @@
         "message": "pēdējā versija"
     },
     "thank_you": {
-        "message": "Paldies, ka instalējāt OldTwitter! Es ceru, ka jums tas patiks. Pārbaudiet <a target=\"_blank\" href=\"https://twitter.com/old/settings\">paplašinājuma iestatījumus</a>!"
+        "message": "Paldies, ka instalējāt OldTwitter! Es ceru, ka jums tas patiks. Pārbaudiet <a target=\"_blank\" href=\"/old/settings\">paplašinājuma iestatījumus</a>!"
     },
     "follow_mb": {
         "message": "Varbūt seko man?"
@@ -1024,7 +1024,7 @@
     "dont_autotranslate": { "message": "Neautomātiski pārtulkot twītus" },
     "round_avatars": { "message": "Apaļi avatāri" },
     "search_user_tweets": { "message": "Meklēt lietotāja twītus" },
-    "no_tl_tweets": { "message": "Tu nevienam nesako, tapēc nevarēju atrast twītus. Maini savu skata veido uz 'Algorithmical' <a href='https://twitter.com/old/settings'>OldTwitter iestatījumos</a>." },
+    "no_tl_tweets": { "message": "Tu nevienam nesako, tapēc nevarēju atrast twītus. Maini savu skata veido uz 'Algorithmical' <a href='/old/settings'>OldTwitter iestatījumos</a>." },
     "replying_to": { "message": "Atbildu", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Izskats", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Rādit 'Twitter Blue' zīmes" },

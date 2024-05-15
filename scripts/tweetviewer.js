@@ -20,7 +20,7 @@ class TweetViewer {
         });
         this.tweetData = tweetData;
         this.id = tweetData.id_str;
-        history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${this.id}`);
+        history.pushState({}, null, `/${tweetData.user.screen_name}/status/${this.id}`);
 
         this.user = user;
         this.loadingNewTweets = false;
@@ -334,12 +334,12 @@ class TweetViewer {
             tweet.style.marginBottom = '10px';
             tweet.style.borderRadius = '5px';
             let h1 = document.createElement('h1');
-            h1.innerHTML = `${LOC.retweeted_by.message} (<a href="https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
+            h1.innerHTML = `${LOC.retweeted_by.message} (<a href="/${tweetData.user.screen_name}/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
             h1.className = 'cool-header';
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
                 e.preventDefault();
-                history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets/with_comments`);
+                history.pushState({}, null, `/${tweetData.user.screen_name}/status/${id}/retweets/with_comments`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.excludeUserMentions = [];
@@ -364,7 +364,7 @@ class TweetViewer {
             retweetElement.classList.add('following-item');
             retweetElement.innerHTML = `
             <div>
-                <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
+                <a href="/${u.screen_name}" class="following-item-link">
                     <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                     <div class="following-item-text">
                         <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
@@ -417,13 +417,13 @@ class TweetViewer {
         if(!c) {
             retweetDiv.innerHTML = '';
             let h1 = document.createElement('h1');
-            h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
+            h1.innerHTML = `${LOC.quote_tweets.message} (<a href="/${tweetData.user.screen_name}/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
             h1.className = 'cool-header';
             retweetDiv.appendChild(h1);
             h1.getElementsByTagName('a')[0].addEventListener('click', async e => {
                 e.preventDefault();
                 let t = await API.tweet.getV2(id);
-                history.pushState({}, null, `https://twitter.com/${tweetData.user.screen_name}/status/${id}/retweets`);
+                history.pushState({}, null, `/${tweetData.user.screen_name}/status/${id}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.excludeUserMentions = [];
@@ -822,7 +822,7 @@ class TweetViewer {
                 }
                 if (!e.target.closest(".tweet-button") && !e.target.closest(".tweet-body-text-span") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
                     this.savePageData();
-                    history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                    history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}`);
                     this.updateSubpage();
                     this.mediaToUpload = [];
                     this.excludeUserMentions = [];
@@ -849,7 +849,7 @@ class TweetViewer {
                     // tweet-media-element is clickable, since it should open the tweet in a new tab.
                     if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest("a") && !e.target.closest("button")) {
                         e.preventDefault();
-                        openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                        openInNewTab(`/${t.user.screen_name}/status/${t.id_str}`);
                     }
                 }
             });
@@ -951,7 +951,7 @@ class TweetViewer {
         if(t.in_reply_to_screen_name && t.display_text_range) {
             t.entities.user_mentions.forEach(user_mention => {
                 if(user_mention.indices[0] < t.display_text_range[0]){
-                    mentionedUserText += `<a href="https://twitter.com/${user_mention.screen_name}">@${user_mention.screen_name}</a> `
+                    mentionedUserText += `<a href="/${user_mention.screen_name}">@${user_mention.screen_name}</a> `
                 }
                  //else this is not reply but mention
             });
@@ -966,15 +966,15 @@ class TweetViewer {
         }
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
-            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
+            <a class="tweet-avatar-link" href="/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
-                <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
+                <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="/${t.user.screen_name}">
                     <b ${t.user.id_str === '1708130407663759360' ? 'title="Old Twitter Layout extension developer" ' : ''}class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1708130407663759360' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.user.name)}</b>
                     <span class="tweet-header-handle">@${t.user.screen_name}</span>
                 </a>
                 ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
             </div>
-            <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
+            <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
             <article class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 <div class="tweet-body-text ${vars.noBigFont || (full_text && full_text.length > 100) || !options.mainTweet ? 'tweet-body-text-long' : 'tweet-body-text-short'}">
                     <span class="tweet-body-text-span">${vars.useOldStyleReply ? /*html*/mentionedUserText: ''}${full_text ? await renderTweetBodyHTML(t) : ''}</span>
@@ -1008,7 +1008,7 @@ class TweetViewer {
                 ` : ``}
                 ${t.card ? `<div class="tweet-card"></div>` : ''}
                 ${t.quoted_status ? /*html*/`
-                <a class="tweet-body-quote" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
+                <a class="tweet-body-quote" href="/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                     <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
                         <span class="tweet-header-info-quote">
@@ -1043,21 +1043,21 @@ class TweetViewer {
                 ${options.mainTweet ? /*html*/`
                 <div class="tweet-footer">
                     <div class="tweet-footer-stats">
-                        <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}" class="tweet-footer-stat tweet-footer-stat-o">
+                        <a href="/${t.user.screen_name}/status/${t.id_str}" class="tweet-footer-stat tweet-footer-stat-o">
                             <span class="tweet-footer-stat-text">${LOC.replies.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-replies">${formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</b>
                         </a>
-                        <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets" class="tweet-footer-stat tweet-footer-stat-r">
+                        <a href="/${t.user.screen_name}/status/${t.id_str}/retweets" class="tweet-footer-stat tweet-footer-stat-r">
                             <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</b>
                         </a>
                         ${vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ? /*html*/
-                        `<a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-q">
+                        `<a href="/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-q">
                             <span class="tweet-footer-stat-text">${LOC.quotes.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-quotes">${formatLargeNumber(t.quote_count).replace(/\s/g, ',')}</b>
                         </a>` :
                         ''}
-                        <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
+                        <a href="/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
                             <span class="tweet-footer-stat-text">${vars.heartsNotStars ? LOC.likes.message : LOC.favorites.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-favorites">${formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</b>
                         </a>
@@ -1065,7 +1065,7 @@ class TweetViewer {
                     <div class="tweet-footer-favorites"></div>
                 </div>
                 ` : ''}
-                <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source ? t.source.split('>')[1].split('<')[0] : 'Unknown'}</a>
+                <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source ? t.source.split('>')[1].split('<')[0] : 'Unknown'}</a>
                 <div class="tweet-interact">
                     <span class="tweet-button tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</span>
                     <span title="${LOC.retweet_btn.message}" class="tweet-button tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</span>
@@ -1275,7 +1275,7 @@ class TweetViewer {
             for(let i in likers) {
                 let liker = likers[i];
                 let a = document.createElement('a');
-                a.href = `https://twitter.com/${liker.screen_name}`;
+                a.href = `/${liker.screen_name}`;
                 let likerImg = document.createElement('img');
                 likerImg.src = `${(liker.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(liker.id_str) % 7}_normal.png`): liker.profile_image_url_https}`;
                 likerImg.classList.add('tweet-footer-favorites-img');
@@ -1289,7 +1289,7 @@ class TweetViewer {
             let likesLink = tweet.getElementsByClassName('tweet-footer-stat-f')[0];
             likesLink.addEventListener('click', e => {
                 e.preventDefault();
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/likes`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.excludeUserMentions = [];
@@ -1304,7 +1304,7 @@ class TweetViewer {
             let retweetsLink = tweet.getElementsByClassName('tweet-footer-stat-r')[0];
             retweetsLink.addEventListener('click', e => {
                 e.preventDefault();
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.excludeUserMentions = [];
@@ -1320,7 +1320,7 @@ class TweetViewer {
                 let quotesLink = tweet.getElementsByClassName('tweet-footer-stat-q')[0];
                 quotesLink.addEventListener('click', e => {
                     e.preventDefault();
-                    history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
+                    history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
                     this.updateSubpage();
                     this.mediaToUpload = [];
                     this.excludeUserMentions = [];
@@ -1336,8 +1336,8 @@ class TweetViewer {
             let repliesLink = tweet.getElementsByClassName('tweet-footer-stat-o')[0];
             repliesLink.addEventListener('click', e => {
                 e.preventDefault();
-                if(location.href === `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`) return;
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                if(location.href === `/${t.user.screen_name}/status/${t.id_str}`) return;
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.excludeUserMentions = [];
@@ -1465,7 +1465,7 @@ class TweetViewer {
                 listElement.classList.add('list-item');
                 listElement.innerHTML = `
                     <div style="display:inline-block;">
-                        <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                        <a href="/i/lists/${l.id_str}" class="following-item-link">
                             <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                             <div class="following-item-text" style="position: relative;bottom: 12px;">
                                 <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
@@ -1555,7 +1555,7 @@ class TweetViewer {
         if(tweetBodyQuote) {
             tweetBodyQuote.addEventListener('click', e => {
                 e.preventDefault();
-                history.pushState({}, null, `https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`);
+                history.pushState({}, null, `/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.excludeUserMentions = [];
@@ -1980,7 +1980,7 @@ class TweetViewer {
         });
         if(options.mainTweet) {
             tweetInteractRetweetMenuQuotes.addEventListener('click', async () => {
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.excludeUserMentions = [];
@@ -2001,7 +2001,7 @@ class TweetViewer {
                 this.currentLocation = location.pathname;
             });
             tweetInteractRetweetMenuRetweeters.addEventListener('click', async () => {
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/retweets`);
                 this.updateSubpage();
                 this.mediaToUpload = [];
                 this.excludeUserMentions = [];
@@ -2114,7 +2114,7 @@ class TweetViewer {
             }
             let tweetObject = {
                 status: text,
-                attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`
+                attachment_url: `/${t.user.screen_name}/status/${t.id_str}`
             };
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
@@ -2179,7 +2179,7 @@ class TweetViewer {
                 } else {
                     if(footerFavorites.children.length < 8 && !this.mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
                         let a = document.createElement('a');
-                        a.href = `https://twitter.com/${user.screen_name}`;
+                        a.href = `/${user.screen_name}`;
                         let likerImg = document.createElement('img');
                         likerImg.src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`    ;
                         likerImg.classList.add('tweet-footer-favorites-img');
@@ -2321,10 +2321,10 @@ class TweetViewer {
             navigator.clipboard.writeText(t.user.id_str);
         });
         if(tweetInteractMoreMenuShare) tweetInteractMoreMenuShare.addEventListener('click', () => {
-            navigator.share({ url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}` });
+            navigator.share({ url: `/${t.user.screen_name}/status/${t.id_str}` });
         });
         tweetInteractMoreMenuShareDMs.addEventListener('click', () => {
-            tweetUrlToShareInDMs = `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`;
+            tweetUrlToShareInDMs = `/${t.user.screen_name}/status/${t.id_str}`;
             document.getElementById('messages').click();
             setTimeout(() => {
                 let title = document.querySelector('div.inbox h1.nice-header.larger');
@@ -2332,14 +2332,14 @@ class TweetViewer {
             });
         });
         tweetInteractMoreMenuNewtwitter.addEventListener('click', () => {
-            openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}?newtwitter=true`);
+            openInNewTab(`/${t.user.screen_name}/status/${t.id_str}?newtwitter=true`);
         });
         tweetInteractMoreMenuEmbed.addEventListener('click', () => {
-            openInNewTab(`https://publish.twitter.com/?query=https://twitter.com/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
+            openInNewTab(`https://publish.twitter.com/?query=/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
         });
         if (t.user.id_str === user.id_str) {
             tweetInteractMoreMenuAnalytics.addEventListener('click', () => {
-                openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}/analytics?newtwitter=true`);
+                openInNewTab(`/${t.user.screen_name}/status/${t.id_str}/analytics?newtwitter=true`);
             });
             tweetInteractMoreMenuDelete.addEventListener('click', async () => {
                 let sure = confirm(LOC.delete_sure.message);

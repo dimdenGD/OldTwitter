@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "¡Gracias por instalar OldTwitter! Espero que te guste. ¡Echa un vistazo a los $AT1$los ajustes de la extensión$AT2$!",
         "placeholders": {
-                "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+                "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
      },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "No traducir automáticamente los tweets" },
     "round_avatars": { "message": "Avatares redondos" },
     "search_user_tweets": { "message": "Buscar tweets del usuario" },
-    "no_tl_tweets": { "message": "¡No estás siguiendo a nadie por lo que no se han encontrado tweets! Cambia tu tipo de cronología a 'Algoritmo' en los<a href='https://twitter.com/old/settings'>Ajustes de OldTwitter.</a>." },
+    "no_tl_tweets": { "message": "¡No estás siguiendo a nadie por lo que no se han encontrado tweets! Cambia tu tipo de cronología a 'Algoritmo' en los<a href='/old/settings'>Ajustes de OldTwitter.</a>." },
 	"replying_to": { "message": "Respondiendo a", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Apariencia general", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Mostrar la marca de verificación de Twitter Blue" },

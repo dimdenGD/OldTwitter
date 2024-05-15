@@ -37,14 +37,14 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
+            window.location.href = "/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
 }
 // Render
 function renderUserData() {
-    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
+    document.getElementById('wtf-viewall').href = `/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
 }
 
 function renderListData(data) {
@@ -61,7 +61,7 @@ function renderListData(data) {
     document.getElementById('list-members-count').innerText = data.member_count;
     document.getElementById('list-followers-count').innerText = data.subscriber_count;
     if(data.user_results && data.user_results.result) {
-        document.getElementById('list-user').href = `https://twitter.com/${data.user_results.result.legacy.screen_name}/lists`;
+        document.getElementById('list-user').href = `/${data.user_results.result.legacy.screen_name}/lists`;
         document.getElementById('list-avatar').src = `${(data.user_results.result.legacy.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(data.user_results.result.legacy.id_str) % 7}_normal.png`): data.user_results.result.legacy.profile_image_url_https}`.replace('_normal', '_bigger');
         let actions = document.getElementById('list-actions');
         actions.innerHTML = ``;
@@ -119,7 +119,7 @@ function renderListData(data) {
                         followingElement.classList.add('following-item');
                         followingElement.innerHTML = `
                         <div style="height:48px">
-                            <a href="https://twitter.com/${t.screen_name}" class="following-item-link">
+                            <a href="/${t.screen_name}" class="following-item-link">
                                 <img src="${(t.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.id_str) % 7}_normal.png`): t.profile_image_url_https}" alt="${t.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                                 <div class="following-item-text">
                                     <span class="tweet-header-name following-item-name">${escapeHTML(t.name)}</span><br>
@@ -164,7 +164,7 @@ function renderListData(data) {
                 document.getElementById('list-btn-delete-confirm').addEventListener('click', async () => {
                     await API.list.delete(data.id_str);
                     modal.remove();
-                    window.location.href = `https://twitter.com/${user.screen_name}/lists`;
+                    window.location.href = `/${user.screen_name}/lists`;
                 });
             });
         } else {
@@ -195,7 +195,7 @@ async function renderListTweets(c) {
     if(listTweets.reason) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
-        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -211,7 +211,7 @@ async function renderListTweets(c) {
         if(t.retweeted_status) {
             await appendTweet(t.retweeted_status, container, {
                 top: {
-                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255",
                     class: 'retweet-label'
@@ -238,7 +238,7 @@ async function renderListMembers(c) {
     if(listMembers.reason) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
-        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -267,7 +267,7 @@ async function renderListFollowers(c) {
     if(listFollowers.reason) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
-        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+        document.getElementById('loading-box-error').innerHTML = `${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
         return false;
     }
     listInfo = listInfo.value;
@@ -285,7 +285,7 @@ async function renderListFollowers(c) {
         followingElement.classList.add('user-item');
         followingElement.innerHTML = `
         <div style="height:48px">
-            <a href="https://twitter.com/${t.screen_name}" class="user-item-link">
+            <a href="/${t.screen_name}" class="user-item-link">
                 <img src="${(t.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.id_str) % 7}_normal.png`): t.profile_image_url_https}" alt="${t.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
                     <span class="tweet-header-name user-item-name">${escapeHTML(t.name)}</span><br>
@@ -417,7 +417,7 @@ setTimeout(async () => {
             if(t.retweeted_status) {
                 toInsert.push(await appendTweet(t.retweeted_status, container, {
                     top: {
-                        text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                        text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255",
                         class: 'retweet-label'

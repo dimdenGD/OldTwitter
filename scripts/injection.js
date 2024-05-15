@@ -99,11 +99,11 @@ if(realPath.startsWith('/i/redirect')) {
     location.replace(url);
 }
 if(/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
-    location.href = `https://twitter.com/${realPath.split("/direct_messages/create/")[1]}#dm`;
+    location.href = `/${realPath.split("/direct_messages/create/")[1]}#dm`;
 }
 if(/^\/hashtag\/(.*?)/.test(realPath)) {
     let hashtag = realPath.split("/hashtag/").slice(1).join("/hashtag/");
-    location.replace(`https://twitter.com/search?q=%23${hashtag}`);
+    location.replace(`/search?q=%23${hashtag}`);
 }
 if(/^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath)) {
     let path = realPath.split("/photo/")[0].split("/video/")[0];
@@ -145,76 +145,76 @@ const TRANSLATORS = {
     "uk": ["dimden", "https://dimden.dev/"],
     "fr": [
         ["Aurore C.", "https://asuure.com/"],
-        ["zdimension", "https://twitter.com/zdimension_"],
-        ["Pikatchoum", "https://twitter.com/applitom45"],
-        ["adriend", "https://twitter.com/_adriend_"]
+        ["zdimension", "/zdimension_"],
+        ["Pikatchoum", "/applitom45"],
+        ["adriend", "/_adriend_"]
     ],
     "pt_BR": [
-        ["kigi", "https://twitter.com/kigidere"],
-        ["guko", "https://twitter.com/gukodev"],
-        ["prophamoon", "https://twitter.com/prophamoon"]
+        ["kigi", "/kigidere"],
+        ["guko", "/gukodev"],
+        ["prophamoon", "/prophamoon"]
     ],
     "es": [
-        ["Ruchi", "https://twitter.com/anbulansia"],
-        ["gaelcoral", "https://twitter.com/gaelcoral"],
-        ["hue", "https://twitter.com/huey1116"],
-        ["elderreka", "https://twitter.com/elderreka"]
+        ["Ruchi", "/anbulansia"],
+        ["gaelcoral", "/gaelcoral"],
+        ["hue", "/huey1116"],
+        ["elderreka", "/elderreka"]
     ],
     "el": ["VasilisTheChu", "https://pikachu.systems/"],
     "ro": [
         ["Skyrina", "https://skyrina.dev/"],
-        ["AlexSem", "https://twitter.com/AlexSem5399"]
+        ["AlexSem", "/AlexSem5399"]
     ],
-    "tl": ["Eurasian", "https://twitter.com/NotPROxV"],
+    "tl": ["Eurasian", "/NotPROxV"],
     "lv": ["yourfriend", "https://3.141.lv/"],
     "he": [
         ["ugh"],
-        ["kriterin", "https://twitter.com/kriterin"]
+        ["kriterin", "/kriterin"]
     ],
     "ne": ["DimeDead", "https://dimedead.neocities.org/"],
     "nl": ["Puka1611"],
     "ja": [
-        ["Chazuru", "https://twitter.com/AIWMD"],
+        ["Chazuru", "/AIWMD"],
         ["Nyankodasu", "https://github.com/Nyankodasu"]
     ],
     "tr": [
         ["KayrabCebll", "https://steamcommunity.com/id/KayrabCebll"],
-        ["YordemEren", "https://twitter.com/YordemEren"]
+        ["YordemEren", "/YordemEren"]
     ],
     "it": [
-        ["krek", "https://twitter.com/CactusInc420"],
-        ["Francesco", "https://twitter.com/FrancescoRosi27"]
+        ["krek", "/CactusInc420"],
+        ["Francesco", "/FrancescoRosi27"]
     ],
-    "ar": ["Yours Truly,", "https://twitter.com/schrotheneko"],
+    "ar": ["Yours Truly,", "/schrotheneko"],
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
     "ko": [
         ["Nyankodasu", "https://github.com/Nyankodasu"],
-        ["한예림", "https://twitter.com/han_eirin"]
+        ["한예림", "/han_eirin"]
     ],
     "pl": [
         ["lele"],
-        ["nomi", "https://twitter.com/nomisigns"]
+        ["nomi", "/nomisigns"]
     ],
     "vi": ["btmxh", "https://github.com/btmxh"],
     "zh_CN": [
         ["am1006", "https://github.com/am1006"],
-        ["CarimoWuling", "https://twitter.com/carimowuling"]
+        ["CarimoWuling", "/carimowuling"]
     ],
     "zh_TW": [
-        ["olivertzeng", "https://twitter.com/olivertzeng"],
+        ["olivertzeng", "/olivertzeng"],
         ["cirx1e", "https://github.com/cirx1e"]
     ],
     "cs": ["Menal"],
-    "de": ["basti564", "https://twitter.com/basti564"],
-    "ca": ["elmees21", "https://twitter.com/elmees21"],
-    "sv": ["actuallyaridan", "https://twitter.com/actuallyaridan"],
-    "bg": ["Scarlett7447", "https://twitter.com/Scarlett7447"],
-    "nb": ["twistquest", "https://twitter.com/twistquest"],
+    "de": ["basti564", "/basti564"],
+    "ca": ["elmees21", "/elmees21"],
+    "sv": ["actuallyaridan", "/actuallyaridan"],
+    "bg": ["Scarlett7447", "/Scarlett7447"],
+    "nb": ["twistquest", "/twistquest"],
     "fi": ["scepixel.fla", "https://caenogo.nl/pages/pxww"],
     "id": [
-        ["lorizade", "https://twitter.com/lorizade"],
-        ["Feerse_", "https://twitter.com/Feerse_"],
-        ["DaGamerFiles", "https://twitter.com/DaGamerFiles"]
+        ["lorizade", "/lorizade"],
+        ["Feerse_", "/Feerse_"],
+        ["DaGamerFiles", "/DaGamerFiles"]
     ]
 };
 let LOC = {};

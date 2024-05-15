@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Terima kasih telah memasang OldTwitter!! Saya harap Anda menyukainya. Mohon periksa $AT1$setelan ekstensi$AT2$!",
         "placeholders": {
-                "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+                "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "Jangan terjemahkan tweet secara otomatis" },
     "round_avatars": { "message": "Avatar lingkaran" },
     "search_user_tweets": { "message": "Cari tweet pengguna" },
-    "no_tl_tweets": { "message": "Anda belum mengikuti siapapun sehingga tidak ada tweet ditemukan! Ubah tipe linimasa Anda menjadi 'Algoritmik' pada <a href='https://twitter.com/old/settings'>setelan OldTwitter</a>." },
+    "no_tl_tweets": { "message": "Anda belum mengikuti siapapun sehingga tidak ada tweet ditemukan! Ubah tipe linimasa Anda menjadi 'Algoritmik' pada <a href='/old/settings'>setelan OldTwitter</a>." },
     "replying_to": { "message": "Membalas ke", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Tampilan", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Tampilkan centang biru terverifikasi" },

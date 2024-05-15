@@ -40,7 +40,7 @@
     "remove_poll": { "message": "Poll verwijderen" },
     "open_newtwitter": { "message": "Open deze pagina in nieuwe Twitter" },
     "last_version": { "message": "last versie" },
-    "thank_you": { "message": "Bedankt voor OldTwitter installeren!! Ik hoop dat u er van geniet. Bekijk <a target=\"_blank\" href=\"https://twitter.com/old/settings\">extensie instellingen</a>!" },
+    "thank_you": { "message": "Bedankt voor OldTwitter installeren!! Ik hoop dat u er van geniet. Bekijk <a target=\"_blank\" href=\"/old/settings\">extensie instellingen</a>!" },
     "follow_mb": { "message": "Volg mij misschien?" },
     "follow": { "message": "Volgen" },
     "unfollow": { "message": "Verwijderen" },

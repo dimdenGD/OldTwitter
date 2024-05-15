@@ -38,11 +38,11 @@ async function createShamelessPlug(firstTime = true) {
         let modal = createModal(/*html*/`
             <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
             <span style="font-size:14px;color:var(--default-text-color)">
-                ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
-                <a href="https://twitter.com/d1mden">${LOC.follow_mb.message} 👉👈</a><br><br>
+                ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
+                <a href="/d1mden">${LOC.follow_mb.message} 👉👈</a><br><br>
                 <div class="dimden">
                     <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                    <a class="dimden-text" href="https://twitter.com/d1mden" style="vertical-align:top;margin-left:10px;">
+                    <a class="dimden-text" href="/d1mden" style="vertical-align:top;margin-left:10px;">
                         <b class="tweet-header-name">${dimden.name}</b>
                         <span class="tweet-header-handle">@${dimden.screen_name}</span>
                     </a><br>
@@ -57,7 +57,7 @@ async function createShamelessPlug(firstTime = true) {
                 modal.removeModal();
             }).catch(e => {
                 console.error(e);
-                location.href = 'https://twitter.com/d1mden';
+                location.href = '/d1mden';
             });
         });
         twemoji.parse(modal);
@@ -117,7 +117,7 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
+            window.location.href = "/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
@@ -247,14 +247,14 @@ function renderUserData() {
     }
     document.getElementById('user-following').innerText = formatLargeNumber(user.friends_count).replace(/\s/g, ',');
     document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
-    document.getElementById('user-tweets-div').href = `https://twitter.com/${user.screen_name}`;
-    document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
-    document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
+    document.getElementById('user-tweets-div').href = `/${user.screen_name}`;
+    document.getElementById('user-following-div').href = `/${user.screen_name}/following`;
+    document.getElementById('user-followers-div').href = `/${user.screen_name}/followers`;
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     document.getElementById('user-avatar').src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_400x400");
-    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
-    document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
-    document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('wtf-viewall').href = `/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
+    document.getElementById('user-avatar-link').href = `/${user.screen_name}`;
+    document.getElementById('user-info').href = `/${user.screen_name}`;
     document.getElementById('new-tweet-avatar').src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_bigger");
 
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
@@ -309,7 +309,7 @@ async function renderTimeline(options = {}) {
         if (t.retweeted_status) {
             let o = {
                 top: {
-                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255",
                     class: 'retweet-label'
@@ -1004,7 +1004,7 @@ setTimeout(async () => {
                 scheduleInput.value = '';
                 createModal(`
                     <span style="color:var(--almost-black);font-size:14px">${LOC.scheduled_success.message}</span><br><br>
-                    <a href="https://twitter.com/compose/tweet/unsent/scheduled?newtwitter=true" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
+                    <a href="/compose/tweet/unsent/scheduled?newtwitter=true" target="_blank"><button class="nice-button">${LOC.see_scheduled.message}</button></a>
                 `);
             } else {
                 if(timeline.toBeUpdated > 0) {

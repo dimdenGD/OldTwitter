@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "OldTwitterをインストールして頂きありがとうございます！ 気に入っていただけると幸いです。 $AT1$Old Twitterの設定$AT2$もチェックしてみてください。",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "ツイートを自動で翻訳しない" },
     "round_avatars": { "message": "丸いアイコン" },
     "search_user_tweets": { "message": "ユーザーのツイートを検索する" },
-    "no_tl_tweets": { "message": "あなたは誰もフォローしていないので、タイムラインにツイートはありません。アカウントをフォローするか、このページの右側と、<a href='https://twitter.com/old/settings'>OldTwitterの設定</a>にある「タイムラインの種類」を「アルゴリズム」に変更してください。" },
+    "no_tl_tweets": { "message": "あなたは誰もフォローしていないので、タイムラインにツイートはありません。アカウントをフォローするか、このページの右側と、<a href='/old/settings'>OldTwitterの設定</a>にある「タイムラインの種類」を「アルゴリズム」に変更してください。" },
     "replying_to": { "message": "返信先", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "ディスプレイ", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Twitter Blueの認証マークを表示する" },

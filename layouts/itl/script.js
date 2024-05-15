@@ -12,7 +12,7 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
+            window.location.href = "/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
@@ -37,9 +37,9 @@ function renderUserData() {
     document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     document.getElementById('user-avatar').src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_400x400");
-    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
-    document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
-    document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('wtf-viewall').href = `/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
+    document.getElementById('user-avatar-link').href = `/${user.screen_name}`;
+    document.getElementById('user-info').href = `/${user.screen_name}`;
 
     document.getElementById('loading-box').hidden = true;
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
@@ -69,7 +69,7 @@ async function renderDeviceNotificationTimeline(cursor) {
             await appendTweet(t.retweeted_status, container, {
                 bigFont: false,
                 top: {
-                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255",
                     class: 'retweet-label'
@@ -95,7 +95,7 @@ async function renderLikesTimeline() {
                 await appendTweet(d.data.retweeted_status, tweetContainer, {
                     bigFont: false,
                     top: {
-                        text: `<a href="https://twitter.com/${d.data.user.screen_name}">${escapeHTML(d.data.user.name)}</a> ${LOC.retweeted.message}`,
+                        text: `<a href="/${d.data.user.screen_name}">${escapeHTML(d.data.user.name)}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255",
                         class: 'retweet-label'
@@ -129,7 +129,7 @@ async function renderListsTimeline() {
         listElement.classList.add('list-item');
         listElement.innerHTML = /*html*/`
             <div>
-                <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                <a href="/i/lists/${l.id_str}" class="following-item-link">
                     <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                     <div class="following-item-text" style="position: relative;bottom: 12px;">
                         <span class="tweet-header-name following-item-name${l.mode === 'Private' ? ' user-protected' : ''}" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
@@ -150,7 +150,7 @@ setTimeout(async () => {
     }
 
     if(!subpage || !['likes', 'device_follow', 'lists'].includes(subpage) || (subpage === 'likes' && !nid)) {
-        location.href = 'https://twitter.com/home';
+        location.href = '/home';
     }
 
     // weird bug

@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Moltes gràcies per instal·lar OldTwitter! Espero que us agradi. Comproveu la $AT1$configuració de l'extensió$AT2$!",
         "placeholders": {
-                "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+                "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "No tradueixis automàticament els tuits" },
     "round_avatars": { "message": "Avatars rodons" },
     "search_user_tweets": { "message": "Cerca tuits dels usuaris" },
-    "no_tl_tweets": { "message": "No seguiu ningú, així que no s'ha trobat cap tuit! Canvieu el tipus de cronologia a 'Algorítmica' a la <a href='https://twitter.com/old/settings'>Configuració de l'OldTwitter</a>." },
+    "no_tl_tweets": { "message": "No seguiu ningú, així que no s'ha trobat cap tuit! Canvieu el tipus de cronologia a 'Algorítmica' a la <a href='/old/settings'>Configuració de l'OldTwitter</a>." },
     "replying_to": { "message": "Responent a", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Aparença", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Mostra marques de verificació blaves del Twitter" },

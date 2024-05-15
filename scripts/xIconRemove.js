@@ -1,5 +1,5 @@
 setInterval(() => {
-    let xIcon = document.querySelector('a[href^="https://twitter.com/home"] > div > svg');
+    let xIcon = document.querySelector('a[href^="/home"] > div > svg');
     if(xIcon) {
         let parent = xIcon.parentElement;
         let img = document.createElement('img');

@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "OldTwitter를 설치해 주셔서 감사합니다! 마음에 드셨으면 좋겠어요. $AT1$확장 프로그램 설정$AT2$을 확인해 보세요!",
         "placeholders": {
-                 "at1": { "content": "<a target='_blank' href='https://twitter.com/old/settings'>" },
+                 "at1": { "content": "<a target='_blank' href='/old/settings'>" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "트윗을 자동으로 번역하지 않기" },
     "round_avatars": { "message": "둥근 프로필 사진을 사용합니다" },
     "search_user_tweets": { "message": "사용자의 트윗을 검색하기" },
-    "no_tl_tweets": { "message": "당신은 아무도 팔로우하고 있지 않기 때문에 타임라인 트윗을 볼 수 없습니다. <a href='https://twitter.com/old/settings'>OldTwitter 설정</a>에서 타임라인 유형을 '추천'으로 변경해주세요!" },
+    "no_tl_tweets": { "message": "당신은 아무도 팔로우하고 있지 않기 때문에 타임라인 트윗을 볼 수 없습니다. <a href='/old/settings'>OldTwitter 설정</a>에서 타임라인 유형을 '추천'으로 변경해주세요!" },
     "replying_to": { "message": "답글을 받는 사람", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2", "placeholders": { "screen_name": { "content": "CoolPerson2000" } }  },
     "display": { "message": "디스플레이", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Twitter Blue 인증마크를 표시합니다" },

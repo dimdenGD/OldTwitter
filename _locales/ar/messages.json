@@ -39,7 +39,7 @@
     "remove_poll": { "message": "إزالة الاستطلاع" },
     "open_newtwitter": { "message": "افتح هذه الصفحة في توتر جديد" },
     "last_version": { "message": "احدث اصدار" },
-    "thank_you": { "message": "شكرا لك على تثبيت OldTwitter !! أتمنى أن تعجبك. افحص هذا<a target=\"_blank\" href=\"https://twitter.com/old/settings\">إعدادات تمديد</a>!" },
+    "thank_you": { "message": "شكرا لك على تثبيت OldTwitter !! أتمنى أن تعجبك. افحص هذا<a target=\"_blank\" href=\"/old/settings\">إعدادات تمديد</a>!" },
     "follow_mb": { "message": "اتبعني ربما؟" },
     "follow": { "message": "متابعة" },
     "unfollow": { "message": "الغاء المتابعة" },

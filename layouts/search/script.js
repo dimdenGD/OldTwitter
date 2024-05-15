@@ -67,14 +67,14 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
+            window.location.href = "/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
 }
 // Render
 function renderUserData() {
-    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
+    document.getElementById('wtf-viewall').href = `/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
 }
 
 async function renderSearch(c, force = false) {
@@ -176,7 +176,7 @@ async function renderSearch(c, force = false) {
             if (t.retweeted_status) {
                 await appendTweet(t.retweeted_status, searchDiv, {
                     top: {
-                        text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                        text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255"
                     },
@@ -354,7 +354,7 @@ setTimeout(async () => {
             if(t.retweeted_status) {
                 toInsert.push(await appendTweet(t.retweeted_status, container, {
                     top: {
-                        text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                        text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                         icon: "\uf006",
                         color: "#77b255",
                         class: 'retweet-label'

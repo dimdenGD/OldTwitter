@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Cảm ơn bạn đã sử dụng OldTwitter!! Mong rằng bạn sẽ thích nó. Xem $AT1$cài đặt tiện ích$AT2$!",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
      },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "Không tự động dịch tweet" },
     "round_avatars": { "message": "Ảnh đại diện tròn" },
     "search_user_tweets": { "message": "Tìm kiếm tweet của người dùng" },
-    "no_tl_tweets": { "message": "Bạn đang không theo dõi ai nên không có tweet nào! Đổi loại dòng thời gian thành 'Theo thuật toán' trong <a href='https://twitter.com/old/settings'>cài đặt OldTwitter</a>." },
+    "no_tl_tweets": { "message": "Bạn đang không theo dõi ai nên không có tweet nào! Đổi loại dòng thời gian thành 'Theo thuật toán' trong <a href='/old/settings'>cài đặt OldTwitter</a>." },
     "replying_to": { "message": "Đang trả lời lại", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Hiển thị", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Hiển thị các dấu tick Twitter Blue" },

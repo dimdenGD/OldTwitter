@@ -130,5 +130,76 @@
             "urlFilter": "*://abs.twimg.com/responsive-web/client-web/icon-ios.*.png",
             "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
         }
+    },
+    
+
+    {
+        "id": 12,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "responseHeaders": [
+                {
+                    "header": "content-security-policy",
+                    "operation": "remove"
+                },
+                {
+                    "header": "x-frame-options",
+                    "operation": "remove"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "*://x.com/*",
+            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
+        }
+    },
+    {
+        "id": 13,
+        "priority": 1,
+        "action": { "type": "block" },
+        "condition": {
+            "urlFilter": "*://x.com/sw.js",
+            "resourceTypes": ["main_frame", "sub_frame", "script", "image", "stylesheet", "object", "xmlhttprequest", "other"]
+        }
+    },
+    {
+        "id": 14,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "responseHeaders": [
+                {
+                    "header": "access-control-allow-origin",
+                    "operation": "set",
+                    "value": "https://x.com"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "*://*.twimg.com/*",
+            "initiatorDomains": ["x.com"],
+            "excludedInitiatorDomains": ["tweetdeck.x.com", "platform.x.com"],
+            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
+        }
+    },
+    {
+        "id": 15,
+        "priority": 1,
+        "action": {
+            "type": "modifyHeaders",
+            "responseHeaders": [
+                {
+                    "header": "access-control-allow-origin",
+                    "operation": "set",
+                    "value": "https://tweetdeck.x.com"
+                }
+            ]
+        },
+        "condition": {
+            "urlFilter": "*://*.twimg.com/*",
+            "initiatorDomains": ["tweetdeck.x.com"],
+            "resourceTypes": ["main_frame", "sub_frame", "stylesheet", "script", "image", "font", "xmlhttprequest", "other"]
+        }
     }
 ]

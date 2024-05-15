@@ -23,14 +23,14 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
+            window.location.href = "/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
 }
 // Render
 function renderUserData() {
-    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
+    document.getElementById('wtf-viewall').href = `/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
 }
 
 let cursorTop = undefined;

@@ -447,7 +447,7 @@ async function renderTweetBodyHTML(t, is_quoted) {
         if (t.entities.hashtags) {
             t.entities.hashtags.forEach(hashtag => {
                 let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === hashtag.text.toLowerCase());
-                index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="https://twitter.com/hashtag/${escapeHTML(hashtag.text)}">`+
+                index_map[hashtag.indices[0]] = [hashtag.indices[1], text => `<a href="/hashtag/${escapeHTML(hashtag.text)}">`+
                     `#${escapeHTML(hashtag.text)}`+
                     `${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag">` : ''}`+
                 `</a>`];
@@ -456,7 +456,7 @@ async function renderTweetBodyHTML(t, is_quoted) {
 
         if (t.entities.symbols) {
             t.entities.symbols.forEach(symbol => {
-                index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="https://twitter.com/search?q=%24${escapeHTML(symbol.text)}">`+
+                index_map[symbol.indices[0]] = [symbol.indices[1], text => `<a href="/search?q=%24${escapeHTML(symbol.text)}">`+
                     `$${escapeHTML(symbol.text)}`+
                 `</a>`];
             });
@@ -472,7 +472,7 @@ async function renderTweetBodyHTML(t, is_quoted) {
 
         if (t.entities.user_mentions) {
             t.entities.user_mentions.forEach(user => {
-                index_map[user.indices[0]] = [user.indices[1], text => `<a href="https://twitter.com/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
+                index_map[user.indices[0]] = [user.indices[1], text => `<a href="/${escapeHTML(user.screen_name)}">${escapeHTML(text)}</a>`];
             });
         };
 
@@ -1257,9 +1257,9 @@ async function renderTrends(compact = false, cache = true) {
         let hashflag = hashflags.find(h => h.hashtag.toLowerCase() === trend.name.slice(1).toLowerCase());
         let trendDiv = document.createElement('div');
         trendDiv.className = 'trend' + (compact ? ' compact-trend' : '');
-        trendDiv.innerHTML = compact ? /*html*/`<a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a>` : /*html*/`
+        trendDiv.innerHTML = compact ? /*html*/`<a href="/search?q=${escapeHTML(trend.name)}" class="trend-name">${escapeHTML(trend.name)}</a>` : /*html*/`
             <b>
-                <a href="https://twitter.com/search?q=${escapeHTML(trend.name)}" class="trend-name">
+                <a href="/search?q=${escapeHTML(trend.name)}" class="trend-name">
                     ${escapeHTML(trend.name)}
                     ${hashflag ? `<img src="${hashflag.asset_url}" class="hashflag" width="16" height="16">` : ''}
                 </a>
@@ -1298,9 +1298,9 @@ async function renderDiscovery(cache = true) {
             udiv.className = 'wtf-user';
             udiv.dataset.userId = userId;
             udiv.innerHTML = /*html*/`
-                <a class="tweet-avatar-link" href="https://twitter.com/${userData.screen_name}"><img src="${`${(userData.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(userData.id_str) % 7}_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
+                <a class="tweet-avatar-link" href="/${userData.screen_name}"><img src="${`${(userData.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(userData.id_str) % 7}_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
                 <div class="tweet-header wtf-header">
-                    <a class="tweet-header-info wtf-user-link" href="https://twitter.com/${userData.screen_name}">
+                    <a class="tweet-header-info wtf-user-link" href="/${userData.screen_name}">
                         <b class="tweet-header-name wtf-user-name${userData.verified || userData.verified_type ? ' user-verified' : userData.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${userData.verified_type === 'Government' ? 'user-verified-gray' : userData.verified_type === 'Business' ? 'user-verified-yellow' : userData.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(userData.name)}</b>
                         <span class="tweet-header-handle wtf-user-handle">@${userData.screen_name}</span>
                     </a>
@@ -1456,7 +1456,7 @@ async function appendUser(u, container, label) {
     }
     userElement.innerHTML = `
         <div>
-            <a href="https://twitter.com/${u.screen_name}" class="user-item-link">
+            <a href="/${u.screen_name}" class="user-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
                     <span${u.id_str === '1708130407663759360' ? ' title="Old Twitter Layout extension developer"' : ''} class="tweet-header-name user-item-name${u.protected ? ' user-protected' : ''}${u.muting ? ' user-muted' : ''}${u.verified || u.verified_type ? ' user-verified' : u.id_str === '1708130407663759360' ? ' user-verified user-verified-dimden' : ''} ${u.verified_type === 'Government' ? 'user-verified-gray' : u.verified_type === 'Business' ? 'user-verified-yellow' : u.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(u.name)}</span><br>
@@ -1573,7 +1573,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         t.socialContext.text = t.socialContext.text.replace(new RegExp(el.split('->')[0], "g"), el.split('->')[1]);
                     });
                 };
-                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="https://twitter.com/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${t.socialContext.text}</a>`;
+                options.top.text = `<${t.socialContext.landingUrl.url.split('=')[1] ? `a href="/i/user/${t.socialContext.landingUrl.url.split('=')[1]}"` : 'span'}>${t.socialContext.text}</a>`;
                 if(vars.heartsNotStars) {
                     options.top.icon = "\uf015";
                     options.top.color = "rgb(249, 24, 128)";
@@ -1594,7 +1594,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 options.top.icon = "\uf011";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else if(t.socialContext.topic_id) {
-                options.top.text = `<a target="_blank" href="https://twitter.com/i/topics/${t.socialContext.topic_id}">${t.socialContext.name}</a>`;
+                options.top.text = `<a target="_blank" href="/i/topics/${t.socialContext.topic_id}">${t.socialContext.name}</a>`;
                 options.top.icon = "\uf008";
                 options.top.color = isDarkModeEnabled ? "#7e5eff" : "#3300FF";
             } else {
@@ -1642,7 +1642,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 if (!e.target.closest(".tweet-button") && !e.target.closest(".tweet-body-text-span") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest(".tweet-media-element") && !e.target.closest("a") && !e.target.closest("button")) {
                     document.getElementById('loading-box').hidden = false;
                     savePageData();
-                    history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                    history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}`);
                     updateSubpage();
                     mediaToUpload = [];
                     linkColors = {};
@@ -1686,7 +1686,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 // tweet-media-element is clickable, since it should open the tweet in a new tab.
                 if(!e.target.closest(".tweet-button") && !e.target.closest(".tweet-edit-section") && !e.target.closest(".dropdown-menu") && !e.target.closest("a") && !e.target.closest("button")) {
                     e.preventDefault();
-                    openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                    openInNewTab(`/${t.user.screen_name}/status/${t.id_str}`);
                 }
             }
         });
@@ -1816,7 +1816,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(t.in_reply_to_screen_name && t.display_text_range) {
             t.entities.user_mentions.forEach(user_mention => {
                 if(user_mention.indices[0] < t.display_text_range[0]){
-                    mentionedUserText += `<a href="https://twitter.com/${user_mention.screen_name}">@${user_mention.screen_name}</a> `
+                    mentionedUserText += `<a href="/${user_mention.screen_name}">@${user_mention.screen_name}</a> `
                 }
                 //else this is not reply but mention
             });
@@ -1832,7 +1832,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         // i fucking hate this thing
         tweet.innerHTML = /*html*/`
             <div class="tweet-top" hidden></div>
-            <a class="tweet-avatar-link" href="https://twitter.com/${t.user.screen_name}">
+            <a class="tweet-avatar-link" href="/${t.user.screen_name}">
                 <img
                     onerror="this.src = '${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}'"
                     src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`) : t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}"
@@ -1843,14 +1843,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 >
             </a>
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
-                <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="https://twitter.com/${t.user.screen_name}">
+                <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="/${t.user.screen_name}">
                     <b
                         ${t.user.id_str === '1708130407663759360' ? 'title="Old Twitter Layout extension developer" ' : ''}
                         class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1708130407663759360' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}"
                     >${escapeHTML(t.user.name)}</b>
                     <span class="tweet-header-handle">@${t.user.screen_name}</span>
                 </a>
-                <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
+                <a ${options.mainTweet ? 'hidden' : ''} class="tweet-time" data-timestamp="${new Date(t.created_at).getTime()}" title="${new Date(t.created_at).toLocaleString()}" href="/${t.user.screen_name}/status/${t.id_str}">${timeElapsed(new Date(t.created_at).getTime())}</a>
                 ${location.pathname.split("?")[0].split("#")[0] === '/i/bookmarks' ? `<span class="tweet-button tweet-delete-bookmark${!isMatchingLanguage ? ' tweet-delete-bookmark-lower' : ''}">&times;</span>` : ''}
                 ${options.mainTweet && t.user.id_str !== user.id_str ? `<button class='tweet-button nice-button tweet-header-follow ${t.user.following ? 'following' : 'follow'}'>${t.user.following ? LOC.following_btn.message : LOC.follow.message}</button>` : ''}
                 ${!options.mainTweet && !isMatchingLanguage ? `<span class="tweet-translate-after tweet-button">${`${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 && innerWidth > 650 ? LOC.view_translation.message : ''}</span>` : ''}
@@ -1895,7 +1895,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ` : ``}
                 ${t.card ? `<div class="tweet-card"></div>` : ''}
                 ${t.quoted_status ? /*html*/`
-                <a class="tweet-body-quote" target="_blank" href="https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
+                <a class="tweet-body-quote" target="_blank" href="/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}">
                     <img src="${(t.quoted_status.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.quoted_status.user.id_str) % 7}_normal.png`): t.quoted_status.user.profile_image_url_https}" alt="${escapeHTML(t.quoted_status.user.name)}" class="tweet-avatar-quote" width="24" height="24">
                     <div class="tweet-header-quote">
                         <span class="tweet-header-info-quote">
@@ -1930,21 +1930,21 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 ${options.mainTweet ? /*html*/`
                 <div class="tweet-footer">
                     <div class="tweet-footer-stats">
-                        <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}" class="tweet-footer-stat tweet-footer-stat-o">
+                        <a href="/${t.user.screen_name}/status/${t.id_str}" class="tweet-footer-stat tweet-footer-stat-o">
                             <span class="tweet-footer-stat-text">${LOC.replies.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-replies">${formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</b>
                         </a>
-                        <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets" class="tweet-footer-stat tweet-footer-stat-r">
+                        <a href="/${t.user.screen_name}/status/${t.id_str}/retweets" class="tweet-footer-stat tweet-footer-stat-r">
                             <span class="tweet-footer-stat-text">${LOC.retweets.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-retweets">${formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</b>
                         </a>
                         ${vars.showQuoteCount && typeof t.quote_count !== 'undefined' && t.quote_count > 0 ? 
-                        /*html*/`<a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-q">
+                        /*html*/`<a href="/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments" class="tweet-footer-stat tweet-footer-stat-q">
                             <span class="tweet-footer-stat-text">${LOC.quotes.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-quotes">${formatLargeNumber(t.quote_count).replace(/\s/g, ',')}</b>
                         </a>` :
                         ''}
-                        <a href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
+                        <a href="/${t.user.screen_name}/status/${t.id_str}/likes" class="tweet-footer-stat tweet-footer-stat-f">
                             <span class="tweet-footer-stat-text">${vars.heartsNotStars ? LOC.likes.message : LOC.favorites.message}</span>
                             <b class="tweet-footer-stat-count tweet-footer-stat-favorites">${formatLargeNumber(t.favorite_count).replace(/\s/g, ',')}</b>
                         </a>
@@ -1952,7 +1952,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <div class="tweet-footer-favorites"></div>
                 </div>
                 ` : ''}
-                <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="https://twitter.com/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source ? t.source.split('>')[1].split('<')[0] : 'Unknown'}</a>
+                <a ${!options.mainTweet ? 'hidden' : ''} class="tweet-date" title="${new Date(t.created_at).toLocaleString()}" href="/${t.user.screen_name}/status/${t.id_str}"><br>${new Date(t.created_at).toLocaleTimeString(undefined, { hour: 'numeric', minute: 'numeric' }).toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}  ・ ${t.source ? t.source.split('>')[1].split('<')[0] : 'Unknown'}</a>
                 <div class="tweet-interact">
                     <span class="tweet-button tweet-interact-reply" title="${LOC.reply_btn.message}${!vars.disableHotkeys ? ' (R)' : ''}" data-val="${t.reply_count}">${options.mainTweet ? '' : formatLargeNumber(t.reply_count).replace(/\s/g, ',')}</span>
                     <span title="${LOC.retweet_btn.message}" class="tweet-button tweet-interact-retweet${t.retweeted ? ' tweet-interact-retweeted' : ''}${(t.user.protected || t.limited_actions === 'limit_trusted_friends_tweet') && t.user.id_str !== user.id_str ? ' tweet-interact-retweet-disabled' : ''}" data-val="${t.retweet_count}">${options.mainTweet ? '' : formatLargeNumber(t.retweet_count).replace(/\s/g, ',')}</span>
@@ -2015,8 +2015,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         <span class="tweet-interact-more-menu-log">Log tweet object</span>
                         ` : ''}
                     </div>
-                    ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? /*html*/`<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
-                    ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="https://twitter.com/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
+                    ${options.selfThreadButton && t.self_thread && t.self_thread.id_str && !options.threadContinuation && !location.pathname.includes('/status/') ? /*html*/`<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="/${t.user.screen_name}/status/${t.self_thread.id_str}">${LOC.show_this_thread.message}</a>` : ``}
+                    ${!options.noTop && !options.selfThreadButton && t.in_reply_to_status_id_str && !(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) && !location.pathname.includes('/status/') ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>` : ``}
                 </div>
                 <div class="tweet-edit-section tweet-reply" hidden>
                     <br>
@@ -2038,7 +2038,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 </div>
                 <div class="tweet-self-thread-div" ${(options.threadContinuation || (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)) ? '' : 'hidden'}>
                     ${options.selfThreadContinuation && t.self_thread && t.self_thread.id_str && !location.pathname.includes('/status/') ? /*html*/`<br>
-                        <a class="tweet-self-thread-button" target="_blank" href="https://twitter.com/${t.user.screen_name}/status/${t.self_thread.id_str}">
+                        <a class="tweet-self-thread-button" target="_blank" href="/${t.user.screen_name}/status/${t.self_thread.id_str}">
                             ${LOC.show_this_thread.message}
                         </a>
                         <span class="tweet-self-thread-line" style="margin-left: -108px;margin-top: -5px;"></span>
@@ -2187,7 +2187,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             for(let i in likers) {
                 let liker = likers[i];
                 let a = document.createElement('a');
-                a.href = `https://twitter.com/${liker.screen_name}`;
+                a.href = `/${liker.screen_name}`;
                 let likerImg = document.createElement('img');
                 likerImg.src = `${(liker.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(liker.id_str) % 7}_normal.png`): liker.profile_image_url_https}`;
                 likerImg.classList.add('tweet-footer-favorites-img');
@@ -2202,7 +2202,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             likesLink.addEventListener('click', e => {
                 e.preventDefault();
                 document.getElementById('loading-box').hidden = false;
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/likes`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/likes`);
                 updateSubpage();
                 mediaToUpload = [];
                 linkColors = {};
@@ -2219,7 +2219,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             retweetsLink.addEventListener('click', e => {
                 e.preventDefault();
                 document.getElementById('loading-box').hidden = false;
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/retweets`);
                 updateSubpage();
                 mediaToUpload = [];
                 linkColors = {};
@@ -2237,7 +2237,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 quotesLink.addEventListener('click', e => {
                     e.preventDefault();
                     document.getElementById('loading-box').hidden = false;
-                    history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
+                    history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
                     updateSubpage();
                     mediaToUpload = [];
                     linkColors = {};
@@ -2254,9 +2254,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
             let repliesLink = tweet.getElementsByClassName('tweet-footer-stat-o')[0];
             repliesLink.addEventListener('click', e => {
                 e.preventDefault();
-                if(location.href === `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`) return;
+                if(location.href === `/${t.user.screen_name}/status/${t.id_str}`) return;
                 document.getElementById('loading-box').hidden = false;
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}`);
                 updateSubpage();
                 mediaToUpload = [];
                 linkColors = {};
@@ -2402,7 +2402,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 listElement.classList.add('list-item');
                 listElement.innerHTML = `
                     <div style="display:inline-block;">
-                        <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                        <a href="/i/lists/${l.id_str}" class="following-item-link">
                             <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                             <div class="following-item-text" style="position: relative;bottom: 12px;">
                                 <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
@@ -2508,7 +2508,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 tweetBodyQuote.addEventListener('click', e => {
                     e.preventDefault();
                     document.getElementById('loading-box').hidden = false;
-                    history.pushState({}, null, `https://twitter.com/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`);
+                    history.pushState({}, null, `/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`);
                     updateSubpage();
                     mediaToUpload = [];
                     linkColors = {};
@@ -3008,7 +3008,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if(options.mainTweet) {
             tweetInteractRetweetMenuQuotes.addEventListener('click', async () => {
                 document.getElementById('loading-box').hidden = false;
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`);
                 updateSubpage();
                 mediaToUpload = [];
                 linkColors = {};
@@ -3031,7 +3031,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
             tweetInteractRetweetMenuRetweeters.addEventListener('click', async () => {
                 document.getElementById('loading-box').hidden = false;
-                history.pushState({}, null, `https://twitter.com/${t.user.screen_name}/status/${t.id_str}/retweets`);
+                history.pushState({}, null, `/${t.user.screen_name}/status/${t.id_str}/retweets`);
                 updateSubpage();
                 mediaToUpload = [];
                 linkColors = {};
@@ -3146,7 +3146,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             let tweetObject = {
                 status: text,
-                attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`
+                attachment_url: `/${t.user.screen_name}/status/${t.id_str}`
             };
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
@@ -3206,7 +3206,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             } else {
                 if(footerFavorites.children.length < 8 && !mainTweetLikers.find(liker => liker.id_str === user.id_str)) {
                     let a = document.createElement('a');
-                    a.href = `https://twitter.com/${user.screen_name}`;
+                    a.href = `/${user.screen_name}`;
                     let likerImg = document.createElement('img');
                     likerImg.src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`;
                     likerImg.classList.add('tweet-footer-favorites-img');
@@ -3363,10 +3363,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
             navigator.clipboard.writeText(t.user.id_str);
         });
         if(tweetInteractMoreMenuShare) tweetInteractMoreMenuShare.addEventListener('click', () => {
-            navigator.share({ url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}` });
+            navigator.share({ url: `/${t.user.screen_name}/status/${t.id_str}` });
         });
         tweetInteractMoreMenuShareDMs.addEventListener('click', () => {
-            tweetUrlToShareInDMs = `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`;
+            tweetUrlToShareInDMs = `/${t.user.screen_name}/status/${t.id_str}`;
             document.getElementById('messages').click();
             setTimeout(() => {
                 let title = document.querySelector('div.inbox h1.nice-header.larger');
@@ -3374,14 +3374,14 @@ async function appendTweet(t, timelineContainer, options = {}) {
             });
         });
         tweetInteractMoreMenuNewtwitter.addEventListener('click', () => {
-            openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}?newtwitter=true`);
+            openInNewTab(`/${t.user.screen_name}/status/${t.id_str}?newtwitter=true`);
         });
         tweetInteractMoreMenuEmbed.addEventListener('click', () => {
-            openInNewTab(`https://publish.twitter.com/?query=https://twitter.com/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
+            openInNewTab(`https://publish.twitter.com/?query=/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
         });
         if (t.user.id_str === user.id_str) {
             tweetInteractMoreMenuAnalytics.addEventListener('click', () => {
-                openInNewTab(`https://twitter.com/${t.user.screen_name}/status/${t.id_str}/analytics?newtwitter=true`);
+                openInNewTab(`/${t.user.screen_name}/status/${t.id_str}/analytics?newtwitter=true`);
             });
             tweetInteractMoreMenuDelete.addEventListener('click', async () => {
                 let sure = confirm(LOC.delete_sure.message);
@@ -3400,7 +3400,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 if(options.mainTweet) {
                     let tweets = Array.from(document.getElementsByClassName('tweet'));
                     if(tweets.length === 0) {
-                        location.href = 'https://twitter.com/home';
+                        location.href = '/home';
                     } else {
                         location.href = tweets[0].getElementsByClassName('tweet-time')[0].href;
                     }
@@ -3597,7 +3597,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             feedbackButton.addEventListener('click', () => {
                 chrome.storage.local.remove(["algoTimeline"], () => {});
                 if(feedback.richBehavior && feedback.richBehavior.markNotInterestedTopic) {
-                    fetch(`https://twitter.com/i/api/graphql/OiKldXdrDrSjh36WO9_3Xw/TopicNotInterested`, {
+                    fetch(`/i/api/graphql/OiKldXdrDrSjh36WO9_3Xw/TopicNotInterested`, {
                         method: 'post',
                         headers: {
                             'content-type': 'application/json',
@@ -3610,7 +3610,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         credentials: 'include'
                     }).then(i => i.json()).then(() => {});
                 }
-                fetch(`https://twitter.com/i/api${feedback.feedbackUrl}`, {
+                fetch(`/i/api${feedback.feedbackUrl}`, {
                     method: 'post',
                     headers: {
                         'content-type': 'application/x-www-form-urlencoded',
@@ -3720,14 +3720,14 @@ function renderNotification(n, options = {}) {
             if(e.target.closest('.notification') && e.target.tagName !== 'IMG' && e.target.tagName !== 'A' && e.target.className !== 'notification-feedback') {
                 if(n.icon.id === "bell_icon") {
                     let a = document.createElement('a');
-                    a.href = `https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`;
+                    a.href = `/i/timeline?page=device_follow&nid=${n.id}`;
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
                 } else if(n.icon.id === "heart_icon") {
                     if(n.entry.clientEventInfo.element === "user_liked_multiple_tweets") {
                         let a = document.createElement('a');
-                        a.href = `https://twitter.com/i/timeline?page=likes&nid=${n.id}`;
+                        a.href = `/i/timeline?page=likes&nid=${n.id}`;
                         document.body.appendChild(a);
                         a.click();
                         a.remove();
@@ -3736,7 +3736,7 @@ function renderNotification(n, options = {}) {
                     }
                 } else if(n.entry.clientEventInfo.element === "users_added_you_to_lists") {
                     let a = document.createElement('a');
-                    a.href = `https://twitter.com/i/timeline?page=lists&nid=${n.id}`;
+                    a.href = `/i/timeline?page=lists&nid=${n.id}`;
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
@@ -3788,20 +3788,20 @@ function renderNotification(n, options = {}) {
             if(e.button === 1) {
                 e.preventDefault();
                 if(n.icon.id === "bell_icon") {
-                    openInNewTab(`https://twitter.com/i/timeline?page=device_follow&nid=${n.id}`);
+                    openInNewTab(`/i/timeline?page=device_follow&nid=${n.id}`);
                 } else if(n.icon.id === "heart_icon") {
-                    openInNewTab(`https://twitter.com/i/timeline?page=likes&nid=${n.id}`);
+                    openInNewTab(`/i/timeline?page=likes&nid=${n.id}`);
                 } else if(n.entry.clientEventInfo.element === "users_added_you_to_lists") {
-                    openInNewTab(`https://twitter.com/i/timeline?page=lists&nid=${n.id}`);
+                    openInNewTab(`/i/timeline?page=lists&nid=${n.id}`);
                 } else if(n.icon.id === "list_icon") {
                     openInNewTab(n.entry.content.notification.url.url);
                 } else if(n.entry.clientEventInfo.element === "users_followed_you") {
                     openInNewTab(`/${user.screen_name}/followers`);
                 } else if(e.target.closest('.notification') && e.target.tagName !== 'IMG') {
                     if(n.tweet.retweeted_status) {
-                        openInNewTab(`https://twitter.com/${n.tweet.retweeted_status.user.screen_name}/status/${n.tweet.retweeted_status.id_str}`);
+                        openInNewTab(`/${n.tweet.retweeted_status.user.screen_name}/status/${n.tweet.retweeted_status.id_str}`);
                     } else {
-                        openInNewTab(`https://twitter.com/${n.tweet.user.screen_name}/status/${n.tweet.id_str}`);
+                        openInNewTab(`/${n.tweet.user.screen_name}/status/${n.tweet.id_str}`);
                     }
                 }
             }
@@ -3812,7 +3812,7 @@ function renderNotification(n, options = {}) {
     
         let users = n.template.aggregateUserActionsV1.fromUsers.map(u => n.users[u.user.id]);
         if(n.icon.id === 'recommendation_icon') {
-            notificationHeader = `<b><a href="https://twitter.com/${users[0] ? users[0].screen_name : '#'}">${escapeHTML(notificationHeader)}</a></b>`;
+            notificationHeader = `<b><a href="/${users[0] ? users[0].screen_name : '#'}">${escapeHTML(notificationHeader)}</a></b>`;
         }
         if(!iconClasses[n.icon.id]) {
             console.log(`Unsupported icon: "${n.icon.id}". Report it to https://github.com/dimdenGD/OldTwitter/issues`);

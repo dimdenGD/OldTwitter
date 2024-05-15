@@ -406,7 +406,7 @@ const API = {
                     if(d.credentials && Date.now() - d.credentials.date < 15000) {
                         return resolve(d.credentials.data);
                     }
-                    fetch(`https://api.twitter.com/1.1/account/verify_credentials.json`, {
+                    fetch(`https://api.${location.hostname}/1.1/account/verify_credentials.json`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -447,7 +447,7 @@ const API = {
         },
         logout: () => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/account/logout.json`, {
+                fetch(`/i/api/1.1/account/logout.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -477,7 +477,7 @@ const API = {
                     if(cache && d.accountsList && Date.now() - d.accountsList.date < 60000*5) {
                         return resolve(d.accountsList.data);
                     }
-                    fetch(`https://twitter.com/i/api/1.1/account/multi/list.json`, {
+                    fetch(`/i/api/1.1/account/multi/list.json`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -507,7 +507,7 @@ const API = {
         switch: id => {
             return new Promise((resolve, reject) => {
                 let status;
-                fetch(`https://twitter.com/i/api/1.1/account/multi/switch.json`, {
+                fetch(`/i/api/1.1/account/multi/switch.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -538,7 +538,7 @@ const API = {
         },
         updateProfile: (data) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/account/update_profile.json`, {
+                fetch(`https://api.${location.hostname}/1.1/account/update_profile.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -563,7 +563,7 @@ const API = {
                     if(d.twitterSettings && Date.now() - d.twitterSettings.date < 60000*10) {
                         return resolve(d.twitterSettings.data);
                     }
-                    fetch(`https://api.twitter.com/1.1/account/settings.json`, {
+                    fetch(`https://api.${location.hostname}/1.1/account/settings.json`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -573,7 +573,7 @@ const API = {
                     }).then(i => i.json()).then(data => {
                         if (data.errors && data.errors[0].code === 32) {
                             setTimeout(() => {
-                                location.href = "https://twitter.com/i/flow/login?newtwitter=true";
+                                location.href = "/i/flow/login?newtwitter=true";
                             }, 1000);
                             return reject("Not logged in");
                         }
@@ -595,7 +595,7 @@ const API = {
     timeline: {
         getChronological: (max_id) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/statuses/home_timeline.json?count=40&include_my_retweet=1&cards_platform=Web-12&include_cards=1&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified&include_reply_count=true${max_id ? `&max_id=${max_id}` : ''}`, {
+                fetch(`https://api.${location.hostname}/1.1/statuses/home_timeline.json?count=40&include_my_retweet=1&cards_platform=Web-12&include_cards=1&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified&include_reply_count=true${max_id ? `&max_id=${max_id}` : ''}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -628,7 +628,7 @@ const API = {
                 if(cursor) {
                     variables.cursor = cursor;
                 }
-                fetch(`https://twitter.com/i/api/graphql/U0cdisy7QFIoTfu3-Okw0A/HomeLatestTimeline`, {
+                fetch(`/i/api/graphql/U0cdisy7QFIoTfu3-Okw0A/HomeLatestTimeline`, {
                     headers: {
                         "authorization": useDiffKey ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -668,7 +668,7 @@ const API = {
                     let messagePromptIndex = entries.findIndex(e => e.entryId.startsWith('messageprompt-'));
                     if(tweets.length === 0 && messagePromptIndex === 0 && !cursor) {
                         let messagePrompt = entries[messagePromptIndex].content.itemContent.content;
-                        if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "https://twitter.com/i/twitter_blue_sign_up") {
+                        if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "/i/twitter_blue_sign_up") {
                             localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
                             return API.timeline.getChronologicalV2(cursor, count, true).then(resolve).catch(reject);
                         }
@@ -688,7 +688,7 @@ const API = {
         },
         getAlgorithmical: (cursor, count = 40) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/2/timeline/home.json?${cursor ? `cursor=${cursor.replace(/\+/g, '%2B')}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&earned=1&count=${count}&lca=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified&browserNotificationPermission=default`, {
+                fetch(`/i/api/2/timeline/home.json?${cursor ? `cursor=${cursor.replace(/\+/g, '%2B')}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&earned=1&count=${count}&lca=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified&browserNotificationPermission=default`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -785,7 +785,7 @@ const API = {
                 if(cursor) {
                     variables.cursor = cursor;
                 }
-                fetch(`https://twitter.com/i/api/graphql/k3YiLNE_MAy5J-NANLERdg/HomeTimeline`, {
+                fetch(`/i/api/graphql/k3YiLNE_MAy5J-NANLERdg/HomeTimeline`, {
                     headers: {
                         "authorization": useDiffKey ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -825,7 +825,7 @@ const API = {
                     let messagePromptIndex = entries.findIndex(e => e.entryId.startsWith('messageprompt-'));
                     if(tweets.length === 0 && messagePromptIndex === 0 && !cursor) {
                         let messagePrompt = entries[messagePromptIndex].content.itemContent.content;
-                        if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "https://twitter.com/i/twitter_blue_sign_up") {
+                        if(messagePrompt.primaryButtonAction && messagePrompt.primaryButtonAction.action && messagePrompt.primaryButtonAction.action.url === "/i/twitter_blue_sign_up") {
                             localStorage.hitRateLimit = Date.now() + 1000 * 60 * 10;
                             return API.timeline.getAlgorithmicalV2(cursor, count, seenTweetIds, true).then(resolve).catch(reject);
                         }
@@ -913,7 +913,7 @@ const API = {
                         debugLog('discover.getPeople', 'cache', d.discoverData.data)
                         return resolve(d.discoverData.data);
                     }
-                    fetch(`https://twitter.com/i/api/2/people_discovery/modules_urt.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&display_location=connect&client_type=rweb&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerifiedhighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+                    fetch(`/i/api/2/people_discovery/modules_urt.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&display_location=connect&client_type=rweb&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerifiedhighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -949,7 +949,7 @@ const API = {
                         debugLog('discover.getSimilarPeople', 'cache', d.peopleRecommendations[`${id}${by_screen_name}`].data);
                         return resolve(d.peopleRecommendations[`${id}${by_screen_name}`].data);
                     }
-                    fetch(`https://twitter.com/i/api/1.1/users/recommendations.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&&pc=true&display_location=profile_accounts_sidebar&limit=4&${by_screen_name ? 'screen_name' : 'user_id'}=${id}&ext=mediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+                    fetch(`/i/api/1.1/users/recommendations.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&&pc=true&display_location=profile_accounts_sidebar&limit=4&${by_screen_name ? 'screen_name' : 'user_id'}=${id}&ext=mediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -985,7 +985,7 @@ const API = {
                         debugLog('discover.getTrends', 'cache', d.trends.data);
                         return resolve(d.trends.data);
                     }
-                    fetch(`https://api.twitter.com/1.1/trends/plus.json?max_trends=8`, {
+                    fetch(`https://api.${location.hostname}/1.1/trends/plus.json?max_trends=8`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1018,7 +1018,7 @@ const API = {
                         return resolve(d.trendsv2.data);
                     }
                     fetch(`
-                    https://twitter.com/i/api/2/guide.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&requestContext=launch&candidate_source=trends&include_page_configuration=false&entity_tokens=false&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl`, {
+                    /i/api/2/guide.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&requestContext=launch&candidate_source=trends&include_page_configuration=false&entity_tokens=false&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1114,7 +1114,7 @@ const API = {
                     if(d.hashflags && Date.now() - d.hashflags.date < 60000*60*4) {
                         return resolve(d.hashflags.data);
                     }
-                    fetch(`https://twitter.com/i/api/1.1/hashflags.json`, {
+                    fetch(`/i/api/1.1/hashflags.json`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1150,7 +1150,7 @@ const API = {
                         hashflagStorage = d.hashflags;
                         return resolve(d.hashflags.data);
                     }
-                    fetch(`https://twitter.com/i/api/1.1/hashflags.json`, {
+                    fetch(`/i/api/1.1/hashflags.json`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1188,7 +1188,7 @@ const API = {
                     }
                     if(userId == user.id_str) userId = '';
                     let multiAuthHeader = userId ? { "x-web-auth-multi-user-id": userId } : {};
-                    fetch(`https://twitter.com/i/api/2/badge_count/badge_count.json?supports_ntab_urt=1`, {
+                    fetch(`/i/api/2/badge_count/badge_count.json?supports_ntab_urt=1`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1239,7 +1239,7 @@ const API = {
                             };
                         }
                     }
-                    fetch(`https://twitter.com/i/api/2/notifications/${onlyMentions ? 'mentions' : 'all'}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&requestContext=launch&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl${cursor ? `&cursor=${cursor}` : ''}`, {
+                    fetch(`/i/api/2/notifications/${onlyMentions ? 'mentions' : 'all'}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&requestContext=launch&ext=mediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl${cursor ? `&cursor=${cursor}` : ''}`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1374,7 +1374,7 @@ const API = {
         },
         markAsRead: cursor => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/2/notifications/all/last_seen_cursor.json`, {
+                fetch(`/i/api/2/notifications/all/last_seen_cursor.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1399,7 +1399,7 @@ const API = {
         },
         getDeviceFollowTweets: (cursor) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/2/notifications/device_follow.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&ext=mediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe${cursor ? `&cursor=${cursor}` : ''}`, {
+                fetch(`/i/api/2/notifications/device_follow.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&ext=mediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe${cursor ? `&cursor=${cursor}` : ''}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1445,7 +1445,7 @@ const API = {
         },
         view: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/2/notifications/view/${id}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe`, {
+                fetch(`/i/api/2/notifications/view/${id}.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=false&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&count=20&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl%2Ccollab_control%2Cvibe`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1523,7 +1523,7 @@ const API = {
     user: {
         get: (val, byId = true) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/users/show.json?${byId ? `user_id=${val}` : `screen_name=${val}`}`, {
+                fetch(`https://api.${location.hostname}/1.1/users/show.json?${byId ? `user_id=${val}` : `screen_name=${val}`}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1534,7 +1534,7 @@ const API = {
                 }).then(i => {
                     if(i.status === 401) {
                         setTimeout(() => {
-                            location.href = `https://twitter.com/i/flow/login?newtwitter=true`;
+                            location.href = `/i/flow/login?newtwitter=true`;
                         }, 50);
                     }
                     return i.json();
@@ -1551,7 +1551,7 @@ const API = {
         },
         getV2: name => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/sLVLhk0bGj3MVFEKTdax1w/UserByScreenName?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true}))}`, {
+                fetch(`/i/api/graphql/sLVLhk0bGj3MVFEKTdax1w/UserByScreenName?variables=%7B%22screen_name%22%3A%22${name}%22%2C%22withSafetyModeUserFields%22%3Atrue%2C%22withSuperFollowsUserFields%22%3Atrue%7D&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1593,7 +1593,7 @@ const API = {
         },
         follow: screen_name => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/friendships/create.json`, {
+                fetch(`https://api.${location.hostname}/1.1/friendships/create.json`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -1636,7 +1636,7 @@ const API = {
         },
         unfollow: screen_name => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/friendships/destroy.json`, {
+                fetch(`https://api.${location.hostname}/1.1/friendships/destroy.json`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -1679,7 +1679,7 @@ const API = {
         },
         cancelFollowRequest: screen_name => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/friendships/cancel.json`, {
+                fetch(`/i/api/1.1/friendships/cancel.json`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -1701,7 +1701,7 @@ const API = {
         },
         getTweets: (id, max_id, replies = false) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/statuses/user_timeline.json?count=100&exclude_replies=${!replies}&include_my_retweet=1&include_rts=1&user_id=${id}${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-12&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
+                fetch(`https://api.${location.hostname}/1.1/statuses/user_timeline.json?count=100&exclude_replies=${!replies}&include_my_retweet=1&include_rts=1&user_id=${id}${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-12&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1736,7 +1736,7 @@ const API = {
                     api = "YlkSUg0mRBx7-EkxCvc-bw/UserTweetsAndReplies";
                 }
                 
-                fetch(`https://twitter.com/i/api/graphql/${api}?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`, {
+                fetch(`/i/api/graphql/${api}?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`, {
                     headers: {
                         "authorization": useDiffKey ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1841,7 +1841,7 @@ const API = {
         },
         getMediaTweets: (id, cursor) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/oMVVrI5kt3kOpyHHTTKf5Q/UserMedia?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":20,"cursor":cursor,"includePromotedContent":false,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withClientEventToken":false,"withBirdwatchNotes":false,"withVoice":true,"withV2Timeline":true}))}&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_richtext_consumption_enabled":false,"responsive_web_enhance_cards_enabled":false,"rweb_video_timestamps_enabled":true,"longform_notetweets_inline_media_enabled":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_media_download_video_enabled":true}))}`, {
+                fetch(`/i/api/graphql/oMVVrI5kt3kOpyHHTTKf5Q/UserMedia?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":20,"cursor":cursor,"includePromotedContent":false,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withClientEventToken":false,"withBirdwatchNotes":false,"withVoice":true,"withV2Timeline":true}))}&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_richtext_consumption_enabled":false,"responsive_web_enhance_cards_enabled":false,"rweb_video_timestamps_enabled":true,"longform_notetweets_inline_media_enabled":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_media_download_video_enabled":true}))}`, {
                     headers: {
                         "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1890,7 +1890,7 @@ const API = {
         },
         friendsFollowing: (val, by_id = true) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/friends/following/list.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cursor=-1&${by_id ? `user_id=${val}` : `screen_name=${val}`}&count=10&with_total_count=true`, {
+                fetch(`/i/api/1.1/friends/following/list.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cursor=-1&${by_id ? `user_id=${val}` : `screen_name=${val}`}&count=10&with_total_count=true`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1912,7 +1912,7 @@ const API = {
         },
         getRelationship: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/friendships/show.json?source_id=${id}&target_screen_name=JinjersTemple&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                fetch(`https://api.${location.hostname}/1.1/friendships/show.json?source_id=${id}&target_screen_name=JinjersTemple&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1934,7 +1934,7 @@ const API = {
         },
         receiveNotifications: (id, receive = false) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/friendships/update.json`, {
+                fetch(`/i/api/1.1/friendships/update.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1959,7 +1959,7 @@ const API = {
         },
         block: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/blocks/create.json`, {
+                fetch(`/i/api/1.1/blocks/create.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1984,7 +1984,7 @@ const API = {
         },
         unblock: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/blocks/destroy.json`, {
+                fetch(`/i/api/1.1/blocks/destroy.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2012,7 +2012,7 @@ const API = {
         },
         mute: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/mutes/users/create.json`, {
+                fetch(`/i/api/1.1/mutes/users/create.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2037,7 +2037,7 @@ const API = {
         },
         unmute: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/mutes/users/destroy.json`, {
+                fetch(`/i/api/1.1/mutes/users/destroy.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2065,7 +2065,7 @@ const API = {
         },
         removeFollower: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/QpNfg0kpPRfjROQ_9eOLXA/RemoveFollower`, {
+                fetch(`/i/api/graphql/QpNfg0kpPRfjROQ_9eOLXA/RemoveFollower`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2105,7 +2105,7 @@ const API = {
                     "withV2Timeline": true
                 };
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/vni8vUvtZvJoIsl49VPudg/Likes?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+                fetch(`/i/api/graphql/vni8vUvtZvJoIsl49VPudg/Likes?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
                     "dont_mention_me_view_api_enabled": true,
                     "interactive_text_enabled": true,
                     "responsive_web_uc_gql_enabled": false,
@@ -2158,7 +2158,7 @@ const API = {
                     "includePromotedContent": false
                 };
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/t-BPOrMIduGUJWO_LxcvNQ/Following?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+                fetch(`/i/api/graphql/t-BPOrMIduGUJWO_LxcvNQ/Following?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2212,7 +2212,7 @@ const API = {
                     "withV2Timeline": true
                 };
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/fJSopkDA3UP9priyce4RgQ/Followers?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+                fetch(`/i/api/graphql/fJSopkDA3UP9priyce4RgQ/Followers?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
                     "dont_mention_me_view_api_enabled": true,
                     "interactive_text_enabled": true,
                     "responsive_web_uc_gql_enabled": false,
@@ -2258,7 +2258,7 @@ const API = {
         },
         getFollowingIds: (cursor = -1, count = 5000) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/friends/ids.json?cursor=${cursor}&stringify_ids=true&count=${count}`, {
+                fetch(`https://api.${location.hostname}/1.1/friends/ids.json?cursor=${cursor}&stringify_ids=true&count=${count}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2278,7 +2278,7 @@ const API = {
         },
         getFollowersIds: (cursor = -1, count = 5000) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/followers/ids.json?cursor=${cursor}&stringify_ids=true&count=${count}`, {
+                fetch(`https://api.${location.hostname}/1.1/followers/ids.json?cursor=${cursor}&stringify_ids=true&count=${count}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2298,7 +2298,7 @@ const API = {
         },
         lookup: ids => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/users/lookup.json?user_id=${ids.join(",")}`, {
+                fetch(`https://api.${location.hostname}/1.1/users/lookup.json?user_id=${ids.join(",")}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2324,7 +2324,7 @@ const API = {
                     "includePromotedContent": false
                 };
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/m8AXvuS9H0aAI09J3ISOrw/FollowersYouKnow?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+                fetch(`/i/api/graphql/m8AXvuS9H0aAI09J3ISOrw/FollowersYouKnow?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2362,7 +2362,7 @@ const API = {
         },
         switchRetweetsVisibility: (user_id, see) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/friendships/update.json`, {
+                fetch(`/i/api/1.1/friendships/update.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2387,7 +2387,7 @@ const API = {
         },
         getFollowRequests: (cursor = -1) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/friendships/incoming.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cursor=${cursor}&stringify_ids=true&count=100`, {
+                fetch(`/i/api/1.1/friendships/incoming.json?include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cursor=${cursor}&stringify_ids=true&count=100`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2409,7 +2409,7 @@ const API = {
         },
         acceptFollowRequest: user_id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/friendships/accept.json`, {
+                fetch(`/i/api/1.1/friendships/accept.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2434,7 +2434,7 @@ const API = {
         },
         declineFollowRequest: user_id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/friendships/deny.json`, {
+                fetch(`/i/api/1.1/friendships/deny.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2459,7 +2459,7 @@ const API = {
         },
         translateBio: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/strato/column/None/profileUserId=${id},destinationLanguage=None,translationSource=Some(Google)/translation/service/translateProfile`, {
+                fetch(`/i/api/1.1/strato/column/None/profileUserId=${id},destinationLanguage=None,translationSource=Some(Google)/translation/service/translateProfile`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2483,7 +2483,7 @@ const API = {
         },
         getLists: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/mLKOzzVOWUycBiExBT1gjg/CombinedLists?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":100,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+                fetch(`/i/api/graphql/mLKOzzVOWUycBiExBT1gjg/CombinedLists?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":100,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2511,7 +2511,7 @@ const API = {
     tweet: {
         post: data => { // deprecated
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/statuses/update.json`, {
+                fetch(`https://api.${location.hostname}/1.1/statuses/update.json`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -2608,7 +2608,7 @@ const API = {
                 }
                 debugLog('tweet.postV2', 'init', {tweet, variables});
                 let parsedTweet = twttr.txt.parseTweet(text);
-                fetch(`https://twitter.com/i/api/graphql/${parsedTweet.weightedLength > 280 ? 'cuvrhmg0s4pGaLWV68NNnQ/CreateNoteTweet' : 'I_J3_LvnnihD0Gjbq5pD2g/CreateTweet'}`, {
+                fetch(`/i/api/graphql/${parsedTweet.weightedLength > 280 ? 'cuvrhmg0s4pGaLWV68NNnQ/CreateNoteTweet' : 'I_J3_LvnnihD0Gjbq5pD2g/CreateTweet'}`, {
                     method: 'POST',
                     headers: {
                         "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAPYXBAAAAAAACLXUNDekMxqa8h%2F40K4moUkGsoc%3DTYfbDKbT3jJPCEVnMYqilB28NHfOPqkca3qaAxGfsyKCs0wRbw",
@@ -2643,7 +2643,7 @@ const API = {
         },
         postScheduled: data => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/LCVzRQGxOaGnOnYH01NQXg/CreateScheduledTweet`, {
+                fetch(`/i/api/graphql/LCVzRQGxOaGnOnYH01NQXg/CreateScheduledTweet`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -2666,7 +2666,7 @@ const API = {
         },
         favorite: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/lI07N6Otwv1PhnEgXILM7A/FavoriteTweet`, {
+                fetch(`/i/api/graphql/lI07N6Otwv1PhnEgXILM7A/FavoriteTweet`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -2688,7 +2688,7 @@ const API = {
         },
         unfavorite: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/ZYKSe-w7KEslx3JhSIk5LA/UnfavoriteTweet`, {
+                fetch(`/i/api/graphql/ZYKSe-w7KEslx3JhSIk5LA/UnfavoriteTweet`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -2710,7 +2710,7 @@ const API = {
         },
         retweet: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet`, {
+                fetch(`/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -2733,7 +2733,7 @@ const API = {
         },
         unretweet: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet`, {
+                fetch(`/i/api/graphql/iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -2756,7 +2756,7 @@ const API = {
         },
         delete: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet`, {
+                fetch(`/i/api/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -2779,7 +2779,7 @@ const API = {
         },
         get: id => { // deprecated
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/statuses/show.json?id=${id}&include_my_retweet=1&cards_platform=Web13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
+                fetch(`https://api.${location.hostname}/1.1/statuses/show.json?id=${id}&include_my_retweet=1&cards_platform=Web13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2815,7 +2815,7 @@ const API = {
                     if(typeof useDiffKey === 'undefined' && isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now()) {
                         useDiffKey = true;
                     }
-                    fetch(`https://twitter.com/i/api/graphql/KwGBbJZc6DBx8EKmyQSP7g/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
+                    fetch(`/i/api/graphql/KwGBbJZc6DBx8EKmyQSP7g/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
                         "focalTweetId":id,
                         "with_rux_injections":false,
                         "includePromotedContent":false,
@@ -2949,7 +2949,7 @@ const API = {
                             };
                         }
                     }
-                    fetch(`https://api.twitter.com/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=30&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2CnoteTweet`, {
+                    fetch(`https://api.${location.hostname}/2/timeline/conversation/${id}.json?${cursor ? `cursor=${cursor}`: ''}&count=30&include_reply_count=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2CnoteTweet`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3150,7 +3150,7 @@ const API = {
                     if(typeof useDiffKey === 'undefined' && isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now()) {
                         useDiffKey = true;
                     }
-                    fetch(`https://twitter.com/i/api/graphql/KwGBbJZc6DBx8EKmyQSP7g/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
+                    fetch(`/i/api/graphql/KwGBbJZc6DBx8EKmyQSP7g/TweetDetail?variables=${encodeURIComponent(JSON.stringify({
                         "focalTweetId":id,
                         "with_rux_injections":false,
                         "includePromotedContent":false,
@@ -3439,7 +3439,7 @@ const API = {
                             };
                         }
                     }
-                    fetch(`https://twitter.com/i/api/graphql/RMoTahkos95Jcdw-UWlZog/Favoriters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+                    fetch(`/i/api/graphql/RMoTahkos95Jcdw-UWlZog/Favoriters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
                         "dont_mention_me_view_api_enabled": true,
                         "interactive_text_enabled": true,
                         "responsive_web_uc_gql_enabled": false,
@@ -3531,7 +3531,7 @@ const API = {
                     "withV2Timeline": true
                 };
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/qVWT1Tn1FiklyVDqYiOhLg/Retweeters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+                fetch(`/i/api/graphql/qVWT1Tn1FiklyVDqYiOhLg/Retweeters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
                     "dont_mention_me_view_api_enabled": true,
                     "interactive_text_enabled": true,
                     "responsive_web_uc_gql_enabled": false,
@@ -3581,7 +3581,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 let variables = {"rawQuery":`quoted_tweet_id:${id}`,"count":20,"querySource":"tdqt","product":"Top"};
                 if(cursor) variables.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/flaR-PUMshxFWZWPNpq4zA/SearchTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"c9s_tweet_anatomy_moderator_badge_enabled":true,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"rweb_video_timestamps_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_enhance_cards_enabled":false}))}`, {
+                fetch(`/i/api/graphql/flaR-PUMshxFWZWPNpq4zA/SearchTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"c9s_tweet_anatomy_moderator_badge_enabled":true,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"rweb_video_timestamps_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
                         "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3630,7 +3630,7 @@ const API = {
         },
         mute: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/mutes/conversations/create.json`, {
+                fetch(`/i/api/1.1/mutes/conversations/create.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3655,7 +3655,7 @@ const API = {
         },
         unmute: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/mutes/conversations/destroy.json`, {
+                fetch(`/i/api/1.1/mutes/conversations/destroy.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3680,7 +3680,7 @@ const API = {
         },
         lookup: ids => { // deprecated
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/statuses/lookup.json?id=${ids.join(',')}&include_entities=true&include_ext_alt_text=true&include_card_uri=true&tweet_mode=extended&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
+                fetch(`https://api.${location.hostname}/1.1/statuses/lookup.json?id=${ids.join(',')}&include_entities=true&include_ext_alt_text=true&include_card_uri=true&tweet_mode=extended&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3710,7 +3710,7 @@ const API = {
                         return resolve(d.translations[id].data);
                     }
                     // Translate by Google
-                    let res = translateLimit > Date.now() ? { ok: false } : await fetch(`https://twitter.com/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
+                    let res = translateLimit > Date.now() ? { ok: false } : await fetch(`/i/api/1.1/strato/column/None/tweetId=${id},destinationLanguage=None,translationSource=Some(Google),feature=None,timeout=None,onlyCached=None/translation/service/translateTweet`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3733,7 +3733,7 @@ const API = {
                         // Translate by Microsoft
                         let l = LANGUAGE;
                         if(l.includes('_')) l = l.split('_')[0];
-                        res = await fetch(`https://api.twitter.com/1.1/translations/show.json?id=${id}&dest=${l}&use_display_text=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                        res = await fetch(`https://api.${location.hostname}/1.1/translations/show.json?id=${id}&dest=${l}&use_display_text=true&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
                             headers: {
                                 "authorization": OLDTWITTER_CONFIG.public_token,
                                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3769,7 +3769,7 @@ const API = {
         },
         pin: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/account/pin_tweet.json`, {
+                fetch(`/i/api/1.1/account/pin_tweet.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3788,7 +3788,7 @@ const API = {
         },
         unpin: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/account/unpin_tweet.json`, {
+                fetch(`/i/api/1.1/account/unpin_tweet.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3807,7 +3807,7 @@ const API = {
         },
         moderate: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/pjFnHGVqCjTcZol0xcBJjw/ModerateTweet`, {
+                fetch(`/i/api/graphql/pjFnHGVqCjTcZol0xcBJjw/ModerateTweet`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -3830,7 +3830,7 @@ const API = {
         },
         unmoderate: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/pVSyu6PA57TLvIE4nN2tsA/UnmoderateTweet`, {
+                fetch(`/i/api/graphql/pVSyu6PA57TLvIE4nN2tsA/UnmoderateTweet`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -3855,7 +3855,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 let variables = {"rootTweetId":id,"count":20,"includePromotedContent":false};
                 if(cursor) variables.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/SiKS1_3937rb72ytFnDHmA/ModeratedTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+                fetch(`/i/api/graphql/SiKS1_3937rb72ytFnDHmA/ModeratedTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     method: 'POST',
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -3906,7 +3906,7 @@ const API = {
     search: {
         typeahead: query => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/search/typeahead.json?q=${encodeURIComponent(query)}&include_can_dm=1&count=5&prefetch=false&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
+                fetch(`https://api.${location.hostname}/1.1/search/typeahead.json?q=${encodeURIComponent(query)}&include_can_dm=1&count=5&prefetch=false&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -3932,7 +3932,7 @@ const API = {
         },
         adaptive: (obj, cursor) => { // deprecated
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/2/search/adaptive.json?${cursor ? `cursor=${cursor}&` : ''}${obj.tweet_search_mode ? `tweet_search_mode=${obj.tweet_search_mode}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=${obj.q}${obj.social_filter ? `&social_filter=${obj.social_filter}`:''}${obj.result_filter ? `&result_filter=${obj.result_filter}`:''}&count=50&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+                fetch(`/i/api/2/search/adaptive.json?${cursor ? `cursor=${cursor}&` : ''}${obj.tweet_search_mode ? `tweet_search_mode=${obj.tweet_search_mode}&` : ''}include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&skip_status=1&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&include_entities=true&include_user_entities=true&include_ext_media_color=true&include_ext_media_availability=true&include_ext_sensitive_media_warning=true&include_ext_trusted_friends_metadata=true&send_error_codes=true&simple_quoted_tweet=true&q=${obj.q}${obj.social_filter ? `&social_filter=${obj.social_filter}`:''}${obj.result_filter ? `&result_filter=${obj.result_filter}`:''}&count=50&query_source=typed_query&pc=1&spelling_corrections=1&include_ext_edit_control=false&ext=views%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4014,7 +4014,7 @@ const API = {
         adaptiveV2: (obj, cursor) => {
             return new Promise((resolve, reject) => {
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/flaR-PUMshxFWZWPNpq4zA/SearchTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"c9s_tweet_anatomy_moderator_badge_enabled":true,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"rweb_video_timestamps_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_enhance_cards_enabled":false}))}`, {
+                fetch(`/i/api/graphql/flaR-PUMshxFWZWPNpq4zA/SearchTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"c9s_tweet_anatomy_moderator_badge_enabled":true,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"rweb_video_timestamps_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
                         "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4107,7 +4107,7 @@ const API = {
                     if(cache && d.savedSearches && Date.now() - d.savedSearches.date < 60000) {
                         return resolve(d.savedSearches.data);
                     }
-                    fetch(`https://twitter.com/i/api/1.1/saved_searches/list.json`, {
+                    fetch(`/i/api/1.1/saved_searches/list.json`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4134,7 +4134,7 @@ const API = {
         },
         deleteSaved: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/saved_searches/destroy/${id}.json`, {
+                fetch(`/i/api/1.1/saved_searches/destroy/${id}.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4159,7 +4159,7 @@ const API = {
         },
         save: q => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/saved_searches/create.json`, {
+                fetch(`/i/api/1.1/saved_searches/create.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4185,7 +4185,7 @@ const API = {
         trustedFriendsTypeahead: (circle_id, query) => {
             return new Promise((resolve, reject) => {
                 let variables = {"trustedFriendsId": circle_id, "prefix": query};
-                fetch(`https://twitter.com/i/api/graphql/4lk-D0Y8kfimSyPJjEocsA/TrustedFriendsTypeahead?variables=${encodeURIComponent(JSON.stringify(variables))}`, {
+                fetch(`/i/api/graphql/4lk-D0Y8kfimSyPJjEocsA/TrustedFriendsTypeahead?variables=${encodeURIComponent(JSON.stringify(variables))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4215,7 +4215,7 @@ const API = {
                     if(!max_id && d.inboxData && Date.now() - d.inboxData.date < 18000) {
                         return resolve(d.inboxData.data);
                     }
-                    fetch(`https://api.twitter.com/1.1/dm/user_inbox.json?max_conv_count=20&include_groups=true${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                    fetch(`https://api.${location.hostname}/1.1/dm/user_inbox.json?max_conv_count=20&include_groups=true${max_id ? `&max_id=${max_id}` : ''}&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4240,7 +4240,7 @@ const API = {
         },
         markRead: eventId => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/dm/conversation/mark_read.json`, {
+                fetch(`https://api.${location.hostname}/1.1/dm/conversation/mark_read.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4259,7 +4259,7 @@ const API = {
         },
         getConversation: (id, max_id) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/dm/conversation/${id}.json?${max_id ? `max_id=${max_id}&` : ''}count=50&context=FETCH_DM_CONVERSATION_HISTORY&include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&dm_secret_conversations_enabled=false&krs_registration_enabled=true&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&dm_users=false&include_groups=true&include_inbox_timelines=true&include_ext_media_color=true&supports_reactions=true&include_conversation_info=true&ext=mediaColor%2CaltText%2CmediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl`, {
+                fetch(`/i/api/1.1/dm/conversation/${id}.json?${max_id ? `max_id=${max_id}&` : ''}count=50&context=FETCH_DM_CONVERSATION_HISTORY&include_profile_interstitial_type=1&include_blocking=1&include_blocked_by=1&include_followed_by=1&include_want_retweets=1&include_mute_edge=1&include_can_dm=1&include_can_media_tag=1&include_ext_has_nft_avatar=1&include_ext_is_blue_verified=1&include_ext_verified_type=1&include_ext_profile_image_shape=1&skip_status=1&dm_secret_conversations_enabled=false&krs_registration_enabled=true&cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_ext_limited_action_results=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_views=true&dm_users=false&include_groups=true&include_inbox_timelines=true&include_ext_media_color=true&supports_reactions=true&include_conversation_info=true&ext=mediaColor%2CaltText%2CmediaStats%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2CbirdwatchPivot%2CsuperFollowMetadata%2CunmentionInfo%2CeditControl`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4279,7 +4279,7 @@ const API = {
         },
         send: obj => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/dm/new.json`, {
+                fetch(`https://api.${location.hostname}/1.1/dm/new.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4307,7 +4307,7 @@ const API = {
                     if(d.userUpdates[cursor] && Date.now() - d.userUpdates[cursor].date < 4000) {
                         return resolve(d.userUpdates[cursor].data);
                     }
-                    fetch(`https://twitter.com/i/api/1.1/dm/user_updates.json?${cursor ? `cursor=${cursor}&` : ''}cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&dm_users=false&include_groups=true&include_inbox_timelines=true&include_ext_media_color=true&supports_reactions=true&nsfw_filtering_enabled=false&cursor=GRwmiICwidfJnf8qFozAuPGoksj_KiUkAAA&filter_low_quality=false&include_quality=all&include_ext_edit_control=false&ext=mediaColor%2CaltText%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
+                    fetch(`/i/api/1.1/dm/user_updates.json?${cursor ? `cursor=${cursor}&` : ''}cards_platform=Web-12&include_cards=1&include_ext_alt_text=true&include_quote_count=true&include_reply_count=1&tweet_mode=extended&include_ext_collab_control=true&dm_users=false&include_groups=true&include_inbox_timelines=true&include_ext_media_color=true&supports_reactions=true&nsfw_filtering_enabled=false&cursor=GRwmiICwidfJnf8qFozAuPGoksj_KiUkAAA&filter_low_quality=false&include_quality=all&include_ext_edit_control=false&ext=mediaColor%2CaltText%2CmediaStats%2CverifiedType%2CisBlueVerified%2ChighlightedLabel%2ChasNftAvatar%2CvoiceInfo%2Cenrichments%2CsuperFollowMetadata%2CunmentionInfo%2Ccollab_control`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4334,7 +4334,7 @@ const API = {
         },
         deleteMessage: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.twitter.com/1.1/dm/destroy.json`, {
+                fetch(`https://api.${location.hostname}/1.1/dm/destroy.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4353,7 +4353,7 @@ const API = {
         },
         deleteConversation: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/1.1/dm/conversation/${id}/delete.json`, {
+                fetch(`/i/api/1.1/dm/conversation/${id}/delete.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4375,7 +4375,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 let obj = {"count":50,"includePromotedContent":false};
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/3OjEFzT2VjX-X7w4KYBJRg/Bookmarks?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"graphql_timeline_v2_bookmark_timeline":true,"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_rich_text_read_enabled":true,"responsive_web_enhance_cards_enabled":false}))}`, {
+                fetch(`/i/api/graphql/3OjEFzT2VjX-X7w4KYBJRg/Bookmarks?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"graphql_timeline_v2_bookmark_timeline":true,"blue_business_profile_image_shape_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_rich_text_read_enabled":true,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4411,7 +4411,7 @@ const API = {
         },
         deleteAll: () => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/skiACZKC1GDYli-M8RzEPQ/BookmarksAllDelete`, {
+                fetch(`/i/api/graphql/skiACZKC1GDYli-M8RzEPQ/BookmarksAllDelete`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4430,7 +4430,7 @@ const API = {
         },
         create: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/aoDbu3RHznuiSkQ9aNM67Q/CreateBookmark`, {
+                fetch(`/i/api/graphql/aoDbu3RHznuiSkQ9aNM67Q/CreateBookmark`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4450,7 +4450,7 @@ const API = {
         },
         delete: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/Wlmlj2-xzyS1GN3a6cj-mQ/DeleteBookmark`, {
+                fetch(`/i/api/graphql/Wlmlj2-xzyS1GN3a6cj-mQ/DeleteBookmark`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4473,7 +4473,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 let obj = {"listId":id,"count":40};
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
+                fetch(`/i/api/graphql/2Vjeyo_L0nizAUhHe3fKyA/ListLatestTweetsTimeline?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"rweb_lists_timeline_redesign_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":false,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_media_download_video_enabled":false,"responsive_web_enhance_cards_enabled":false}))}`, {
                     headers: {
                         "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4545,7 +4545,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 let obj = {"listId":id,"count":20,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true,"withSafetyModeUserFields":true};
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/sXFXEmtFr3nLyG1dmS81jw/ListMembers?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+                fetch(`/i/api/graphql/sXFXEmtFr3nLyG1dmS81jw/ListMembers?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4583,7 +4583,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 let obj = {"listId":id,"count":20,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true,"withSafetyModeUserFields":true};
                 if(cursor) obj.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/LxXoouvfd5E8PXsdrQ0iMg/ListSubscribers?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+                fetch(`/i/api/graphql/LxXoouvfd5E8PXsdrQ0iMg/ListSubscribers?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4625,7 +4625,7 @@ const API = {
                         debugLog('list.get', 'cache', id, d.listData[id].data);
                         return resolve(d.listData[id].data);
                     }
-                    fetch(`https://twitter.com/i/api/graphql/vxx-Y8zadpAP64HHiw4hMQ/ListByRestId?variables=${encodeURIComponent(JSON.stringify({"listId":id,"withSuperFollowsUserFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false}))}`, {
+                    fetch(`/i/api/graphql/vxx-Y8zadpAP64HHiw4hMQ/ListByRestId?variables=${encodeURIComponent(JSON.stringify({"listId":id,"withSuperFollowsUserFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false}))}`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4656,7 +4656,7 @@ const API = {
         },
         subscribe: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/nymTz5ek0FQPC3kh63Tp1w/ListSubscribe`, {
+                fetch(`/i/api/graphql/nymTz5ek0FQPC3kh63Tp1w/ListSubscribe`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4682,7 +4682,7 @@ const API = {
         },
         unsubscribe: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/Wi5-aG4bvTmdjyRyRGkyhA/ListUnsubscribe`, {
+                fetch(`/i/api/graphql/Wi5-aG4bvTmdjyRyRGkyhA/ListUnsubscribe`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4708,7 +4708,7 @@ const API = {
         },
         update: (id, name, description, isPrivate) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/P9YDuvCt6ogRf-kyr5E5xw/UpdateList`, {
+                fetch(`/i/api/graphql/P9YDuvCt6ogRf-kyr5E5xw/UpdateList`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4747,7 +4747,7 @@ const API = {
         },
         delete: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/UnN9Th1BDbeLjpgjGSpL3Q/DeleteList`, {
+                fetch(`/i/api/graphql/UnN9Th1BDbeLjpgjGSpL3Q/DeleteList`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4774,7 +4774,7 @@ const API = {
         },
         addMember: (listId, userId) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/RKtQuzpcy2gym71UorWg6g/ListAddMember`, {
+                fetch(`/i/api/graphql/RKtQuzpcy2gym71UorWg6g/ListAddMember`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4800,7 +4800,7 @@ const API = {
         },
         removeMember: (listId, userId) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/mDlp1UvnnALC_EzybKAMtA/ListRemoveMember`, {
+                fetch(`/i/api/graphql/mDlp1UvnnALC_EzybKAMtA/ListRemoveMember`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4830,7 +4830,7 @@ const API = {
                     if(d.myLists && Date.now() - d.myLists.date < 60000 * 10) {
                         return resolve(d.myLists.data);
                     }
-                    fetch(`https://twitter.com/i/api/graphql/cl2dF-zeGiLvZDsMGZhL4g/ListsManagementPageTimeline?variables=${encodeURIComponent(JSON.stringify({"count":100,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+                    fetch(`/i/api/graphql/cl2dF-zeGiLvZDsMGZhL4g/ListsManagementPageTimeline?variables=${encodeURIComponent(JSON.stringify({"count":100,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
                         headers: {
                             "authorization": OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4861,7 +4861,7 @@ const API = {
         },
         create: (name, description, isPrivate) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/x5aSMDodNU02VT1VRyW48A/CreateList`, {
+                fetch(`/i/api/graphql/x5aSMDodNU02VT1VRyW48A/CreateList`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4887,7 +4887,7 @@ const API = {
         },
         getOwnerships: (myId, userId) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/6E69fsenLDPDcprqtogzdw/ListOwnerships?variables=${encodeURIComponent(JSON.stringify({"userId":myId,"isListMemberTargetUserId":userId,"count":100,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+                fetch(`/i/api/graphql/6E69fsenLDPDcprqtogzdw/ListOwnerships?variables=${encodeURIComponent(JSON.stringify({"userId":myId,"isListMemberTargetUserId":userId,"count":100,"withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true}))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":false,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4915,7 +4915,7 @@ const API = {
     circle: {
         getCircles: () => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/QjN8ZdavFDqxUjNn3r9cig/AuthenticatedUserTFLists?variables=%7B%7D`, {
+                fetch(`/i/api/graphql/QjN8ZdavFDqxUjNn3r9cig/AuthenticatedUserTFLists?variables=%7B%7D`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4941,7 +4941,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 let variables = {"trustedFriendsId":id,"cursor":cursor, count: 150};
                 let features = {"responsive_web_graphql_timeline_navigation_enabled":false};
-                fetch(`https://twitter.com/i/api/graphql/i3_opgZeSaeWbfyFQjZ5Sw/TrustedFriendsMembersQuery?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`, {
+                fetch(`/i/api/graphql/i3_opgZeSaeWbfyFQjZ5Sw/TrustedFriendsMembersQuery?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -4965,7 +4965,7 @@ const API = {
         },
         removeUser: (circle_id, circle_rest_id, item_id, user_id) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/fl9NbcQB1UE5uiYvEHfHGA/TrustedFriendsAddRemoveButtonRemoveMutation`, {
+                fetch(`/i/api/graphql/fl9NbcQB1UE5uiYvEHfHGA/TrustedFriendsAddRemoveButtonRemoveMutation`, {
                     method: "POST",
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -5002,7 +5002,7 @@ const API = {
         },
         addUser: (circle_id, circle_rest_id, user_id) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/QFcDZhljP_e9bzeT8saZ3A/TrustedFriendsAddRemoveButtonAddMutation`, {
+                fetch(`/i/api/graphql/QFcDZhljP_e9bzeT8saZ3A/TrustedFriendsAddRemoveButtonAddMutation`, {
                     method: "POST",
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -5042,7 +5042,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 let variables = {"rest_id": id,"context":"{}","withSuperFollowsUserFields":true,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withSuperFollowsTweetFields":true};
                 if(cursor) variables.cursor = cursor;
-                fetch(`https://twitter.com/i/api/graphql/4exqISyA1-LejxLHY4RqJA/TopicLandingPage?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":true,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
+                fetch(`/i/api/graphql/4exqISyA1-LejxLHY4RqJA/TopicLandingPage?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify({"responsive_web_graphql_timeline_navigation_enabled":false,"unified_cards_ad_metadata_container_dynamic_card_content_query_enabled":true,"dont_mention_me_view_api_enabled":true,"responsive_web_uc_gql_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"responsive_web_enhance_cards_enabled":true}))}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -5066,7 +5066,7 @@ const API = {
         },
         notInterested: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/cPCFdDAaqRjlMRYInZzoDA/TopicNotInterested`, {
+                fetch(`/i/api/graphql/cPCFdDAaqRjlMRYInZzoDA/TopicNotInterested`, {
                     method: "POST",
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -5092,7 +5092,7 @@ const API = {
         },
         undoNotInterested: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/4tVnt6FoSxaX8L-mDDJo4Q/TopicUndoNotInterested`, {
+                fetch(`/i/api/graphql/4tVnt6FoSxaX8L-mDDJo4Q/TopicUndoNotInterested`, {
                     method: "POST",
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -5118,7 +5118,7 @@ const API = {
         },
         follow: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/ElqSLWFmsPL4NlZI5e1Grg/TopicFollow`, {
+                fetch(`/i/api/graphql/ElqSLWFmsPL4NlZI5e1Grg/TopicFollow`, {
                     method: "POST",
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
@@ -5144,7 +5144,7 @@ const API = {
         },
         unfollow: id => {
             return new Promise((resolve, reject) => {
-                fetch(`https://twitter.com/i/api/graphql/srwjU6JM_ZKTj_QMfUGNcw/TopicUnfollow`, {
+                fetch(`/i/api/graphql/srwjU6JM_ZKTj_QMfUGNcw/TopicUnfollow`, {
                     method: "POST",
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,

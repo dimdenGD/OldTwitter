@@ -39,7 +39,7 @@
     "remove_poll": { "message": "เอาโพลออก" },
     "open_newtwitter": { "message": "เปิดหน้านี้ในทวิตเตอร์ใหม่" },
     "last_version": { "message": "เวอร์ชั่นที่เเล้ว" },
-    "thank_you": { "message": "ขอบคุณที่ติดตั้ง OldTwitter!! เราหวังว่าคุณจะชอบมัน โปรดดู <a target=\"_blank\" href=\"https://twitter.com/old/settings\">การตั้งค่า extension</a>!" },
+    "thank_you": { "message": "ขอบคุณที่ติดตั้ง OldTwitter!! เราหวังว่าคุณจะชอบมัน โปรดดู <a target=\"_blank\" href=\"/old/settings\">การตั้งค่า extension</a>!" },
     "follow_mb": { "message": "ติดตามฉันไหม?" },
     "follow": { "message": "ติดตาม" },
     "unfollow": { "message": "เลิกติดตาม" },

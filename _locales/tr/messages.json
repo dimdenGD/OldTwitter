@@ -133,7 +133,7 @@
         "message": "son sürüm"
     },
     "thank_you": {
-        "message": "OldTwitter'ı kurduğunuz için teşekkürler!! Umarım beğenirsiniz. <a target=\"_blank\" href=\"https://twitter.com/old/settings\">eklenti ayarlarına</a> göz atın!"
+        "message": "OldTwitter'ı kurduğunuz için teşekkürler!! Umarım beğenirsiniz. <a target=\"_blank\" href=\"/old/settings\">eklenti ayarlarına</a> göz atın!"
     },
     "follow_mb": {
         "message": "Beni takip et?"
@@ -1157,7 +1157,7 @@
         "message": "Kullanıcı tweetlerini ara"
     },
     "no_tl_tweets": {
-        "message": "Kimseyi takip etmediğin için bir şey bulunamadı! Zaman akışı türünü şuradan 'Algoritmik'e çevir: <a href='https://twitter.com/old/settings'>OldTwitter ayarları</a>."
+        "message": "Kimseyi takip etmediğin için bir şey bulunamadı! Zaman akışı türünü şuradan 'Algoritmik'e çevir: <a href='/old/settings'>OldTwitter ayarları</a>."
     },
     "replying_to": {
         "message": "Yanıt veriliyor",

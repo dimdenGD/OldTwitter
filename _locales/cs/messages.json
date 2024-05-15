@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Děkuji za instalování OldTwitteru!!! Doufám, že se Vám bude líbit. Podívejte se na $AT1$nastavení rozšíření$AT2$!",
         "placeholders": {
-                "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+                "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "Nepřekládat tweety automaticky" },
     "round_avatars": { "message": "Kulaté avatary" },
     "search_user_tweets": { "message": "Prohledat tweety uživatele" },
-    "no_tl_tweets": { "message": "Nikoho nesledujete, takže nebyly nalezeny žádné tweety! Změňte vaši časovou osu na 'Algoritmicky' v <a href='https://twitter.com/old/settings'>nastavení OldTwitteru</a>." },
+    "no_tl_tweets": { "message": "Nikoho nesledujete, takže nebyly nalezeny žádné tweety! Změňte vaši časovou osu na 'Algoritmicky' v <a href='/old/settings'>nastavení OldTwitteru</a>." },
     "replying_to": { "message": "Odpovídá na", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Zobrazení", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Zobrazit fajfky Twitter Blue" },

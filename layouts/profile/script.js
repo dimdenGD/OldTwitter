@@ -162,16 +162,16 @@ function updateSelection() {
         document.getElementById('followers_you_follow-more').hidden = true;
         document.getElementById('lists-list').hidden = false;
     } 
-    document.getElementById('profile-stat-tweets-link').href = `https://twitter.com/${pageUser.screen_name}`;
-    document.getElementById('profile-stat-following-link').href = `https://twitter.com/${pageUser.screen_name}/following`;
-    document.getElementById('profile-stat-followers-link').href = `https://twitter.com/${pageUser.screen_name}/followers`;
-    document.getElementById('profile-stat-favorites-link').href = `https://twitter.com/${pageUser.screen_name}/likes`;
-    document.getElementById('profile-stat-media-link').href = `https://twitter.com/${pageUser.screen_name}/media`;
-    document.getElementById('tweet-nav-tweets').href = `https://twitter.com/${pageUser.screen_name}`;
-    document.getElementById('tweet-nav-replies').href = `https://twitter.com/${pageUser.screen_name}/with_replies`;
-    document.getElementById('tweet-nav-media').href = `https://twitter.com/${pageUser.screen_name}/media`;
-    document.getElementById('profile-stat-following-mobile').href = `https://twitter.com/${pageUser.screen_name}/following`;
-    document.getElementById('profile-stat-followers-mobile').href = `https://twitter.com/${pageUser.screen_name}/followers`;
+    document.getElementById('profile-stat-tweets-link').href = `/${pageUser.screen_name}`;
+    document.getElementById('profile-stat-following-link').href = `/${pageUser.screen_name}/following`;
+    document.getElementById('profile-stat-followers-link').href = `/${pageUser.screen_name}/followers`;
+    document.getElementById('profile-stat-favorites-link').href = `/${pageUser.screen_name}/likes`;
+    document.getElementById('profile-stat-media-link').href = `/${pageUser.screen_name}/media`;
+    document.getElementById('tweet-nav-tweets').href = `/${pageUser.screen_name}`;
+    document.getElementById('tweet-nav-replies').href = `/${pageUser.screen_name}/with_replies`;
+    document.getElementById('tweet-nav-media').href = `/${pageUser.screen_name}/media`;
+    document.getElementById('profile-stat-following-mobile').href = `/${pageUser.screen_name}/following`;
+    document.getElementById('profile-stat-followers-mobile').href = `/${pageUser.screen_name}/followers`;
 
     if(pageUser.statuses_count === 0 && !( pageUser.blocked_by || pageUser.blocking || pageUser.protected ) && (subpage === 'profile' || subpage === 'replies')) {
         document.getElementById('trends').hidden = true;
@@ -198,27 +198,27 @@ function updateUserData() {
         ]).catch(e => {
             document.getElementById('loading-box').hidden = false;
             if(String(e).includes('User has been suspended.')) {
-                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_suspended.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_suspended.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
             }
             if(String(e).includes("reading 'result'")) {
-                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
             }
-            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="/home">${LOC.go_homepage.message}</a>`;
         });
         if(oldUser.reason) {
             let e = oldUser.reason;
             if(String(e).includes('User has been suspended.')) {
                 document.getElementById('loading-box').hidden = false;
-                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_suspended.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_suspended.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
             }
         }
         if(pageUserData.reason) {
             let e = pageUserData.reason;
             document.getElementById('loading-box').hidden = false;
             if(String(e).includes("reading 'result'")) {
-                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_not_found.message}<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+                return document.getElementById('loading-box-error').innerHTML = `${LOC.user_was_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
             }
-            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="https://twitter.com/home">${LOC.go_homepage.message}</a>`;
+            return document.getElementById('loading-box-error').innerHTML = `${String(e)}.<br><a href="/home">${LOC.go_homepage.message}</a>`;
         }
         followersYouFollowData = followersYouFollowData.value;
         oldUser = oldUser.value;
@@ -502,7 +502,7 @@ function updateUserData() {
         resolve(u);
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
+            window.location.href = "/i/flow/login?newtwitter=true";
         }
         console.error(e);
         reject(e);
@@ -538,13 +538,13 @@ async function updateTimeline() {
                     tl = tl.tweets;
                 }
             } else if(user_blocked_by) {
-                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                 return;
             }else if(user_protected) {
-                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                 return;
             }/*else if(user_blocking) {
-                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
+                document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
                 return;
             }*/
         } catch(e) {
@@ -964,7 +964,7 @@ async function renderLists() {
                 } catch(e) {
                     return document.getElementById('list-editor-error').innerText = e && e.message ? e.message : e;
                 }
-                location.href = `https://twitter.com/i/lists/${list.id_str}`;
+                location.href = `/i/lists/${list.id_str}`;
             });
         });
     }
@@ -975,7 +975,7 @@ async function renderLists() {
         listElement.classList.add('list-item');
         listElement.innerHTML = /*html*/`
             <div>
-                <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                <a href="/i/lists/${l.id_str}" class="following-item-link">
                     <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                     <div class="following-item-text" style="position: relative;bottom: 12px;">
                         <span class="tweet-header-name following-item-name${l.mode === 'Private' ? ' user-protected' : ''}" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
@@ -1053,11 +1053,11 @@ async function renderProfile() {
     }
     document.getElementById('profile-username').innerText = `@${pageUser.screen_name}`;
     document.getElementById('nav-profile-username').innerText = `@${pageUser.screen_name}`;
-    document.getElementById('profile-media-text').href = `https://twitter.com/${pageUser.screen_name}/media`;
+    document.getElementById('profile-media-text').href = `/${pageUser.screen_name}/media`;
 
     updateSelection();
 
-    document.getElementById('profile-bio').innerHTML = escapeHTML(pageUser.description).replace(/\n\n\n\n/g, "\n").replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>');
+    document.getElementById('profile-bio').innerHTML = escapeHTML(pageUser.description).replace(/\n\n\n\n/g, "\n").replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="/$1">@$1</a>`).replace(hashtagRegex, `<a href="/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>');
     let strippedDownText = pageUser.description
         .replace(/(?:https?|ftp):\/\/[\n\S]+/g, '') //links
         .replace(/(?<!\w)@([\w+]{1,15}\b)/g, '') //mentions
@@ -1086,7 +1086,7 @@ async function renderProfile() {
             span.innerHTML = `
                 <br>
                 <span class='piu-a'>${translatedMessage}:</span>
-                <span>${escapeHTML(translated.translation).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="https://twitter.com/$1">@$1</a>`).replace(hashtagRegex, `<a href="https://twitter.com/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>')}</span>
+                <span>${escapeHTML(translated.translation).replace(/((http|https|ftp):\/\/[\w?=.\/-;#~%-]+(?![\w\s?&.\/;#~%"=-]*>))/g, '<a href="$1">$1</a>').replace(/(?<!\w)@([\w+]{1,15}\b)/g, `<a href="/$1">@$1</a>`).replace(hashtagRegex, `<a href="/hashtag/$2">#$2</a>`).replace(/\n/g, '<br>')}</span>
             `;
             translateBtn.hidden = true;
             document.getElementById('profile-bio').append(span);
@@ -1095,7 +1095,7 @@ async function renderProfile() {
                 let realLink = pageUser.entities.description.urls.find(u => u.url === link.href);
                 if (realLink) {
                     link.href = realLink.expanded_url;
-                    if(!link.href.startsWith('https://twitter.com/')) link.target = '_blank';
+                    if(!link.href.startsWith('/')) link.target = '_blank';
                     link.innerText = realLink.display_url;
                 }
             });
@@ -1146,7 +1146,7 @@ async function renderProfile() {
     }
     if(pageUser.blocking && !pageUser.blocked_by)  {
         document.getElementById('no-tweets').hidden = false;
-        document.getElementById('no-tweets').innerHTML = `<div dir="auto" style="color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
+        document.getElementById('no-tweets').innerHTML = `<div dir="auto" style="color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
         document.getElementById('timeline').hidden = true; 
         document.getElementById('tweet-nav').hidden = true; 
         document.getElementById('see-tweet-btn').addEventListener('click', async () => {
@@ -1186,7 +1186,7 @@ async function renderProfile() {
         } else {
             friendsFollowingText.innerText = `${followersYouFollow.total_count} ${LOC.followers_you_know.message}`;
         }
-        friendsFollowingText.href = `https://twitter.com/${pageUser.screen_name}/followers_you_follow`;
+        friendsFollowingText.href = `/${pageUser.screen_name}/followers_you_follow`;
         friendsFollowingText
         followersYouFollow.users.forEach(u => {
             let a = document.createElement('a');
@@ -1217,7 +1217,7 @@ async function renderProfile() {
             delete localStorage.OTisBlueVerified;
         }
         buttonsElement.innerHTML = /*html*/`
-            <a class="nice-button" id="edit-profile" target="_blank" href="https://twitter.com/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>
+            <a class="nice-button" id="edit-profile" target="_blank" href="/settings/profile?newtwitter=true">${LOC.edit_profile.message}</a>
             <button class="profile-additional-thing nice-button" id="profile-style"></button>
         `;
         let profileStyleActive = false;
@@ -1434,7 +1434,7 @@ async function renderProfile() {
                         //disable timeline
                         //recycle no-tweets
                         document.getElementById('no-tweets').hidden = false;
-                        document.getElementById('no-tweets').innerHTML = `<div dir="auto" style="color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
+                        document.getElementById('no-tweets').innerHTML = `<div dir="auto" style="color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
                         document.getElementById('timeline').hidden = true; 
                         document.getElementById('tweet-nav').hidden = true; 
                         document.getElementById('see-tweet-btn').addEventListener('click', async () => {
@@ -1577,7 +1577,7 @@ async function renderProfile() {
                 listElement.classList.add('list-item');
                 listElement.innerHTML = `
                     <div style="display:inline-block;">
-                        <a href="https://twitter.com/i/lists/${l.id_str}" class="following-item-link">
+                        <a href="/i/lists/${l.id_str}" class="following-item-link">
                             <img style="object-fit: cover;" src="${l.custom_banner_media ? l.custom_banner_media.media_info.original_img_url : l.default_banner_media.media_info.original_img_url}" alt="${l.name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                             <div class="following-item-text" style="position: relative;bottom: 12px;">
                                 <span class="tweet-header-name following-item-name" style="font-size: 18px;">${escapeHTML(l.name)}</span><br>
@@ -1606,12 +1606,12 @@ async function renderProfile() {
         });
         document.getElementById('profile-settings-lists').addEventListener('mousedown', e => {
             if(e.button === 1) {
-                openInNewTab(`https://twitter.com/${pageUser.screen_name}/lists`);
+                openInNewTab(`/${pageUser.screen_name}/lists`);
             }
         });
         document.getElementById('profile-settings-lists').addEventListener('click', async () => {
             // document.getElementById('loading-box').hidden = false;
-            history.pushState({}, null, `https://twitter.com/${pageUser.screen_name}/lists`);
+            history.pushState({}, null, `/${pageUser.screen_name}/lists`);
             everAddedAdditional = false;
             mediaToUpload = [];
             document.getElementById('profile-media-div').innerHTML = '';
@@ -1623,10 +1623,10 @@ async function renderProfile() {
             renderLists();
         });
         document.getElementById('profile-settings-share').addEventListener('click', async () => {
-            navigator.share({ url: `https://twitter.com/${pageUser.screen_name}` });
+            navigator.share({ url: `/${pageUser.screen_name}` });
         });
         document.getElementById('profile-settings-copy').addEventListener('click', async () => {
-            navigator.clipboard.writeText(`https://twitter.com/${pageUser.screen_name}`);
+            navigator.clipboard.writeText(`/${pageUser.screen_name}`);
         });
         if(document.getElementById('profile-settings-copy-id')) document.getElementById('profile-settings-copy-id').addEventListener('click', async () => {
             navigator.clipboard.writeText(pageUser.id_str);
@@ -1638,7 +1638,7 @@ async function renderProfile() {
         let realLink = pageUser.entities.description.urls.find(u => u.url === link.href);
         if (realLink) {
             link.href = realLink.expanded_url;
-            if(!link.href.startsWith('https://twitter.com/')) link.target = '_blank';
+            if(!link.href.startsWith('/')) link.target = '_blank';
             link.innerText = realLink.display_url;
         }
     });
@@ -1668,7 +1668,7 @@ async function renderProfile() {
         let realUrl = pageUser.entities.url.urls[0];
         url.innerText = realUrl.display_url;
         url.href = realUrl.expanded_url;
-        if(!url.href.startsWith('https://twitter.com/')) url.target = "_blank";
+        if(!url.href.startsWith('/')) url.target = "_blank";
         additionalInfo.appendChild(url);
     }
     if(pageUser.professional && pageUser.professional.category && pageUser.professional.category[0]) {
@@ -1729,7 +1729,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
             if(pageUser.id_str === user.id_str) t.retweeted_status.current_user_retweet = t;
             await appendTweet(t.retweeted_status, timelineContainer, {
                 top: {
-                    text: `<a href="https://twitter.com/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
+                    text: `<a href="/${t.user.screen_name}">${escapeHTML(t.user.name)}</a> ${LOC.retweeted.message}`,
                     icon: "\uf006",
                     color: "#77b255",
                     class: 'retweet-label'
@@ -1920,13 +1920,13 @@ setTimeout(async () => {
                         }
                     }
                 } else if (user_blocked_by)  {
-                    document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                    document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.blocked_by_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.why_you_cant_see_block_user.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                     return;
                 } else if (user_protected) {
-                    document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                    document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.user_protected.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.follow_to_see.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
                     return;
                 } /*else if (user_blocking)  {
-                  document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="https://twitter.com/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
+                  document.getElementById("timeline").innerHTML = `<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.you_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.do_you_want_see_blocked_user.message.replace("$SCREEN_NAME$",pageUser.screen_name)}</p><button class="nice-button" id="see-tweet-btn">${LOC.I_want_see_blocked_user.message}</button> </div>`;
                 
                     return;
                 }*/
@@ -2126,7 +2126,7 @@ setTimeout(async () => {
                 document.getElementById('tweet-to-bg').hidden = true;
                 document.getElementById('profile-additional').innerHTML = '';
                 document.getElementById('profile-friends-div').innerHTML = '';
-                history.pushState({}, null, `https://twitter.com/${path.substring(1)}`);
+                history.pushState({}, null, `/${path.substring(1)}`);
                 updateSubpage();
                 updateSelection();
                 await updateUserData();

@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Dzięki za instalację OldTwitter!! Mam nadzieję, że ci się spodoba. Sprawdź $AT1$ustawienia rozszrzenia$AT2$!",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
      },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "Nie tłumacz tweetów" },
     "round_avatars": { "message": "Zaokrąglaj awatary" },
     "search_user_tweets": { "message": "Szukaj tweety użytkownika" },
-    "no_tl_tweets": { "message": "Nie obserwujesz nikogo więc nie znaleziono żadnych tweetów! Zmień typ swojej strony głownej na 'Algorytmiczna' w <a href='https://twitter.com/old/settings'>ustawieniach OldTwittera</a>." },
+    "no_tl_tweets": { "message": "Nie obserwujesz nikogo więc nie znaleziono żadnych tweetów! Zmień typ swojej strony głownej na 'Algorytmiczna' w <a href='/old/settings'>ustawieniach OldTwittera</a>." },
     "replying_to": { "message": "W odpowiedzi do", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Wygląd" },
     "twitter_blue_checkmarks": { "message": "Pokaż znacznik Twitter Blue" },

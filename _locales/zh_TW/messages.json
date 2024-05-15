@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "感謝你安裝 OldTwitter！！希望你會喜歡。<br>查看$AT1$擴充功能設定$AT2$！",
         "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" },
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
         }
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "不要自動翻譯推文" },
     "round_avatars": { "message": "圓形頭像" },
     "search_user_tweets": { "message": "搜尋使用者推文" },
-    "no_tl_tweets": { "message": "你沒有跟隨任何人，所以沒有找到任何推文！<br>你可以嘗試在側邊欄或<a href='https://twitter.com/old/settings'>設定</a>把時間軸類型設為「推薦演算法」。" },
+    "no_tl_tweets": { "message": "你沒有跟隨任何人，所以沒有找到任何推文！<br>你可以嘗試在側邊欄或<a href='/old/settings'>設定</a>把時間軸類型設為「推薦演算法」。" },
     "replying_to": { "message": "回覆給", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "外觀", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "顯示 X Premium (Twitter Blue) 訂閱者藍勾" },

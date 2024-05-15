@@ -115,7 +115,7 @@ function updateUserData() {
         renderUserData();
     }).catch(e => {
         if (e === "Not logged in") {
-            window.location.href = "https://twitter.com/i/flow/login?newtwitter=true";
+            window.location.href = "/i/flow/login?newtwitter=true";
         }
         console.error(e);
     });
@@ -284,7 +284,7 @@ async function updateRetweets(id, c) {
         tweet.style.marginBottom = '10px';
         tweet.style.borderRadius = '5px';
         let h1 = document.createElement('h1');
-        h1.innerHTML = `${LOC.retweeted_by.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
+        h1.innerHTML = `${LOC.retweeted_by.message} (<a href="/aabehhh/status/${id}/retweets/with_comments">${LOC.see_quotes.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
     }
@@ -300,7 +300,7 @@ async function updateRetweets(id, c) {
         retweetElement.classList.add('following-item');
         retweetElement.innerHTML = `
         <div>
-            <a href="https://twitter.com/${u.screen_name}" class="following-item-link">
+            <a href="/${u.screen_name}" class="following-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="following-item-avatar tweet-avatar" width="48" height="48">
                 <div class="following-item-text">
                     <span class="tweet-header-name following-item-name">${escapeHTML(u.name)}</span><br>
@@ -348,7 +348,7 @@ async function updateRetweetsWithComments(id, c) {
         let t = await API.tweet.getV2(id);
         retweetDiv.innerHTML = '';
         let h1 = document.createElement('h1');
-        h1.innerHTML = `${LOC.quote_tweets.message} (<a href="https://twitter.com/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
+        h1.innerHTML = `${LOC.quote_tweets.message} (<a href="/aabehhh/status/${id}/retweets">${LOC.see_retweets.message}</a>)`;
         h1.className = 'cool-header';
         retweetDiv.appendChild(h1);
     }
@@ -372,9 +372,9 @@ function renderUserData() {
     document.getElementById('user-name').classList.toggle('user-protected', user.protected);
 
     document.getElementById('user-handle').innerText = `@${user.screen_name}`;
-    document.getElementById('user-tweets-div').href = `https://twitter.com/${user.screen_name}`;
-    document.getElementById('user-following-div').href = `https://twitter.com/${user.screen_name}/following`;
-    document.getElementById('user-followers-div').href = `https://twitter.com/${user.screen_name}/followers`;
+    document.getElementById('user-tweets-div').href = `/${user.screen_name}`;
+    document.getElementById('user-following-div').href = `/${user.screen_name}/following`;
+    document.getElementById('user-followers-div').href = `/${user.screen_name}/followers`;
     document.getElementById('user-tweets').innerText = formatLargeNumber(user.statuses_count).replace(/\s/g, ',');
     if(user.statuses_count >= 100000 && vars.showExactValues) {
         let style = document.createElement('style');
@@ -388,9 +388,9 @@ function renderUserData() {
     document.getElementById('user-followers').innerText = formatLargeNumber(user.followers_count).replace(/\s/g, ',');
     document.getElementById('user-banner').src = user.profile_banner_url ? user.profile_banner_url : 'https://abs.twimg.com/images/themes/theme1/bg.png';
     document.getElementById('user-avatar').src = `${(user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(user.id_str) % 7}_normal.png`): user.profile_image_url_https}`.replace("_normal", "_400x400");
-    document.getElementById('wtf-viewall').href = `https://twitter.com/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
-    document.getElementById('user-avatar-link').href = `https://twitter.com/${user.screen_name}`;
-    document.getElementById('user-info').href = `https://twitter.com/${user.screen_name}`;
+    document.getElementById('wtf-viewall').href = `/i/connect_people?newtwitter=true&user_id=${user.id_str}`;
+    document.getElementById('user-avatar-link').href = `/${user.screen_name}`;
+    document.getElementById('user-info').href = `/${user.screen_name}`;
 
     if(vars.enableTwemoji) twemoji.parse(document.getElementById('user-name'));
     document.getElementById('loading-box').hidden = true;
@@ -778,7 +778,7 @@ setTimeout(async () => {
         let id = realPath.split("/i/web/status/")[1];
         if (id.endsWith("/")) id = id.slice(0, -1);
         let tweet = await API.tweet.getV2(id);
-        location.replace(`https://twitter.com/${tweet.user.screen_name}/status/${id}`);
+        location.replace(`/${tweet.user.screen_name}/status/${id}`);
         return;
     }
     // weird bug

@@ -43,7 +43,7 @@
     "thank_you": {
         "message": "Mulțumesc că ați intstalat OldTwitter!! Sper că o să vă placă. Verificați $AT1$Setările extensiei$AT2$!", 
         "placeholders": { 
-            "at1": { "content": "<a target=\"_blank\" href=\"https://twitter.com/old/settings\">" }, 
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" }, 
             "at2": { "content": "</a>" }     
         } 
     },
@@ -366,7 +366,7 @@
     "dont_autotranslate": { "message": "Nu traduceți automat tweet-urile" },
     "round_avatars": { "message": "Avatare rotundzi" },
     "search_user_tweets": { "message": "Căutați tweet-urile utilizatorilor" },
-    "no_tl_tweets": { "message": "Nu urmărești pe nimeni, deci nu a fost găsit nici un tweet! Schimbați tipul de cronologie la \"Algoritmic\" în <a href='https://twitter.com/old/settings'>setările OldTwitter</a>." },
+    "no_tl_tweets": { "message": "Nu urmărești pe nimeni, deci nu a fost găsit nici un tweet! Schimbați tipul de cronologie la \"Algoritmic\" în <a href='/old/settings'>setările OldTwitter</a>." },
     "replying_to": { "message": "Menționează pe", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
     "display": { "message": "Afișaj", "description": "Used for display settings (fonts, colors, style, etc)" },
     "twitter_blue_checkmarks": { "message": "Afișați emblemele Twitter Blue" },
