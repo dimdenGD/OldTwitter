@@ -5196,7 +5196,7 @@ const API = {
                 });
                 if(initAttempts++ > 7) return reject("Failed to initialize media upload");
                 try {
-                    initUpload = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
+                    initUpload = await fetch(`https://upload.${location.hostname}/1.1/media/upload.json`, {
                         headers: { "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                         credentials: "include",
                         method: "post",
@@ -5234,7 +5234,7 @@ const API = {
                     let fd = new FormData();
                     fd.append("media", new Blob([segment], { type: data.media_type }));
                     try {
-                        await fetch(`https://upload.twitter.com/1.1/media/upload.json?command=APPEND&media_id=${mediaId}&segment_index=${i}`, {
+                        await fetch(`https://upload.${location.hostname}/1.1/media/upload.json?command=APPEND&media_id=${mediaId}&segment_index=${i}`, {
                             headers: {
                                 "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session",
                             },
@@ -5262,7 +5262,7 @@ const API = {
                 });
                 if(finalAttempts++ > 7) return reject("Failed to finalize media upload");
                 try {
-                    finalData = await fetch(`https://upload.twitter.com/1.1/media/upload.json`, {
+                    finalData = await fetch(`https://upload.${location.hostname}/1.1/media/upload.json`, {
                         headers: { "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                         credentials: "include",
                         method: "post",
@@ -5294,7 +5294,7 @@ const API = {
                     if(data.cw.length > 0) {
                         obj.sensitive_media_warning = data.cw;
                     }
-                    await fetch(`https://upload.twitter.com/1.1/media/metadata/create.json`, {
+                    await fetch(`https://upload.${location.hostname}/1.1/media/metadata/create.json`, {
                         headers: { "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session" },
                         credentials: "include",
                         method: "post",
@@ -5310,7 +5310,7 @@ const API = {
             let statusTries = 0;
             async function checkStatus() {
                 if(statusTries++ > 60*20) return clearInterval(statusInterval);
-                await fetch(`https://upload.twitter.com/1.1/media/upload.json?${new URLSearchParams({ command: "STATUS", media_id: mediaId }).toString()}`, {
+                await fetch(`https://upload.${location.hostname}/1.1/media/upload.json?${new URLSearchParams({ command: "STATUS", media_id: mediaId }).toString()}`, {
                     headers: { "authorization": OLDTWITTER_CONFIG.public_token, "x-csrf-token": OLDTWITTER_CONFIG.csrf, "x-twitter-auth-type": "OAuth2Session", "content-type": "application/x-www-form-urlencoded; charset=UTF-8" },
                     credentials: "include",
                 }).then(i => i.json()).then(i => {

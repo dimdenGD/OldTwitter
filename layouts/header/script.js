@@ -2357,7 +2357,7 @@ let userDataFunction = async user => {
         if(!el || !el.href) return;
         let url;
         try { url = new URL(el.href.split('?')[0].split('#')[0]) } catch(e) { return };
-        if((!isProfilePath(url.pathname) && !url.pathname.startsWith('/i/user/')) || url.host !== 'twitter.com') return;
+        if((!isProfilePath(url.pathname) && !url.pathname.startsWith('/i/user/')) || (url.host !== 'twitter.com' && url.host !== 'x.com')) return;
         let username, id;
         let path = url.pathname;
         if(path.endsWith('/')) path = path.slice(0, -1);
