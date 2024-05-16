@@ -2114,7 +2114,7 @@ class TweetViewer {
             }
             let tweetObject = {
                 status: text,
-                attachment_url: `/${t.user.screen_name}/status/${t.id_str}`
+                attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`
             };
             if (uploadedMedia.length > 0) {
                 tweetObject.media_ids = uploadedMedia.join(',');
