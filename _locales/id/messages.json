@@ -291,7 +291,7 @@
     "who_can_reply": { "message": "Siapa yang dapat membalas" },
     "people_you_follow": { "message": "Pengguna yang mengikuti" },
     "people_you_mention": { "message": "Pengguna yang disebut" },
-    "new_version": { "message": "Dimutakhirkan ke versi baru" },
+    "new_version": { "message": "Dimutakhirkan ke versi terbaru" },
     "display_sensitive_content": { "message": "Buka sensor media yang ditandai oleh Twitter sebagai konten sensitif secara otomatis" },
     "is_private": { "message": "Pribadi" },
     "s": { "message": "$NUMBER$d", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
