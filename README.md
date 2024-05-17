@@ -5,7 +5,7 @@ This extension doesn't add any CSS on top of original Twitter. It's fully origin
 ## Installation
 
 **Chrome, Edge, Opera, Brave & Chromium browsers:** [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf)  
-**Firefox:** [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/)  
+~~**Firefox:** [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/)~~ Mozilla removed the extension from store. You have to install it manually.  
 
 ## Donate
 
@@ -70,7 +70,14 @@ For stable version:
 - Go to `about:debugging#/runtime/this-firefox`
 - Press "Load Temporary Add-on" and select zip file you downloaded
 
-**Installing this way on Firefox will remove it after closing browser.**
+**Installing this way on Firefox will remove it after closing browser. You need to use Firefox for Developers instead for permament installation (see below).**
+
+#### Firefox for Developers
+
+- Go to `about:config`
+- Set `xpinstall.signatures.required` to `false`
+- Go to `about:addons`
+- Press "Install Add-on From File" and select zip file you downloaded
 
 ## FAQ
 
