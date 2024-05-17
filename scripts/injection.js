@@ -214,7 +214,8 @@ const TRANSLATORS = {
     "id": [
         ["lorizade", "/lorizade"],
         ["Feerse_", "/Feerse_"],
-        ["DaGamerFiles", "/DaGamerFiles"]
+        ["DaGamerFiles", "/DaGamerFiles"],
+        ["KuchingNeko", "/KuchingNeko"]
     ]
 };
 let LOC = {};
