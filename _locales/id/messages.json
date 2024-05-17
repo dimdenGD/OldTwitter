@@ -463,7 +463,7 @@
     "content_you_see": { "message": "Konten yang Anda lihat", "description": "Setting Text" },
     "use_old_style_reply": { "message": "Gunakan balasan sebutan bergaya lama" },
     "algov2": { "message": "Algoritmik (\"Untuk Anda\")" },
-    "chrono_help": { "message": "Linimasa kronologik terbalik klasik (\"Mengikuti\"), menampilkan tweet dan retweet baru di atas tanpa tambahan lain." },
+    "chrono_help": { "message": "Linimasa kronologik terbalik klasik (\"Mengikuti\"), menampilkan tweet dan retweet terbaru di atas tanpa tambahan lain." },
     "chrono_no_retweets_help": { "message": "Sama seperti yang pertama namun tanpa menampilkan retweet." },
     "chrono_retweets_help": { "message": "Sama seperti yang pertama namun hanya menampilkan retweet." },
     "chrono_social_help": { "message": "Campuran antara linimasa kronologi terbalik dan algoritmik, kadang kala 'yang disukai seseorang' dan 'yang diikuti seseorang' akan ada di antara tweet kronologis." },
