@@ -401,7 +401,7 @@
     "chrono_retweets": { "message": "Kronologi terbalik (hanya retweet)" },
     "hide_trends": { "message": "Sembunyikan tren" },
     "hide_wtf": { "message": "Sembunyikan \"Untuk diikuti\"" },
-    "hide_likes": { "message": "Sembunyikan jumlah suka, retweet dan balasan" },
+    "hide_likes": { "message": "Sembunyikan jumlah suka, retweet dan balasan tweet" },
     "hide_followers": { "message": "Sembunyikan jumlah pengikut" },
     "block_sure_desc": { "message": "Mereka tidak dapat mengikuti atau melihat tweet Anda, dan Anda tidak akan melihat tweet atau notifikasi dari @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user": { "message": "@$SCREEN_NAME$ memblokir Anda", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
