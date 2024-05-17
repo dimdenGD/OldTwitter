@@ -391,7 +391,7 @@
     "black_mode_link": { "message": "Tautan mode gelap gulita", "note": "You can name this OLED mode too" },
     "custom_mode_link": { "message": "Tautan mode kustom" },
     "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "Anda yakin ingin men-tweet \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
+    "do_you_want_to_tweet": { "message": "Anda yakin ingin me-tweet \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
     "user_protected": { "message": "Tweet akun ini dilindungi." },
     "follow_to_see": { "message": "Hanya pengikut yang disetujui dapat melihat tweet dan profil lengkap @$SCREEN_NAME$. Klik tombol \"Ikuti\" untuk mengirim permintaan mengikuti.", "placeholders": { "screen_name": { "content": "dimden" } } },
     "copy_tweet_links_as": { "message": "Salin tautan tweet sebagai", "example": "->Copy links as<- vxtwitter.com" },
