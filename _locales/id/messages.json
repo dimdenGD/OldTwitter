@@ -339,8 +339,8 @@
     "schedule": { "message": "Jadwalkan" },
     "scheduled_success": { "message": "Tweet telah dijadwalkan!" },
     "see_scheduled": { "message": "Lihat terjadwal" },
-    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ belum tweet", "placeholders": { "screen_name": { "content": "loading" } } },
-    "when_theyll_tweet": { "message": "Jika sudah, tweet mereka akan terlihat disini." },
+    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ belum ada tweet", "placeholders": { "screen_name": { "content": "loading" } } },
+    "when_theyll_tweet": { "message": "Tweet akan muncul saat tersedia." },
     "thank_you2": {
         "message": "Terima kasih telah menggunakan OldTwitter! Proyek ini memakan waktu dan tenaga untuk memprogramkannya, Anda dapat membantu saya dengan mengikuti Twitter saya atau $AT1$berdonasi$AT2$. Saya akan sangat berterima kasih.",
         "placeholders": { "at1": { "content": "<a target='_blank' href='https://dimden.dev/donate/'>" }, "at2": { "content": "</a>" } }
@@ -468,7 +468,7 @@
     "chrono_retweets_help": { "message": "Sama seperti yang pertama namun hanya menampilkan retweet." },
     "chrono_social_help": { "message": "Campuran antara linimasa kronologi terbalik dan algoritmik, kadang kala 'yang disukai seseorang' dan 'yang diikuti seseorang' akan ada di antara tweet kronologis." },
     "algo_help": {
-        "message": "Linimasa algoritmik lama, menampilkan tweet Twitter yang Anda mungkin sukai. Versi 1 adalah versi lawas dari linimasa ini, dan mungkin tidak memiliki tarif batasan (atau sangat banyak) namun kekurangan alasan mengapa postingan ditambahkan ke linimasa."
+        "message": "Linimasa algoritmik lama, menampilkan tweet Twitter yang Anda mungkin sukai. Versi 1 adalah versi lawas dari linimasa ini, dan mungkin tidak memiliki tarif batasan (atau sangat banyak) namun kekurangan alasan mengapa tweet ditambahkan ke linimasa."
     },
     "algov2_help": { "message": "Linimasa algoritmik (\"Untuk Anda\"), menampilkan tweet yang Twitter pikir Anda akan sukai." },
     "import_settings": { "message": "Impor setelan" },
