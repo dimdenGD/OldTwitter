@@ -70,14 +70,16 @@ For stable version:
 - Go to `about:debugging#/runtime/this-firefox`
 - Press "Load Temporary Add-on" and select zip file you downloaded
 
-**Installing this way on Firefox will remove it after closing browser. You need to use Firefox for Developers instead for permament installation (see below).**
+**Installing this way on Firefox will remove it after closing browser. You need to use [Firefox Developer Edition](https://www.mozilla.org/en-US/firefox/developer/) instead for permament installation (see below).**
 
-#### Firefox for Developers
+#### Firefox Developer Edition
 
 - Go to `about:config`
 - Set `xpinstall.signatures.required` to `false`
 - Go to `about:addons`
 - Press "Install Add-on From File" and select zip file you downloaded
+
+*This reportedly works with [Firefox Extended Support Release](https://www.mozilla.org/en-US/firefox/enterprise/) and [Nightly](https://www.mozilla.org/en-US/firefox/channel/desktop/) as well.*
 
 ## FAQ
 
