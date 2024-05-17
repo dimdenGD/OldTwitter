@@ -359,7 +359,7 @@
     "initialization": { "message": "Inisialisasi" },
     "converting": { "message": "Mengubah" },
     "time_mode": { "message": "Hidupkan mode gelap antara waktu 19:00-09:00" },
-    "show_original_images": { "message": "Selalu perlihatkan kualitas gambar asli (barangkali delay di perangkat yang lamban)" },
+    "show_original_images": { "message": "Selalu perlihatkan kualitas gambar asli (mungkin butuh waktu lebih lama di perangkat yang lambat)" },
     "pitch_black_mode": { "message": "Mode gelap gulita (hanya saat mode gelap diaktifkan)" },
     "hide_retweets": { "message": "Sembunyikan retweet" },
     "see_tweet_views": { "message": "Lihat jumlah tayangan tweet" },
