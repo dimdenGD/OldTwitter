@@ -2882,7 +2882,7 @@ const API = {
         },
         vote: (api, tweet_id, card_uri, card_name, selected_choice) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://caps.twitter.com/v2/capi/${api.split('//')[1]}`, {
+                fetch(`https://caps.${location.hostname}/v2/capi/${api.split('//')[1]}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2907,7 +2907,7 @@ const API = {
         },
         createCard: card_data => {
             return new Promise((resolve, reject) => {
-                fetch(`https://caps.twitter.com/v2/cards/create.json`, {
+                fetch(`https://caps.${location.hostname}/v2/cards/create.json`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
