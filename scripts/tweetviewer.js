@@ -2321,10 +2321,10 @@ class TweetViewer {
             navigator.clipboard.writeText(t.user.id_str);
         });
         if(tweetInteractMoreMenuShare) tweetInteractMoreMenuShare.addEventListener('click', () => {
-            navigator.share({ url: `/${t.user.screen_name}/status/${t.id_str}` });
+            navigator.share({ url: `https://${location.hostname}/${t.user.screen_name}/status/${t.id_str}` });
         });
         tweetInteractMoreMenuShareDMs.addEventListener('click', () => {
-            tweetUrlToShareInDMs = `/${t.user.screen_name}/status/${t.id_str}`;
+            tweetUrlToShareInDMs = `https://${location.hostname}/${t.user.screen_name}/status/${t.id_str}`;
             document.getElementById('messages').click();
             setTimeout(() => {
                 let title = document.querySelector('div.inbox h1.nice-header.larger');
@@ -2332,10 +2332,10 @@ class TweetViewer {
             });
         });
         tweetInteractMoreMenuNewtwitter.addEventListener('click', () => {
-            openInNewTab(`/${t.user.screen_name}/status/${t.id_str}?newtwitter=true`);
+            openInNewTab(`https://${location.hostname}/${t.user.screen_name}/status/${t.id_str}?newtwitter=true`);
         });
         tweetInteractMoreMenuEmbed.addEventListener('click', () => {
-            openInNewTab(`https://publish.twitter.com/?query=/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
+            openInNewTab(`https://publish.${location.hostname}/?query=/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
         });
         if (t.user.id_str === user.id_str) {
             tweetInteractMoreMenuAnalytics.addEventListener('click', () => {
