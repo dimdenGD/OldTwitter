@@ -100,7 +100,7 @@ fetch = async function(url, options) {
 
 async function initChallenge() {
     try {
-        let homepageData = await _fetch('/').then(res => res.text());
+        let homepageData = await _fetch(`https://${location.hostname}/`).then(res => res.text());
         let dom = new DOMParser().parseFromString(homepageData, 'text/html');
         let verificationKey = dom.querySelector('meta[name="twitter-site-verification"]').content;
         let anims = Array.from(dom.querySelectorAll('svg[id^="loading-x"]')).map(svg => svg.outerHTML);
