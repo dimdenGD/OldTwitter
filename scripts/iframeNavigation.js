@@ -49,6 +49,9 @@ function useIframeNavigation(e) {
     if(e.defaultPrevented) return;
     if(typeof vars === 'undefined') return;
     if(!vars.enableIframeNavigation) return;
+    // because of dumb mozilla's policies need to turn off this feature
+    // (they don't allow changing security headers so cant modify x-frame-options)
+    if(navigator.userAgent.toLowerCase().includes('firefox')) return;
 
     let a = e.target.closest('a');
     if(!a || !a.href || a.href.startsWith('#') || a.href.startsWith('javascript:') || a.href.startsWith('blob:')) return;

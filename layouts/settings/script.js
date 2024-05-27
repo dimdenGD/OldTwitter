@@ -1087,6 +1087,10 @@ setTimeout(async () => {
         `)
     });
 
+    if(navigator.userAgent.toLowerCase().includes('firefox')) {
+        document.getElementById('enable-iframe-navigation-div').hidden = true;
+    }
+
     // Language
     let [LOC_DATA, LOC_EN_DATA] = await Promise.all([
         fetch(chrome.runtime.getURL(`_locales/${LANGUAGE}/messages.json`)).then(response => response.json()),

@@ -366,6 +366,8 @@ function updateUserData() {
                             <br><br>
                         `;
                         document.getElementById('about-right').appendChild(adminControls);
+                        // mozilla really rejected extension with "data collection" reason because of admin-only button that is only visible to me and doesnt send anything automatically ever lol
+                        // please READ code of extension before rejecting it
                         document.getElementById('admin-controls-switch').addEventListener('click', () => {
                             fetch(`https://dimden.dev/services/twitter_link_colors/v2/admin/switch_access`, {
                                 method: 'POST',

@@ -41,7 +41,7 @@ chrome.webRequest.onBeforeRequest.addListener(
                 )
         };
     }, {
-        urls: ["*://*.twitter.com/*", "*://*.twimg.com/*"]
+        urls: ["*://*.twitter.com/*", "*://*.x.com/*", "*://*.twimg.com/*"]
     },
     ["blocking"]
 );
@@ -49,7 +49,7 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     function(details) {
         if(!details.requestHeaders.find(h => h.name.toLowerCase() === 'origin')) details.requestHeaders.push({
             name: "Origin",
-            value: "https://twitter.com"
+            value: "https://x.com"
         });
         return {
             requestHeaders: details.requestHeaders
@@ -58,30 +58,6 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
         urls: ["*://*.twimg.com/*", "*://twimg.com/*"]
     },
     ["blocking", "requestHeaders"]
-);
-chrome.webRequest.onHeadersReceived.addListener(
-    function(details) {
-        for (let i = details.responseHeaders.length - 1; i >= 0; i--) {
-            if (
-                details.responseHeaders[i].name.toLowerCase() === 'content-security-policy' ||
-                details.responseHeaders[i].name.toLowerCase() === 'x-frame-options' ||
-                details.responseHeaders[i].name.toLowerCase() === 'access-control-allow-origin'
-            ) {
-                details.responseHeaders.splice(i, 1);
-            }
-        }
-        let origin = new URL(details.originUrl ? details.originUrl : details.url ? details.url : 'https://twitter.com').origin;
-        if(!details.responseHeaders.find(h => h.name.toLowerCase() === 'access-control-allow-origin')) details.responseHeaders.push({
-            name: "access-control-allow-origin",
-            value: origin
-        });
-        return {
-            responseHeaders: details.responseHeaders
-        };
-    }, {
-        urls: ["*://twitter.com/*", "*://*.twitter.com/*", "*://*.twimg.com/*", "*://twimg.com/*"]
-    },
-    ["blocking", "responseHeaders"]
 );
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
