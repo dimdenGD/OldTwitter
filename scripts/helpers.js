@@ -1393,6 +1393,7 @@ function renderMedia(t) {
             >`;
         } else if(m.type === 'animated_gif') {
             let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
+            let rid = m.id_str + m.media_key;
             _html += html`
                 <video
                     ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
@@ -1401,7 +1402,6 @@ function renderMedia(t) {
                     height="${h}"
                     loop
                     disableRemotePlayback
-                    onclick="if(this.paused) this.play(); else this.pause()"
                     ${vars.disableGifAutoplay ? '' : 'autoplay'}
                     muted
                     class="tweet-media-element tweet-media-gif ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
@@ -1917,7 +1917,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText: ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? html`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${m.type === 'animated_gif' ? 'tweet-media-element-quote-gif' : ''} ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? html`
@@ -2058,6 +2058,16 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 </div>
             </article>
         `;
+        // gifs
+        let gifs = Array.from(tweet.querySelectorAll('.tweet-media-gif, .tweet-media-element-quote-gif'));
+        if(gifs.length) {
+            gifs.forEach(gif => {
+                gif.addEventListener('click', () => {
+                    if(gif.paused) gif.play();
+                    else gif.pause();
+                });
+            });
+        }
         // video
         let vidOverlay = tweet.getElementsByClassName('tweet-media-video-overlay')[0];
         if(vidOverlay) {

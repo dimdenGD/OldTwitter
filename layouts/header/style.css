@@ -3256,3 +3256,7 @@ video::-internal-media-controls-overlay-cast-button {
         display:none;
     }
 }
+
+.tweet-media-gif {
+    cursor: pointer;
+}
