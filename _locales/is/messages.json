@@ -19,7 +19,7 @@
     "terms": { "message": "Skilmálar", "description": "Shortest word that you can find for Terms of service" },
     "privacy": { "message": "Persónuverndarstefna", "description": "Shortest word that you can find for Privacy policy" },
     "about": { "message": "Um" },
-    "donate": { "message": "Gefa" },
+    "donate": { "message": "Skenkja" },
     "home": { "message": "Heim", "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline" },
     "notifications": { "message": "Tilkynningar" },
     "messages": { "message": "Skilaboð" },
@@ -340,7 +340,7 @@
     "hasnt_tweeted": { "message": "@$SCREEN_NAME$ hefur ekki tíst", "placeholders": { "screen_name": { "content": "loading" } } },
     "when_theyll_tweet": { "message": "Þegar þeir gera það birtast tíst þeirra hér." },
     "thank_you2": {
-        "message": "Takk fyrir að nota OldTwitter! Það tók mikinn tíma og fyrirhöfn að kóða það, þú getur stutt mig með því að fylgja mér eða $AT1$að gefa$AT2$. Ég væri mjög þakklátur.",
+        "message": "Takk fyrir að nota OldTwitter! Það tók mikinn tíma og fyrirhöfn að kóða það, þú getur stutt mig með því að fylgja mér eða $AT1$að skenkja$AT2$. Ég væri mjög þakklátur.",
         "placeholders": { "at1": { "content": "<a target='_blank' href='https://dimden.dev/donate/'>" }, "at2": { "content": "</a>" } }
     },
     "something_went_wrong": { "message": "Eitthvað fór úrskeiðis" },
