@@ -965,7 +965,10 @@ let userDataFunction = async user => {
                     if(attachment.photo) {
                         let photo = attachment.photo;
                         let photoElement = document.createElement('img');
-                        photoElement.src = photo.media_url_https + (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? ':small' : '');
+                        let photoMediaUrl = new URL(photo.media_url_https)
+                        photoMediaUrl.pathname = photoMediaUrl.pathname.replace('1.1', 'i') //https://ton.twitter.com/1.1/ton/ -> https://ton.twitter.com/i/ton/
+                        if (photoMediaUrl.hostname === 'ton.twitter.com' && location.hostname === 'x.com') photoMediaUrl.hostname = 'ton.x.com'
+                        photoElement.src = photoMediaUrl.href + (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? ':small' : '');
                         photoElement.classList.add('message-element-media');
                         let [w, h] = calculateSize(photo.original_info.width, photo.original_info.height, 400, 500);
                         photoElement.width = w;

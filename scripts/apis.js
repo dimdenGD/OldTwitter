@@ -1840,7 +1840,13 @@ const API = {
         },
         getMediaTweets: (id, cursor) => {
             return new Promise((resolve, reject) => {
-                fetch(`/i/api/graphql/oMVVrI5kt3kOpyHHTTKf5Q/UserMedia?variables=${encodeURIComponent(JSON.stringify({"userId":id,"count":20,"cursor":cursor,"includePromotedContent":false,"withDownvotePerspective":false,"withReactionsMetadata":false,"withReactionsPerspective":false,"withClientEventToken":false,"withBirdwatchNotes":false,"withVoice":true,"withV2Timeline":true}))}&features=${encodeURIComponent(JSON.stringify({"blue_business_profile_image_shape_enabled":false,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"tweetypie_unmention_optimization_enabled":true,"vibe_api_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":false,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":false,"interactive_text_enabled":true,"responsive_web_text_conversations_enabled":false,"longform_notetweets_richtext_consumption_enabled":false,"responsive_web_enhance_cards_enabled":false,"rweb_video_timestamps_enabled":true,"longform_notetweets_inline_media_enabled":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_media_download_video_enabled":true}))}`, {
+                let variables = {"userId":id,"count":20,"cursor":cursor,"includePromotedContent":false,"withClientEventToken":false,"withBirdwatchNotes":false,"withVoice":true,"withV2Timeline":true};
+                let features = {"rweb_tipjar_consumption_enabled":true,"responsive_web_graphql_exclude_directive_enabled":true,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"communities_web_enable_tweet_community_results_fetch":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"articles_preview_enabled":true,"tweetypie_unmention_optimization_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"creator_subscriptions_quote_tweet_preview_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"rweb_video_timestamps_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_enhance_cards_enabled":false};
+                let fieldToggles = {"withArticlePlainText":false};
+                if(cursor) {
+                    variables.cursor = cursor;
+                }
+                fetch(`/i/api/graphql/1dmA2m-qIsGm2XfqQtcD3A/UserMedia?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}&fieldToggles=${encodeURIComponent(JSON.stringify(fieldToggles))}`, {
                     headers: {
                         "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -1858,19 +1864,32 @@ const API = {
                         return reject(data.errors[0].message);
                     }
                     let entries = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddEntries').entries;
-                    let items;
-                    if (cursor) {
-                        items = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddToModule').moduleItems;
-                    } else {
-                        items = entries.find(e => e.entryId === 'profile-grid-0')?.content?.items || [];
-                    }
-                    let tweets = items.filter(e => e.entryId.startsWith('profile-grid-0-tweet-')).map(t => {
-                        let tweet = parseTweet(t.item.itemContent.tweet_results.result);
-                        if(tweet) {
-                            tweet.hasModeratedReplies = t.item.itemContent.hasModeratedReplies;
+                    let isGrid = !!entries.find(e => e.entryId === 'profile-grid-0') || data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddToModule');
+                    let tweets;
+                    if (isGrid) {
+                        let items;
+                        if (cursor) {
+                            items = data.data.user.result.timeline_v2.timeline.instructions.find(i => i.type === 'TimelineAddToModule').moduleItems;
+                        } else {
+                            items = entries.find(e => e.entryId === 'profile-grid-0')?.content?.items || [];
                         }
-                        return tweet;
-                    }).filter(i => i);
+                        tweets = items.filter(e => e.entryId.startsWith('profile-grid-0-tweet-')).map(t => {
+                            let tweet = parseTweet(t.item.itemContent.tweet_results.result);
+                            if(tweet) {
+                                tweet.hasModeratedReplies = t.item.itemContent.hasModeratedReplies;
+                            }
+                            return tweet;
+                        }).filter(i => i);
+                    } else {
+                        tweets = entries.filter(e => e.entryId.startsWith('tweet-')).map(t => {
+                            let tweet = parseTweet(t.content.itemContent.tweet_results.result);
+                            if(tweet) {
+                                tweet.hasModeratedReplies = t.content.itemContent.hasModeratedReplies;
+                            }
+                            return tweet;
+                        }).filter(i => i);
+                    }
+
                     let newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
                     if(newCursor) {
                         newCursor = newCursor.content.value;
