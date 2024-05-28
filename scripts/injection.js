@@ -139,7 +139,7 @@ if (
     url.searchParams.set('newtwitter', 'true');
     location.replace(url);
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca", "sv", "bg", "nb", "fi", "id"];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca", "sv", "bg", "nb", "fi", "id", 'is'];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -216,7 +216,8 @@ const TRANSLATORS = {
         ["Feerse_", "/Feerse_"],
         ["DaGamerFiles", "/DaGamerFiles"],
         ["KuchingNeko", "/KuchingNeko"]
-    ]
+    ],
+    "is": ["VipelyRS", "/VipelyRS"]
 };
 let LOC = {};
 let LOC_EN = {};
