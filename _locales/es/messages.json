@@ -263,7 +263,7 @@
     "quote": { "message": "Citar" },
     "reply_example": { "message": "Un tweet genial" },
     "quote_example": { "message": "Un tweet con una cita genial" },
-    "error_sending_tweet": { "message": "Error al enviar el tweet" },
+    "error_sending_tweet": { "message": "Error al enviar el tweet." },
     "retweet_sure": { "message": "¿Estás seguro de que quieres retwittear este tweet?" },
     "unretweet": { "message": "Quitar retweet" },
     "retweet": { "message": "Retwitear" },
@@ -286,7 +286,7 @@
     "turn_off_retweets": { "message": "Ocultar los retweets en la cronología" },
     "you_can_reply": { "message": "(puedes responder)" },
     "audience": { "message": "Audiencia" },
-    "who_can_reply": { "message": "Quien puede responder" },
+    "who_can_reply": { "message": "Quién puede responder" },
     "people_you_follow": { "message": "Gente a la que sigues" },
     "people_you_mention": { "message": "Gente a la que mencionas" },
     "new_version": { "message": "Se actualizó a la nueva versión" },
@@ -310,7 +310,7 @@
     "people_body": { "message": "Gente y Cuerpo" },
     "animals_nature": { "message": "Animales y Naturaleza" },
     "food_drink": { "message": "Comida y Bebidas" },
-    "travel_places": { "message": "Viaje y :ugares" },
+    "travel_places": { "message": "Viaje y Lugares" },
     "activities": { "message": "Actividades" },
     "objects": { "message": "Objetos" },
     "symbols": { "message": "Símbolos" },
@@ -321,7 +321,7 @@
     "emoji_picker": { "message": "Seleccionar emoji" },
     "emoji_search_description": { "message": "Cuando se muestren resultados, pulsa arriba o abajo para buscar y luego ENTER para seleccionar." },
     "search_results": { "message": "Buscar resultados" },
-    "skin_tone_description": { "message": "Cuando se expanda, pulsa arriba o abajo para buscar y luego ENTER para seleccionar" },
+    "skin_tone_description": { "message": "Cuando se expanda, pulsa arriba o abajo para buscar y luego ENTER para seleccionar." },
     "skin_tone_label": { "message": "Elige un tono de piel (actualmente $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
     "skin_tones_label": { "message": "Tonos de piel" },
     "add_media": { "message": "Añadir contenido multimedia" },
@@ -379,20 +379,20 @@
     "developer_mode": { "message": "Modo desarrollador" },
     "copy_user_id": { "message": "Copiar ID de usuario" },
     "copy_tweet_id": { "message": "Copiar ID de tweet" },
-    "unfollowers": { "message": "Ex-Seguidores", "description": "People that stopped following you" },
-    "unfollowings": { "message": "Dejado de seguir", "description": "People that you stopped following" },
+    "unfollowers": { "message": "Ex-Seguidores", "description": "Personas que dejaron de seguirte." },
+    "unfollowings": { "message": "Dejado de seguir", "description": "Personas que has dejado de seguir." },
     "no_unfollowers": { "message": "¡Nadie ha dejado de seguirte!" },
     "no_unfollowings": { "message": "¡Aún no has dejado de seguir a nadie!" },
     "recent_unfollow_update": { "message": "Ex-Seguidores actualizados hace menos de 15 minutos." },
     "deleted_accounts": { "message": "Parece que todos en esta lista eliminaron su cuenta." },
     "open_tweet_newtwitter": { "message": "Abrir este tweet en el nuevo Twitter" },
-    "black_mode_link": { "message": "Enlace en modo oscuro", "note": "You can name this OLED mode too" },
+    "black_mode_link": { "message": "Enlace en modo oscuro", "note": "También puedes llamarle a esto modo OLED." },
     "custom_mode_link": { "message": "Enlace en modo personalizado" },
     "tweet_verb": { "message": "Twittear", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
     "do_you_want_to_tweet": { "message": "¿Quieres twittear \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
     "user_protected" : { "message": "Los tweets de esta cuenta están protegidos." },
     "follow_to_see": { "message": "Solo los seguidores aprobados pueden ver los Tweets de @$SCREEN_NAME$ y su perfil completo. Para solicitar acceso, haz click en \"Seguir\".", "placeholders": { "screen_name": { "content": "dimden" } } },
-    "copy_tweet_links_as": { "message": "Copiar enlaces de tweets como", "example": "->Copy links as<- vxtwitter.com" },
+    "copy_tweet_links_as": { "message": "Copiar enlaces de tweets como", "example": "->Copiar links como<- vxtwitter.com" },
     "use_new_icon": { "message": "Usar el nuevo logo como icono de pestaña" },
     "update_timeline_automatically": { "message": "Actualizar la cronología con nuevos tweets." },
     "chrono_no_retweets": { "message": "Cronológicamente inverso (sin retweets)" },
@@ -486,8 +486,8 @@
     "profile_colors_moved": { "message": "La sincronización de color de enlaces ha sido trasladada a tu perfil (el botón con forma de lápiz a la derecha del botón Editar perfil)." },
     "click_here_more_info": { "message": "Click aquí para más información" },
     "profile_must_be_public_to_auth": { "message": "Tu perfil debe ser público para sincronizar por primera vez, después puedes volver a ponerte candado." },
-    "save_draft": { "message": "Guardar borrador", "note": "Try to keep this short" },
-    "load_draft": { "message": "Cargar borrador", "note": "Try to keep this short" },
+    "save_draft": { "message": "Guardar borrador", "note": "Intenta mantener esto breve." },
+    "load_draft": { "message": "Cargar borrador", "note": "Intenta mantener esto breve." },
     "draft_saved": { "message": "¡Borrador guardado!" },
     "draft_loaded": { "message": "¡Borrador cargado!" },
     "no_draft": { "message": "¡Aún no tienes ningún borrador guardado!" },
@@ -496,8 +496,8 @@
     "error_setting_css": { "message": "Error al aplicar el CSS" },
     "load": { "message": "Cargar" },
     "disable_profile_customizations": { "message": "Desactivar personalización de perfil" },
-    "replying_to_and":  { "message": " y a ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
-    "replying_to_comma":  { "message": ", ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
+    "replying_to_and":  { "message": " y a ", "description":"Para algunos idiomas que usan términos de tratamiento", "example": "Respondiendo a @A-> y <-@B , @C" },
+    "replying_to_comma":  { "message": ", ", "description":"Para algunos idiomas que usan términos de tratamiento", "example": "Respondiendo a @A y @B-> , <-@C" },
     "twitter": {"message": "Twitter"},
     "move_navbar_to_bottom": {"message": "Mover la barra de navegación abajo"},
     "styled_profile": {"message": "Perfil con estilo"},
@@ -589,38 +589,38 @@
     "you_sent_photo": { "message": "Enviaste una foto" },
     "you_sent_video": { "message": "Enviaste un vídeo" },
     "you_reacted_message": { "message": "Reaccionaste a un mensaje" },
-    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ añadió a $A2$$USER_WHO_JOINED$$A_END$", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
-        "user_who_added": { "content": "Group Admin" },
-        "user_who_joined": { "content": "Group Admin's Friend" },
+    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ añadió a $A2$$USER_WHO_JOINED$$A_END$", "description": "Esto se usa cuando un Administrador de Grupo añade un usuario al grupo (nombres en pantalla)", "placeholders": {
+        "user_who_added": { "content": "Administrador de Grupo" },
+        "user_who_joined": { "content": "Amigo del Administrador de Grupo" },
         "a1": { "content": "<a href=\"/GroupAdmin\">" },
         "a2": { "content": "<a href=\"/GroupAdminsFriend\">" },
         "a_end": { "content": "</a>" }
     } },
-    "user_left": { "message": "$A_START$$NAME$$A_END$ se ha ido", "description": "This is used when a user in a group leaves (display name)", "placeholders": {
+    "user_left": { "message": "$A_START$$NAME$$A_END$ se ha ido", "description": "Esto se usa cuando un usuario en el grupo se va (Nombre en pantalla)", "placeholders": {
         "name": { "content": "Group Admin's Friend" },
         "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" },
         "a_end": { "content": "</a>" }
     } },
-    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ cambió la foto del grupo", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
-        "name": { "content": "Group Admin" },
+    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ cambió la foto del grupo", "description": "Esto se usa cuando un usuario cambia la imagen del grupo (nombre en pantalla)", "placeholders": {
+        "name": { "content": "Administrador de Grupo" },
         "a_start": { "content": "<a href=\"/GroupAdmin\">" },
         "a_end": { "content": "</a>" }
     } },
-    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ cambió el nombre del grupo a $GROUP_NAME$", "description": "This is used when a user in a group changes the group name (display name)", "placeholders": {
+    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ cambió el nombre del grupo a $GROUP_NAME$", "description": "Esto se usa cuando un usuario cambia el nombre del grupo (nombre en pantalla)", "placeholders": {
         "name": { "content": "Group Admin" },
-        "group_name": { "content": "Group Admin's Friend" },
+        "group_name": { "content": "Amigo del Administrador de Grupo" },
         "a_start": { "content": "<a href=\"/GroupAdmin\">" },
         "a_end": { "content": "</a>" }
     } },
-    "user_added_you_inbox": { "message": "$NAME$ te ha añadió", "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)", "placeholders": {
-        "name": { "content": "Group Admin" }
+    "user_added_you_inbox": { "message": "$NAME$ te ha añadió", "description": "Esto se usa cuando un Administrador de Grupo te añade al chat grupal (Sólo nombres, listas de bandeja de entrada)", "placeholders": {
+        "name": { "content": "Administrador de Grupo" }
     } },
     "user_added_you_msg": {
         "message": "$A_START$$NAME$$A_END$ te añadió<br>Hay $NUMBER$ personas más en este grupo",
-        "description": "This is used when a group admin adds you to the group chat (display names, messages only)",
-        "example": "<a href=\"/GroupAdmin\">Group Admin</a> added you<br>There are 6 other people in this group",
+        "description": "Esto se usa cuando un Administrador de Grupo te añade al grupo (Sólo nombres en pantalla, mensajes)",
+        "example": "<a href=\"/GroupAdmin\">Group Admin</a> te añadió<br>Hay otras 6 personas en este grupo",
         "placeholders": {
-            "name": { "content": "Group Admin" },
+            "name": { "content": "Administrador de Grupo" },
             "number": { "content": "6" },
             "a_start": { "content": "<a href=\"/GroupAdmin\">" },
             "a_end": { "content": "</a>" }
