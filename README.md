@@ -79,7 +79,7 @@ For stable version:
 - Go to `about:addons`
 - Press "Install Add-on From File" and select zip file you downloaded
 
-*This reportedly works with [Firefox Extended Support Release](https://www.mozilla.org/en-US/firefox/enterprise/) and [Nightly](https://www.mozilla.org/en-US/firefox/channel/desktop/) as well.*
+*This reportedly works with [Firefox Extended Support Release](https://www.mozilla.org/en-US/firefox/enterprise/) and [Nightly](https://www.mozilla.org/en-US/firefox/channel/desktop/) as well. If you need the stable release, consider the [Unbranded Build](https://wiki.mozilla.org/Add-ons/Extension_Signing#Unbranded_Builds).
 
 ## FAQ
 
