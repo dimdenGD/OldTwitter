@@ -1383,7 +1383,7 @@ function renderMedia(t) {
             let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             _html += html`
             <img 
-                ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
+                ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text.replaceAll('"', "'"))}" title="${escapeHTML(m.ext_alt_text.replaceAll('"', "'"))}"` : ''}
                 crossorigin="anonymous"
                 width="${w}"
                 height="${h}"

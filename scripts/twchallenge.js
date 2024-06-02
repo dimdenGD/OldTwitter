@@ -33,7 +33,7 @@ function solveChallenge(path, method) {
                     solveCallbacks[id].reject('Solver timed out');
                     delete solveCallbacks[id];
                 }
-            }, 1500);
+            }, 1750);
         } else {
             reject('Solver iframe not ready');
         }
