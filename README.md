@@ -175,7 +175,7 @@ Hebrew - "ugh", qqqq, [kriterin](https://twitter.com/kriterin)
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
 Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234), [kamokakesu](https://twitter.com/kamokakesu)  
-Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234), [han_eirin](https://twitter.com/han_eirin)  
+Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234), [han_eirin](https://twitter.com/han_eirin), [Sch](https://me.shtelo.org)  
 Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren](https://twitter.com/YordemEren)  
 Italian - [krek](https://twitter.com/CactusInc420), [Francesco](https://twitter.com/FrancescoRosi27)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
