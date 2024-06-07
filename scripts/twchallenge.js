@@ -85,13 +85,13 @@ fetch = async function(url, options) {
         url = `https://${location.host}${url}`;
     }
     let parsedUrl = new URL(url);
-    try {
+    // try {
         let solved = await solveChallenge(parsedUrl.pathname, options.method ? options.method.toUpperCase() : 'GET');
         options.headers['x-client-transaction-id'] = solved;
-    } catch (e) {
-        console.error(`Error solving challenge for ${url}:`);
-        console.error(e);
-    }
+    // } catch (e) {
+    //     console.error(`Error solving challenge for ${url}:`);
+    //     console.error(e);
+    // }
     if(options.method && options.method.toUpperCase() === 'POST' && typeof options.body === 'string') {
         options.headers['Content-Length'] = options.body.length;
     }
