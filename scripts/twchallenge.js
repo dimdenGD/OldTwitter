@@ -61,7 +61,7 @@ window.addEventListener('message', e => {
             solveCallbacks[id].reject('Solver errored during initialization');
             delete solveCallbacks[id];
         }
-        alert(`There was an error in initializing secure header generator: ${data.error}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently it's unknown what causes this to happen, try reloading the page.`);
+        alert(`There was an error in initializing security header generator: ${data.error}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently it's unknown what causes this to happen, try reloading the page.`);
         console.error('Error initializing solver:');
         console.error(data.error);
     }
