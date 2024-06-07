@@ -64,8 +64,14 @@
                     if(!solver) {
                         await sleep(500);
                     }
+                    if(!solver) {
+                        await sleep(1000);
+                    }
+                    if(!solver) {
+                        await sleep(2500);
+                    }
                     if(initError || !solver) {
-                        event.source.postMessage({action: 'error', error: 'Initialization error', id: data.id }, event.origin);
+                        event.source.postMessage({action: 'error', error: 'Solver timed out', id: data.id }, event.origin);
                         return;
                     }
                 }
