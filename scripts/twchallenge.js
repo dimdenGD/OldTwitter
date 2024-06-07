@@ -28,12 +28,12 @@ function solveChallenge(path, method) {
         solveCallbacks[id] = { resolve, reject, time: Date.now() };
         if(solverIframe && solverIframe.contentWindow) {
             solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
-            setTimeout(() => {
-                if(solveCallbacks[id]) {
-                    solveCallbacks[id].reject('Solver timed out');
-                    delete solveCallbacks[id];
-                }
-            }, 1750);
+            // setTimeout(() => {
+            //     if(solveCallbacks[id]) {
+            //         solveCallbacks[id].reject('Solver timed out');
+            //         delete solveCallbacks[id];
+            //     }
+            // }, 1750);
         } else {
             reject('Solver iframe not ready');
         }
@@ -60,6 +60,7 @@ window.addEventListener('message', e => {
         for(let id in solveCallbacks) {
             solveCallbacks[id].reject('Solver errored during initialization');
             delete solveCallbacks[id];
+            alert(`There was an error in initializing secure header generator: ${data.error}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently it's unknown what causes this to happen, try reloading the page.`);
         }
         console.error('Error initializing solver:');
         console.error(data.error);
