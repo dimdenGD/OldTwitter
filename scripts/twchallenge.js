@@ -28,12 +28,12 @@ function solveChallenge(path, method) {
         solveCallbacks[id] = { resolve, reject, time: Date.now() };
         if(solverIframe && solverIframe.contentWindow) {
             solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
-            setTimeout(() => {
-                if(solveCallbacks[id]) {
-                    solveCallbacks[id].reject('Solver timed out');
-                    delete solveCallbacks[id];
-                }
-            }, 1750);
+            // setTimeout(() => {
+            //     if(solveCallbacks[id]) {
+            //         solveCallbacks[id].reject('Solver timed out');
+            //         delete solveCallbacks[id];
+            //     }
+            // }, 1750);
         } else {
             reject('Solver iframe not ready');
         }
@@ -61,6 +61,7 @@ window.addEventListener('message', e => {
             solveCallbacks[id].reject('Solver errored during initialization');
             delete solveCallbacks[id];
         }
+        alert(`There was an error in initializing security header generator: ${data.error}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently it's unknown what causes this to happen, try reloading the page.`);
         console.error('Error initializing solver:');
         console.error(data.error);
     }
@@ -84,13 +85,13 @@ fetch = async function(url, options) {
         url = `https://${location.host}${url}`;
     }
     let parsedUrl = new URL(url);
-    try {
+    // try {
         let solved = await solveChallenge(parsedUrl.pathname, options.method ? options.method.toUpperCase() : 'GET');
         options.headers['x-client-transaction-id'] = solved;
-    } catch (e) {
-        console.error(`Error solving challenge for ${url}:`);
-        console.error(e);
-    }
+    // } catch (e) {
+    //     console.error(`Error solving challenge for ${url}:`);
+    //     console.error(e);
+    // }
     if(options.method && options.method.toUpperCase() === 'POST' && typeof options.body === 'string') {
         options.headers['Content-Length'] = options.body.length;
     }

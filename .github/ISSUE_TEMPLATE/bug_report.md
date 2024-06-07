@@ -8,10 +8,10 @@ assignees: ''
 ---
 
 **Describe the bug**
-A clear and concise description of what the bug is.
+A clear and concise description of what the bug is. Make sure to search issues, maybe it's already reported.
 
 **Screenshots**
-If applicable, add screenshots or video to help explain your problem.
+If applicable, add screenshots or video to help explain your problem. Include screenshot of your browser console (F12 -> Console tab).
 
 **Browser**
 Include your browsers name and it's version.
