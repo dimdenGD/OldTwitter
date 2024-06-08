@@ -59,7 +59,31 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     },
     ["blocking", "requestHeaders"]
 );
-
+chrome.webRequest.onBeforeSendHeaders.addListener(
+    function(details) {
+        for (let i = 0; i < details.requestHeaders.length; i++) {
+            if (details.requestHeaders[i].name.toLowerCase() === 'user-agent') {
+                if (details.requestHeaders[i].value.toLowerCase().includes('firefox')) {
+                    let rvRegex = /rv:(\d+\.\d+)/;
+                    let rvMatch = details.requestHeaders[i].value.match(rvRegex);
+                    if (rvMatch) {
+                        let rv = parseFloat(rvMatch[1]);
+                        if (rv < 110) {
+                            details.requestHeaders[i].value = details.requestHeaders[i].value.replace(rvRegex, 'rv:110.0'); //twitter serves client-web-legacy if rv is less than 110, which breaks request signing
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        return {
+            requestHeaders: details.requestHeaders
+        };
+    }, {
+        urls: ["*://x.com/", "*://twitter.com/"]
+    },
+    ["blocking", "requestHeaders"]
+);
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
     if(request.action === "inject") {
         console.log(request, sender.tab.id);
