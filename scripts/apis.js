@@ -3404,10 +3404,10 @@ const API = {
                     credentials: "include"
                 }).then(i => i.json());
                 if(activity.errors && activity.errors[0]) {
-                    return { list: [], cursor: undefined };
+                    return resolve({ list: [], cursor: undefined });
                 }
                 if(activity.favoriters.length === 0) {
-                    return { list: [], cursor: undefined };
+                    return resolve({ list: [], cursor: undefined });
                 }
                 let list = activity.favoriters.slice(0, count === 10 ? 10 : 100);
                 let lookup = await fetch(`https://api.x.com/1.1/users/lookup.json?user_id=${list.join(',')}&include_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
@@ -3420,7 +3420,7 @@ const API = {
                     credentials: "include"
                 }).then(i => i.json());
                 if(lookup.errors && lookup.errors[0]) {
-                    return { list: [], cursor: undefined };
+                    return resolve({ list: [], cursor: undefined });
                 }
                 resolve({ list: lookup, cursor: undefined });
             });
