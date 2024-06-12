@@ -32,7 +32,7 @@
                     let headerMatch = data.code.match(headerRegex);
                     if(!headerMatch) {
                         console.error('Uh oh, header not found!! Report to https://github.com/dimdenGD/OldTwitter/issues');
-                        event.source.postMessage({action: 'initError'}, event.origin);
+                        event.source.postMessage({action: 'initError', error: 'Header not found at ' + data.challengeCode}, event.origin);
                         initError = true;
                         return;
                     }

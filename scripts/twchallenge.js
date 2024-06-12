@@ -63,7 +63,7 @@ window.addEventListener('message', e => {
             solveCallbacks[id].reject('Solver errored during initialization');
             delete solveCallbacks[id];
         }
-        alert(`There was an error in initializing security header generator: ${data.error}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently it's unknown what causes this to happen, try reloading the page.`);
+        alert(`There was an error in initializing security header generator: ${data.error}. OldTwitter doesn't allow unsigned requests anymore for your account security.`);
         console.error('Error initializing solver:');
         console.error(data.error);
     } else if(data.action === 'ready') {
@@ -122,6 +122,7 @@ async function initChallenge() {
             solverIframe.contentWindow.postMessage({
                 action: 'init',
                 code: challengeData,
+                challengeCode,
                 anims,
                 verificationCode: OLDTWITTER_CONFIG.verificationKey
             }, '*');
@@ -133,8 +134,9 @@ async function initChallenge() {
         }
         return true;
     } catch (e) {
-        console.error(`Error during challenge:`);
+        console.error(`Error during challenge init:`);
         console.error(e);
+        alert(`There was an error in initializing security header generator: ${e}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page.`);
         return false;
     }
 };
