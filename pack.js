@@ -59,7 +59,7 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
         "webRequest",
         "webRequestBlocking"
     ];
-    manifest.content_security_policy = "script-src 'self' 'unsafe-eval' 'sha256-ldh4ZK2n0taM90iXF37G5+Usq+rRkAbw7Jwtcky+ENg='; object-src 'self'",
+    manifest.content_security_policy = "script-src 'self' 'unsafe-eval' 'sha256-0c7AR7s38d85qcAifgyf/pxhEECsIYaQQxFzScXjrKI='; object-src 'self'",
     delete manifest.sandbox;
     delete manifest.host_permissions;
     delete manifest.declarative_net_request;
