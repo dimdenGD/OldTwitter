@@ -11,7 +11,7 @@
     "load_more": { "message": "Carrega més" },
     "who_to_follow": { "message": "A qui seguir", "description": "Max 19 characters, you can use word 'People' if no space" },
     "refresh": { "message": "Refresca" },
-    "view_all": { "message": "View all" },
+    "view_all": { "message": "Veure tot" },
     "running": { "message": "Executant", "example": "->Running<- OldTwitter v0.0.0" },
     "created_by": { "message": "Creat per", "example": "->Created by<- dimden" },
     "website": { "message": "Pàgina web" },
