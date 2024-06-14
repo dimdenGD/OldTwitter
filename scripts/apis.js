@@ -2108,9 +2108,32 @@ const API = {
         },
         getFavorites: (id, cursor) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://api.x.com/1.1/favorites/list.json?count=40&include_my_retweet=1&user_id=${id}${cursor ? `&max_id=${cursor}` : ''}&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
+                let obj = {
+                    "userId": id,
+                    "count": 50,
+                    "includePromotedContent": false,
+                    "withSuperFollowsUserFields": true,
+                    "withDownvotePerspective": false,
+                    "withReactionsMetadata": false,
+                    "withReactionsPerspective": false,
+                    "withSuperFollowsTweetFields": true,
+                    "withClientEventToken": false,
+                    "withBirdwatchNotes": false,
+                    "withVoice": true,
+                    "withV2Timeline": true
+                };
+                if(cursor) obj.cursor = cursor;
+                fetch(`/i/api/graphql/vni8vUvtZvJoIsl49VPudg/Likes?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+                    "dont_mention_me_view_api_enabled": true,
+                    "interactive_text_enabled": true,
+                    "responsive_web_uc_gql_enabled": false,
+                    "vibe_tweet_context_enabled": false,
+                    "responsive_web_edit_tweet_api_enabled": false,
+                    "standardized_nudges_misinfo": false,
+                    "responsive_web_enhance_cards_enabled": false
+                }))}`, {
                     headers: {
-                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAAFQODgEAAAAAVHTp76lzh3rFzcHbmHVvQxYYpTw%3DckAlMINMjmCwxUcaXbAN4XqJVdgMJaHqNOFgPMK0zN1qLqLQCF",
+                        "authorization": isFinite(+localStorage.hitRateLimit) && +localStorage.hitRateLimit > Date.now() ? OLDTWITTER_CONFIG.oauth_key : OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -2125,9 +2148,18 @@ const API = {
                     if (data.errors && data.errors[0]) {
                         return reject(data.errors[0].message);
                     }
+                    if(!data.data.user.result.timeline_v2.timeline.instructions[0]) {
+                        return resolve({
+                            tl: [],
+                            cursor: null
+                        })
+                    }
                     let out = {
-                        tl: data,
-                        cursor: data.length > 0 ? data[data.length - 1].id_str : null
+                        tl: data.data.user.result.timeline_v2.timeline.instructions[0].entries
+                            .filter(e => e.entryId.startsWith('tweet-') && e.content.itemContent.tweet_results.result)
+                            .map(e => parseTweet(e.content.itemContent.tweet_results.result))
+                            .filter(e => e),
+                        cursor: data.data.user.result.timeline_v2.timeline.instructions[0].entries.find(e => e.entryId.startsWith('cursor-bottom')).content.value
                     };
                     debugLog('user.getFavorites', 'end', out);
                     resolve(out);

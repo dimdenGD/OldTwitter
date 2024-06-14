@@ -108,13 +108,39 @@ fetch = async function(url, options) {
 
 async function initChallenge() {
     try {
-        let homepageData = await _fetch(`https://${location.hostname}/`).then(res => res.text());
+        let homepageData;
+        let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+        try {
+            homepageData = await _fetch(`https://${location.hostname}/`).then(res => res.text());
+        } catch(e) {
+            await sleep(500);
+            try {
+                homepageData = await _fetch(`https://${location.hostname}/`).then(res => res.text());
+            } catch(e) {
+                throw new Error('Failed to fetch homepage: ' + e);
+            }
+        }
         let dom = new DOMParser().parseFromString(homepageData, 'text/html');
         let verificationKey = dom.querySelector('meta[name="twitter-site-verification"]').content;
         let anims = Array.from(dom.querySelectorAll('svg[id^="loading-x"]')).map(svg => svg.outerHTML);
 
         let challengeCode = homepageData.match(/"ondemand.s":"(\w+)"/)[1];
-        let challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
+        let challengeData;
+        try {
+            challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
+        } catch(e) {
+            await sleep(500);
+            try {
+                challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
+            } catch(e) {
+                await sleep(1000);
+                try {
+                    challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
+                } catch(e) {
+                    throw new Error('Failed to fetch challenge data: ' + e);
+                }
+            }
+        }
 
         OLDTWITTER_CONFIG.verificationKey = verificationKey;
 
@@ -136,7 +162,11 @@ async function initChallenge() {
     } catch (e) {
         console.error(`Error during challenge init:`);
         console.error(e);
-        alert(`There was an error in initializing security header generator: ${e}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page.`);
+        if(location.hostname === 'twitter.com') {
+            alert(`There was an error in initializing security header generator: ${e}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page. Also using OldTwitter from twitter.com domain is not supported.`);
+        } else {
+            alert(`There was an error in initializing security header generator: ${e}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page.`);
+        }
         return false;
     }
 };
