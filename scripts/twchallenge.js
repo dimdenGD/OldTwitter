@@ -31,7 +31,12 @@ function solveChallenge(path, method) {
         if(!solverIframe || !solverIframe.contentWindow || !solverReady) {
             solveQueue.push({ id, path, method })
         } else {
-            solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
+            try {
+                solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
+            } catch(e) {
+                console.error(`Error sending challenge to solver:`, e);
+                reject(e);
+            }
             // setTimeout(() => {
             //     if(solveCallbacks[id]) {
             //         solveCallbacks[id].reject('Solver timed out');

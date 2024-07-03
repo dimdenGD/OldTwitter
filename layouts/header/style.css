@@ -1524,7 +1524,7 @@ span.tweet-body-text {
     -webkit-font-smoothing: antialiased;
     color: #ccd6dd;
     cursor: pointer;
-    font: 400 16px var(--icon-font);;
+    font: 400 16px var(--icon-font);
     margin-right: 10px;
     vertical-align: sub;
     display: inline-block;

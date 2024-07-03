@@ -1022,6 +1022,7 @@ async function renderProfile() {
         autotranslateProfiles = [];
     }
     toAutotranslate = autotranslateProfiles.includes(pageUser.id_str);
+    document.getElementById('profile-avatar').dataset.user_id = pageUser.id_str;
     document.getElementById('profile-avatar').src = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(pageUser.id_str) % 7}_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_400x400.');
     document.getElementById('nav-profile-avatar').src = `${(pageUser.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(pageUser.id_str) % 7}_normal.png`): pageUser.profile_image_url_https}`.replace('_normal.', '_bigger.');
     document.getElementById('profile-name').innerText = pageUser.name.replace(/\n/g, ' ');
@@ -1802,7 +1803,12 @@ let loadingFollowersYouKnow = false;
 let followingMoreBtn, followersMoreBtn, followersYouFollowMoreBtn;
 
 setTimeout(async () => {
-    if(!vars) {
+    console.log(3, vars);
+    try {
+        if(!vars) {
+            await loadVars();
+        }
+    } catch(e) {
         await loadVars();
     }
     while(!LOC || !LOC.january) {

@@ -521,9 +521,14 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     if (!page) return;
 
     // wait for variables
-    if(!vars) {
+    try {
+        if(!vars) {
+            await varsPromise;
+        }
+    } catch(e) {
         await varsPromise;
     }
+    console.log(2, vars);
     if(vars.darkMode || (vars.timeMode && isDark())) {
         isDarkModeEnabled = true;
         switchDarkMode(true);

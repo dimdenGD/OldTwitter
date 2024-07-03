@@ -225,4 +225,6 @@ async function loadVars() {
         });
     });
 };
+
+console.log(1, vars);
 loadVars();

@@ -1337,7 +1337,7 @@ setTimeout(async () => {
         } else {
             updateTimeline('prepend');
         }
-    }, 60000);
+    }, 80000);
     if(vars.timelineType.startsWith('chrono')) {
         setInterval(async () => {
             let tweets = (await API.timeline.getChronologicalV2()).list;
