@@ -63,7 +63,7 @@ window.addEventListener('message', e => {
             solveCallbacks[id].reject('Solver errored during initialization');
             delete solveCallbacks[id];
         }
-        alert(`There was an error in initializing security header generator: ${data.error}. OldTwitter doesn't allow unsigned requests anymore for your account security.`);
+        alert(`There was an error in initializing security header generator:\n${data.error}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security.`);
         console.error('Error initializing solver:');
         console.error(data.error);
     } else if(data.action === 'ready') {
@@ -163,9 +163,9 @@ async function initChallenge() {
         console.error(`Error during challenge init:`);
         console.error(e);
         if(location.hostname === 'twitter.com') {
-            alert(`There was an error in initializing security header generator: ${e}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page. Also using OldTwitter from twitter.com domain is not supported.`);
+            alert(`There was an error in initializing security header generator: ${e}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page. Also using OldTwitter from twitter.com domain is not supported.`);
         } else {
-            alert(`There was an error in initializing security header generator: ${e}. OldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page.`);
+            alert(`There was an error in initializing security header generator: ${e}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page.`);
         }
         return false;
     }
