@@ -59,23 +59,15 @@ chrome.webRequest.onBeforeSendHeaders.addListener(
     },
     ["blocking", "requestHeaders"]
 );
-chrome.webRequest.onBeforeSendHeaders.addListener( //this isnt particularly elegant solution but i dont want to risk doing anything that may trigger bot protection or something like that
+chrome.webRequest.onBeforeSendHeaders.addListener(
     function(details) {
         for (let i = 0; i < details.requestHeaders.length; i++) {
             if (details.requestHeaders[i].name.toLowerCase() === 'user-agent') {
                 if (details.requestHeaders[i].value.toLowerCase().includes('firefox')) {
-                    let rvRegex = /rv:(\d+\.\d+)/; //gecko version (whats important here)
-                    let versionRegex = /Firefox\/(\d+(?:\.\d+)+)/; //browser version
-                    let versionMatch = details.requestHeaders[i].value.match(versionRegex);
-                    if (versionMatch) {
-                        let version = parseFloat(versionMatch[1]);
-                        let fallback = '127.0'; //if this ever breaks maybe set this to latest firefox version
-                        if (version < 110) { //rv 110 is cutoff point between client-web-legacy and client-web, so we should just spoof browser and rv to latest
-                            details.requestHeaders[i].value = details.requestHeaders[i].value.replace(rvRegex, `rv:${fallback}`).replace(versionRegex, `Firefox/${fallback}`);
-                        } else {
-                            details.requestHeaders[i].value = details.requestHeaders[i].value.replace(rvRegex, `rv:${version}.0`);
-                        }
-                    }
+                    let fallbackVersion = '128.0'; //if this ever breaks set this to latest firefox version
+                    let rvRegex = /rv:(\d+\.\d+)/;
+                    let versionRegex = /Firefox\/(\d+(?:\.\d+)+)/;
+                    details.requestHeaders[i].value = details.requestHeaders[i].value.replace(rvRegex, `rv:${fallbackVersion}`).replace(versionRegex, `Firefox/${fallbackVersion}`); //not elegant but it works
                 }
                 break;
             }
