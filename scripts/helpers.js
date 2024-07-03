@@ -3764,7 +3764,7 @@ function renderNotification(n, options = {}) {
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
-                } else if(n.entry.clientEventInfo.element === "users_followed_you") {
+                } else if(n.entry.clientEventInfo.element === "users_followed_you" || n.entry.clientEventInfo.element === "follow_from_recommended_user") {
                     let a = document.createElement('a');
                     a.href = `/${user.screen_name}/followers`;
                     document.body.appendChild(a);
