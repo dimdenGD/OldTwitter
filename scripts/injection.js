@@ -675,7 +675,8 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
     }
 
     document.documentElement.innerHTML = html;
-    const root = document.getElementById("fake-react-root");
+    let root = document.getElementById("fake-react-root");
+    if (!root) root = document.getElementById("react-root");
     if (root && root.style) root.style.paddingLeft = 'calc(100vw - 100%)'
     document.body.classList.add('body-old-ui');
 
