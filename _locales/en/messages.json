@@ -631,5 +631,6 @@
     "accepted_conversation": { "message": "Accepted conversation" },
     "anniversary_tweet": { "message": "Do you remember when you joined Twitter? I do!\n#MyTwitterAnniversary" },
     "you_shared_tweet": { "message": "You shared a tweet" },
-    "user_shared_tweet": { "message": "$NAME$ shared a tweet", "placeholders": { "name": { "content": "Display Name" } } }
+    "user_shared_tweet": { "message": "$NAME$ shared a tweet", "placeholders": { "name": { "content": "Display Name" } } },
+    "transition_profile_banner": { "message": "Use transition on profile banner" }
 }
