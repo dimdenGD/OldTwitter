@@ -533,6 +533,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         isDarkModeEnabled = true;
         switchDarkMode(true);
     }
+    document.querySelector(":root").style.setProperty('--transition-profile-banner', vars.transitionProfileBanner ? '.1s' : '0s');
     if(vars.systemDarkMode) {
         var matchMediaDark = window.matchMedia('(prefers-color-scheme: dark)');
         var matchMediaLight = window.matchMedia('(prefers-color-scheme: light)');

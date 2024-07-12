@@ -772,7 +772,7 @@ body.body-old-ui .user-item-btn.follow:before {
     width: 100vw;
     object-fit: cover;
     position: relative;
-    transition: .1s;
+    transition: var(--transition-profile-banner);
     height: 5px;
     height: 500px;
 }

@@ -329,6 +329,7 @@ setTimeout(async () => {
     let disableAcceptType = document.getElementById('disable-accept-type');
     let showUserFollowerCountsInLists = document.getElementById('show-user-follower-counts-in-lists');
     let hideUnfollowersPage = document.getElementById('hide-unfollowers-page');
+    let transitionProfileBanner = document.getElementById('transition-profile-banner');
 
     let root = document.querySelector(":root");
     {
@@ -642,6 +643,11 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             savePreferredQuality: savePreferredQuality.checked
         }, () => { });
+    });
+    transitionProfileBanner.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            transitionProfileBanner: transitionProfileBanner.checked
+        }, () => { console.log('set', transitionProfileBanner.checked) });
     });
     showOriginalImages.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -1035,6 +1041,7 @@ setTimeout(async () => {
     showUserFollowerCountsInLists.checked = !!vars.showUserFollowerCountsInLists;
     showQuoteCount.checked = !!vars.showQuoteCount;
     hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
+    transitionProfileBanner.checked = !!vars.transitionProfileBanner;
     if(vars.customCSS) {
         writeCSSToDB(vars.customCSS)
     }

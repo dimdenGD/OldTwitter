@@ -32,7 +32,7 @@ async function loadVars() {
             'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
             'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
             'disableRetweetHotkey', 'disableLikeHotkey', 'disableFindHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType',
-            'showUserFollowerCountsInLists', 'showQuoteCount', 'hideUnfollowersPage'
+            'showUserFollowerCountsInLists', 'showQuoteCount', 'hideUnfollowersPage', 'transitionProfileBanner'
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {
@@ -213,6 +213,13 @@ async function loadVars() {
                 data.autotranslationMode = 'whitelist';
                 chrome.storage.sync.set({
                     autotranslationMode: 'whitelist'
+                }, () => {});
+            }
+            if(typeof(data.transitionProfileBanner) !== 'boolean') {
+                console.log('transitionProfileBanner', data.transitionProfileBanner)
+                data.transitionProfileBanner = false;
+                chrome.storage.sync.set({
+                    transitionProfileBanner: false
                 }, () => {});
             }
 
