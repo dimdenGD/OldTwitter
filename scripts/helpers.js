@@ -15,6 +15,8 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 function createModal(html, className, onclose, canclose) {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.transform = `translateX(${scrollbarWidth}px)`;
     let modal = document.createElement('div');
     modal.classList.add('modal');
     let modal_content = document.createElement('div');
@@ -26,8 +28,8 @@ function createModal(html, className, onclose, canclose) {
     close.classList.add('modal-close');
     close.title = "ESC";
     close.innerHTML = '&times;';
-    document.body.style.overflowY = 'hidden';
     function removeModal() {
+        document.body.style.transform = ``;
         modal.remove();
         let event = new Event('findActiveTweet');
         document.dispatchEvent(event);
@@ -61,6 +63,7 @@ function createModal(html, className, onclose, canclose) {
     document.addEventListener('keydown', escapeEvent);
     modal_content.appendChild(close);
     document.body.appendChild(modal);
+    document.body.style.transform = ``
     return modal;
 }
 async function handleFiles(files, mediaArray, mediaContainer, is_dm = false) {
