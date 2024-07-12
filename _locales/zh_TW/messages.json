@@ -404,6 +404,8 @@
     "block_sure_desc": { "message": "他將無法追蹤你和查看你的推文，你也不會看到來自 @$SCREEN_NAME$ 的推文。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user" : { "message": "@$SCREEN_NAME$ 已封鎖你", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "why_you_cant_see_block_user": { "message": "你無法追蹤和查看 @$SCREEN_NAME$ 的推文。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "nonexistent_user": { "message": "此帳號不存在" },
+    "nonexistent_user_desc": { "message": "嘗試搜尋其他帳號。" },
     "you_blocked_user": { "message": "你已封鎖 @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "do_you_want_see_blocked_user": { "message": "是否繼續查看這些推文？你不會因此解除封鎖 @$SCREEN_NAME$。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "I_want_see_blocked_user": { "message": "是，查看個人資料" },
