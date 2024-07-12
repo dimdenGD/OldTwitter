@@ -3007,7 +3007,7 @@ setInterval(() => {
                 userDataFunction(u);
             });
         }
-    }, 1750);
+    }, 0); // fixes a bug where user info doesn't load on the profile page occasionally
     setTimeout(() => {
         let version = document.getElementById('oldtwitter-version');
         let version2 = document.getElementById('oldtwitter-version-left');
