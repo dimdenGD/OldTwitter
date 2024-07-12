@@ -404,6 +404,8 @@
     "block_sure_desc": { "message": "They will not be able to follow you or view your Tweets, and you will not see Tweets or notifications from @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user" : { "message": "@$SCREEN_NAME$ blocked you", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "why_you_cant_see_block_user": { "message": "You can't follow or see @$SCREEN_NAME$'s Tweets.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "nonexistent_user": { "message": "This account doesn't exist" },
+    "nonexistent_user_desc": { "message": "Try searching for another." },
     "you_blocked_user": { "message": "You blocked @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "do_you_want_see_blocked_user": { "message": "Are you sure you want to view these Tweets? Viewing Tweets won't unblock @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "I_want_see_blocked_user": { "message": "Yes, view profile" },
