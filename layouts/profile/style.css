@@ -765,16 +765,16 @@ body.body-old-ui .user-item-btn.follow:before {
 #profile-banner-sticky {
     position: sticky;
     top: -400px;
-    z-index: 16
+    z-index: 16;
 }
 
 #profile-banner {
-    width: 100%;
+    width: 100vw;
     object-fit: cover;
     position: relative;
     transition: .1s;
     height: 5px;
-    height: 500px
+    height: 500px;
 }
 
 #profile-nav {
@@ -788,6 +788,7 @@ body.body-old-ui .user-item-btn.follow:before {
     top: 70px;
     z-index: 20;
     box-shadow: inset 0px 1px 0px 0px rgb(0 0 0 / 20%);
+    padding-left: calc(100vw - 100%);
 }
 
 #profile-avatar {
