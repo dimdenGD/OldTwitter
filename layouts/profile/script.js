@@ -196,12 +196,16 @@ function updateUserData() {
             API.user.get(user_handle, false),
             API.account.verifyCredentials()
         ]).catch(e => {
+            if(String(e).includes("reading 'result'")) {
+                document.getElementById('loading-box').hidden = true;
+                document.getElementById('profile-name').innerText = `@${user_handle}`;
+                document.getElementById('timeline').innerHTML = html`<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.nonexistent_user.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.nonexistent_user_desc.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                document.getElementById('profile-avatar').src = 'moz-extension://9605be5b-b11d-4459-879e-2b65fd1d7bca/images/default_profile_images/default_profile_0_400x400.png';
+                return;
+            }
             document.getElementById('loading-box').hidden = false;
             if(String(e).includes('User has been suspended.')) {
                 return document.getElementById('loading-box-error').innerHTML = html`${LOC.user_was_suspended.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
-            }
-            if(String(e).includes("reading 'result'")) {
-                return document.getElementById('loading-box-error').innerHTML = html`${LOC.user_was_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
             }
             return document.getElementById('loading-box-error').innerHTML = html`${String(e)}.<br><a href="/home">${LOC.go_homepage.message}</a>`;
         });
@@ -214,10 +218,19 @@ function updateUserData() {
         }
         if(pageUserData.reason) {
             let e = pageUserData.reason;
-            document.getElementById('loading-box').hidden = false;
             if(String(e).includes("reading 'result'")) {
-                return document.getElementById('loading-box-error').innerHTML = html`${LOC.user_was_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
+                document.getElementById('loading-box').hidden = true;
+                document.getElementById('profile-name').innerText = `@${user_handle}`;
+                document.getElementById('timeline').innerHTML = html`<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.nonexistent_user.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.nonexistent_user_desc.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                document.getElementById('trends').hidden = true;
+                document.getElementById('profile-nav-center-cell').style.display = 'none'; // ???
+                document.getElementById('profile-banner-sticky').style.backgroundColor = 'var(--background-color)';
+                document.getElementById('wtf').hidden = true;
+                document.getElementById('profile-nav').style.boxShadow = 'none';
+                document.getElementById('profile-avatar').src = chrome.runtime.getURL(`images/default_profile_images/default_profile_0_normal.png`);
+                return;
             }
+            document.getElementById('loading-box').hidden = false;
             return document.getElementById('loading-box-error').innerHTML = html`${String(e)}.<br><a href="/home">${LOC.go_homepage.message}</a>`;
         }
         followersYouFollowData = followersYouFollowData.value;
