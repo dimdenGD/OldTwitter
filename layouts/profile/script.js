@@ -1905,6 +1905,7 @@ setTimeout(async () => {
         
         // banner scroll
         banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
+        document.querySelector(":root").style.setProperty("--scroll", `${window.scrollY}px`);
     
         // load more stuff
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
