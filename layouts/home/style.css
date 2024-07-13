@@ -147,7 +147,8 @@ body {
     border-top: 1px solid var(--border);
     cursor: pointer;
     min-height: 75px;
-    padding: 10px
+    padding: 10px;
+    --link-color: var(--almost-black);
 }
 .tweet:focus {
     outline: none;
@@ -181,7 +182,6 @@ body {
 
 .tweet-header-name,
 .tweet-header-name-quote {
-    color: var(--almost-black);
     display: inline;
     font-size: 14px;
     font-weight: 700
@@ -191,7 +191,8 @@ body {
 .tweet-time,
 .tweet-header-handle-quote,
 .tweet-time-quote {
-    color: var(--light-gray);
+    color: var(--link-color);
+    opacity: 0.75;
     direction: ltr;
     display: inline;
     font-size: 13px;
