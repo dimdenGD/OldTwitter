@@ -384,7 +384,8 @@ function escapeHTML(unsafe) {
     if(typeof unsafe === 'undefined' || unsafe === null) {
         return '';
     }
-    return DOMPurify.sanitize(String(unsafe));
+
+    return DOMPurify.sanitize(String(unsafe), { ADD_ATTR: ['target'] });
 }
 
 function html(strings, ...values) {
