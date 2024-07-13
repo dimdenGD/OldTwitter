@@ -1,3 +1,74 @@
+/*
+/**
+ * @typedef {Object} CSSVariable
+ * @property {string} value - The value of the CSS variable.
+ */
+
+/**
+ * CSSVariableManager class to manage CSS variables.
+ */
+class CSSVariableManager {
+    /**
+     * @type {Object.<string, CSSVariable>}
+    */
+    #vars; // this is unused rn but could be useful in the future
+    /**
+     * Creates an instance of CSSVariableManager.
+    */
+    constructor() {
+        this.#vars = {};
+    }
+
+    /**
+     * Updates a CSS variable.
+     * @param {string} name - The name of the CSS variable.
+     * @param {string} value - The value of the CSS variable.
+    */
+    updateVar(name, value) {
+        this.#vars[name] = value;
+    }
+
+    getVar(name) {
+        return this.#vars[name];
+    }
+
+    get vars() {
+        return this.#vars;
+    }
+
+    runLoop() {
+        const root = document.documentElement;
+        for(let i in this.#vars) {
+            if(root.style.getPropertyValue(i) !== this.#vars[i]) {
+                root.style.setProperty(i, this.#vars[i]);
+            }
+        }
+        requestAnimationFrame(() => this.runLoop());
+    }
+}
+
+const manager = new CSSVariableManager();
+
+let lastX = 0;
+let lastY = 0;
+
+manager.runLoop();
+
+window.addEventListener('scroll', (e) => {
+    manager.updateVar('--scroll-y', window.scrollY + 'px');
+});
+
+window.addEventListener('mousemove', (e) => {
+    if(e.clientX !== lastX) {
+        manager.updateVar('--mouse-x', e.clientX + 'px');
+        lastX = e.clientX;
+    }
+    if(e.clientY !== lastY) {
+        manager.updateVar('--mouse-y', e.clientY + 'px');
+        lastY = e.clientY;
+    }
+});
+
 let user = {};
 let pageUser = {};
 let timeline = {
@@ -1905,7 +1976,6 @@ setTimeout(async () => {
         
         // banner scroll
         banner.style.top = `${5+Math.min(window.scrollY/4, 470/4)}px`;
-        document.querySelector(":root").style.setProperty("--scroll", `${window.scrollY}px`);
     
         // load more stuff
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
