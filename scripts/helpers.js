@@ -2977,6 +2977,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             }
             if (tweetInteractRetweetMenu.hidden) {
                 tweetInteractRetweetMenu.hidden = false;
+				tweetInteractRetweetMenu.style.marginTop = "-35px";
             }
             if(retweetClicked) return;
             retweetClicked = true;
