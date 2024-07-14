@@ -395,9 +395,10 @@ setTimeout(async () => {
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
     document.addEventListener('scroll', async () => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5000) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5000 && window.scrollY > 20) {
             if (loadingNewTweets || timeline.data.length === 0) return;
             document.getElementById('load-more').click();
+            console.log("Loading more tweets...");
         }
     }, { passive: true });
 
