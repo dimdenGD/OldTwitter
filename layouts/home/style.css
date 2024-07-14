@@ -150,7 +150,7 @@ body {
     padding: 10px;
 }
 
-.tweet:not(.colour) .tweet-header *, .tweet:not(.colour) .tweet-time {
+.tweet:not(.colour) .tweet-header *:not(.nice-button), .tweet:not(.colour) .tweet-time {
     --link-color: var(--almost-black) !important;
 }
 
