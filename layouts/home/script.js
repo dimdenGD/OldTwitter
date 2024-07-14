@@ -293,7 +293,15 @@ async function renderTimeline(options = {}) {
         } else timelineContainer.innerHTML = '';
     }
     let data = options.data;
-    console.log(data.filter(d => !!d.user.profile_link_color))
+    
+    if(vars.linkColorsInTL) {
+        let tlUsers = data.map(t => t.user.id_str).filter(u => !linkColors[u]);
+        let linkData = await getLinkColors(tlUsers);
+        console.log(linkData)
+        if(linkData) for(let i in linkData) {
+            linkColors[linkData[i].id] = linkData[i].color;
+        }
+    }
     let toRender = [];
     for(let i in data) {
         let t = data[i];
