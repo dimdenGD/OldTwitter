@@ -3541,11 +3541,30 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         let ts = new Date(t.created_at).toISOString().split("T")[0];
                         let extension = url.pathname.split('.').pop();
                         let _index = t.extended_entities.media.length > 1 ? "_"+(index+1) : "";
-                        let filename = `${t.user.screen_name}_${ts}_${t.id_str}${_index}.${extension}`;
-                        a.download = filename;
 
-                        a.click();
-                        a.remove();
+                        chrome.storage.sync.get("customDownloadTemplate", result => {
+                            let filename = result.customDownloadTemplate;
+
+                            // do default download template, if not specified by user
+                            if(filename.length == 0) {
+                                filename = `${t.user.screen_name}_${ts}_${t.id_str}${_index}.${extension}`;
+                            } else {
+                                filesave_map = {
+                                    "user_screen_name": t.user.screen_name,
+                                    "user_name": t.user.name,
+                                    "extension": extension,
+                                    "timestamp": ts,
+                                    "id": t.id_str,
+                                    "index": _index
+                                };
+                                filename = filename.replace(/\{([\w]+)\}/g, (_, key) => filesave_map[key]);
+                            }
+                            console.log(`filename: ${filename}`);
+                            a.download = filename;
+                            a.click();
+                            a.remove();
+                        });
+
                     }).catch(e => {
                         downloading = false;
                         console.error(e);
