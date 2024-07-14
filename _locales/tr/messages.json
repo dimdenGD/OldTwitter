@@ -596,7 +596,7 @@
         "message": "Varsayılan bağlantı rengi"
     },
     "font": {
-        "message": "Font"
+        "message": "Yazı tipi"
     },
     "color_sync": {
         "message": "Bağlantı rengi eşitlenimi"
@@ -857,10 +857,10 @@
         }
     },
     "last_searches": {
-        "message": "Last searches"
+        "message": "Son aramalar"
     },
     "saved_searches": {
-        "message": "Saved searches"
+        "message": "Kaydedilmiş aramalar"
     },
     "everyone": {
         "message": "Herkese açık",
@@ -963,7 +963,7 @@
         "message": "Konuşmayı susturmayı geri al"
     },
     "no_big_font": {
-        "message": "Kısa/popüler tweetler için büyük fontu devre dışı bırak"
+        "message": "Kısa/popüler tweetler için büyük yazı tipini devre dışı bırak"
     },
     "emoji": {
         "message": "Emoji"
@@ -1401,7 +1401,7 @@
         "description": "You should probably use word 'Profile' in your language"
     },
     "tweet_text_font": {
-        "message": "Tweet yazı fontu"
+        "message": "Tweet yazı tipi"
     },
     "use_old_default_profile": {
         "message": "Varsayılan profil fotoğrafını yumurta yap"
@@ -1576,7 +1576,7 @@
         "message": "Karanlık mod değişkenleri"
     },
     "css_theme_hint": {
-        "message": "Lütfen 'göz-kanatıcı' veya diğer herhangi rahatsız edici şeyler yapmayın. (Örneğin takip butonunu çok büyük yapmak gibi), bunun yüzünden erişimini kaybedersin.<br><br>Senin CSS'in kullanıcının ayarladığı temanın üzerine yazılır.<br><br>Resimleri için sadece i.imgur.com, fontlar için de sadece fonts.googleapis.com kullanabilirsin (veya <a target='_blank' href='https://dimden.dev/fonts/'>'daki fontlar</a>).<br><br>You can see list of CSS variables <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>here</a>.<br><br>To target specific theme you can use <code>.body-dark</code>, <code>.body-pitch-black</code> (pitch black mode will also include <code>.body-dark</code>) and <code>.body-light</code> classes."
+        "message": "Lütfen 'göz-kanatıcı' veya diğer herhangi rahatsız edici şeyler yapmayın. (Örneğin takip butonunu çok büyük yapmak gibi), bunun yüzünden erişimini kaybedersin.<br><br>Senin CSS'in kullanıcının ayarladığı temanın üzerine yazılır.<br><br>Resimleri için sadece i.imgur.com, yazı tipleri için de sadece fonts.googleapis.com kullanabilirsin (veya <a target='_blank' href='https://dimden.dev/fonts/'>'daki yazı tiplerini</a>).<br><br>You can see list of CSS variables <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>here</a>.<br><br>To target specific theme you can use <code>.body-dark</code>, <code>.body-pitch-black</code> (pitch black mode will also include <code>.body-dark</code>) and <code>.body-light</code> classes."
     },
     "profile_colors_moved": {
         "message": "Renk senkronizasyonunu profiline bağla (Edit butonunun solundaki kalem butonu)."
@@ -1817,7 +1817,7 @@
         "message": "Eklenti uyumluluk modu (Başka bir eklentinin OldTwitter ile aynı anda çalışmasını istiyorsanız etkinleştirin, eğer eklenti hala çalışmıyorsa bunu kapatın (büyük ihtimalle çalışmayacak), çünkü bu seçenek sayfayı kastırabilir)"
     },
     "enter_custom_font_name": {
-        "message": "Özel font ismi girin"
+        "message": "Özel yazı tipi ismi girin"
     },
     "disable_data_saver": {
         "message": "Veri kaydediciyi mobil verideyken kapatın",
