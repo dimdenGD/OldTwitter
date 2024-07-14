@@ -146,11 +146,10 @@ async function renderSearch(c, force = false) {
             }
         }
         tlUsers = tlUsers.filter(i => !linkColors[i]);
-        getLinkColors(tlUsers).then(linkData => {
-            if(linkData) for(let i in linkData) {
-                linkColors[linkData[i].id] = linkData[i].color;
-            }
-        });
+        let linkData = await getLinkColors(tlUsers);
+        if(linkData) for(let i in linkData) {
+            linkColors[linkData[i].id] = linkData[i].color;
+        }
     }
     if(search.length === 0) {
         if(!currentCursor) {
