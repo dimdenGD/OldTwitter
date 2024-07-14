@@ -1097,7 +1097,13 @@ const getLinkColors = async ids => {
                 let fetched = [];
                 let toFetch = ids.filter(id => !hasColourIds.includes(id) && !noColourIds.includes(id));
                 console.log("Fetching uncached user colours:", toFetch);
-                let users = await Promise.all(toFetch.map(id => API.user.get(id)));
+                let users = [];
+                try {
+                    users = await API.user.lookup(toFetch);
+                } catch {
+                    console.warn("User colours didn't fetch (were there any?)")
+                }
+                console.log(150, users);
                 for(let user of users) {
                     if(user.profile_link_color && user.profile_link_color !== "1DA1F2") {
                         fetched.push({id: user.id_str, color: user.profile_link_color});
