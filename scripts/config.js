@@ -32,7 +32,7 @@ async function loadVars() {
             'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
             'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
             'disableRetweetHotkey', 'disableLikeHotkey', 'disableFindHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType',
-            'showUserFollowerCountsInLists', 'showQuoteCount', 'hideUnfollowersPage', 'transitionProfileBanner'
+            'showUserFollowerCountsInLists', 'showQuoteCount', 'hideUnfollowersPage', 'transitionProfileBanner', 'customDownloadTemplate'
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {
@@ -75,6 +75,12 @@ async function loadVars() {
                 data.customCSSVariables = '';
                 chrome.storage.sync.set({
                     customCSSVariables: ''
+                }, () => {});
+            }
+            if(typeof(data.customDownloadTemplate) !== 'string') {
+                data.customDownloadTemplate = '';
+                chrome.storage.sync.set({
+                    customDownloadTemplate: ''
                 }, () => {});
             }
             if(typeof(data.copyLinksAs) !== 'string') {

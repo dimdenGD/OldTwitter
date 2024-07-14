@@ -912,6 +912,7 @@ setTimeout(async () => {
     customDownloadTemplateSave.addEventListener('click', () => {
         let val = customDownloadTemplate.value;
         
+        vars.customDownloadTemplate = val;
         chrome.storage.sync.set({
             customDownloadTemplate: val
         }, () => { });
@@ -1055,9 +1056,7 @@ setTimeout(async () => {
         writeCSSToDB(vars.customCSS)
     }
     customCSS.value = await readCSSFromDB();
-    chrome.storage.sync.get("customDownloadTemplate", res => {
-        customDownloadTemplate.value = res.customDownloadTemplate;
-    })
+    customDownloadTemplate.value = vars.customDownloadTemplate;
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
