@@ -1263,6 +1263,7 @@ async function renderDiscovery(cache = true) {
             udiv.className = 'wtf-user';
             if (color && color.color !== "none") {
                 udiv.style.setProperty('--link-color', color.color);
+                udiv.classList.add('colour');
             } else {
                 udiv.style.setProperty('--link-color', 'var(--almost-black)');
             }

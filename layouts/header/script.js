@@ -2557,6 +2557,7 @@ let userDataFunction = async user => {
                     let linkColor = closestTweet.style.getPropertyValue('--link-color');
                     if(linkColor) {
                         div.style.setProperty('--link-color', linkColor);
+                        div.classList.add('colour');
                     }
                 }
                 document.body.append(userPreview);

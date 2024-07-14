@@ -173,6 +173,6 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     console.log(`Zipped Chrome version into ${path.resolve('../OldTwitterChrome.zip')}!`);
     console.log("Deleting temporary folders...");
     fs.rmSync('../OldTwitterTempChrome', { recursive: true });
-    fs.rmSync('../OldTwitterFirefox', { recursive: true });
+    // fs.rmSync('../OldTwitterFirefox', { recursive: true });
     console.log("Deleted!");
 });
