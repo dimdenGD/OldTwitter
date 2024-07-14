@@ -292,7 +292,7 @@ async function renderTimeline(options = {}) {
         } else timelineContainer.innerHTML = '';
     }
     let data = options.data;
-
+    console.log(data.filter(d => !!d.user.profile_link_color))
     let toRender = [];
     for(let i in data) {
         let t = data[i];

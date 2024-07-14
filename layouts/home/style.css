@@ -148,8 +148,21 @@ body {
     cursor: pointer;
     min-height: 75px;
     padding: 10px;
-    --link-color: var(--almost-black);
 }
+
+.tweet:not(.colour) .tweet-header *, .tweet:not(.colour) .tweet-time {
+    --link-color: var(--almost-black) !important;
+}
+
+.tweet-header-name-quote, .tweet-header-info-quote *, .tweet-time-quote {
+    --link-color: var(--almost-black) !important;
+    color: var(--almost-black) !important;
+}
+
+.tweet-header-info.wtf-user-link * {
+    color: var(--almost-black) !important;
+}
+
 .tweet:focus {
     outline: none;
 }

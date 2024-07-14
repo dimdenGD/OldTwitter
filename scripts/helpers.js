@@ -1026,14 +1026,19 @@ function makeSeeableColor(color, bg_color = getBackgroundColor()) {
     return rgb2hex(...hslToRgb(...hsl));
 }
 
-const getLinkColors = ids => {
+const getLinkColors = async ids => {
     if(typeof ids === "string") ids = ids.split(",");
     ids = [...new Set(ids)];
-    return new Promise(async (resolve, reject) => {
-        chrome.storage.local.get(["linkColors"], async data => {
+    const colours = await Promise.all([
+        new Promise(async (resolve, reject) => {
+            chrome.storage.local.get(["linkColors"], async data => {
+            // const oldUsers = await Promise.all(ids.filter(i => !data.linkColors[i] !== 0).map(i => API.user.get(i)));
             let linkColors = data.linkColors || {};
             let toFetch = [];
+            // const colourUsers = oldUsers.filter(u => !!u.profile_link_color && u.profile_link_color !== "1DA1F2").map(u => ({id: u.id_str, color: u.profile_link_color}));
+            // const nonColourUsers = oldUsers.filter(u => !u.profile_link_color || u.profile_link_color === "1DA1F2").map(u => u.id_str);
             let fetched = [];
+            
             for(let id of ids) {
                 if(typeof linkColors[id] === "undefined") {
                     toFetch.push(id);
@@ -1079,8 +1084,47 @@ const getLinkColors = ids => {
             } catch(e) {
                 return resolve(fetched);
             }
-        });
-    });
+            });
+        }),
+        new Promise(async (resolve, reject) => {
+            // firstly, get "legacyLinkColors" from storage
+            chrome.storage.local.get(["legacyLinkColors"], async data => {
+                console.log(data);
+                let legacyLinkColors = data.legacyLinkColors || {};
+                // each id will either have a hex colour or -1 if the user doesn't have a custom link colour
+                let hasColourIds = ids.filter(id => legacyLinkColors[id] && legacyLinkColors[id] !== -1);
+                let noColourIds = ids.filter(id => legacyLinkColors[id] && legacyLinkColors[id] === -1);
+                let fetched = [];
+                let toFetch = ids.filter(id => !hasColourIds.includes(id) && !noColourIds.includes(id));
+                console.log("Fetching uncached user colours:", toFetch);
+                let users = await Promise.all(toFetch.map(id => API.user.get(id)));
+                for(let user of users) {
+                    if(user.profile_link_color && user.profile_link_color !== "1DA1F2") {
+                        fetched.push({id: user.id_str, color: user.profile_link_color});
+                        legacyLinkColors[user.id_str] = user.profile_link_color;
+                    } else {
+                        legacyLinkColors[user.id_str] = -1;
+                    }
+                }
+                // also push existing colours
+                for(let id of hasColourIds) {
+                    fetched.push({id, color: legacyLinkColors[id]});
+                }
+                chrome.storage.local.set({legacyLinkColors}, () => {});
+                console.log("Fetched user colours:", fetched);
+                resolve(fetched);
+            });
+        })
+    ]);
+    // prioritize colours in the first array
+    let linkColors = {};
+    for(let c of colours[1]) {
+        linkColors[c.id] = c.color;
+    }
+    for(let c of colours[0]) {
+        linkColors[c.id] = c.color;
+    }
+    return linkColors;
 }
 
 function getOtAuthToken(cache = true) {
@@ -1727,10 +1771,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if(linkColors[t.user.id_str]) {
                 let sc = makeSeeableColor(linkColors[t.user.id_str]);
                 tweet.style.setProperty('--link-color', sc);
+                tweet.classList.add('colour');
             } else {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                     let sc = makeSeeableColor(t.user.profile_link_color);
                     tweet.style.setProperty('--link-color', sc);
+                    tweet.classList.add('colour');
                 }
             }
         }
