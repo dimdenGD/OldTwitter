@@ -1116,13 +1116,16 @@ const getLinkColors = async ids => {
             });
         })
     ]);
-    // prioritize colours in the first array
-    let linkColors = {};
-    for(let c of colours[1]) {
-        linkColors[c.id] = c.color;
+    // we need to return { id: string, color: string }[]
+    // clear duplicates; if there's two ids, prioritize the one in the first array
+    let linkColors = [];
+    for(let colour of colours[0]) {
+        linkColors.push(colour);
     }
-    for(let c of colours[0]) {
-        linkColors[c.id] = c.color;
+    for(let colour of colours[1]) {
+        if(!linkColors.find(c => c.id === colour.id)) {
+            linkColors.push(colour);
+        }
     }
     return linkColors;
 }

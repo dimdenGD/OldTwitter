@@ -195,6 +195,7 @@ async function updateTimeline(mode = 'rewrite') {
     if(vars.linkColorsInTL) {
         let tlUsers = tl.map(t => t.user.id_str).filter(u => !linkColors[u]);
         let linkData = await getLinkColors(tlUsers);
+        console.log(linkData)
         if(linkData) for(let i in linkData) {
             linkColors[linkData[i].id] = linkData[i].color;
         }
