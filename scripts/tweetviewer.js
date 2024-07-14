@@ -206,10 +206,11 @@ class TweetViewer {
                 }
             }
             tlUsers = tlUsers.filter(i => !this.linkColors[i]);
-            let linkData = await getLinkColors(tlUsers);
-            if(linkData) for(let i in linkData) {
-                this.linkColors[linkData[i].id] = linkData[i].color;
-            }
+            getLinkColors(tlUsers).then(linkData => {
+                if(linkData) for(let i in linkData) {
+                    this.linkColors[linkData[i].id] = linkData[i].color;
+                }
+            });
         }
     
         this.cursor = tl.cursor;
@@ -866,10 +867,12 @@ class TweetViewer {
             if(this.linkColors[t.user.id_str]) {
                 let sc = makeSeeableColor(this.linkColors[t.user.id_str]);
                 tweet.style.setProperty('--link-color', sc);
+                tweet.classList.add('colour');
             } else {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                     let sc = makeSeeableColor(t.user.profile_link_color);
                     tweet.style.setProperty('--link-color', sc);
+                    tweet.classList.add('colour');
                 }
             }
         }

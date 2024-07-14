@@ -148,8 +148,16 @@ body {
     cursor: pointer;
     min-height: 75px;
     padding: 10px;
-    --link-color: var(--almost-black);
 }
+
+.tweet:not(.colour) .tweet-header-info *, .tweet:not(.colour) .tweet-time {
+    color: var(--almost-black);
+}
+
+.tweet-header-name-quote, .tweet-header-handle-quote, .tweet-time-quote {
+    color: var(--almost-black) !important;
+}
+
 .tweet:focus {
     outline: none;
 }

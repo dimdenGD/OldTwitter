@@ -159,10 +159,11 @@ async function updateReplies(id, c) {
             }
         }
         tlUsers = tlUsers.filter(i => !linkColors[i]);
-        let linkData = await getLinkColors(tlUsers);
-        if(linkData) for(let i in linkData) {
-            linkColors[linkData[i].id] = linkData[i].color;
-        }
+        getLinkColors(tlUsers).then(linkData => {
+            if(linkData) for(let i in linkData) {
+                linkColors[linkData[i].id] = linkData[i].color;
+            }
+        });
     }
 
     cursor = tl.cursor;

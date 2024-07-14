@@ -1030,56 +1030,10 @@ const getLinkColors = ids => {
     if(typeof ids === "string") ids = ids.split(",");
     ids = [...new Set(ids)];
     return new Promise(async (resolve, reject) => {
-        chrome.storage.local.get(["linkColors"], async data => {
-            let linkColors = data.linkColors || {};
-            let toFetch = [];
-            let fetched = [];
-            for(let id of ids) {
-                if(typeof linkColors[id] === "undefined") {
-                    toFetch.push(id);
-                } else {
-                    if(linkColors[id]) fetched.push({id, color: linkColors[id]});
-                }
-            }
-            if(
-                toFetch.length === 0 ||
-                (window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver)
-            ) {
-                return resolve(fetched);
-            }
-
-            try {
-                const controller = new AbortController();
-
-                let t = setTimeout(() => controller.abort(), 1000);
-                let res = await fetch("https://dimden.dev/services/twitter_link_colors/v2/get_multiple/"+toFetch.join(","), {
-                    signal: controller.signal
-                });
-                clearTimeout(t);
-                let json = await res.json();
-                for(let id in json) {
-                    if(json[id] === 'none' || json[id] === '4595b5') {
-                        continue;
-                    }
-                    fetched.push({id, color: json[id]});
-                    linkColors[id] = json[id];
-                }
-                for(let id of ids) {
-                    if(typeof linkColors[id] === "undefined") {
-                        linkColors[id] = 0;
-                    }
-                }
-                let keys = Object.keys(linkColors);
-                if(keys.length > 20000) {
-                    chrome.storage.local.set({linkColors: {}}, () => {});
-                } else {
-                    chrome.storage.local.set({linkColors}, () => {});
-                }
-                return resolve(fetched);
-            } catch(e) {
-                return resolve(fetched);
-            }
-        });
+        let results = await Promise.all(ids.map(id => fetch(`https://dimden.dev/services/twitter_link_colors/v2/get_data/${id}`).then(r => r.json())));
+        results = results.filter(r => r.color !== "none").map(r => ({...r, color: `#${r.color}`}));
+        console.log(results);
+        return resolve(results);
     });
 }
 
@@ -1289,7 +1243,10 @@ async function renderDiscovery(cache = true) {
         if(innerHeight < 700) max = 5;
         if(innerHeight < 650) max = 3;
         let usersSuggestions = discover.timeline.instructions[0].addEntries.entries[0].content.timelineModule.items.map(s => s.entryId.slice('user-'.length)).slice(0, max); // why is it so deep
+        // god i hate this
+        const colours = await getLinkColors(usersSuggestions);
         usersSuggestions.forEach(userId => {
+            const color = colours.find(c => c.id === userId);
             let userData = usersData[userId];
             if (!userData) return;
             if(vars.twitterBlueCheckmarks && userData.ext && userData.ext.isBlueVerified && userData.ext.isBlueVerified.r && userData.ext.isBlueVerified.r.ok) {
@@ -1304,6 +1261,11 @@ async function renderDiscovery(cache = true) {
             }
             let udiv = document.createElement('div');
             udiv.className = 'wtf-user';
+            if (color && color.color !== "none") {
+                udiv.style.setProperty('--link-color', color.color);
+            } else {
+                udiv.style.setProperty('--link-color', 'var(--almost-black)');
+            }
             udiv.dataset.userId = userId;
             udiv.innerHTML = html`
                 <a class="tweet-avatar-link" href="/${userData.screen_name}"><img src="${`${(userData.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(userData.id_str) % 7}_normal.png`): userData.profile_image_url_https}`.replace("_normal", "_bigger")}" alt="${escapeHTML(userData.name)}" class="tweet-avatar" width="48" height="48"></a>
@@ -1727,10 +1689,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if(linkColors[t.user.id_str]) {
                 let sc = makeSeeableColor(linkColors[t.user.id_str]);
                 tweet.style.setProperty('--link-color', sc);
+                tweet.classList.add('colour');
             } else {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                     let sc = makeSeeableColor(t.user.profile_link_color);
                     tweet.style.setProperty('--link-color', sc);
+                    tweet.classList.add('colour');
                 }
             }
         }
