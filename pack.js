@@ -5,6 +5,7 @@ const fs = require('fs');
 const path = require('path');
 const AdmZip = require('adm-zip');
 const args = process.argv.slice(2);
+const archiver = require('archiver');
 
 async function copyDir(src, dest) {
     const entries = await fsp.readdir(src, { withFileTypes: true });
@@ -153,20 +154,22 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     }
     console.log("Zipping Firefox version...");
     try {
-        const zip = new AdmZip();
-        const outputDir = "../OldTwitterFirefox.zip";
-        zip.addLocalFolder("../OldTwitterFirefox");
-        zip.writeZip(outputDir);
+        const outputDir = fs.createWriteStream('../OldTwitterFirefox.zip');
+        const archive = archiver('zip', { zlib: { level: 9 } });
+        archive.pipe(outputDir);
+        archive.directory('../OldTwitterFirefox/', false);
+        await archive.finalize();
     } catch (e) {
         console.log(`Something went wrong ${e}`);
     }
     console.log(`Zipped Firefox version into ${path.resolve('../OldTwitterFirefox.zip')}!`);
     console.log("Zipping Chrome version...");
     try {
-        const zip = new AdmZip();
-        const outputDir = "../OldTwitterChrome.zip";
-        zip.addLocalFolder("../OldTwitterTempChrome");
-        zip.writeZip(outputDir);
+        const outputDir = fs.createWriteStream('../OldTwitterChrome.zip');
+        const archive = archiver('zip', { zlib: { level: 9 } });
+        archive.pipe(outputDir);
+        archive.directory('../OldTwitterTempChrome/', false);
+        await archive.finalize();
     } catch (e) {
         console.log(`Something went wrong ${e}`);
     }

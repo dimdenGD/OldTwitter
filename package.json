@@ -29,6 +29,7 @@
   "homepage": "https://github.com/dimdenGD/OldTwitter#readme",
   "dependencies": {
     "adm-zip": "^0.5.10",
+    "archiver": "^7.0.1",
     "node-fetch": "^2.6.7"
   }
 }
