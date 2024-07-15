@@ -184,14 +184,13 @@
     "timeline_type": { "message": "Tipe linimasa" },
     "show_topic_tweets": { "message": "Tampilkan tweet bertopik (algo saja)" },
     "show_colors_in_timeline": { "message": "Perlihatkan warna tautan khusus pengguna di linimasa beranda" },
+    "always_show_link_color": { "message": "Selalu tampilkan warna tautan khusus, bukan saat diarahkan pointer tetikus" },
     "enable_twemoji": { "message": "Gunakan Twemoji" },
     "hearts_instead_stars": { "message": "Tampilkan hati (likes) instead of stars (favorites)" },
     "dark_mode": { "message": "Mode gelap" },
     "disable_hotkeys": { "message": "Matikan tombol pintas" },
     "hotkeys_list": { "message": "Lihat daftar tombol pintas disini" },
-    "save_preferred_quality": {
-        "message": "Simpan kualitas video yang diinginkan. Jika aktif, OldTwitter akan menyimpan kualitas video yang diinginkan (atau menggunakan kualitas terdekat yang tersedia). Jika mati, OldTwitter akan memilih kualitas tertinggi."
-    },
+    "save_preferred_quality": { "message": "Simpan kualitas video yang diinginkan. Jika aktif, OldTwitter akan menyimpan kualitas video yang diinginkan (atau menggunakan kualitas terdekat yang tersedia). Jika mati, OldTwitter akan memilih kualitas tertinggi." },
     "preferred_quality": { "message": "Kualitas yang diinginkan" },
     "default_link_color": { "message": "Warna tautan bawaan" },
     "font": { "message": "Fon" },
@@ -405,6 +404,10 @@
     "block_sure_desc": { "message": "Mereka tidak dapat mengikuti atau melihat tweet Anda, dan Anda tidak akan melihat tweet atau notifikasi dari @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user": { "message": "@$SCREEN_NAME$ memblokir Anda", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "why_you_cant_see_block_user": { "message": "Anda tidak dapat mengikuti atau melihat tweet @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "nonexistent_user": { "message": "Akun ini tidak tersedia" },
+    "nonexistent_user_desc": { "message": "Coba cari yang lain." },
+    "suspended_user": { "message": "Akun ditangguhkan" },
+    "suspended_user_desc": { "message": "Profil yang Anda tujui telah ditangguhkan. Untuk kembali ke linimasa beranda Anda, <a href=\"/home\">klik di sini</a>." },
     "you_blocked_user": { "message": "Anda memblokir @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "do_you_want_see_blocked_user": { "message": "Anda yakin ingin melihat tweet pengguna ini? Melihat tweet tidak akan membuka blokir @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "I_want_see_blocked_user": { "message": "Ya, lihat profil" },
@@ -451,24 +454,22 @@
     "import": { "message": "Impor", "note": "Verb" },
     "export": { "message": "Ekspor", "note": "Verb" },
     "reset_colors_sure": { "message": "Anda yakin ingin mengatur ulang semua warna?" },
-    "navbar": { "message": "Bar navigasi", "description": "Setting Text" },
-    "sidebar": { "message": "Bar sisi", "description": "Setting Text" },
-    "advanced_options": { "message": "Setelan lanjutan", "description": "Setting Text" },
-    "advanced_colors": { "message": "Warna lanjutan", "description": "Setting Text" },
-    "accessibility": { "message": "Aksesibilitas", "description": "Setting Text" },
-    "tweets_and_timeline": { "message": "Tweet & Linimasa", "description": "Setting Text" },
-    "dark_mode_setting": { "message": "Mode gelap", "description": "Setting Text" },
-    "old_twitter_look": { "message": "Tampilan Twitter lama", "description": "Setting Text" },
-    "content_you_see": { "message": "Konten yang Anda lihat", "description": "Setting Text" },
-    "use_old_style_reply": { "message": "Gunakan balasan sebutan bergaya lama" },
+    "navbar": { "message":"Bar navigasi", "description":"Setting Text"},
+    "sidebar": { "message":"Bar sisi", "description":"Setting Text"},
+    "advanced_options": { "message": "Setelan lanjutan", "description":"Setting Text"},
+    "advanced_colors": { "message": "Warna lanjutan", "description":"Setting Text"},
+    "accessibility": { "message": "Aksesibilitas", "description":"Setting Text"},
+    "tweets_and_timeline": { "message":"Tweet & Linimasa", "description":"Setting Text"},
+    "dark_mode_setting": { "message": "Mode gelap", "description":"Setting Text"},
+    "old_twitter_look": {"message": "Tampilan Twitter lama", "description":"Setting Text"},
+    "content_you_see": {"message": "Konten yang Anda lihat", "description":"Setting Text"},
+    "use_old_style_reply": {"message": "Gunakan balasan sebutan bergaya lama"},
     "algov2": { "message": "Algoritmik (\"Untuk Anda\")" },
     "chrono_help": { "message": "Linimasa kronologik terbalik klasik (\"Mengikuti\"), menampilkan tweet dan retweet terbaru di atas tanpa tambahan lain." },
     "chrono_no_retweets_help": { "message": "Sama seperti yang pertama namun tanpa menampilkan retweet." },
     "chrono_retweets_help": { "message": "Sama seperti yang pertama namun hanya menampilkan retweet." },
     "chrono_social_help": { "message": "Campuran antara linimasa kronologi terbalik dan algoritmik, kadang kala 'yang disukai seseorang' dan 'yang diikuti seseorang' akan ada di antara tweet kronologis." },
-    "algo_help": {
-        "message": "Linimasa algoritmik lama, menampilkan tweet Twitter yang Anda mungkin sukai. Versi 1 adalah versi lawas dari linimasa ini, dan mungkin tidak memiliki tarif batasan (atau sangat banyak) namun kekurangan alasan mengapa tweet ditambahkan ke linimasa."
-    },
+    "algo_help": { "message": "Linimasa algoritmik lama, menampilkan tweet Twitter yang Anda mungkin sukai. Versi 1 adalah versi lawas dari linimasa ini, dan mungkin tidak memiliki tarif batasan (atau sangat banyak) namun kekurangan alasan mengapa tweet ditambahkan ke linimasa." },
     "algov2_help": { "message": "Linimasa algoritmik (\"Untuk Anda\"), menampilkan tweet yang Twitter pikir Anda akan sukai." },
     "import_settings": { "message": "Impor setelan" },
     "export_settings": { "message": "Ekspor setelan" },
@@ -479,17 +480,13 @@
     "clear_caches": { "message": "Hapus cache" },
     "hide_non_replies": { "message": "Sembunyikan yang bukan balasan" },
     "profile_custom_css": { "message": "Kustomisasi CSS profil" },
-    "pccss_not_eligible": {
-        "message": "Anda tidak memiliki akses kustomisasi CSS profil saat ini.<br><br>Jika Anda ingin memiliki profil keren dengan fon, warna, latar belakang khusus dan lainnya yang dapat dilihat oleh <b>semua pengguna</b>, Anda bisa mendukung ekstensi (bukan hanya dari donasi).<br><br>Klik <a target='_blank' href='https://dimden.dev/ot/custom-css/'>di sini</a> untuk mempelajari lebih lanjut."
-    },
+    "pccss_not_eligible": { "message": "Anda tidak memiliki akses kustomisasi CSS profil saat ini.<br><br>Jika Anda ingin memiliki profil keren dengan fon, warna, latar belakang khusus dan lainnya yang dapat dilihat oleh <b>semua pengguna</b>, Anda bisa mendukung ekstensi (bukan hanya dari donasi).<br><br>Klik <a target='_blank' href='https://dimden.dev/ot/custom-css/'>di sini</a> untuk mempelajari lebih lanjut." },
     "pccss_eligible": { "message": "Anda memiliki akses ke kustomisasi CSS pada profil!" },
     "pccss_congrats": { "message": "Selamat, Anda diberikan akses ke kustomisasi CSS pada profil! Hanya sebagian pengguna OldTwitter yang memiliki akses, nikmati dan tetaplah menjadi keren!" },
     "yay": { "message": "Hore!" },
     "light_mode_vars": { "message": "Variabel mode terang" },
     "dark_mode_vars": { "message": "Variabel mode gelap" },
-    "css_theme_hint": {
-        "message": "Dimohon untuk tidak mempublikasikan gaya yang dapat menggangu penglihatan atau menipu (seperti membuat tombol Ikuti sangat besar atau serupa), Anda akan kehilangan hak khusus jika melakukannya. <b>Selalu periksa bagaimana gaya Anda terlihat pada mode gelap dan terang.</b><br><br>Setelan CSS Anda akan menggantikan gaya yang terpasang oleh pengguna lain.<br><br>Anda hanya dapat menggunakan i.imgur.com untuk gambar dan fonts.googleapis.com untuk fon (dan fon lain dari <a target='_blank' href='https://dimden.dev/fonts/'>sini</a>).<br><br>Anda dapat melihat daftar variabel CSS dari <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>sini</a>.<br><br>Untuk menargetkan tema spesifik Anda dapat menggunakan class <code>.body-dark</code>, <code>.body-pitch-black</code> (mode gelap gulita juga mencakup <code>.body-dark</code>) dan <code>.body-light</code>."
-    },
+    "css_theme_hint": { "message": "Dimohon untuk tidak mempublikasikan gaya yang dapat menggangu penglihatan atau menipu (seperti membuat tombol Ikuti sangat besar atau serupa), Anda akan kehilangan hak khusus jika melakukannya. <b>Selalu periksa bagaimana gaya Anda terlihat pada mode gelap dan terang.</b><br><br>Setelan CSS Anda akan menggantikan gaya yang terpasang oleh pengguna lain.<br><br>Anda hanya dapat menggunakan i.imgur.com untuk gambar dan fonts.googleapis.com untuk fon (dan fon lain dari <a target='_blank' href='https://dimden.dev/fonts/'>sini</a>).<br><br>Anda dapat melihat daftar variabel CSS dari <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>sini</a>.<br><br>Untuk menargetkan tema spesifik Anda dapat menggunakan class <code>.body-dark</code>, <code>.body-pitch-black</code> (mode gelap gulita juga mencakup <code>.body-dark</code>) dan <code>.body-light</code>." },
     "profile_colors_moved": { "message": "Sinkronisasi warna tautan dipindahkan ke profilmu (tombol pensil di sebelah kiri tombol Sunting profil)." },
     "click_here_more_info": { "message": "Klik disini untuk info lebih lanjut" },
     "profile_must_be_public_to_auth": { "message": "Profil Anda harus publik untuk sinkronisasi awal, lalu Anda dapat memprivat akun kembali." },
@@ -503,17 +500,15 @@
     "error_setting_css": { "message": "Gagal mengatur CSS" },
     "load": { "message": "Muat" },
     "disable_profile_customizations": { "message": "Matikan kustomisasi profil" },
-    "replying_to_and": { "message": " dan ", "description": "For some languages that use address terms", "example": "Replying to @A-> and <-@B, @C" },
-    "replying_to_comma": { "message": ", ", "description": "For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
-    "twitter": { "message": "Twitter" },
-    "move_navbar_to_bottom": { "message": "Pindahkan bar navigasi ke bawah" },
-    "styled_profile": { "message": "Profil bergaya" },
-    "open_notifs_as_modal": { "message": "Buka notifikasi di jendela baru", "description": "Modal is a small window that opens on top of page" },
-    "clear_ot_token": { "message": "Hapus token OldTwitter" },
-    "enable_iframe_navigation": {
-        "message": "Hidupkan navigasi halaman eksperimental. Ini akan memungkinkan Anda mengklik tautan dan kembali ke halaman sebelumnya tanpa memuat ulang. Ini bersifat eksperimental dan mungkin rusak serta ngadat."
-    },
-    "style_your_profile": { "message": "Ubah gaya profilmu disini!" },
+    "replying_to_and":  { "message": " dan ", "description":"For some languages that use address terms", "example": "Replying to @A-> and <-@B, @C" },
+    "replying_to_comma":  { "message": ", ", "description":"For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
+    "twitter": {"message": "Twitter"},
+    "move_navbar_to_bottom": {"message": "Pindahkan bar navigasi ke bawah"},
+    "styled_profile": {"message": "Profil bergaya"},
+    "open_notifs_as_modal": {"message": "Buka notifikasi di jendela baru", "description": "Modal is a small window that opens on top of page"},
+    "clear_ot_token": {"message": "Hapus token OldTwitter"},
+    "enable_iframe_navigation": {"message": "Hidupkan navigasi halaman eksperimental. Ini akan memungkinkan Anda mengklik tautan dan kembali ke halaman sebelumnya tanpa memuat ulang. Ini bersifat eksperimental dan mungkin rusak serta ngadat."},
+    "style_your_profile": {"message": "Ubah gaya profilmu disini!"},
     "modern_ui": { "message": "Gunakan tampilan Twitter tahun 2018, dengan tombol bulat dan simbol" },
     "show_exact_values": { "message": "Tampilkan jumlah tepat dari retweet, suka, pengikut, dll." },
     "hide_timeline_types": { "message": "Sembunyikan pengganti jenis linimasa di beranda" },
@@ -525,46 +520,35 @@
     "select_language": { "message": "Pilih bahasa" },
     "mute_videos": { "message": "Bisukan video saat memulai" },
     "dont_pause_videos": { "message": "Jangan jeda video bila bergulir dari tampilan" },
-    "delete_for_you": { "message": "Hapus untuk saya", "description": "DM Message Delete menu" },
+    "delete_for_you":{ "message": "Hapus untuk saya", "description": "DM Message Delete menu" },
     "show_user_previews_on_mobile": { "message": "Tampilkan pratinjau pengguna saat ditahan (dapat menggangu)", "description": "This option only appears on mobile" },
     "separate_text": { "message": "Pisahkan teks", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
-    "leave_conversation": { "message": "Anda yakin ingin keluar dari/menghapus percakapan ini?" },
-    "autotranslation_help1": { "message": "Fitur ini dapat menemukan tweet dan memicu terjemahan otomatis, tanpa harus menekan tombol secara manual." },
-    "autotranslation_help2": { "message": "Untuk menggunakannya, pilih mode terjemahan otomatis dan tentukan daftar bahasa yang ingin digunakan. Tweet yang memenuhi syarat tersebut akan diterjemahkan secara otomatis." },
-    "autotranslation_help3": { "message": "Lebih jelasnya:" },
-    "autotranslation_help4": { "message": "\"Terjemahkan jika ada dalam daftar bahasa\" tanpa ada bahasa terpasang menyebabkan fitur dimatikan (bawaan)." },
-    "autotranslation_help5": { "message": "\"Terjemahkan jika tidak ada dalam daftar bahasa\" tanpa ada bahasa terpasang menyebabkan semua tweet diterjemahkan. Disarankan untuk menambahkan bahasa yang Anda ketahui agar tidak diterjemahkan." },
+    "leave_conversation": {"message": "Anda yakin ingin keluar dari/menghapus percakapan ini?"},
+    "autotranslation_help1": {"message": "Fitur ini dapat menemukan tweet dan memicu terjemahan otomatis, tanpa harus menekan tombol secara manual." },
+    "autotranslation_help2": {"message": "Untuk menggunakannya, pilih mode terjemahan otomatis dan tentukan daftar bahasa yang ingin digunakan. Tweet yang memenuhi syarat tersebut akan diterjemahkan secara otomatis."},
+    "autotranslation_help3": {"message": "Lebih jelasnya:" },
+    "autotranslation_help4": {"message": "\"Terjemahkan jika ada dalam daftar bahasa\" tanpa ada bahasa terpasang menyebabkan fitur dimatikan (bawaan)." },
+    "autotranslation_help5": {"message": "\"Terjemahkan jika tidak ada dalam daftar bahasa\" tanpa ada bahasa terpasang menyebabkan semua tweet diterjemahkan. Disarankan untuk menambahkan bahasa yang Anda ketahui agar tidak diterjemahkan."},
     "go_back_to_top": { "message": "Kembali ke atas" },
     "follow_system_settings_dark_mode": { "message": "Ikuti pengaturan sistem untuk mode gelap" },
-    "replacer_post_to_tweet": {
-        "message": "post->tweet",
-        "description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
-    },
-    "replacer_repost_to_retweet": {
-        "message": "posting ulang->retweet",
-        "description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)."
-    },
+    "replacer_post_to_tweet": { "message": "post->tweet", "description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
+    "replacer_repost_to_retweet": { "message": "posting ulang->retweet", "description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)." },
     "mute_user": { "message": "Bisukan @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "unmute_user": { "message": "Berhenti membisukan @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "muted_user": { "message": "@$SCREEN_NAME$ dibisukan", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "unmuted_user": { "message": "@$SCREEN_NAME$ berhenti dibisukan", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "mmdd": { "message": "$DATE$ $MONTH$", "description": "July 1st", "placeholders": { "month": { "content": "July" }, "date": { "content": "1st" } } },
-    "mmddyy": { "message": "$DATE$ $MONTH$, $YEAR$", "description": "July 1st, 2015", "placeholders": { "year": { "content": "2015" }, "month": { "content": "July" }, "date": { "content": "1st" } } },
-    "yyyy": { "message": "$YEAR$", "description": "2015", "placeholders": { "year": { "content": "2015" } } },
-    "localize_digit": { "message": "Gunakan notasi 4-digit Asia. (CJK)", "description": "Non-CJK dont need to translate this message, just copy and paste" },
-    "replacer_liked_to_favorited": {
-        "message": "disukai->difavorit",
-        "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
-    },
+    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"July 1st", "placeholders": { "month": { "content": "July" }, "date": { "content": "1st" } } },
+    "mmddyy":{ "message": "$DATE$ $MONTH$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" }, "month": { "content": "July" }, "date": { "content": "1st" } } },
+    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
+    "localize_digit":{ "message" : "Gunakan notasi 4-digit Asia. (CJK)", "description": "Non-CJK dont need to translate this message, just copy and paste" },
+    "replacer_liked_to_favorited": { "message": "disukai->difavorit", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
     "favorited_by": { "message": "Difavorit oleh" },
     "disable_retweet_hotkey": { "message": "Matikan tombol pintas retweet (T)" },
     "disable_like_hotkey": { "message": "Matikan tombol pintas suka (L)" },
-    "enable_extension_compatibility": {
-        "message": "Hidupkan mode kompatibilitas ekstensi (hidupkan jika Anda ingin membuat ekstensi lain bekerja dengan OldTwitter. Jika masih tidak bekerja (yang kemungkinan besar tidak akan), silakan matikan lagi, karena pengaturan ini dapat membuat halaman rusak/ngadat)"
-    },
-    "enter_custom_font_name": { "message": "Masukkan nama fon khusus" },
+    "enable_extension_compatibility": { "message": "Hidupkan mode kompatibilitas ekstensi (hidupkan jika Anda ingin membuat ekstensi lain bekerja dengan OldTwitter. Jika masih tidak bekerja (yang kemungkinan besar tidak akan), silakan matikan lagi, karena pengaturan ini dapat membuat halaman rusak/ngadat)" },
+    "enter_custom_font_name": {"message": "Masukkan nama fon khusus" },
     "disable_data_saver": { "message": "Matikan penghemat data untuk koneksi seluler", "description": "This option only appears on mobile" },
-    "mobile": { "message": "Ponsel", "description": "Title for mobile device settings" },
+    "mobile": { "message": "Ponsel", "description": "Title for mobile device settings"},
     "disable_accept_type": { "message": "Matikan accept-type saat mengunggah media. Hal ini memperbaiki masalah tidak dapatnya mengakses semua gambar pada beberapa versi Android.", "description": "This option only appears on mobile" },
     "manage_searches": { "message": "Kelola pencarian" },
     "add_search": { "message": "Tambahkan pencarian" },
@@ -590,7 +574,7 @@
     "only_show_people_with_followers": { "message": "Tampilkan pengguna dengan setidaknya $NUMBER$ pengikut", "placeholders": { "number": { "content": "-1" } } },
     "only_show_people_with_age": { "message": "Tampilkan pengguna dengan akun yang berusia setidaknya $NUMBER$ hari", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "Halaman" },
-    "update": { "message": "Perbarui" },
+    "update": {"message": "Perbarui" },
     "show_quote_count": { "message": "Tampilkan jumlah kutipan tweet" },
     "uploading": { "message": "Mengunggah" },
     "finalization": { "message": "Menyelesaikan" },
@@ -609,52 +593,32 @@
     "you_sent_photo": { "message": "Anda mengirimkan sebuah gambar" },
     "you_sent_video": { "message": "Anda mengirimkan sebuah video" },
     "you_reacted_message": { "message": "Anda menanggapi pesan" },
-    "user_added": {
-        "message": "$A1$$USER_WHO_ADDED$$A_END$ menambahkan $A2$$USER_WHO_JOINED$$A_END$",
-        "description": "This is used when a group admin adds a user to the group chat (display names)",
-        "placeholders": {
+    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ menambahkan $A2$$USER_WHO_JOINED$$A_END$", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
             "user_who_added": { "content": "Group Admin" },
             "user_who_joined": { "content": "Group Admin's Friend" },
             "a1": { "content": "<a href=\"/GroupAdmin\">" },
             "a2": { "content": "<a href=\"/GroupAdminsFriend\">" },
             "a_end": { "content": "</a>" }
-        }
-    },
-    "user_left": {
-        "message": "$A_START$$NAME$$A_END$ keluar",
-        "description": "This is used when a user in a group leaves (display name)",
-        "placeholders": {
+        } },
+    "user_left": { "message": "$A_START$$NAME$$A_END$ keluar",  "description": "This is used when a user in a group leaves (display name)", "placeholders": {
             "name": { "content": "Group Admin's Friend" },
             "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" },
             "a_end": { "content": "</a>" }
-        }
-    },
-    "user_changed_group_photo": {
-        "message": "$A_START$$NAME$$A_END$ mengubah gambar grup",
-        "description": "This is used when a user in a group changes the group photo (display name)",
-        "placeholders": {
+        } },
+    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ mengubah gambar grup", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
             "name": { "content": "Group Admin" },
             "a_start": { "content": "<a href=\"/GroupAdmin\">" },
             "a_end": { "content": "</a>" }
-        }
-    },
-    "user_changed_group_name": {
-        "message": "$A_START$$NAME$$A_END$ mengubah nama grup menjadi $GROUP_NAME$",
-        "description": "This is used when a user in a group changes the group name (display name)",
-        "placeholders": {
+        } },
+    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ mengubah nama grup menjadi $GROUP_NAME$", "description": "This is used when a user in a group changes the group name (display name)", "placeholders": {
             "name": { "content": "Group Admin" },
             "group_name": { "content": "Example Group" },
             "a_start": { "content": "<a href=\"/GroupAdmin\">" },
             "a_end": { "content": "</a>" }
-        }
-    },
-    "user_added_you_inbox": {
-        "message": "$NAME$ menambahkan Anda",
-        "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)",
-        "placeholders": {
+        } },
+    "user_added_you_inbox": { "message": "$NAME$ menambahkan Anda", "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)", "placeholders": {
             "name": { "content": "Group Admin" }
-        }
-    },
+        } },
     "user_added_you_msg": {
         "message": "$A_START$$NAME$$A_END$ menambahkan Anda<br>Grup ini berisi $NUMBER$ pengguna lainnya",
         "description": "This is used when a group admin adds you to the group chat (display names, messages only)",
@@ -669,5 +633,15 @@
     "accepted_conversation": { "message": "Percakapan diterima" },
     "anniversary_tweet": { "message": "Ingatkah Anda kapan bergabung dengan Twitter? Ya, saya ingat!\n#MyTwitterAnniversary" },
     "you_shared_tweet": { "message": "Anda membagikan sebuah tweet" },
-    "user_shared_tweet": { "message": "$NAME$ membagikan sebuah tweet", "placeholders": { "name": { "content": "Display Name" } } }
+    "user_shared_tweet": { "message": "$NAME$ membagikan sebuah tweet", "placeholders": { "name": { "content": "Display Name" } } },
+    "transition_profile_banner": { "message": "Gunakan transisi pada banner profil" },
+    "custom_downloadtemplate": { "message": "Templat unduhan kustom" },
+    "custom_downloadtemplate_text": { "message": "Memungkinkan Anda mengubah nama berkas ketika mengunduh media tweet." },
+    "save_downloadtemplate": { "message": "Simpan templat unduhan" },
+    "custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code>: Nama pengguna." },
+    "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: Nama akun pengguna. (Contoh: @dril)" },
+    "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: Tanggal dan waktu diunggahnya tweet." },
+    "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: Jenis berkas tweet yang diunduh." },
+    "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: ID tweet." },
+    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: Indeks untuk setiap berkas yang akan diunduh. (untuk postingan dengan beberapa media)" }
 }
