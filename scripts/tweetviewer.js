@@ -2458,8 +2458,28 @@ class TweetViewer {
                     downloading = false;
                     let a = document.createElement('a');
                     a.href = URL.createObjectURL(blob);
-                    a.download = media.type === 'photo' ? media.media_url_https.split('/').pop() : media.video_info.variants[0].url.split('/').pop();
-                    a.download = a.download.split('?')[0];
+                    
+                    let ts = new Date(t.created_at).toISOString().split("T")[0];
+                    let extension = url.split('.').pop();
+                    //let _index = t.extended_entities.media.length > 1 ? "_"+(index+1) : "";
+                    let _index = "";
+                    let filename = `${t.user.screen_name}_${ts}_${t.id_str}${_index}.${extension}`;
+                    let filename_template = vars.customDownloadTemplate;
+
+                    // use the filename from the user's custom download template, if any
+                    if(filename_template && (filename_template.length > 0)) {
+                        const filesave_map = {
+                            "user_screen_name": t.user.screen_name,
+                            "user_name": t.user.name,
+                            "extension": extension,
+                            "timestamp": ts,
+                            "id": t.id_str,
+                            "index": _index
+                        };
+                        filename = filename_template.replace(/\{([\w]+)\}/g, (_, key) => filesave_map[key]);
+                    }
+
+                    a.download = filename;
                     a.click();
                     a.remove();
                 }).catch(e => {
