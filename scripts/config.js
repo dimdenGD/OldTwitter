@@ -20,7 +20,7 @@ let vars;
 let varsResolve, varsPromise = new Promise(resolve => varsResolve = resolve);
 async function loadVars() { 
     vars = await new Promise(resolve => {
-        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'enableTwemoji', 'chronologicalTL', 
+        chrome.storage.sync.get(['linkColor', 'font', 'heartsNotStars', 'linkColorsInTL', 'alwaysShowLinkColor', 'enableTwemoji', 'chronologicalTL', 
             'timelineType', 'showTopicTweets', 'darkMode', 'disableHotkeys', 'customCSS', 'customCSSVariables', 'savePreferredQuality',
             'noBigFont', 'language', 'autoplayVideos', 'displaySensitiveContent', 'displaySensitiveContentMoved', 'volume', 'timeMode',
             'showOriginalImages', 'pitchBlack', 'seeTweetViews', 'autotranslateProfiles', 'roundAvatars', 'twitterBlueCheckmarks',
@@ -39,6 +39,12 @@ async function loadVars() {
                 data.linkColorsInTL = true;
                 chrome.storage.sync.set({
                     linkColorsInTL: true
+                }, () => {});
+            }
+            if (typeof(data.alwaysShowLinkColor) !== 'boolean') {
+                data.alwaysShowLinkColor = false;
+                chrome.storage.sync.set({
+                    alwaysShowLinkColor: false
                 }, () => {});
             }
             if(typeof(data.enableTwemoji) !== 'boolean') {

@@ -1,3 +1,7 @@
+:root {
+    --default-link-color: var(--link-color);
+}
+
 #loading-box {
     background-color: var(--background-color);
     height: 100%;
@@ -150,8 +154,19 @@ body {
     padding: 10px;
 }
 
-.tweet:not(.colour) .tweet-header *:not(.nice-button), .tweet:not(.colour) .tweet-time {
+.tweet:not(.colour) .tweet-header-name:not(:hover), .tweet:not(.colour) .tweet-header-handle, .tweet:not(.colour) .tweet-time:not(:hover)  {
     --link-color: var(--almost-black) !important;
+    color: var(--link-color) !important;
+}
+
+.tweet *::selection {
+    background-color: var(--link-color) !important;
+    color: var(--background-color) !important;
+}
+
+.tweet *::-moz-selection {
+    background-color: var(--link-color) !important;
+    color: var(--background-color) !important;
 }
 
 .tweet-header-name-quote, .tweet-header-info-quote *, .tweet-time-quote {
@@ -400,8 +415,8 @@ body {
     color: var(--light-gray)
 }
 
-a:hover,
-.tweet-header-info:hover,
+a:not(.tweet-header-info):not(.tweet-body-quote):hover,
+.tweet-header-info *:hover,
 .tweet-body-text a:hover,
 .center-text:hover,
 #wtf-refresh:hover,
@@ -409,6 +424,10 @@ a:hover,
 #trends-refresh:hover,
 #trends-viewall:hover {
     text-decoration: underline
+}
+
+.tweet-body-text-quote *:not(a) {
+    text-decoration: none;
 }
 
 .tweet-avatar,
