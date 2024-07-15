@@ -81,7 +81,6 @@
     "photos_and_videos2": { "message": "Фото & відео" },
     "tweets_and_replies": { "message": "Твіти & відповіді" },
     "you_may_also_like": { "message": "Вам може сподобатись", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Користувач видалений." },
     "user_was_not_found": { "message": "Користувач не знайдений." },
     "timeline_not_authorized": { "message": "У вас немає доступу до стрічки цього користувача." },
     "create_btn": { "message": "[створити]" },

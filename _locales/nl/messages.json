@@ -81,7 +81,6 @@
     "photos_and_videos2": { "message": "Foto's & video's" },
     "tweets_and_replies": { "message": "Tweets & antwoorden" },
     "you_may_also_like": { "message": "U zult misschien ook leuk vinden", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Gebruiker was opgeschorst." },
     "user_was_not_found": { "message": "Gebruiker is niet gevonden." },
     "timeline_not_authorized": { "message": "U heeft geen toegang tot deze gebruikers tijdlijn" },
     "create_btn": { "message": "[creëren]" },

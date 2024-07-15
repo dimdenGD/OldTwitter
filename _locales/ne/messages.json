@@ -80,7 +80,6 @@
     "photos_and_videos2": { "message": "फोटो र विडिओहरू" },
     "tweets_and_replies": { "message": "ट्वीटहरू र जवाफहरू" },
     "you_may_also_like": { "message": "मान्छेहरू", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "मान्छे निलम्बन गरिएको थियो।" },
     "user_was_not_found": { "message": "मान्छे भेटिएन।" },
     "timeline_not_authorized": { "message": "तपाईँले यो मान्छेको कलक्रम हेर्न मिल्दैन।" },
     "create_btn": { "message": "[बनाउन]" },

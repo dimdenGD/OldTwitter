@@ -262,9 +262,7 @@
         "message": "Jums arī varētu patikt",
         "description": "Max 19 characters, you can use word 'People' if no space"
     },
-    "user_was_suspended": {
-        "message": "Lietotājs tika apturēts."
-    },
+
     "user_was_not_found": {
         "message": "Lietotājs netika atrasts."
     },

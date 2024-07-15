@@ -278,9 +278,6 @@
 		"message": "Pessoas",
 		"description": "Max 19 characters, you can use word 'People' if no space"
 	},
-	"user_was_suspended": {
-		"message": "Usuário foi suspenso."
-	},
 	"user_was_not_found": {
 		"message": "Usuário não encontrado."
 	},

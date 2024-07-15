@@ -256,9 +256,6 @@
       "message": "Μπορεί να σας αρέσει",
       "description": "Max 19 characters, you can use word 'People' if no space"
     },
-    "user_was_suspended": {
-      "message": "Ο χρήστης αφαιρέθηκε από το twitter."
-    },
     "user_was_not_found": {
       "message": "Ο χρήστης δεν βρέθηκε."
     },

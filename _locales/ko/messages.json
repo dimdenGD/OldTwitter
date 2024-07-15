@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "사진 및 동영상" },
     "tweets_and_replies": { "message": "트윗과 답글" },
     "you_may_also_like": { "message": "당신과 비슷한 사용자", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "계정이 일시 정지되었습니다" },
     "user_was_not_found": { "message": "계정이 존재하지 않습니다" },
     "timeline_not_authorized": { "message": "이 계정의 타임라인은 볼 수 없습니다" },
     "create_btn": { "message": "[리스트 만들기]" },

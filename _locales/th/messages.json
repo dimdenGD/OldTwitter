@@ -80,7 +80,6 @@
     "photos_and_videos2": { "message": "ภาพเเละวิดีโอ" },
     "tweets_and_replies": { "message": "ทวิตเเละการตอบกลับ" },
     "you_may_also_like": { "message": "คุณอาจชื่นชอบ", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "ผู้ใช้ถูกระงับการใช้งาน" },
     "user_was_not_found": { "message": "ไม่เจอผู้ใช้" },
     "timeline_not_authorized": { "message": "คุณไม่มีสิทธิในการดูไทม์ไลน์ของผู้ใช้นี้" },
     "create_btn": { "message": "[สร้าง]" },

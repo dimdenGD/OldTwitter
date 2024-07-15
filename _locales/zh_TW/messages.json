@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "相片和影片" },
     "tweets_and_replies": { "message": "推文和回覆" },
     "you_may_also_like": { "message": "你可能會喜歡", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "此帳戶已被停用" },
     "user_was_not_found": { "message": "此帳戶不存在" },
     "timeline_not_authorized": { "message": "你沒有權限查看此使用者的推文。" },
     "create_btn": { "message": "[建立]" },

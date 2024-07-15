@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Myndir og myndbönd" },
     "tweets_and_replies": { "message": "Tíst og svör" },
     "you_may_also_like": { "message": "Þú gætir líka haft gaman af", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Notanda var lokað." },
     "user_was_not_found": { "message": "Notandi fannst ekki." },
     "timeline_not_authorized": { "message": "Þú hefur ekki heimild til að skoða tímalínu þessa notanda." },
     "create_btn": { "message": "[búa til]" },

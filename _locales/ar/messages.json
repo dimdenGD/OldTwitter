@@ -80,7 +80,6 @@
     "photos_and_videos2": { "message": "صور & مقاطع الفيديو" },
     "tweets_and_replies": { "message": "تويتس & الردود" },
     "you_may_also_like": { "message": "مقاطع فيديو شائعة", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "المستخدم غير موجود." },
     "user_was_not_found": { "message": "غير مصرح لك بمشاهدة الجدول الزمني لهذا المستخدم." },
     "create_btn": { "message": "[خلق]" },
     "create_list": { "message": "إنشاء القوائم" },

@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Bilder og videoer" },
     "tweets_and_replies": { "message": "Tweets og svar" },
     "you_may_also_like": { "message": "Kanskje du også liker", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Brukeren var bannlyst." },
     "user_was_not_found": { "message": "Brukeren var ikke funnet." },
     "timeline_not_authorized": { "message": "Du har ikke tilgang til tidslinjen til denne brukeren." },
     "create_btn": { "message": "[lag]" },

@@ -245,9 +245,6 @@
         "description": "Max 19 characters, you can use word 'People' if no space",
         "message": "אולי תאהב/י גם "
     },
-    "user_was_suspended": {
-        "message": "משתמש הושעה"
-    },
     "user_was_not_found": {
         "message": "משתמש לא נמצא"
     },

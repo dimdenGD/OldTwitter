@@ -87,7 +87,6 @@
     "photos_and_videos2": {"message": "Fotos & Videos"},
     "tweets_and_replies": {"message": "Tweets & Antworten"},
     "you_may_also_like": {"message": "Könnte dir auch gefallen", "description": "Max. 26 Zeichen, verwende das Wort 'Personen', wenn kein Platz vorhanden ist."},
-    "user_was_suspended": {"message": "Benutzer wurde suspendiert."},
     "user_was_not_found": {"message": "Benutzer nicht gefunden."},
     "timeline_not_authorized": {"message": "Du bist nicht berechtigt, die Timeline dieses Benutzers anzusehen."},
     "create_btn": {"message": "[Erstellen]"},

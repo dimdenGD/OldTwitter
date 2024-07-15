@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Fotky & videa" },
     "tweets_and_replies": { "message": "Tweety & odpovědi" },
     "you_may_also_like": { "message": "Taky by se Vám mohlo líbit", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Účet byl pozastaven." },
     "user_was_not_found": { "message": "Tento účet neexistuje." },
     "timeline_not_authorized": { "message": "Nemáte právo zobrazit časovou osu tohoto uživatele." },
     "create_btn": { "message": "[vytvořit]" },

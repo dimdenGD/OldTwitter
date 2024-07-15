@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "写真と動画" },
     "tweets_and_replies": { "message": "ツイートと返信" },
     "you_may_also_like": { "message": "こちらもどうぞ", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "アカウントは凍結されています" },
     "user_was_not_found": { "message": "アカウントが見つかりませんでした" },
     "timeline_not_authorized": { "message": "このユーザーのタイムラインを表示することは出来ません。" },
     "create_btn": { "message": "[作成]" },

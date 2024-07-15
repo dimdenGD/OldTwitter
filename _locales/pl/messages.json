@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Multimedia" },
     "tweets_and_replies": { "message": "Odpowiedzi" },
     "you_may_also_like": { "message": "Może ci się spodobać", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Konto zawieszone." },
     "user_was_not_found": { "message": "To konto nie istnieje." },
     "timeline_not_authorized": { "message": "Nie jesteś autoryzowany by wyświetlić tweety tego użytkownika." },
     "create_btn": { "message": "[stwórz]" },
