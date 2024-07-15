@@ -292,7 +292,14 @@ async function renderTimeline(options = {}) {
         } else timelineContainer.innerHTML = '';
     }
     let data = options.data;
-
+    
+    if(vars.linkColorsInTL) {
+        let tlUsers = data.map(t => t.user.id_str).filter(u => !linkColors[u]);
+        let linkData = await getLinkColors(tlUsers);
+        if(linkData) for(let i in linkData) {
+            linkColors[linkData[i].id] = linkData[i].color;
+        }
+    }
     let toRender = [];
     for(let i in data) {
         let t = data[i];
@@ -386,7 +393,7 @@ setTimeout(async () => {
     // On scroll to end of timeline, load more tweets
     let loadingNewTweets = false;
     document.addEventListener('scroll', async () => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 1000) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5000 && window.scrollY > 20) {
             if (loadingNewTweets || timeline.data.length === 0) return;
             document.getElementById('load-more').click();
         }

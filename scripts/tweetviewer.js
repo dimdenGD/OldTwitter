@@ -866,10 +866,12 @@ class TweetViewer {
             if(this.linkColors[t.user.id_str]) {
                 let sc = makeSeeableColor(this.linkColors[t.user.id_str]);
                 tweet.style.setProperty('--link-color', sc);
+                tweet.classList.add('colour');
             } else {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                     let sc = makeSeeableColor(t.user.profile_link_color);
                     tweet.style.setProperty('--link-color', sc);
+                    tweet.classList.add('colour');
                 }
             }
         }
@@ -964,6 +966,7 @@ class TweetViewer {
                 //else this is not reply but mention
             });
         }
+        console.log(t);
         tweet.innerHTML = html`
             <div class="tweet-top" hidden></div>
             <a class="tweet-avatar-link" href="/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
