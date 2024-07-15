@@ -276,6 +276,8 @@ setTimeout(async () => {
     let disableFindHotkey = document.getElementById('disable-find-hotkey');
     let customCSS = document.getElementById('custom-css');
     let customCSSSave = document.getElementById('custom-css-save');
+    let customDownloadTemplate = document.getElementById('custom-download');
+    let customDownloadTemplateSave = document.getElementById('custom-download-save');
     let savePreferredQuality = document.getElementById('save-preferred-quality');
     let roundAvatars = document.getElementById('round-avatars-switch');
     let modernUI = document.getElementById('modern-ui-switch');
@@ -907,6 +909,14 @@ setTimeout(async () => {
             console.error("Error saving CSS to DB:", error);
         });
     });
+    customDownloadTemplateSave.addEventListener('click', () => {
+        let val = customDownloadTemplate.value;
+        
+        vars.customDownloadTemplate = val;
+        chrome.storage.sync.set({
+            customDownloadTemplate: val
+        }, () => { });
+    });
     autotranslateLanguageList.addEventListener('change', () => {
         addAutotranslateLanguage.disabled = autotranslateLanguageList.value === 'select';
     });
@@ -1046,6 +1056,7 @@ setTimeout(async () => {
         writeCSSToDB(vars.customCSS)
     }
     customCSS.value = await readCSSFromDB();
+    customDownloadTemplate.value = vars.customDownloadTemplate;
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;

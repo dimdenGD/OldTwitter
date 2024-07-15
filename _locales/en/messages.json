@@ -632,5 +632,14 @@
     "anniversary_tweet": { "message": "Do you remember when you joined Twitter? I do!\n#MyTwitterAnniversary" },
     "you_shared_tweet": { "message": "You shared a tweet" },
     "user_shared_tweet": { "message": "$NAME$ shared a tweet", "placeholders": { "name": { "content": "Display Name" } } },
-    "transition_profile_banner": { "message": "Use transition on profile banner" }
+    "transition_profile_banner": { "message": "Use transition on profile banner" },
+    "custom_downloadtemplate": { "message": "Custom download template" },
+    "custom_downloadtemplate_text": { "message": "Allows you to customize the names of the files when downloading a tweet's media." },
+    "save_downloadtemplate": { "message": "Save download template" },
+    "custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code>: User's name." },
+    "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: User's account name. (Example: @dril)" },
+    "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: Tweet's post date & time." },
+    "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: Downloaded tweet's file extension." },
+    "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: Tweet's ID." },
+    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: Index for each file to download. (for posts with multiple media)" }
 }
