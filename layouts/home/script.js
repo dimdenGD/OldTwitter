@@ -195,7 +195,6 @@ async function updateTimeline(mode = 'rewrite') {
     if(vars.linkColorsInTL) {
         let tlUsers = tl.map(t => t.user.id_str).filter(u => !linkColors[u]);
         let linkData = await getLinkColors(tlUsers);
-        console.log(linkData)
         if(linkData) for(let i in linkData) {
             linkColors[linkData[i].id] = linkData[i].color;
         }
@@ -297,7 +296,6 @@ async function renderTimeline(options = {}) {
     if(vars.linkColorsInTL) {
         let tlUsers = data.map(t => t.user.id_str).filter(u => !linkColors[u]);
         let linkData = await getLinkColors(tlUsers);
-        console.log(linkData)
         if(linkData) for(let i in linkData) {
             linkColors[linkData[i].id] = linkData[i].color;
         }
@@ -398,7 +396,6 @@ setTimeout(async () => {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 5000 && window.scrollY > 20) {
             if (loadingNewTweets || timeline.data.length === 0) return;
             document.getElementById('load-more').click();
-            console.log("Loading more tweets...");
         }
     }, { passive: true });
 

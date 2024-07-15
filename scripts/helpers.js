@@ -1089,21 +1089,20 @@ const getLinkColors = async ids => {
         new Promise(async (resolve, reject) => {
             // firstly, get "legacyLinkColors" from storage
             chrome.storage.local.get(["legacyLinkColors"], async data => {
-                console.log(data);
                 let legacyLinkColors = data.legacyLinkColors || {};
                 // each id will either have a hex colour or -1 if the user doesn't have a custom link colour
                 let hasColourIds = ids.filter(id => legacyLinkColors[id] && legacyLinkColors[id] !== -1);
                 let noColourIds = ids.filter(id => legacyLinkColors[id] && legacyLinkColors[id] === -1);
                 let fetched = [];
                 let toFetch = ids.filter(id => !hasColourIds.includes(id) && !noColourIds.includes(id));
-                console.log("Fetching uncached user colours:", toFetch);
                 let users = [];
-                try {
-                    users = await API.user.lookup(toFetch);
-                } catch {
-                    console.warn("User colours didn't fetch (were there any?)")
+                if (toFetch.length > 0) {
+                    try {
+                        users = await API.user.lookup(toFetch);
+                    } catch {
+                        console.warn("Legacy user colours failed to fetch!")
+                    }
                 }
-                console.log(150, users);
                 for(let user of users) {
                     if(user.profile_link_color && user.profile_link_color !== "1DA1F2") {
                         fetched.push({id: user.id_str, color: user.profile_link_color});
@@ -1117,7 +1116,6 @@ const getLinkColors = async ids => {
                     fetched.push({id, color: legacyLinkColors[id]});
                 }
                 chrome.storage.local.set({legacyLinkColors}, () => {});
-                console.log("Fetched user colours:", fetched);
                 resolve(fetched);
             });
         })
