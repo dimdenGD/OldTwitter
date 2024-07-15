@@ -89,7 +89,6 @@
     "photos_and_videos2": { "message": "Фото & видео" },
     "tweets_and_replies": { "message": "Твиты & ответы" },
     "you_may_also_like": { "message": "Люди" },
-    "user_was_suspended": { "message": "Пользователь был заблокирован Твиттером." },
     "user_was_not_found": { "message": "Пользователь не найден." },
     "timeline_not_authorized": { "message": "У вас нет доступа чтобы посмотреть ленту этого пользователя." },
     "create_btn": { "message": "[создать]" },

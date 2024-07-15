@@ -262,6 +262,7 @@ setTimeout(async () => {
     let linkColor = document.getElementById('link-color');
     let heartsNotStars = document.getElementById('hearts-instead-stars');
     let linkColorsInTL = document.getElementById('link-colors-in-tl');
+    let alwaysShowLinkColor = document.getElementById('always-show-link-color');
     let enableTwemoji = document.getElementById('enable-twemoji');
     let enableHashflags = document.getElementById('enable-hashflags');
     let timelineType = document.getElementById('tl-type');
@@ -522,6 +523,11 @@ setTimeout(async () => {
     linkColorsInTL.addEventListener('change', () => {
         chrome.storage.sync.set({
             linkColorsInTL: linkColorsInTL.checked
+        }, () => { });
+    });
+    alwaysShowLinkColor.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            alwaysShowLinkColor: alwaysShowLinkColor.checked
         }, () => { });
     });
     enableTwemoji.addEventListener('change', () => {
@@ -999,6 +1005,7 @@ setTimeout(async () => {
     }
     heartsNotStars.checked = !!vars.heartsNotStars;
     linkColorsInTL.checked = !!vars.linkColorsInTL;
+    alwaysShowLinkColor.checked = !!vars.alwaysShowLinkColor;
     enableTwemoji.checked = !!vars.enableTwemoji;
     enableHashflags.checked = !!vars.enableHashflags;
     showExactValues.checked = !!vars.showExactValues;

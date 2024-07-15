@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Fotos i vídeos" },
     "tweets_and_replies": { "message": "Tuits i respostes" },
     "you_may_also_like": { "message": "També us pot agradar", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "S'ha suspès l'usuari." },
     "user_was_not_found": { "message": "No s'ha trobat l'usuari." },
     "timeline_not_authorized": { "message": "No esteu autoritzats per veure la cronologia d'aquest usuari." },
     "create_btn": { "message": "[crea]" },

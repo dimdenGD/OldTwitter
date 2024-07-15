@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Bilder & videor" },
     "tweets_and_replies": { "message": "Tweets & svar" },
     "you_may_also_like": { "message": "Du kanske gillar...", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Det här kontot har spärrats.<br>Twitter stänger regelbundet av konton som bryter mot dess regler." },
     "user_was_not_found": { "message": "Kontot hittades inte." },
     "timeline_not_authorized": { "message": "Du har inte behörighet att visa den här användarens tidslinje." },
     "create_btn": { "message": "[skapa]" },

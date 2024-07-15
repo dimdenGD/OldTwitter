@@ -81,7 +81,6 @@
     "photos_and_videos2": { "message": "Mga Larawan & Bideo" },
     "tweets_and_replies": { "message": "Tweets at sagot" },
     "you_may_also_like": { "message": "Mga Tao", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Nasuspinde ang User." },
     "user_was_not_found": { "message": "Hindi nahanap ang User." },
     "timeline_not_authorized": { "message": "Wala kang pahintulot na tingnan ang timeline ng user na ito." },
     "create_btn": { "message": "[gumawa]" },

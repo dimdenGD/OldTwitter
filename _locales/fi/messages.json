@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Kuvat & videot" },
     "tweets_and_replies": { "message": "Twiittejä & vastauksia" },
     "you_may_also_like": { "message": "Sinä saatat myös pitää...", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Käyttäjä on estetty." },
     "user_was_not_found": { "message": "Käyttäjää ei löytynyt." },
     "timeline_not_authorized": { "message": "Sinä et ole sallittu katsomaan tämän käyttäjän aikajanaa." },
     "create_btn": { "message": "[luo]" },

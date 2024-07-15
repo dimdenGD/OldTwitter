@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Ảnh & video" },
     "tweets_and_replies": { "message": "Tweets & các trả lời" },
     "you_may_also_like": { "message": "Bạn có thể thích", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Người dùng đã bị đình chỉ." },
     "user_was_not_found": { "message": "Không tìm thấy người dùng." },
     "timeline_not_authorized": { "message": "Bạn không được phép xem dòng thời gian của người dùng này." },
     "create_btn": { "message": "[tạo]" },

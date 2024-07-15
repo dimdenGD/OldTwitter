@@ -1778,12 +1778,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if(linkColors[t.user.id_str]) {
                 let sc = makeSeeableColor(linkColors[t.user.id_str]);
                 tweet.style.setProperty('--link-color', sc);
-                tweet.classList.add('colour');
+                if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
             } else {
                 if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
                     let sc = makeSeeableColor(t.user.profile_link_color);
                     tweet.style.setProperty('--link-color', sc);
-                    tweet.classList.add('colour');
+                    if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
                 }
             }
         }

@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Fotografii & videoclipuri" },
     "tweets_and_replies": { "message": "Tweeturi și răspunsuri" },
     "you_may_also_like": { "message": "S-ar putea să vă placă și", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Utilizatorul a fost suspendat." },
     "user_was_not_found": { "message": "Utilizatorul nu a fost găsit." },
     "timeline_not_authorized": { "message": "Nu sunteți autorizat să vizualizați timeline-ul acestui utilizator." },
     "create_btn": { "message": "[creează]" },

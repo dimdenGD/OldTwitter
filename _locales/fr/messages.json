@@ -81,7 +81,6 @@
     "photos_and_videos2": { "message": "Photos & vidéos" },
     "tweets_and_replies": { "message": "Tweets & réponses" },
     "you_may_also_like": { "message": "Vous aimerez sûrement aussi", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Ce compte a été suspendu." },
     "user_was_not_found": { "message": "Ce compte n'existe pas." },
     "timeline_not_authorized": { "message": "Vous n'êtes pas autorisé.e à voir la chronologie de ce compte." },
     "create_btn": { "message": "[créer]" },

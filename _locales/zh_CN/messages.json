@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "照片和视频" },
     "tweets_and_replies": { "message": "推文和回复" },
     "you_may_also_like": { "message": "您可能还喜欢", "description": "最多26个字符，如果没有空间可以使用'人物'这个词" },
-    "user_was_suspended": { "message": "用户已被暂停。" },
     "user_was_not_found": { "message": "未找到用户。" },
     "timeline_not_authorized": { "message": "您无权查看此用户的时间线。" },
     "create_btn": { "message": "[创建]" },

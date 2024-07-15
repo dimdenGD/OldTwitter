@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Снимки & клипове" },
     "tweets_and_replies": { "message": "Туитове & отговори" },
     "you_may_also_like": { "message": "Може също да ви хареса", "description": "Максимум 26 символа, може да използвате 'Хора', ако няма място" },
-    "user_was_suspended": { "message": "Потребителят беше премахнат от Туитър." },
     "user_was_not_found": { "message": "Потребителят не е намерен." },
     "timeline_not_authorized": { "message": "Вие нямате права да видите профила на този потребител." },
     "create_btn": { "message": "[създай]" },

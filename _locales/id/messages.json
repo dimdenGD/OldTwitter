@@ -87,7 +87,6 @@
     "photos_and_videos2": { "message": "Gambar & video" },
     "tweets_and_replies": { "message": "Tweet & balasan" },
     "you_may_also_like": { "message": "Anda mungkin suka", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_suspended": { "message": "Pengguna telah ditangguhkan." },
     "user_was_not_found": { "message": "Pengguna tidak ditemukan." },
     "timeline_not_authorized": { "message": "Anda tidak diizinkan untuk melihat linimasa pengguna ini." },
     "create_btn": { "message": "[buat]" },
