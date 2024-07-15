@@ -3,7 +3,6 @@
 const fsp = require('fs').promises;
 const fs = require('fs');
 const path = require('path');
-const AdmZip = require('adm-zip');
 const args = process.argv.slice(2);
 const archiver = require('archiver');
 
