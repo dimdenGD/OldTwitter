@@ -184,6 +184,7 @@
     "timeline_type": { "message": "时间线类型" },
     "show_topic_tweets": { "message": "显示话题推文（仅限算法）" },
     "show_colors_in_timeline": { "message": "在主页时间线中显示用户的自定义链接颜色" },
+    "always_show_link_color": { "message": "始终显示自定义链接颜色，而不是仅在悬停时显示" },
     "enable_twemoji": { "message": "启用 Twemoji" },
     "hearts_instead_stars": { "message": "显示心形（喜欢）而不是星形（收藏）" },
     "dark_mode": { "message": "深色主题" },
@@ -405,6 +406,8 @@
     "why_you_cant_see_block_user": { "message": "您无法关注和查看 @$SCREEN_NAME$ 的推文。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "nonexistent_user": { "message": "此账户不存在" },
     "nonexistent_user_desc": { "message": "尝试搜索其他账户。" },
+	"suspended_user": { "message": "此账户已被冻结" },
+    "suspended_user_desc": { "message": "您正在尝试查看的个人资料已被冻结，要返回主页，请<a href=\"/home\">点击这里</a>。" },
     "you_blocked_user": { "message": "您已屏蔽 @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "do_you_want_see_blocked_user": { "message": "您确定要查看这些推文吗？查看这些推文不会解除对 @$SCREEN_NAME$ 的屏蔽。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "I_want_see_blocked_user": { "message": "是，查看个人资料" },
@@ -630,5 +633,15 @@
     "accepted_conversation": { "message": "接受了对话" },
     "anniversary_tweet": { "message": "还记得你何时加入 Twitter 吗？我知道！#我的Twitter周年纪念日" },
     "you_shared_tweet": { "message": "你分享了一则推文" },
-    "user_shared_tweet": { "message": "$NAME$ 分享了一则推文", "placeholders": { "name": { "content": "Display Name" } } }
+    "user_shared_tweet": { "message": "$NAME$ 分享了一则推文", "placeholders": { "name": { "content": "Display Name" } } },
+    "transition_profile_banner": { "message": "将过渡效果应用于个人资料横幅" },
+    "custom_downloadtemplate": { "message": "自定义下载文件名格式" },
+    "custom_downloadtemplate_text": { "message": "允许您自定义下载推文媒体时的文件名格式。" },
+    "save_downloadtemplate": { "message": "保存文件名格式" },
+    "custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code>: 用户名称（昵称）。" },
+    "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: 用户名。（示例：@dril）" },
+    "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: 推文的发送日期和时间。" },
+    "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: 下载的文件扩展名。" },
+    "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: 推文的 ID。" },
+    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: 每个待下载文件的索引号。（仅适用于具有多个媒体的推文）" }
 }
