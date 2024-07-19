@@ -170,7 +170,7 @@ Spanish - [rogerpb98](https://twitter.com/anbulansia), [gaelcoral](https://twitt
 Greek - [VasilisTheChu](https://pikachu.systems/)  
 Romanian - [Skyrina](https://skyrina.dev/), [AlexSem](https://twitter.com/AlexSem5399)  
 Tagalog - [Eurasian](https://twitter.com/NotPROxV), [@conc1erge](https://twitter.com/conc1erge), [@cheesee_its](https://twitter.com/cheesee_its)  
-Latvian - [yourfriend](https://3.141.lv/)  
+Latvian - [sophie](https://sad.ovh/)  
 Hebrew - "ugh", qqqq, [kriterin](https://twitter.com/kriterin)  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
