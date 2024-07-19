@@ -166,7 +166,7 @@ const TRANSLATORS = {
         ["AlexSem", "/AlexSem5399"]
     ],
     "tl": ["Eurasian", "/NotPROxV"],
-    "lv": ["yourfriend", "https://3.141.lv/"],
+    "lv": ["sophie", "https://sad.ovh/"],
     "he": [
         ["ugh"],
         ["kriterin", "/kriterin"]
