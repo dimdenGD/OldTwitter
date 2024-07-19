@@ -77,23 +77,29 @@ setTimeout(() => {
                 data.lastVersion.split('.').slice(0, data.lastVersion.split('.').length <= 3 ? 100 : -1).join('.') !== chrome.runtime.getManifest().version.split('.').slice(0, chrome.runtime.getManifest().version.split('.').length <= 3 ? 100 : -1).join('.')
             ) {
                 let opened = Date.now();
-                // createModal(html`
-                //     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
-                //     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
-                //         <ul>
-                //             <li>Added viewing likes bypass lol</li>
-                //         </ul>
-                //     </span>
-                // `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
-                // let changelog = document.getElementById('changelog');
-                // let text = changelog.innerText;
-                // let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
-                // if(!lang.startsWith('en')) {
-                //     changelog.innerHTML += html`<span class="tweet-translate">${LOC.view_translation.message}</span>`;
-                //     changelog.querySelector('.tweet-translate').addEventListener('click', () => {
-                //         openInNewTab('https://translate.google.com/?sl=en&tl=' + lang + '&text=' + encodeURIComponent(text) + '&op=translate');
-                //     });
-                // }
+                createModal(html`
+                    <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
+                    <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
+                        <ul>
+                            <li>Added option to customize name of downloaded media</li>
+                            <li>Better "User doesn't exist" and "User was suspended" pages</li>
+                            <li>Fixed external links not opening in new tab (this was especially annoying on PWA because it reset current browsing session on visiting external links)</li>
+                            <li>Fixed custom color links not appearing in home timeline often</li>
+                            <li>Fixed tweets with pending community notes not loading</li>
+                            <li>Fixed layout shift on modal opens</li>
+                            <li>Fixed image viewer being hard to close on some phones</li>
+                        </ul>
+                    </span>
+                `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
+                let changelog = document.getElementById('changelog');
+                let text = changelog.innerText;
+                let lang = LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en";
+                if(!lang.startsWith('en')) {
+                    changelog.innerHTML += html`<span class="tweet-translate">${LOC.view_translation.message}</span>`;
+                    changelog.querySelector('.tweet-translate').addEventListener('click', () => {
+                        openInNewTab('https://translate.google.com/?sl=en&tl=' + lang + '&text=' + encodeURIComponent(text) + '&op=translate');
+                    });
+                }
                 chrome.storage.local.set({lastVersion: chrome.runtime.getManifest().version});
             } else {
                 if(!data.nextPlug) {
