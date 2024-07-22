@@ -732,8 +732,7 @@ let page = realPath === "" ? pages[0] : pages.find(p => (!p.exclude || !p.exclud
         if(e.target.className !== 'viewer-canvas') return;
         if(Date.now() - touchStartTime < 150) {
             let viewerContainer = e.target.closest('.viewer-container');
-            viewerContainer.querySelector('.viewer-close').click();
-            console.log('close');
+            setTimeout(() => viewerContainer.querySelector('.viewer-close').click(), 100);
         }
     }, { passive: false });
 
