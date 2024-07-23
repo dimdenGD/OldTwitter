@@ -640,6 +640,7 @@
     "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: Downloaded tweet's file extension." },
     "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: Tweet's ID." },
     "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: Index for each file to download. (for posts with multiple media)" },
+    "custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: Original filename from pbs.twimg.com." },
     "nonexistent_user": { "message": "This account doesn't exist" },
     "nonexistent_user_desc": { "message": "Try searching for another." },
     "suspended_user": { "message": "Account suspended" },
