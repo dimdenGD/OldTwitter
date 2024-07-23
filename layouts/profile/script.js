@@ -1732,10 +1732,10 @@ async function renderProfile() {
             renderLists();
         });
         document.getElementById('profile-settings-share').addEventListener('click', async () => {
-            navigator.share({ url: `/${pageUser.screen_name}` });
+            navigator.share({ url: `https://${location.hostname}/${pageUser.screen_name}` });
         });
         document.getElementById('profile-settings-copy').addEventListener('click', async () => {
-            navigator.clipboard.writeText(`/${pageUser.screen_name}`);
+            navigator.clipboard.writeText(`https://${location.hostname}/${pageUser.screen_name}`);
         });
         if(document.getElementById('profile-settings-copy-id')) document.getElementById('profile-settings-copy-id').addEventListener('click', async () => {
             navigator.clipboard.writeText(pageUser.id_str);
