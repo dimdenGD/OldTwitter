@@ -3162,7 +3162,7 @@ setInterval(() => {
             } else if(keysHeld['KeyG'] && keysHeld['KeyB']) {
                 location.href = `/i/bookmarks`;
             } else if(keysHeld['KeyG'] && keysHeld['KeyU']) {
-                location.href = `/unfollows/followers`;
+                location.href = `/old/unfollows/followers`;
             }
         }
         window.addEventListener('keydown', (ev) => {
