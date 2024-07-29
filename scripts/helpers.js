@@ -3790,9 +3790,9 @@ function renderNotification(n, options = {}) {
                 let user = n.users[e.ref.user.id];
                 notificationHeader = Array.from(notificationHeader);
                 notificationHeader = arrayInsert(notificationHeader, e.toIndex+additionalLength, '</a>');
-                notificationHeader = arrayInsert(notificationHeader, e.fromIndex+additionalLength, `<a href="/d1mden">`);
+                notificationHeader = arrayInsert(notificationHeader, e.fromIndex+additionalLength, `<a href="/dimden">`);
                 notificationHeader = notificationHeader.join('');
-                additionalLength += `<a href="/d1mden"></a>`.length;
+                additionalLength += `<a href="/dimden"></a>`.length;
                 let mi = 0;
                 let newText = notificationHeader.replace(aRegex, (_, m) => {
                     if(mi++ !== matches) return _;

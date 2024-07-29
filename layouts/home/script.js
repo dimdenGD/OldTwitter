@@ -30,7 +30,7 @@ function fixTweetThreadLine() {
 }
 
 async function createShamelessPlug(firstTime = true) {
-    let dimden = await API.user.getV2('d1mden');
+    let dimden = await API.user.getV2('dimden');
     chrome.storage.local.set({'followingDeveloper': dimden.following}, () => {});
 
     if(!dimden.following) {
@@ -39,10 +39,10 @@ async function createShamelessPlug(firstTime = true) {
             <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">Shameless plug</h2>
             <span style="font-size:14px;color:var(--default-text-color)">
                 ${firstTime ? LOC.thank_you.message.replace('$AT1$', "<a target=\"_blank\" href=\"/old/settings\">").replace('$AT2$', "</a>") : LOC.thank_you2.message.replace('$AT1$', "<a target=\"_blank\" href=\"https://dimden.dev/donate/\">").replace('$AT2$', "</a>")}<br><br>
-                <a href="/d1mden">${LOC.follow_mb.message} 👉👈</a><br><br>
+                <a href="/dimden">${LOC.follow_mb.message} 👉👈</a><br><br>
                 <div class="dimden">
                     <img style="float:left" src="${dimden.profile_image_url_https.replace("_normal", "_bigger")}" width="48" height="48" alt="dimden" class="tweet-avatar">
-                    <a class="dimden-text" href="/d1mden" style="vertical-align:top;margin-left:10px;">
+                    <a class="dimden-text" href="/dimden" style="vertical-align:top;margin-left:10px;">
                         <b class="tweet-header-name">${dimden.name}</b>
                         <span class="tweet-header-handle">@${dimden.screen_name}</span>
                     </a><br>
@@ -52,12 +52,12 @@ async function createShamelessPlug(firstTime = true) {
         `, 'shameless-plug', () => {}, () => Date.now() - opened > 1750);
         let followButton = modal.querySelector('.follow');
         followButton.addEventListener('click', () => {
-            API.user.follow('d1mden').then(() => {
+            API.user.follow('dimden').then(() => {
                 alert(LOC.thank_you_follow.message);
                 modal.removeModal();
             }).catch(e => {
                 console.error(e);
-                location.href = '/d1mden';
+                location.href = '/dimden';
             });
         });
         twemoji.parse(modal);

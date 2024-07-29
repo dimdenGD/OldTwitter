@@ -536,13 +536,13 @@
 		"message": "Deste usuário"
 	},
 	"from_this_user_example": {
-		"message": "Exemplo: @d1mden - somente de d1mden"
+		"message": "Exemplo: @dimden - somente de dimden"
 	},
 	"mentions_this_user": {
 		"message": "Menciona este usuário"
 	},
 	"mentions_this_user_example": {
-		"message": "Exemplo: @d1mden - somente em resposta a d1mden"
+		"message": "Exemplo: @dimden - somente em resposta a dimden"
 	},
 	"interactions": {
 		"message": "Interações"
@@ -1638,7 +1638,7 @@
 		"message": "Você não tem nenhum rascunho salvo!"
 	},
 	"invalid_auth_token": {
-		"message": "Seu token de autenticação era inválido e foi removido. Já pode tentar novamente, se o erro persistir entre em contato com @d1mden."
+		"message": "Seu token de autenticação era inválido e foi removido. Já pode tentar novamente, se o erro persistir entre em contato com @dimden."
 	},
 	"css_set": {
 		"message": "CSS foi definido com sucesso!"

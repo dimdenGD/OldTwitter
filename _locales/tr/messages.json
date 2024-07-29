@@ -500,13 +500,13 @@
         "message": "Bu kullanıcıdan"
     },
     "from_this_user_example": {
-        "message": "Örnek: @d1mden - d1mden kullanıcısından"
+        "message": "Örnek: @dimden - dimden kullanıcısından"
     },
     "mentions_this_user": {
         "message": "Bu kullanıcıdan bahseder"
     },
     "mentions_this_user_example": {
-        "message": "Örnek: @d1mden - d1mden'e yanıt olarak"
+        "message": "Örnek: @dimden - dimden'e yanıt olarak"
     },
     "interactions": {
         "message": "Etkileşimler"
@@ -1602,7 +1602,7 @@
         "message": "Şu anda kaydedilmiş taslağın yok!"
     },
     "invalid_auth_token": {
-        "message": "Yetkilendirme tokenin geçersizdi ve silindi. You can try again now, if this error persists contact @d1mden."
+        "message": "Yetkilendirme tokenin geçersizdi ve silindi. You can try again now, if this error persists contact @dimden."
     },
     "css_set": {
         "message": "CSS Başarılı olarak ayarlandı!"

@@ -501,13 +501,13 @@
         "message": "No šī lietotāja"
     },
     "from_this_user_example": {
-        "message": "Piemērs: @d1mden — no lietotāja d1mden"
+        "message": "Piemērs: @dimden — no lietotāja dimden"
     },
     "mentions_this_user": {
         "message": "Piemin šo lietotāju"
     },
     "mentions_this_user_example": {
-        "message": "Piemērs: @d1mden — atbildot uz d1mden"
+        "message": "Piemērs: @dimden — atbildot uz dimden"
     },
     "interactions": {
         "message": "Mijiedarbība"
