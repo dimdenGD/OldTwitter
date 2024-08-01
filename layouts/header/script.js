@@ -3099,10 +3099,10 @@ setInterval(() => {
     setTimeout(hideStuff, 1000); // weird issue on firefox
 
     // custom css
+    document.addEventListener('modernUI', e => switchModernUI(e.detail));
     document.addEventListener('customCSS', updateCustomCSS);
     document.addEventListener('customCSSVariables', () => switchDarkMode(isDarkModeEnabled));
     document.addEventListener('roundAvatars', e => switchRoundAvatars(e.detail));
-    document.addEventListener('modernUI', e => switchModernUI(e.detail));
 
     // hotkeys
     if(!vars.disableHotkeys) {
