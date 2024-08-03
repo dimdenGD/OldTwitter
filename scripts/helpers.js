@@ -1593,6 +1593,8 @@ const sizeFunctions = [
     (w, h) => calculateSize(w, h, 225, 400),
     (w, h) => calculateSize(w, h, 225, 400),
     (w, h) => calculateSize(w, h, 225, 400),
+    (w, h) => calculateSize(w, h, 225, 400),
+    (w, h) => calculateSize(w, h, 225, 400),
     (w, h) => calculateSize(w, h, 225, 400)
 ];
 
@@ -1601,6 +1603,8 @@ const quoteSizeFunctions = [
     (w, h) => calculateSize(w, h, 400, 400),
     (w, h) => calculateSize(w, h, 200, 400),
     (w, h) => calculateSize(w, h, 125, 200),
+    (w, h) => calculateSize(w, h, 100, 150),
+    (w, h) => calculateSize(w, h, 100, 150),
     (w, h) => calculateSize(w, h, 100, 150),
     (w, h) => calculateSize(w, h, 100, 150),
     (w, h) => calculateSize(w, h, 100, 150),
