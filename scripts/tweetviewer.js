@@ -1933,6 +1933,7 @@ class TweetViewer {
                     tweetData = await API.tweet.retweet(t.id_str);
                 } catch (e) {
                     console.error(e);
+                    alert(e);
                     return;
                 }
                 if (!tweetData) {
