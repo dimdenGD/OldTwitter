@@ -2734,7 +2734,8 @@ const API = {
                         "authorization": OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json; charset=utf-8"
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE ? LANGUAGE : navigator.language ? navigator.language : "en"
                     },
                     credentials: "include",
                     body: JSON.stringify({"variables":{"tweet_id":id,"dark_request":false},"queryId":"ojPdsZsimiJrUGLR1sjUtA"})
