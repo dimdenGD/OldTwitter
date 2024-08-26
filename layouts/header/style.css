@@ -670,6 +670,8 @@ input, textarea {
     color: var(--light-gray);
     min-width: 130px;
     z-index: 5;
+    max-height: 80vh;
+    overflow-y: auto;
     box-shadow: 0 1px 4px rgb(0 0 0 / 25%);
 }
 #search-results a, .navbar-new-tweet-user-search span, .search-results-title {
