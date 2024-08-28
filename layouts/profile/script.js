@@ -738,6 +738,8 @@ async function renderFollowing(clear = true, cursor) {
                     usernameClass = 'user-indicator-retweeted';
                 } else if(u.status.quoted_status_id_str) {
                     usernameClass = 'user-indicator-quoted';
+                } else if(Date.now() - new Date(u.status.created_at).getTime() > 1000 * 60 * 60 * 24 * 7) {
+                    usernameClass = 'user-indicator-old';
                 }
             }
         }
@@ -1024,6 +1026,8 @@ async function renderFollowers(clear = true, cursor) {
                     usernameClass = 'user-indicator-retweeted';
                 } else if(u.status.quoted_status_id_str) {
                     usernameClass = 'user-indicator-quoted';
+                } else if(Date.now() - new Date(u.status.created_at).getTime() > 1000 * 60 * 60 * 24 * 7) {
+                    usernameClass = 'user-indicator-old';
                 }
             }
         }

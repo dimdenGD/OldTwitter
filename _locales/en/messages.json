@@ -645,5 +645,5 @@
     "nonexistent_user_desc": { "message": "Try searching for another." },
     "suspended_user": { "message": "Account suspended" },
     "suspended_user_desc": { "message": "The profile you are trying to view has been suspended." },
-    "show_boring_indicators": { "message": "Show indicator in followers/following page if last tweet of person is a retweet/quote/non-existent" }
+    "show_boring_indicators": { "message": "Show indicator in followers/following page if last tweet of person is a retweet/quote/non-existent/old" }
 }
