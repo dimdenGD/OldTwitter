@@ -730,13 +730,15 @@ async function renderFollowing(clear = true, cursor) {
             label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
         }
         let usernameClass = '';
-        if(!u.status) {
-            usernameClass = 'user-indicator-no-status';
-        } else if(u.status) {
-            if(u.status.retweeted_status) {
-                usernameClass = 'user-indicator-retweeted';
-            } else if(u.status.quoted_status_id_str) {
-                usernameClass = 'user-indicator-quoted';
+        if(vars.showBoringIndicators) {
+            if(!u.status) {
+                usernameClass = 'user-indicator-no-status';
+            } else if(u.status) {
+                if(u.status.retweeted_status) {
+                    usernameClass = 'user-indicator-retweeted';
+                } else if(u.status.quoted_status_id_str) {
+                    usernameClass = 'user-indicator-quoted';
+                }
             }
         }
         appendUser(u, userList, label, usernameClass);
@@ -1014,13 +1016,15 @@ async function renderFollowers(clear = true, cursor) {
             label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
         }
         let usernameClass = '';
-        if(!u.status) {
-            usernameClass = 'user-indicator-no-status';
-        } else if(u.status) {
-            if(u.status.retweeted_status) {
-                usernameClass = 'user-indicator-retweeted';
-            } else if(u.status.quoted_status_id_str) {
-                usernameClass = 'user-indicator-quoted';
+        if(vars.showBoringIndicators) {
+            if(!u.status) {
+                usernameClass = 'user-indicator-no-status';
+            } else if(u.status) {
+                if(u.status.retweeted_status) {
+                    usernameClass = 'user-indicator-retweeted';
+                } else if(u.status.quoted_status_id_str) {
+                    usernameClass = 'user-indicator-quoted';
+                }
             }
         }
         appendUser(u, userList, label, usernameClass);
