@@ -152,6 +152,7 @@ async function initChallenge() {
 
         function sendInit() {
             sentData = true;
+            if(!solverIframe || !solverIframe.contentWindow) return setTimeout(sendInit, 50);
             solverIframe.contentWindow.postMessage({
                 action: 'init',
                 code: challengeData,
