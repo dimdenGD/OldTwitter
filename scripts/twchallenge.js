@@ -33,7 +33,6 @@ function solveChallenge(path, method) {
             solveQueue.push({ id, path, method })
         } else {
             try {
-                console.log("sending challenge to solver", solverIframe.contentWindow, path);
                 solverIframe.contentWindow.postMessage({ action: 'solve', id, path, method }, '*');
             } catch(e) {
                 console.error(`Error sending challenge to solver:`, e);

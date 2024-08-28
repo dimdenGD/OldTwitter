@@ -333,6 +333,7 @@ setTimeout(async () => {
     let showUserFollowerCountsInLists = document.getElementById('show-user-follower-counts-in-lists');
     let hideUnfollowersPage = document.getElementById('hide-unfollowers-page');
     let transitionProfileBanner = document.getElementById('transition-profile-banner');
+    let showBoringIndicators = document.getElementById('show-boring-indicators');
 
     let root = document.querySelector(":root");
     {
@@ -733,6 +734,12 @@ setTimeout(async () => {
             renderTrends(false, false);
         });
     });
+    showBoringIndicators.addEventListener('change', () => {
+        vars.showBoringIndicators = showBoringIndicators.checked;
+        chrome.storage.sync.set({
+            showBoringIndicators: showBoringIndicators.checked
+        }, () => { });
+    });
     hideTrends.addEventListener('change', () => {
         vars.hideTrends = hideTrends.checked;
         hideStuff();
@@ -1059,6 +1066,7 @@ setTimeout(async () => {
     showQuoteCount.checked = !!vars.showQuoteCount;
     hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
     transitionProfileBanner.checked = !!vars.transitionProfileBanner;
+    showBoringIndicators.checked = !!vars.showBoringIndicators;
     if(vars.customCSS) {
         writeCSSToDB(vars.customCSS)
     }

@@ -2170,6 +2170,52 @@ const API = {
         },
         getFollowing: (id, cursor) => {
             return new Promise((resolve, reject) => {
+                fetch(`https://${location.hostname}/i/api/1.1/friends/list.json?user_id=${id}&count=100${cursor ? `&cursor=${cursor}` : ""}`, {
+                    headers: {
+                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                    credentials: "include"
+                }).then(i => i.json()).then(data => {
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    resolve({
+                        list: data.users,
+                        cursor: data.next_cursor_str !== "0" ? data.next_cursor_str : null
+                    });
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+        getFollowers: (id, cursor, count = 100) => {
+            return new Promise((resolve, reject) => {
+                fetch(`https://${location.hostname}/i/api/1.1/followers/list.json?user_id=${id}&count=${count}${cursor ? `&cursor=${cursor}` : ""}`, {
+                    headers: {
+                        "authorization": OLDTWITTER_CONFIG.oauth_key,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": "OAuth2Session",
+                        "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    },
+                    credentials: "include"
+                }).then(i => i.json()).then(data => {
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    resolve({
+                        list: data.users,
+                        cursor: data.next_cursor_str !== "0" ? data.next_cursor_str : null
+                    });
+                }).catch(e => {
+                    reject(e);
+                });
+            });
+        },
+        getFollowingV2: (id, cursor) => {
+            return new Promise((resolve, reject) => {
                 let obj = {
                     "userId": id,
                     "count": 100,
@@ -2185,7 +2231,7 @@ const API = {
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
-                    debugLog('user.getFollowing', 'start', {id, cursor, data});
+                    debugLog('user.getFollowingV2', 'start', {id, cursor, data});
                     if (data.errors && data.errors[0].code === 32) {
                         return reject("Not logged in");
                     }
@@ -2206,14 +2252,14 @@ const API = {
                         }).filter(e => e),
                         cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                     }
-                    debugLog('user.getFollowing', 'end', out);
+                    debugLog('user.getFollowingV2', 'end', out);
                     resolve(out);
                 }).catch(e => {
                     reject(e);
                 });
             });
         },
-        getFollowers: (id, cursor, count = 100) => {
+        getFollowersV2: (id, cursor, count = 100) => {
             return new Promise((resolve, reject) => {
                 let obj = {
                     "userId": id,
@@ -2247,7 +2293,7 @@ const API = {
                     },
                     credentials: "include"
                 }).then(i => i.json()).then(data => {
-                    debugLog('user.getFollowers', 'start', {id, cursor, data});
+                    debugLog('user.getFollowersV2', 'start', {id, cursor, data});
                     if (data.errors && data.errors[0].code === 32) {
                         return reject("Not logged in");
                     }
@@ -2267,7 +2313,7 @@ const API = {
                         }),
                         cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                     };
-                    debugLog('user.getFollowers', 'end', out);
+                    debugLog('user.getFollowersV2', 'end', out);
                     resolve(out);
                 }).catch(e => {
                     reject(e);

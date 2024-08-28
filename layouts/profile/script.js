@@ -729,7 +729,17 @@ async function renderFollowing(clear = true, cursor) {
         if(vars.showUserFollowerCountsInLists) {
             label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
         }
-        appendUser(u, userList, label);
+        let usernameClass = '';
+        if(!u.status) {
+            usernameClass = 'user-indicator-no-status';
+        } else if(u.status) {
+            if(u.status.retweeted_status) {
+                usernameClass = 'user-indicator-retweeted';
+            } else if(u.status.quoted_status_id_str) {
+                usernameClass = 'user-indicator-quoted';
+            }
+        }
+        appendUser(u, userList, label, usernameClass);
     });
     document.getElementById('loading-box').hidden = true;
     loadingFollowing = false;
@@ -1003,7 +1013,17 @@ async function renderFollowers(clear = true, cursor) {
         if(vars.showUserFollowerCountsInLists) {
             label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
         }
-        appendUser(u, userList, label);
+        let usernameClass = '';
+        if(!u.status) {
+            usernameClass = 'user-indicator-no-status';
+        } else if(u.status) {
+            if(u.status.retweeted_status) {
+                usernameClass = 'user-indicator-retweeted';
+            } else if(u.status.quoted_status_id_str) {
+                usernameClass = 'user-indicator-quoted';
+            }
+        }
+        appendUser(u, userList, label, usernameClass);
     });
     document.getElementById('loading-box').hidden = true;
     loadingFollowers = false;

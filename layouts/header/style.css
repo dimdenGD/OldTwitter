@@ -2087,6 +2087,29 @@ emoji-picker {
     font-weight: 100;
 }
 
+.user-indicator-no-status::after {
+    content: "\f045";
+    color: #dd2b2b;
+    font-family: var(--icon-font);
+    margin-left: 5px;
+    font-weight: 100;
+}
+
+.user-indicator-retweeted::after {
+    content: "\f152";
+    color: #5c913b;
+    font-family: var(--icon-font);
+    margin-left: 5px;
+    font-weight: 100;
+}
+
+.user-indicator-quoted::after {
+    content: "\f157";
+    color: #4a9fc7;
+    font-family: var(--icon-font);
+    margin-left: 5px;
+    font-weight: 100;
+}
 
 .tweet-media-video-overlay {
     position: absolute;
