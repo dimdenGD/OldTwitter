@@ -730,7 +730,7 @@ async function renderFollowing(clear = true, cursor) {
             label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
         }
         let usernameClass = '';
-        if(vars.showBoringIndicators) {
+        if(vars.showBoringIndicators && !u.protected) {
             if(!u.status) {
                 usernameClass = 'user-indicator-no-status';
             } else if(u.status) {
@@ -1018,7 +1018,7 @@ async function renderFollowers(clear = true, cursor) {
             label = `${formatLargeNumber(u.followers_count)} ${vars.modernUI ? LOC.followers.message : LOC.followers.message.toLowerCase()}`;
         }
         let usernameClass = '';
-        if(vars.showBoringIndicators) {
+        if(vars.showBoringIndicators && !u.protected) {
             if(!u.status) {
                 usernameClass = 'user-indicator-no-status';
             } else if(u.status) {
