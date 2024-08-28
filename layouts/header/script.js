@@ -1492,7 +1492,7 @@ let userDataFunction = async user => {
             let c = confirm(LOC.leave_conversation.message);
             if(c) {
                 await API.inbox.deleteConversation(lastConvo.conversation_id);
-                modal.remove();
+                modal.removeModal();
                 chrome.storage.local.remove(['inboxData'], () => {});
                 await updateInboxData();
             }
