@@ -48,6 +48,18 @@ function solveChallenge(path, method) {
     });
 }
 
+setInterval(() => {
+    if(!document.getElementById('loading-box').hidden && sentData && solveQueue.length) {
+        console.log("Something's wrong with the challenge solver, reloading", solveQueue);
+        solverIframe.remove();
+        solverIframe = document.createElement('iframe');
+        solverIframe.style.display = 'none';
+        solverIframe.src = chrome.runtime.getURL(`sandbox.html`);
+        document.getElementById('injected-body').appendChild(solverIframe);
+        initChallenge();
+    }
+}, 2000);
+
 window.addEventListener('message', e => {
     if(e.source !== solverIframe.contentWindow) return;
     let data = e.data;

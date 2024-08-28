@@ -81,7 +81,8 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Fixed retweeting</li>
+                            <li>Fixed pages not loading without refresh sometimes</li>
+                            <li>Added a setting to show if last tweet of person is a retweet/quote/non-existent/old in followers/following pages</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
