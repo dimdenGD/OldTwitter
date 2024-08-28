@@ -20,6 +20,7 @@
                 return;
             }
             let data = event.data;
+            console.log('iframe message', data);
             if (data.action === 'init') {
                 try {
                     let animsDiv = document.getElementById('anims');
