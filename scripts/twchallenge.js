@@ -48,12 +48,6 @@ function solveChallenge(path, method) {
     });
 }
 
-setTimeout(() => {
-    if(!document.getElementById('loading-box').hidden && solveQueue.length > 0 && sentData) {
-        location.reload();
-    }
-}, 2000);
-
 window.addEventListener('message', e => {
     if(e.source !== solverIframe.contentWindow) return;
     let data = e.data;
