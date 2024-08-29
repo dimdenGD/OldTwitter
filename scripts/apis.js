@@ -2170,7 +2170,7 @@ const API = {
         },
         getFollowing: (id, cursor) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://${location.hostname}/i/api/1.1/friends/list.json?user_id=${id}&count=100${cursor ? `&cursor=${cursor}` : ""}`, {
+                fetch(`https://${location.hostname}/i/api/1.1/friends/list.json?include_followed_by=1&user_id=${id}&count=100${cursor ? `&cursor=${cursor}` : ""}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.oauth_key,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
@@ -2193,7 +2193,7 @@ const API = {
         },
         getFollowers: (id, cursor, count = 100) => {
             return new Promise((resolve, reject) => {
-                fetch(`https://${location.hostname}/i/api/1.1/followers/list.json?user_id=${id}&count=${count}${cursor ? `&cursor=${cursor}` : ""}`, {
+                fetch(`https://${location.hostname}/i/api/1.1/followers/list.json?include_followed_by=1&user_id=${id}&count=${count}${cursor ? `&cursor=${cursor}` : ""}`, {
                     headers: {
                         "authorization": OLDTWITTER_CONFIG.oauth_key,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
