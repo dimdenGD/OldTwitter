@@ -149,22 +149,6 @@ async function initChallenge() {
         let anims = Array.from(dom.querySelectorAll('svg[id^="loading-x"]')).map(svg => svg.outerHTML);
 
         let challengeCode = homepageData.match(/"ondemand.s":"(\w+)"/)[1];
-        let challengeData;
-        try {
-            challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
-        } catch(e) {
-            await sleep(500);
-            try {
-                challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
-            } catch(e) {
-                await sleep(1000);
-                try {
-                    challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
-                } catch(e) {
-                    throw new Error('Failed to fetch challenge data: ' + e);
-                }
-            }
-        }
 
         OLDTWITTER_CONFIG.verificationKey = verificationKey;
 
@@ -173,7 +157,6 @@ async function initChallenge() {
             if(!solverIframe || !solverIframe.contentWindow) return setTimeout(sendInit, 50);
             solverIframe.contentWindow.postMessage({
                 action: 'init',
-                code: challengeData,
                 challengeCode,
                 anims,
                 verificationCode: OLDTWITTER_CONFIG.verificationKey
