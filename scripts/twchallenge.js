@@ -1,3 +1,4 @@
+let solverIframe;
 let solveId = 0;
 let solveCallbacks = {};
 let solveQueue = []
@@ -5,21 +6,30 @@ let solverReady = false;
 let solverErrored = false;
 let sentData = false;
 
-let solverIframe = document.createElement('iframe');
-solverIframe.style.display = 'none';
-solverIframe.src = chrome.runtime.getURL(`sandbox.html`);
-let injectedBody = document.getElementById('injected-body');
-if(injectedBody) {
-    injectedBody.appendChild(solverIframe);
-} else {
-    let int = setInterval(() => {
-        let injectedBody = document.getElementById('injected-body');
-        if(injectedBody) {
-            injectedBody.appendChild(solverIframe);
-            clearInterval(int);
-        }
-    }, 10);
+let sandboxUrl = fetch(chrome.runtime.getURL(`sandbox.html`))
+    .then(resp => resp.blob())
+    .then(blob => URL.createObjectURL(blob))
+    .catch(console.error);
+
+function createSolverFrame() {
+    if (solverIframe) solverIframe.remove();
+    solverIframe = document.createElement('iframe');
+    solverIframe.style.display = 'none';
+    sandboxUrl.then(url => solverIframe.src = url);
+    let injectedBody = document.getElementById('injected-body');
+    if(injectedBody) {
+        injectedBody.appendChild(solverIframe);
+    } else {
+        let int = setInterval(() => {
+            let injectedBody = document.getElementById('injected-body');
+            if(injectedBody) {
+                injectedBody.appendChild(solverIframe);
+                clearInterval(int);
+            }
+        }, 10);
+    }
 }
+createSolverFrame();
 
 function solveChallenge(path, method) {
     return new Promise((resolve, reject) => {
@@ -51,11 +61,7 @@ function solveChallenge(path, method) {
 setInterval(() => {
     if(!document.getElementById('loading-box').hidden && sentData && solveQueue.length) {
         console.log("Something's wrong with the challenge solver, reloading", solveQueue);
-        solverIframe.remove();
-        solverIframe = document.createElement('iframe');
-        solverIframe.style.display = 'none';
-        solverIframe.src = chrome.runtime.getURL(`sandbox.html`);
-        document.getElementById('injected-body').appendChild(solverIframe);
+        createSolverFrame();
         initChallenge();
     }
 }, 2000);
