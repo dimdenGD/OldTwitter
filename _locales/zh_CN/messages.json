@@ -636,12 +636,18 @@
     "user_shared_tweet": { "message": "$NAME$ 分享了一则推文", "placeholders": { "name": { "content": "Display Name" } } },
     "transition_profile_banner": { "message": "将过渡效果应用于个人资料横幅" },
     "custom_downloadtemplate": { "message": "自定义下载文件名格式" },
-    "custom_downloadtemplate_text": { "message": "允许您自定义下载推文媒体时的文件名格式。" },
+    "custom_downloadtemplate_text": { "message": "自定义下载推文媒体时默认的文件名格式。" },
     "save_downloadtemplate": { "message": "保存文件名格式" },
     "custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code>: 用户名称（昵称）。" },
-    "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: 用户名。（示例：@dril）" },
+    "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: 用户名（示例：@dril）。" },
     "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: 推文的发送日期和时间。" },
     "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: 下载的文件扩展名。" },
     "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: 推文的 ID。" },
-    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: 每个待下载文件的索引号。（仅适用于具有多个媒体的推文）" }
+    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: 每个待下载文件的索引号（仅适用于具有多个媒体的推文）。" },
+    "custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: 来自 <code>pbs.twimg.com</code> 的原始文件名。" },
+    "nonexistent_user": { "message": "此账号不存在" },
+    "nonexistent_user_desc": { "message": "尝试搜索另一个账号。" },
+    "suspended_user": { "message": "账号已被冻结" },
+    "suspended_user_desc": { "message": "您正在查看的个人资料页已被冻结。" },
+    "show_boring_indicators": { "message": "在关注中/粉丝页面的用户昵称后方添加一个表示其最近推文的图标<br>图标示意：<span class=\"user-indicator-retweeted\"></span> 转推的 / <span class=\"user-indicator-quoted\"></span> 引用的 / <span class=\"user-indicator-no-status\"></span> 不存在的 / <span class=\"user-indicator-old\"></span> 有段时间（一周以上）的"}
 }
