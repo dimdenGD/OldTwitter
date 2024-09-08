@@ -3667,7 +3667,28 @@ async function appendTweet(t, timelineContainer, options = {}) {
                             mde.innerText = '';
                             let a = document.createElement('a');
                             a.href = URL.createObjectURL(blob);
-                            a.download = `${t.id_str}.gif`;
+
+                            let ts = new Date(t.created_at).toISOString().split("T")[0];
+                            let extension = 'gif'
+                            let _index = t.extended_entities.media.length > 1 ? "_"+(index+1) : "";
+                            let filename = `${t.user.screen_name}_${ts}_${t.id_str}${_index}.${extension}`;
+                            let filename_template = vars.customDownloadTemplate;
+
+                            // use the filename from the user's custom download template, if any
+                            if(filename_template && (filename_template.length > 0)) {
+                                const filesave_map = {
+                                    "user_screen_name": t.user.screen_name,
+                                    "user_name": t.user.name,
+                                    "extension": extension,
+                                    "timestamp": ts,
+                                    "id": t.id_str,
+                                    "index": _index,
+                                    "filename": url.pathname.substring(url.pathname.lastIndexOf('/') + 1, url.pathname.lastIndexOf('.'))
+                                };
+                                filename = filename_template.replace(/\{([\w]+)\}/g, (_, key) => filesave_map[key]);
+                            }
+                            a.download = filename;
+
                             document.body.append(a);
                             a.click();
                             a.remove();
