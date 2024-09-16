@@ -404,10 +404,6 @@
     "block_sure_desc": { "message": "Mereka tidak dapat mengikuti atau melihat tweet Anda, dan Anda tidak akan melihat tweet atau notifikasi dari @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user": { "message": "@$SCREEN_NAME$ memblokir Anda", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "why_you_cant_see_block_user": { "message": "Anda tidak dapat mengikuti atau melihat tweet @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "nonexistent_user": { "message": "Akun ini tidak tersedia" },
-    "nonexistent_user_desc": { "message": "Coba cari yang lain." },
-    "suspended_user": { "message": "Akun ditangguhkan" },
-    "suspended_user_desc": { "message": "Profil yang Anda tujui telah ditangguhkan. Untuk kembali ke linimasa beranda Anda, <a href=\"/home\">klik di sini</a>." },
     "you_blocked_user": { "message": "Anda memblokir @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "do_you_want_see_blocked_user": { "message": "Anda yakin ingin melihat tweet pengguna ini? Melihat tweet tidak akan membuka blokir @$SCREEN_NAME$.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "I_want_see_blocked_user": { "message": "Ya, lihat profil" },
@@ -643,5 +639,11 @@
     "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: Tanggal dan waktu diunggahnya tweet." },
     "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: Jenis berkas tweet yang diunduh." },
     "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: ID tweet." },
-    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: Indeks untuk setiap berkas yang akan diunduh. (untuk postingan dengan beberapa media)" }
+    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: Indeks untuk setiap berkas yang akan diunduh. (untuk postingan dengan beberapa media)" },
+    "custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: Nama berkas asli dari pbs.twimg.com." },
+    "nonexistent_user": { "message": "Akun ini tidak tersedia" },
+    "nonexistent_user_desc": { "message": "Coba cari yang lain." },
+    "suspended_user": { "message": "Akun ditangguhkan" },
+    "suspended_user_desc": { "message": "Profil yang Anda tujui telah ditangguhkan. Untuk kembali ke linimasa beranda Anda, <a href=\"/home\">klik di sini</a>." },
+    "show_boring_indicators": { "message": "Tampilkan indikator pada laman pengikut/mengikuti jika tweet terakhir pengguna merupakan retweet/kutipan/hilang/lama" }
 }
