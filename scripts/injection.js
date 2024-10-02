@@ -147,7 +147,8 @@ const TRANSLATORS = {
         ["Aurore C.", "https://asuure.com/"],
         ["zdimension", "/zdimension_"],
         ["Pikatchoum", "/applitom45"],
-        ["adriend", "/_adriend_"]
+        ["adriend", "/_adriend_"],
+        ["celestial04_", "/celestial04_"]
     ],
     "pt_BR": [
         ["kigi", "/kigidere"],
