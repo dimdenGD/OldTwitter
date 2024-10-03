@@ -186,7 +186,7 @@ Traditional Chinese - [Oliver Tzeng（曾嘉禾）](https://github.com/olivertze
 Simplified Chinese - [am1006](https://github.com/am1006), [CarimoWuling](https://twitter.com/carimowuling)  
 Czech - Menal  
 German - [basti564](https://twitter.com/basti564)  
-Catalan - [elmees21](https://twitter.com/elmees21)  
+Catalan - [elmees21](https://twitter.com/elmees21), [Luna](https://twitter.com/chica_botella)  
 Swedish - [actuallyaridan](https://twitter.com/actuallyaridan)  
 Bulgarian - [Scarlett7447](https://twitter.com/Scarlett7447)  
 Norwegian - [twistquest](https://twitter.com/twistquest)  

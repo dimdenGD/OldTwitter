@@ -207,7 +207,10 @@ const TRANSLATORS = {
     ],
     "cs": ["Menal"],
     "de": ["basti564", "/basti564"],
-    "ca": ["elmees21", "/elmees21"],
+    "ca": [
+        ["elmees21", "/elmees21"],
+        ["Luna", "/chica_botella"]
+    ], 
     "sv": ["actuallyaridan", "/actuallyaridan"],
     "bg": ["Scarlett7447", "/Scarlett7447"],
     "nb": ["twistquest", "/twistquest"],
