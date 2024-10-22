@@ -1621,6 +1621,7 @@ class TweetViewer {
                     }
                     if (hideOriginalLanguages) {
                         translatedMessage = '';
+                        tweetBodyQuoteText.innerHTML = '';
                     }
                     tweetBodyQuoteText.innerHTML += 
                     `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
@@ -1669,14 +1670,17 @@ class TweetViewer {
                 translatedFrom.classList.add('translated-from');
                 translatedFrom.innerText = translatedMessage;
 
-                if (hideOriginalLanguages) {
-                    translatedFrom.innerHTML = ''; 
-                }
-
+             
+                    
                 let translatedText = document.createElement('span');
                 translatedText.classList.add('tweet-translated-text');
                 translatedText.innerHTML = await renderTweetBodyHTML(translatedT);
-                tweetBodyText.append(document.createElement('br'), translatedFrom, translatedText);
+                if (hideOriginalLanguages) {
+                    tweetBodyText.innerHTML = ''; 
+                    tweetBodyText.append(translatedText); 
+                } else {
+                    tweetBodyText.append(document.createElement('br'), translatedFrom, translatedText);
+                }
                 if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });
             if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {
