@@ -1056,6 +1056,7 @@ setTimeout(async () => {
     pinBookmarksOnNavbar.checked = !!vars.pinBookmarksOnNavbar;
     pinListsOnNavbar.checked = !!vars.pinListsOnNavbar;
     useOldDefaultProfileImage.checked = !!vars.useOldDefaultProfileImage;
+    hideOriginalLanguages.checked = !!vars.hideOriginalLanguages;
     uncensorAdultContentAutomatically.checked = !!vars.uncensorAdultContentAutomatically;
     uncensorGraphicViolenceAutomatically.checked = !!vars.uncensorGraphicViolenceAutomatically;
     uncensorSensitiveContentAutomatically.checked = !!vars.uncensorSensitiveContentAutomatically;
