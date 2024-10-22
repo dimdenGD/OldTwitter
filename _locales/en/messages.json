@@ -508,7 +508,7 @@
     "modern_ui": { "message": "Use 2018 Twitter design, includes round buttons and symbols" },
     "show_exact_values": { "message": "Display the exact number of retweets, likes, followers, etc." },
     "hide_timeline_types": { "message": "Hide timeline type switch on home page" },
-    "hide_original_languages_":{"message": "Hide original languages when translated" },
+    "hide_original_languages":{"message": "Hide original languages when translated" },
     "autotranslation": { "message": "Autotranslation" },
     "autotranslation_mode": { "message": "Tweet autotranslation mode" },
     "translate_in_list": { "message": "Translate when in language list" },

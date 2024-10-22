@@ -521,7 +521,7 @@
     "uncensor_sensitive_content_automatically": {
         "message": "הסר באופן אוטומטי צנזורה ממדיה עם אזהרת תוכן רגיש"
     },
-    "hide_original_languages_":{
+    "hide_original_languages":{
         "message": "הסר טקסט מקורי כאשר ציוצים מתורגמים" 
     },
     "refresh_tabs": {
