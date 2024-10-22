@@ -319,6 +319,7 @@ setTimeout(async () => {
     let showExactValues = document.getElementById('show-exact-values');
     let localizeDigit = document.getElementById('localize-digit');
     let hideTimelineTypes = document.getElementById('hide-timeline-types');
+    let hideOriginalLanguages = document.getElementById('hide-original-languages');
     let autotranslationMode = document.getElementById('autotranslation-mode');
     let autotranslateLanguages = document.getElementById('autotranslate-languages');
     let autotranslateLanguageList = document.getElementById('autotranslate-language-list');
@@ -979,7 +980,7 @@ setTimeout(async () => {
         });
         autotranslateLanguages.appendChild(div);
     }
-    
+
     hideOriginalLanguages.addEventListener('change', () => {
         chrome.storage.sync.set({
             hideOriginalLanguages: hideOriginalLanguages.checked
