@@ -1608,6 +1608,8 @@ class TweetViewer {
                     let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
                     if(translated.text.trim() === tt) return;
                     if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                    const { hideOriginalLanguages } = await chrome.storage.sync.get('hideOriginalLanguages');
+                    if (hideOriginalLanguages) tweetBodyQuoteText.innerHTML = ''; 
                     let translatedMessage;
                     if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                         translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
@@ -1647,6 +1649,8 @@ class TweetViewer {
                 let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
                 if(translated.text.trim() === tt) return;
                 if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                const { hideOriginalLanguages } = await chrome.storage.sync.get('hideOriginalLanguages');
+                if (hideOriginalLanguages) tweetBodyQuoteText.innerHTML = ''; 
                 let translatedMessage;
                 if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                     translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);

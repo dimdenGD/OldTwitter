@@ -979,6 +979,12 @@ setTimeout(async () => {
         });
         autotranslateLanguages.appendChild(div);
     }
+    
+    hideOriginalLanguages.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            hideOriginalLanguages: hideOriginalLanguages.checked
+        }, () => { });
+    });
 
     // Set values
     if(vars.linkColor) {
