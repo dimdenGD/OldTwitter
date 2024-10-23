@@ -520,7 +520,7 @@
     "show_user_previews_on_mobile": { "message": "Show user previews on hold (this can be annoying)", "description": "This option only appears on mobile" },
     "separate_text": { "message": "Separate text", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
 	"leave_conversation": { "message": "Are you sure you want to leave/remove this conversation?"},
-	"autotranslation_help1": { "message": "This function can find the tweets and trigger translation automatically, without having to click the button manually."},
+    "autotranslation_help1": { "message": "This function can find the tweets and trigger translation automatically, without having to click the button manually."},
 	"autotranslation_help2": { "message": "To use it, select autotranslation mode and set the language list. The tweets that meet the conditions will be automatically translated."},
 	"autotranslation_help3": { "message": "Specifically:"},
 	"autotranslation_help4": { "message": "\"Translate when in language list\" with no languages set cause function to be disabled (default)."},
@@ -645,5 +645,6 @@
     "nonexistent_user_desc": { "message": "Try searching for another." },
     "suspended_user": { "message": "Account suspended" },
     "suspended_user_desc": { "message": "The profile you are trying to view has been suspended." },
-    "show_boring_indicators": { "message": "Show indicator in followers/following page if last tweet of person is a retweet/quote/non-existent/old" }
+    "show_boring_indicators": { "message": "Show indicator in followers/following page if last tweet of person is a retweet/quote/non-existent/old" },
+    "hide_original_languages":{"message": "Hide original languages when translated" }
 }
