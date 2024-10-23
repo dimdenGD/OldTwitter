@@ -698,6 +698,7 @@ async function updateTimeline() {
 async function renderFollowing(clear = true, cursor) {
     loadingFollowing = true;
     let userList = document.getElementById('following-list');
+    if (vars.extensionCompatibilityMode) userList.setAttribute('data-testid', 'primaryColumn')
     if(clear) {
         if(pageUser.id_str === user.id_str) {
             userList.innerHTML = html`
@@ -753,6 +754,7 @@ let unsaved = false;
 async function renderFollowers(clear = true, cursor) {
     loadingFollowers = true;
     let userList = document.getElementById('followers-list');
+    if (vars.extensionCompatibilityMode) userList.setAttribute('data-testid', 'primaryColumn')
     if(clear) {
         if(pageUser.id_str === user.id_str) {
             let unfollows = await new Promise(resolve => {
