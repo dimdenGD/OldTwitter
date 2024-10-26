@@ -645,5 +645,6 @@
     "nonexistent_user_desc": { "message": "請嘗試搜尋其他帳號。" },
     "suspended_user": { "message": "此帳號已被停用" },
     "suspended_user_desc": { "message": "你要查看的個人資料已被停用。 要返回首頁，請<a href=\"/home\">點一下這裡</a>。" },
-    "show_boring_indicators": { "message": "在「跟隨中」及「粉絲」列表中顯示圖示，以表示各使用者的最後推文狀態（轉推、引用、一段時間前或沒有推文）。" }
+    "show_boring_indicators": { "message": "在「跟隨中」及「粉絲」列表中顯示圖示，以表示各使用者的最後推文狀態（轉推、引用、一段時間前或沒有推文）。" },
+    "hide_original_languages":{"message": "翻譯推文後隱藏原文" }
 }
