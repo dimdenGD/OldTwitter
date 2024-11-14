@@ -30,7 +30,7 @@ async function loadVars() {
             'uncensorGraphicViolenceAutomatically', 'uncensorAdultContentAutomatically', 'uncensorSensitiveContentAutomatically', 'useOldStyleReply',
             'enableAd', 'acknowledgedCssAccess', 'disableProfileCustomizations', 'openNotifsAsModal', 'enableIframeNavigation',
             'acknowledgedCustomizationButton', 'modernUI', 'showExactValues', 'hideTimelineTypes', 'autotranslateLanguages', 
-            'autotranslationMode', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
+            'autotranslationMode', 'hideOriginalLanguages', 'muteVideos', 'dontPauseVideos', 'showUserPreviewsOnMobile', 'systemDarkMode', 'localizeDigit',
             'disableRetweetHotkey', 'disableLikeHotkey', 'disableFindHotkey', 'extensionCompatibilityMode', 'disableDataSaver', 'disableAcceptType',
             'showUserFollowerCountsInLists', 'showQuoteCount', 'hideUnfollowersPage', 'transitionProfileBanner', 'customDownloadTemplate',
             'showBoringIndicators'
@@ -208,6 +208,12 @@ async function loadVars() {
                 data.disableAcceptType = false;
                 chrome.storage.sync.set({
                     disableAcceptType: false
+                }, () => {});
+            }
+            if(typeof(data.hideOriginalLanguages) !== 'boolean') {
+                data.hideOriginalLanguages = false;
+                chrome.storage.sync.set({
+                    hideOriginalLanguages: false
                 }, () => {});
             }
             if(typeof(data.autotranslateProfiles) !== 'object') {

@@ -175,7 +175,7 @@ Hebrew - "ugh", qqqq, [kriterin](https://twitter.com/kriterin)
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
 Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234), [kamokakesu](https://twitter.com/kamokakesu)  
-Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234), [han_eirin](https://twitter.com/han_eirin), [Sch](https://me.shtelo.org)  
+Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234), HY, [Sch](https://me.shtelo.org)  
 Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren](https://twitter.com/YordemEren)  
 Italian - [krek](https://twitter.com/CactusInc420), [Francesco](https://twitter.com/FrancescoRosi27)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
@@ -186,7 +186,7 @@ Traditional Chinese - [Oliver Tzeng（曾嘉禾）](https://github.com/olivertze
 Simplified Chinese - [am1006](https://github.com/am1006), [CarimoWuling](https://twitter.com/carimowuling)  
 Czech - Menal  
 German - [basti564](https://twitter.com/basti564)  
-Catalan - [elmees21](https://twitter.com/elmees21)  
+Catalan - [elmees21](https://twitter.com/elmees21), [Luna](https://twitter.com/chica_botella)  
 Swedish - [actuallyaridan](https://twitter.com/actuallyaridan)  
 Bulgarian - [Scarlett7447](https://twitter.com/Scarlett7447)  
 Norwegian - [twistquest](https://twitter.com/twistquest)  

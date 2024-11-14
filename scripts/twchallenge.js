@@ -1,3 +1,4 @@
+let solverIframe;
 let solveId = 0;
 let solveCallbacks = {};
 let solveQueue = []
@@ -5,21 +6,30 @@ let solverReady = false;
 let solverErrored = false;
 let sentData = false;
 
-let solverIframe = document.createElement('iframe');
-solverIframe.style.display = 'none';
-solverIframe.src = chrome.runtime.getURL(`sandbox.html`);
-let injectedBody = document.getElementById('injected-body');
-if(injectedBody) {
-    injectedBody.appendChild(solverIframe);
-} else {
-    let int = setInterval(() => {
-        let injectedBody = document.getElementById('injected-body');
-        if(injectedBody) {
-            injectedBody.appendChild(solverIframe);
-            clearInterval(int);
-        }
-    }, 10);
+let sandboxUrl = fetch(chrome.runtime.getURL(`sandbox.html`))
+    .then(resp => resp.blob())
+    .then(blob => URL.createObjectURL(blob))
+    .catch(console.error);
+
+function createSolverFrame() {
+    if (solverIframe) solverIframe.remove();
+    solverIframe = document.createElement('iframe');
+    solverIframe.style.display = 'none';
+    sandboxUrl.then(url => solverIframe.src = url);
+    let injectedBody = document.getElementById('injected-body');
+    if(injectedBody) {
+        injectedBody.appendChild(solverIframe);
+    } else {
+        let int = setInterval(() => {
+            let injectedBody = document.getElementById('injected-body');
+            if(injectedBody) {
+                injectedBody.appendChild(solverIframe);
+                clearInterval(int);
+            }
+        }, 10);
+    }
 }
+createSolverFrame();
 
 function solveChallenge(path, method) {
     return new Promise((resolve, reject) => {
@@ -51,11 +61,7 @@ function solveChallenge(path, method) {
 setInterval(() => {
     if(!document.getElementById('loading-box').hidden && sentData && solveQueue.length) {
         console.log("Something's wrong with the challenge solver, reloading", solveQueue);
-        solverIframe.remove();
-        solverIframe = document.createElement('iframe');
-        solverIframe.style.display = 'none';
-        solverIframe.src = chrome.runtime.getURL(`sandbox.html`);
-        document.getElementById('injected-body').appendChild(solverIframe);
+        createSolverFrame();
         initChallenge();
     }
 }, 2000);
@@ -143,22 +149,6 @@ async function initChallenge() {
         let anims = Array.from(dom.querySelectorAll('svg[id^="loading-x"]')).map(svg => svg.outerHTML);
 
         let challengeCode = homepageData.match(/"ondemand.s":"(\w+)"/)[1];
-        let challengeData;
-        try {
-            challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
-        } catch(e) {
-            await sleep(500);
-            try {
-                challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
-            } catch(e) {
-                await sleep(1000);
-                try {
-                    challengeData = await _fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${challengeCode}a.js`).then(res => res.text());
-                } catch(e) {
-                    throw new Error('Failed to fetch challenge data: ' + e);
-                }
-            }
-        }
 
         OLDTWITTER_CONFIG.verificationKey = verificationKey;
 
@@ -167,7 +157,6 @@ async function initChallenge() {
             if(!solverIframe || !solverIframe.contentWindow) return setTimeout(sendInit, 50);
             solverIframe.contentWindow.postMessage({
                 action: 'init',
-                code: challengeData,
                 challengeCode,
                 anims,
                 verificationCode: OLDTWITTER_CONFIG.verificationKey
@@ -179,9 +168,9 @@ async function initChallenge() {
         console.error(`Error during challenge init:`);
         console.error(e);
         if(location.hostname === 'twitter.com') {
-            alert(`There was an error in initializing security header generator: ${e}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page. Also using OldTwitter from twitter.com domain is not supported.`);
+            alert(`There was an error in initializing security header generator: ${e}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page. This also might be because you're either not logged in or using twitter.com instead of x.com.`);
         } else {
-            alert(`There was an error in initializing security header generator: ${e}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page.`);
+            alert(`There was an error in initializing security header generator: ${e}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page. This can also happen if you're not logged in.`);
         }
         return false;
     }

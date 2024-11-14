@@ -1608,6 +1608,8 @@ class TweetViewer {
                     let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
                     if(translated.text.trim() === tt) return;
                     if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+                    const { hideOriginalLanguages } = await chrome.storage.sync.get('hideOriginalLanguages');
+                    
                     let translatedMessage;
                     if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                         translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
@@ -1616,6 +1618,10 @@ class TweetViewer {
                     }
                     if(translated.text.length > 600) {
                         translated.text = translated.text.substring(0, 600) + '...';
+                    }
+                    if (hideOriginalLanguages) {
+                        translatedMessage = '';
+                        tweetBodyQuoteText.innerHTML = '';
                     }
                     tweetBodyQuoteText.innerHTML += 
                     `<span class="translated-from" style="margin-bottom:3px">${translatedMessage}:</span>`+
@@ -1647,6 +1653,9 @@ class TweetViewer {
                 let tt = t.full_text.replace(/^(@[a-zA-Z0-9_]{1,15}\s?)*/, "").replace(/\shttps:\/\/t.co\/[a-zA-Z0-9\-]{8,10}$/, "").trim();
                 if(translated.text.trim() === tt) return;
                 if(translated.text.trim() === tt.replace(/(hihi)|(hehe)/g, 'lol')) return; // lol
+
+                const { hideOriginalLanguages } = await chrome.storage.sync.get('hideOriginalLanguages');
+
                 let translatedMessage;
                 if(LOC.translated_from.message.includes("$LANGUAGE$")) {
                     translatedMessage = LOC.translated_from.message.replace("$LANGUAGE$", `[${translated.translated_lang}]`);
@@ -1660,10 +1669,18 @@ class TweetViewer {
                 let translatedFrom = document.createElement('span');
                 translatedFrom.classList.add('translated-from');
                 translatedFrom.innerText = translatedMessage;
+
+             
+                    
                 let translatedText = document.createElement('span');
                 translatedText.classList.add('tweet-translated-text');
                 translatedText.innerHTML = await renderTweetBodyHTML(translatedT);
-                tweetBodyText.append(document.createElement('br'), translatedFrom, translatedText);
+                if (hideOriginalLanguages) {
+                    tweetBodyText.innerHTML = ''; 
+                    tweetBodyText.append(translatedText); 
+                } else {
+                    tweetBodyText.append(document.createElement('br'), translatedFrom, translatedText);
+                }
                 if(vars.enableTwemoji) twemoji.parse(tweetBodyText);
             });
             if(options.translate || vars.autotranslateProfiles.includes(t.user.id_str) || (typeof toAutotranslate !== 'undefined' && toAutotranslate) || (vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'whitelist') || (!vars.autotranslateLanguages.includes(t.lang) && vars.autotranslationMode === 'blacklist')) {

@@ -8,7 +8,6 @@
 </head>
 <body>
     <div id="anims" style="display:none"></div>
-    <!-- Don't forget to change SHA hash in CSP when changing this script -->
     <script>
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
@@ -22,6 +21,24 @@
             let data = event.data;
             if (data.action === 'init') {
                 try {
+                    let url = `https://abs.twimg.com/responsive-web/client-web/ondemand.s.${data.challengeCode}a.js`
+                    let challengeData;
+                    try {
+                        challengeData = await fetch(url).then(res => res.text());
+                    } catch(e) {
+                        await sleep(500);
+                        try {
+                            challengeData = await fetch(url).then(res => res.text());
+                        } catch(e) {
+                            await sleep(1000);
+                            try {
+                                challengeData = await fetch(url).then(res => res.text());
+                            } catch(e) {
+                                throw new Error('Failed to fetch challenge data: ' + e);
+                            }
+                        }
+                    }
+
                     let animsDiv = document.getElementById('anims');
                     for(let anim of data.anims) {
                         animsDiv.innerHTML += `\n${anim}`;
@@ -29,10 +46,10 @@
                     let verif = document.querySelector('meta[name="twitter-site-verification"]');
                     verif.content = data.verificationCode;
                     let headerRegex = /(\d+):(.+)=>.+default:\(\)=>(\w).+,\w\(\d+\)\;/;
-                    let headerMatch = data.code.match(headerRegex);
+                    let headerMatch = challengeData.match(headerRegex);
                     if(!headerMatch) {
                         console.error('Uh oh, header not found!! Report to https://github.com/dimdenGD/OldTwitter/issues');
-                        event.source.postMessage({action: 'initError', error: `Header not found at ${data.challengeCode} (${String(data.code).slice(0, 500)}...)`}, event.origin);
+                        event.source.postMessage({action: 'initError', error: `Header not found at ${data.challengeCode} (${String(challengeData).slice(0, 500)}...)`}, event.origin);
                         initError = true;
                         return;
                     }
@@ -41,7 +58,8 @@
                     // It only ever executes code from trusted Twitter domain, abs.twimg.com (specifically their script that generates security headers)
                     // It's impossible to have it contained in extension itself, since it's generated dynamically
                     // you can see where script is loaded in scripts/twchallenge.js
-                    eval(data.code.replace(headerRegex, '$1:$2=>{window._CHALLENGE=()=>$3;'));
+                    // it also can't use any extension APIs, since it's contained in object url iframe
+                    eval(challengeData.replace(headerRegex, '$1:$2=>{window._CHALLENGE=()=>$3;'));
                     let id = headerMatch[1];
                     webpackChunk_twitter_responsive_web[0][1][id]();
                     solver = window._CHALLENGE()();

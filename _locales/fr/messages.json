@@ -539,7 +539,7 @@
     "manage_searches": { "message": "Gérer les recherches" },
     "add_search": { "message": "Ajouter une recherche" },
     "pinned_searches": { "message": "Recherches épinglées" },
-    "show_follower_counts_in_lists": { "message": "Show users follower counts on follower/following pages." },
+    "show_follower_counts_in_lists": { "message": "Afficher le nombre de followers des utilisateurs sur les pages de followers et de suivi.e." },
     "not_possible_to_see_unfollowers": { "message": "Malheureusement, il n'est pas possible de voir les comptes ayant plus de 50 000 followers." },
     "sort_by_follow_date": { "message": "Trier par date de suivi (inexact)" },
     "sort_by_followers": { "message": "Trier par nombre de followers" },
@@ -617,5 +617,24 @@
         }
     },
     "accepted_conversation": { "message": "Conversation acceptée" },
-    "anniversary_tweet": { "message": "Vous souvenez-vous quand vous avez rejoint Twitter? Je sais!\n#MyTwitterAnniversary" }
+    "anniversary_tweet": { "message": "Vous souvenez-vous quand vous avez rejoint Twitter? Je sais!\n#MyTwitterAnniversary" },
+    "you_shared_tweet": { "message": "Vous avez partagé un tweet" },
+    "user_shared_tweet": { "message": "$NAME$ à partagé un tweet.", "placeholders": { "name": { "content": "Display Name" } } },
+    "transition_profile_banner": { "message": "Utiliser une transition sur la bannière du profil" },
+    "custom_downloadtemplate": { "message": "Modèle de téléchargement personnalisé" },
+    "custom_downloadtemplate_text": { "message": "Vous permet de personaliser les noms des fichiers quand vous téléchargez un média d'un tweet." },
+    "save_downloadtemplate": { "message": "Sauvegarder le modèle de téléchargement" },
+    "custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code> : Nom de l'utilisateur." },
+    "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code> : Nom du compte de l'utilisateur. (Example : @dril)" },
+    "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code> : Date et heure de publication du tweet." },
+    "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code> : Extension de fichier du tweet téléchargé." },
+    "custom_downloadtemplate_hintID": { "message": "<code>{id}</code> : ID du tweet." },
+    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code> : Index pour chaque fichier à télécharger. (pour les publications avec plusieurs médias)" },
+    "custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code> : Nom de fichier original provenant de pbs.twimg.com." },
+    "nonexistent_user": { "message": "Ce compte n'existe pas" },
+    "nonexistent_user_desc": { "message": "Essayez d'en chercher un autre." },
+    "suspended_user": { "message": "Compte suspendu" },
+    "suspended_user_desc": { "message": "Le profil que vous essayez de voir est suspendu." },
+    "show_boring_indicators": { "message": "Afficher un indicateur sur la page des abonnés/abonnements si le dernier tweet de la personne est un retweet, une citation, inexistant ou ancien" }
+
 }

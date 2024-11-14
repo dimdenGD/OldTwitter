@@ -34,7 +34,7 @@ if(!window.top.windows && window.top === window) {
 }
 if(!window.top.windows.includes(window)) window.top.windows.push(window);
 if(!window._realPath) window._realPath = location.pathname;
-if(window.top !== window) {
+if(window.top !== window && location.protocol == 'https:') {
     setTimeout(() => {
         window.top.document.title = document.title;
     }, 1000);

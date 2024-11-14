@@ -139,7 +139,7 @@ if (
     url.searchParams.set('newtwitter', 'true');
     location.replace(url);
 }
-const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca", "sv", "bg", "nb", "fi", "id", 'is'];
+const LANGUAGES = ["en", "ru", "uk", "fr", "pt_BR", "es", "el", "ro", "tl", "lv", "he", "ne", "nl", "ja", "tr", "it", "ar", "th", "ko", "pl", "vi", "zh_CN", "zh_TW", "cs", "de", "ca", "sv", "bg", "nb", "fi", "id", 'is', 'gl'];
 const TRANSLATORS = {
     "ru": ["dimden", "https://dimden.dev/"],
     "uk": ["dimden", "https://dimden.dev/"],
@@ -147,7 +147,8 @@ const TRANSLATORS = {
         ["Aurore C.", "https://asuure.com/"],
         ["zdimension", "/zdimension_"],
         ["Pikatchoum", "/applitom45"],
-        ["adriend", "/_adriend_"]
+        ["adriend", "/_adriend_"],
+        ["celestial04_", "/celestial04_"]
     ],
     "pt_BR": [
         ["kigi", "/kigidere"],
@@ -189,7 +190,7 @@ const TRANSLATORS = {
     "th": ["0.21%BloodAlcohol", "https://github.com/Silberweich"],
     "ko": [
         ["Nyankodasu", "https://github.com/Nyankodasu"],
-        ["한예림", "/han_eirin"]
+        ["HY"]
     ],
     "pl": [
         ["lele"],
@@ -206,7 +207,10 @@ const TRANSLATORS = {
     ],
     "cs": ["Menal"],
     "de": ["basti564", "/basti564"],
-    "ca": ["elmees21", "/elmees21"],
+    "ca": [
+        ["elmees21", "/elmees21"],
+        ["Luna", "/chica_botella"]
+    ], 
     "sv": ["actuallyaridan", "/actuallyaridan"],
     "bg": ["Scarlett7447", "/Scarlett7447"],
     "nb": ["twistquest", "/twistquest"],
@@ -217,7 +221,11 @@ const TRANSLATORS = {
         ["DaGamerFiles", "/DaGamerFiles"],
         ["KuchingNeko", "/KuchingNeko"]
     ],
-    "is": ["VipelyRS", "/VipelyRS"]
+    "is": ["VipelyRS", "/VipelyRS"],
+    "gl": [
+        ["ikergcalvino", "https://github.com/ikergcalvino"],
+        ["alvaroddiaz", "https://github.com/alvaroddiaz"]
+    ]
 };
 let LOC = {};
 let LOC_EN = {};

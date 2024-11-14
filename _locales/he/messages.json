@@ -509,6 +509,18 @@
     "edit_twitter_settings": {
         "message": "ערוך הגדרות טוויטר "
     },
+    "display_sensitive_content": {
+        "message": "הסר באופן אוטומטי צנזורה ממדיה שסומנה כתוכן רגיש"
+    },
+    "uncensor_graphic_violence_automatically": {
+        "message": "הסר באופן אוטומטי צנזורה ממדיה עם אזהרת אלימות גרפית"
+    },
+    "uncensor_adult_content_automatically": {
+        "message": "הסר באופן אוטומטי צנזורה ממדיה עם אזהרת עירום"
+    },
+    "uncensor_sensitive_content_automatically": {
+        "message": "הסר באופן אוטומטי צנזורה ממדיה עם אזהרת תוכן רגיש"
+    },
     "refresh_tabs": {
         "message": "רענן חלוניות כדי להחל הגדרות"
     },
@@ -846,5 +858,8 @@
     "no_big_font": { "message": "ביטול גופן מוגדל עבור ציוצים קצרים/פופולריים" },
     "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
-    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } }
+    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
+    "hide_original_languages":{
+        "message": "הסר טקסט מקורי כאשר ציוצים מתורגמים" 
+    }
 }
