@@ -1143,8 +1143,7 @@
 		"message": "Por favor copie o texto abaixo e envie-o para a $AT1$página no Github$AT2$ ou para $AT3$meu email$AT2$. Muito obrigado!",
 		"placeholders": {
 			"at1": {
-				"content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
-			},
+				"content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"},
 			"at2": {
 				"content": "</a>"
 			},
@@ -1990,6 +1989,65 @@
 	"anniversary_tweet": {
 		"message": "Você se lembra de quando ingressou no Twitter? Eu me lembro!\n#MeuAniversárioNoTwitter"
 	},
+
+	"advanced_search": {
+        "message": "Busca avançada"
+    },
+    "always_show_link_color": {
+        "message": "Sempre mostrar cores personalizadas para links em vez de apenas ao passar o mouse"
+    },
+    "transition_profile_banner": {
+        "message": "Usar transição no banner do perfil"
+    },
+    "custom_downloadtemplate": {
+        "message": "Modelo personalizado de download"
+    },
+    "custom_downloadtemplate_text": {
+        "message": "Permite personalizar os nomes dos arquivos ao baixar a mídia de um tweet."
+    },
+    "save_downloadtemplate": {
+        "message": "Salvar modelo de download"
+    },
+    "custom_downloadtemplate_hintName1": {
+        "message": "{user_name}: Nome do usuário."
+    },
+    "custom_downloadtemplate_hintName2": {
+        "message": "{user_screen_name}: Nome da conta do usuário. (Exemplo: @dril)"
+    },
+    "custom_downloadtemplate_hintTime": {
+        "message": "{timestamp}: Data e hora da publicação do tweet."
+    },
+    "custom_downloadtemplate_hintExtension": {
+        "message": "{extension}: Extensão do arquivo baixado do tweet."
+    },
+    "custom_downloadtemplate_hintID": {
+        "message": "{id}: ID do tweet."
+    },
+    "custom_downloadtemplate_hintIndex": {
+        "message": "{index}: Índice de cada arquivo a ser baixado. (para postagens com várias mídias)"
+    },
+    "custom_downloadtemplate_hintFilename": {
+        "message": "{filename}: Nome original do arquivo de pbs.twimg.com."
+    },
+    "nonexistent_user": {
+        "message": "Esta conta não existe"
+    },
+    "nonexistent_user_desc": {
+        "message": "Tente buscar outra."
+    },
+    "suspended_user": {
+        "message": "Conta suspensa"
+    },
+    "suspended_user_desc": {
+        "message": "O perfil que você está tentando visualizar foi suspenso."
+    },
+    "show_boring_indicators": {
+        "message": "Mostrar indicador na página de seguidores/seguindo se o último tweet da pessoa for um retweet/citação/inexistente/antigo"
+    },
+    "hide_original_languages": {
+        "message": "Ocultar idiomas originais ao traduzir"
+    },
+
 	"you_shared_tweet": { "message": "Você compartilhou um tweet" },
 	"user_shared_tweet": {
 		"message": "$NAME$ compartilhou um tweet",
