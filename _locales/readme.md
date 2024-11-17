@@ -24,9 +24,9 @@ Then open newly pasted folder and open ``messages.json`` in it. You'll now see `
 
 ### Translation Support Tools
 
-We provide a helpful tool in the `locales-support` directory to assist with translations:
+We provide a helpful tool in the `./_locales` directory to assist with translations:
 
-#### Locale Diff Tool (locales-support/index.html)
+#### Locale Diff Tool (./locales-support.html)
 This tool helps you:
 - Compare your translation with the English base version side by side
 - Identify missing translations
