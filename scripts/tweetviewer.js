@@ -2365,7 +2365,7 @@ class TweetViewer {
             openInNewTab(`https://${location.hostname}/${t.user.screen_name}/status/${t.id_str}?newtwitter=true`);
         });
         tweetInteractMoreMenuEmbed.addEventListener('click', () => {
-            openInNewTab(`https://publish.${location.hostname}/?query=/${t.user.screen_name}/status/${t.id_str}&widget=Tweet`);
+            openInNewTab(`https://publish.${location.hostname}/?query=https://${location.hostname}/${t.user.screen_name}/status/${t.id_str}&widget=tweet`);
         });
         if (t.user.id_str === user.id_str) {
             tweetInteractMoreMenuAnalytics.addEventListener('click', () => {
