@@ -565,7 +565,7 @@ const API = {
                     }
                     fetch(`https://api.${location.hostname}/1.1/account/settings.json`, {
                         headers: {
-                            "authorization": OLDTWITTER_CONFIG.public_token,
+                            "authorization": OLDTWITTER_CONFIG.oauth_key,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                         },
