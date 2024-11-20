@@ -117,6 +117,8 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     fs.unlinkSync('../OldTwitterTempChrome/test.js');
     fs.unlinkSync('../OldTwitterFirefox/package.json');
     fs.unlinkSync('../OldTwitterTempChrome/package.json');
+    fs.unlinkSync('../OldTwitterFirefox/_locales/locales-support.html');
+    fs.unlinkSync('../OldTwitterTempChrome/_locales/locales-support.html');
   
     if (fs.existsSync('../OldTwitterFirefox/package-lock.json')) // Delete NPM package-lock (if exists)
       fs.unlinkSync('../OldTwitterFirefox/package-lock.json');
