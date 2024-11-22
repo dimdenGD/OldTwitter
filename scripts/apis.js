@@ -2364,7 +2364,7 @@ const API = {
             return new Promise((resolve, reject) => {
                 fetch(`https://api.${location.hostname}/1.1/users/lookup.json?user_id=${ids.join(",")}`, {
                     headers: {
-                        "authorization": OLDTWITTER_CONFIG.public_token,
+                        "authorization": OLDTWITTER_CONFIG.oauth_key,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/x-www-form-urlencoded; charset=UTF-8"
