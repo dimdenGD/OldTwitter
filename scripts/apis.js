@@ -3472,36 +3472,111 @@ const API = {
             });
         },
         getLikers: (id, cursor, count = 10) => {
-            return new Promise(async (resolve, reject) => {
-                let activity = await fetch(`https://api.x.com/1.1/statuses/${id}/activity/summary.json?stringify_ids=1&cards_platform=Web-13&include_entities=1&include_user_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
-                    headers: {
-                         "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
-                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                        "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
-                    },
-                    credentials: "include"
-                }).then(i => i.json());
-                if(activity.errors && activity.errors[0]) {
-                    return resolve({ list: [], cursor: undefined });
-                }
-                if(activity.favoriters.length === 0) {
-                    return resolve({ list: [], cursor: undefined });
-                }
-                let list = activity.favoriters.slice(0, count === 10 ? 10 : 100);
-                let lookup = await fetch(`https://api.x.com/1.1/users/lookup.json?user_id=${list.join(',')}&include_entities=1&include_cards=1&send_error_codes=1&tweet_mode=extended&include_ext_alt_text=true&include_reply_count=true`, {
-                    headers: {
-                        "authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA",
-                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
-                        "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json"
-                    },
-                    credentials: "include"
-                }).then(i => i.json());
-                if(lookup.errors && lookup.errors[0]) {
-                    return resolve({ list: [], cursor: undefined });
-                }
-                resolve({ list: lookup, cursor: undefined });
+            return new Promise((resolve, reject) => {
+                let obj = {
+                    "tweetId": id,
+                    "count": count,
+                    "includePromotedContent": false,
+                    "withSuperFollowsUserFields": true,
+                    "withDownvotePerspective": false,
+                    "withReactionsMetadata": false,
+                    "withReactionsPerspective": false,
+                    "withSuperFollowsTweetFields": true,
+                    "withClientEventToken": false,
+                    "withBirdwatchNotes": false,
+                    "withVoice": true,
+                    "withV2Timeline": true
+                };
+                if(cursor) obj.cursor = cursor;
+                chrome.storage.local.get(['tweetLikers'], d => {
+                    if(!cursor) cursor = '';
+                    if(!d.tweetLikers) d.tweetLikers = {};
+                    if(!cursor) {
+                        if(d.tweetLikers[id] && Date.now() - d.tweetLikers[id].date < 60000) {
+                            debugLog('tweet.getLikers', 'cache', d.tweetLikers[id].data);
+                            return resolve(d.tweetLikers[id].data);
+                        }
+                        if(loadingLikers[id]) {
+                            return loadingLikers[id].listeners.push([resolve, reject]);
+                        } else {
+                            loadingLikers[id] = {
+                                listeners: []
+                            };
+                        }
+                    }
+                    fetch(`/i/api/graphql/RMoTahkos95Jcdw-UWlZog/Favoriters?variables=${encodeURIComponent(JSON.stringify(obj))}&features=${encodeURIComponent(JSON.stringify({
+                        "dont_mention_me_view_api_enabled": true,
+                        "interactive_text_enabled": true,
+                        "responsive_web_uc_gql_enabled": false,
+                        "vibe_tweet_context_enabled": false,
+                        "responsive_web_edit_tweet_api_enabled": false,
+                        "standardized_nudges_misinfo": false,
+                        "responsive_web_enhance_cards_enabled": false
+                    }))}`, {
+                        headers: {
+                            "authorization": OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/json"
+                        },
+                        credentials: "include"
+                    }).then(i => i.json()).then(data => {
+                        debugLog('tweet.getLikers', 'start', { id, cursor, data });
+                        if (data.errors && data.errors[0].code === 32) {
+                            if(!cursor) {
+                                loadingLikers[id].listeners.forEach(l => l[1]('Not logged in'));
+                                delete loadingLikers[id];
+                            }
+                            return reject("Not logged in");
+                        }
+                        if (data.errors && data.errors[0]) {
+                            if(!cursor) {
+                                loadingLikers[id].listeners.forEach(l => l[1](data.errors[0].message));
+                                delete loadingLikers[id];
+                            }
+                            return reject(data.errors[0].message);
+                        }
+                        let list = data.data.favoriters_timeline.timeline.instructions.find(i => i.type === 'TimelineAddEntries');
+                        if(!list) {
+                            if(!cursor) {
+                                loadingLikers[id].listeners.forEach(l => l[0]({ list: [], cursor: undefined }));
+                                delete loadingLikers[id];
+                            }
+                            debugLog('tweet.getLikers', 'end', id, { list: [], cursor: undefined, data });
+                            return resolve({ list: [], cursor: undefined });
+                        }
+                        list = list.entries;
+                        let rdata = {
+                            list: list.filter(e => e.entryId.startsWith('user-')).map(e => {
+                                if(
+                                    !e.content.itemContent.user_results.result ||
+                                    e.content.itemContent.user_results.result.__typename === "UserUnavailable"
+                                ) return;
+                                let user = e.content.itemContent.user_results.result;
+                                user.legacy.id_str = user.rest_id;
+                                return user.legacy;
+                            }).filter(u => u),
+                            cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
+                        };
+                        debugLog('tweet.getLikers', 'end', id, rdata);
+                        resolve(rdata);
+                        if(!cursor) {
+                            loadingLikers[id].listeners.forEach(l => l[0](rdata));
+                            delete loadingLikers[id];
+                            d.tweetLikers[id] = {
+                                date: Date.now(),
+                                data: rdata
+                            };
+                            chrome.storage.local.set({tweetLikers: d.tweetLikers}, () => {});
+                        }
+                    }).catch(e => {
+                        if(!cursor) {
+                            loadingLikers[id].listeners.forEach(l => l[1](e));
+                            delete loadingLikers[id];
+                        }
+                        reject(e);
+                    });
+                });
             });
         },
         getRetweeters: (id, cursor) => {
