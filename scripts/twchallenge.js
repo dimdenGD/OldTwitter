@@ -113,7 +113,10 @@ fetch = async function(url, options) {
         options.headers['X-Client-UUID'] = OLDTWITTER_CONFIG.deviceId;
     }
     if(!url.startsWith('http:') && !url.startsWith('https:')) {
-        url = `https://${location.host}${url}`;
+        let host = location.hostname;
+        if(!['x.com', 'twitter.com'].includes(host)) host = 'x.com';
+        if(!url.startsWith('/')) url = '/' + url;
+        url = `https://${host}${url}`;
     }
     let parsedUrl = new URL(url);
     // try {
@@ -134,12 +137,14 @@ async function initChallenge() {
     try {
         let homepageData;
         let sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+        let host = location.hostname;
+        if(!['x.com', 'twitter.com'].includes(host)) host = 'x.com';
         try {
-            homepageData = await _fetch(`https://${location.hostname}/`).then(res => res.text());
+            homepageData = await _fetch(`https://${host}/`).then(res => res.text());
         } catch(e) {
             await sleep(500);
             try {
-                homepageData = await _fetch(`https://${location.hostname}/`).then(res => res.text());
+                homepageData = await _fetch(`https://${host}/`).then(res => res.text());
             } catch(e) {
                 throw new Error('Failed to fetch homepage: ' + e);
             }
