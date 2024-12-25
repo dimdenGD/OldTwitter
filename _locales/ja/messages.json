@@ -78,7 +78,7 @@
     "list_not_found": { "message": "リストが見つかりませんでした。" },
     "go_homepage": { "message": "ホームに戻る" },
     "mentions": { "message": "メンション" },
-    "tweeted_like": { "message": "あなたへのおすすめ, "example": "CoolPerson2000 ->tweeted something you might like<-" },
+    "tweeted_like": { "message": "あなたへのおすすめ", "example": "CoolPerson2000 ->tweeted something you might like<-" },
     "favorites": { "message": "お気に入り" },
     "follows_you": { "message": "あなたをフォロー中" },
     "tweet_to_user": { "message": "ユーザーへツイート" },
