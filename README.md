@@ -176,7 +176,7 @@ Nepali - [DimeDead](https://dimedead.neocities.org/)
 Dutch - Puka1611  
 Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234), [kamokakesu](https://twitter.com/kamokakesu)  
 Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234), HY, [Sch](https://me.shtelo.org)  
-Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren](https://twitter.com/YordemEren)  
+Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren](https://twitter.com/YordemEren), [dursunator](https://x.com/dursunator)  
 Italian - [krek](https://twitter.com/CactusInc420), [Francesco](https://twitter.com/FrancescoRosi27)  
 Arabic - [Yours Truly,](https://twitter.com/schrotheneko)  
 Thai - [0.21%BloodAlcohol](https://github.com/Silberweich)  
