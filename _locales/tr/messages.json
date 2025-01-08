@@ -1,1840 +1,649 @@
 {
-    "ext_description": {
-        "message": "Twitter'ın eski görünümünü geri getiren bir eklenti."
-    },
-    "timeline": {
-        "message": "Zaman akışı"
-    },
-    "loading": {
-        "message": "Yükleniyor"
-    },
-    "tweets": {
-        "message": "Tweetler"
-    },
-    "following_btn": {
-        "message": "Takip edilen",
-        "description": "This one is used in button showing that user is following someone."
-    },
-    "following": {
-        "message": "Takip edilen",
-        "description": "Try to keep this word equal or less than 9 characters"
-    },
-    "followers": {
-        "message": "Takipçi",
-        "description": "Try to keep this word equal or less than 9 characters"
-    },
-    "trends": {
-        "message": "Trendler"
-    },
-    "tweet": {
-        "message": "Tweet"
-    },
-    "load_more": {
-        "message": "Daha fazla yükle"
-    },
-    "who_to_follow": {
-        "message": "Kimi takip etmeli",
-        "description": "Max 19 characters, you can use word 'People' if no space"
-    },
-    "refresh": {
-        "message": "Yenile"
-    },
-    "view_all": {
-        "message": "Tümünü görüntüle"
-    },
-    "running": {
-        "message": "Kullanılan sürüm:",
-        "example": "->Running<- OldTwitter v0.0.0"
-    },
-    "created_by": {
-        "message": "Yapan kişi:",
-        "example": "->Created by<- dimden"
-    },
-    "website": {
-        "message": "İnternet sitesi"
-    },
-    "help": {
-        "message": "Yardım",
-        "description": "noun"
-    },
-    "terms": {
-        "message": "Şartlar",
-        "description": "Shortest word that you can find for Terms of service"
-    },
-    "privacy": {
-        "message": "Gizlilik",
-        "description": "Shortest word that you can find for Privacy policy"
-    },
-    "about": {
-        "message": "Hakkında"
-    },
-    "donate": {
-        "message": "Bağış"
-    },
-    "home": {
-        "message": "Ana sayfa",
-        "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline"
-    },
-    "notifications": {
-        "message": "Bildirimler"
-    },
-    "messages": {
-        "message": "İletiler"
-    },
-    "search_twitter": {
-        "message": "Twitter'da Ara"
-    },
-    "profile": {
-        "message": "Profil"
-    },
-    "settings": {
-        "message": "Ayarlar"
-    },
-    "lists": {
-        "message": "Listeler"
-    },
-    "list": {
-        "message": "Liste"
-    },
-    "bookmarks": {
-        "message": "Yer işaretleri"
-    },
-    "manage_accounts": {
-        "message": "Hesapları yönet"
-    },
-    "logout": {
-        "message": "Çıkış yap"
-    },
-    "whats_happening": {
-        "message": "Neler yaşanıyor?"
-    },
-    "variant": {
-        "message": "Başka biçim"
-    },
-    "optional": {
-        "message": "(opsiyonel)"
-    },
-    "days": {
-        "message": "Gün"
-    },
-    "hours": {
-        "message": "Saat"
-    },
-    "minutes": {
-        "message": "Dakika"
-    },
-    "remove_poll": {
-        "message": "Anketi kaldır"
-    },
-    "open_newtwitter": {
-        "message": "Bu sayfayı yeni Twitter'da aç"
-    },
-    "last_version": {
-        "message": "son sürüm"
-    },
+    "ext_description": { "message": "Twitter'ın eski görünümünü geri getiren bir eklenti." },
+    "timeline": { "message": "Zaman akışı" },
+    "loading": { "message": "Yükleniyor" },
+    "tweets": { "message": "Tweet'ler" },
+    "following_btn": { "message": "Takip edilen", "description": "This one is used in button showing that user is following someone." },
+    "following": { "message": "Takip edilen", "description": "This is used in list showing who user follows. Try to keep this word equal or less than 9 characters" },
+    "followers": { "message": "Takipçiler", "description": "This is used in list of users followers. Try to keep this word equal or less than 9 characters" },
+    "trends": { "message": "Trendler" },
+    "tweet": { "message": "Tweet" },
+    "load_more": { "message": "Daha fazla yükle" },
+    "who_to_follow": { "message": "Kimi takip etmeli", "description": "Max 19 characters, you can use word 'People' if no space" },
+    "refresh": { "message": "Yenile" },
+    "view_all": { "message": "Tümünü görüntüle" },
+    "running": { "message": "Kullanılan sürüm", "example": "->Running<- OldTwitter v0.0.0" },
+    "created_by": { "message": "Yapan kişi", "example": "->Created by<- dimden" },
+    "website": { "message": "İnternet sitesi" },
+    "help": { "message": "Yardım", "description": "noun" },
+    "terms": { "message": "Şartlar", "description": "Shortest word that you can find for Terms of service" },
+    "privacy": { "message": "Gizlilik", "description": "Shortest word that you can find for Privacy policy" },
+    "about": { "message": "Hakkında" },
+    "donate": { "message": "Bağış" },
+    "home": { "message": "Ana sayfa", "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline" },
+    "notifications": { "message": "Bildirimler" },
+    "messages": { "message": "Mesajlar" },
+    "search_twitter": { "message": "Twitter'da Ara" },
+    "profile": { "message": "Profil" },
+    "settings": { "message": "Ayarlar" },
+    "lists": { "message": "Listeler" },
+    "list": { "message": "Liste" },
+    "bookmarks": { "message": "Yer İşaretleri" },
+    "manage_accounts": { "message": "Hesapları Yönet" },
+    "logout": { "message": "Çıkış yap" },
+    "whats_happening": { "message": "Neler oluyor?" },
+    "variant": { "message": "Varyant" },
+    "optional": { "message": "opsiyonel)" },
+    "days": { "message": "Gün" },
+    "hours": { "message": "Saat" },
+    "minutes": { "message": "Dakika" },
+    "remove_poll": { "message": "Anketi kaldır" },
+    "open_newtwitter": { "message": "Bu sayfayı yeni Twitter'da aç" },
+    "last_version": { "message": "son sürüm" },
     "thank_you": {
-        "message": "OldTwitter'ı kurduğunuz için teşekkürler!! Umarım beğenirsiniz. <a target=\"_blank\" href=\"/old/settings\">eklenti ayarlarına</a> göz atın!"
-    },
-    "follow_mb": {
-        "message": "Beni takip et?"
-    },
-    "follow": {
-        "message": "Takip et"
-    },
-    "unfollow": {
-        "message": "Takibi bırak"
-    },
-    "follow_user": {
-        "message": "Takip et:",
-        "example": "->Follow<- @CoolPerson2000"
-    },
-    "unfollow_user": {
-        "message": "Takibi bırak:",
-        "example": "->Unfollow<- @CoolPerson2000"
-    },
-    "thank_you_follow": {
-        "message": "Beni takip ettiğin için teşekkürler!!"
-    },
-    "loading_tweets": {
-        "message": "Tweetler yükleniyor..."
-    },
-    "retweeted": {
-        "message": "retweetledi",
-        "example": "CoolPerson2000 ->retweeted<-"
-    },
-    "see_new_tweets": {
-        "message": "Yeni tweetleri gör"
-    },
-    "must2variants": {
-        "message": "En az 2 anket değişkeni kullanmalısınız."
-    },
-    "delete_all": {
-        "message": "Tümünü sil"
-    },
-    "empty": {
-        "message": "Vaov, ne boş",
-        "description": "Funky message about nothing found"
-    },
-    "delete_bookmarks": {
-        "message": "Bütün yer işaretlerini silmek istediğinizden emin misiniz? Bu eylem geri döndürülemez."
-    },
-    "members": {
-        "message": "Üyeler"
-    },
-    "subscribers": {
-        "message": "Aboneler"
-    },
-    "list_members": {
-        "message": "Üyeleri listele"
-    },
-    "list_subscribers": {
-        "message": "Aboneleri listele"
-    },
-    "edit": {
-        "message": "Düzenle"
-    },
-    "delete": {
-        "message": "Sil"
-    },
-    "remove": {
-        "message": "Kaldır"
-    },
-    "edit_list": {
-        "message": "Listeyi düzenle"
-    },
-    "edit_members": {
-        "message": "Üyeleri düzenle"
-    },
-    "save": {
-        "message": "Kaydet"
-    },
-    "back": {
-        "message": "Geri"
-    },
-    "delete_list": {
-        "message": "Listeyi sil"
-    },
-    "delete_list_sure": {
-        "message": "Bu listeyi silmek istediğinizden emin misiniz?"
-    },
-    "unsubscribe": {
-        "message": "Abonelikten çık"
-    },
-    "subscribe": {
-        "message": "Abone ol"
-    },
-    "list_not_found": {
-        "message": "Liste bulunamadı."
-    },
-    "go_homepage": {
-        "message": "Ana sayfaya git."
-    },
-    "mentions": {
-        "message": "Bahsetmeler"
-    },
-    "tweeted_like": {
-        "message": "beğenebileceğin bir şey tweetledi",
-        "example": "CoolPerson2000 ->tweeted something you might like<-"
-    },
-    "favorites": {
-        "message": "Favoriler"
-    },
-    "follows_you": {
-        "message": "Seni takip ediyor"
-    },
-    "tweet_to_user": {
-        "message": "Kullanıcıya Tweetle"
-    },
-    "followers_you_know": {
-        "message": "tanıdığın takipçi",
-        "example": "123 ->followers you know<-"
-    },
-    "photos_and_videos": {
-        "message": "Fotoğraflar ve videolar"
-    },
-    "photos_and_videos2": {
-        "message": "Fotoğraflar & videolar"
-    },
-    "tweets_and_replies": {
-        "message": "Tweetler & yanıtlar"
-    },
-    "you_may_also_like": {
-        "message": "Ayrıca beğenebilirsiniz",
-        "description": "Max 19 characters, you can use word 'People' if no space"
-    },
-    "user_was_not_found": {
-        "message": "Kullanıcı bulunamadı."
-    },
-    "timeline_not_authorized": {
-        "message": "Bu kullanıcının zaman akışını görüntülemeye izniniz yok."
-    },
-    "create_btn": {
-        "message": "[oluştur]"
-    },
-    "create_list": {
-        "message": "Liste oluştur"
-    },
-    "create": {
-        "message": "Oluştur"
-    },
-    "name": {
-        "message": "Ad"
-    },
-    "description": {
-        "message": "Açıklama"
-    },
-    "no_description": {
-        "message": "Açıklama yok."
-    },
-    "born": {
-        "message": "Doğdu:"
-    },
-    "january": {
-        "message": "Ocak'ta",
-        "description": "Used in 'Born January 1'. You can move on left if it sounds better in your language like that."
-    },
-    "february": {
-        "message": "Şubat'ta"
-    },
-    "march": {
-        "message": "Mart'ta"
-    },
-    "april": {
-        "message": "Nisan'da"
-    },
-    "may": {
-        "message": "Mayıs'ta"
-    },
-    "june": {
-        "message": "Haziran'da"
-    },
-    "july": {
-        "message": "Temmuz'da"
-    },
-    "august": {
-        "message": "Ağustos'ta"
-    },
-    "september": {
-        "message": "Eylül'de"
-    },
-    "october": {
-        "message": "Ekim'de"
-    },
-    "november": {
-        "message": "Kasım'da"
-    },
-    "december": {
-        "message": "Aralık'ta"
-    },
-    "tweet_to": {
-        "message": "Tweetle:",
-        "example": "->Tweet to<- @CoolPerson2000"
-    },
-    "translated_from": {
-        "message": "Şu dilden çevrildi:",
-        "example": "->Translated from<- Japanese"
-    },
-    "translate_bio": {
-        "message": "Bio'yu çevir"
-    },
-    "edit_profile": {
-        "message": "Profili düzenle"
-    },
-    "follow_request_sent": {
-        "message": "Takip etme isteği gönderildi"
-    },
-    "unblock_user": {
-        "message": "Engeli kaldır:",
-        "example": "->Unblock<- @CoolPerson2000"
-    },
-    "unblock": {
-        "message": "Engeli kaldır",
-        "description": "Just for unblock button"
-    },
-    "block_user": {
-        "message": "Engelle:",
-        "example": "->Block<- @CoolPerson2000"
-    },
-    "block": {
-        "message": "Engelle",
-        "description": "Just for block button"
-    },
-    "mute": {
-        "message": "Görmezden gel"
-    },
-    "unmute": {
-        "message": "Görmezden gelmeyi bırak"
-    },
-    "see_lists": {
-        "message": "Listeleri gör"
-    },
-    "stop_notifications": {
-        "message": "Bildirim almayı kapat"
-    },
-    "receive_notifications": {
-        "message": "Bildirim al"
-    },
-    "from_list": {
-        "message": "Listeden ekle/kaldır"
-    },
-    "share_user": {
-        "message": "Kullanıcıyı paylaş"
-    },
-    "copy_profile_link": {
-        "message": "Profil linkini kopyala"
-    },
-    "remove_from_followers": {
-        "message": "Takipçilerden çıkar",
-        "description": "This button unfollows person from you, not unfollows you from them"
-    },
-    "remove_from_followers_sure": {
-        "message": "@$SCREEN_NAME$'i takipçilerinden çıkarmak istediğine emin misin?",
+        "message": "OldTwitter'ı yüklediğin için teşekkür ederim!! Umarım beğenirsin. $AT1$extension settings$AT2$'ı kontrol et!",
         "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
+            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
+            "at2": { "content": "</a>" }
         }
     },
-    "remove_from_followers_warn": {
-        "message": "BU ONU TAKİPÇİ LİSTENDEN ÇIKARACAK, TAKİP EDİLENLER LİSTENDEN DEĞİL."
-    },
-    "remove_from_followers_button": {
-        "message": "Takipçilerimden kaldır"
-    },
-    "able_in_future": {
-        "message": "Seni gelecekte yeniden takip edebilecekler."
-    },
-    "block_sure": {
-        "message": "Bu kişiyi engellemek istediğinizden emin misiniz:",
-        "example": "->Are you sure you want to block<- @CoolPerson2000?"
-    },
-    "add": {
-        "message": "Ekle"
-    },
-    "joined": {
-        "message": "Katıldı:",
-        "example": "->Joined<- April 30, 2019"
-    },
-    "birthday_today": {
-        "message": "(bu gün!)"
-    },
-    "pinned_tweet": {
-        "message": "Sabitlenmiş tweet"
-    },
-    "search": {
-        "message": "Ara"
-    },
-    "popular": {
-        "message": "Popüler"
-    },
-    "live": {
-        "message": "Canlı"
-    },
-    "people": {
-        "message": "Kişiler"
-    },
-    "photos": {
-        "message": "Fotoğraflar"
-    },
-    "videos": {
-        "message": "Videolar"
-    },
-    "all_people": {
-        "message": "Tüm kişiler"
-    },
-    "people_yk": {
-        "message": "Bildiğiniz kişiler"
-    },
-    "everywhere": {
-        "message": "Her yer"
-    },
-    "near_you": {
-        "message": "Senin yakınlarında"
-    },
-    "advanced_search": {
-        "message": "Gelişmiş arama"
-    },
-    "save_search": {
-        "message": "Bu aramayı kaydet"
-    },
-    "remove_search": {
-        "message": "Kaydedilenlerden kaldır"
-    },
-    "try_again": {
-        "message": "Yeniden dene"
-    },
-    "no_results": {
-        "message": "Sonuç bulunamadı. Soldaki bir şeyleri değiştirmeyi dene?"
-    },
-    "words": {
-        "message": "Sözcükler"
-    },
-    "all_these_words": {
-        "message": "Tüm bu sözcükler"
-    },
-    "all_these_words_example": {
-        "message": "Örnek: ne yaşanıyor - \"ne\" ve \"yaşanıyor\"u içerir"
-    },
-    "exact_phrase": {
-        "message": "Tam kullanım"
-    },
-    "exact_phrase_example": {
-        "message": "Örnek: iyi vakit - \"iyi vakit\"i içerir"
-    },
-    "any_words": {
-        "message": "Bu sözcüklerden her hangi biri"
-    },
-    "any_words_example": {
-        "message": "Örnek: kediler köpekler - \"kediler\" veya \"köpekler\"i içerir"
-    },
-    "not_these_words": {
-        "message": "Bu sözcüklerden hiçbiri"
-    },
-    "not_these_words_example": {
-        "message": "Örnek: kediler köpekler - \"kediler\" ve \"köpekler\"i içermez"
-    },
-    "user": {
-        "message": "Kullanıcı"
-    },
-    "from_this_user": {
-        "message": "Bu kullanıcıdan"
-    },
-    "from_this_user_example": {
-        "message": "Örnek: @dimden - dimden kullanıcısından"
-    },
-    "mentions_this_user": {
-        "message": "Bu kullanıcıdan bahseder"
-    },
-    "mentions_this_user_example": {
-        "message": "Örnek: @dimden - dimden'e yanıt olarak"
-    },
-    "interactions": {
-        "message": "Etkileşimler"
-    },
-    "min_replies": {
-        "message": "En az yanıt adedi"
-    },
-    "min_replies_example": {
-        "message": "Örnek: 10 - en az 10 yanıtlı tweetler"
-    },
-    "min_retweets": {
-        "message": "En az retweet adedi"
-    },
-    "min_retweets_example": {
-        "message": "Örnek: 10 - en az 10 retweetli tweetler"
-    },
-    "min_favorites": {
-        "message": "En az favori adedi"
-    },
-    "min_favorites_example": {
-        "message": "Örnek: 10 - en az 10 favorili tweetler"
-    },
-    "dates": {
-        "message": "Tarihler"
-    },
-    "since": {
-        "message": "Beri"
-    },
-    "until": {
-        "message": "'e kadar"
-    },
-    "twitter_settings": {
-        "message": "Twitter ayarları"
-    },
-    "oldtwitter_settings": {
-        "message": "OldTwitter ayarları"
-    },
-    "edit_twitter_settings": {
-        "message": "Twitter ayarlarını düzenle"
-    },
-    "refresh_tabs": {
-        "message": "Ayarları uygulamak için tabları yenileyin"
-    },
-    "chrono": {
-        "message": "Ters kronolojik"
-    },
-    "chrono_social": {
-        "message": "Arkadaşlarının beğenileriyle ters kronolojik"
-    },
-    "algo": {
-        "message": "Algoritmik"
-    },
-    "timeline_type": {
-        "message": "Zaman akışı tipi"
-    },
-    "show_topic_tweets": {
-        "message": "Konu tweetlerini göster (yalnızca algo)"
-    },
-    "show_colors_in_timeline": {
-        "message": "Ana sayfa akışında kullanıcıların linklerini seçilebilir kıl"
-    },
-    "enable_twemoji": {
-        "message": "Twemoji'yi etkinleştir"
-    },
-    "hearts_instead_stars": {
-        "message": "Yıldızlar yerine (favoriler) kalpler (beğeniler) göster"
-    },
-    "dark_mode": {
-        "message": "Karanlık mod"
-    },
-    "disable_hotkeys": {
-        "message": "Kısayol tuşlarını devre dışı bırak"
-    },
-    "hotkeys_list": {
-        "message": "Kısayolları listesine buradan gözat"
-    },
-    "save_preferred_quality": {
-        "message": "Tercih edilen video kalitesini hatırla. Eğer bu seçilirse, OldTwitter tercih edilen video kalitesini hatırlayacak ve kullanacaktır (ya da tercih edilene en yakın olanı seçecektir). Eğer bu kapalıysa, OldTwitter en yüksek kaliteyi seçecektir."
-    },
-    "preferred_quality": {
-        "message": "Tercih edilen kalite"
-    },
-    "default_link_color": {
-        "message": "Varsayılan bağlantı rengi"
-    },
-    "font": {
-        "message": "Yazı tipi"
-    },
-    "color_sync": {
-        "message": "Bağlantı rengi eşitlenimi"
-    },
-    "by_pressing_sync": {
-        "message": "Eşitleme düğmesine bastığınızda, profil bağlantı renginiz renkler veritabanına gönderilecek ve diğer uzantı kullanıcılarına gösterilecektir.."
-    },
-    "color_years_ago": {
-        "message": "Twitter bağlantı rengini daha önce ayarladıysanız (yıllar önce, hala bir şeyken), eski renginizi geçersiz kılar."
-    },
-    "sync": {
-        "message": "Eşitle"
-    },
-    "profile_link_color": {
-        "message": "Profil bağlantı rengi"
-    },
-    "light_mode_link": {
-        "message": "Açık mod bağlantısı"
-    },
-    "dark_mode_link": {
-        "message": "Karanlık mod bağlantısı"
-    },
-    "custom_css": {
-        "message": "Özel CSS"
-    },
-    "css_var_override": {
-        "message": "Varsayılan CSS değişkenlerini geçersiz kıl. Bunları <code>--some-variable: property</code> olarak yazın. Yeni satıra göre böl.."
-    },
-    "css_var_list": {
-        "message": "varsayılan CSS değişkenlerinin listesine buradan gözat."
-    },
-    "save_vars": {
-        "message": "Değişkenleri kaydet"
-    },
-    "custom_css_text": {
-        "message": "Her sayfaya eklenecek özel CSS."
-    },
-    "save_css": {
-        "message": "CSS'i kaydet"
-    },
-    "error_setting_color": {
-        "message": "Bağlantı rengi ayarlanırken hata oluştu"
-    },
-    "link_color_set": {
-        "message": "Bağlantı rengi ayarlandı!"
-    },
-    "retweeted_by": {
-        "message": "Tarafından retweetlendi:"
-    },
-    "see_quotes": {
-        "message": "alıntılara gözat"
-    },
-    "see_quotes_big": {
-        "message": "Alıntılara gözat"
-    },
-    "quote_tweets": {
-        "message": "Tweetleri alıntıla"
-    },
-    "see_retweets": {
-        "message": "Retweetlere gözat"
-    },
-    "reply_to": {
-        "message": "Yanıtla:",
-        "example": "->Reply to<- @CoolGuy2000"
-    },
-    "error_loading_tweet": {
-        "message": "Tweeti yüklerken hata oluştu"
-    },
-    "direct_messages": {
-        "message": "Özel mesajlar"
-    },
-    "mark_all_read": {
-        "message": "Tümünü okundu olarak işaretle"
-    },
-    "send": {
-        "message": "Gönder",
-        "description": "Max 5 characters, if no word keep it in English"
-    },
-    "new_message": {
-        "message": "Yeni mesaj"
-    },
-    "create_new_group": {
-        "message": "Yeni grup oluştur"
-    },
-    "search_people": {
-        "message": "Kişileri ara"
-    },
-    "type_message": {
-        "message": "Mesajını yaz"
-    },
-    "cant_send": {
-        "message": "Bu kullanıcıya mesaj gönderemezsiniz."
-    },
-    "gifs_max": {
-        "message": "GIF'ler 15MB'dan az olmalı."
-    },
-    "videos_max": {
-        "message": "Videolar 500MB'dan az olmalı."
-    },
-    "images_max": {
-        "message": "Görseller 5MB'dan az olmalı."
-    },
-    "max_count": {
-        "message": "En fazla 4 görsel, 1 video ya da 1 GIF yükleyebilirsiniz"
-    },
-    "alt_text": {
-        "message": "Görsel açıklaması ekle"
-    },
-    "vote": {
-        "message": "oy",
-        "example": "1 ->vote<-"
-    },
-    "votes": {
-        "message": "oy",
-        "example": "10 ->votes<-"
-    },
-    "ends_at": {
-        "message": "Bitiyor:",
-        "example": "->Ends at<- 16th November"
-    },
-    "view_translation": {
-        "message": "Çevirisini göster"
-    },
-    "unsupported_video": {
-        "message": "Tarayıcınız bu videoyu desteklemiyor."
-    },
-    "views": {
-        "message": "Görüntülenme",
-        "example": "10 ->views<-"
-    },
-    "reload": {
-        "message": "Yenile"
-    },
-    "circle_limited_tweet": {
-        "message": "Bu tweet @$SCREEN_NAME$ kullanıcısının sadece güvenilir arkadaşları tarafından görüntülenebilir.",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "learn_more": {
-        "message": "Daha fazlasını öğren."
-    },
-    "limited_tweet": {
-        "message": "Bu tweet kısıtlı yanıtlayıcılara sahiptir."
-    },
-    "replies": {
-        "message": "Yanıtlar"
-    },
-    "retweets": {
-        "message": "Retweetler"
-    },
-    "likes": {
-        "message": "Beğeniler"
-    },
-    "show_this_thread": {
-        "message": "Bu tweet dizisini göster"
-    },
-    "quote_tweet": {
-        "message": "Tweeti alıntıla"
-    },
-    "see_retweeters": {
-        "message": "Retweetleri göster"
-    },
-    "copy_link": {
-        "message": "Bağlantıyı kopyala"
-    },
-    "embed_tweet": {
-        "message": "Tweeti göm"
-    },
-    "share_tweet": {
-        "message": "Tweeti paylaş"
-    },
-    "tweet_analytics": {
-        "message": "Tweet analizi"
-    },
-    "delete_tweet": {
-        "message": "Tweeti sil"
-    },
-    "unpin_tweet": {
-        "message": "Tweeti sabitten çıkar"
-    },
-    "pin_tweet": {
-        "message": "Tweeti sabitle"
-    },
-    "bookmark_tweet": {
-        "message": "Tweeti işaretle"
-    },
-    "topic_not_interested": {
-        "message": "Bu konu ilgimi çekmiyor"
-    },
-    "refresh_tweet": {
-        "message": "Tweet verisini yenile"
-    },
-    "download_media": {
-        "message": "Medyayı yükle"
-    },
-    "download_gif": {
-        "message": "GIF olarak yükle"
-    },
-    "replying_to_tweet": {
-        "message": "Yanıtını tweetle"
-    },
-    "upload_media_btn": {
-        "message": "[medya yükle]"
-    },
-    "cancel_btn": {
-        "message": "[iptal et]"
-    },
-    "quote": {
-        "message": "Alıntıla"
-    },
-    "reply_example": {
-        "message": "Havalı bir yanıt"
-    },
-    "quote_example": {
-        "message": "Havalı bir alıntılama"
-    },
-    "error_sending_tweet": {
-        "message": "Tweeti gönderirken hata oluştu."
-    },
-    "retweet_sure": {
-        "message": "Bu tweeti retweetlemek istediğinize emin misiniz?"
-    },
-    "unretweet": {
-        "message": "Retweeti geri al"
-    },
-    "retweet": {
-        "message": "Retweet"
-    },
-    "delete_sure": {
-        "message": "Bu tweeti silmek istediğinizden emin misiniz?"
-    },
-    "long_vid": {
-        "message": "Bu video 10 saniyeden uzun. Gecikme yaşanabilir, dönüştürmek istediğinize emin misiniz?"
-    },
-    "feedback_thanks": {
-        "message": "Geri bildiriminiz için teşekkürler!"
-    },
-    "liked_by": {
-        "message": "Tarafından beğenildi"
-    },
-    "reply": {
-        "message": "Yanıtla"
-    },
-    "language": {
-        "message": "Dil (Language)",
-        "description": "Please add English 'Language' word in parentheses in addition to translation",
-        "example": "Язык (Language)"
-    },
-    "translated_by": {
-        "message": "$TRANSLATOR$ tarafından çevrildi.",
-        "placeholders": {
-            "translator": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "last_searches": {
-        "message": "Son aramalar"
-    },
-    "saved_searches": {
-        "message": "Kaydedilmiş aramalar"
-    },
-    "everyone": {
-        "message": "Herkese açık",
-        "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better"
-    },
-    "topic": {
-        "message": "Konu"
-    },
-    "not_interested": {
-        "message": "İlgimi çekmiyor"
-    },
-    "cancel": {
-        "message": "İptal et"
-    },
-    "youre_not_interested": {
-        "message": "Bu konu ilginizi çekmiyor."
-    },
-    "autoplay_videos": {
-        "message": "Videoları otomatik oynat."
-    },
-    "turn_on_retweets": {
-        "message": "Zaman akışında retweetleri göster"
-    },
-    "turn_off_retweets": {
-        "message": "Zaman akışında retweetleri gizle"
-    },
-    "you_can_reply": {
-        "message": "(yanıtlayabilirsin)"
-    },
-    "audience": {
-        "message": "Kitle"
-    },
-    "who_can_reply": {
-        "message": "Kimler yanıtlayabilir"
-    },
-    "people_you_follow": {
-        "message": "Sizi takip edenler"
-    },
-    "people_you_mention": {
-        "message": "Bahsettiğiniz kişiler"
-    },
-    "new_version": {
-        "message": "Yeni versiyona güncellendi"
-    },
-    "display_sensitive_content": {
-        "message": "Hassas olabilecek medyayı göster"
-    },
-    "is_private": {
-        "message": "Gizli"
-    },
-    "s": {
-        "message": "$NUMBER$s",
-        "description": "'saniye'nin kısaltılmışı, '1s'nin 1 saniye olması gibi",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
-    },
-    "m": {
-        "message": "$NUMBER$dk",
-        "description": "'dakika'nın kısaltılmışı, '1dk'nın 1 dakika olması gibi",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
-    },
-    "h": {
-        "message": "$NUMBER$sa",
-        "description": "'saat'in kısaltılmışı, '1sa'nın 1 saat olması gibi",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
-    },
-    "d": {
-        "message": "$NUMBER$g",
-        "description": "'gün'ün kısaltılmışı, '1g'nin bir gün olması gibi",
-        "placeholders": {
-            "number": {
-                "content": "1"
-            }
-        }
-    },
-    "follow_requests": {
-        "message": "Takip istekleri"
-    },
-    "accept": {
-        "message": "Kabul et"
-    },
-    "decline": {
-        "message": "Reddet"
-    },
-    "mute_convo": {
-        "message": "Konuşmayı sustur"
-    },
-    "unmute_convo": {
-        "message": "Konuşmayı susturmayı geri al"
-    },
-    "no_big_font": {
-        "message": "Kısa/popüler tweetler için büyük yazı tipini devre dışı bırak"
-    },
-    "emoji": {
-        "message": "Emoji"
-    },
-    "emoji_btn": {
-        "message": "[emoji]"
-    },
-    "add_emoji": {
-        "message": "Emoji ekle"
-    },
-    "custom": {
-        "message": "Özel"
-    },
-    "smileys_emotion": {
-        "message": "Emojiler ve gülücükler"
-    },
-    "people_body": {
-        "message": "İnsanlar ve vücut"
-    },
-    "animals_nature": {
-        "message": "Hayvanlar ve doğa"
-    },
-    "food_drink": {
-        "message": "Yiyecek ve içecek"
-    },
-    "travel_places": {
-        "message": "Seyahat ve yerler"
-    },
-    "activities": {
-        "message": "Aktiviteler"
-    },
-    "objects": {
-        "message": "Objeler"
-    },
-    "symbols": {
-        "message": "Semboller"
-    },
-    "flags": {
-        "message": "Bayraklar"
-    },
-    "categories": {
-        "message": "Kategoriler"
-    },
-    "unsupported_emoji": {
-        "message": "Tarayıcın renkli emojileri desteklemiyor."
-    },
-    "cant_load_emoji": {
-        "message": "Emoji yüklenemedi."
-    },
-    "emoji_picker": {
-        "message": "Emoji Seçici"
-    },
-    "emoji_search_description": {
-        "message": "Arama sonuçları bulunduğunda, seçmek için yukarı veya aşağı bas."
-    },
-    "search_results": {
-        "message": "Arama sonuçları"
-    },
-    "skin_tone_description": {
-        "message": "genişletildiğinde, seçmek için yukarı veya aşağı bas."
-    },
-    "skin_tone_label": {
-        "message": "Ten rengi seç (şuanda $SKIN_TONE$)",
-        "placeholders": {
-            "skin_tone": {
-                "content": "default"
-            }
-        }
-    },
-    "skin_tones_label": {
-        "message": "Ten renkleri"
-    },
-    "add_media": {
-        "message": "Medya ekle"
-    },
-    "add_poll": {
-        "message": "Anket ekle"
-    },
-    "add_location": {
-        "message": "Konum ekle"
-    },
-    "schedule_tweet": {
-        "message": "Tweet planla"
-    },
-    "scheduled": {
-        "message": "Planlanmış"
-    },
-    "drafts": {
-        "message": "Taslaklar"
-    },
-    "location": {
-        "message": "Konum"
-    },
-    "unsent_tweets": {
-        "message": "Gönderilmemiş tweetler"
-    },
-    "unsent": {
-        "message": "Gönderilmemiş "
-    },
-    "will_send": {
-        "message": "Şu tarihte gönderilecek: "
-    },
-    "schedule": {
-        "message": "Plan"
-    },
-    "scheduled_success": {
-        "message": "Tweet planlandı!"
-    },
-    "see_scheduled": {
-        "message": "Planlananları gör"
-    },
-    "hasnt_tweeted": {
-        "message": "@$SCREEN_NAME$ tweetlemedi!",
-        "placeholders": {
-            "screen_name": {
-                "content": "loading"
-            }
-        }
-    },
-    "when_theyll_tweet": {
-        "message": "tweetlediklerinde burada gözükecek."
-    },
+    "follow_mb": { "message": "Belki beni takip edersin?" },
+    "follow": { "message": "Takip et" },
+    "unfollow": { "message": "Takibi bırak" },
+    "follow_user": { "message": "Takip et @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unfollow_user": { "message": "Takibi bırak @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "thank_you_follow": { "message": "Beni takip ettiğin için teşşekkürler!!" },
+    "loading_tweets": { "message": "Tweet'ler yükleniyor..." },
+    "retweeted": { "message": "retweet'ledi", "example": "CoolPerson2000 ->retweeted<-" },
+    "see_new_tweets": { "message": "Yeni tweet'leri gör" },
+    "must2variants": { "message": "En az 2 anket değişkeni kullanmalısınız." },
+    "delete_all": { "message": "Tümünü sil" },
+    "empty": { "message": "Vaov, ne boş", "description": "Funky message about nothing found" },
+    "delete_bookmarks": { "message": "Bütün yer işaretlerini silmek istediğinizden emin misiniz? Bu eylem geri döndürülemez." },
+    "members": { "message": "Üyeler" },
+    "subscribers": { "message": "Aboneler" },
+    "list_members": { "message": "Üyeleri listele" },
+    "list_subscribers": { "message": "Aboneleri listele" },
+    "edit": { "message": "Düzenle" },
+    "delete": { "message": "Sil" },
+    "remove": { "message": "Kaldır" },
+    "edit_list": { "message": "Listeyi düzenle" },
+    "edit_members": { "message": "Üyeleri düzenle" },
+    "save": { "message": "Kaydet" },
+    "back": { "message": "Geri" },
+    "delete_list": { "message": "Listeyi sil" },
+    "delete_list_sure": { "message": "Bu listeyi silmek istediğinizden emin misiniz?" },
+    "unsubscribe": { "message": "Abonelikten çık" },
+    "subscribe": { "message": "Abone ol" },
+    "list_not_found": { "message": "Liste bulunamadı." },
+    "go_homepage": { "message": "Anasayfaya git." },
+    "mentions": { "message": "Bahsetmeler" },
+    "tweeted_like": { "message": "beğenebileceğin bir şey tweetledi", "example": "CoolPerson2000 ->tweeted something you might like<-" },
+    "favorites": { "message": "Favoriler" },
+    "follows_you": { "message": "Seni Takip Ediyor" },
+    "tweet_to_user": { "message": "Kullanıcıya Tweet'le" },
+    "followers_you_know": { "message": "$NUMBER$ tanıdığın takipçi", "example": "123 followers you know", "placeholders": { "number": { "content": "123" } } },
+    "photos_and_videos": { "message": "Fotoğraflar ve videolar" },
+    "photos_and_videos2": { "message": "Fotoğraflar ve videolar" },
+    "tweets_and_replies": { "message": ">Tweet'ler ve yanıtlar" },
+    "you_may_also_like": { "message": "Ayrıca beğenebilirsiniz", "description": "Max 26 characters, you can use word 'People' if no space" },
+    "user_was_not_found": { "message": "Kullanıcı bulunamadı." },
+    "timeline_not_authorized": { "message": "Bu kullanıcının zaman akışını görüntülemeye yetkiniz yok." },
+    "create_btn": { "message": "[oluştur]" },
+    "create_list": { "message": "Liste oluştur" },
+    "create": { "message": "Oluştur" },
+    "name": { "message": "Ad" },
+    "description": { "message": "Açıklama" },
+    "no_description": { "message": "Açıklama yok." },
+    "born": { "message": "Doğdu" },
+    "january": { "message": "Ocak'ta", "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that.", "placeholders": { "number": { "content": "1" } } },
+    "february": { "message": "Şubat'ta" },
+    "march": { "message": "Mart'ta" },
+    "april": { "message": "Nisan'da" },
+    "may": { "message": "Mayıs'ta" },
+    "june": { "message": "Haziran'da" },
+    "july": { "message": "Temmuz'da" },
+    "august": { "message": "Ağustos'ta" },
+    "september": { "message": "Eylül'de" },
+    "october": { "message": "Ekim'de" },
+    "november": { "message": "Kasım'da" },
+    "december": { "message": "Aralık'ta" },
+    "tweet_to": { "message": "Tweet'le @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "translated_from": { "message": "Şu dilden çevrildi $LANGUAGE$", "placeholders": { "language": { "content": "Japanese" } } },
+    "translate_bio": { "message": "Bio'yu çevir" },
+    "edit_profile": { "message": "Profili düzenle" },
+    "follow_request_sent": { "message": "Takip etme isteği gönderildi" },
+    "unblock_user": { "message": "Engeli kaldır @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unblock": { "message": "Engeli kaldır", "description": "Just for unblock button" },
+    "block_user": { "message": "Engelle @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "block": { "message": "Engelle", "description": "Just for block button" },
+    "mute": { "message": "Görmezden gel" },
+    "unmute": { "message": "Görmezden gelmeyi bırak" },
+    "see_lists": { "message": "Listeleri gör" },
+    "stop_notifications": { "message": "Bildirim almayı kapat" },
+    "receive_notifications": { "message": "Bildirim al" },
+    "from_list": { "message": "Listeden ekle/kaldır" },
+    "share_user": { "message": "Kullanıcıyı paylaş" },
+    "copy_profile_link": { "message": "Profil linkini kopyala" },
+    "remove_from_followers": { "message": "Takipçilerden çıkart", "description": "This button unfollows person from you, not unfollows you from them" },
+    "remove_from_followers_sure": { "message": "@$SCREEN_NAME$'i takipçilerinden çıkarmak istediğine emin misin?", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "remove_from_followers_warn": { "message": "BU ONU TAKİPÇİ LİSTENDEN ÇIKARACAK, TAKİP EDİLENLER LİSTENDEN DEĞİL." },
+    "remove_from_followers_button": { "message": "Takipçilerinden kaldır" },
+    "able_in_future": { "message": "Seni gelecekte yeniden takip edebilecekler." },
+    "block_sure": { "message": "Bu kişiyi engellemek istediğinizden emin misiniz:", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "add": { "message": "Ekle" },
+    "joined": { "message": "Katıldı", "example": "->Joined<- April 30, 2019" },
+    "birthday_today": { "message": "(bugün!)" },
+    "pinned_tweet": { "message": "Sabitlenmiş tweet" },
+    "search": { "message": "Ara" },
+    "popular": { "message": "Popüler" },
+    "live": { "message": "Canlı" },
+    "people": { "message": "Kişiler" },
+    "photos": { "message": "Fotoğraflar" },
+    "videos": { "message": "Videolar" },
+    "all_people": { "message": "Tüm kişiler" },
+    "people_yk": { "message": "Bildiğiniz kişiler" },
+    "everywhere": { "message": "Her yer" },
+    "near_you": { "message": "Yakınlarında" },
+    "advanced_search": { "message": "Gelişmiş arama" },
+    "save_search": { "message": "Bu aramayı kaydet" },
+    "remove_search": { "message": "Kaydedilenlerden kaldır" },
+    "try_again": { "message": "Yeniden dene" },
+    "no_results": { "message": "Sonuç bulunamadı. Soldaki bir şeyleri değiştirmeyi dene?" },
+    "words": { "message": "Sözcükler" },
+    "all_these_words": { "message": "Tüm bu sözcükler" },
+    "all_these_words_example": { "message": "Örnek: neler oluyor - \"neler\" ve \"yaşanıyor\"u içerir" },
+    "exact_phrase": { "message": "Tam kullanım" },
+    "exact_phrase_example": { "message": "Örnek: iyi vakit - \"iyi vakit\"i içerir" },
+    "any_words": { "message": "Bu sözcüklerden herhangi biri" },
+    "any_words_example": { "message": "Örnek: kediler köpekler - \"kediler\" veya \"köpekler\"i içerir" },
+    "not_these_words": { "message": "Bu sözcüklerden hiçbiri" },
+    "not_these_words_example": { "message": "Örnek: kediler köpekler - \"kediler\" ve \"köpekler\"i içermez" },
+    "user": { "message": "Kullanıcı" },
+    "from_this_user": { "message": "Bu kullanıcıdan" },
+    "from_this_user_example": { "message": "Örnek: @dimden - dimden kullanıcısından" },
+    "mentions_this_user": { "message": "Bu kullanıcıdan bahseder" },
+    "mentions_this_user_example": { "message": "Örnek: @dimden - dimden'e yanıt olarak" },
+    "interactions": { "message": "Etkileşimler" },
+    "min_replies": { "message": "En az yanıt adedi" },
+    "min_replies_example": { "message": "Örnek: 10 - en az 10 yanıtlı tweet'ler" },
+    "min_retweets": { "message": "En az retweet adedi" },
+    "min_retweets_example": { "message": "Örnek: 10 - en az 10 retweetli tweet'ler" },
+    "min_favorites": { "message": "En az favori adedi" },
+    "min_favorites_example": { "message": "Örnek: 10 - en az 10 favorili tweet'ler" },
+    "dates": { "message": "Tarihler" },
+    "since": { "message": "Beri" },
+    "until": { "message": "'e kadar" },
+    "twitter_settings": { "message": "Twitter ayarları" },
+    "oldtwitter_settings": { "message": "OldTwitter ayarları" },
+    "edit_twitter_settings": { "message": "Twitter ayarlarını düzenle" },
+    "refresh_tabs": { "message": "Ayarları uygulamak için tab'ları yenileyin" },
+    "chrono": { "message": "Ters kronolojik" },
+    "chrono_social": { "message": "Arkadaşlarının beğenileriyle ters kronolojik" },
+    "algo": { "message": "Algoritmik" },
+    "timeline_type": { "message": "Zaman akışı tipi" },
+    "show_topic_tweets": { "message": "Konu tweet'lerini göster (yalnızca algo)" },
+    "show_colors_in_timeline": { "message": "Ana sayfa akışında kullanıcıların özel bağlantı renklerini göster" },
+    "always_show_link_color": { "message": "Fareyle üzerinde gelinmesi harici her zaman özel bağlantı renklerini göster." },
+    "enable_twemoji": { "message": "Twemoji'yi etkinleştir" },
+    "hearts_instead_stars": { "message": "ıldızlar yerine (favoriler) kalpler (beğeniler) göster" },
+    "dark_mode": { "message": "Karanlık mod" },
+    "disable_hotkeys": { "message": "Kısayol tuşlarını devre dışı bırak" },
+    "hotkeys_list": { "message": "Kısayolları listesine buradan gözat" },
+    "save_preferred_quality": { "message": "Tercih edilen video kalitesini hatırla. Eğer bu seçilirse, OldTwitter tercih edilen video kalitesini hatırlayacak ve kullanacaktır (ya da tercih edilene en yakın olanı seçecektir). Eğer bu kapalıysa, OldTwitter en yüksek kaliteyi seçecektir." },
+    "preferred_quality": { "message": "Tercih edilen kalite" },
+    "default_link_color": { "message": "Varsayılan link rengi" },
+    "font": { "message": "Yazı tipi" },
+    "color_sync": { "message": "Link rengi senkronizasyonu" },
+    "by_pressing_sync": { "message": "Eşitleme düğmesine bastığınızda, profil bağlantı renginiz renkler veritabanına gönderilecek ve diğer uzantı kullanıcılarına gösterilecektir.." },
+    "color_years_ago": { "message": "Twitter bağlantı rengini daha önce ayarladıysanız (yıllar önce, hala bir şeyken), eski renginizi geçersiz kılar." },
+    "sync": { "message": "Eşitle", "note": "Try to keep this short" },
+    "profile_link_color": { "message": "Profil bağlantı rengi" },
+    "light_mode_link": { "message": "Açık mod bağlantısı" },
+    "dark_mode_link": { "message": "Karanlık mod bağlantısı" },
+    "custom_css": { "message": "Özel CSS" },
+    "css_var_override": { "message": "Varsayılan CSS değişkenlerini geçersiz kıl. Bunları <code>--some-variable: property</code> olarak yazın. Yeni satıra göre böl.." },
+    "css_var_list": { "message": "varsayılan CSS değişkenlerinin listesine buradan gözat." },
+    "save_vars": { "message": "Değişkenleri kaydet" },
+    "custom_css_text": { "message": "Her sayfaya eklenecek özel CSS." },
+    "save_css": { "message": "CSS'i kaydet" },
+    "error_setting_color": { "message": "Bağlantı rengi ayarlanırken hata oluştu" },
+    "link_color_set": { "message": "Bağlantı rengi ayarlandı!" },
+    "retweeted_by": { "message": "Tarafından retweetlendi:" },
+    "see_quotes": { "message": "alıntılara gözat" },
+    "see_quotes_big": { "message": "Alıntılara gözat" },
+    "quote_tweets": { "message": "Tweet'leri alıntıla" },
+    "see_retweets": { "message": "retweetler'i gör" },
+    "reply_to": { "message": "@$SCREEN_NAME$'a yanıtla", "example": "Reply to @CoolPerson2000", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "error_loading_tweet": { "message": "Tweet yüklerken hata oluştu" },
+    "direct_messages": { "message": "Özel mesajlar" },
+    "mark_all_read": { "message": "Tümünü okundu olarak işaretle" },
+    "send": { "message": "Gönder", "description": "Max 5 characters, if no word keep it in English" },
+    "new_message": { "message": "Yeni mesaj" },
+    "create_new_group": { "message": "Yeni grup oluştur" },
+    "search_people": { "message": "Kişileri ara" },
+    "type_message": { "message": "Mesajını yaz" },
+    "cant_send": { "message": "Bu kullanıcıya mesaj gönderemezsiniz." },
+    "gifs_max": { "message": "GIF'ler 15MB'dan az olmalı." },
+    "videos_max": { "message": "Videolar 500MB'dan az olmalı." },
+    "images_max": { "message": "Görseller 5MB'dan az olmalı." },
+    "max_count": { "message": "En fazla 4 görsel, 1 video ya da 1 GIF yükleyebilirsiniz" },
+    "alt_text": { "message": "Görsel açıklaması ekle" },
+    "vote": { "message": "oy", "example": "1 ->vote<-" },
+    "votes": { "message": "oylar", "example": "10 ->votes<-" },
+    "ends_at": { "message": "Bitiyor $DATE$", "example": "Ends at 16th November", "placeholders": { "date": { "content": "16th November" } } },
+    "view_translation": { "message": "Çevirisini göster" },
+    "unsupported_video": { "message": "Tarayıcınız bu videoyu desteklemiyor." },
+    "views": { "message": "Görüntülenme", "example": "10 ->views<-" },
+    "reload": { "message": "Yenile" },
+    "circle_limited_tweet": { "message": "Bu tweet @$SCREEN_NAME$ kullanıcısının sadece güvenilir arkadaşları tarafından görüntülenebilir.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "learn_more": { "message": "Daha fazlasını öğren." },
+    "limited_tweet": { "message": "Bu tweet kısıtlı yanıtlayıcılara sahiptir." },
+    "replies": { "message": "Yanıtlar" },
+    "retweets": { "message": "Retweetler" },
+    "likes": { "message": "Beğeniler" },
+    "show_this_thread": { "message": "Bu tweet dizisini göster" },
+    "quote_tweet": { "message": "Tweet'i alıntıla" },
+    "see_retweeters": { "message": "Retweet'leyenleri gör" },
+    "copy_link": { "message": "Bağlantıyı kopyala" },
+    "embed_tweet": { "message": "Tweet'i göm" },
+    "share_tweet": { "message": "Tweet'i paylaş" },
+    "tweet_analytics": { "message": "Tweet analizleri" },
+    "delete_tweet": { "message": "Tweet'i sil" },
+    "unpin_tweet": { "message": "Tweet'i sabitlemeyi kaldır" },
+    "pin_tweet": { "message": "Tweet'i sabitle" },
+    "bookmark_tweet": { "message": "Tweet'i yer işaretlerine ekle" },
+    "topic_not_interested": { "message": "Bu konu ilgimi çekmiyor" },
+    "refresh_tweet": { "message": "Tweet verisini yenile" },
+    "download_media": { "message": "Medyayı yükle" },
+    "download_gif": { "message": "GIF olarak yükle" },
+    "replying_to_tweet": { "message": "Yanıtını tweetle" },
+    "upload_media_btn": { "message": "[medya yükle]" },
+    "cancel_btn": { "message": "[iptal et]" },
+    "quote": { "message": "Alıntıla " },
+    "reply_example": { "message": "Havalı bir yanıt" },
+    "quote_example": { "message": "Havalı bir alıntılama" },
+    "error_sending_tweet": { "message": "Tweet'i gönderirken bir hata oldu" },
+    "retweet_sure": { "message": "Bu tweet'i retweet'lemek istediğinize emin misiniz?" },
+    "unretweet": { "message": "Retweet'i geri al" },
+    "retweet": { "message": "Retweet" },
+    "delete_sure": { "message": "Bu tweet'i silmek istediğinizden emin misiniz?" },
+    "long_vid": { "message": "Bu video 10 saniyeden uzun. Gecikme yaşanabilir, dönüştürmek istediğinize emin misiniz?" },
+    "feedback_thanks": { "message": "Geri bildiriminiz için teşekkürler!" },
+    "liked_by": { "message": "Tarafından beğenildi" },
+    "reply": { "message": "Yanıtla" },
+    "language": { "message": "Dil", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Lingua (Language)" },
+    "translated_by": { "message": "$TRANSLATOR$ tarafından çevrildi.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
+    "last_searches": { "message": "Son aramalar" },
+    "saved_searches": { "message": "Kaydedilmiş aramalar" },
+    "everyone": { "message": "Herkese açık", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
+    "topic": { "message": "Konu" },
+    "not_interested": { "message": "İlgimi çekmiyor" },
+    "cancel": { "message": "İptal et" },
+    "youre_not_interested": { "message": "Bu konu ilginizi çekmiyor." },
+    "autoplay_videos": { "message": "Videoları otomatik oynat" },
+    "turn_on_retweets": { "message": "Zaman akışında retweetleri göster" },
+    "turn_off_retweets": { "message": "Zaman akışında retweetleri gizle" },
+    "you_can_reply": { "message": "(yanıtlayabilirsin)" },
+    "audience": { "message": "Kitle" },
+    "who_can_reply": { "message": "Kimler yanıtlayabilir" },
+    "people_you_follow": { "message": "Sizi takip edenler" },
+    "people_you_mention": { "message": "Bahsettiğiniz kişiler" },
+    "new_version": { "message": "Yeni versiyona güncellendi" },
+    "display_sensitive_content": { "message": "Hassas olabilecek medyayı göster" },
+    "is_private": { "message": "Gizli" },
+    "s": { "message": "$NUMBER$s", "description": "'saniye'nin kısaltılmışı, '1s'nin 1 saniye olması gibi", "placeholders": { "number": { "content": "1" } } },
+    "m": { "message": "$NUMBER$m", "description": "'dakika'nın kısaltılmışı, '1dk'nın 1 dakika olması gibi", "placeholders": { "number": { "content": "1" } } },
+    "h": { "message": "$NUMBER$h", "description": "'saat'in kısaltılmışı, '1sa'nın 1 saat olması gibi", "placeholders": { "number": { "content": "1" } } },
+    "d": { "message": "$NUMBER$d", "description": "'gün'ün kısaltılmışı, '1g'nin bir gün olması gibi", "placeholders": { "number": { "content": "1" } } },
+    "follow_requests": { "message": "Takip istekleri" },
+    "accept": { "message": "Kabul et" },
+    "decline": { "message": "Reddet" },
+    "mute_convo": { "message": "Konuşmayı sustur" },
+    "unmute_convo": { "message": "Konuşmayı susturmayı geri al " },
+    "no_big_font": { "message": "Kısa/popüler tweetler için büyük yazı tipini devre dışı bırak" },
+    "emoji": { "message": "Emoji" },
+    "emoji_btn": { "message": "[emoji]" },
+    "add_emoji": { "message": "Emoji ekle" },
+    "custom": { "message": "Özel" },
+    "smileys_emotion": { "message": "Emojiler ve gülücükler" },
+    "people_body": { "message": "İnsanlar ve vücut" },
+    "animals_nature": { "message": "Hayvanlar ve doğa" },
+    "food_drink": { "message": "Yiyecek ve içecekler" },
+    "travel_places": { "message": "Seyahat ve mekanlar" },
+    "activities": { "message": "Aktiviteler" },
+    "objects": { "message": "Objeler" },
+    "symbols": { "message": "Semboller" },
+    "flags": { "message": "Bayraklar" },
+    "categories": { "message": "Kategoriler" },
+    "unsupported_emoji": { "message": "Tarayıcın renkli emojileri desteklemiyor." },
+    "cant_load_emoji": { "message": "Emoji yüklenemedi." },
+    "emoji_picker": { "message": "Emoji seçici" },
+    "emoji_search_description": { "message": "Arama sonuçları bulunduğunda, seçmek için yukarı veya aşağı bas." },
+    "search_results": { "message": "Arama sonuçları" },
+    "skin_tone_description": { "message": "Genişletildiğinde, seçmek için yukarı veya aşağı bas." },
+    "skin_tone_label": { "message": "Ten rengi seç (şu anda $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
+    "skin_tones_label": { "message": "Ten renkleri" },
+    "add_media": { "message": "Medya ekle" },
+    "add_poll": { "message": "Anket ekle" },
+    "add_location": { "message": "Konum ekle" },
+    "schedule_tweet": { "message": "Tweet planla " },
+    "scheduled": { "message": "Planlanmış" },
+    "drafts": { "message": "Taslaklar" },
+    "location": { "message": "Konum" },
+    "unsent_tweets": { "message": "Gönderilmemiş tweetler" },
+    "unsent": { "message": "Gönderilmemiş" },
+    "will_send": { "message": "Şu tarihte gönderilecek" },
+    "schedule": { "message": "Plan" },
+    "scheduled_success": { "message": "Tweet planlandı!" },
+    "see_scheduled": { "message": "Planlananları gör" },
+    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ tweetlemedi", "placeholders": { "screen_name": { "content": "loading" } } },
+    "when_theyll_tweet": { "message": "tweet'lediklerinde burada gözükecek." },
     "thank_you2": {
         "message": "OldTwitter kullandığınız için teşekkürler! Bunu kodlamak için çok emek ve zaman harcadım, beni takip ederek veya $AT1$donating$AT2$ ile destekleyebilirsiniz. Çok minnettar olurum.",
-        "placeholders": {
-            "at1": {
-                "content": "<a target='_blank' href='https://dimden.dev/donate/'>"
-            },
-            "at2": {
-                "content": "</a>"
-            }
-        }
+        "placeholders": { "at1": { "content": "<a target='_blank' href='https://dimden.dev/donate/'>" }, "at2": { "content": "</a>" } }
     },
-    "something_went_wrong": {
-        "message": "Birşeyler ters gitti"
-    },
-    "notifications_error": {
-        "message": "Bazı bildirimler hatalar yüzünden yüklenemedi."
-    },
-    "tweet_error": {
-        "message": "Bazı tweetler hatalar yüzünden yüklenemedi."
-    },
+    "something_went_wrong": { "message": "Bir şeyler ters gitti" },
+    "notifications_error": { "message": "Bazı bildirimler hatalar yüzünden yüklenemedi." },
+    "tweet_error": { "message": "Bazı tweetler hatalar yüzünden yüklenemedi." },
     "error_instructions": {
-        "message": "Lütfen aşağıdaki yazıyı kopyala ve şuraya gönder: $AT1$issue tracker$AT2$ veya $AT3$my email$AT2$. Teşekkürler!",
+        "message": "ütfen aşağıdaki yazıyı kopyala ve şuraya gönder: $AT1$issue tracker$AT2$ veya $AT3$my email$AT2$. Teşekkürler!",
         "placeholders": {
-            "at1": {
-                "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
-            },
-            "at2": {
-                "content": "</a>"
-            },
-            "at3": {
-                "content": "<a target='_blank' href='mailto:admin@dimden.dev'>"
-            }
+            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
+            "at2": { "content": "</a>" },
+            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
         }
     },
-    "initialization": {
-        "message": "Başlatılıyor"
-    },
-    "converting": {
-        "message": "Dönüştürülüyor"
-    },
-    "time_mode": {
-        "message": "Karanlık modu 19:00-09:00 arasında aç"
-    },
-    "show_original_images": {
-        "message": "Hep resimleri orijinal kalitede göster (yavaş bilgisayarlarda kasabilir)"
-    },
-    "pitch_black_mode": {
-        "message": "Kapkaranlık mod (sadece karanlık mod aktifse)"
-    },
-    "hide_retweets": {
-        "message": "Retweetleri gizle"
-    },
-    "see_tweet_views": {
-        "message": "Tweet görüntüleme sayısını göster"
-    },
-    "history": {
-        "message": "Geçmiş"
-    },
-    "autotranslate_tweets": {
-        "message": "Tweetleri otomatik çevir"
-    },
-    "dont_autotranslate": {
-        "message": "Tweetleri otomatik çevirme"
-    },
-    "round_avatars": {
-        "message": "Yuvarlak avatarlar"
-    },
-    "search_user_tweets": {
-        "message": "Kullanıcı tweetlerini ara"
-    },
-    "no_tl_tweets": {
-        "message": "Kimseyi takip etmediğin için bir şey bulunamadı! Zaman akışı türünü şuradan 'Algoritmik'e çevir: <a href='/old/settings'>OldTwitter ayarları</a>."
-    },
-    "replying_to": {
-        "message": "Yanıt veriliyor",
-        "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.",
-        "example": "Replying to: - user1, - user2"
-    },
-    "display": {
-        "message": "Ekran",
-        "description": "Used for display settings (fonts, colors, style, etc)"
-    },
-    "twitter_blue_checkmarks": {
-        "message": "Mavi tikleri göster"
-    },
-    "retweet_hotkey_warn": {
-        "message": "T'ye bastın bu retweet kısayolu. Bu tweeti gerçekten retweetlemek istiyor musun? Eğer onaylaya basarsan bir daha bunu sormayacağım."
-    },
-    "reply_btn": {
-        "message": "Yanıtla",
-        "description": "Used for reply button."
-    },
-    "retweet_btn": {
-        "message": "Yanıtla / Alıntı yap",
-        "description": "Used for retweet menu button."
-    },
-    "like_btn": {
-        "message": "Beğen / Beğeniyi kaldır",
-        "description": "Used for like button."
-    },
-    "favorite_btn": {
-        "message": "Favorile / Favorileme",
-        "description": "Used for favorite button."
-    },
-    "views_count": {
-        "message": "Görüntülemeler",
-        "description": "Used for views count."
-    },
-    "developer_mode": {
-        "message": "Geliştirici modu"
-    },
-    "copy_user_id": {
-        "message": "Kullanıcı ID'sini kopyala"
-    },
-    "copy_tweet_id": {
-        "message": "Tweet ID'sini kopyala"
-    },
-    "unfollowers": {
-        "message": "Takibini bırakanlar"
-    },
-    "unfollowings": {
-        "message": "Takibi bıraktıkların"
-    },
-    "no_unfollowers": {
-        "message": "Takipini bırakan kimse yok!"
-    },
-    "no_unfollowings": {
-        "message": "Kimseyi takibi bırakmadın!"
-    },
-    "recent_unfollow_update": {
-        "message": "Takibi bırakanlar 15 dakikadan az bir süre önce güncellendi."
-    },
-    "deleted_accounts": {
-        "message": "Bu listedeki herkes hesabını silmiş gibi gözüküyor."
-    },
-    "open_tweet_newtwitter": {
-        "message": "Tweeti yeni twitterda aç"
-    },
-    "black_mode_link": {
-        "message": "Siyah mod linki"
-    },
-    "custom_mode_link": {
-        "message": "Özel mod linki"
-    },
-    "tweet_verb": {
-        "message": "Tweet",
-        "description": "Used for tweet verb.",
-        "example": "->Tweet<- #itsokay"
-    },
-    "do_you_want_to_tweet": {
-        "message": "Bunu tweetlemek istiyor musun? \"$TWEET_TEXT$\"?",
+    "initialization": { "message": "Başlatılıyor" },
+    "converting": { "message": "Dönüştürülüyor" },
+    "time_mode": { "message": "Karanlık modu 19:00-09:00 arasında aç" },
+    "show_original_images": { "message": "Resimleri her zaman orijinal kalitede göster (yavaş bilgisayarlarda kasabilir)" },
+    "pitch_black_mode": { "message": "Kapkaranlık mod (sadece karanlık mod aktifse)" },
+    "hide_retweets": { "message": "Retweet'leri gizle" },
+    "see_tweet_views": { "message": "Tweet görüntüleme sayısını göster" },
+    "history": { "message": "Geçmiş" },
+    "autotranslate_tweets": { "message": "Tweetleri otomatik çevir" },
+    "dont_autotranslate": { "message": "Tweet'leri otomatik çevirme" },
+    "round_avatars": { "message": "Yuvarlak avatarlar" },
+    "search_user_tweets": { "message": "Kullanıcı tweet'lerini ara" },
+    "no_tl_tweets": { "message": "Kimseyi takip etmediğin için bir şey bulunamadı! Zaman akışı türünü şuradan 'Algoritmik'e çevir: <a href='/old/settings'>OldTwitter ayarları</a>." },
+    "replying_to": { "message": "Yanıt veriliyor", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
+    "display": { "message": "Ekran", "description": "Used for display settings (fonts, colors, style, etc)" },
+    "twitter_blue_checkmarks": { "message": "Mavi tikleri göster" },
+    "retweet_hotkey_warn": { "message": "T'ye bastın bu retweet kısayolu. Bu tweeti gerçekten retweetlemek istiyor musun? Eğer onaylaya basarsan bir daha bunu sormayacağım." },
+    "reply_btn": { "message": "Yanıtla", "description": "Used for reply button." },
+    "retweet_btn": { "message": "Yanıtla / Alıntı yap", "description": "Used for retweet menu button." },
+    "like_btn": { "message": "Beğen / Beğeniyi kaldır", "description": "Used for like button." },
+    "favorite_btn": { "message": "Favorile / Favorileme", "description": "Used for favorite button." },
+    "views_count": { "message": "Görüntülemeler", "description": "Used for views count." },
+    "developer_mode": { "message": "Geliştirici modu" },
+    "copy_user_id": { "message": "Kullanıcı ID'sini kopyala" },
+    "copy_tweet_id": { "message": "Tweet ID'sini kopyala" },
+    "unfollowers": { "message": "Takibini bırakanlar", "description": "People that stopped following you" },
+    "unfollowings": { "message": "Takibi bıraktıkların", "description": "People that you stopped following" },
+    "no_unfollowers": { "message": "Henüz hiç takibi bırakan yok!" },
+    "no_unfollowings": { "message": "Henüz kimseyi takibi bırakmadın!" },
+    "recent_unfollow_update": { "message": "akibi bırakanlar 15 dakikadan az bir süre önce güncellendi." },
+    "deleted_accounts": { "message": "Bu listedeki herkes hesabını silmiş gibi gözüküyor." },
+    "open_tweet_newtwitter": { "message": "Tweet'i yeni twitterda aç" },
+    "black_mode_link": { "message": "Siyah mod linki", "note": "You can name this OLED mode too" },
+    "custom_mode_link": { "message": "Özel mod linki" },
+    "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
+    "do_you_want_to_tweet": { "message": "Bunu tweet'lemek istiyor musun? \"$TWEET_TEXT$\"?", "placeholders": { "tweet_text": { "content": "it's okay" } } },
+    "user_protected" : { "message": "Bu hesabın gönderileri korunuyor." },
+    "follow_to_see": { "message": "@$SCREEN_NAME$ kişisinin tweetlerine ve profilinin tamamına yalnızca onaylanmış takipçiler erişebilir. \"Takip et\" tuşuna basarak istek gönder.", "placeholders": { "screen_name": { "content": "dimden" } } },
+    "copy_tweet_links_as": { "message": "Tweet linkini şöyle kopyala", "example": "->Copy links as<- vxtwitter.com" },
+    "use_new_icon": { "message": "Yeni logoyu sekme ikonu olarak kullan" },
+    "update_timeline_automatically": { "message": "Yeni tweet'ler gelince zaman akışını güncelle." },
+    "chrono_no_retweets": { "message": "Ters kronolojik (retweetsiz)" },
+    "chrono_retweets": { "message": "Ters kronolojik (sadece retweetler)" },
+    "hide_trends": { "message": "Trendleri gizle" },
+    "hide_wtf": { "message": "\"Kimi takip etmeliyim\"i gizle" },
+    "hide_likes": { "message": "Tweet'lerdeki beğeni, retweet ve yanıt sayısını gizle" },
+    "hide_followers": { "message": "Takipçi sayısını gizle" },
+    "block_sure_desc": { "message": "Sizi takip edemeyecek ve tweet'lerinizi göremeyecek, siz de @$SCREEN_NAME$ kişisinden bildirim almayacaksınız.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "blocked_by_user" : { "message": "@$SCREEN_NAME$ sizi engelledi", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "why_you_cant_see_block_user": { "message": "@$SCREEN_NAME$ kişisinin tweetlerini göremez ve onu takip edemezsin.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "you_blocked_user": { "message": "@$SCREEN_NAME$ kişisini engelledin", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "do_you_want_see_blocked_user": { "message": "Bu tweet'leri görmek istediğine emin misin? Görmen @$SCREEN_NAME$ engelini kaldırmayacak.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "I_want_see_blocked_user": { "message": "Evet, profili görüntüle" },
+    "logout_title": { "message": "Çıkış yapmak istediğine emin misin?" },
+    "logout_desc_1": { "message": "OldTwitter sadece giriş yaptıysan çalışır." },
+    "logout_desc_2": { "message": "Listede başka hesabınız yoksa giriş sayfasına yönlendirileceksiniz. Emin misiniz?" },
+    "logout_button": { "message": "Çıkış yap" },
+    "disable_personalized_trends": { "message": "Kişiselleştirilmiş trendleri gizle" },
+    "show_bookmark_count": { "message": "Tweet'lerdeki yer işareti sayısını göster" },
+    "bookmarks_count": { "message": "Yer işaretleri", "description": "Used for bookmarks count." },
+    "remove_bookmark": { "message": "Yer işaretini kaldır" },
+    "hide_community_notes": { "message": "Topluluk notlarını gizle" },
+    "disable_gif_autoplay": { "message": "Otomatik GIF oynatmayı kapat" },
+    "hide_tweet": { "message": "Tweet'i gizle" },
+    "unhide_tweet": { "message": "Tweet'i göster" },
+    "hide_tweet_sure": { "message": "Bu tweet'i gizlemek istediğine emin misin?" },
+    "see_hidden_replies": { "message": "Gizlenmiş yanıtları göster" },
+    "bookmarked_tweet": { "message": "Yer işaretli tweet" },
+    "unbookmarked_tweet": { "message": "Yer işaretsiz tweet" },
+    "muted_convo": { "message": "Susturulmuş sohbet" },
+    "unmuted_convo": { "message": "Susturulmamış sohbet" },
+    "show_media_count": { "message": "Profillerde medya sayısını göster" },
+    "media": { "message": "Medya", "note": "Keep this short" },
+    "pin_profile_on_navbar": { "message": "Profil linkini gezinti çubuğuna ekle" },
+    "pin_bookmarks_on_navbar": { "message": "Yer işaretlerini gezinti çubuğuna ekle" },
+    "pin_lists_on_navbar": { "message": "Listeleri gezinti çubuğuna ekle" },
+    "me": { "message": "Profil", "description": "You should probably use word 'Profile' in your language" },
+    "tweet_text_font": { "message": "Tweet yazı tipi" },
+    "use_old_default_profile": { "message": "Varsayılan profil fotoğrafını yumurta yap" },
+    "colors": { "message": "Renkler" },
+    "enable_hashflags": { "message": "Hashtag ikonlarını etkinleştir (Sayfanın yüklenmesini biraz yavaşlatabilir)" },
+    "content_warning": { "message": "İçerik uyarısı: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
+    "graphic_violence": { "message": "Görsel şiddet" },
+    "adult_content": { "message": "Çıplaklık" },
+    "sensitive_content": { "message": "Hassas içerik" },
+    "uncensor_graphic_violence_automatically": { "message": "Grafik şiddet içeriği uyarısı olan medyanın sansürünü otomatik olarak kaldırın" },
+    "uncensor_adult_content_automatically": { "message": "Çıplaklık içeriği uyarısı olan medyanın sansürünü otomatik olarak kaldırın" },
+    "uncensor_sensitive_content_automatically": { "message": "Hassas içerik uyarısı olan medyanın sansürünü otomatik olarak kaldırın" },
+    "replying_to_user": { "message": "Yanıt veriliyor: $SCREEN_NAME$", "description": "Do not add '@'", "placeholders": { "screen_name": { "content": "@CoolPerson2000" } } },
+    "content_warnings": { "message": "İçerik uyarıları" },
+    "transparency": { "message": "Şeffaflık", "note": "Color" },
+    "reset": { "message": "Sıfırla" },
+    "reset_all": { "message": "Tümünü sıfırla" },
+    "import": { "message": "İçe aktar", "note": "Verb" },
+    "export": { "message": "Dışa aktar", "note": "Verb" },
+    "reset_colors_sure": { "message": "Tüm renkleri sıfırlamak istediğinize emin misiniz?" },
+    "navbar": { "message": "Gezinti Çubuğu", "description": "Setting Text"},
+    "sidebar": { "message": "Kenar Çubuğu", "description": "Setting Text"},
+    "advanced_options": { "message": "Gelişmiş ayarlar", "description": "Setting Text"},
+    "advanced_colors": { "message": "Gelişmiş renkler", "description": "Setting Text"},
+    "accessibility": { "message": "Erişilebilirlik", "description": "Setting Text"},
+    "tweets_and_timeline": { "message": "Tweet'ler & Zaman Akışı", "description": "Setting Text"},
+    "dark_mode_setting": { "message": "Karanlık mod", "description": "Setting Text"},
+    "old_twitter_look": { "message": "Eski Twitter görünümü", "description": "Setting Text"},
+    "content_you_see": { "message": "Gördüğün içerik", "description": "Setting Text"},
+    "use_old_style_reply": { "message": "Eski stil yanıtları kullan"},
+    "algov2": { "message": "Algoritmik (\"Senin için\")" },
+    "chrono_help": { "message": "Klasik ters kronoloji (\"Takip edilenler\"), en son tweetleri ve retweetleri başka hiçbir şey eklemeden en üstte gösterir." },
+    "chrono_no_retweets_help": { "message": "İlkiyle aynı şey ama retweetleri göstermiyor." },
+    "chrono_retweets_help": { "message": "İlkiyle aynı şey ama sadece retweetleri gösteriyor." },
+    "chrono_social_help": { "message": "Hem ters kronolojik hem de algoritmik zaman akışının bir karışımı, kronolojik tweetlerin arasına ara sıra 'birisi beğendi' ve 'birisi takip ediyor' eklenecek." },
+    "algo_help": { "message": "Eski algoritmik zaman akışı, Twitter'ın beğeneceğini düşündüğü tweetleri gösterir. Sürüm 1, bu zaman akışının eski sürümüdür, herhangi bir ratelimit yok gibi görünmektedir (veya çok büyüktür), ancak tweet'in zaman akışına neden eklendiğine dair bilgi yoktur." },
+    "algov2_help": { "message": "Algoritmik zaman akışı, Twitter'ın beğeneceğini düşündüğü tweetleri gösterir." },
+    "import_settings": { "message": "İçe aktarma ayarları" },
+    "export_settings": { "message": "Dışa aktarma ayarları" },
+    "import_style_settings": { "message": "İçe aktarma stili" },
+    "export_style_settings": { "message": "Dışa aktarma stili" },
+    "reset_settings": { "message": "Ayarları sıfırla" },
+    "reset_settings_sure": { "message": "Tüm ayarları sıfırlamak istediğine emin misin?" },
+    "clear_caches": { "message": "Cache'leri temizle" },
+    "hide_non_replies": { "message": "Yanıtsızları gizle" },
+    "profile_custom_css": { "message": "Profil özel CSS" },
+    "pccss_not_eligible": { "message": "Şu anda profil özelleştirme erişimin yok.<br><br>Özel yazı tipi, renkler, arka plan ve diğer her şeyle herkesin görebileceği havalı bir profile sahip olmak istiyorsanız, uzantı destekçisi olabilirsiniz (Sadece bağış ile değil).<br><br>Detaylar için <a target='_blank' href='https://dimden.dev/ot/custom-css/'>buraya</a> basın." },
+    "pccss_eligible": { "message": "Profil özelleştirmeye erişimin var!" },
+    "pccss_congrats": { "message": "Tebrikler, sana profil özelleştirme erişimi verildi! OldTwitter kullanıcılarının sadece çok küçük bir kısmı buna sahip, tadını çıkar ve harika kal!" },
+    "yay": { "message": "Oley!" },
+    "light_mode_vars": { "message": "Aydınlık mod değişkenleri" },
+    "dark_mode_vars": { "message": "Karanlık mod değişkenleri" },
+    "css_theme_hint": { "message": "Lütfen 'göz-kanatıcı' veya diğer herhangi rahatsız edici şeyler yapmayın. (Örneğin takip butonunu çok büyük yapmak gibi), bunun yüzünden erişimini kaybedersin.<br><br>Senin CSS'in kullanıcının ayarladığı temanın üzerine yazılır.<br><br>Resimleri için sadece i.imgur.com, yazı tipleri için de sadece fonts.googleapis.com kullanabilirsin (veya <a target='_blank' href='https://dimden.dev/fonts/'>'daki yazı tiplerini</a>).<br><br>You can see list of CSS variables <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>here</a>.<br><br>To target specific theme you can use <code>.body-dark</code>, <code>.body-pitch-black</code> (pitch black mode will also include <code>.body-dark</code>) and <code>.body-light</code> classes." },
+    "profile_colors_moved": { "message": "Renk senkronizasyonunu profiline bağla (Edit butonunun solundaki kalem butonu)." },
+    "click_here_more_info": { "message": "Detaylar için buraya bas" },
+    "profile_must_be_public_to_auth": { "message": "İlk kez senkronize etmek için profilin herkese açık olmalı, sonrasında geri özele alabilirsin." },
+    "save_draft": { "message": "Taslağı kaydet", "note": "Try to keep this short" },
+    "load_draft": { "message": "Taslağı yüle", "note": "Try to keep this short" },
+    "draft_saved": { "message": "Taslak kaydedildi!" },
+    "draft_loaded": { "message": "Taslak yüklendi!" },
+    "no_draft": { "message": "Şu anda kaydedilmiş taslağın yok!" },
+    "invalid_auth_token": { "message": "Yetkilendirme tokenin geçersizdi ve silindi. You can try again now, if this error persists contact @dimden." },
+    "css_set": { "message": "CSS başarıyla ayarlandı!" },
+    "error_setting_css": { "message": "CSS'i ayarlarken sorun oluştu" },
+    "load": { "message": "Yükle" },
+    "disable_profile_customizations": { "message": "Profil özelleştirmelerini devre dışı bırak" },
+    "replying_to_and": { "message": " ve ", "description": "For some languages that use address terms", "example": "Replying to @A-> and <-@B, @C" },
+    "replying_to_comma": { "message": ", ", "description": "For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
+    "twitter": { "message": "Twitter"},
+    "move_navbar_to_bottom": { "message": "Gezinti Çubuğunu aşağı al"},
+    "styled_profile": { "message": "Özelleştirilmiş profil"},
+    "open_notifs_as_modal": { "message": "Bildirimleri popup olarak aç", "description": "Modal is a small window that opens on top of page"},
+    "clear_ot_token": { "message": "OldTwitter tokenini sıfırla"},
+    "enable_iframe_navigation": { "message": "Deneysel iframe navigasyonunu etkinleştir. Bu, bağlantılara tıkladığınızda sayfayı yenilemeden bağlantının içeriğini görmenizi ve geri dönebilmenizi sağlar. Bu deneyseldir, kırılabilir ve gecikmeli olabilir."},
+    "style_your_profile": { "message": "Profilini burada özelleştir!"},
+    "modern_ui": { "message": "2018 Twitter dizaynını kullan. Yuvarlak butonlar ve semboller dahildir." },
+    "show_exact_values": { "message": "Retweet, beğeni ve takipçilerin sayısını detaylı olarak göster." },
+    "hide_timeline_types": { "message": "Ana sayfadaki zaman akışı tipi butonunu gizle" },
+    "autotranslation": { "message": "Otoçeviri" },
+    "autotranslation_mode": { "message": "Tweet otoçeviri modu" },
+    "translate_in_list": { "message": "Dil listesindeyse tercüme et" },
+    "translate_not_in_list": { "message": "Dil listesinde değilse tercüme et" },
+    "language_list": { "message": "Dil listesi" },
+    "select_language": { "message": "Dil seç" },
+    "mute_videos": { "message": "Videoları otomatik sustur" },
+    "dont_pause_videos": { "message": "Kaydırırken videoları durdurma" },
+    "delete_for_you": { "message": "Kendin için sil", "description": "DM Message Delete menu" },
+    "show_user_previews_on_mobile": { "message": "Kullanıcılara basılı tutunca profil önizlemesi göster", "description": "This option only appears on mobile" },
+    "separate_text": { "message": "Yazıyı büyüt", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
+	"leave_conversation": { "message": "Bu sohbetten ayrılmak istediğine emin misin?"},
+    "autotranslation_help1": { "message": "Bu özellik tweetleri çevirme tuşuna basmadan, dile göre otomatik çevirir."},
+	"autotranslation_help2": { "message": "Kullanmak için otoçeviri modunu seçin ve dil listesini ayarlayın. Koşullara uyan tweetler otomatik çevrilir."},
+	"autotranslation_help3": { "message": "Spesifik olarak:"},
+	"autotranslation_help4": { "message": "\"Dil listesindeyse çevir\" Hiç dil ayarlanmadıysa özellik çalışmaz (varsayılan)."},
+    "go_back_to_top": { "message": "Üste dön" },
+    "follow_system_settings_dark_mode": { "message": "Karanlık mod için sistem ayarlarını kullan." },
+    "replacer_post_to_tweet": { "message": "gönderini->tweet'ini", "description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
+    "replacer_repost_to_retweet": { "message": "repost->retweet", "description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)." },
+    "mute_user": { "message": "@$SCREEN_NAME$ sustur", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unmute_user": { "message": "@$SCREEN_NAME$ susturmasını kaldır", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "muted_user": { "message": "@$SCREEN_NAME$ susturuldu", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "unmuted_user": { "message": "@$SCREEN_NAME$ susturması kaldırıldı", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
+    "mmdd": { "message": "$MONTH$ $DATE$", "description": "July 1st", "placeholders": { "month": { "content": "July" }, "date": { "content": "1st" } }},
+    "mmddyy": { "message": "$MONTH$ $DATE$, $YEAR$", "description": "July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" }, "date": { "content": "1st" } }},
+    "yyyy": { "message": "$YEAR$", "description": "2015", "placeholders": { "year": { "content": "2015" } } },
+    "localize_digit": { "message" : "Use Asian four-digit notation. (CJK only)", "description": "Non-CJK dont need to translate this message, just copy and paste"},
+    "replacer_liked_to_favorited": { "message": "beğendi->favoriledi", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
+    "favorited_by": { "message": "tarafından favorilendi" },
+    "disable_retweet_hotkey": { "message": "Retweet kısayolunu kaldır (T)" },
+    "disable_like_hotkey": { "message": "Beğeni kısayolunu kaldır (L)" },
+    "enable_extension_compatibility": { "message": "Eklenti uyumluluk modu (Başka bir eklentinin OldTwitter ile aynı anda çalışmasını istiyorsanız etkinleştirin, eğer eklenti hala çalışmıyorsa bunu kapatın (büyük ihtimalle çalışmayacak), çünkü bu seçenek sayfayı kastırabilir)" },
+	"enter_custom_font_name": { "message": "Özel yazı tipi ismi girin" },
+    "disable_data_saver": { "message": "Veri kaydediciyi mobil verideyken kapatın", "description": "This option only appears on mobile" },
+    "mobile": { "message": "Mobil", "description": "Title for mobile device settings"},
+    "disable_accept_type": { "message": "Medya yüklerken accept-type özelliğini devre dışı bırakın. Bu, bazı Android sürümlerinde tüm resimlere erişememe sorununu giderir" },
+    "manage_searches": { "message": "Aramaları düzenle" },
+    "add_search": { "message": "Arama ekle" },
+    "pinned_searches": { "message": "Sabitlenmiş aramalar" },
+    "show_follower_counts_in_lists": { "message": "Takipçi/takip edilen sayfalarında kullanıcıların takipçi sayılarını göster." },
+    "not_possible_to_see_unfollowers": { "message": "Ne yazık ki takipçisi 50.000'den fazla olan hesaplarda takibi bırakanları görmek maalesef mümkün değildir." },
+    "sort_by_follow_date": { "message": "Takip tarihine göre sırala (tutarsız)" },
+    "sort_by_followers": { "message": "Takipçi sayısına göre sırala" },
+    "sort_by_following": { "message": "Takip edilen sayısına göre sırala" },
+    "sort_by_name": { "message": "İsme göre sırala" },
+    "sort_by_username": { "message": "Kullanıcı adına göre sırala" },
+    "sort_by_tweets": { "message": "Tweet sayısına göre sırala" },
+    "sort_by_created": { "message": "Hesap oluşturma tarihine göre sırala" },
+    "sort_by_random": { "message": "Rastgele sırala" },
+    "loading_all_followers": { "message": "Tüm takipçiler yükleniyor (bu 24 saatte bir gerçekleşecektir)..." },
+    "apply": { "message": "Uygula" },
+    "filter": { "message": "Filtre" },
+    "ascending": { "message": "Artan" },
+    "descending": { "message": "Azalan" },
+    "search_by_name": { "message": "İsimle ara" },
+    "search_by_description": { "message": "Hakkında ile ara" },
+    "only_show_people_you_follow": { "message": "Yalnızca takip ettiğin kişileri göster" },
+    "only_show_people_with_followers": { "message": "Yalnızca en az $NUMBER$ takipçisi olan kişileri göster", "placeholders": { "number": { "content": "-1" } } },
+    "only_show_people_with_age": { "message": "Yalnızca en az $NUMBER$ günlük hesapları göster", "placeholders": { "number": { "content": "-1" } } },
+    "page": { "message": "Sayfa" },
+	"update": { "message": "Güncelle" },
+    "show_quote_count": { "message": "Tweet'lerde alıntı sayısını göster" },
+    "uploading": { "message": "Karşıya yükleniyor" },
+    "finalization": { "message": "Sonuçlandırma" },
+    "processing": { "message": "İşleniyor" },
+    "quotes": { "message": "Alıntılar" },
+    "share_tweet_in_dms": { "message": "Tweet'i DM'lerde paylaş" },
+    "share_tweet_to": { "message": "Tweet'i paylaş..." },
+    "disable_find_hotkey": { "message": "Bul kısayol tuşunu devre dışı bırak (F)" },
+    "uploaded": { "message": "Yüklendi" },
+    "hide_unfollowers_page": { "message": "Takibi bırakanlar sayfasını gizle" },
+	"custom_font": { "message": "<ÖZEL>" },
+	"current_font": { "message": "Şu anki yazı fontu: $FONT$", "placeholders": { "font": { "content": "Arial" } } },
+    "user_sent_photo": { "message": "$NAME$ bir fotoğraf gönderdi", "placeholders": { "name": { "content": "Display Name" } } },
+    "user_sent_video": { "message": "$NAME$ bir video gönderdi", "placeholders": { "name": { "content": "Display Name" } } },
+    "user_reacted_message": { "message": "$NAME$ mesaja tepki ekledi", "placeholders": { "name": { "content": "Display Name" } } },
+    "you_sent_photo": { "message": "Bir fotoğraf gönderdin" },
+    "you_sent_video": { "message": "Bir video gönderdin" },
+    "you_reacted_message": { "message": "Mesaja tepki ekledin" },
+    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$ ekledi $A2$$USER_WHO_JOINED$$A_END$", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
+        "user_who_added": { "content": "Group Admin" },
+        "user_who_joined": { "content": "Group Admin's Friend" },
+        "a1": { "content": "<a href=\"/GroupAdmin\">" },
+        "a2": { "content": "<a href=\"/GroupAdminsFriend\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_left": { "message": "$A_START$$NAME$$A_END$ ayrıldı", "description": "This is used when a user in a group leaves (display name)", "placeholders": {
+        "name": { "content": "Group Admin's Friend" },
+        "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ grup fotoğrafını değiştirdi", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
+        "name": { "content": "Group Admin" },
+        "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ grup adını $GROUP_NAME$ olarak değiştirdi", "description": "This is used when a user in a group changes the group name (display name)", "placeholders": {
+        "name": { "content": "Group Admin" },
+        "group_name": { "content": "Example Group" },
+        "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+        "a_end": { "content": "</a>" }
+    } },
+    "user_added_you_inbox": { "message": "$NAME$ sizi ekledi", "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)", "placeholders": {
+        "name": { "content": "Group Admin" }
+    } },
+    "user_added_you_msg": {
+        "message": "$A_START$$NAME$$A_END$ sizi ekledi<br>Grupta $NUMBER$ kişi daha var",
+        "description": "This is used when a group admin adds you to the group chat (display names, messages only)",
+        "example": "<a href=\"/GroupAdmin\">Group Admin</a> added you<br>There are 6 other people in this group",
         "placeholders": {
-            "tweet_text": {
-                "content": "it's okay"
-            }
+            "name": { "content": "Group Admin" },
+            "number": { "content": "6" },
+            "a_start": { "content": "<a href=\"/GroupAdmin\">" },
+            "a_end": { "content": "</a>" }
         }
     },
-    "user_protected": {
-        "message": "Bu hesabın Tweetleri korunuyor."
-    },
-    "follow_to_see": {
-        "message": "@$SCREEN_NAME$ kişisinin tweetlerine ve profilinin tamamına yalnızca onaylanmış takipçiler erişebilir. \"Takip et\" tuşuna basarak istek gönder.",
-        "placeholders": {
-            "screen_name": {
-                "content": "dimden"
-            }
-        }
-    },
-    "copy_tweet_links_as": {
-        "message": "Tweet linkini şöyle kopyala",
-        "example": "->Copy links as<- vxtwitter.com"
-    },
-    "use_new_icon": {
-        "message": "Yeni logoyu sekme ikonu olarak kullan"
-    },
-    "update_timeline_automatically": {
-        "message": "Yeni tweetler gelince zaman akışını güncelle."
-    },
-    "chrono_no_retweets": {
-        "message": "Ters kronolojik (retweetsiz)"
-    },
-    "chrono_retweets": {
-        "message": "Ters kronolojik (sadece retweetler)"
-    },
-    "hide_trends": {
-        "message": "Trendleri gizle"
-    },
-    "hide_wtf": {
-        "message": "\"Kimi takip etmeliyim\"i gizle"
-    },
-    "hide_likes": {
-        "message": "Tweetlerdeki beğeni, retweet ve yanıt sayısını gizle"
-    },
-    "hide_followers": {
-        "message": "Takipçi sayısını gizle"
-    },
-    "block_sure_desc": {
-        "message": "Sizi takip edemeyecek ve tweetlerinizi göremeyecek, siz de @$SCREEN_NAME$ kişisinden bildirim almayacaksınız.",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "blocked_by_user": {
-        "message": "@$SCREEN_NAME$ sizi engelledi",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "why_you_cant_see_block_user": {
-        "message": "@$SCREEN_NAME$ kişisinin tweetlerini göremez ve onu takip edemezsin.",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "you_blocked_user": {
-        "message": "@$SCREEN_NAME$ kişisini engelledin",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "do_you_want_see_blocked_user": {
-        "message": "Bu tweetleri görmek istediğine emin misin? Görmen @$SCREEN_NAME$ engelini kaldırmayacak.",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "I_want_see_blocked_user": {
-        "message": "Evet, profili görüntüle"
-    },
-    "logout_title": {
-        "message": "Çıkış yapmak istediğine emin misin?"
-    },
-    "logout_desc_1": {
-        "message": "OldTwitter sadece giriş yaptıysan çalışır."
-    },
-    "logout_desc_2": {
-        "message": "Listede başka hesabınız yoksa giriş sayfasına yönlendirileceksiniz. Emin misiniz?"
-    },
-    "logout_button": {
-        "message": "Çıkış yap"
-    },
-    "disable_personalized_trends": {
-        "message": "Kişiselleştirilmiş trendleri gizle"
-    },
-    "show_bookmark_count": {
-        "message": "Tweetlerdeki yer işareti sayısını göster"
-    },
-    "bookmarks_count": {
-        "message": "Yer işaretleri",
-        "description": "Used for bookmarks count."
-    },
-    "remove_bookmark": {
-        "message": "Yer işaretini kaldır"
-    },
-    "hide_community_notes": {
-        "message": "Topluluk mesajlarını gizle"
-    },
-    "disable_gif_autoplay": {
-        "message": "Otomatik GIF oynatmayı kapat"
-    },
-    "hide_tweet": {
-        "message": "Tweeti gizle"
-    },
-    "unhide_tweet": {
-        "message": "Tweeti göster"
-    },
-    "hide_tweet_sure": {
-        "message": "Bu tweeti gizlemek istediğine emin misin?"
-    },
-    "see_hidden_replies": {
-        "message": "Gizlenmiş yanıtları göster"
-    },
-    "bookmarked_tweet": {
-        "message": "Yer işaretli tweet"
-    },
-    "unbookmarked_tweet": {
-        "message": "Yer işaretsiz tweet"
-    },
-    "muted_convo": {
-        "message": "Susturulmuş sohbet"
-    },
-    "unmuted_convo": {
-        "message": "Susturulmamış sohbet"
-    },
-    "show_media_count": {
-        "message": "Profillerde medya sayısını göster"
-    },
-    "media": {
-        "message": "Medya",
-        "note": "Keep this short"
-    },
-    "pin_profile_on_navbar": {
-        "message": "Profil linkini gezinti çubuğuna ekle"
-    },
-    "pin_bookmarks_on_navbar": {
-        "message": "Yer işaretlerini gezinti çubuğuna ekle"
-    },
-    "pin_lists_on_navbar": {
-        "message": "Listeleri gezinti çubuğuna ekle"
-    },
-    "me": {
-        "message": "Profil",
-        "description": "You should probably use word 'Profile' in your language"
-    },
-    "tweet_text_font": {
-        "message": "Tweet yazı tipi"
-    },
-    "use_old_default_profile": {
-        "message": "Varsayılan profil fotoğrafını yumurta yap"
-    },
-    "colors": {
-        "message": "Renkler"
-    },
-    "enable_hashflags": {
-        "message": "Hashtag ikonlarını etkinleştir (Sayfanın yüklenmesini biraz yavaşlatabilir)"
-    },
-    "content_warning": {
-        "message": "İçerik uyarısı: $WARNINGS$",
-        "placeholders": {
-            "warnings": {
-                "content": "Graphic violence"
-            }
-        }
-    },
-    "graphic_violence": {
-        "message": "Grafik şiddet"
-    },
-    "adult_content": {
-        "message": "Çıplaklık"
-    },
-    "sensitive_content": {
-        "message": "Hassas içerik"
-    },
-    "uncensor_graphic_violence_automatically": {
-        "message": "Grafik şiddet içeriği uyarısı olan medyanın sansürünü otomatik olarak kaldırın"
-    },
-    "uncensor_adult_content_automatically": {
-        "message": "Çıplaklık içeriği uyarısı olan medyanın sansürünü otomatik olarak kaldırın"
-    },
-    "uncensor_sensitive_content_automatically": {
-        "message": "Hassas içerik uyarısı olan medyanın sansürünü otomatik olarak kaldırın"
-    },
-    "replying_to_user": {
-        "message": "Yanıt veriliyor: $SCREEN_NAME$",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "content_warnings": {
-        "message": "İçerik uyarıları"
-    },
-    "transparency": {
-        "message": "Şeffaflık",
-        "note": "Color"
-    },
-    "reset": {
-        "message": "Sıfırla"
-    },
-    "reset_all": {
-        "message": "Hepsini sıfırla"
-    },
-    "import": {
-        "message": "İçe aktar",
-        "note": "Verb"
-    },
-    "export": {
-        "message": "Dışa aktar",
-        "note": "Verb"
-    },
-    "reset_colors_sure": {
-        "message": "Tüm renkleri sıfırlamak istediğinize emin misiniz??"
-    },
-    "navbar": {
-        "message": "Gezinti Çubuğu",
-        "description": "Setting Text"
-    },
-    "sidebar": {
-        "message": "Kenar Çubuğu",
-        "description": "Setting Text"
-    },
-    "advanced_options": {
-        "message": "Gelişmiş ayarlar",
-        "description": "Setting Text"
-    },
-    "advanced_colors": {
-        "message": "Gelişmiş renkler",
-        "description": "Setting Text"
-    },
-    "accessibility": {
-        "message": "Erişilebilirlik",
-        "description": "Setting Text"
-    },
-    "tweets_and_timeline": {
-        "message": "Tweetler & Zaman Akışı",
-        "description": "Setting Text"
-    },
-    "dark_mode_setting": {
-        "message": "Karanlık mod",
-        "description": "Setting Text"
-    },
-    "old_twitter_look": {
-        "message": "Eski twitter görünüşü",
-        "description": "Setting Text"
-    },
-    "content_you_see": {
-        "message": "Gördüğün içerik",
-        "description": "Setting Text"
-    },
-    "use_old_style_reply": {
-        "message": "Eski stil yanıtları kullan"
-    },
-    "algov2": {
-        "message": "Algoritmik (\"Senin için\")"
-    },
-    "chrono_help": {
-        "message": "Klasik ters kronoloji (\"Takip edilenler\"), en son tweetleri ve retweetleri başka hiçbir şey eklemeden en üstte gösterir."
-    },
-    "chrono_no_retweets_help": {
-        "message": "İlkiyle aynı şey ama retweetleri göstermiyor."
-    },
-    "chrono_retweets_help": {
-        "message": "İlkiyle aynı şey ama sadece retweetleri gösteriyor."
-    },
-    "chrono_social_help": {
-        "message": "Hem ters kronolojik hem de algoritmik zaman akışının bir karışımı, kronolojik tweetlerin arasına ara sıra 'birisi beğendi' ve 'birisi takip ediyor' eklenecek."
-    },
-    "algo_help": {
-        "message": "Eski algoritmik zaman akışı, Twitter'ın beğeneceğini düşündüğü tweetleri gösterir. Sürüm 1, bu zaman akışının eski sürümüdür, herhangi bir ratelimit yok gibi görünmektedir (veya çok büyüktür), ancak tweet'in zaman akışına neden eklendiğine dair bilgi yoktur."
-    },
-    "algov2_help": {
-        "message": "Algoritmik zaman akışı, Twitter'ın beğeneceğini düşündüğü tweetleri gösterir."
-    },
-    "import_settings": {
-        "message": "İçe aktarma ayarları"
-    },
-    "export_settings": {
-        "message": "Dışa aktarma ayarları"
-    },
-    "import_style_settings": {
-        "message": "İçe aktarma stili"
-    },
-    "export_style_settings": {
-        "message": "Dışa aktarma stili"
-    },
-    "reset_settings": {
-        "message": "Ayarları sıfırla"
-    },
-    "reset_settings_sure": {
-        "message": "Tüm ayarları sıfırlamak istediğine emin misin?"
-    },
-    "clear_caches": {
-        "message": "Cacheleri temizle"
-    },
-    "hide_non_replies": {
-        "message": "yanıtsızları gizle"
-    },
-    "profile_custom_css": {
-        "message": "Profil özel css"
-    },
-    "pccss_not_eligible": {
-        "message": "Şu anda profil özelleştirme erişimin yok.<br><br>Özel yazı tipi, renkler, arka plan ve diğer her şeyle herkesin görebileceği havalı bir profile sahip olmak istiyorsanız, uzantı destekçisi olabilirsiniz (Sadece bağış ile değil).<br><br>Detaylar için <a target='_blank' href='https://dimden.dev/ot/custom-css/'>buraya</a> basın."
-    },
-    "pccss_eligible": {
-        "message": "Profil özelleştirmeye erişimin var!"
-    },
-    "pccss_congrats": {
-        "message": "Tebrikler, sana profil özelleştirme erişimi verildi! OldTwitter kullanıcılarının sadece çok küçük bir kısmı buna sahip, tadını çıkar ve harika kal!"
-    },
-    "yay": {
-        "message": "Oley!"
-    },
-    "light_mode_vars": {
-        "message": "Aydınlık mod değişkenleri"
-    },
-    "dark_mode_vars": {
-        "message": "Karanlık mod değişkenleri"
-    },
-    "css_theme_hint": {
-        "message": "Lütfen 'göz-kanatıcı' veya diğer herhangi rahatsız edici şeyler yapmayın. (Örneğin takip butonunu çok büyük yapmak gibi), bunun yüzünden erişimini kaybedersin.<br><br>Senin CSS'in kullanıcının ayarladığı temanın üzerine yazılır.<br><br>Resimleri için sadece i.imgur.com, yazı tipleri için de sadece fonts.googleapis.com kullanabilirsin (veya <a target='_blank' href='https://dimden.dev/fonts/'>'daki yazı tiplerini</a>).<br><br>You can see list of CSS variables <a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>here</a>.<br><br>To target specific theme you can use <code>.body-dark</code>, <code>.body-pitch-black</code> (pitch black mode will also include <code>.body-dark</code>) and <code>.body-light</code> classes."
-    },
-    "profile_colors_moved": {
-        "message": "Renk senkronizasyonunu profiline bağla (Edit butonunun solundaki kalem butonu)."
-    },
-    "click_here_more_info": {
-        "message": "Detaylar için buraya bas"
-    },
-    "profile_must_be_public_to_auth": {
-        "message": "İlk kez senkronize etmek için profilin herkese açık olmalı, sonrasında geri özele alabilirsin."
-    },
-    "save_draft": {
-        "message": "Taslağı kaydet",
-        "note": "Try to keep this short"
-    },
-    "load_draft": {
-        "message": "Taslağı yüle",
-        "note": "Try to keep this short"
-    },
-    "draft_saved": {
-        "message": "Taslak kaydedildi!"
-    },
-    "draft_loaded": {
-        "message": "Taslak yüklendi!"
-    },
-    "no_draft": {
-        "message": "Şu anda kaydedilmiş taslağın yok!"
-    },
-    "invalid_auth_token": {
-        "message": "Yetkilendirme tokenin geçersizdi ve silindi. You can try again now, if this error persists contact @dimden."
-    },
-    "css_set": {
-        "message": "CSS Başarılı olarak ayarlandı!"
-    },
-    "error_setting_css": {
-        "message": "CSS'i ayarlarken ir sorun oluştu"
-    },
-    "load": {
-        "message": "Yükle"
-    },
-    "disable_profile_customizations": {
-        "message": "Profil özelleştirmelerini devre dışı bırak"
-    },
-    "replying_to_and": {
-        "message": " ve ",
-        "description": "For some language which using address terms",
-        "example": "Replying to @A-> and <-@B , @C"
-    },
-    "replying_to_comma": {
-        "message": ", ",
-        "description": "For some language which using address terms",
-        "example": "Replying to @A and @B-> , <-@C"
-    },
-    "twitter": {
-        "message": "Twitter"
-    },
-    "move_navbar_to_bottom": {
-        "message": "Gezinti Çubuğunu aşağı al"
-    },
-    "styled_profile": {
-        "message": "Özelleştirilmiş profil"
-    },
-    "open_notifs_as_modal": {
-        "message": "Bildirimleri popup olarak aç",
-        "description": "Modal is a small window that opens on top of page"
-    },
-    "clear_ot_token": {
-        "message": "OldTwitter tokenini sıfırla"
-    },
-    "enable_iframe_navigation": {
-        "message": "Deneysel iframe navigasyonunu etkinleştir. Bu, bağlantılara tıkladığınızda sayfayı yenilemeden bağlantının içeriğini görmenizi ve geri dönebilmenizi sağlar. Bu deneyseldir, kırılabilir ve gecikmeli olabilir."
-    },
-    "style_your_profile": {
-        "message": "Profilini burada özelleştir!"
-    },
-    "modern_ui": {
-        "message": "2018 Twitter dizaynını kullan. Yuvarlak butonlar ve semboller dahildir."
-    },
-    "show_exact_values": {
-        "message": "Retweet, beğeni ve takipçilerin sayısını detaylı olarak göster."
-    },
-    "hide_timeline_types": {
-        "message": "Ana sayfadaki zaman akışı tipi butonunu gizle."
-    },
-    "autotranslation": {
-        "message": "Otoçeviri"
-    },
-    "autotranslation_mode": {
-        "message": "Tweet otoçeviri modu"
-    },
-    "translate_in_list": {
-        "message": "Dil listesindeyse tercüme et."
-    },
-    "translate_not_in_list": {
-        "message": "Dil listesinde değilse tercüme et."
-    },
-    "language_list": {
-        "message": "Dil listesi"
-    },
-    "select_language": {
-        "message": "Dil seç"
-    },
-    "mute_videos": {
-        "message": "Videoları otomatik sustur"
-    },
-    "dont_pause_videos": {
-        "message": "Kaydırırken videoları durdurma"
-    },
-    "delete_for_you": {
-        "message": "Kendin için sil",
-        "description": "DM Message Delete menu"
-    },
-    "show_user_previews_on_mobile": {
-        "message": "Kullanıcılara basılı tutunca profil önizlemesi göster",
-        "description": "This option only appears on mobile"
-    },
-    "separate_text": {
-        "message": "Yazıyı büyüt",
-        "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap"
-    },
-    "leave_conversation": {
-        "message": "Bu sohbetten ayrılmak istediğine emin misin?"
-    },
-    "autotranslation_help1": {
-        "message": "Bu özellik tweetleri çevirme tuşuna basmadan, dile göre otomatik çevirir."
-    },
-    "autotranslation_help2": {
-        "message": "Kullanmak için otoçeviri modunu seçin ve dil listesini ayarlayın. Koşullara uyan tweetler otomatik çevrilir."
-    },
-    "autotranslation_help3": {
-        "message": "Özellikle:"
-    },
-    "autotranslation_help4": {
-        "message": "\"Dil listesindeyse çevir\" Hiç dil ayarlanmadıysa özellik çalışmaz (varsayılan)."
-    },
-    "autotranslation_help5": {
-        "message": "\"Dil listesinde değilse çevir\" Hiç dil ayarlanmadıysa tüm tweetler çevrilir. Bildiğiniz dilleri ekleyin ki gereksiz çevrilmesinler."
-    },
-    "go_back_to_top": {
-        "message": "Üste dön"
-    },
-    "follow_system_settings_dark_mode": {
-        "message": "Karanlık mod için sistem ayarlarını kullan."
-    },
-    "replacer_post_to_tweet": {
-        "message": "gönerini->tweetini",
-        "description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
-    },
-    "replacer_repost_to_retweet": {
-        "message": "repost->retweet",
-        "description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)."
-    },
-    "mute_user": {
-        "message": "@$SCREEN_NAME$ sustur",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "unmute_user": {
-        "message": "@$SCREEN_NAME$ susturmasını kaldır",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "muted_user": {
-        "message": "@$SCREEN_NAME$ susturuldu",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "unmuted_user": {
-        "message": "@$SCREEN_NAME$ susturması kaldırıldı",
-        "placeholders": {
-            "screen_name": {
-                "content": "CoolPerson2000"
-            }
-        }
-    },
-    "mmdd": {
-        "message": "$DATE$ $MONTH$",
-        "description": "July 1st",
-        "placeholders": {
-            "month": {
-                "content": "July"
-            },
-            "date": {
-                "content": "1st"
-            }
-        }
-    },
-    "mmddyy": {
-        "message": "$DATE$ $MONTH$, $YEAR$",
-        "description": "July 1st, 2015",
-        "placeholders": {
-            "year": {
-                "content": "2015"
-            },
-            "month": {
-                "content": "July"
-            },
-            "date": {
-                "content": "1st"
-            }
-        }
-    },
-    "yyyy": {
-        "message": "$YEAR$",
-        "description": "2015",
-        "placeholders": {
-            "year": {
-                "content": "2015"
-            }
-        }
-    },
-    "localize_digit": {
-        "message": "Use Asian four-digit notation. (CJK only)",
-        "description": "Non-CJK dont need to translate this message, just copy and paste"
-    },
-    "replacer_liked_to_favorited": {
-        "message": "beğendi->favoriledi",
-        "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
-    },
-    "favorited_by": {
-        "message": "tarafından favorilendi"
-    },
-    "disable_retweet_hotkey": {
-        "message": "Retweet kısayolunu kaldır (T)"
-    },
-    "disable_like_hotkey": {
-        "message": "Beğeni kısayolunu kaldır (L)"
-    },
-    "enable_extension_compatibility": {
-        "message": "Eklenti uyumluluk modu (Başka bir eklentinin OldTwitter ile aynı anda çalışmasını istiyorsanız etkinleştirin, eğer eklenti hala çalışmıyorsa bunu kapatın (büyük ihtimalle çalışmayacak), çünkü bu seçenek sayfayı kastırabilir)"
-    },
-    "enter_custom_font_name": {
-        "message": "Özel yazı tipi ismi girin"
-    },
-    "disable_data_saver": {
-        "message": "Veri kaydediciyi mobil verideyken kapatın",
-        "description": "This option only appears on mobile"
-    },
-    "mobile": {
-        "message": "Mobil",
-        "description": "Title for mobile device settings"
-    },
-    "disable_accept_type": {
-        "message": "Medya yüklerken accept-type özelliğini devre dışı bırakın. Bu, bazı Android sürümlerinde tüm resimlere erişememe sorununu giderir.",
-        "description": "This option only appears on mobile"
-    },
-    "manage_searches": {
-        "message": "Aramaları düzenle"
-    },
-    "add_search": {
-        "message": "Arama ekle"
-    },
-    "pinned_searches": {
-        "message": "Sabitlenmiş aramalar"
-    }
+    "accepted_conversation": { "message": "Kabul edilen görüşme" },
+    "anniversary_tweet": { "message": "Twitter'a ne zaman katıldığınızı hatırlıyor musunuz? Ben hatırlıyorum!\n#MyTwitterAnniversary" },
+    "you_shared_tweet": { "message": "Bir tweet paylaştın" },
+    "user_shared_tweet": { "message": "$NAME$ bir tweet paylaştı", "placeholders": { "name": { "content": "Display Name" } } },
+    "transition_profile_banner": { "message": "Profil banner'ında geçiş kullan" },
+    "custom_downloadtemplate": { "message": "Özel indirme şablonu" },
+    "custom_downloadtemplate_text": { "message": "Bir tweet'in medyasını indirirken dosyaların adlarını özelleştirmenizi sağlar." },
+    "save_downloadtemplate": { "message": "İndirme şablonunu kaydet" },
+    "custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code>: Kullanıcı adı." },
+    "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: Kullanıcının hesap ismi. (Örnek: @dril)" },
+    "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: Tweet'in gönderilme tarihi ve saati." },
+    "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: İndirilen tweet'in dosya uzantısı." },
+    "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: Tweet'in ID'si." },
+    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: İndirilecek her dosya için dizin. (birden fazla medya içeren gönderiler için)" },
+    "custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: Orjinal dosya adı pbs.twimg.com." },
+    "nonexistent_user": { "message": "Bu hesap mevcut değil" },
+    "nonexistent_user_desc": { "message": "Başka bir tane aramayı dene." },
+    "suspended_user": { "message": "Hesap askıya alındı" },
+    "suspended_user_desc": { "message": "Görüntülemeye çalıştığınız profil askıya alındı." },
+    "show_boring_indicators": { "message": "Kişinin son tweet'i retweet/alıntı/var olmayan/eski ise takipçiler/takip edilenler sayfasında gösterge göster" },
+    "hide_original_languages":{"message": "Çeviri yapıldığında orijinal dilleri gizle" }
 }
