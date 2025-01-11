@@ -1514,6 +1514,13 @@ async function appendUser(u, container, label, usernameClass = '') {
         u.verified = false;
     }
     userElement.innerHTML = html`
+        <style>
+    .user-item-btn.blocked
+    {
+        background-color: red;   
+        border: 1px solid darkred; 
+    }
+    </style>
         <div>
             <a href="/${u.screen_name}" class="user-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
@@ -1526,8 +1533,21 @@ async function appendUser(u, container, label, usernameClass = '') {
             </a>
         </div>
         <div${u.id_str === user.id_str ? ' hidden' : ''}>
-            <button class="user-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
-        </div>
+    <button class="user-item-btn nice-button ${
+        u.blocking 
+            ? 'blocked' 
+            : u.following 
+                ? 'following' 
+                : 'follow'
+    }">
+        ${u.blocking 
+            ? 'Blocked' 
+            : u.following 
+                ? LOC.following_btn.message 
+                : LOC.follow.message
+        }
+    </button>
+</div>
     `;
 
     let followButton = userElement.querySelector('.user-item-btn');
