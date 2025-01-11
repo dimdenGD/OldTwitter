@@ -1534,7 +1534,7 @@ async function appendUser(u, container, label, usernameClass = '') {
                 : 'follow'
     }">
         ${u.blocking 
-            ? 'Blocked' 
+            ? LOC.blocked.message
             : u.following 
                 ? LOC.following_btn.message 
                 : LOC.follow.message
