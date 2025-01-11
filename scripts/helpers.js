@@ -1514,13 +1514,6 @@ async function appendUser(u, container, label, usernameClass = '') {
         u.verified = false;
     }
     userElement.innerHTML = html`
-        <style>
-    .user-item-btn.blocked
-    {
-        background-color: red;   
-        border: 1px solid darkred; 
-    }
-    </style>
         <div>
             <a href="/${u.screen_name}" class="user-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">

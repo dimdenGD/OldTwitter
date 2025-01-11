@@ -1922,6 +1922,11 @@ emoji-picker {
     bottom: 52px;
     height: 40px
 }
+.user-item-btn.blocked
+    {
+        background-color: red;   
+        border: 1px solid darkred; 
+    }
 
 .user-item-text {
     width: fit-content;
