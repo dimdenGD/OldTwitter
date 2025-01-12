@@ -1514,7 +1514,8 @@ async function appendUser(u, container, label, usernameClass = '') {
         u.verified = false;
     }
     userElement.innerHTML = html`
-        <div>
+        <div${vars.extensionCompatibilityMode ? ' data-testid="UserCell"' : ''}>
+            ${vars.extensionCompatibilityMode ? `<a href="/${u.screen_name}" style="display: none;"></a><a style="display: none;">${escapeHTML(u.name)}</a>` : ''}
             <a href="/${u.screen_name}" class="user-item-link">
                 <img src="${(u.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(u.id_str) % 7}_normal.png`): u.profile_image_url_https}" alt="${u.screen_name}" class="user-item-avatar tweet-avatar" width="48" height="48">
                 <div class="user-item-text">
