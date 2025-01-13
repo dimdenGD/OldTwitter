@@ -38,6 +38,7 @@
     "hours": { "message": "Heures" },
     "minutes": { "message": "Minutes" },
     "remove_poll": { "message": "Supprimer le sondage" },
+    "open_oldtwitter": { "message": "Ouvrir cette page avec OldTwitter" },
     "open_newtwitter": { "message": "Ouvrir cette page avec la nouvelle apparence de Twitter" },
     "last_version": { "message": "dernière version" },
     "thank_you": {
@@ -111,7 +112,7 @@
     "tweet_to": { "message": "Tweeter à", "example": "->Tweet to<- @CoolPerson2000" },
     "translated_from": { "message": "Message original en", "example": "->Translated from<- Japanese" },
     "translate_bio": { "message": "Traduction de la biographie" },
-    "edit_profile": { "message": "Editer le profil" },
+    "edit_profile": { "message": "Éditer le profil" },
     "follow_request_sent": { "message": "Requête " },
     "unblock_user": { "message": "Débloquer", "example": "->Unblock<- @CoolPerson2000" },
     "unblock": { "message": "Débloquer", "description": "Just for unblock button" },

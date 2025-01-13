@@ -38,6 +38,7 @@
     "hours": { "message": "Hours" },
     "minutes": { "message": "Minutes" },
     "remove_poll": { "message": "Remove poll" },
+    "open_oldtwitter": { "message": "Open this page in OldTwitter" },
     "open_newtwitter": { "message": "Open this page in new Twitter" },
     "last_version": { "message": "last version" },
     "thank_you": {
