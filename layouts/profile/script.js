@@ -1164,7 +1164,7 @@ async function renderProfile() {
     if(LOC.tweet_to.message.includes("$SCREEN_NAME$")) {
         document.getElementById('tweet-to-inner').innerText = LOC.tweet_to.message.replace("$SCREEN_NAME$", pageUser.screen_name.replace(/\n/g, ' '));
     } else {
-        document.getElementById('tweet-to-inner').innerText = `${LOC.tweet_to.message} ${pageUser.name.replace(/\n/g, ' ')}`;
+        document.getElementById('tweet-to-inner').innerText = `${LOC.tweet_to.message}`;
     }
     if(vars.heartsNotStars) {
         document.getElementById('profile-stat-text-favorites').innerText = LOC.likes.message;
