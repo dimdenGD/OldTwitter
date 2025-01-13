@@ -131,7 +131,6 @@ if (
         realPath.startsWith('/i/spaces/') ||
         realPath.startsWith('/i/oauth2') ||
         realPath.startsWith('/account') ||
-        realPath.startsWith('/login?') ||
         realPath.startsWith('/settings') ||
         /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath)
     )
