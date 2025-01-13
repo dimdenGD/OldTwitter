@@ -1526,8 +1526,21 @@ async function appendUser(u, container, label, usernameClass = '') {
             </a>
         </div>
         <div${u.id_str === user.id_str ? ' hidden' : ''}>
-            <button class="user-item-btn nice-button ${u.following ? 'following' : 'follow'}">${u.following ? LOC.following_btn.message : LOC.follow.message}</button>
-        </div>
+    <button class="user-item-btn nice-button ${
+        u.blocking 
+            ? 'blocked' 
+            : u.following 
+                ? 'following' 
+                : 'follow'
+    }">
+        ${u.blocking 
+            ? LOC.blocked.message
+            : u.following 
+                ? LOC.following_btn.message 
+                : LOC.follow.message
+        }
+    </button>
+</div>
     `;
 
     let followButton = userElement.querySelector('.user-item-btn');
