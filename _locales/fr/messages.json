@@ -647,5 +647,5 @@
     "suspended_user_desc": { "message": "Le profil que vous essayez de voir est suspendu." },
     "show_boring_indicators": { "message": "Afficher un indicateur sur la page des abonnés/abonnements si le dernier tweet de la personne est un retweet, une citation, inexistant ou ancien" },
     "hide_original_languages":{"message": "Cacher le message original lorsqu'il est traduit" },
-    "open_oldtwitter": { "message": "Ouvrir cette page avec OldTwitter" },
+    "open_oldtwitter": { "message": "Ouvrir cette page avec OldTwitter" }
 }
