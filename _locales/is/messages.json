@@ -628,7 +628,7 @@
     "accepted_conversation": { "message": "Samþykkt samtal" },
     "anniversary_tweet": { "message": "Manstu þegar þú skráðir þig á Twitter? Ég geri það!\n#TwitterAfmæliðMitt" },
     "you_shared_tweet": { "message": "Þú deildir tísti" },
-    "user_shared_tweet": { "message": "$NAME$ deildi tísti", "placeholders": { "name": { "content": "Display Name" } } }
+    "user_shared_tweet": { "message": "$NAME$ deildi tísti", "placeholders": { "name": { "content": "Display Name" } } },
     "transition_profile_banner": { "message": "Nota umskipti á prófílfána" },
     "custom_downloadtemplate": { "message": "Sérsniðit niðurhalssniðmát" },
     "custom_downloadtemplate_text": { "message": "Gerir þér kleift að sérsníða nöfn skráa þegar þú hleður niður tístmiðlum." },
