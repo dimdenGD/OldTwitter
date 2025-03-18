@@ -3680,6 +3680,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 video.currentTime = 0;
                 video.loop = false;
                 let isFirst = true;
+                let step = 50;
                 let interval = setInterval(async () => {
                     if(isFirst) {
                         video.currentTime = 0;
@@ -3687,7 +3688,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         await sleep(5);
                     }
                     mde.innerText = `${LOC.initialization.message}... (${Math.round(video.currentTime/video.duration*100|0)}%)`;
-                    if (video.currentTime+0.1 >= video.duration) {
+                    if (video.currentTime+(step/1000) >= video.duration) {
                         clearInterval(interval);
                         gif.on('working', (frame, frames) => {
                             mde.innerText = `${LOC.converting.message}... (${frame}/${frames})`;
@@ -3730,8 +3731,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     }
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
                     let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    gif.addFrame(imgData, { delay: 100 });
-                }, 100);
+                    gif.addFrame(imgData, { delay: step });
+                }, step);
             }));
         }
         if(tweetInteractMoreMenuFeedbacks) tweetInteractMoreMenuFeedbacks.forEach(feedbackButton => {
