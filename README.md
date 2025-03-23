@@ -85,7 +85,7 @@ For stable version:
 
 #### Can you use this extension on Android?
 
-Yes, you can use Kiwi Browser to install it from [Chrome Web Store](https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf) or Firefox Beta/Nightly to install it from [Addons For Firefox](https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/) ([follow these steps for Firefox](https://www.androidpolice.com/install-add-on-extension-mozilla-firefox-android/)). Once installed you can press on "Add to Home screen" button in Kiwi Browser to have it as standalone app.
+Yes, you can use [Microsoft Edge Canary](https://play.google.com/store/apps/details?id=com.microsoft.emmx.canary) to install it from [Edge Add-ons Store](https://microsoftedge.microsoft.com/addons/detail/old-twitter-layout-2024/hdkjgmbkdljifoabcjaopefegogcinal) using the developer options. Developer options are enabled by going to `Settings > About Microsoft Edge > Privacy and Terms` and tapping the version number five times. In developer options the extension can be installed using its id `hdkjgmbkdljifoabcjaopefegogcinal`.Once installed you can press on "Add to Phone" button in Edge Canary to have it as a standalone app.
 
 #### Is this extension safe?
 
