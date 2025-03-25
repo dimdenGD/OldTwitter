@@ -250,6 +250,7 @@ async function renderListMembers(c) {
     if(!cursor || listMembers.length === 0) end = true;
     renderListData(listInfo);
     let container = document.getElementById('list-members');
+    if (vars.extensionCompatibilityMode) container.setAttribute('data-testid', 'cellInnerDiv')
     for(let i in listMembers) {
         let t = listMembers[i];
         appendUser(t, container);

@@ -3420,7 +3420,8 @@ const API = {
                                     });
                                 }
                             } else if(e.entryId.startsWith('cursor-showmorethreadsprompt') || e.entryId.startsWith('cursor-showmorethreads-')) {
-                                if(newCursor === e.content.itemContent.value) {
+                                if(!e?.content?.itemContent?.value) continue;
+                                if(newCursor === e?.content?.itemContent?.value) {
                                     continue;
                                 }
                                 list.push({

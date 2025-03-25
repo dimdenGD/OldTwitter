@@ -32,12 +32,12 @@ jobs:
         working-directory: ${{ github.workspace }}
         
       - name: Upload for Firefox
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: OldTwitterFirefox
           path: ${{ github.workspace }}/OldTwitterFirefox
       - name: Upload for Chromium
-        uses: actions/upload-artifact@v3.1.2
+        uses: actions/upload-artifact@v4
         with:
           name: OldTwitterChrome
           path: ${{ github.workspace }}/OldTwitterChrome
