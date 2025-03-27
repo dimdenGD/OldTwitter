@@ -4633,9 +4633,10 @@ const API = {
                     let out = {
                         list: list.filter(e => e.entryId.startsWith('user-')).map(u => {
                             let res = u.content.itemContent.user_results.result;
+                            if(!res.legacy) return;
                             res.legacy.id_str = res.rest_id;
                             return res.legacy;
-                        }),
+                        }).filter(i => !!i),
                         cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                     };
                     debugLog('list.getMembers', 'end', id, out);
@@ -4671,9 +4672,10 @@ const API = {
                     let out = {
                         list: list.filter(e => e.entryId.startsWith('user-')).map(u => {
                             let res = u.content.itemContent.user_results.result;
+                            if(!res.legacy) return;
                             res.legacy.id_str = res.rest_id;
                             return res.legacy;
-                        }),
+                        }).filter(i => !!i),
                         cursor: list.find(e => e.entryId.startsWith('cursor-bottom-')).content.value
                     };
                     debugLog('list.getFollowers', 'end', id, out);

@@ -192,7 +192,7 @@ async function renderListTweets(c) {
     ]).catch(e => {
         console.error(e);
     });
-    if(listTweets.reason) {
+    if(listTweets.reason && !c) {
         console.error(listTweets.reason);
         document.getElementById('loading-box').hidden = false;
         document.getElementById('loading-box-error').innerHTML = html`${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
@@ -235,8 +235,8 @@ async function renderListMembers(c) {
         console.error(e);
     });
     document.getElementById('new-tweets').hidden = true;
-    if(listMembers.reason) {
-        console.error(listTweets.reason);
+    if(listMembers.reason && !c) {
+        console.error(listMembers.reason);
         document.getElementById('loading-box').hidden = false;
         document.getElementById('loading-box-error').innerHTML = html`${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
         return false;
@@ -265,8 +265,8 @@ async function renderListFollowers(c) {
         console.error(e);
     });
     document.getElementById('new-tweets').hidden = true;
-    if(listFollowers.reason) {
-        console.error(listTweets.reason);
+    if(listFollowers.reason && !c) {
+        console.error(listFollowers.reason);
         document.getElementById('loading-box').hidden = false;
         document.getElementById('loading-box-error').innerHTML = html`${LOC.list_not_found.message}<br><a href="/home">${LOC.go_homepage.message}</a>`;
         return false;
