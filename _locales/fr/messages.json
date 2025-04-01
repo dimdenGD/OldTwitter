@@ -19,7 +19,7 @@
     "terms": { "message": "Conditions", "description": "Shortest word that you can find for Terms of service" },
     "privacy": { "message": "Confidentialité", "description": "Shortest word that you can find for Privacy policy" },
     "about": { "message": "À propos" },
-    "donate": { "message": "Faire un don" },
+    "donate": { "message": "Soutenir" },
     "home": { "message": "Accueil", "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline" },
     "notifications": { "message": "Notifications" },
     "messages": { "message": "Messages" },
