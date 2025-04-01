@@ -1980,36 +1980,10 @@ emoji-picker {
     overflow-wrap: break-word;
 }
 #donate-button {
-    animation: donate 5s infinite alternate, vibrate 10s infinite linear;
     position: absolute;
-    transition: 1s;
     word-break: keep-all;
 }
-@keyframes donate {
-    20% {
-        color: var(--link-color)
-    }
-}
-@keyframes vibrate {
-    0% {
-        transform: translate(0, 0);
-    }
-    1% {
-        transform: translate(-2px, 1px);
-    }
-    2% {
-        transform: translate(2px, -1px);
-    }
-    3% {
-        transform: translate(-2px, 1px);
-    }
-    4% {
-        transform: translate(2px, -1px);
-    }
-    5%, 100% {
-        transform: translate(0, 0);
-    }
-}
+
 .tweet .tweet-header-name {
     max-width: 300px;
     display: inline-block;
