@@ -1,583 +1,1349 @@
-{
-    "ext_description": { "message": "Twitterの見た目を以前のUIに戻す拡張機能です。" },
-    "timeline": { "message": "タイムライン" },
-    "loading": { "message": "読み込み中" },
-    "tweets": { "message": "ツイート" },
-    "following_btn": { "message": "フォロー中", "description": "This one is used in button showing that user is following someone." },
-    "following": { "message": "フォロー", "description": "This is used in list showing who user follows. Try to keep this word equal or less than 9 characters" },
-    "followers": { "message": "フォロワー", "description": "This is used in list of users followers. Try to keep this word equal or less than 9 characters" },
-    "trends": { "message": "おすすめトレンド" },
-    "tweet": { "message": "ツイート" },
-    "load_more": { "message": "ツイートをさらに表示" },
-    "who_to_follow": { "message": "おすすめユーザー", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "refresh": { "message": "更新" },
-    "view_all": { "message": "すべて見る" },
-    "running": { "message": "", "example": "->Running<- OldTwitter v0.0.0" },
-    "created_by": { "message": "製作:", "example": "->Created by<- dimden" },
-    "website": { "message": "ウェブサイト" },
-    "help": { "message": "ヘルプ", "description": "noun" },
-    "terms": { "message": "利用規約", "description": "Shortest word that you can find for Terms of service" },
-    "privacy": { "message": "プライバシー", "description": "Shortest word that you can find for Privacy policy" },
-    "about": { "message": "詳細" },
-    "donate": { "message": "寄付" },
-    "home": { "message": "ホーム", "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline" },
-    "notifications": { "message": "通知" },
-    "messages": { "message": "メッセージ" },
-    "search_twitter": { "message": "キーワード検索" },
-    "profile": { "message": "プロフィール" },
-    "settings": { "message": "設定" },
-    "lists": { "message": "リスト" },
-    "list": { "message": "リスト" },
-    "bookmarks": { "message": "ブックマーク" },
-    "manage_accounts": { "message": "アカウントの管理" },
-    "logout": { "message": "ログアウト" },
-    "whats_happening": { "message": "いまどうしてる？" },
-    "variant": { "message": "回答" },
-    "optional": { "message": "(オプション)" },
-    "days": { "message": "日" },
-    "hours": { "message": "時" },
-    "minutes": { "message": "分" },
-    "remove_poll": { "message": "投票を削除" },
-    "open_newtwitter": { "message": "新しいTwitterに切り替え" },
-    "last_version": { "message": "最新版" },
-    "thank_you": {
-        "message": "OldTwitterをインストールして頂きありがとうございます！ 気に入っていただけると幸いです。 $AT1$Oldwitterの設定$AT2$もチェックしてみてください。",
-        "placeholders": {
-            "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
-            "at2": { "content": "</a>" }
-        }
-    },
-    "follow_mb": { "message": "フォローしますか？" },
-    "follow": { "message": "フォロー" },
-    "unfollow": { "message": "フォロー解除" },
-    "follow_user": { "message": "@$SCREEN_NAME$さんをフォロー", "example": "->Follow<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "CoolPerson2000" } }  },
-    "unfollow_user": { "message": "@$SCREEN_NAME$さんのフォローを解除", "example": "->Unfollow<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "CoolPerson2000" } }  },
-    "thank_you_follow": { "message": "フォローありがとうございます。" },
-    "loading_tweets": { "message": "ツイートを読み込み中..." },
-    "retweeted": { "message": "さんがリツイート", "example": "CoolPerson2000 ->retweeted<-" },
-    "see_new_tweets": { "message": "新しいツイートを見る" },
-    "must2variants": { "message": "投票を行うには少なくとも2つ以上の選択肢が必要です。" },
-    "delete_all": { "message": "全て削除" },
-    "empty": { "message": "何も見つかりませんでした。", "description": "Funky message about nothing found" },
-    "delete_bookmarks": { "message": "全てのブックマークを削除しますか？" },
-    "members": { "message": "メンバー" },
-    "subscribers": { "message": "登録者" },
-    "list_members": { "message": "リストのメンバー" },
-    "list_subscribers": { "message": "リストの登録者" },
-    "edit": { "message": "編集" },
-    "delete": { "message": "削除" },
-    "remove": { "message": "削除" },
-    "edit_list": { "message": "リストの編集" },
-    "edit_members": { "message": "メンバーの編集" },
-    "save": { "message": "保存" },
-    "back": { "message": "戻る" },
-    "delete_list": { "message": "リストを削除する" },
-    "delete_list_sure": { "message": "リストを削除しますか？" },
-    "unsubscribe": { "message": "登録の解除" },
-    "subscribe": { "message": "登録" },
-    "list_not_found": { "message": "リストが見つかりませんでした。" },
-    "go_homepage": { "message": "ホームに戻る" },
-    "mentions": { "message": "メンション" },
-    "tweeted_like": { "message": "あなたへのおすすめ", "example": "CoolPerson2000 ->tweeted something you might like<-" },
-    "favorites": { "message": "お気に入り" },
-    "follows_you": { "message": "あなたをフォロー中" },
-    "tweet_to_user": { "message": "ユーザーへツイート" },
-    "followers_you_know": { "message": "$NUMBER$人の知り合いのフォロワー", "example": "123 followers you know", "placeholders": { "number": { "content": "123" } } },
-    "photos_and_videos": { "message": "写真と動画" },
-    "photos_and_videos2": { "message": "メディア" },
-    "tweets_and_replies": { "message": "ツイートと返信" },
-    "you_may_also_like": { "message": "おすすめのユーザー", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_not_found": { "message": "アカウントが見つかりませんでした" },
-    "timeline_not_authorized": { "message": "このユーザーのタイムラインを表示することは出来ません。" },
-    "create_btn": { "message": "[リストを作成]" },
-    "create_list": { "message": "リストを作成" },
-    "create": { "message": "作成" },
-    "name": { "message": "名称" },
-    "description": { "message": "概要" },
-    "no_description": { "message": "記載なし" },
-    "born": { "message": "誕生日：" },
-    "january": { "message": "1", "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that." },
-    "february": { "message": "2" },
-    "march": { "message": "3" },
-    "april": { "message": "4" },
-    "may": { "message": "5" },
-    "june": { "message": "6" },
-    "july": { "message": "7" },
-    "august": { "message": "8" },
-    "september": { "message": "9" },
-    "october": { "message": "10" },
-    "november": { "message": "11" },
-    "december": { "message": "12" },
-    "tweet_to": { "message": "ツイート"},
-    "translated_from": { "message": "$LANGUAGE$から翻訳", "placeholders": { "language": { "content": "Japanese" } } },
-    "translate_bio": { "message": "プロフィールを翻訳" },
-    "edit_profile": { "message": "プロフィールを編集" },
-    "follow_request_sent": { "message": "フォローリクエストを送信済み" },
-    "unblock_user": { "message": "@$SCREEN_NAME$さんのブロックを解除", "example": "->Unblock<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "unblock": { "message": "ブロックを解除", "description": "Just for unblock button" },
-    "block_user": { "message": "@$SCREEN_NAME$さんをブロックする", "example": "->Block<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "block": { "message": "ブロック", "description": "Just for block button" },
-    "mute": { "message": "ミュート" },
-    "unmute": { "message": "ミュートを解除" },
-    "see_lists": { "message": "リストを見る" },
-    "stop_notifications": { "message": "通知をオフにする" },
-    "receive_notifications": { "message": "通知する" },
-    "from_list": { "message": "リストに追加/削除" },
-    "share_user": { "message": "プロフィールを共有" },
-    "copy_profile_link": { "message": "プロフィールのリンクをコピー" },
-    "remove_from_followers": { "message": "フォロワーから削除", "description": "This button unfollows person from you, not unfollows you from them" },
-    "remove_from_followers_sure": { "message": "@$SCREEN_NAME$さんをフォロワーから削除しますか？", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "remove_from_followers_warn": { "message": "クリックするとフォロワーから削除されます。" },
-    "remove_from_followers_button": { "message": "フォローを削除する" },
-    "able_in_future": { "message": "フォロワーを削除しても再度フォローされる可能性があります。" },
-    "block_sure": { "message": "@$SCREEN_NAME$さんをブロックしますか？", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "add": { "message": "追加" },
-    "joined": { "message": "登録：", "example": "->Joined<- April 30, 2019" },
-    "birthday_today": { "message": "\n　 お誕生日おめでとうございます。" },
-    "pinned_tweet": { "message": "固定されたツイート" },
-    "search": { "message": "検索" },
-    "popular": { "message": "話題のツイート" },
-    "live": { "message": "すべてのツイート" },
-    "people": { "message": "ユーザー" },
-    "photos": { "message": "画像" },
-    "videos": { "message": "動画" },
-    "all_people": { "message": "すべてのアカウント" },
-    "people_yk": { "message": "フォローしているアカウント" },
-    "everywhere": { "message": "すべての場所" },
-    "near_you": { "message": "近くの場所" },
-    "advanced_search": { "message": "高度な検索" },
-    "save_search": { "message": "この検索を保存する" },
-    "remove_search": { "message": "保存した検索から削除する" },
-    "try_again": { "message": "再試行" },
-    "no_results": { "message": "一致する結果は見つかりませんでした。" },
-    "words": { "message": "単語" },
-    "all_these_words": { "message": "キーワードをすべて含む" },
-    "all_these_words_example": { "message": "例: what’s happening - 「what’s」と「happening」の両方を含む" },
-    "exact_phrase": { "message": "キーワード全体を含む" },
-    "exact_phrase_example": { "message": "例: happy time - 「happy time」というキーワード全体を含む" },
-    "any_words": { "message": "キーワードのいずれかを含む" },
-    "any_words_example": { "message": "例: cats dogs - 「cats」と「dogs」のどちらか（または両方）を含む" },
-    "not_these_words": { "message": "キーワードを含まない" },
-    "not_these_words_example": { "message": "例: cats dogs - 「cats」と「dogs」を含まない" },
-    "user": { "message": "ユーザー" },
-    "from_this_user": { "message": "次のアカウントがツイート" },
-    "from_this_user_example": { "message": "例: @twitter - twitterがツイート" },
-    "mentions_this_user": { "message": "次のアカウント宛て" },
-    "mentions_this_user_example": { "message": "例: @twitter - twitterへの返信としてツイート" },
-    "interactions": { "message": "会話" },
-    "min_replies": { "message": "返信の最小件数" },
-    "min_replies_example": { "message": "例: 10 - 返信が10件以上" },
-    "min_retweets": { "message": "リツイートの最小件数" },
-    "min_retweets_example": { "message": "例: 10 -リツイートが10件以上" },
-    "min_favorites": { "message": "いいねの最小件数" },
-    "min_favorites_example": { "message": "例: 10 - いいねが10件以上" },
-    "dates": { "message": "日付" },
-    "since": { "message": "次の日付以降" },
-    "until": { "message": "次の日付以前" },
-    "twitter_settings": { "message": "Twitterの設定" },
-    "oldtwitter_settings": { "message": "OldTwitterの設定" },
-    "edit_twitter_settings": { "message": "Twitterの設定の編集" },
-    "refresh_tabs": { "message": "タブを更新して設定を適用" },
-    "chrono": { "message": "新しい順" },
-    "chrono_social": { "message": "友達のいいねを含む新しい順" },
-    "algo": { "message": "あなたへのおすすめ" },
-    "timeline_type": { "message": "タイムラインの種類" },
-    "show_topic_tweets": { "message": "トピックツイートの表示（あなたへのおすすめのみ）" },
-    "show_colors_in_timeline": { "message": "ユーザーがカスタマイズしたプロフィールのリンクカラーを適用する" },
-    "enable_twemoji": { "message": "Twitter絵文字ライブラリの有効化" },
-    "hearts_instead_stars": { "message": "お気に入りをいいねに変更する" },
-    "dark_mode": { "message": "ダークモード" },
-    "disable_hotkeys": { "message": "ホットキーを無効化" },
-    "hotkeys_list": { "message": "ホットキーの一覧はこちら" },
-    "save_preferred_quality": { "message": "再生する動画の画質を設定する（これをオンにすると、設定した画質かそれに最も近い画質で動画を再生します。オフにすると常に最高画質で再生します）" },
-    "preferred_quality": { "message": "クオリティーを優先" },
-    "default_link_color": { "message": "標準のリンクカラー" },
-    "font": { "message": "フォント" },
-    "color_sync": { "message": "リンクカラーの同期" },
-    "by_pressing_sync": { "message": "下にある同期ボタンを押すと、設定したプロフィールのリンクカラーが他の拡張機能利用ユーザーに表示されます。" },
-    "color_years_ago": { "message": "以前に設定したことがある場合は上書きされます。" },
-    "sync": { "message": "同期" },
-    "profile_link_color": { "message": "プロフィールのリンクカラー" },
-    "light_mode_link": { "message": "ライトモード利用時" },
-    "dark_mode_link": { "message": "ダークモード利用時" },
-    "custom_css": { "message": "カスタムCSS" },
-    "css_var_override": { "message": "標準のCSS変数を無視する場合は、<code>--some-variable: property</code> のように入力してください。 改行で分割します。" },
-    "css_var_list": { "message": "標準のCSS変数の一覧はこちらをご覧ください。" },
-    "save_vars": { "message": "変数を保存する" },
-    "custom_css_text": { "message": "入力したカスタムCSSは各ページに追加されます" },
-    "save_css": { "message": "CSSを保存する" },
-    "error_setting_color": { "message": "リンクカラーを設定できませんでした。" },
-    "link_color_set": { "message": "リンクカラーを設定しました。" },
-    "retweeted_by": { "message": "リツイート" },
-    "see_quotes": { "message": "引用を見る" },
-    "see_quotes_big": { "message": "引用を見る" },
-    "quote_tweets": { "message": "引用ツイート" },
-    "see_retweets": { "message": "リツイートを見る" },
-    "reply_to": { "message": "返信先:@$SCREEN_NAME$", "example": "Reply to @CoolPerson2000", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "error_loading_tweet": { "message": "ツイートの読み込みに失敗しました" },
-    "direct_messages": { "message": "ダイレクトメッセージ" },
-    "mark_all_read": { "message": "既読にする" },
-    "send": { "message": "送信", "description": "Max 5 characters, if no word keep it in English" },
-    "new_message": { "message": "新しいメッセージ" },
-    "create_new_group": { "message": "グループの作成" },
-    "search_people": { "message": "アカウントを検索する" },
-    "type_message": { "message": "新しいメッセージを作成" },
-    "cant_send": { "message": "あなたはこのアカウントにメッセージを送信できません。" },
-    "gifs_max": { "message": "15MB以上のGIFはアップロードできません。" },
-    "videos_max": { "message": "500MB以上の動画はアップロードできません。" },
-    "images_max": { "message": "5MB以上の写真はアップロードできません。" },
-    "max_count": { "message": "画像は4枚、動画は1本、GIFは1枚までしかアップロードできません。" },
-    "alt_text": { "message": "画像に説明を追加" },
-    "vote": { "message": "票", "example": "1 ->vote<-" },
-    "votes": { "message": "票", "example": "10 ->votes<-" },
-    "ends_at": { "message": "$DATE$に終了", "example": "Ends at 16th November", "placeholders": { "date": { "content": "16th November" } } },
-    "view_translation": { "message": "ツイートを翻訳" },
-    "unsupported_video": { "message": "お使いのブラウザはこの動画形式をサポートしていません。" },
-    "views": { "message": "表示", "example": "10 ->views<-" },
-    "reload": { "message": "再読み込み" },
-    "circle_limited_tweet": { "message": "このツイートは、@$SCREEN_NAME$さんのサークルに追加されているアカウントのみに表示されます。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "learn_more": { "message": "詳細" },
-    "limited_tweet": { "message": "このツイートは、返信できるアカウントが制限されています。" },
-    "replies": { "message": "返信" },
-    "retweets": { "message": "リツイート" },
-    "likes": { "message": "いいね" },
-    "show_this_thread": { "message": "ツイートを表示" },
-    "quote_tweet": { "message": "ツイートを引用" },
-    "see_retweeters": { "message": "リツイートを見る" },
-    "copy_link": { "message": "リンクをコピー" },
-    "embed_tweet": { "message": "ツイートを埋め込む" },
-    "share_tweet": { "message": "ツイートを共有" },
-    "tweet_analytics": { "message": "ツイートアナリティクス" },
-    "delete_tweet": { "message": "ツイートを削除" },
-    "unpin_tweet": { "message": "ツイートのピン止めを解除" },
-    "pin_tweet": { "message": "ツイートのピン止め" },
-    "bookmark_tweet": { "message": "ツイートをブックマーク" },
-    "topic_not_interested": { "message": "このトピックに興味がない" },
-    "refresh_tweet": { "message": "ツイートデータを更新する" },
-    "download_media": { "message": "メディアをダウンロード" },
-    "download_gif": { "message": "GIFをダウンロード" },
-    "replying_to_tweet": { "message": "ツイートへの返信" },
-    "upload_media_btn": { "message": "[メディアのアップロード]" },
-    "cancel_btn": { "message": "[キャンセル]" },
-    "quote": { "message": "引用" },
-    "reply_example": { "message": "返信をツイート" },
-    "quote_example": { "message": "コメントを追加" },
-    "error_sending_tweet": { "message": "ツイートの送信中にエラーが発生しました。" },
-    "retweet_sure": { "message": "リツイートしますか？" },
-    "unretweet": { "message": "リツイートの取り消し" },
-    "retweet": { "message": "リツイート" },
-    "delete_sure": { "message": "ツイートを削除しますか？" },
-    "long_vid": { "message": "10秒以上の動画は変換により遅延が発生する可能性があります。変換しますか？" },
-    "feedback_thanks": { "message": "フィードバックの提供ありがとうございます！" },
-    "liked_by": { "message": "いいね" },
-    "reply": { "message": "返信" },
-    "language": { "message": "言語(Language)", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Язык (Language)" },
-    "translated_by": { "message": "翻訳: $TRANSLATOR$.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
-    "last_searches": { "message": "検索履歴" },
-    "saved_searches": { "message": "保存された検索結果" },
-    "everyone": { "message": "全員", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
-    "topic": { "message": "トピック" },
-    "not_interested": { "message": "興味なし" },
-    "cancel": { "message": "取り消し" },
-    "youre_not_interested": { "message": "このツイートに興味がない" },
-    "autoplay_videos": { "message": "動画の自動再生" },
-    "turn_on_retweets": { "message": "タイムライン上のリツイートを表示する" },
-    "turn_off_retweets": { "message": "タイムライン上のリツイートを非表示にする" },
-    "you_can_reply": { "message": "ツイートに返信できます" },
-    "audience": { "message": "送信先" },
-    "who_can_reply": { "message": "返信できるアカウント" },
-    "people_you_follow": { "message": "フォローしているアカウント" },
-    "people_you_mention": { "message": "@ツイートしたアカウントのみ" },
-    "new_version": { "message": "新しいバージョンに更新する" },
-    "display_sensitive_content": { "message": "センシティブなコンテンツを含む可能性のあるメディアを表示する" },
-    "is_private": { "message": "非公開にする" },
-    "s": { "message": "$NUMBER$秒", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
-    "m": { "message": "$NUMBER$分", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
-    "h": { "message": "$NUMBER$時間", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$日", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
-    "follow_requests": { "message": "フォローリクエスト" },
-    "accept": { "message": "承認" },
-    "decline": { "message": "拒否" },
-    "mute_convo": { "message": "この会話をミュート" },
-    "unmute_convo": { "message": "この会話のミュートを解除" },
-    "no_big_font": { "message": "短いツイートや人気のツイートを大きなフォントで表示しないようにする" },
-    "emoji": { "message": "絵文字" },
-    "emoji_btn": { "message": "[絵文字]" },
-    "add_emoji": { "message": "絵文字の追加" },
-    "custom": { "message": "カスタム" },
-    "smileys_emotion": { "message": "スマイリーと絵文字" },
-    "people_body": { "message": "人と体" },
-    "animals_nature": { "message": "動物と自然" },
-    "food_drink": { "message": "食べ物と飲み物" },
-    "travel_places": { "message": "旅行と場所" },
-    "activities": { "message": "アクティビティ" },
-    "objects": { "message": "物" },
-    "symbols": { "message": "記号" },
-    "flags": { "message": "旗" },
-    "categories": { "message": "カテゴリー" },
-    "unsupported_emoji": { "message": "お使いのブラウザに対応していない絵文字です。" },
-    "cant_load_emoji": { "message": "絵文字を読み込むことができませんでした。" },
-    "emoji_picker": { "message": "絵文字" },
-    "emoji_search_description": { "message": "検索結果が表示されたら、上または下を押して選択し、Enterを押して選択します。" },
-    "search_results": { "message": "結果の検索" },
-    "skin_tone_description": { "message": "展開された状態で、上または下をEnterを押して選択します。" },
-    "skin_tone_label": { "message": "肌色の選択 (現在 $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
-    "skin_tones_label": { "message": "肌色" },
-    "add_media": { "message": "メディアの追加" },
-    "add_poll": { "message": "投票の追加" },
-    "add_location": { "message": "位置情報の追加" },
-    "schedule_tweet": { "message": "予約ツイート" },
-    "scheduled": { "message": "予約" },
-    "drafts": { "message": "下書き" },
-    "location": { "message": "位置情報" },
-    "pitch_black_mode": { "message": "さらに黒くする (ダークモード有効時のみ)" },
-    "unsent_tweets": { "message": "未送信のツイート" },
-    "unsent": { "message": "未送信" },
-    "will_send": { "message": "送信先" },
-    "schedule": { "message": "予約" },
-    "scheduled_success": { "message": "ツイートを予約投稿しました" },
-    "see_scheduled": { "message": "予約投稿の表示" },
-    "hasnt_tweeted": { "message": "@$SCREEN_NAME$さんはツイートしていません。", "placeholders": { "screen_name": { "content": "loading" } } },
-    "when_theyll_tweet": { "message": "ツイートがあるとここに表示されます。" },
-    "thank_you2": {
-        "message": "OldTwitterをインストールしていただき、ありがとうございます！フォローや$AT1$寄付$AT2$で応援していただけると非常に嬉しいです！",
-        "placeholders": { "at1": { "content": "<a target='_blank' href='https://dimden.dev/donate/'>" }, "at2": { "content": "</a>" } }
-    },
-    "something_went_wrong": { "message": "エラーが発生しました。お手数ですが、最初からやり直してください。" },
-    "notifications_error": { "message": "エラーが発生したため、一部の通知を読み込めませんでした。" },
-    "tweet_error": { "message": "エラーが発生したため、一部のツイートを読み込めませんでした。" },
-    "error_instructions": {
-        "message": "下のテキストをコピーして、$AT1$GitHubのissue$AT2$ 、または $AT3$開発者のメール$AT2$ へ送信してください。よろしくお願いします！",
-        "placeholders": {
-            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
-            "at2": { "content": "</a>" },
-            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
-        }
-    },
-    "initialization": { "message": "初期化" },
-    "converting": { "message": "変換中" },
-    "time_mode": { "message": "19時-9時の間にダークモードを有効化する" },
-    "show_original_images": { "message": "常に元の画質の画像を表示する" },
-    "hide_retweets": { "message": "リツイートを表示しない" },
-    "see_tweet_views": { "message": "ツイートの表示回数を表示する" },
-    "history": { "message": "履歴" },
-    "autotranslate_tweets": { "message": "ツイートを自動で翻訳する" },
-    "dont_autotranslate": { "message": "ツイートを自動で翻訳しない" },
-    "round_avatars": { "message": "丸いアイコン" },
-    "search_user_tweets": { "message": "ツイートを検索" },
-    "no_tl_tweets": { "message": "あなたは誰もフォローしていないので、タイムラインにツイートはありません。アカウントをフォローするか、このページの右側と、<a href='/old/settings'>OldTwitterの設定</a>にある「タイムラインの種類」を「あなたへのおすすめ」に変更してください。" },
-    "replying_to": { "message": "返信先", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2" },
-    "display": { "message": "ディスプレイ", "description": "Used for display settings (fonts, colors, style, etc)" },
-    "twitter_blue_checkmarks": { "message": "Twitter Blueの認証マークを表示する" },
-    "retweet_hotkey_warn": { "message": "このツイートをリツイートしますか？確認を押すと、今後この警告はTキーを押してリツイートする際に表示されなくなります。" },
-    "reply_btn": { "message": "返信", "description": "Used for reply button." },
-    "retweet_btn": { "message": "リツイート / 引用ツイート", "description": "Used for retweet menu button." },
-    "like_btn": { "message": "いいね / いいねを取り消し", "description": "Used for like button." },
-    "favorite_btn": { "message": "お気に入り / お気に入りを取り消し", "description": "Used for favorite button." },
-    "views_count": { "message": "表示回数", "description": "Used for views count." },
-    "developer_mode": { "message": "開発者モード" },
-    "copy_user_id": { "message": "ユーザーIDをコピー" },
-    "copy_tweet_id": { "message": "ツイートIDをコピー" },
-    "unfollowers": { "message": "フォローを解除されたユーザー", "description": "People that stopped following you" },
-    "unfollowings": { "message": "フォローを解除したユーザー", "description": "People that you stopped following" },
-    "no_unfollowers": { "message": "フォローを解除されたユーザーはいません" },
-    "no_unfollowings": { "message": "フォローを解除したユーザーはいません" },
-    "recent_unfollow_update": { "message": "最近更新されたフォローを解除したユーザー" },
-    "deleted_accounts": { "message": "アカウントを削除したユーザー" },
-    "open_tweet_newtwitter": { "message": "新しいTwitterのUIに切り替える" },
-    "black_mode_link": { "message": "ブラックモード（OLED向け）", "note": "You can name this OLED mode too" },
-    "custom_mode_link": { "message": "カスタムモード" },
-    "tweet_verb": { "message": "Tweet", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "ツイートしますか？ - \"$TWEET_TEXT$\"", "placeholders": { "tweet_text": { "content": "it's okay" } } },
-    "user_protected" : { "message": "このアカウントのツイートは非公開です。" },
-    "follow_to_see": { "message": "@$SCREEN_NAME$さんから承認された場合のみツイートを表示できます。承認をリクエストするには [フォローする] をクリックします。", "placeholders": { "screen_name": { "content": "dimden" } } },
-    "copy_tweet_links_as": { "message": "ツイートのURLをコピーする際の形式:", "example": "->Copy links as<- vxtwitter.com" },
-    "use_new_icon": { "message": "Faviconを鳥マークにする" },
-    "update_timeline_automatically": { "message": "新着ツイートがある場合にタイムラインを自動更新する" },
-    "chrono_no_retweets": { "message": "新しい順（リツイートを除く）" },
-    "chrono_retweets": { "message": "新しい順（リツイートのみ）" },
-    "hide_trends": { "message": "トレンド欄を隠す" },
-    "hide_wtf": { "message": "「おすすめユーザー」を隠す" },
-    "hide_likes": { "message": "いいね・リツイート・返信数を隠す" },
-    "hide_followers": { "message": "フォロワー数を隠す" },
-    "block_sure_desc": { "message": "今後、@$SCREEN_NAME$さんからのツイートや通知は表示されず、また、このアカウントがあなたのツイートを見ることや、フォローすることもできなくなります。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "blocked_by_user" : { "message": "@$SCREEN_NAME$さんはあなたをブロックしています。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "why_you_cant_see_block_user": { "message": "@$SCREEN_NAME$さんのツイートを見ることや、フォローをすることはできません。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "you_blocked_user": { "message": "@$SCREEN_NAME$さんをブロックしています。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "do_you_want_see_blocked_user": { "message": "ツイートを表示してもよろしいですか？これによって@$SCREEN_NAME$さんのブロックが解除されることはありません。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "I_want_see_blocked_user": { "message": "閲覧する" },
-    "logout_title": { "message": "ログアウトしますか？" },
-    "logout_desc_1": { "message": "OldTwitterは仕様上、Twitterにログインしている場合のみ動作します。" },
-    "logout_desc_2": { "message": "他にTwitterにログインしているアカウントがない場合、ログインページに移動します。" },
-    "logout_button": { "message": "ログアウト" },
-    "disable_personalized_trends": { "message": "おすすめトレンドを無効にする" },
-    "show_bookmark_count": { "message": "ブックマーク数を表示する" },
-    "bookmarks_count": { "message": "ブックマーク", "description": "Used for bookmarks count." },
-    "remove_bookmark": { "message": "ブックマークを解除" },
-    "hide_community_notes": { "message": "コミュニティ投稿を隠す" },
-    "disable_gif_autoplay": { "message": "GIF画像を自動再生しない" },
-    "hide_tweet": { "message": "ツイートを隠す" },
-    "unhide_tweet": { "message": "ツイートを表示する" },
-    "hide_tweet_sure": { "message": "このツイートを隠しますか？" },
-    "see_hidden_replies": { "message": "非表示の返信を表示する" },
-    "bookmarked_tweet": { "message": "ツイートをブックマークしました" },
-    "unbookmarked_tweet": { "message": "ツイートのブックマークを解除しました" },
-    "muted_convo": { "message": "会話をミュートしました" },
-    "unmuted_convo": { "message": "会話のミュートを解除しました" },
-    "show_media_count": { "message": "プロフィールページにメディア数を表示する" },
-    "media": { "message": "メディア", "note": "Keep this short" },
-    "pin_profile_on_navbar": { "message": "メニューバーに「プロフィール」リンクを表示する" },
-    "pin_bookmarks_on_navbar": { "message": "メニューバーに「ブックマーク」リンクを表示する" },
-    "pin_lists_on_navbar": { "message": "メニューバーに「リスト」リンクを表示する" },
-    "me": { "message": "プロフィール", "description": "You should probably use word 'Profile' in your language" },
-    "tweet_text_font": { "message": "ツイートのフォント" },
-    "use_old_default_profile": { "message": "デフォルトアイコンを卵アイコンにする" },
-    "colors": { "message": "色設定" },
-    "enable_hashflags": { "message": "ハッシュタグ絵文字を有効にする（ページの動作が少し重くなる場合があります）" },
-    "content_warning": { "message": "以下のコンテンツを含みます: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
-    "graphic_violence": { "message": "暴力・グロテスクな表現" },
-    "adult_content": { "message": "ヌード" },
-    "sensitive_content": { "message": "センシティブな内容" },
-    "uncensor_graphic_violence_automatically": { "message": "暴力・グロテスクな表現を含むメディアを隠さずに表示する" },
-    "uncensor_adult_content_automatically": { "message": "ヌード表現を含むメディアを隠さずに表示する" },
-    "uncensor_sensitive_content_automatically": { "message": "その他のセンシティブな表現を含むメディアを隠さずに表示する" },
-    "replying_to_user": { "message": "$SCREEN_NAME$ に返信する", "placeholders": { "screen_name": { "content": "@CoolPerson2000" } } },
-    "content_warnings": { "message": "コンテンツ内容の警告" },
-    "transparency": { "message": "透明度", "note": "Color" },
-    "reset": { "message": "リセット" },
-    "reset_all": { "message": "全てリセット" },
-    "import": { "message": "インポート", "note": "Verb" },
-    "export": { "message": "エクスポート", "note": "Verb" },
-    "reset_colors_sure": { "message": "カラー設定をリセットしますか？" },
-    "navbar": { "message": "メニューバー", "description":"Setting Text" },
-    "sidebar": { "message": "サイドバー", "description":"Setting Text" },
-    "advanced_options": { "message":"高度な設定", "description":"Setting Text" },
-    "advanced_colors": { "message":"より高度なカラー設定", "description":"Setting Text" },
-    "accessibility": { "message":"アクセシビリティ", "description":"Setting Text" },
-    "tweets_and_timeline": { "message":"ツイート・タイムライン", "description":"Setting Text" },
-    "dark_mode_setting": { "message": "ダークモード", "description":"Setting Text" },
-    "old_twitter_look": {"message": "昔のTwitterの仕様", "description":"Setting Text" },
-    "content_you_see": {"message": "コンテンツ", "description":"Setting Text" },
-    "use_old_style_reply": {"message": "旧式の返信を使用する" },
-    "algov2": { "message": "あなたへのおすすめ" },
-    "chrono_help": { "message": "新しい順のタイムライン（「フォロー」）は、最新のツイートやリツイートを新しい順に表示し、それ以外は何も追加しません。" },
-    "chrono_no_retweets_help": { "message": "最初のタイムラインと同じですが、リツイートを表示しません。" },
-    "chrono_retweets_help": { "message": "最初のタイムラインと同じですが、リツイートのみを表示します。" },
-    "chrono_social_help": { "message": "新しい順のタイムラインの中に、一部「誰かがいいねしたツイート」や「誰かがフォローしているアカウントのツイート」が追加されます。" },
-    "algo_help": { "message": "古いアルゴリズムのタイムラインは、Twitterがおすすめするツイートを表示します。 バージョン1はこのタイムラインの古いバージョンで、レート制限はないようですが（あるいは非常に大きい）、なぜツイートがタイムラインに追加されたのかについてのラベルはありません。" },
-    "algov2_help": { "message": "アルゴリズムのタイムライン（あなたへのおすすめ）は、Twitterがおすすめするツイートを表示します。" },
-    "import_settings": { "message": "設定内容をインポート" },
-    "export_settings": { "message": "設定内容をエクスポート" },
-    "import_style_settings": { "message": "スタイルをインポート" },
-    "export_style_settings": { "message": "スタイルをエクスポート" },
-    "reset_settings": { "message": "全ての設定をリセット" },
-    "reset_settings_sure": { "message": "すべての設定をリセットしますか？" },
-    "clear_caches": { "message": "キャッシュを消去" },
-    "hide_non_replies": { "message": "返信のみを表示する" },
-    "profile_custom_css": { "message": "プロフィールカスタムCSS" },
-    "pccss_not_eligible": { "message": "プロフィールカスタムCSSがまだ有効ではありません。<br>プロフィールカスタムCSSが有効になると、フォント・背景・色などをより幅広くカスタマイズできます。<br>この拡張機能に寄付していただくか、もしくは開発サポーターになると有効になります。<br>詳しくは<a href='https://dimden.dev/ot/custom-css/' target='_blank'>こちら</a>をご覧ください。" },
-    "pccss_eligible": { "message": "プロフィールカスタムCSSが有効になりました！" },
-    "pccss_congrats": { "message": "おめでとうございます！プロフィールカスタムCSSが有効になりました。より自分好みにカスタムできるようになったプロフィールページをぜひお試しください。" },
-    "yay": { "message": "わ～い！" },
-    "light_mode_vars": { "message": "ライトモード変数" },
-    "dark_mode_vars": { "message": "ダークモード変数" },
-    "css_theme_hint": { "message": "悪意のあるスタイル（例えば、フォローボタンを非常に大きくするなど）は公開しないでください。そうするとアクセスできなくなります。<b>スタイルがダークモードとライトモードの両方でどのように見えるかを常にテストしてください。</b><br><br>あなたが設定したCSSはユーザーが設定したローカルスタイルを上書きします。<br><br>i.imgur.com を画像用として、fonts.googleapis.com （および<a target='_blank' href='https://dimden.dev/fonts/'>こちら</a>）をフォント用として使用できます。<br><br><a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>こちら</a>でCSS変数のリストを見ることができます。特定のテーマを対象にするには、<code>.body-dark</code>、<code>.body-pitch-black</code>（黒いダークモードでは、.body-darkクラスも含まれます）と<code>.body-light</code>クラスを使用できます。" },
-    "profile_colors_moved": { "message": "プロフィールカラーの設定はプロフィールページに移動しました（編集ボタン左側の鉛筆マークのボタンから設定できます）。" },
-    "click_here_more_info": { "message": "詳細については、こちらをクリックしてください" },
-    "profile_must_be_public_to_auth": { "message": "初めて同期するには、プロフィールを公開する必要があります。その後、プロフィールを非公開に戻すことができます。" },
-    "save_draft": { "message": "下書きを保存", "note": "Try to keep this short" },
-    "load_draft": { "message": "下書きを読み込む", "note": "Try to keep this short" },
-    "draft_saved": { "message": "下書きを保存しました。" },
-    "draft_loaded": { "message": "下書きを読み込みました。" },
-    "no_draft": { "message": "下書きがありません。" },
-    "invalid_auth_token": { "message": "認証トークンが正しくないか、削除されています。このエラーが頻発する場合は @dimden までご連絡ください。" },
-    "css_set": { "message": "CSSを設定しました！" },
-    "error_setting_css": { "message": "エラー：CSSを設定できませんでした" },
-    "load": { "message": "読み込む" },
-    "disable_profile_customizations": { "message": "プロフィールのカスタマイズを無効にする" },
-    "replying_to_and":  { "message": " と ", "description":"For some languages that use address terms", "example": "Replying to @A-> and <-@B, @C" },
-    "replying_to_comma":  { "message": ", ", "description":"For some languages that use address terms", "example": "Replying to @A and @B->, <-@C" },
-    "twitter": { "message": "Twitter" },
-    "move_navbar_to_bottom": {"message": "メニューバーを下に表示する" },
-    "open_notifs_as_modal": {"message": "通知をモーダルウィンドウで表示する", "description": "Modal is a small window that opens on top of page"},
-    "styled_profile": {"message": "プロフィールカスタムCSS" },
-    "clear_ot_token": {"message": "OldTwitter トークンをクリアする" },
-    "enable_iframe_navigation": {"message": "実験的なページ保存ナビゲーションを有効にする（リロードせずにリンクをクリックして前のページに戻ることができます。これは実験的なものであり、破損したり、遅延したりする可能性があります）" },
-    "style_your_profile": {"message": "こちらからプロフィールを編集できます。" },
-    "mmdd":{ "message": "$MONTH$月$DATE$日",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } } },
-    "mmddyy":{ "message": "$YEAR$年$MONTH$月$DATE$日",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } } },
-    "yyyy":{ "message": "$YEAR$年",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
-    "replacer_post_to_tweet": { "message": "ポスト->ツイート", "description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
-    "replacer_repost_to_retweet": { "message": "リポスト->リツイート", "description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)." },
-    "share_tweet_in_dms": { "message": "ツイートをDMで共有" },
-    "share_tweet_to": { "message": "ツイートを共有" },
-    "mute_user": { "message": "@$SCREEN_NAME$さんをミュート", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "unmute_user": { "message": "@$SCREEN_NAME$さんのミュートを解除", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "muted_user": { "message": "@$SCREEN_NAME$さんをミュートしました", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "unmuted_user": { "message": "@$SCREEN_NAME$さんのミュートを解除しました", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "localize_digit":{ "message" : "アジアの4桁表記を使用する (日中韓のみ)", "description":"Non-CJK dont need to translate this message, just copy and paste"},
-    "disable_retweet_hotkey": { "message": "リツイートのホットキーを無効化 (T)" },
-    "disable_like_hotkey": { "message": "いいねのホットキーを無効化 (L)" },
-    "enable_extension_compatibility": { "message": "拡張機能の互換性モードを有効にする (OldTwitterで拡張機能を動作させたい場合にのみ有効にしてください)" },
-	"enter_custom_font_name": {"message": "変更したいフォント名を入力してください" },
-    "disable_data_saver": { "message": "携帯電話接続時のデータセーバーを無効化する", "description": "This option only appears on mobile" },
-    "mobile": { "message": "モバイル", "description": "Title for mobile device settings"},
-    "manage_searches": { "message": "検索の管理" },
-    "add_search": { "message": "検索を追加する" },
-    "pinned_searches": { "message": "検索を固定" },
-    "show_follower_counts_in_lists": { "message": "フォロワー/フォローページにユーザーのフォロワー数を表示する" },
-    "not_possible_to_see_unfollowers": { "message": "残念ながら、50,000人以上のフォロワーを持つアカウントのUnfollowersを見ることはできません。" },
-    "sort_by_follow_date": { "message": "フォローされた日付順に並び替え" },
-    "sort_by_followers": { "message": "フォロワー数順に並び替え" },
-    "sort_by_following": { "message": "フォロー数順に並び替え" },
-    "sort_by_name": { "message": "名前順に並べ替え" },
-    "sort_by_username": { "message": "ユーザーID順に並び替え" },
-    "sort_by_tweets": { "message": "ツイート数順に並び替え" },
-    "sort_by_created": { "message": "アカウント作成日時に並び替え" },
-    "sort_by_random": { "message": "ランダムに並べ替え" },
-    "loading_all_followers": { "message": "すべてのフォロワーを読み込む (24時間に1回のみ実行できます)..." },
-    "apply": { "message": "適用" },
-    "filter": { "message": "フィルター" },
-    "ascending": { "message": "昇順" },
-    "descending": { "message": "降順" },
-    "search_by_name": { "message": "名前で検索" },
-    "search_by_description": { "message": "プロフィールで検索" },
-    "only_show_people_you_follow": { "message": "フォローしているアカウントのみ表示する" },
-    "only_show_people_with_followers": { "message": "最低 $NUMBER$フォロワー以上のアカウントのみ表示する", "placeholders": { "number": { "content": "-1" } } },
-    "only_show_people_with_age": { "message": "アカウント作成から最低$NUMBER$日以上のアカウントのみ表示する", "placeholders": { "number": { "content": "-1" } } },
-    "page": { "message": "ページ" },
-	"update": {"message": "更新" },
-    "show_quote_count": { "message": "引用ツイート数を表示する" },
-    "quotes": { "message": "引用" },
-    "disable_find_hotkey": { "message": "検索ホットキーを無効化 (F)" },
-    "follow_system_settings_dark_mode": { "message": "システムの設定に従ってダークモードを切り替える" },
-    "modern_ui": { "message": "2018年のTwitterデザインを使用する（丸いアイコンとボタンなどのUIが変更されます。）" },
-    "show_exact_values": { "message": "リツイート数、いいね数、フォロワー数などを正確に表示する" },
-    "hide_timeline_types": { "message": "ホームの「タイムラインの種類」スイッチを隠す" },
-    "autotranslation": { "message": "自動翻訳" },
-    "autotranslation_mode": { "message": "ツイートの自動翻訳モード" },
-    "translate_in_list": { "message": "言語リストにある言語を翻訳" },
-    "translate_not_in_list": { "message": "言語リストにない言語を翻訳" },
-    "language_list": { "message": "言語リスト" },
-    "select_language": { "message": "言語を選択" },
-    "mute_videos": { "message": "デフォルトで動画をミュートにする" },
-    "dont_pause_videos": { "message": "スクロール時に動画を一時停止しない" },
-    "delete_for_you":{ "message": "自分の受信トレイから削除",  "description":"DM Message Delete menu" },
-	"leave_conversation": {"message":"この会話から離脱/削除しますか？"},
-	"autotranslation_help1": {"message": "この機能は、手動でボタンをクリックすることなく、ツイートを自動的に翻訳をすることができます。"},
-	"autotranslation_help2": {"message": "使用するには、自動翻訳モードを選択し、言語リストを設定します。条件を満たしたツイートが自動的に翻訳されます。"},
-	"autotranslation_help3": {"message": "具体例:"},
-	"autotranslation_help4": {"message": "「言語リストにある言語を翻訳」は、言語リストが設定されていない場合に、機能が無効になります（デフォルト）"},
-	"autotranslation_help5": {"message": "「言語リストにない言語を翻訳」は、言語リストが設定されていない場合に、すべてのツイートが翻訳されます。必要以上の翻訳をしないためにも、知っている言語を追加してください。"},
-    "go_back_to_top": { "message": "トップに戻る" },
-    "replacer_liked_to_favorited": { "message": "いいねしました->お気に入りに登録しました", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
-    "favorited_by": { "message": "次のユーザーがお気に入りに登録しました" },
-    "disable_accept_type": { "message": "メディアをアップロードする際、accept-typeを無効にします。これにより、一部のAndroidバージョンですべての画像にアクセスできない問題が修正されます。", "description": "This option only appears on mobile" },
-    "uploading": { "message": "アップロード中" },
-    "finalization": { "message": "最終処理中" },
-    "processing": { "message": "処理中" },
-    "uploaded": { "message": "アップロード済み" },
-    "hide_unfollowers_page": { "message": "Unfollowersページを非表示にする" },
-	"custom_font": { "message": "<カスタム>" },
-	"current_font": { "message": "使用中のフォント: $FONT$", "placeholders": { "font": { "content": "Arial" } } }
-}
+	
+ext_description	
+message	"Twitterの見た目を以前のUIに戻す拡張機能です。"
+timeline	
+message	"タイムライン"
+loading	
+message	"読み込み中"
+tweets	
+message	"ツイート"
+following_btn	
+message	"フォロー中"
+description	"This one is used in button showing that user is following someone."
+following	
+message	"フォロー"
+description	"This is used in list showing who user follows. Try to keep this word equal or less than 9 characters"
+followers	
+message	"フォロワー"
+description	"This is used in list of users followers. Try to keep this word equal or less than 9 characters"
+trends	
+message	"おすすめトレンド"
+tweet	
+message	"ツイート"
+load_more	
+message	"ツイートをさらに表示"
+who_to_follow	
+message	"おすすめユーザー"
+description	"Max 19 characters, you can use word 'People' if no space"
+refresh	
+message	"更新"
+view_all	
+message	"すべて見る"
+running	
+message	""
+example	"->Running<- OldTwitter v0.0.0"
+created_by	
+message	"製作:"
+example	"->Created by<- dimden"
+website	
+message	"ウェブサイト"
+help	
+message	"ヘルプ"
+description	"noun"
+terms	
+message	"利用規約"
+description	"Shortest word that you can find for Terms of service"
+privacy	
+message	"プライバシー"
+description	"Shortest word that you can find for Privacy policy"
+about	
+message	"詳細"
+donate	
+message	"寄付"
+home	
+message	"ホーム"
+description	"This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline"
+notifications	
+message	"通知"
+messages	
+message	"メッセージ"
+search_twitter	
+message	"キーワード検索"
+profile	
+message	"プロフィール"
+settings	
+message	"設定"
+lists	
+message	"リスト"
+list	
+message	"リスト"
+bookmarks	
+message	"ブックマーク"
+manage_accounts	
+message	"アカウントの管理"
+logout	
+message	"ログアウト"
+whats_happening	
+message	"いまどうしてる？"
+variant	
+message	"回答"
+optional	
+message	"(オプション)"
+days	
+message	"日"
+hours	
+message	"時"
+minutes	
+message	"分"
+remove_poll	
+message	"投票を削除"
+open_newtwitter	
+message	"新しいTwitterに切り替え"
+last_version	
+message	"最新版"
+thank_you	
+message	"OldTwitterをインストールして頂きありがとうございます！ 気に入っていただけると幸いです。 $AT1$Oldwitterの設定$AT2$もチェックしてみてください。"
+placeholders	
+at1	
+content	'<a target="_blank" href="/old/settings">'
+at2	
+content	"</a>"
+follow_mb	
+message	"フォローしますか？"
+follow	
+message	"フォロー"
+unfollow	
+message	"フォロー解除"
+follow_user	
+message	"@$SCREEN_NAME$さんをフォロー"
+example	"->Follow<- @CoolPerson2000"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+unfollow_user	
+message	"@$SCREEN_NAME$さんのフォローを解除"
+example	"->Unfollow<- @CoolPerson2000"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+thank_you_follow	
+message	"フォローありがとうございます。"
+loading_tweets	
+message	"ツイートを読み込み中..."
+retweeted	
+message	"さんがリツイート"
+example	"CoolPerson2000 ->retweeted<-"
+see_new_tweets	
+message	"新しいツイートを見る"
+must2variants	
+message	"投票を行うには少なくとも2つ以上の選択肢が必要です。"
+delete_all	
+message	"全て削除"
+empty	
+message	"何も見つかりませんでした。"
+description	"Funky message about nothing found"
+delete_bookmarks	
+message	"全てのブックマークを削除しますか？"
+members	
+message	"メンバー"
+subscribers	
+message	"登録者"
+list_members	
+message	"リストのメンバー"
+list_subscribers	
+message	"リストの登録者"
+edit	
+message	"編集"
+delete	
+message	"削除"
+remove	
+message	"削除"
+edit_list	
+message	"リストの編集"
+edit_members	
+message	"メンバーの編集"
+save	
+message	"保存"
+back	
+message	"戻る"
+delete_list	
+message	"リストを削除する"
+delete_list_sure	
+message	"リストを削除しますか？"
+unsubscribe	
+message	"登録の解除"
+subscribe	
+message	"登録"
+list_not_found	
+message	"リストが見つかりませんでした。"
+go_homepage	
+message	"ホームに戻る"
+mentions	
+message	"メンション"
+tweeted_like	
+message	"あなたへのおすすめ"
+example	"CoolPerson2000 ->tweeted something you might like<-"
+favorites	
+message	"お気に入り"
+follows_you	
+message	"あなたをフォロー中"
+tweet_to_user	
+message	"ユーザーへツイート"
+followers_you_know	
+message	"$NUMBER$人の知り合いのフォロワー"
+example	"123 followers you know"
+placeholders	
+number	
+content	"123"
+photos_and_videos	
+message	"写真と動画"
+photos_and_videos2	
+message	"メディア"
+tweets_and_replies	
+message	"ツイートと返信"
+you_may_also_like	
+message	"おすすめのユーザー"
+description	"Max 26 characters, you can use word 'People' if no space"
+user_was_not_found	
+message	"アカウントが見つかりませんでした"
+timeline_not_authorized	
+message	"このユーザーのタイムラインを表示することは出来ません。"
+create_btn	
+message	"[リストを作成]"
+create_list	
+message	"リストを作成"
+create	
+message	"作成"
+name	
+message	"名称"
+description	
+message	"概要"
+no_description	
+message	"記載なし"
+born	
+message	"誕生日："
+january	
+message	"1"
+description	"Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that."
+february	
+message	"2"
+march	
+message	"3"
+april	
+message	"4"
+may	
+message	"5"
+june	
+message	"6"
+july	
+message	"7"
+august	
+message	"8"
+september	
+message	"9"
+october	
+message	"10"
+november	
+message	"11"
+december	
+message	"12"
+tweet_to	
+message	"ツイート"
+translated_from	
+message	"$LANGUAGE$から翻訳"
+placeholders	
+language	
+content	"Japanese"
+translate_bio	
+message	"プロフィールを翻訳"
+edit_profile	
+message	"プロフィールを編集"
+follow_request_sent	
+message	"フォローリクエストを送信済み"
+unblock_user	
+message	"@$SCREEN_NAME$さんのブロックを解除"
+example	"->Unblock<- @CoolPerson2000"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+unblock	
+message	"ブロックを解除"
+description	"Just for unblock button"
+block_user	
+message	"@$SCREEN_NAME$さんをブロックする"
+example	"->Block<- @CoolPerson2000"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+block	
+message	"ブロック"
+description	"Just for block button"
+mute	
+message	"ミュート"
+unmute	
+message	"ミュートを解除"
+see_lists	
+message	"リストを見る"
+stop_notifications	
+message	"通知をオフにする"
+receive_notifications	
+message	"通知する"
+from_list	
+message	"リストに追加/削除"
+share_user	
+message	"プロフィールを共有"
+copy_profile_link	
+message	"プロフィールのリンクをコピー"
+remove_from_followers	
+message	"フォロワーから削除"
+description	"This button unfollows person from you, not unfollows you from them"
+remove_from_followers_sure	
+message	"@$SCREEN_NAME$さんからのフォローを解除しますか？"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+remove_from_followers_warn	
+message	"クリックすると@$SCREEN_NAME$さんからのフォローが解除されます。"
+remove_from_followers_button	
+message	"フォローを解除させる"
+able_in_future	
+message	"解除後に再度フォローされる可能性があります。"
+block_sure	
+message	"@$SCREEN_NAME$さんをブロックしますか？"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+add	
+message	"追加"
+joined	
+message	"登録："
+example	"->Joined<- April 30, 2019"
+birthday_today	
+message	"\n　 お誕生日おめでとうございます。"
+pinned_tweet	
+message	"固定されたツイート"
+search	
+message	"検索"
+popular	
+message	"話題のツイート"
+live	
+message	"すべてのツイート"
+people	
+message	"ユーザー"
+photos	
+message	"画像"
+videos	
+message	"動画"
+all_people	
+message	"すべてのアカウント"
+people_yk	
+message	"フォローしているアカウント"
+everywhere	
+message	"すべての場所"
+near_you	
+message	"近くの場所"
+advanced_search	
+message	"高度な検索"
+save_search	
+message	"この検索を保存する"
+remove_search	
+message	"保存した検索から削除する"
+try_again	
+message	"再試行"
+no_results	
+message	"一致する結果は見つかりませんでした。"
+words	
+message	"単語"
+all_these_words	
+message	"キーワードをすべて含む"
+all_these_words_example	
+message	"例: what’s happening - 「what’s」と「happening」の両方を含む"
+exact_phrase	
+message	"キーワード全体を含む"
+exact_phrase_example	
+message	"例: happy time - 「happy time」というキーワード全体を含む"
+any_words	
+message	"キーワードのいずれかを含む"
+any_words_example	
+message	"例: cats dogs - 「cats」と「dogs」のどちらか（または両方）を含む"
+not_these_words	
+message	"キーワードを含まない"
+not_these_words_example	
+message	"例: cats dogs - 「cats」と「dogs」を含まない"
+user	
+message	"ユーザー"
+from_this_user	
+message	"次のアカウントがツイート"
+from_this_user_example	
+message	"例: @twitter - twitterがツイート"
+mentions_this_user	
+message	"次のアカウント宛て"
+mentions_this_user_example	
+message	"例: @twitter - twitterへの返信としてツイート"
+interactions	
+message	"会話"
+min_replies	
+message	"返信の最小件数"
+min_replies_example	
+message	"例: 10 - 返信が10件以上"
+min_retweets	
+message	"リツイートの最小件数"
+min_retweets_example	
+message	"例: 10 -リツイートが10件以上"
+min_favorites	
+message	"いいねの最小件数"
+min_favorites_example	
+message	"例: 10 - いいねが10件以上"
+dates	
+message	"日付"
+since	
+message	"次の日付以降"
+until	
+message	"次の日付以前"
+twitter_settings	
+message	"Twitterの設定"
+oldtwitter_settings	
+message	"OldTwitterの設定"
+edit_twitter_settings	
+message	"Twitterの設定の編集"
+refresh_tabs	
+message	"タブを更新して設定を適用"
+chrono	
+message	"新しい順"
+chrono_social	
+message	"友達のいいねを含む新しい順"
+algo	
+message	"あなたへのおすすめ"
+timeline_type	
+message	"タイムラインの種類"
+show_topic_tweets	
+message	"トピックツイートの表示（あなたへのおすすめのみ）"
+show_colors_in_timeline	
+message	"ユーザーがカスタマイズしたプロフィールカラーを適用する"
+enable_twemoji	
+message	"Twitter絵文字ライブラリを有効にする"
+hearts_instead_stars	
+message	"お気に入りをいいねに変更する"
+dark_mode	
+message	"ダークモード"
+disable_hotkeys	
+message	"ホットキーを無効にする"
+hotkeys_list	
+message	"ホットキーの一覧は[こちら]をクリックしてください"
+save_preferred_quality	
+message	"動画の画質を設定する (オンの場合、設定した画質またはそれに最も近い画質で動画を再生します。オフにすると常に最高画質で再生します。)"
+preferred_quality	
+message	"画質を優先"
+default_link_color	
+message	"基本カラー"
+font	
+message	"フォント"
+color_sync	
+message	"リンクカラーの同期"
+by_pressing_sync	
+message	"[同期]を押すと、設定したプロフィールカラーが他のユーザーにも適用されます。"
+color_years_ago	
+message	"設定済みの場合は上書きされます。"
+sync	
+message	"同期"
+profile_link_color	
+message	"プロフィールカラー"
+light_mode_link	
+message	"ライトモード利用時"
+dark_mode_link	
+message	"ダークモード利用時"
+custom_css	
+message	"カスタムCSS"
+css_var_override	
+message	"標準のCSS変数を無視する場合は、<code>--some-variable: property</code> のように入力してください。 改行で分割します。"
+css_var_list	
+message	"標準のCSS変数の一覧はこちらをご覧ください。"
+save_vars	
+message	"変数を保存する"
+custom_css_text	
+message	"入力したカスタムCSSは各ページに追加されます"
+save_css	
+message	"CSSを保存する"
+error_setting_color	
+message	"リンクカラーを設定できませんでした。"
+link_color_set	
+message	"リンクカラーを設定しました。"
+retweeted_by	
+message	"リツイート"
+see_quotes	
+message	"引用を見る"
+see_quotes_big	
+message	"引用を見る"
+quote_tweets	
+message	"引用ツイート"
+see_retweets	
+message	"リツイートを見る"
+reply_to	
+message	"返信先:@$SCREEN_NAME$"
+example	"Reply to @CoolPerson2000"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+error_loading_tweet	
+message	"ツイートの読み込みに失敗しました"
+direct_messages	
+message	"ダイレクトメッセージ"
+mark_all_read	
+message	"既読をつける"
+send	
+message	"送信"
+description	"Max 5 characters, if no word keep it in English"
+new_message	
+message	"新しいメッセージ"
+create_new_group	
+message	"グループの作成"
+search_people	
+message	"アカウントを検索する"
+type_message	
+message	"新しいメッセージを作成"
+cant_send	
+message	"このアカウントにメッセージを送信できません。"
+gifs_max	
+message	"15MB以上のGIFはアップロードできません。"
+videos_max	
+message	"500MB以上の動画はアップロードできません。"
+images_max	
+message	"5MB以上の写真はアップロードできません。"
+max_count	
+message	"画像は4枚、動画は1本、GIFは1枚までしかアップロードできません。"
+alt_text	
+message	"画像に説明を追加"
+vote	
+message	"票"
+example	"1 ->vote<-"
+votes	
+message	"票"
+example	"10 ->votes<-"
+ends_at	
+message	"$DATE$に終了"
+example	"Ends at 16th November"
+placeholders	
+date	
+content	"16th November"
+view_translation	
+message	"ツイートを翻訳"
+unsupported_video	
+message	"お使いのブラウザはこの動画形式をサポートしていません。"
+views	
+message	"表示"
+example	"10 ->views<-"
+reload	
+message	"再読み込み"
+circle_limited_tweet	
+message	"このツイートは、@$SCREEN_NAME$さんのサークルに追加されているアカウントのみに表示されます。"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+learn_more	
+message	"詳細"
+limited_tweet	
+message	"このツイートは、返信できるアカウントが制限されています。"
+replies	
+message	"返信"
+retweets	
+message	"リツイート"
+likes	
+message	"いいね"
+show_this_thread	
+message	"ツイートを表示"
+quote_tweet	
+message	"ツイートを引用"
+see_retweeters	
+message	"リツイートを見る"
+copy_link	
+message	"リンクをコピー"
+embed_tweet	
+message	"ツイートを埋め込む"
+share_tweet	
+message	"ツイートを共有"
+tweet_analytics	
+message	"ツイートアナリティクス"
+delete_tweet	
+message	"ツイートを削除"
+unpin_tweet	
+message	"ツイートのピン止めを解除"
+pin_tweet	
+message	"ツイートのピン止め"
+bookmark_tweet	
+message	"ツイートをブックマーク"
+topic_not_interested	
+message	"このトピックに興味がない"
+refresh_tweet	
+message	"ツイートデータを更新する"
+download_media	
+message	"メディアをダウンロード"
+download_gif	
+message	"GIFをダウンロード"
+replying_to_tweet	
+message	"ツイートへの返信"
+upload_media_btn	
+message	"[メディアのアップロード]"
+cancel_btn	
+message	"[キャンセル]"
+quote	
+message	"引用"
+reply_example	
+message	"返信をツイート"
+quote_example	
+message	"コメントを追加"
+error_sending_tweet	
+message	"ツイートの送信中にエラーが発生しました。"
+retweet_sure	
+message	"リツイートしますか？"
+unretweet	
+message	"リツイートの取り消し"
+retweet	
+message	"リツイート"
+delete_sure	
+message	"ツイートを削除しますか？"
+long_vid	
+message	"10秒以上の動画は変換により遅延が発生する可能性があります。変換しますか？"
+feedback_thanks	
+message	"フィードバックの提供ありがとうございます！"
+liked_by	
+message	"いいね"
+reply	
+message	"返信"
+language	
+message	"言語(Language)"
+description	"Please add English 'Language' word in parentheses in addition to translation"
+example	"Язык (Language)"
+translated_by	
+message	"翻訳: $TRANSLATOR$."
+placeholders	
+translator	
+content	"CoolPerson2000"
+last_searches	
+message	"検索履歴"
+saved_searches	
+message	"保存された検索結果"
+everyone	
+message	"全員"
+description	"Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better"
+topic	
+message	"トピック"
+not_interested	
+message	"興味なし"
+cancel	
+message	"取り消し"
+youre_not_interested	
+message	"このツイートに興味がない"
+autoplay_videos	
+message	"動画の自動再生"
+turn_on_retweets	
+message	"タイムライン上のリツイートを表示する"
+turn_off_retweets	
+message	"タイムライン上のリツイートを非表示にする"
+you_can_reply	
+message	"ツイートに返信できます"
+audience	
+message	"送信先"
+who_can_reply	
+message	"返信できるアカウント"
+people_you_follow	
+message	"フォローしているアカウント"
+people_you_mention	
+message	"@ツイートしたアカウントのみ"
+new_version	
+message	"新しいバージョンに更新する"
+display_sensitive_content	
+message	"センシティブなコンテンツを含む可能性のあるメディアを表示する"
+is_private	
+message	"非公開にする"
+s	
+message	"$NUMBER$秒"
+description	"Short for 'second', like '1s' means 1 second"
+placeholders	
+number	
+content	"1"
+m	
+message	"$NUMBER$分"
+description	"Short for 'minute', like '1m' means 1 minute"
+placeholders	
+number	
+content	"1"
+h	
+message	"$NUMBER$時間"
+description	"Short for 'hour', like '1h' means 1 hour"
+placeholders	
+number	
+content	"1"
+d	
+message	"$NUMBER$日"
+description	"Short for 'day', like '1d' means 1 day"
+placeholders	
+number	
+content	"1"
+follow_requests	
+message	"フォローリクエスト"
+accept	
+message	"承認"
+decline	
+message	"拒否"
+mute_convo	
+message	"この会話をミュート"
+unmute_convo	
+message	"この会話のミュートを解除"
+no_big_font	
+message	"短いツイートや人気のツイートを大きなフォントで表示しない"
+emoji	
+message	"絵文字"
+emoji_btn	
+message	"[絵文字]"
+add_emoji	
+message	"絵文字の追加"
+custom	
+message	"カスタム"
+smileys_emotion	
+message	"スマイリーと絵文字"
+people_body	
+message	"人と体"
+animals_nature	
+message	"動物と自然"
+food_drink	
+message	"食べ物と飲み物"
+travel_places	
+message	"旅行と場所"
+activities	
+message	"アクティビティ"
+objects	
+message	"物"
+symbols	
+message	"記号"
+flags	
+message	"旗"
+categories	
+message	"カテゴリー"
+unsupported_emoji	
+message	"お使いのブラウザに対応していない絵文字です。"
+cant_load_emoji	
+message	"絵文字を読み込むことができませんでした。"
+emoji_picker	
+message	"絵文字"
+emoji_search_description	
+message	"上キーか下キーで選択し、Enterを押して選択します。"
+search_results	
+message	"結果の検索"
+skin_tone_description	
+message	"上キーか下キーで選択し、Enterを押して選択します。"
+skin_tone_label	
+message	"色の選択 (現在 $SKIN_TONE$)"
+placeholders	
+skin_tone	
+content	"デフォルト"
+skin_tones_label	
+message	"色"
+add_media	
+message	"メディアの追加"
+add_poll	
+message	"投票の追加"
+add_location	
+message	"位置情報の追加"
+schedule_tweet	
+message	"予約ツイート"
+scheduled	
+message	"予約"
+drafts	
+message	"下書き"
+location	
+message	"位置情報"
+pitch_black_mode	
+message	"ダークモードのテーマをブラックにする"
+unsent_tweets	
+message	"未送信のツイート"
+unsent	
+message	"未送信"
+will_send	
+message	"送信先"
+schedule	
+message	"予約"
+scheduled_success	
+message	"ツイートを予約しました。"
+see_scheduled	
+message	"予約ツイートの表示"
+hasnt_tweeted	
+message	"@$SCREEN_NAME$さんはツイートしていません。"
+placeholders	
+screen_name	
+content	"loading"
+when_theyll_tweet	
+message	"ツイートがあるとここに表示されます。"
+thank_you2	
+message	"拡張機能をインストールしていただきありがとうございます！よろしければフォローや$AT1$寄付$AT2$で応援していただけると幸いです。"
+placeholders	
+at1	
+content	"<a target='_blank' href='https://dimden.dev/donate/'>"
+at2	
+content	"</a>"
+something_went_wrong	
+message	"エラーが発生しました。お手数ですが、最初からやり直してください。"
+notifications_error	
+message	"エラーが発生しました。\n 一部の通知を読み込めませんでした。"
+tweet_error	
+message	"エラーが発生しました。\n 一部のツイートを読み込めませんでした。"
+error_instructions	
+message	"下のテキストをコピーし、$AT1$GitHubのissue$AT2$ または $AT3$開発者$AT2$ へ送信してください。"
+placeholders	
+at1	
+content	"<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
+at2	
+content	"</a>"
+at3	
+content	"<a target='_blank' href='mailto:admin@dimden.dev'>"
+initialization	
+message	"初期化"
+converting	
+message	"変換中"
+time_mode	
+message	"時間によってテーマを切り替える"
+show_original_images	
+message	"常に元の画質の画像を表示する"
+hide_retweets	
+message	"リツイートを表示しない"
+see_tweet_views	
+message	"ツイートの表示回数を表示する"
+history	
+message	"履歴"
+autotranslate_tweets	
+message	"ツイートを自動で翻訳する"
+dont_autotranslate	
+message	"ツイートを自動で翻訳しない"
+round_avatars	
+message	"ユーザーアイコンの形を丸に変更する"
+search_user_tweets	
+message	"ツイートを検索"
+no_tl_tweets	
+message	"タイムラインにはフォローしているアカウントのツイートがリアルタイムで表示されます。"
+replying_to	
+message	"返信先"
+description	"Used for mention list. Use 'Mentions' if translation sounds bad in your language."
+example	"Replying to: - user1, - user2"
+display	
+message	"ディスプレイ"
+description	"Used for display settings (fonts, colors, style, etc)"
+twitter_blue_checkmarks	
+message	"Twitter Blueの認証マークを表示する"
+retweet_hotkey_warn	
+message	"Tキーを使用してこのツイートをリツイートしますか？"
+reply_btn	
+message	"返信"
+description	"Used for reply button."
+retweet_btn	
+message	"リツイート / 引用ツイート"
+description	"Used for retweet menu button."
+like_btn	
+message	"いいね / いいねを取り消し"
+description	"Used for like button."
+favorite_btn	
+message	"お気に入り / お気に入りを取り消し"
+description	"Used for favorite button."
+views_count	
+message	"表示回数"
+description	"Used for views count."
+developer_mode	
+message	"開発者モード"
+copy_user_id	
+message	"ユーザーIDをコピー"
+copy_tweet_id	
+message	"ツイートIDをコピー"
+unfollowers	
+message	"あなたのフォローを解除したユーザー"
+description	"People that stopped following you"
+unfollowings	
+message	"あなたがフォローを解除したユーザー"
+description	"People that you stopped following"
+no_unfollowers	
+message	"フォローを解除したユーザーはいません"
+no_unfollowings	
+message	"フォローを解除したユーザーはいません"
+recent_unfollow_update	
+message	"フォローを解除したユーザー"
+deleted_accounts	
+message	"アカウントを削除したユーザー"
+open_tweet_newtwitter	
+message	"新しいTwitterのUIに切り替える"
+black_mode_link	
+message	"ダークモードをブラックに切り替える"
+note	"You can name this OLED mode too"
+custom_mode_link	
+message	"カスタムモード"
+tweet_verb	
+message	"ツイートする"
+description	"Used for tweet verb."
+example	"->Tweet<- #itsokay"
+do_you_want_to_tweet	
+message	'ツイートしますか？ - "$TWEET_TEXT$"'
+placeholders	
+tweet_text	
+content	"it's okay"
+user_protected	
+message	"このアカウントのツイートは非公開です。"
+follow_to_see	
+message	"@$SCREEN_NAME$さんから承認された場合のみツイートを表示できます。承認をリクエストするには [フォローする] をクリックします。"
+placeholders	
+screen_name	
+content	"dimden"
+copy_tweet_links_as	
+message	"ツイートのURLをコピーする際の形式:"
+example	"->Copy links as<- vxtwitter.com"
+use_new_icon	
+message	"Faviconを鳥マークにする"
+update_timeline_automatically	
+message	"新着ツイートがある場合にタイムラインを自動更新する"
+chrono_no_retweets	
+message	"新しい順（リツイートを除く）"
+chrono_retweets	
+message	"新しい順（リツイートのみ）"
+hide_trends	
+message	"トレンド欄を隠す"
+hide_wtf	
+message	"「おすすめユーザー」を隠す"
+hide_likes	
+message	"いいね・リツイート・返信数を隠す"
+hide_followers	
+message	"フォロワー数を隠す"
+block_sure_desc	
+message	"今後、@$SCREEN_NAME$さんからのツイートや通知は表示されず、また、このアカウントがあなたのツイートを見ることや、フォローすることもできなくなります。"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+blocked_by_user	
+message	"@$SCREEN_NAME$さんはあなたをブロックしています。"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+why_you_cant_see_block_user	
+message	"@$SCREEN_NAME$さんのツイートを見ることや、フォローをすることはできません。"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+you_blocked_user	
+message	"@$SCREEN_NAME$さんをブロックしています。"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+do_you_want_see_blocked_user	
+message	"ツイートを表示してもよろしいですか？これによって@$SCREEN_NAME$さんのブロックが解除されることはありません。"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+I_want_see_blocked_user	
+message	"閲覧する"
+logout_title	
+message	"ログアウトしますか？"
+logout_desc_1	
+message	"ログイン中のアカウントがない場合はログイン画面に推移します。"
+logout_desc_2	
+message	"このデバイスで他のアカウントにログインしている場合は、自動的にアカウントを切り替えます。"
+logout_button	
+message	"ログアウト"
+disable_personalized_trends	
+message	"おすすめトレンドを無効にする"
+show_bookmark_count	
+message	"ブックマーク数を表示する"
+bookmarks_count	
+message	"ブックマーク"
+description	"Used for bookmarks count."
+remove_bookmark	
+message	"ブックマークを解除"
+hide_community_notes	
+message	"BirdWatch(コミュニティノート)を隠す"
+disable_gif_autoplay	
+message	"GIF画像を自動再生しない"
+hide_tweet	
+message	"ツイートを隠す"
+unhide_tweet	
+message	"ツイートを表示する"
+hide_tweet_sure	
+message	"このツイートを隠しますか？"
+see_hidden_replies	
+message	"非表示の返信を表示する"
+bookmarked_tweet	
+message	"ツイートをブックマークしました。"
+unbookmarked_tweet	
+message	"ツイートのブックマークを解除しました。"
+muted_convo	
+message	"会話をミュートしました。"
+unmuted_convo	
+message	"会話のミュートを解除しました。"
+show_media_count	
+message	"プロフィールページにメディア数を表示する"
+media	
+message	"メディア"
+note	"Keep this short"
+pin_profile_on_navbar	
+message	"メニューバーに「プロフィール」リンクを表示する"
+pin_bookmarks_on_navbar	
+message	"メニューバーに「ブックマーク」リンクを表示する"
+pin_lists_on_navbar	
+message	"メニューバーに「リスト」リンクを表示する"
+me	
+message	"プロフィール"
+description	"You should probably use word 'Profile' in your language"
+tweet_text_font	
+message	"ツイートのフォント"
+use_old_default_profile	
+message	"デフォルトのアイコンを卵アイコンにする"
+colors	
+message	"色設定"
+enable_hashflags	
+message	"ハッシュタグ絵文字を有効にする"
+content_warning	
+message	"このツイートには以下のコンテンツが含まれます: $WARNINGS$"
+placeholders	
+warnings	
+content	"Graphic violence"
+graphic_violence	
+message	"暴力・グロテスクな表現"
+adult_content	
+message	"ヌード"
+sensitive_content	
+message	"センシティブな内容"
+uncensor_graphic_violence_automatically	
+message	"暴力・グロテスクな表現を含むコンテンツを隠さずに表示する"
+uncensor_adult_content_automatically	
+message	"ヌード表現を含むコンテンツを隠さずに表示する"
+uncensor_sensitive_content_automatically	
+message	"その他のセンシティブな表現を含むコンテンツを隠さずに表示する"
+replying_to_user	
+message	"返信先:$SCREEN_NAME$さん"
+placeholders	
+screen_name	
+content	"@CoolPerson2000"
+content_warnings	
+message	"コンテンツ内容の警告"
+transparency	
+message	"透明度"
+note	"Color"
+reset	
+message	"リセット"
+reset_all	
+message	"全てリセット"
+import	
+message	"インポート"
+note	"Verb"
+export	
+message	"エクスポート"
+note	"Verb"
+reset_colors_sure	
+message	"カラー設定をリセットしますか？"
+navbar	
+message	"メニューバー"
+description	"Setting Text"
+sidebar	
+message	"サイドバー"
+description	"Setting Text"
+advanced_options	
+message	"高度な設定"
+description	"Setting Text"
+advanced_colors	
+message	"高度なカラー設定"
+description	"Setting Text"
+accessibility	
+message	"アクセシビリティ"
+description	"Setting Text"
+tweets_and_timeline	
+message	"ツイートとタイムライン"
+description	"Setting Text"
+dark_mode_setting	
+message	"ダークモード"
+description	"Setting Text"
+old_twitter_look	
+message	"デザイン"
+description	"Setting Text"
+content_you_see	
+message	"コンテンツ"
+description	"Setting Text"
+use_old_style_reply	
+message	"リプライの先頭に返信先のユーザー名が表示されるように変更する"
+algov2	
+message	"あなたへのおすすめ"
+chrono_help	
+message	"あなたがフォローしているユーザーの最新のツイートやリツイートを新しい順に表示します。"
+chrono_no_retweets_help	
+message	"リツイートを表示しません。"
+chrono_retweets_help	
+message	"リツイートのみを表示します。"
+chrono_social_help	
+message	"フォローしているユーザーがいいねしたツイートやフォロー中のユーザーがフォローしているアカウントのツイートが追加されます。"
+algo_help	
+message	""
+algov2_help	
+message	"あなたへのおすすめは、あなたへおすすめするツイートを表示します。"
+import_settings	
+message	"設定内容をインポート"
+export_settings	
+message	"設定内容をエクスポート"
+import_style_settings	
+message	"スタイルをインポート"
+export_style_settings	
+message	"スタイルをエクスポート"
+reset_settings	
+message	"全ての設定をリセット"
+reset_settings_sure	
+message	"すべての設定をリセットしますか？"
+clear_caches	
+message	"キャッシュを消去"
+hide_non_replies	
+message	"返信のみを表示する"
+profile_custom_css	
+message	"プロフィールカスタムCSS"
+pccss_not_eligible	
+message	"プロフィールカスタムCSSがまだ有効ではありません。<br>プロフィールカスタムCSSが有効になると、フォント・背景・色などをより幅広くカスタマイズできます。<br>この拡張機能に寄付していただくか、もしくは開発サポーターになると有効になります。<br>詳しくは<a href='https://dimden.dev/ot/custom-css/' target='_blank'>こちら</a>をご覧ください。"
+pccss_eligible	
+message	"プロフィールカスタムCSSが有効になりました！"
+pccss_congrats	
+message	"おめでとうございます！プロフィールカスタムCSSが有効になりました。より自分好みにカスタムできるようになったプロフィールページをぜひお試しください。"
+yay	
+message	"わ～い！"
+light_mode_vars	
+message	"ライトモード変数"
+dark_mode_vars	
+message	"ダークモード変数"
+css_theme_hint	
+message	"悪意のあるスタイル（例:フォローボタンを非常に大きくするなど）の公開は厳禁です。<b>スタイルがダークモードとライトモードの両方でどのように見えるかを常にテストしてください。</b><br><br>あなたが設定したCSSはユーザーが設定したローカルスタイルを上書きします。<br><br>i.imgur.com を画像用として、fonts.googleapis.com （および<a target='_blank' href='https://dimden.dev/fonts/'>こちら</a>）をフォント用として使用できます。<br><br><a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>こちら</a>でCSS変数のリストを見ることができます。特定のテーマを対象にするには、<code>.body-dark</code>、<code>.body-pitch-black</code>（黒いダークモードでは、.body-darkクラスも含まれます）と<code>.body-light</code>クラスを使用できます。"
+profile_colors_moved	
+message	"プロフィールカラーの設定はプロフィールページに移動しました（編集ボタン左側の鉛筆マークのボタンから設定できます）。"
+click_here_more_info	
+message	"詳細は、こちらをクリックしてください。"
+profile_must_be_public_to_auth	
+message	"同期するには、アカウントを一度公開する必要があります。"
+save_draft	
+message	"下書きを保存"
+note	"Try to keep this short"
+load_draft	
+message	"下書きを読み込む"
+note	"Try to keep this short"
+draft_saved	
+message	"下書きを保存しました。"
+draft_loaded	
+message	"下書きを読み込みました。"
+no_draft	
+message	"下書きがありません。"
+invalid_auth_token	
+message	"認証トークンが正しくないか、削除されています。このエラーが頻発する場合は @dimden までご連絡ください。"
+css_set	
+message	"CSSを設定しました。"
+error_setting_css	
+message	"エラー：CSSを設定できませんでした"
+load	
+message	"読み込む"
+disable_profile_customizations	
+message	"プロフィールのカスタマイズを無効にする"
+replying_to_and	
+message	" と "
+description	"For some languages that use address terms"
+example	"Replying to @A-> and <-@B, @C"
+replying_to_comma	
+message	", "
+description	"For some languages that use address terms"
+example	"Replying to @A and @B->, <-@C"
+twitter	
+message	"Twitter"
+move_navbar_to_bottom	
+message	"メニューバーを下に表示する"
+open_notifs_as_modal	
+message	"通知をモーダルウィンドウで表示する"
+description	"Modal is a small window that opens on top of page"
+styled_profile	
+message	"プロフィールカスタムCSS"
+clear_ot_token	
+message	"OldTwitter トークンをクリアする"
+enable_iframe_navigation	
+message	"ページを推移した際に一時的に情報を保存する（リロードせずにリンクをクリックして前のページに戻ることができます。これは実験的機能であるため、確実な動作は保証しかねます。）"
+style_your_profile	
+message	"こちらからプロフィールを編集できます。"
+mmdd	
+message	"$MONTH$月$DATE$日"
+description	"July 1st"
+placeholders	
+month	
+content	"July"
+date	
+content	"1st"
+mmddyy	
+message	"$YEAR$年$MONTH$月$DATE$日"
+description	"July 1st, 2015"
+placeholders	
+year	
+content	"2015"
+month	
+content	"July"
+date	
+content	"1st"
+yyyy	
+message	"$YEAR$年"
+description	"2015"
+placeholders	
+year	
+content	"2015"
+replacer_post_to_tweet	
+message	"ポスト->ツイート"
+description	"This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
+replacer_repost_to_retweet	
+message	"リポスト->リツイート"
+description	"If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)."
+share_tweet_in_dms	
+message	"ツイートをDMで共有"
+share_tweet_to	
+message	"ツイートを共有"
+mute_user	
+message	"@$SCREEN_NAME$さんをミュート"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+unmute_user	
+message	"@$SCREEN_NAME$さんのミュートを解除"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+muted_user	
+message	"@$SCREEN_NAME$さんをミュートしました"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+unmuted_user	
+message	"@$SCREEN_NAME$さんのミュートを解除しました"
+placeholders	
+screen_name	
+content	"CoolPerson2000"
+localize_digit	
+message	"アジアの4桁表記を使用する (日中韓のみ)"
+description	"Non-CJK dont need to translate this message, just copy and paste"
+disable_retweet_hotkey	
+message	"リツイートのホットキーを無効化 (T)"
+disable_like_hotkey	
+message	"いいねのホットキーを無効化 (L)"
+enable_extension_compatibility	
+message	"拡張機能の互換性モードを有効にする (OldTwitterで拡張機能を動作させたい場合にのみ有効にしてください)"
+enter_custom_font_name	
+message	"変更したいフォント名を入力してください"
+disable_data_saver	
+message	"携帯電話接続時のデータセーバーを無効化する"
+description	"This option only appears on mobile"
+mobile	
+message	"モバイル"
+description	"Title for mobile device settings"
+manage_searches	
+message	"検索の管理"
+add_search	
+message	"検索を追加する"
+pinned_searches	
+message	"検索を固定"
+show_follower_counts_in_lists	
+message	"フォロワー/フォローページにユーザーのフォロワー数を表示する"
+not_possible_to_see_unfollowers	
+message	"50,000人以上のフォロワーのアカウントのフォローを解除したユーザーを見ることはできません。"
+sort_by_follow_date	
+message	"フォローされた日付順に並び替え"
+sort_by_followers	
+message	"フォロワー数順に並び替え"
+sort_by_following	
+message	"フォロー数順に並び替え"
+sort_by_name	
+message	"名前順に並べ替え"
+sort_by_username	
+message	"ユーザーID順に並び替え"
+sort_by_tweets	
+message	"ツイート数順に並び替え"
+sort_by_created	
+message	"アカウント作成日時に並び替え"
+sort_by_random	
+message	"ランダムに並べ替え"
+loading_all_followers	
+message	"すべてのフォロワーを読み込む (24時間に1回のみ実行できます)"
+apply	
+message	"適用"
+filter	
+message	"フィルター"
+ascending	
+message	"昇順"
+descending	
+message	"降順"
+search_by_name	
+message	"名前で検索"
+search_by_description	
+message	"プロフィールで検索"
+only_show_people_you_follow	
+message	"フォローしているアカウントのみ表示する"
+only_show_people_with_followers	
+message	"最低 $NUMBER$フォロワー以上のアカウントのみ表示する"
+placeholders	
+number	
+content	"-1"
+only_show_people_with_age	
+message	"アカウント作成から最低$NUMBER$日以上のアカウントのみ表示する"
+placeholders	
+number	
+content	"-1"
+page	
+message	"ページ"
+update	
+message	"更新"
+show_quote_count	
+message	"引用ツイート数を表示する"
+quotes	
+message	"引用"
+disable_find_hotkey	
+message	"検索ホットキーを無効化 (F)"
+follow_system_settings_dark_mode	
+message	"ダークモードをシステム"
+modern_ui	
+message	"2018年版の丸いUIに切り替える"
+show_exact_values	
+message	"リツイート数、いいね数、フォロワー数を正確に表示する"
+hide_timeline_types	
+message	"ホームの「タイムラインの種類」スイッチを隠す"
+autotranslation	
+message	"自動翻訳"
+autotranslation_mode	
+message	"ツイートの自動翻訳モード"
+translate_in_list	
+message	"言語リストにある言語を翻訳"
+translate_not_in_list	
+message	"言語リストにない言語を翻訳"
+language_list	
+message	"言語リスト"
+select_language	
+message	"言語を選択"
+mute_videos	
+message	"デフォルトで動画をミュートにする"
+dont_pause_videos	
+message	"スクロール時に動画を一時停止しない"
+delete_for_you	
+message	"自分の受信トレイから削除"
+description	"DM Message Delete menu"
+leave_conversation	
+message	"この会話から離脱/削除しますか？"
+autotranslation_help1	
+message	"この機能は、手動でボタンをクリックすることなく、ツイートを自動的に翻訳をすることができます。"
+autotranslation_help2	
+message	"使用するには、自動翻訳モードを選択し、言語リストを設定します。条件を満たしたツイートが自動的に翻訳されます。"
+autotranslation_help3	
+message	"具体例:"
+autotranslation_help4	
+message	"「言語リストにある言語を翻訳」は、言語リストが設定されていない場合に、機能が無効になります（デフォルト）"
+autotranslation_help5	
+message	"「言語リストにない言語を翻訳」は、言語リストが設定されていない場合に、すべてのツイートが翻訳されます。必要以上の翻訳をしないためにも、知っている言語を追加してください。"
+go_back_to_top	
+message	"トップに戻る"
+replacer_liked_to_favorited	
+message	"いいねしました->お気に入りに登録しました"
+description	"This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
+favorited_by	
+message	"次のユーザーがお気に入りに登録しました"
+disable_accept_type	
+message	"メディアをアップロードする際、accept-typeを無効にします。これにより、一部のAndroidバージョンですべての画像にアクセスできない問題が修正されます。"
+description	"This option only appears on mobile"
+uploading	
+message	"アップロード中"
+finalization	
+message	"最終処理中"
+processing	
+message	"処理中"
+uploaded	
+message	"アップロード済み"
+hide_unfollowers_page	
+message	"Unfollowersページを非表示にする"
+custom_font	
+message	"<カスタム>"
+current_font	
+message	"使用中のフォント: $FONT$"
+placeholders	
+font	
+content	"Arial"
