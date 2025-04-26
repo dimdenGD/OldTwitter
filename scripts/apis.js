@@ -3427,16 +3427,17 @@ const API = {
                                     });
                                 }
                             } else if(e.entryId.startsWith('cursor-showmorethreadsprompt') || e.entryId.startsWith('cursor-showmorethreads-')) {
-                                if(!e?.content?.itemContent?.value) continue;
-                                if(newCursor === e?.content?.itemContent?.value) {
+                                let value = e?.content?.itemContent?.value ?? e?.content?.value;
+                                if(!value) continue;
+                                if(newCursor === value) {
                                     continue;
                                 }
                                 list.push({
                                     type: 'showMore',
                                     data: {
-                                        cursor: e.content.itemContent.value,
-                                        labelText: e.content.itemContent.displayTreatment.labelText,
-                                        actionText: e.content.itemContent.displayTreatment.actionText
+                                        cursor: value,
+                                        labelText: e?.content?.itemContent?.displayTreatment?.labelText ?? e?.content?.displayTreatment?.actionText,
+                                        actionText: e?.content?.itemContent?.displayTreatment?.actionText ?? e?.content?.displayTreatment?.actionText
                                     }
                                 });
                             }
