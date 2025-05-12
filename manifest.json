@@ -89,7 +89,7 @@
         "https://x.com/i/tweetdeck", "https://x.com/i/communitynotes", "https://x.com/i/broadcasts/*",
         "https://x.com/search-advanced", "https://x.com/x/migrate", "https://x.com/i/grok"
       ],
-      "js": ["scripts/blockBeforeInject.js", "scripts/config.js", "scripts/helpers.js", "scripts/apis.js", "scripts/twchallenge.js", "scripts/injection.js"],
+      "js": ["scripts/blockBeforeInject.js", "scripts/config.js", "scripts/tweetConstructor.js", "scripts/helpers.js", "scripts/apis.js", "scripts/twchallenge.js", "scripts/injection.js"],
       "css": ["libraries/viewer.min.css"],
       "all_frames": true,
       "run_at": "document_start"
