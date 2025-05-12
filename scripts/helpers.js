@@ -1452,7 +1452,9 @@ function renderMedia(t) {
                 src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '')}"
                 class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
             >`;
-            console.log(html`
+            if (typeof vars === "object" && vars.developerMode)
+            {
+                console.log(html`
                 <img 
                     ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
                     crossorigin="anonymous"
@@ -1462,6 +1464,7 @@ function renderMedia(t) {
                     src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '')}"
                     class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
                 >`);
+            }
         } else if(m.type === 'animated_gif') {
             let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             let rid = m.id_str + m.media_key;

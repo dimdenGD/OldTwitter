@@ -1897,6 +1897,8 @@ const API = {
                         }).filter(i => i);
                     }
 
+                    sendRequestToEventListeners("MediaTweets", data)
+
                     let newCursor = entries.find(e => e.entryId.startsWith('cursor-bottom-'));
                     if(newCursor) {
                         newCursor = newCursor.content.value;
