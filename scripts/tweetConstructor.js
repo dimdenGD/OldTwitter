@@ -5,73 +5,100 @@ async function constructQuotedTweet(
 ) {
     const root = elNew("template");
 
-    const rootAHref = elNew("a", {
-        className: "tweet-body-quote",
-        target: "_blank",
-        href: `/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`,
-    },[elNew("img", {
-        src:
-            t.quoted_status.user.default_profile_image &&
-            vars.useOldDefaultProfileImage
-                ? chrome.runtime.getURL(
-                      `images/default_profile_images/default_profile_${
-                          Number(t.quoted_status.user.id_str) % 7
-                      }_normal.png`
-                  )
-                : t.quoted_status.user.profile_image_url_https,
-        alt: escapeHTML(t.quoted_status.user.name),
-        className: "tweet-avatar-quote",
-        width: "24",
-        height: "24",
-    }),
-]);
-
-    root.appendChild(rootAHref);
-    return `
-            
-            <div class="tweet-header-quote">
-                <span class="tweet-header-info-quote">
-                    <b
-                        class="tweet-header-name-quote ${
-                            t.quoted_status.user.verified
-                                ? "user-verified"
-                                : t.quoted_status.user.id_str ===
-                                  "1708130407663759360"
-                                ? "user-verified user-verified-dimden"
-                                : ""
-                        } ${
-        t.quoted_status.user.protected ? "user-protected" : ""
-    } ${
-        t.quoted_status.user.verified_type === "Government"
-            ? "user-verified-gray"
-            : t.quoted_status.user.verified_type === "Business"
-            ? "user-verified-yellow"
-            : t.quoted_status.user.verified_type === "Blue"
-            ? "user-verified-blue"
-            : ""
-    }"
-                        >${escapeHTML(t.quoted_status.user.name)}</b
-                    >
-                    <span class="tweet-header-handle-quote"
-                        >@${t.quoted_status.user.screen_name}</span
-                    >
-                </span>
-            </div>
-            <span
-                class="tweet-time-quote"
-                data-timestamp="${new Date(
-                    t.quoted_status.created_at
-                ).getTime()}"
-                title="${new Date(t.quoted_status.created_at).toLocaleString()}"
-                >${timeElapsed(
-                    new Date(t.quoted_status.created_at).getTime()
-                )}</span
-            >
-            ${
-                quoteMentionedUserText !== `` && !vars.useOldStyleReply
-                    ? html`
-                          <span class="tweet-reply-to tweet-quote-reply-to"
-                              >${LOC.replying_to_user.message.replace(
+    const rootAHref = elNew(
+        "a",
+        {
+            className: "tweet-body-quote",
+            target: "_blank",
+            href: `/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`,
+        },
+        [
+            elNew("img", {
+                src:
+                    t.quoted_status.user.default_profile_image &&
+                    vars.useOldDefaultProfileImage
+                        ? chrome.runtime.getURL(
+                              `images/default_profile_images/default_profile_${
+                                  Number(t.quoted_status.user.id_str) % 7
+                              }_normal.png`
+                          )
+                        : t.quoted_status.user.profile_image_url_https,
+                alt: escapeHTML(t.quoted_status.user.name),
+                className: "tweet-avatar-quote",
+                width: "24",
+                height: "24",
+            }),
+            // Header
+            elNew("div", { className: "tweet-header-quote" }, [
+                elNew("span", { className: "tweet-header-info-quote" }, [
+                    // User name
+                    elNew(
+                        "b",
+                        {
+                            className:
+                                "tweet-header-name-quote" +
+                                t.quoted_status.user.verified
+                                    ? " user-verified"
+                                    : t.quoted_status.user.id_str ===
+                                      "1708130407663759360"
+                                    ? " user-verified user-verified-dimden"
+                                    : "" + t.quoted_status.user.protected
+                                    ? " user-protected"
+                                    : "" +
+                                          t.quoted_status.user.verified_type ===
+                                      "Government"
+                                    ? " user-verified-gray"
+                                    : t.quoted_status.user.verified_type ===
+                                      "Business"
+                                    ? " user-verified-yellow"
+                                    : t.quoted_status.user.verified_type ===
+                                      "Blue"
+                                    ? " user-verified-blue"
+                                    : "",
+                        },
+                        [
+                            document.createTextNode(
+                                escapeHTML(t.quoted_status.user.name)
+                            ),
+                        ]
+                    ),
+                    // At handle
+                    elNew("span", { className: "tweet-header-handle-quote" }, [
+                        document.createTextNode(
+                            "@" + escapeHTML(t.quoted_status.user.screen_name)
+                        ),
+                    ]),
+                ]),
+            ]),
+            // Tweet Time Quote
+            elNew(
+                "span",
+                {
+                    className: "tweet-time-quote",
+                    dataset: {
+                        timestamp: new Date(
+                            t.quoted_status.created_at
+                        ).getTime(),
+                    },
+                    title: new Date(
+                        t.quoted_status.created_at
+                    ).toLocaleString(),
+                },
+                [
+                    document.createTextNode(
+                        timeElapsed(
+                            new Date(t.quoted_status.created_at).getTime()
+                        )
+                    ),
+                ]
+            ),
+            quoteMentionedUserText !== `` && !vars.useOldStyleReply
+                ? elNew(
+                      "span",
+                      { className: "tweet-reply-to tweet-quote-reply-to" },
+                      [
+                          document.createTextNode(
+                              LOC.replying_to_user.message.replace(
                                   "$SCREEN_NAME$",
                                   quoteMentionedUserText
                                       .trim()
@@ -83,11 +110,17 @@ async function constructQuotedTweet(
                                           LOC.replying_to_comma.message,
                                           LOC.replying_to_and.message
                                       )
-                              )}</span
-                          >
-                      `
-                    : ""
-            }
+                              )
+                          ),
+                      ]
+                  )
+                : null,
+        ]
+    );
+
+    root.appendChild(rootAHref);
+    return root.innerHTML;
+    return `
             <span
                 class="tweet-body-text tweet-body-text-quote tweet-body-text-long"
                 style="color:var(--default-text-color)!important"

@@ -1420,10 +1420,20 @@ async function renderDiscovery(cache = true) {
     }
 }
 
-const elNew = (tag, prop, children=[]) => {
+const elNew = (tag, prop, children = []) => {
     const element = Object.assign(document.createElement(tag), prop);
-    if (children) children.forEach(child=>{element.appendChild(child)});
+    if (children.length > 0)
+        children.forEach((child) => {
+            if (child !== null) {
+                if (typeof child === "string") {
+                    element.appendChild(document.createTextNode(child));
+                } else {
+                    element.appendChild(child);
+                }
+            }
+        });
 };
+
 
 const img_template = elNew("img", {
     crossorigin:"anonymous",
@@ -1566,7 +1576,7 @@ function renderMedia(t) {
     if(cws.length > 0) {
         cws = [...new Set(cws)];
         cws = LOC.content_warning.message.replace('$WARNINGS$', cws.join(', '));
-        _html += html`<br><div class="tweet-media-cws">${cws}</div>`;
+        _html += `<br>` + elNew("div",{className:"tweet-media-cws"},[cws]).outerHTML;
     }
     return _html;
 }
