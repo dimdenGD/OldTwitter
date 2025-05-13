@@ -405,6 +405,8 @@ function html(strings, ...values) {
     return str;
 }
 
+
+
 async function renderTweetBodyHTML(t, is_quoted) {
     let result = "",
         last_pos = 0,
@@ -1417,6 +1419,30 @@ async function renderDiscovery(cache = true) {
         console.warn(e);
     }
 }
+
+const elNew = (tag, prop, children=[]) => {
+    const element = Object.assign(document.createElement(tag), prop);
+    if (children) children.forEach(child=>{element.appendChild(child)});
+};
+
+const img_template = elNew("img", {
+    crossorigin:"anonymous",
+    loading:"lazy",
+    className:"tweet-media-element",
+})
+
+const animated_gif_template = elNew("video", {
+    crossorigin:"anonymous",
+    loading:"lazy",
+    className:"tweet-media-element tweet-media-gif",
+})
+
+const video_template = elNew("video", {
+    crossorigin:"anonymous",
+    preload:"none",
+    className:"tweet-media-element",
+})
+
 function renderMedia(t) {
     let _html = '';
     if(!t.extended_entities || !t.extended_entities.media) return '';
@@ -1442,48 +1468,54 @@ function renderMedia(t) {
         }
         if(m.type === 'photo') {
             let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
-            _html += html`
-            <img 
-                ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
-                crossorigin="anonymous"
-                width="${w}"
-                height="${h}"
-                loading="lazy"
-                src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '')}"
-                class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
-            >`;
-            if (typeof vars === "object" && vars.developerMode)
-            {
-                console.log(html`
-                <img 
-                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
-                    crossorigin="anonymous"
-                    width="${w}"
-                    height="${h}"
-                    loading="lazy"
-                    src="${m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '')}"
-                    class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
-                >`);
+            const newClone = img_template.cloneNode(true)
+            const altText = m.ext_alt_text ? escapeHTML(m.ext_alt_text, true) : ""
+            if (altText) {
+                newClone.alt = newClone.title = altText;
             }
+            newClone.width = w;
+            newClone.height = h;
+            newClone.src = m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '')
+            var mediaClass = mediaClasses[t.extended_entities.media.length]
+            if (mediaClass)
+                newClone.classList.add(mediaClass)
+            if (toCensor)
+                newClone.classList.add('tweet-media-element-censor')
+            _html += newClone.outerHTML;
+
         } else if(m.type === 'animated_gif') {
             let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             let rid = m.id_str + m.media_key;
-            _html += html`
-                <video
-                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
-                    crossorigin="anonymous"
-                    width="${w}"
-                    height="${h}"
-                    loop
-                    disableRemotePlayback
-                    ${vars.disableGifAutoplay ? '' : 'autoplay'}
-                    muted
-                    class="tweet-media-element tweet-media-gif ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
-                >
-                    ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                    ${LOC.unsupported_video.message}
-                </video>
-            `;
+
+            const newClone = animated_gif_template.cloneNode(true)
+            const altText = m.ext_alt_text ? escapeHTML(m.ext_alt_text, true) : ""
+            if (altText) {
+                newClone.alt = newClone.title = altText;
+            }
+            newClone.width = w;
+            newClone.height = h;
+            newClone.loop = true;
+
+            newClone.defaultMuted = true;
+            newClone.muted = true;
+            newClone.disableRemotePlayback = true;
+            if (!vars.disableGifAutoplay)
+                newClone.autoplay = true
+            else
+                newClone.autoplay = false
+            var mediaClass = mediaClasses[t.extended_entities.media.length]
+            if (mediaClass)
+                newClone.classList.add(mediaClass)
+            if (toCensor)
+                newClone.classList.add('tweet-media-element-censor')
+            m.video_info.variants.forEach(variant =>{
+                var source = document.createElement("source")
+                source.src = variant.url;
+                source.type = variant.content_type;
+                newClone.appendChild(source);
+            })
+            newClone.appendChild(document.createTextNode(LOC.unsupported_video.message))
+            _html += newClone.outerHTML;
         } else if(m.type === 'video') {
             if(m.mediaStats && m.mediaStats.viewCount) {
                 m.ext = {
@@ -1491,23 +1523,40 @@ function renderMedia(t) {
                 }
             }
             let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
-            _html += html`
-                <video
-                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
-                    crossorigin="anonymous"
-                    width="${w}"
-                    height="${h}"
-                    preload="none"
-                    disableRemotePlayback
-                    ${t.extended_entities.media.length > 1 ? 'controls' : ''}
-                    ${vars.muteVideos ? 'muted' : ''}
-                    poster="${m.media_url_https}"
-                    class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${toCensor ? 'tweet-media-element-censor' : ''}"
-                >
-                    ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
-                    ${LOC.unsupported_video.message}
-                </video>
-            `;
+            const newClone = video_template.cloneNode(true)
+            const altText = m.ext_alt_text ? escapeHTML(m.ext_alt_text, true) : ""
+            if (altText) {
+                newClone.alt = newClone.title = altText;
+            }
+            newClone.width = w;
+            newClone.height = h;
+            newClone.loop = true;
+
+            
+            newClone.disableRemotePlayback = true;
+            if (vars.muteVideos)
+            {
+                newClone.defaultMuted = true;
+                newClone.muted = true;
+            }
+            else {
+                newClone.defaultMuted = false;
+                newClone.muted = false;
+            }
+            var mediaClass = mediaClasses[t.extended_entities.media.length]
+            if (mediaClass)
+                newClone.classList.add(mediaClass)
+            if (toCensor)
+                newClone.classList.add('tweet-media-element-censor')
+            newClone.poster = m.media_url_https;
+            m.video_info.variants.forEach(variant =>{
+                var source = document.createElement("source")
+                source.src = variant.url;
+                source.type = variant.content_type;
+                newClone.appendChild(source);
+            })
+            newClone.appendChild(document.createTextNode(LOC.unsupported_video.message))
+            _html += newClone.outerHTML;
         }
         if(i === 1 && t.extended_entities.media.length > 3) {
             _html += '<br>';
@@ -1943,7 +1992,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             unblockUserText:unblockUserText
         }, options)
 
-        tweet.innerHTML = html`
+        tweet.innerHTML = `
             ${topContent}
             <article class="tweet-body ${options.mainTweet ? 'tweet-body-main' : ''}">
                 ${actualContent}
