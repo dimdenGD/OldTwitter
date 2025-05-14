@@ -1427,11 +1427,13 @@ const elNew = (tag, prop, children = []) => {
             if (child !== null) {
                 if (typeof child === "string") {
                     element.appendChild(document.createTextNode(child));
-                } else {
+                }
+                else {
                     element.appendChild(child);
                 }
             }
         });
+    return element
 };
 
 
