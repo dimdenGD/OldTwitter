@@ -1433,7 +1433,7 @@ class TweetViewer {
         >${timeElapsed(new Date(t.created_at).getTime())}</a
       >
       <article class="tweet-body ${options.mainTweet ? "tweet-body-main" : ""}">
-        <div
+        <div lang="${t.lang}"
           class="tweet-body-text ${vars.noBigFont ||
           (full_text && full_text.length > 100) ||
           !options.mainTweet

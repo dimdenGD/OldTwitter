@@ -1831,31 +1831,76 @@ async function renderDiscovery(cache = true) {
   }
 }
 
+// Shim for isArray check. (cc. https://stackoverflow.com/a/20956445)
+if (typeof Array.isArray === "undefined") {
+  Array.isArray = function (obj) {
+    return Object.prototype.toString.call(obj) === "[object Array]";
+  };
+}
+
+// Tiny Dom Element builder. Adapted from stackoverflow.
+
+/**
+ *
+ * @param {tag} tag The dom tag to create. Can be anything.
+ * @param {object} prop Any tag properties to set.
+ * Some values such as `dataset`, `className`/`classList`/`class` goes through a custom transformation process.
+ * @param {any[]} children a list of children to put in the element.
+ * Strings are appended as a text string, Nodes are inserted as... Well, nodes. Any falsy values are discarded.
+ * @returns A Node.
+ */
 const elNew = (tag, prop, children = []) => {
-  const _elCustomValue = ["dataset"];
+  const _elCustomValue = ["dataset", "className", "classList", "class"];
   const element = document.createElement(tag);
-  // const element =
   if (prop) {
-    const filteredObject = Object.keys(prop).reduce(function (r, e) {
-      if (!_elCustomValue.includes(e)) r[e] = prop[e];
-      return r;
+    const filteredObject = Object.keys(prop).reduce(function (returnObj, key) {
+      if (!_elCustomValue.includes(key) && prop[key])
+        returnObj[key] = prop[key];
+      return returnObj;
     }, {});
-    const customProps = Object.keys(prop).reduce(function (r, e) {
-      if (_elCustomValue.includes(e)) r[e] = prop[e];
-      return r;
-    }, {});
-    Object.assign(element, filteredObject);
+    const customProps = Object.keys(prop).reduce(function (
+      returnObj,
+      elementKey
+    ) {
+      if (_elCustomValue.includes(elementKey) && prop[elementKey])
+        returnObj[elementKey] = prop[elementKey];
+      return returnObj;
+    },
+    {});
+    Object.assign(
+      element,
+      filteredObject
+    );
     if (Object.keys(customProps).length > 0) {
       for (const key in customProps) {
         const propValue = customProps[key];
-        if (key == "dataset") {
+        if (key === "dataset") {
           for (const datasetKey in propValue) {
             element.dataset[datasetKey] = propValue[datasetKey];
+          }
+        } else if (
+          key === "className" ||
+          key === "classList" ||
+          key === "class"
+        ) {
+          if (typeof propValue === "string") {
+            element.className = propValue;
+          } else if (
+            typeof propValue === "object" &&
+            Array.isArray(propValue)
+          ) {
+            element.className = propValue.filter((m) => m).join(" ");
+          } else {
+            console.error(
+              `Passed in a non Array/String value to ${key}. will be ignored.`
+            );
           }
         }
       }
     }
   }
+  // Cleanup children.
+  children = children.filter((m) => m);
 
   if (children.length > 0)
     children.forEach((child) => {
@@ -2630,6 +2675,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         //else this is not reply but mention
       });
     }
+    // construct the markup for the tweet.
     const [topContent, actualContent] = await constructTweet(
       t,
       {
@@ -2646,6 +2692,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
       },
       options
     );
+    // tweet.appendChild()
 
     tweet.innerHTML = `
             ${topContent}
