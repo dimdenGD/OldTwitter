@@ -864,7 +864,7 @@ let page =
     action: "inject",
     files: [
       "libraries/purify.min.js",
-      "libraries/twemoji.js",
+      "libraries/twemoji.min.js",
       page.name === "settings" ? "libraries/parseCssColor.js" : "",
       page.name === "settings" ? "libraries/coloris.min.js" : "",
       "libraries/twitter-text.js",

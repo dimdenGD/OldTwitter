@@ -1832,12 +1832,38 @@ async function renderDiscovery(cache = true) {
 }
 
 const elNew = (tag, prop, children = []) => {
-  const element = Object.assign(document.createElement(tag), prop);
+  const _elCustomValue = ["dataset"];
+  const element = document.createElement(tag);
+  // const element =
+  if (prop) {
+    const filteredObject = Object.keys(prop).reduce(function (r, e) {
+      if (!_elCustomValue.includes(e)) r[e] = prop[e];
+      return r;
+    }, {});
+    const customProps = Object.keys(prop).reduce(function (r, e) {
+      if (_elCustomValue.includes(e)) r[e] = prop[e];
+      return r;
+    }, {});
+    Object.assign(element, filteredObject);
+    if (Object.keys(customProps).length > 0) {
+      for (const key in customProps) {
+        const propValue = customProps[key];
+        if (key == "dataset") {
+          for (const datasetKey in propValue) {
+            element.dataset[datasetKey] = propValue[datasetKey];
+          }
+        }
+      }
+    }
+  }
+
   if (children.length > 0)
     children.forEach((child) => {
       if (child !== null) {
         if (typeof child === "string") {
-          element.appendChild(document.createTextNode(child));
+          if (child !== "") {
+            element.appendChild(document.createTextNode(child));
+          }
         } else {
           element.appendChild(child);
         }
