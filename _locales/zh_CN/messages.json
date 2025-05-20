@@ -404,10 +404,6 @@
     "block_sure_desc": { "message": "他们将无法关注您或查看您的推文，您也不会看到来自 @$SCREEN_NAME$ 的推文或通知。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "blocked_by_user" : { "message": "@$SCREEN_NAME$ 屏蔽了你", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "why_you_cant_see_block_user": { "message": "您无法关注和查看 @$SCREEN_NAME$ 的推文。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "nonexistent_user": { "message": "此账户不存在" },
-    "nonexistent_user_desc": { "message": "尝试搜索其他账户。" },
-	"suspended_user": { "message": "此账户已被冻结" },
-    "suspended_user_desc": { "message": "您正在尝试查看的个人资料已被冻结，要返回主页，请<a href=\"/home\">点击这里</a>。" },
     "you_blocked_user": { "message": "您已屏蔽 @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "do_you_want_see_blocked_user": { "message": "您确定要查看这些推文吗？查看这些推文不会解除对 @$SCREEN_NAME$ 的屏蔽。", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "I_want_see_blocked_user": { "message": "是，查看个人资料" },
@@ -574,7 +570,7 @@
     "only_show_people_with_followers": { "message": "仅显示至少拥有 $NUMBER$ 名粉丝的用户", "placeholders": { "number": { "content": "-1" } } },
     "only_show_people_with_age": { "message": "仅显示加入了至少 $NUMBER$ 天的用户", "placeholders": { "number": { "content": "-1" } } },
     "page": { "message": "分页" },
-	"update": {"message": "更新" },
+	"update": { "message": "更新" },
 	"show_quote_count": { "message": "显示推文被引用的数量" },
     "uploading": { "message": "上传中" },
     "finalization": { "message": "完成中" },
@@ -650,5 +646,6 @@
     "suspended_user": { "message": "账号已被冻结" },
     "suspended_user_desc": { "message": "您正在查看的个人资料页已被冻结。" },
     "show_boring_indicators": { "message": "在关注中/粉丝页面的用户昵称后方添加一个表示其最近推文的图标<br>图标示意：<span class=\"user-indicator-retweeted\"></span> 转推的 / <span class=\"user-indicator-quoted\"></span> 引用的 / <span class=\"user-indicator-no-status\"></span> 不存在的 / <span class=\"user-indicator-old\"></span> 有段时间（一周以上）的"},
-    "hide_original_languages":{"message": "翻译推文后隐藏原文" }
+    "hide_original_languages":{"message": "翻译推文后隐藏原文" },
+    "blocked": { "message": "已屏蔽" }
 }
