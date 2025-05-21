@@ -380,29 +380,46 @@ function onVisibilityChange(callback) {
     window.onpageshow = window.onfocus = focused;
     window.onpagehide = window.onblur = unfocused;
 };
-function escapeHTML(unsafe, strict = false) {
+function escapeHTML(unsafe) {
     if(typeof unsafe === 'undefined' || unsafe === null) {
         return '';
     }
 
-    if(strict) {
-        unsafe = unsafe
-            .replaceAll('"', '&quot;')
-            .replaceAll('\'', '&apos;')
-            .replaceAll('&', '&amp;')
-            .replaceAll('<', '&lt;')
-            .replaceAll('>', '&gt;');
-    }
+    //twitter returns already-escaped text in some scenarios, which can cause it to get double-escaped, so we're unescaping that to re-escape it...
+    unsafe = unsafe
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&amp;', '&');
 
-    return DOMPurify.sanitize(String(unsafe), { ADD_ATTR: ['target'] });
+    return unsafe = unsafe
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('\'', '&apos;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
 }
 
 function html(strings, ...values) {
     let str = '';
     strings.forEach((string, i) => {
-        str += string + escapeHTML(values[i]);
+        let value;
+        if(typeof values[i] === 'undefined' || values[i] === null) {
+            value = '';
+        } else {
+            value = String(values[i]);
+        }
+
+        str += string + DOMPurify.sanitize(value, { ADD_ATTR: ['target'] });
     });
     return str;
+}
+
+function replaceTemplates(string, replacements) {
+    return string
+    .replace(/\$[A-Z_]+\$/g, (match) => {
+        if (match in replacements) return replacements[match];
+        return match;
+    });
 }
 
 async function renderTweetBodyHTML(t, is_quoted) {
@@ -1444,7 +1461,7 @@ function renderMedia(t) {
             let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             _html += html`
             <img 
-                ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
+                ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                 crossorigin="anonymous"
                 width="${w}"
                 height="${h}"
@@ -1454,7 +1471,7 @@ function renderMedia(t) {
             >`;
             console.log(html`
                 <img 
-                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
+                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                     crossorigin="anonymous"
                     width="${w}"
                     height="${h}"
@@ -1467,7 +1484,7 @@ function renderMedia(t) {
             let rid = m.id_str + m.media_key;
             _html += html`
                 <video
-                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
+                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                     crossorigin="anonymous"
                     width="${w}"
                     height="${h}"
@@ -1490,7 +1507,7 @@ function renderMedia(t) {
             let [w, h] = sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height);
             _html += html`
                 <video
-                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''}
+                    ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''}
                     crossorigin="anonymous"
                     width="${w}"
                     height="${h}"
@@ -1934,7 +1951,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 <img
                     onerror="this.src = '${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}'"
                     src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`) : t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}"
-                    alt="${t.user.name}"
+                    alt="${escapeHTML(t.user.name)}"
                     class="tweet-avatar"
                     width="48"
                     height="48"
@@ -2008,7 +2025,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText: ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? html`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${m.type === 'animated_gif' ? 'tweet-media-element-quote-gif' : ''} ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${m.type === 'animated_gif' ? 'tweet-media-element-quote-gif' : ''} ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? html`
@@ -2224,7 +2241,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         }
                     }
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = html`
-                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
+                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                             ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
