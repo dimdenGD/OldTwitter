@@ -471,18 +471,29 @@ function onVisibilityChange(callback) {
   window.onpageshow = window.onfocus = focused;
   window.onpagehide = window.onblur = unfocused;
 }
-function escapeHTML(unsafe, strict = false) {
+function escapeHTML(unsafe) {
   if (typeof unsafe === "undefined" || unsafe === null) {
     return "";
   }
 
-  if (strict) {
+    //twitter returns already-escaped text in some scenarios, which can cause it to get double-escaped, so we're unescaping that to re-escape it...
     unsafe = unsafe
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&amp;', '&');
+
+    return unsafe = unsafe
+    .replaceAll('&', '&amp;')
+    .replaceAll('"', '&quot;')
+    .replaceAll('\'', '&apos;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;');
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&apos;")
       .replaceAll("&", "&amp;")
       .replaceAll("<", "&lt;")
       .replaceAll(">", "&gt;");
+}
   }
 
   return DOMPurify.sanitize(String(unsafe), { ADD_ATTR: ["target"] });
@@ -491,9 +502,24 @@ function escapeHTML(unsafe, strict = false) {
 function html(strings, ...values) {
   let str = "";
   strings.forEach((string, i) => {
-    str += string + escapeHTML(values[i]);
+        let value;
+        if(typeof values[i] === 'undefined' || values[i] === null) {
+            value = '';
+        } else {
+            value = String(values[i]);
+        }
+
+        str += string + DOMPurify.sanitize(value, { ADD_ATTR: ['target'] });
   });
   return str;
+}
+
+function replaceTemplates(string, replacements) {
+    return string
+    .replace(/\$[A-Z_]+\$/g, (match) => {
+        if (match in replacements) return replacements[match];
+        return match;
+    });
 }
 
 async function renderTweetBodyHTML(t, is_quoted) {

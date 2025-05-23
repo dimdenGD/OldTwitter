@@ -54,13 +54,12 @@ async function constructQuotedTweet(
                   ? "user-verified-blue"
                   : "",
             },
-            [document.createTextNode(escapeHTML(t.quoted_status.user.name))]
+            [escapeHTML(t.quoted_status.user.name)]
           ),
+          " ",
           // At handle
           elNew("span", { className: "tweet-header-handle-quote" }, [
-            document.createTextNode(
-              "@" + escapeHTML(t.quoted_status.user.screen_name)
-            ),
+            "@" + escapeHTML(t.quoted_status.user.screen_name),
           ]),
         ]),
       ]),
@@ -74,25 +73,19 @@ async function constructQuotedTweet(
           },
           title: new Date(t.quoted_status.created_at).toLocaleString(),
         },
-        [
-          document.createTextNode(
-            timeElapsed(new Date(t.quoted_status.created_at).getTime())
-          ),
-        ]
+        [timeElapsed(new Date(t.quoted_status.created_at).getTime())]
       ),
       quoteMentionedUserText !== `` && !vars.useOldStyleReply
         ? elNew("span", { className: "tweet-reply-to tweet-quote-reply-to" }, [
-            document.createTextNode(
-              LOC.replying_to_user.message.replace(
-                "$SCREEN_NAME$",
-                quoteMentionedUserText
-                  .trim()
-                  .replaceAll(` `, LOC.replying_to_comma.message)
-                  .replace(
-                    LOC.replying_to_comma.message,
-                    LOC.replying_to_and.message
-                  )
-              )
+            LOC.replying_to_user.message.replace(
+              "$SCREEN_NAME$",
+              quoteMentionedUserText
+                .trim()
+                .replaceAll(` `, LOC.replying_to_comma.message)
+                .replace(
+                  LOC.replying_to_comma.message,
+                  LOC.replying_to_and.message
+                )
             ),
           ])
         : null,
@@ -185,7 +178,7 @@ async function constructQuotedTweet(
         ? elNew(
             "span",
             { className: "tweet-button tweet-quote-translate tweet-button" },
-            [document.createTextNode(LOC.view_translation.message)]
+            [LOC.view_translation.message]
           )
         : ``,
     ]
@@ -212,10 +205,8 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       : t.user.profile_image_url_https
   ).replace("_normal.", "_bigger.");
 
-
   const tweetDateObject = new Date(t.created_at);
   const tweetTimestamp = tweetDateObject.getTime();
-
 
   const tweetTopConst = elNew("template", {}, [
     _tweetTopConst,
@@ -281,28 +272,27 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
               },
               [escapeHTML(t.user.name)]
             ),
+            " ",
             // @Handle
             elNew("span", { className: "tweet-header-handle" }, [
-              `@${t.user.screen_name}`,
+              "@" + escapeHTML(t.user.screen_name),
             ]),
           ]
         ),
+        " ",
         // Tweet Time Element
         elNew(
           "a",
           {
             className: "tweet-time",
+            hidden: options.mainTweet ? true : false,
             dataset: {
               timestamp: tweetTimestamp,
             },
             title: tweetDateObject.toLocaleString(),
             href: `/${t.user.screen_name}/status/${t.id_str}`,
           },
-          [
-            document.createTextNode(
-              timeElapsed(tweetTimestamp)
-            ),
-          ]
+          [timeElapsed(tweetTimestamp)]
         ),
         // If it's the main tweet, add a follow button.
         options.mainTweet && t.user.id_str !== user.id_str
@@ -317,11 +307,9 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
                 ],
               },
               [
-                document.createTextNode(
-                  t.user.following
-                    ? LOC.following_btn.message
-                    : LOC.follow.message
-                ),
+                t.user.following
+                  ? LOC.following_btn.message
+                  : LOC.follow.message,
               ]
             )
           : null,
@@ -347,41 +335,63 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     tweet_top += el.outerHTML;
   });
 
-  // const doMentionText = tweetConstructorArgs.mentionedUserText !== `` &&
-  //   !options.threadContinuation &&
-  //   !options.noTop &&
-  //   !location.pathname.includes("/status/") &&
-  //   !vars.useOldStyleReply
-  // var mentioned_node = null;
-  // if (doMentionText) {
-  //   mentioned_node = elNew("div",{"class":})
-  // }
-  
-
-  var mentioned_text = "";
-  if (
+  const doMentionText =
     tweetConstructorArgs.mentionedUserText !== `` &&
     !options.threadContinuation &&
     !options.noTop &&
     !location.pathname.includes("/status/") &&
-    !vars.useOldStyleReply
-  ) {
-    mentioned_text = `
-            <div class="tweet-reply-to">
-                <span>
-                    ${LOC.replying_to_user.message.replace(
-                      "$SCREEN_NAME$",
-                      tweetConstructorArgs.mentionedUserText
-                        .trim()
-                        .replaceAll(`> <`, `>${LOC.replying_to_comma.message}<`)
-                        .replace(
-                          `>${LOC.replying_to_comma.message}<`,
-                          `>${LOC.replying_to_and.message}<`
-                        )
-                    )}</span
-                >
-            </div>
-        `;
+    !vars.useOldStyleReply;
+  var mentioned_node = null;
+  if (doMentionText) {
+    const replyHtml = LOC.replying_to_user.message.replace(
+      "$SCREEN_NAME$",
+      tweetConstructorArgs.mentionedUserText
+        .trim()
+        .replaceAll(`> <`, `>${LOC.replying_to_comma.message}<`)
+        .replace(
+          `>${LOC.replying_to_comma.message}<`,
+          `>${LOC.replying_to_and.message}<`
+        )
+    );
+
+    mentioned_node = elNew("div", { className: "tweet-reply-to" }, [
+      elNew("span", {}, [htmlToNodes(replyHtml).content]),
+    ]);
+  }
+
+  const body_node = elNew(
+    "div",
+    {
+      lang: t.lang,
+      classList: [
+        "tweet-body-text",
+        vars.noBigFont ||
+        t.full_text.length > 280 ||
+        !options.bigFont ||
+        (!options.mainTweet && location.pathname.includes("/status/"))
+          ? "tweet-body-text-long"
+          : "tweet-body-text-short",
+      ],
+    },
+    [
+      elNew("span", { class: ["tweet-body-text-span"] }, [
+        vars.useOldStyleReply
+          ? htmlToNodes(tweetConstructorArgs.mentionedUserText).content
+          : null,
+        tweetConstructorArgs.full_text
+          ? htmlToNodes(await renderTweetBodyHTML(t)).content
+          : null,
+      ]),
+    ]
+  );
+
+  if (!tweetConstructorArgs.isMatchingLanguage && options.mainTweet) {
+    elNew("div", {}, [
+      elNew("br"),
+      elNew("span", { class: ["tweet-button", "tweet-translate"] }, [
+        LOC.view_translation.message,
+      ]),
+    ]);
   }
 
   const body_text = `<div lang="${t.lang}" class="tweet-body-text ${
@@ -457,7 +467,8 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
                             tweetConstructorArgs.videos[0].ext.mediaStats.r &&
                             tweetConstructorArgs.videos[0].ext.mediaStats.r.ok
                               ? `<span class="tweet-video-views tweet-button">${Number(
-                                  tweetConstructorArgs.videos[0].ext.mediaStats.r.ok.viewCount
+                                  tweetConstructorArgs.videos[0].ext.mediaStats
+                                    .r.ok.viewCount
                                 )
                                   .toLocaleString()
                                   .replace(/\s/g, ",")} ${
@@ -541,7 +552,9 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
           (t.conversation_control.policy.toLowerCase() === "community" &&
             (t.user.followed_by ||
               (tweetConstructorArgs.full_text &&
-                tweetConstructorArgs.full_text.includes(`@${user.screen_name}`)))) ||
+                tweetConstructorArgs.full_text.includes(
+                  `@${user.screen_name}`
+                )))) ||
           (t.conversation_control.policy.toLowerCase() === "by_invitation" &&
             tweetConstructorArgs.full_text &&
             tweetConstructorArgs.full_text.includes(`@${user.screen_name}`)))
@@ -1099,20 +1112,22 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
 
   return [
     tweet_top,
-    mentioned_text +
-      body_text +
-      translate_text +
-      extended_media +
-      card +
-      quoted_tweet +
-      limited +
-      tomb_stone +
-      country_restrictions +
-      conversation_control +
-      tweet_footer +
-      tweet_date +
-      tweet_interact +
-      tweet_edit +
-      replies,
+    mentioned_node
+      ? mentioned_node.innerHTML
+      : `` +
+        body_text +
+        translate_text +
+        extended_media +
+        card +
+        quoted_tweet +
+        limited +
+        tomb_stone +
+        country_restrictions +
+        conversation_control +
+        tweet_footer +
+        tweet_date +
+        tweet_interact +
+        tweet_edit +
+        replies,
   ];
 }

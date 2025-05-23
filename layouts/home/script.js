@@ -509,7 +509,7 @@ setTimeout(async () => {
     let newTweetButton = document.getElementById('new-tweet-button');
     document.getElementById('new-tweet').addEventListener('click', async e => {
         document.getElementById('new-tweet-focused').hidden = false;
-        document.getElementById('new-tweet-audience').hidden = false;
+        document.getElementById('new-tweet-audience').classList.remove("hidden");
         document.getElementById('new-tweet-char').hidden = false;
         document.getElementById('new-tweet-text').classList.add('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.add('new-tweet-media-div-focused');
@@ -1052,7 +1052,7 @@ setTimeout(async () => {
                 ta.style.marginRight = '-20px';
             }
         }
-        document.getElementById('new-tweet-audience').hidden = true;
+        document.getElementById('new-tweet-audience').classList.add("hidden");
         document.getElementById('new-tweet-char').hidden = true;
         document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
         document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
@@ -1266,7 +1266,7 @@ setTimeout(async () => {
                     ta.style.marginRight = '-20px';
                 }
             }
-            document.getElementById('new-tweet-audience').hidden = true;
+            document.getElementById('new-tweet-audience').classList.add("hidden");
             document.getElementById('new-tweet-char').hidden = true;
             document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
             document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
