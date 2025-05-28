@@ -2876,7 +2876,7 @@ let userDataFunction = async user => {
                         return;
                     }
                 }
-                const tlUsers = data.list.filter(i => i.type === 'tweet').map(i => i.user.id_str);
+                // const tlUsers = data.list.filter(i => i.type === 'tweet').map(i => i.user.id_str);
                 // if (typeof linkColors !== "undefined") {
                 //     let linkData = await getLinkColors(tlUsers);
                 //     if(linkData) for(let i in linkData) {
