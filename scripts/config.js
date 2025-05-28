@@ -37,9 +37,9 @@ async function loadVars() {
         ], data => {
             // default variables
             if(typeof(data.linkColorsInTL) !== 'boolean') {
-                data.linkColorsInTL = true;
+                data.linkColorsInTL = false;
                 chrome.storage.sync.set({
-                    linkColorsInTL: true
+                    linkColorsInTL: false
                 }, () => {});
             }
             if (typeof(data.alwaysShowLinkColor) !== 'boolean') {

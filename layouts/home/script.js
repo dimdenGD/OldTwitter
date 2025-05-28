@@ -193,13 +193,13 @@ async function updateTimeline(mode = 'rewrite') {
         tl = tl.filter(t => !t.socialContext || !t.socialContext.description);
     }
 
-    if(vars.linkColorsInTL) {
-        let tlUsers = tl.map(t => t.user.id_str).filter(u => !linkColors[u]);
-        let linkData = await getLinkColors(tlUsers);
-        if(linkData) for(let i in linkData) {
-            linkColors[linkData[i].id] = linkData[i].color;
-        }
-    }
+    // if(vars.linkColorsInTL) {
+    //     let tlUsers = tl.map(t => t.user.id_str).filter(u => !linkColors[u]);
+    //     let linkData = await getLinkColors(tlUsers);
+    //     if(linkData) for(let i in linkData) {
+    //         linkColors[linkData[i].id] = linkData[i].color;
+    //     }
+    // }
 
     // first update
     if (timeline.data.length === 0) {
@@ -294,13 +294,13 @@ async function renderTimeline(options = {}) {
     }
     let data = options.data;
     
-    if(vars.linkColorsInTL) {
-        let tlUsers = data.map(t => t.user.id_str).filter(u => !linkColors[u]);
-        let linkData = await getLinkColors(tlUsers);
-        if(linkData) for(let i in linkData) {
-            linkColors[linkData[i].id] = linkData[i].color;
-        }
-    }
+    // if(vars.linkColorsInTL) {
+    //     let tlUsers = data.map(t => t.user.id_str).filter(u => !linkColors[u]);
+    //     let linkData = await getLinkColors(tlUsers);
+    //     if(linkData) for(let i in linkData) {
+    //         linkColors[linkData[i].id] = linkData[i].color;
+    //     }
+    // }
     let toRender = [];
     for(let i in data) {
         let t = data[i];

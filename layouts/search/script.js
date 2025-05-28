@@ -137,20 +137,20 @@ async function renderSearch(c, force = false) {
         window.scrollTo(0, 0);
         searchDiv.innerHTML = '';
     }
-    if(vars.linkColorsInTL) {
-        let tlUsers = [];
-        for(let i in search) {
-            let t = search[i];
-            if(t.type !== 'user') {
-                if(!tlUsers.includes(t.user.screen_name)) tlUsers.push(t.user.screen_name); 
-            }
-        }
-        tlUsers = tlUsers.filter(i => !linkColors[i]);
-        let linkData = await getLinkColors(tlUsers);
-        if(linkData) for(let i in linkData) {
-            linkColors[linkData[i].id] = linkData[i].color;
-        }
-    }
+    // if(vars.linkColorsInTL) {
+    //     let tlUsers = [];
+    //     for(let i in search) {
+    //         let t = search[i];
+    //         if(t.type !== 'user') {
+    //             if(!tlUsers.includes(t.user.screen_name)) tlUsers.push(t.user.screen_name); 
+    //         }
+    //     }
+    //     tlUsers = tlUsers.filter(i => !linkColors[i]);
+    //     let linkData = await getLinkColors(tlUsers);
+    //     if(linkData) for(let i in linkData) {
+    //         linkColors[linkData[i].id] = linkData[i].color;
+    //     }
+    // }
     if(search.length === 0) {
         if(!currentCursor) {
             searchDiv.innerHTML = html`<div class="no-results">

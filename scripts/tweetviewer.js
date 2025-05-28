@@ -194,23 +194,23 @@ class TweetViewer {
             return this.cursor = undefined;
         }
     
-        if(vars.linkColorsInTL) {
-            let tlUsers = [];
-            for(let i in tl.list) {
-                let t = tl.list[i];
-                if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.id_str)) tlUsers.push(t.data.user.id_str); }
-                else if(t.type === 'conversation') {
-                    for(let j in t.data) {
-                        tlUsers.push(t.data[j].user.id_str);
-                    }
-                }
-            }
-            tlUsers = tlUsers.filter(i => !this.linkColors[i]);
-            let linkData = await getLinkColors(tlUsers);
-            if(linkData) for(let i in linkData) {
-                this.linkColors[linkData[i].id] = linkData[i].color;
-            }
-        }
+        // if(vars.linkColorsInTL) {
+        //     let tlUsers = [];
+        //     for(let i in tl.list) {
+        //         let t = tl.list[i];
+        //         if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.id_str)) tlUsers.push(t.data.user.id_str); }
+        //         else if(t.type === 'conversation') {
+        //             for(let j in t.data) {
+        //                 tlUsers.push(t.data[j].user.id_str);
+        //             }
+        //         }
+        //     }
+        //     tlUsers = tlUsers.filter(i => !this.linkColors[i]);
+        //     let linkData = await getLinkColors(tlUsers);
+        //     if(linkData) for(let i in linkData) {
+        //         this.linkColors[linkData[i].id] = linkData[i].color;
+        //     }
+        // }
     
         this.cursor = tl.cursor;
         if(!this.cursor) {
@@ -862,19 +862,19 @@ class TweetViewer {
         }
         if (options.threadContinuation) tweet.classList.add('tweet-self-thread-continuation');
         if (options.noTop) tweet.classList.add('tweet-no-top');
-        if(vars.linkColorsInTL) {
-            if(this.linkColors[t.user.id_str]) {
-                let sc = makeSeeableColor(this.linkColors[t.user.id_str]);
-                tweet.style.setProperty('--link-color', sc);
-                if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
-            } else {
-                if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
-                    let sc = makeSeeableColor(t.user.profile_link_color);
-                    tweet.style.setProperty('--link-color', sc);
-                    if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
-                }
-            }
-        }
+        // if(vars.linkColorsInTL) {
+        //     if(this.linkColors[t.user.id_str]) {
+        //         let sc = makeSeeableColor(this.linkColors[t.user.id_str]);
+        //         tweet.style.setProperty('--link-color', sc);
+        //         if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
+        //     } else {
+        //         if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
+        //             let sc = makeSeeableColor(t.user.profile_link_color);
+        //             tweet.style.setProperty('--link-color', sc);
+        //             if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
+        //         }
+        //     }
+        // }
         let full_text = t.full_text ? t.full_text : '';
         let isMatchingLanguage = languageMatches(t.lang);
         let isQuoteMatchingLanguage = !!t.quoted_status && languageMatches(t.quoted_status.lang);
