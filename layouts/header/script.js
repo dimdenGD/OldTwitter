@@ -2877,12 +2877,12 @@ let userDataFunction = async user => {
                     }
                 }
                 const tlUsers = data.list.filter(i => i.type === 'tweet').map(i => i.user.id_str);
-                if (typeof linkColors !== "undefined") {
-                    let linkData = await getLinkColors(tlUsers);
-                    if(linkData) for(let i in linkData) {
-                        linkColors[linkData[i].id] = linkData[i].color;
-                    }
-                }
+                // if (typeof linkColors !== "undefined") {
+                //     let linkData = await getLinkColors(tlUsers);
+                //     if(linkData) for(let i in linkData) {
+                //         linkColors[linkData[i].id] = linkData[i].color;
+                //     }
+                // }
                 if(options.mode === 'append' || options.mode === 'rewrite') {
                     cursorBottom = data.cursorBottom;
                 }
