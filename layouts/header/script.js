@@ -1043,10 +1043,11 @@ let userDataFunction = async user => {
                 messageElements.push(messageElement);
             } else if (lastEntry.type == 'participants_leave') {
                 let leftUser = lastConvo.users[lastEntry.data.participants[0].user_id];
-                let messageText = LOC.user_left.message
-                .replace('$NAME$', escapeHTML(leftUser.name))
-                .replace('$A_START$', `<a href="/${leftUser.screen_name}">`)
-                .replace('$A_END$', '</a>');
+                let messageText = replaceTemplates(LOC.user_left.message, {
+                    '$NAME$': escapeHTML(leftUser.name),
+                    '$A_START$': `<a href="/${leftUser.screen_name}">`,
+                    '$A_END$': '</a>'
+                });
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1062,12 +1063,13 @@ let userDataFunction = async user => {
             } else if (lastEntry.type == 'participants_join') {
                 let joinedUser = lastConvo.users[lastEntry.data.participants[0].user_id];
                 let userWhoAdded = lastConvo.users[lastEntry.data.sender_id];
-                let messageText = LOC.user_added.message
-                .replace('$USER_WHO_ADDED$', escapeHTML(userWhoAdded.name))
-                .replace('$USER_WHO_JOINED$', escapeHTML(joinedUser.name))
-                .replace('$A1$', `<a href="/${userWhoAdded.screen_name}">`)
-                .replace('$A2$', `<a href="/${joinedUser.screen_name}">`)
-                .replaceAll('$A_END$', '</a>');
+                let messageText = replaceTemplates(LOC.user_added.message, {
+                    '$USER_WHO_ADDED$': escapeHTML(userWhoAdded.name),
+                    '$USER_WHO_JOINED$': escapeHTML(joinedUser.name),
+                    '$A1$': `<a href="/${userWhoAdded.screen_name}">`,
+                    '$A2$': `<a href="/${joinedUser.screen_name}">`,
+                    '$A_END$': '</a>'
+                });
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1082,11 +1084,12 @@ let userDataFunction = async user => {
                 messageElements.push(messageElement);
             } else if (lastEntry.type == 'conversation_name_update') {
                 let userWhoUpdated = lastConvo.users[lastEntry.data.by_user_id];
-                let messageText = LOC.user_changed_group_name.message
-                .replace('$NAME$', escapeHTML(userWhoUpdated.name))
-                .replace('$GROUP_NAME$', escapeHTML(lastEntry.data.conversation_name))
-                .replace('$A_START$', `<a href="/${userWhoUpdated.screen_name}">`)
-                .replace('$A_END$', '</a>');
+                let messageText = replaceTemplates(LOC.user_changed_group_name.message, {
+                    '$NAME$': escapeHTML(userWhoUpdated.name),
+                    '$GROUP_NAME$': escapeHTML(lastEntry.data.conversation_name),
+                    '$A_START$': `<a href="/${userWhoUpdated.screen_name}">`,
+                    '$A_END$': '</a>'
+                });
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1101,11 +1104,11 @@ let userDataFunction = async user => {
                 messageElements.push(messageElement);
             } else if (lastEntry.type == 'conversation_avatar_update') {
                 let userWhoUpdated = lastConvo.users[lastEntry.data.by_user_id];
-                let messageText = `<img src="${lastEntry.data.conversation_avatar_image_https}" class="message-announcement-icon">` +
-                LOC.user_changed_group_photo.message
-                .replace('$NAME$', escapeHTML(userWhoUpdated.name))
-                .replace('$A_START$', `<a href="/${userWhoUpdated.screen_name}">`)
-                .replace('$A_END$', '</a>');
+                let messageText = `<img src="${lastEntry.data.conversation_avatar_image_https}" class="message-announcement-icon">` + replaceTemplates(LOC.user_changed_group_photo.message, {
+                    '$NAME$': escapeHTML(userWhoUpdated.name),
+                    '$A_START$': `<a href="/${userWhoUpdated.screen_name}">`,
+                    '$A_END$': '</a>'
+                });
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1121,11 +1124,12 @@ let userDataFunction = async user => {
             } else if (lastEntry.type == 'join_conversation') { //only when YOU get added to a conversation
                 let userWhoAdded = lastConvo.users[lastEntry.data.sender_id];
                 let otherUsers = (lastConvo.conversations[lastConvo.conversation_id].participants.length - 1).toLocaleString();
-                let messageText = LOC.user_added_you_msg.message
-                .replace('$NAME$', escapeHTML(userWhoAdded.name))
-                .replace('$NUMBER$', otherUsers)
-                .replace('$A_START$', `<a href="/${userWhoAdded.screen_name}">`)
-                .replace('$A_END$', `</a>`);
+                let messageText = replaceTemplates(LOC.user_added_you_msg.message, {
+                    '$NAME$': escapeHTML(userWhoAdded.name),
+                    '$NUMBER$': otherUsers,
+                    '$A_START$': `<a href="/${userWhoAdded.screen_name}">`,
+                    '$A_END$': '</a>'
+                });
 
                 let messageElement = document.createElement('div');
                 messageElement.classList.add('message-announcement');
@@ -1276,33 +1280,36 @@ let userDataFunction = async user => {
                 messageEntry.preview = LOC.accepted_conversation.message;
             } else if (lastEvent.type == 'participants_leave') {
                 let leftUser = inbox.users[lastMessage.participants[0].user_id];
-                messageEntry.preview = LOC.user_left.message
-                .replace('$NAME$', escapeHTML(leftUser.name))
-                .replace('$A_START$', '')
-                .replace('$A_END$', '');
+                messageEntry.preview = replaceTemplates(LOC.user_left.message, {
+                    '$NAME$': escapeHTML(leftUser.name),
+                    '$A_START$': '',
+                    '$A_END$': ''
+                });
             } else if (lastEvent.type == 'participants_join') {
                 let joinedUser = inbox.users[lastMessage.participants[0].user_id];
                 let userWhoAdded = inbox.users[lastMessage.sender_id];
-                messageEntry.preview = LOC.user_added.message
-                .replace('$USER_WHO_ADDED$', escapeHTML(userWhoAdded.name))
-                .replace('$USER_WHO_JOINED$', escapeHTML(joinedUser.name))
-                .replace('$A1$', '')
-                .replace('$A2$', '')
-                .replaceAll('$A_END$', '');
-                messageEntry.preview = `${escapeHTML(userWhoAdded.name)} added ${escapeHTML(joinedUser.name)}`;
+                messageEntry.preview = replaceTemplates(LOC.user_added.message, {
+                    '$USER_WHO_ADDED$': escapeHTML(userWhoAdded.name),
+                    '$USER_WHO_JOINED$': escapeHTML(joinedUser.name),
+                    '$A1$': '',
+                    '$A2$': '',
+                    '$A_END$': ''
+                });
             } else if (lastEvent.type == 'conversation_name_update') {
                 let userWhoUpdated = inbox.users[lastMessage.by_user_id];
-                messageEntry.preview = LOC.user_changed_group_name.message
-                .replace('$NAME$', escapeHTML(userWhoUpdated.name))
-                .replace('$GROUP_NAME$', escapeHTML(lastMessage.conversation_name))
-                .replace('$A_START$', '')
-                .replace('$A_END$', '');
+                messageEntry.preview = replaceTemplates(LOC.user_changed_group_name.message, {
+                    '$NAME$': escapeHTML(userWhoUpdated.name),
+                    '$GROUP_NAME$': escapeHTML(lastMessage.conversation_name),
+                    '$A_START$': '',
+                    '$A_END$': ''
+                });
             } else if (lastEvent.type == 'conversation_avatar_update') {
                 let userWhoUpdated = inbox.users[lastMessage.by_user_id];
-                messageEntry.preview = LOC.user_changed_group_photo.message
-                .replace('$NAME$', escapeHTML(userWhoUpdated.name))
-                .replace('$A_START$', '')
-                .replace('$A_END$', '');
+                messageEntry.preview = replaceTemplates(LOC.user_changed_group_photo.message, {
+                    '$NAME$': escapeHTML(userWhoUpdated.name),
+                    '$A_START$': '',
+                    '$A_END$': ''
+                });
             } else if (lastMessage.message_data) {
                 let lastMessageUser = lastMessage.message_data ? messageUsers.find(user => user.id_str === lastMessage.message_data.sender_id) : messageUsers[0];
                 if (lastMessage.message_data.text.startsWith('dmservice_reaction_')) {
@@ -2869,13 +2876,13 @@ let userDataFunction = async user => {
                         return;
                     }
                 }
-                const tlUsers = data.list.filter(i => i.type === 'tweet').map(i => i.user.id_str);
-                if (typeof linkColors !== "undefined") {
-                    let linkData = await getLinkColors(tlUsers);
-                    if(linkData) for(let i in linkData) {
-                        linkColors[linkData[i].id] = linkData[i].color;
-                    }
-                }
+                // const tlUsers = data.list.filter(i => i.type === 'tweet').map(i => i.user.id_str);
+                // if (typeof linkColors !== "undefined") {
+                //     let linkData = await getLinkColors(tlUsers);
+                //     if(linkData) for(let i in linkData) {
+                //         linkColors[linkData[i].id] = linkData[i].color;
+                //     }
+                // }
                 if(options.mode === 'append' || options.mode === 'rewrite') {
                     cursorBottom = data.cursorBottom;
                 }

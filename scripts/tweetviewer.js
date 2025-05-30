@@ -194,23 +194,23 @@ class TweetViewer {
             return this.cursor = undefined;
         }
     
-        if(vars.linkColorsInTL) {
-            let tlUsers = [];
-            for(let i in tl.list) {
-                let t = tl.list[i];
-                if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.id_str)) tlUsers.push(t.data.user.id_str); }
-                else if(t.type === 'conversation') {
-                    for(let j in t.data) {
-                        tlUsers.push(t.data[j].user.id_str);
-                    }
-                }
-            }
-            tlUsers = tlUsers.filter(i => !this.linkColors[i]);
-            let linkData = await getLinkColors(tlUsers);
-            if(linkData) for(let i in linkData) {
-                this.linkColors[linkData[i].id] = linkData[i].color;
-            }
-        }
+        // if(vars.linkColorsInTL) {
+        //     let tlUsers = [];
+        //     for(let i in tl.list) {
+        //         let t = tl.list[i];
+        //         if(t.type === 'tweet' || t.type === 'mainTweet') { if(!tlUsers.includes(t.data.user.id_str)) tlUsers.push(t.data.user.id_str); }
+        //         else if(t.type === 'conversation') {
+        //             for(let j in t.data) {
+        //                 tlUsers.push(t.data[j].user.id_str);
+        //             }
+        //         }
+        //     }
+        //     tlUsers = tlUsers.filter(i => !this.linkColors[i]);
+        //     let linkData = await getLinkColors(tlUsers);
+        //     if(linkData) for(let i in linkData) {
+        //         this.linkColors[linkData[i].id] = linkData[i].color;
+        //     }
+        // }
     
         this.cursor = tl.cursor;
         if(!this.cursor) {
@@ -862,19 +862,19 @@ class TweetViewer {
         }
         if (options.threadContinuation) tweet.classList.add('tweet-self-thread-continuation');
         if (options.noTop) tweet.classList.add('tweet-no-top');
-        if(vars.linkColorsInTL) {
-            if(this.linkColors[t.user.id_str]) {
-                let sc = makeSeeableColor(this.linkColors[t.user.id_str]);
-                tweet.style.setProperty('--link-color', sc);
-                if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
-            } else {
-                if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
-                    let sc = makeSeeableColor(t.user.profile_link_color);
-                    tweet.style.setProperty('--link-color', sc);
-                    if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
-                }
-            }
-        }
+        // if(vars.linkColorsInTL) {
+        //     if(this.linkColors[t.user.id_str]) {
+        //         let sc = makeSeeableColor(this.linkColors[t.user.id_str]);
+        //         tweet.style.setProperty('--link-color', sc);
+        //         if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
+        //     } else {
+        //         if(t.user.profile_link_color && t.user.profile_link_color !== '1DA1F2') {
+        //             let sc = makeSeeableColor(t.user.profile_link_color);
+        //             tweet.style.setProperty('--link-color', sc);
+        //             if (vars.alwaysShowLinkColor) tweet.classList.add('colour');
+        //         }
+        //     }
+        // }
         let full_text = t.full_text ? t.full_text : '';
         let isMatchingLanguage = languageMatches(t.lang);
         let isQuoteMatchingLanguage = !!t.quoted_status && languageMatches(t.quoted_status.lang);
@@ -969,7 +969,7 @@ class TweetViewer {
         console.log(t);
         tweet.innerHTML = html`
             <div class="tweet-top" hidden></div>
-            <a class="tweet-avatar-link" href="/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${t.user.name}" class="tweet-avatar" width="48" height="48"></a>
+            <a class="tweet-avatar-link" href="/${t.user.screen_name}"><img onerror="this.src = '${`${vars.useOldDefaultProfileImage ? chrome.runtime.getURL(`images/default_profile_images/default_profile_bigger.png`) : 'https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png'}`}'" src="${`${(t.user.default_profile_image && vars.useOldDefaultProfileImage) ? chrome.runtime.getURL(`images/default_profile_images/default_profile_${Number(t.user.id_str) % 7}_normal.png`): t.user.profile_image_url_https}`.replace("_normal.", "_bigger.")}" alt="${escapeHTML(t.user.name)}" class="tweet-avatar" width="48" height="48"></a>
             <div class="tweet-header ${options.mainTweet ? 'tweet-header-main' : ''}">
                 <a class="tweet-header-info ${options.mainTweet ? 'tweet-header-info-main' : ''}" href="/${t.user.screen_name}">
                     <b ${t.user.id_str === '1708130407663759360' ? 'title="Old Twitter Layout extension developer" ' : ''}class="tweet-header-name ${options.mainTweet ? 'tweet-header-name-main' : ''} ${t.user.verified || t.user.verified_type ? 'user-verified' : t.user.id_str === '1708130407663759360' ? 'user-verified user-verified-dimden' : ''} ${t.user.protected ? 'user-protected' : ''} ${t.user.verified_type === 'Government' ? 'user-verified-gray' : t.user.verified_type === 'Business' ? 'user-verified-yellow' : t.user.verified_type === 'Blue' ? 'user-verified-blue' : ''}">${escapeHTML(t.user.name)}</b>
@@ -1026,7 +1026,7 @@ class TweetViewer {
                     <span class="tweet-body-text tweet-body-text-quote tweet-body-text-long" style="color:var(--default-text-color)!important">${vars.useOldStyleReply? quoteMentionedUserText : ''}${t.quoted_status.full_text ? await renderTweetBodyHTML(t, true) : ''}</span>
                     ${t.quoted_status.extended_entities && t.quoted_status.extended_entities.media ? html`
                     <div class="tweet-media-quote">
-                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${m.type === 'animated_gif' ? 'tweet-media-element-quote-gif' : ''} ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
+                        ${t.quoted_status.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${quoteSizeFunctions[t.quoted_status.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'disableRemotePlayback controls' : ''} ${m.type === 'animated_gif' ? 'disableRemotePlayback loop muted' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} src="${m.type === 'photo' ? m.media_url_https + (vars.showOriginalImages && (m.media_url_https.endsWith('.jpg') || m.media_url_https.endsWith('.png')) ? '?name=orig' : window.navigator && navigator.connection && navigator.connection.type === 'cellular' && !vars.disableDataSaver ? '?name=small' : '') : m.video_info.variants.find(v => v.content_type === 'video/mp4').url}" class="tweet-media-element tweet-media-element-quote ${m.type === 'animated_gif' ? 'tweet-media-element-quote-gif' : ''} ${mediaClasses[t.quoted_status.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'photo' ? '' : '</video>'}`).join('\n')}
                     </div>
                     ` : ''}
                     ${!isQuoteMatchingLanguage ? html`
@@ -1220,7 +1220,7 @@ class TweetViewer {
                         }
                     }
                     tweet.getElementsByClassName('tweet-media')[0].innerHTML = html`
-                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text, true)}" title="${escapeHTML(m.ext_alt_text, true)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
+                        ${t.extended_entities.media.map(m => `<${m.type === 'photo' ? 'img' : 'video'} ${m.ext_alt_text ? `alt="${escapeHTML(m.ext_alt_text)}" title="${escapeHTML(m.ext_alt_text)}"` : ''} crossorigin="anonymous" width="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[0]}" height="${sizeFunctions[t.extended_entities.media.length](m.original_info.width, m.original_info.height)[1]}" loading="lazy" ${m.type === 'video' ? 'controls' : ''} ${m.type === 'animated_gif' ? 'loop muted' : ''}${m.type === 'animated_gif' && !vars.disableGifAutoplay ? ' autoplay' : ''} ${m.type === 'photo' ? `src="${m.media_url_https}"` : ''} class="tweet-media-element ${mediaClasses[t.extended_entities.media.length]} ${!vars.displaySensitiveContent && t.possibly_sensitive ? 'tweet-media-element-censor' : ''}">${m.type === 'video' || m.type === 'animated_gif' ? `
                             ${m.video_info.variants.map(v => `<source src="${v.url}" type="${v.content_type}">`).join('\n')}
                             ${LOC.unsupported_video.message}
                         </video>` : ''}`).join('\n')}
