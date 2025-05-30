@@ -622,5 +622,6 @@
     "accepted_conversation": { "message": "Tinanggap ang paguusap." },
     "anniversary_tweet": { "message": "Naalala mo ba nu'ng sumali ka sa Twitter? Ako oo!\n#MyTwitterAnniversary" },
     "you_shared_tweet": { "message": "Nagbahagi ka ng tweet" },
-    "user_shared_tweet": { "message": "Nagbahagi si $NAME$ ng tweet", "placeholders": { "name": { "content": "Display Name" } } }
+    "user_shared_tweet": { "message": "Nagbahagi si $NAME$ ng tweet", "placeholders": { "name": { "content": "Display Name" } } },
+    "open_oldtwitter": { "message": "Buksan ang pahinang ito sa OldTwitter" }
 }

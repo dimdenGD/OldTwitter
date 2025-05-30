@@ -152,7 +152,7 @@
     "no_results": { "message": "一致する結果は見つかりませんでした。" },
     "words": { "message": "単語" },
     "all_these_words": { "message": "キーワードをすべて含む" },
-    "all_these_words_example": { "message": "例: what’s happening - 「what’s」と「happening」の両方を含む" },
+    "all_these_words_example": { "message": "例: what's happening - 「what's」と「happening」の両方を含む" },
     "exact_phrase": { "message": "キーワード全体を含む" },
     "exact_phrase_example": { "message": "例: happy time - 「happy time」というキーワード全体を含む" },
     "any_words": { "message": "キーワードのいずれかを含む" },
@@ -579,5 +579,6 @@
     "uploaded": { "message": "アップロード済み" },
     "hide_unfollowers_page": { "message": "Unfollowersページを非表示にする" },
 	"custom_font": { "message": "<カスタム>" },
-	"current_font": { "message": "使用中のフォント: $FONT$", "placeholders": { "font": { "content": "Arial" } } }
+	"current_font": { "message": "使用中のフォント: $FONT$", "placeholders": { "font": { "content": "Arial" } } },
+    "open_oldtwitter": { "message": "このページをOldTwitterで開く" }
 }

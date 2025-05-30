@@ -644,5 +644,6 @@
     "nonexistent_user": { "message": "계정이 존재하지 않음" },
     "nonexistent_user_desc": { "message": "다른 검색어를 시도해보세요." },
     "suspended_user": { "message": "일시 정지된 계정" },
-    "suspended_user_desc": { "message": "트위터에서는 <a href='https://help.x.com/ko/rules-and-policies/twitter-rules'>트위터 운영원칙</a>을 위반한 계정을 일시정지 시킵니다." }
+    "suspended_user_desc": { "message": "트위터에서는 <a href='https://help.x.com/ko/rules-and-policies/twitter-rules'>트위터 운영원칙</a>을 위반한 계정을 일시정지 시킵니다." },
+    "open_oldtwitter": { "message": "이 페이지를 OldTwitter에서 열기" }
 }

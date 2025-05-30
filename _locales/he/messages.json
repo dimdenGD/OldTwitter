@@ -861,5 +861,6 @@
     "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
     "hide_original_languages":{
         "message": "הסר טקסט מקורי כאשר ציוצים מתורגמים" 
-    }
+    },
+    "open_oldtwitter": { "message": "פתח את הדף הזה בטוויטר הישן" }
 }

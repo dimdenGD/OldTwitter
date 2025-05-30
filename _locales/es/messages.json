@@ -646,5 +646,6 @@
     "suspended_user_desc": { "message": "El perfil que estás intentando ver ha sido suspendido." },
     "show_boring_indicators": { "message": "En la página de seguidores/siguiendo, se indicará si el último tweet de cada perfil es un retweet, un tweet citado, no existe o es un tweet viejo" },
     "hide_original_languages":{"message": "Ocultar el idioma original al traducir" },
-	"blocked": { "message": "Bloqueado" }
+	"blocked": { "message": "Bloqueado" },
+    "open_oldtwitter": { "message": "Abrir esta página en OldTwitter" }
 }

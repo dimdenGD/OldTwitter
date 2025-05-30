@@ -41,7 +41,7 @@
     "open_newtwitter": { "message": "Ouvrir cette page avec la nouvelle apparence de Twitter" },
     "last_version": { "message": "dernière version" },
     "thank_you": {
-        "message": "Merci d'avoir installé OldTwitter !! J’espère que vous l'aimerez. Allez jeter un coup d’œil aux <a target=\"_blank\" href=\"/old/settings\">paramètres de l'extension</a> !",
+        "message": "Merci d'avoir installé OldTwitter !! J'espère que vous l'aimerez. Allez jeter un coup d'œil aux <a target=\"_blank\" href=\"/old/settings\">paramètres de l'extension</a> !",
         "placeholders": {
             "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
@@ -647,5 +647,6 @@
     "suspended_user_desc": { "message": "Le profil que vous essayez de voir est suspendu." },
     "show_boring_indicators": { "message": "Afficher un indicateur sur la page des abonnés/abonnements si le dernier tweet de la personne est un retweet, une citation, inexistant ou ancien" },
     "hide_original_languages":{"message": "Cacher le message original lorsqu'il est traduit" },
-	"blocked": { "message": "bloqué.e" }
+	"blocked": { "message": "bloqué.e" },
+    "open_oldtwitter": { "message": "Ouvrir cette page dans OldTwitter" }
 }

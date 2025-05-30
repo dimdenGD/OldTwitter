@@ -2052,5 +2052,6 @@
 	"user_shared_tweet": {
 		"message": "$NAME$ compartilhou um tweet",
 		"placeholders": { "name": { "content": "Display Name" } }
-	}
+	},
+	"open_oldtwitter": { "message": "Abrir esta página no OldTwitter" }
 }

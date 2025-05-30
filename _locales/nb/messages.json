@@ -626,5 +626,6 @@
         }
     },
     "accepted_conversation": { "message": "Aksepterte samtale" },
-    "anniversary_tweet": { "message": "Husker du da du ble med på Twitter? Det gjør jeg!\n#MyTwitterAnniversary" }
+    "anniversary_tweet": { "message": "Husker du da du ble med på Twitter? Det gjør jeg!\n#MyTwitterAnniversary" },
+    "open_oldtwitter": { "message": "Åpne denne siden i OldTwitter" }
 }

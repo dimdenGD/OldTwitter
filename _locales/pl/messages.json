@@ -628,5 +628,6 @@
     "accepted_conversation": { "message": "Zaakceptowano konwersację" },
     "anniversary_tweet": { "message": "Pamiętasz, od kiedy korzystasz z Twittera? Ja tak!\n#MojeTwitteroweUrodziny" },
     "you_shared_tweet": { "message": "Udostępniłeś(-aś) tweet" },
-    "user_shared_tweet": { "message": "$NAME$ udostępnił(-a) tweet", "placeholders": { "name": { "content": "Display Name" } } }
+    "user_shared_tweet": { "message": "$NAME$ udostępnił(-a) tweet", "placeholders": { "name": { "content": "Display Name" } } },
+    "open_oldtwitter": { "message": "Otwórz tę stronę w OldTwitter" }
 }
