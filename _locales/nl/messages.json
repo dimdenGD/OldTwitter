@@ -184,7 +184,7 @@
     "disable_hotkeys": { "message": "Sneltoetsen uitschakelen" },
     "hotkeys_list": { "message": "Toon lijst van sneltoetsen" },
     "no_big_font": { "message": "Schakel groot lettertype uit voor korte tweets" },
-    "save_preferred_quality": { "message": "Sla videokwaliteit voorkeur op. Als dit is ingeschakelt, OldTwitter zult u voorkeur van videokwaliteit opslaan en gebruiken (of de dichtsbijzijnde videokwaliteit). Als het uit is, OldTwitter zult de hoogste kwaliteit gebruiken." },
+    "save_preferred_quality": { "message": "Sla videokwaliteit voorkeur op. Als dit is ingeschakeld, OldTwitter zult u voorkeur van videokwaliteit opslaan en gebruiken (of de dichtsbijzijnde videokwaliteit). Als het uit is, OldTwitter zult de hoogste kwaliteit gebruiken." },
     "preferred_quality": { "message": "Gewenste videokwaliteit" },
     "default_link_color": { "message": "Standaard koppeling kleur" },
     "font": { "message": "Lettertype" },
@@ -286,5 +286,6 @@
     "new_version": { "message": "Bijgewerkt naar nieuwe versie" },
     "mmdd":{ "message": "$MONTH$ $DATE$",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
     "mmddyy":{ "message": "$MONTH$ $DATE$, $YEAR$",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
-    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } }
+    "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
+    "open_oldtwitter": { "message": "Open deze pagina in OldTwitter" }
 }

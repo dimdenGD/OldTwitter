@@ -647,5 +647,6 @@
     "suspended_user_desc": { "message": "Profil yang Anda tujui telah ditangguhkan. Untuk kembali ke linimasa beranda Anda, <a href=\"/home\">klik di sini</a>." },
     "show_boring_indicators": { "message": "Tampilkan indikator pada laman pengikut/mengikuti jika tweet terakhir pengguna merupakan retweet/kutipan/hilang/lama" },
     "hide_original_languages":{"message": "Sembunyikan bahasa asli saat diterjemahkan" },
-	"blocked": { "message": "Diblokir" }
+	"blocked": { "message": "Diblokir" },
+    "open_oldtwitter": { "message": "Buka halaman ini di OldTwitter" }
 }

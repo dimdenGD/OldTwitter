@@ -547,5 +547,6 @@
     "disable_accept_type": { "message": "Dezactiează accept-type când încărcați media. Activați dacă nu puteți accesa toate pozele pe versiunea voastră de Android.", "description": "This option only appears on mobile" },
     "manage_searches": { "message": "Gestionați căutări" },
     "add_search": { "message": "Adaugă căutare" },
-    "pinned_searches": { "message": "Căutări fixate" }
+    "pinned_searches": { "message": "Căutări fixate" },
+    "open_oldtwitter": { "message": "Deschideți această pagină în OldTwitter" }
 }

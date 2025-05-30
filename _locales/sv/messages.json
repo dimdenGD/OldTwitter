@@ -628,5 +628,6 @@
     "accepted_conversation": { "message": "Meddelandeförfrågan accepterades" },
     "anniversary_tweet": { "message": "Minns du när du gick med på Twitter? Det gör jag!\n#MyTwitterAnniversary" },
     "you_shared_tweet": { "message": "Du delade en Tweet" },
-    "user_shared_tweet": { "message": "$NAME$ delade en Tweet", "placeholders": { "name": { "content": "Display Name" } } }
+    "user_shared_tweet": { "message": "$NAME$ delade en Tweet", "placeholders": { "name": { "content": "Display Name" } } },
+    "open_oldtwitter": { "message": "Öppna den här sidan i OldTwitter" }
 }

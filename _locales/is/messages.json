@@ -646,5 +646,6 @@
     "suspended_user_desc": { "message": "Prófílnum sem þú ert að reyna að skoða hefur verið lokað." },
     "show_boring_indicators": { "message": "Sýna vísbendingu í fylgjendum/fylgjandi síðu ef síðasta tíst einstaklings er endurtíst/tilvitnun/ekki til/gamalt" },
     "hide_original_languages":{"message": "Fela upprunalegu tungumálin þegar þau eru þýdd" },
-	"blocked": { "message": "Blokkeraði" }
+	"blocked": { "message": "Blokkeraði" },
+    "open_oldtwitter": { "message": "Opna þessa síðu í OldTwitter" }
 }

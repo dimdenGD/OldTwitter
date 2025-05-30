@@ -645,5 +645,6 @@
     "nonexistent_user_desc": { "message": "Tenta procurar outra." },
     "suspended_user": { "message": "Conta suspendida" },
     "suspended_user_desc": { "message": "O perfil que estás a intentar ver foi suspendido." },
-    "show_boring_indicators": { "message": "Amosar indicador na páxina de seguidores/seguindo se o último tweet da persoa é un retweet/cita/non existente/vello" }
+    "show_boring_indicators": { "message": "Amosar indicador na páxina de seguidores/seguindo se o último tweet da persoa é un retweet/cita/non existente/vello" },
+    "open_oldtwitter": { "message": "Abre esta páxina en OldTwitter" }
 }

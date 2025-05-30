@@ -606,7 +606,7 @@
     "user_added_you_msg": { "description": "This is used when a group admin adds you to the group chat (display names, messages only)", "example": "<a href=\"/GroupAdmin\">Group Admin</a> added you<br>There are 6 other people in this group", "message": "$A_START$$NAME$$A_END$ t'ha afegit<br>Hi ha $NUMBER$ persones en aquest grup", "placeholders": { "a_end": { "content": "</a>" }, "a_start": { "content": "<a href=\"/GroupAdmin\">" }, "name": { "content": "Group Admin" }, "number": { "content": "6" } } },
     "user_changed_group_name": { "description": "This is used when a user in a group changes the group name (display name)", "message": "$A_START$$NAME$$A_END$ ha canviat el nom del grup a $GROUP_NAME$", "placeholders": { "a_end": { "content": "</a>" }, "a_start": { "content": "<a href=\"/GroupAdmin\">" }, "group_name": { "content": "Example Group" }, "name": { "content": "Group Admin" } } },
     "user_changed_group_photo": { "description": "This is used when a user in a group changes the group photo (display name)", "message": "$A_START$$NAME$$A_END$ ha canviat la foto de grup", "placeholders": { "a_end": { "content": "</a>" }, "a_start": { "content": "<a href=\"/GroupAdmin\">" }, "name": { "content": "Group Admin" } } },
-    "user_left": { "description": "This is used when a user in a group leaves (display name)", "message": "$A_START$$NAME$$A_END$ ha marxar", "placeholders": { "a_end": { "content": "</a>" }, "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" }, "name": { "content": "Group Admin's Friend" } } },
+    "user_left": { "description": "This is used when a user in a group leaves (display name)", "message": "$A_START$$NAME$$A_END$ ha marxat", "placeholders": { "a_end": { "content": "</a>" }, "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" }, "name": { "content": "Group Admin's Friend" } } },
     "user_reacted_message": { "message": "$NAME$ ha reaccionat al missatge", "placeholders": { "name": { "content": "Display Name" } } },
     "user_sent_photo": { "message": "$NAME$ ha enviat una foto", "placeholders": { "name": { "content": "Display Name" } } },
     "user_sent_video": { "message": "$NAME$ ha enviat un vídeo", "placeholders": { "name": { "content": "Display Name" } } },
@@ -614,5 +614,6 @@
     "you_reacted_message": { "message": "Has reaccionat al missatge" },
     "you_sent_photo": { "message": "Has enviat una foto" },
     "you_sent_video": { "message": "Has enviat un vídeo" },
-    "you_shared_tweet": { "message": "Has compartit un tuit" }
+    "you_shared_tweet": { "message": "Has compartit un tuit" },
+    "open_oldtwitter": { "message": "Ouvrir cette page dans OldTwitter" }
 }
