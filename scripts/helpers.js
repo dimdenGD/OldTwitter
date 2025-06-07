@@ -472,9 +472,9 @@ function onVisibilityChange(callback) {
   window.onpagehide = window.onblur = unfocused;
 }
 function escapeHTML(unsafe) {
-  if (typeof unsafe === "undefined" || unsafe === null) {
-    return "";
-  }
+    if(typeof unsafe === 'undefined' || unsafe === null) {
+        return '';
+    }
 
     //twitter returns already-escaped text in some scenarios, which can cause it to get double-escaped, so we're unescaping that to re-escape it...
     unsafe = unsafe
@@ -488,15 +488,6 @@ function escapeHTML(unsafe) {
     .replaceAll('\'', '&apos;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;');
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&apos;")
-      .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;");
-}
-  }
-
-  return DOMPurify.sanitize(String(unsafe), { ADD_ATTR: ["target"] });
 }
 
 function html(strings, ...values) {
