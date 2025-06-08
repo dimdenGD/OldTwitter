@@ -168,7 +168,8 @@ function renderMultiMediaNodes(tweetObject) {
 async function constructQuotedTweet(
   t,
   isQuoteMatchingLanguage,
-  quoteMentionedUserText
+  quoteMentionedUserText,
+  newQuoteMentionedUserText,
 ) {
   // === Profile Element ===
   const profileElement = elNew("img", {
@@ -236,9 +237,21 @@ async function constructQuotedTweet(
     [timeElapsed(new Date(t.quoted_status.created_at).getTime())]
   );
 
-  var newStyleReplyTo = null;
-  if (quoteMentionedUserText !== `` && !vars.useOldStyleReply) {
-    newStyleReplyTo = elNew(
+  var oldStyleReplyTo = null;
+  if (!!newQuoteMentionedUserText && !vars.useOldStyleReply) {
+
+    newQuoteMentionedUserText = interleave(
+      newQuoteMentionedUserText,
+      LOC.replying_to_comma.message
+    );
+
+    if (newQuoteMentionedUserText.length >=5) {
+      const arrLength = newQuoteMentionedUserText.length;
+      newQuoteMentionedUserText[arrLength - 2] =
+        LOC.replying_to_and.message;
+    }
+
+    oldStyleReplyTo = elNew(
       "span",
       { className: "tweet-reply-to tweet-quote-reply-to" },
       [
@@ -351,7 +364,7 @@ async function constructQuotedTweet(
       nameElement,
       // Tweet Time Quote
       tweetTimeElement,
-      newStyleReplyTo,
+      oldStyleReplyTo,
       bodyElement,
       mediaElement,
       !isQuoteMatchingLanguage
@@ -536,6 +549,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   if (doMentionText) {
     // Taken from StackOverflow once again.
 
+    
     tweetConstructorArgs.mentionedUserTextArray = interleave(
       tweetConstructorArgs.mentionedUserTextArray,
       LOC.replying_to_comma.message
@@ -550,7 +564,8 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       tweetConstructorArgs.mentionedUserTextArray[arrLength - 2] =
         LOC.replying_to_and.message;
     }
-
+    // XXX: This is actually missing a `LOC.replying_to_user.message`.
+    // Will need to figure out how to replace it.
     mentioned_node = elNew("div", { className: "tweet-reply-to" }, [
       elNew("span", {}, tweetConstructorArgs.mentionedUserTextArray),
     ]);
