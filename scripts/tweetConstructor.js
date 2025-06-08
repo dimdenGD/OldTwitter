@@ -4,6 +4,169 @@ function htmlToNodes(string) {
   return tmp;
 }
 
+const svgPlayIcon = `<svg viewBox="0 0 24 24" class="tweet-media-video-overlay-play">
+    <g>
+        <path class="svg-play-path" d="M8 5v14l11-7z"></path>
+        <path
+            d="M0 0h24v24H0z"
+            fill="none"
+        ></path>
+    </g>
+</svg>`;
+
+function interleave(arr, x) {
+  return arr.flatMap((e) => [e, x]).slice(0, -1);
+}
+
+/**
+ *
+ * @param {object} tweetObject The tweet object.
+ * @returns {Element[]} an array of html elements
+ */
+function renderMultiMediaNodes(tweetObject) {
+  // let _html = "";
+  let htmlNodes = [];
+  if (!tweetObject.extended_entities || !tweetObject.extended_entities.media)
+    return htmlNodes;
+
+  let cws = [];
+
+  for (let i = 0; i < tweetObject.extended_entities.media.length; i++) {
+    let m = tweetObject.extended_entities.media[i];
+    let toCensor =
+      !vars.displaySensitiveContent && tweetObject.possibly_sensitive;
+    if (m.sensitive_media_warning) {
+      if (m.sensitive_media_warning.graphic_violence) {
+        cws.push(LOC.graphic_violence.message);
+        toCensor = !vars.uncensorGraphicViolenceAutomatically;
+      }
+      if (m.sensitive_media_warning.adult_content) {
+        cws.push(LOC.adult_content.message);
+        toCensor = !vars.uncensorAdultContentAutomatically;
+      }
+      if (m.sensitive_media_warning.other) {
+        cws.push(LOC.sensitive_content.message);
+        toCensor = !vars.uncensorSensitiveContentAutomatically;
+      }
+    }
+    if (m.type === "photo") {
+      let [w, h] = sizeFunctions[tweetObject.extended_entities.media.length](
+        m.original_info.width,
+        m.original_info.height
+      );
+      const newClone = img_template.cloneNode(true);
+      const altText = m.ext_alt_text ? escapeHTML(m.ext_alt_text, true) : "";
+      if (altText) {
+        newClone.alt = newClone.title = altText;
+      }
+      newClone.width = w;
+      newClone.height = h;
+      newClone.src =
+        m.media_url_https +
+        (vars.showOriginalImages &&
+        (m.media_url_https.endsWith(".jpg") ||
+          m.media_url_https.endsWith(".png"))
+          ? "?name=orig"
+          : window.navigator &&
+            navigator.connection &&
+            navigator.connection.type === "cellular" &&
+            !vars.disableDataSaver
+          ? "?name=small"
+          : "");
+      var mediaClass = mediaClasses[tweetObject.extended_entities.media.length];
+      if (mediaClass) newClone.classList.add(mediaClass);
+      if (toCensor) newClone.classList.add("tweet-media-element-censor");
+      htmlNodes.push(newClone);
+    } else if (m.type === "animated_gif") {
+      let [w, h] = sizeFunctions[tweetObject.extended_entities.media.length](
+        m.original_info.width,
+        m.original_info.height
+      );
+      let rid = m.id_str + m.media_key;
+
+      const newClone = animated_gif_template.cloneNode(true);
+      const altText = m.ext_alt_text ? escapeHTML(m.ext_alt_text, true) : "";
+      if (altText) {
+        newClone.alt = newClone.title = altText;
+      }
+      newClone.width = w;
+      newClone.height = h;
+      newClone.loop = true;
+
+      newClone.defaultMuted = true;
+      newClone.muted = true;
+      newClone.disableRemotePlayback = true;
+      if (!vars.disableGifAutoplay) newClone.autoplay = true;
+      else newClone.autoplay = false;
+      var mediaClass = mediaClasses[tweetObject.extended_entities.media.length];
+      if (mediaClass) newClone.classList.add(mediaClass);
+      if (toCensor) newClone.classList.add("tweet-media-element-censor");
+      m.video_info.variants.forEach((variant) => {
+        var source = document.createElement("source");
+        source.src = variant.url;
+        source.type = variant.content_type;
+        newClone.appendChild(source);
+      });
+      newClone.appendChild(
+        document.createTextNode(LOC.unsupported_video.message)
+      );
+      htmlNodes.push(newClone);
+    } else if (m.type === "video") {
+      if (m.mediaStats && m.mediaStats.viewCount) {
+        m.ext = {
+          mediaStats: { r: { ok: { viewCount: m.mediaStats.viewCount } } },
+        };
+      }
+      let [w, h] = sizeFunctions[tweetObject.extended_entities.media.length](
+        m.original_info.width,
+        m.original_info.height
+      );
+      const newClone = video_template.cloneNode(true);
+      const altText = m.ext_alt_text ? escapeHTML(m.ext_alt_text, true) : "";
+      if (altText) {
+        newClone.alt = newClone.title = altText;
+      }
+      newClone.width = w;
+      newClone.height = h;
+      newClone.loop = true;
+
+      newClone.disableRemotePlayback = true;
+      if (vars.muteVideos) {
+        newClone.defaultMuted = true;
+        newClone.muted = true;
+      } else {
+        newClone.defaultMuted = false;
+        newClone.muted = false;
+      }
+      var mediaClass = mediaClasses[tweetObject.extended_entities.media.length];
+      if (mediaClass) newClone.classList.add(mediaClass);
+      if (toCensor) newClone.classList.add("tweet-media-element-censor");
+      newClone.poster = m.media_url_https;
+      m.video_info.variants.forEach((variant) => {
+        var source = document.createElement("source");
+        source.src = variant.url;
+        source.type = variant.content_type;
+        newClone.appendChild(source);
+      });
+      newClone.appendChild(
+        document.createTextNode(LOC.unsupported_video.message)
+      );
+      htmlNodes.push(newClone);
+    }
+    if (i === 1 && tweetObject.extended_entities.media.length > 3) {
+      htmlNodes.push(elNew("br"));
+    }
+  }
+
+  if (cws.length > 0) {
+    cws = [...new Set(cws)];
+    cws = LOC.content_warning.message.replace("$WARNINGS$", cws.join(", "));
+    htmlNodes.push(elNew("br"));
+    htmlNodes.push(elNew("div", { className: "tweet-media-cws" }, [cws]));
+  }
+  return htmlNodes;
+}
+
 async function constructQuotedTweet(
   t,
   isQuoteMatchingLanguage,
@@ -186,6 +349,13 @@ async function constructQuotedTweet(
   return rootAHref.outerHTML;
 }
 
+/**
+ *
+ * @param {object} t Base Tweet content
+ * @param {object} tweetConstructorArgs Additional parsed constructor arguments
+ * @param {object} options oldTwitter specific arguments.
+ * @returns
+ */
 async function constructTweet(t, tweetConstructorArgs, options = {}) {
   const _tweetTopConst = elNew("div", { className: "tweet-top", hidden: true });
 
@@ -335,43 +505,51 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     tweet_top += el.outerHTML;
   });
 
+  // mentionText
   const doMentionText =
     tweetConstructorArgs.mentionedUserText !== `` &&
+    !!tweetConstructorArgs.newMentionedUserText &&
     !options.threadContinuation &&
     !options.noTop &&
     !location.pathname.includes("/status/") &&
     !vars.useOldStyleReply;
   var mentioned_node = null;
   if (doMentionText) {
-    const replyHtml = LOC.replying_to_user.message.replace(
-      "$SCREEN_NAME$",
-      tweetConstructorArgs.mentionedUserText
-        .trim()
-        .replaceAll(`> <`, `>${LOC.replying_to_comma.message}<`)
-        .replace(
-          `>${LOC.replying_to_comma.message}<`,
-          `>${LOC.replying_to_and.message}<`
-        )
+    // Taken from StackOverflow once again.
+
+    tweetConstructorArgs.newMentionedUserText = interleave(
+      tweetConstructorArgs.newMentionedUserText,
+      LOC.replying_to_comma.message
     );
 
+    // XXX: In theory, this should be the right order.
+    // Previously it was [` and ` | `, ` | `, ` | ...]
+    // but it should be: [`, ` | `, ` ... ` and `]
+    // But I cannot be 100% sure about this. - Ristellise.
+    if (tweetConstructorArgs.newMentionedUserText.length >= 5) {
+      const arrLength = tweetConstructorArgs.newMentionedUserText.length;
+      tweetConstructorArgs.newMentionedUserText[arrLength - 2] =
+        LOC.replying_to_and.message;
+    }
+
     mentioned_node = elNew("div", { className: "tweet-reply-to" }, [
-      elNew("span", {}, [htmlToNodes(replyHtml).content]),
+      elNew("span", {}, tweetConstructorArgs.newMentionedUserText),
     ]);
   }
 
+  // Main text content
+  const longShortClass =
+    vars.noBigFont ||
+    t.full_text.length > 280 ||
+    !options.bigFont ||
+    (!options.mainTweet && location.pathname.includes("/status/"))
+      ? "tweet-body-text-long"
+      : "tweet-body-text-short";
   const body_node = elNew(
     "div",
     {
       lang: t.lang,
-      classList: [
-        "tweet-body-text",
-        vars.noBigFont ||
-        t.full_text.length > 280 ||
-        !options.bigFont ||
-        (!options.mainTweet && location.pathname.includes("/status/"))
-          ? "tweet-body-text-long"
-          : "tweet-body-text-short",
-      ],
+      classList: ["tweet-body-text", longShortClass],
     },
     [
       elNew("span", { class: ["tweet-body-text-span"] }, [
@@ -385,280 +563,498 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     ]
   );
 
+  // translate icon
+  var translate_node = null;
   if (!tweetConstructorArgs.isMatchingLanguage && options.mainTweet) {
-    elNew("div", {}, [
+    translate_node = elNew("div", {}, [
       elNew("br"),
       elNew("span", { class: ["tweet-button", "tweet-translate"] }, [
         LOC.view_translation.message,
       ]),
     ]);
   }
+  const body_text = body_node.outerHTML;
+  // const body_text = `<div lang="${t.lang}" class="tweet-body-text ${
+  //   vars.noBigFont ||
+  //   t.full_text.length > 280 ||
+  //   !options.bigFont ||
+  //   (!options.mainTweet && location.pathname.includes("/status/"))
+  //     ? "tweet-body-text-long"
+  //     : "tweet-body-text-short"
+  // }">
+  //                   <span class="tweet-body-text-span">${
+  //                     vars.useOldStyleReply
+  //                       ? /*html*/ tweetConstructorArgs.mentionedUserText
+  //                       : ""
+  //                   }${
+  //   tweetConstructorArgs.full_text ? await renderTweetBodyHTML(t) : ""
+  // }</span>
+  //               </div>`;
 
-  const body_text = `<div lang="${t.lang}" class="tweet-body-text ${
-    vars.noBigFont ||
-    t.full_text.length > 280 ||
-    !options.bigFont ||
-    (!options.mainTweet && location.pathname.includes("/status/"))
-      ? "tweet-body-text-long"
-      : "tweet-body-text-short"
-  }">
-                    <span class="tweet-body-text-span">${
-                      vars.useOldStyleReply
-                        ? /*html*/ tweetConstructorArgs.mentionedUserText
-                        : ""
-                    }${
-    tweetConstructorArgs.full_text ? await renderTweetBodyHTML(t) : ""
-  }</span>
-                </div>`;
-  const translate_text =
-    !tweetConstructorArgs.isMatchingLanguage && options.mainTweet
-      ? `
-            <br/>
-            <span class="tweet-button tweet-translate"
-                >${LOC.view_translation.message}</span
-            >
-        `
-      : "";
+  const translate_text = translate_node ? translate_node.outerHTML : "";
 
-  var extended_media =
-    t.extended_entities && t.extended_entities.media
-      ? `
-            <div class="tweet-media">
-                ${
-                  t.extended_entities.media.length === 1 &&
-                  t.extended_entities.media[0].type === "video"
-                    ? `
-                          <div class="tweet-media-video-overlay tweet-button">
-                              <svg
-                                  viewBox="0 0 24 24"
-                                  class="tweet-media-video-overlay-play"
-                              >
-                                  <g>
-                                      <path
-                                          class="svg-play-path"
-                                          d="M8 5v14l11-7z"
-                                      ></path>
-                                      <path
-                                          d="M0 0h24v24H0z"
-                                          fill="none"
-                                      ></path>
-                                  </g>
-                              </svg>
-                          </div>
-                      `
-                    : ""
-                }
-                ${renderMedia(t)}
-            </div>
-            ${
-              t.extended_entities &&
-              t.extended_entities.media &&
-              t.extended_entities.media.some((m) => m.type === "animated_gif")
-                ? `<div class="tweet-media-controls">GIF</div>`
-                : ""
-            }
-            ${
-              tweetConstructorArgs.videos
-                ? `
-                      <div class="tweet-media-controls">
-                          ${
-                            tweetConstructorArgs.videos[0].ext &&
-                            tweetConstructorArgs.videos[0].ext.mediaStats &&
-                            tweetConstructorArgs.videos[0].ext.mediaStats.r &&
-                            tweetConstructorArgs.videos[0].ext.mediaStats.r.ok
-                              ? `<span class="tweet-video-views tweet-button">${Number(
-                                  tweetConstructorArgs.videos[0].ext.mediaStats
-                                    .r.ok.viewCount
-                                )
-                                  .toLocaleString()
-                                  .replace(/\s/g, ",")} ${
-                                  LOC.views.message
-                                }</span> • `
-                              : ""
-                          }<span class="tweet-video-reload tweet-button"
-                              >${LOC.reload.message}</span
-                          >
-                          •
-                          ${tweetConstructorArgs.videos[0].video_info.variants
-                            .filter((v) => v.bitrate)
-                            .map(
-                              (v) =>
-                                `<span class="tweet-video-quality tweet-button" data-url="${
-                                  v.url
-                                }">${v.url.match(/\/(\d+)x/)[1] + "p"}</span> `
-                            )
-                            .join(" / ")}
-                      </div>
-                  `
-                : ``
-            }
-            <span class="tweet-media-data"></span>
-        `
-      : "";
+  // render media content elements
+  var extended_node = null;
+  if (t.extended_entities && t.extended_entities.media) {
+    // videoOverlay if it's only a single video.
+    const isSingleVideo =
+      t.extended_entities.media.length === 1 &&
+      t.extended_entities.media[0].type === "video"
+        ? true
+        : false;
+    var videoOverlay = null;
+    if (isSingleVideo) {
+      videoOverlay = elNew(
+        "div",
+        { class: ["tweet-media-video-overlay", "tweet-button"] },
+        // XXX: htmlToNodes needs to always be called, else .content will be null/undefined.
+        [htmlToNodes(svgPlayIcon).content]
+      );
+      console.log(videoOverlay, videoOverlay.outerHTML);
+    }
+    // Render media nodes
+    var mediaNodes = renderMultiMediaNodes(t);
 
+    // <div class="tweet-media-controls">GIF</div>
+    var gifControl =
+      t.extended_entities &&
+      t.extended_entities.media &&
+      t.extended_entities.media.some((m) => m.type === "animated_gif")
+        ? elNew("div", { class: "tweet-media-controls" }, ["GIF"])
+        : null;
+    var videoControls = null;
+    if (tweetConstructorArgs.videos) {
+      var viewNode = null;
+      if (
+        tweetConstructorArgs.videos[0].ext &&
+        tweetConstructorArgs.videos[0].ext.mediaStats &&
+        tweetConstructorArgs.videos[0].ext.mediaStats.r &&
+        tweetConstructorArgs.videos[0].ext.mediaStats.r.ok
+      ) {
+        viewNode = Number(
+          tweetConstructorArgs.videos[0].ext.mediaStats.r.ok.viewCount
+        );
+        viewNode = elNew(
+          "span",
+          { class: ["tweet-video-views", "tweet-button"] },
+          [
+            `${viewNode.toLocaleString().replace(/\s/g, ",")} ${
+              LOC.views.message
+            } • `,
+          ]
+        );
+      }
+
+      const reloadNode = elNew(
+        "span",
+        { class: ["tweet-video-reload", "tweet-button"] },
+        [LOC.reload.message]
+      );
+      var resolutionNodes = tweetConstructorArgs.videos[0].video_info.variants
+        .filter((v) => v.bitrate)
+        .map((v) =>
+          elNew("span", { class: [], dataset: { url: v.url } }, [
+            v.url.match(/\/(\d+)x/)[1] + "p",
+          ])
+        );
+      videoControls = elNew("div", { class: "tweet-media-controls" }, [
+        viewNode,
+        reloadNode,
+        " • ",
+        ...interleave(resolutionNodes, " / "),
+      ]);
+    }
+    // console.log([videoOverlay, ...mediaNodes]);
+    extended_node = elNew("template", {}, [
+      elNew("div", { class: ["tweet-media"] }, [videoOverlay, ...mediaNodes]),
+      gifControl,
+      videoControls,
+      elNew("span", { class: "tweet-media-data" }),
+    ]);
+  }
+
+  var extended_media = "";
+  if (extended_node) {
+    [].forEach.call(extended_node.children, function (el) {
+      extended_media += el.outerHTML;
+    });
+  }
+
+  // card placeholder if there is a card to placeholder.
   const card = t.card ? `<div class="tweet-card"></div>` : "";
-  const quoted_tweet = t.quoted_status
-    ? await constructQuotedTweet(
-        t,
-        tweetConstructorArgs.isQuoteMatchingLanguage,
-        tweetConstructorArgs.quoteMentionedUserText
-      )
-    : "";
+  // quoted tweet status.
+  let quoted_tweet = "";
+  if (t.quoted_status) {
+    quoted_tweet = await constructQuotedTweet(
+      t,
+      tweetConstructorArgs.isQuoteMatchingLanguage,
+      tweetConstructorArgs.quoteMentionedUserText
+    );
+  }
+
+  // limited text
   var limited = "";
   if (
     t.limited_actions === "limit_trusted_friends_tweet" &&
     (options.mainTweet || !location.pathname.includes("/status/"))
   ) {
-    limited = `
-            <div class="tweet-limited">
-                ${LOC.circle_limited_tweet.message}
-                <a
-                    href="https://help.twitter.com/en/using-twitter/twitter-circle"
-                    target="_blank"
-                    >${LOC.learn_more.message}</a
-                >
-            </div>
-        `.replace(
-      "$SCREEN_NAME$",
-      tweet.trusted_circle_owner
-        ? tweet.trusted_circle_owner
-        : tweetStorage[t.conversation_id_str]
-        ? tweetStorage[t.conversation_id_str].user.screen_name
-        : t.in_reply_to_screen_name
-        ? t.in_reply_to_screen_name
-        : t.user.screen_name
-    );
+    let screen_name = null;
+    if (tweet.trusted_circle_owner) {
+      screen_name = tweet.trusted_circle_owner;
+    } else if (tweetStorage[t.conversation_id_str]) {
+      screen_name = tweetStorage[t.conversation_id_str].user.screen_name;
+    } else if (t.in_reply_to_screen_name) {
+      screen_name = t.in_reply_to_screen_name;
+    } else {
+      screen_name = t.user.screen_name;
+    }
+    limited = elNew("div", { class: ["tweet-limited"] }, [
+      LOC.circle_limited_tweet.message.replace("$SCREEN_NAME$", screen_name),
+      elNew(
+        "a",
+        {
+          href: "https://help.twitter.com/en/using-twitter/twitter-circle",
+          target: "blank",
+        },
+        [LOC.learn_more.message]
+      ),
+    ]).outerHTML;
+
+    // limited = `
+    //         <div class="tweet-limited">
+    //             ${LOC.circle_limited_tweet.message}
+    //             <a
+    //                 href="https://help.twitter.com/en/using-twitter/twitter-circle"
+    //                 target="_blank"
+    //                 >${LOC.learn_more.message}</a
+    //             >
+    //         </div>
+    //     `.replace(
+    //   "$SCREEN_NAME$",
+    //   screen_name
+    // );
   }
+  // tombstoned
   const tomb_stone = t.tombstone
-    ? `<div class="tweet-warning">${t.tombstone}</div>`
+    ? elNew("div", { class: ["tweet-warning"] }, [t.tombstone]).outerHTML
     : "";
-  const country_restrictions =
+  // country restricted text.
+  var country_restrictions = "";
+  if (
     (t.withheld_in_countries &&
       (t.withheld_in_countries.includes("XX") ||
         t.withheld_in_countries.includes("XY"))) ||
     t.withheld_scope
-      ? `<div class="tweet-warning">
-        This Tweet has been withheld in response to a report from the copyright holder. <a href="https://help.twitter.com/en/rules-and-policies/copyright-policy" target="_blank">Learn more.</a></div>`
-      : "";
+  ) {
+    country_restrictions = elNew("div", { class: ["tweet-warning"] }, [
+      "This Tweet has been withheld in response to a report from the copyright holder.",
+      elNew(
+        "a",
+        {
+          href: "https://help.twitter.com/en/rules-and-policies/copyright-policy",
+          target: "_blank",
+        },
+        ["Learn more."]
+      ),
+    ]);
+  }
+  // const country_restrictions =
+  //   (t.withheld_in_countries &&
+  //     (t.withheld_in_countries.includes("XX") ||
+  //       t.withheld_in_countries.includes("XY"))) ||
+  //   t.withheld_scope
+  //     ? `<div class="tweet-warning">
+  //       This Tweet has been withheld in response to a report from the copyright holder. <a href="https://help.twitter.com/en/rules-and-policies/copyright-policy" target="_blank">Learn more.</a></div>`
+  //     : "";
 
-  const conversation_control = t.conversation_control
-    ? `<div class="tweet-warning">${
-        t.limited_actions_text
-          ? t.limited_actions_text
-          : LOC.limited_tweet.message
-      }${
-        t.conversation_control.policy &&
-        (t.user.id_str === user.id_str ||
-          (t.conversation_control.policy.toLowerCase() === "community" &&
-            (t.user.followed_by ||
-              (tweetConstructorArgs.full_text &&
-                tweetConstructorArgs.full_text.includes(
-                  `@${user.screen_name}`
-                )))) ||
-          (t.conversation_control.policy.toLowerCase() === "by_invitation" &&
-            tweetConstructorArgs.full_text &&
-            tweetConstructorArgs.full_text.includes(`@${user.screen_name}`)))
-          ? " " + LOC.you_can_reply.message
-          : ""
-      }</div>`
-    : "";
+  var conversation_control = "";
+  if (t.conversation_control) {
+    const limitedActions = t.limited_actions_text
+      ? t.limited_actions_text
+      : LOC.limited_tweet.message;
+    var replyText =
+      t.conversation_control.policy &&
+      (t.user.id_str === user.id_str ||
+        (t.conversation_control.policy.toLowerCase() === "community" &&
+          (t.user.followed_by ||
+            (tweetConstructorArgs.full_text &&
+              tweetConstructorArgs.full_text.includes(
+                `@${user.screen_name}`
+              )))) ||
+        (t.conversation_control.policy.toLowerCase() === "by_invitation" &&
+          tweetConstructorArgs.full_text &&
+          tweetConstructorArgs.full_text.includes(`@${user.screen_name}`)));
+    if (replyText) {
+      replyText = " " + LOC.you_can_reply.message;
+    } else {
+      replyText = "";
+    }
+    conversation_control = elNew("div", { class: "tweet-warning" }, [
+      limitedActions,
+      replyText,
+    ]).outerHTML;
+  }
 
-  const tweet_footer = options.mainTweet
-    ? `
-              <div class="tweet-footer">
-                  <div class="tweet-footer-stats">
-                      <a
-                          href="/${t.user.screen_name}/status/${t.id_str}"
-                          class="tweet-footer-stat tweet-footer-stat-o"
-                      >
-                          <span class="tweet-footer-stat-text"
-                              >${LOC.replies.message}</span
-                          >
-                          <b
-                              class="tweet-footer-stat-count tweet-footer-stat-replies"
-                              >${formatLargeNumber(t.reply_count).replace(
-                                /\s/g,
-                                ","
-                              )}</b
-                          >
-                      </a>
-                      <a
-                          href="/${t.user.screen_name}/status/${
-        t.id_str
-      }/retweets"
-                          class="tweet-footer-stat tweet-footer-stat-r"
-                      >
-                          <span class="tweet-footer-stat-text"
-                              >${LOC.retweets.message}</span
-                          >
-                          <b
-                              class="tweet-footer-stat-count tweet-footer-stat-retweets"
-                              >${formatLargeNumber(t.retweet_count).replace(
-                                /\s/g,
-                                ","
-                              )}</b
-                          >
-                      </a>
-                      ${
-                        vars.showQuoteCount &&
-                        typeof t.quote_count !== "undefined" &&
-                        t.quote_count > 0
-                          ? html`<a
-                              href="/${t.user
-                                .screen_name}/status/${t.id_str}/retweets/with_comments"
-                              class="tweet-footer-stat tweet-footer-stat-q"
-                            >
-                              <span class="tweet-footer-stat-text"
-                                >${LOC.quotes.message}</span
-                              >
-                              <b
-                                class="tweet-footer-stat-count tweet-footer-stat-quotes"
-                                >${formatLargeNumber(t.quote_count).replace(
-                                  /\s/g,
-                                  ","
-                                )}</b
-                              >
-                            </a>`
-                          : ""
-                      }
-                      <a
-                          href="/${t.user.screen_name}/status/${t.id_str}/likes"
-                          class="tweet-footer-stat tweet-footer-stat-f"
-                      >
-                          <span class="tweet-footer-stat-text"
-                              >${
-                                vars.heartsNotStars
-                                  ? LOC.likes.message
-                                  : LOC.favorites.message
-                              }</span
-                          >
-                          <b
-                              class="tweet-footer-stat-count tweet-footer-stat-favorites"
-                              >${formatLargeNumber(t.favorite_count).replace(
-                                /\s/g,
-                                ","
-                              )}</b
-                          >
-                      </a>
-                  </div>
-                  <div class="tweet-footer-favorites"></div>
-              </div>
-          `
-    : "";
+  // const conversation_control = t.conversation_control
+  //   ? `<div class="tweet-warning">${
+  //       t.limited_actions_text
+  //         ? t.limited_actions_text
+  //         : LOC.limited_tweet.message
+  //     }${
+  //       t.conversation_control.policy &&
+  //       (t.user.id_str === user.id_str ||
+  //         (t.conversation_control.policy.toLowerCase() === "community" &&
+  //           (t.user.followed_by ||
+  //             (tweetConstructorArgs.full_text &&
+  //               tweetConstructorArgs.full_text.includes(
+  //                 `@${user.screen_name}`
+  //               )))) ||
+  //         (t.conversation_control.policy.toLowerCase() === "by_invitation" &&
+  //           tweetConstructorArgs.full_text &&
+  //           tweetConstructorArgs.full_text.includes(`@${user.screen_name}`)))
+  //         ? " " + LOC.you_can_reply.message
+  //         : ""
+  //     }</div>`
+  //   : "";
 
-  const tweet_date = `<a ${
-    !options.mainTweet ? "hidden" : ""
-  } class="tweet-date" title="${new Date(
-    t.created_at
-  ).toLocaleString()}" href="/${t.user.screen_name}/status/${
-    t.id_str
-  }"><br>${new Date(t.created_at)
-    .toLocaleTimeString(undefined, { hour: "numeric", minute: "numeric" })
-    .toLowerCase()} - ${new Date(t.created_at).toLocaleDateString(undefined, {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  })}  ・ ${t.source ? t.source.split(">")[1].split("<")[0] : "Unknown"}</a>`;
+  var tweet_footer = "";
+  if (options.mainTweet) {
+    var statsArray = [];
+    // Replies
+    statsArray.push(
+      elNew(
+        "a",
+        {
+          href: `${t.user.screen_name}/status/${t.id_str}`,
+          class: ["tweet-footer-stat", "tweet-footer-stat-o"],
+        },
+        [
+          elNew("span", { class: "tweet-footer-stat-text" }, [
+            LOC.replies.message,
+          ]),
+          elNew(
+            "b",
+            {
+              class: ["tweet-footer-stat-count", "tweet-footer-stat-replies"],
+            },
+            [formatLargeNumber(t.reply_count).replace(/\s/g, ",")]
+          ),
+        ]
+      )
+    );
+    // Retweets
+    statsArray.push(
+      elNew(
+        "a",
+        {
+          href: `${t.user.screen_name}/status/${t.id_str}/retweets`,
+          class: ["tweet-footer-stat", "tweet-footer-stat-o"],
+        },
+        [
+          elNew("span", { class: "tweet-footer-stat-text" }, [
+            LOC.retweets.message,
+          ]),
+          elNew(
+            "b",
+            {
+              class: ["tweet-footer-stat-count", "tweet-footer-stat-r"],
+            },
+            [formatLargeNumber(t.retweet_count).replace(/\s/g, ",")]
+          ),
+        ]
+      )
+    );
+    if (
+      vars.showQuoteCount &&
+      typeof t.quote_count !== "undefined" &&
+      t.quote_count > 0
+    ) {
+      statsArray.push(
+        elNew(
+          "a",
+          {
+            href: `${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`,
+            class: ["tweet-footer-stat", "tweet-footer-stat-q"],
+          },
+          [
+            elNew("span", { class: "tweet-footer-stat-text" }, [
+              LOC.quotes.message,
+            ]),
+            elNew(
+              "b",
+              {
+                class: ["tweet-footer-stat-count", "tweet-footer-stat-quotes"],
+              },
+              [formatLargeNumber(t.quote_count).replace(/\s/g, ",")]
+            ),
+          ]
+        )
+      );
+    }
+    // Likes
+    statsArray.push(
+      elNew(
+        "a",
+        {
+          href: `${t.user.screen_name}/status/${t.id_str}/likes`,
+          class: ["tweet-footer-stat", "tweet-footer-stat-f"],
+        },
+        [
+          elNew("span", { class: "tweet-footer-stat-text" }, [
+            vars.heartsNotStars ? LOC.likes.message : LOC.favorites.message,
+          ]),
+          elNew(
+            "b",
+            {
+              class: ["tweet-footer-stat-count", "tweet-footer-stat-favorites"],
+            },
+            [formatLargeNumber(t.favorite_count).replace(/\s/g, ",")]
+          ),
+        ]
+      )
+    );
+
+    tweet_footer = elNew("div", { class: ["tweet-footer"] }, [
+      elNew("div", { class: ["tweet-footer-stats"] }, statsArray),
+    ]).outerHTML;
+  }
+  const tweet_date = elNew(
+    "a",
+    {
+      hidden: !options.mainTweet ? true : false,
+      class: ["tweet-date"],
+      title: new Date(t.created_at).toLocaleString(),
+      href: `/${t.user.screen_name}/status/${t.id_str}`,
+    },
+    [
+      elNew("br"),
+      new Date(t.created_at)
+        .toLocaleTimeString(undefined, { hour: "numeric", minute: "numeric" })
+        .toLowerCase(),
+      " - ",
+      new Date(t.created_at).toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+      "  ・ ",
+      t.source ? t.source.split(">")[1].split("<")[0] : "Unknown",
+    ]
+  ).outerHTML;
+
+  // solve additional retweet actions
+  var retweetClasses = ["tweet-button", "tweet-interact-retweet"];
+  if (t.retweeted) {
+    retweetClasses.push("tweet-interact-retweeted");
+  }
+  if (
+    (t.user.protected || t.limited_actions === "limit_trusted_friends_tweet") &&
+    t.user.id_str !== user.id_str
+  ) {
+    retweetClasses.push("tweet-interact-retweet-disabled");
+  }
+
+  var likeClasses = ["tweet-button", "tweet-interact-favorite"];
+  if (t.favorited) {
+    likeClasses.push("tweet-interact-favorited");
+  }
+  // dropdown for retweet actions
+  var retweetDropdownArray = [
+    elNew(
+      "span",
+      {
+        class: ["tweet-interact-retweet-menu-retweet"],
+      },
+      [
+        t.retweeted ? LOC.unretweet.message : LOC.retweet.message,
+        !vars.disableHotkeys ? " (T)" : "",
+      ]
+    ),
+    elNew(
+      "span",
+      {
+        class: ["tweet-interact-retweet-menu-quote"],
+      },
+      [LOC.quote_tweet.message, !vars.disableHotkeys ? " (Q)" : ""]
+    ),
+  ];
+  if (options.mainTweet) {
+    retweetDropdownArray.push(
+      elNew(
+        "span",
+        {
+          class: ["tweet-interact-retweet-menu-quotes"],
+        },
+        [LOC.see_quotes_big.message]
+      )
+    );
+    retweetDropdownArray.push(
+      elNew(
+        "span",
+        {
+          class: ["tweet-interact-retweet-menu-retweeters"],
+        },
+        [LOC.see_retweeters.message]
+      )
+    );
+  }
+
+  // Tweet Interactions buttons
+  elNew("div", { class: ["tweet-interact"] }, [
+    // reply
+    elNew(
+      "span",
+      {
+        class: ["tweet-button", "tweet-interact-reply"],
+        title: `${LOC.reply_btn.message}${!vars.disableHotkeys ? " (R)" : ""}`,
+        dataset: { val: t.reply_count },
+      },
+      [
+        options.mainTweet
+          ? null
+          : formatLargeNumber(t.reply_count).replace(/\s/g, ","),
+      ]
+    ),
+    // retweet
+    elNew(
+      "span",
+      {
+        class: ["tweet-button", "tweet-interact-favorite"],
+        title: `${LOC.reply_btn.message}${!vars.disableHotkeys ? " (L)" : ""}`,
+        dataset: { val: t.retweet_count },
+      },
+      [
+        options.mainTweet
+          ? null
+          : formatLargeNumber(t.retweet_count).replace(/\s/g, ","),
+      ]
+    ),
+    // Retweet dropdown box
+    elNew(
+      "div",
+      {
+        class: ["tweet-interact-retweet-menu", "dropdown-menu"],
+        hidden: true,
+      },
+      retweetDropdownArray
+    ),
+    // Like actions
+    elNew(
+      "span",
+      {
+        class: likeClasses,
+        title: `${
+          vars.heartsNotStars ? LOC.like_btn.message : LOC.favorite_btn.message
+        }${!vars.disableHotkeys ? " (L)" : ""}`,
+        dataset: { val: t.favorite_count },
+      },
+      [
+        options.mainTweet
+          ? null
+          : formatLargeNumber(t.retweet_count).replace(/\s/g, ","),
+      ]
+    ),
+  ]);
 
   const tweet_interact = `<div class="tweet-interact">
                     <span class="tweet-button tweet-interact-reply" title="${

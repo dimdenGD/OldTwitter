@@ -1848,92 +1848,6 @@ async function renderDiscovery(cache = true) {
   }
 }
 
-// Shim for isArray check. (cc. https://stackoverflow.com/a/20956445)
-if (typeof Array.isArray === "undefined") {
-  Array.isArray = function (obj) {
-    return Object.prototype.toString.call(obj) === "[object Array]";
-  };
-}
-
-// Tiny Dom Element builder. Adapted from stackoverflow.
-
-/**
- *
- * @param {tag} tag The dom tag to create. Can be anything.
- * @param {object} prop Any tag properties to set.
- * Some values such as `dataset`, `className`/`classList`/`class` goes through a custom transformation process.
- * @param {any[]} children a list of children to put in the element.
- * Strings are appended as a text string, Nodes are inserted as... Well, nodes. Any falsy values are discarded.
- * @returns A Node.
- */
-const elNew = (tag, prop, children = []) => {
-  const _elCustomValue = ["dataset", "className", "classList", "class"];
-  const element = document.createElement(tag);
-  if (prop) {
-    const filteredObject = Object.keys(prop).reduce(function (returnObj, key) {
-      if (!_elCustomValue.includes(key) && prop[key])
-        returnObj[key] = prop[key];
-      return returnObj;
-    }, {});
-    const customProps = Object.keys(prop).reduce(function (
-      returnObj,
-      elementKey
-    ) {
-      if (_elCustomValue.includes(elementKey) && prop[elementKey])
-        returnObj[elementKey] = prop[elementKey];
-      return returnObj;
-    },
-    {});
-    Object.assign(
-      element,
-      filteredObject
-    );
-    if (Object.keys(customProps).length > 0) {
-      for (const key in customProps) {
-        const propValue = customProps[key];
-        if (key === "dataset") {
-          for (const datasetKey in propValue) {
-            element.dataset[datasetKey] = propValue[datasetKey];
-          }
-        } else if (
-          key === "className" ||
-          key === "classList" ||
-          key === "class"
-        ) {
-          if (typeof propValue === "string") {
-            element.className = propValue;
-          } else if (
-            typeof propValue === "object" &&
-            Array.isArray(propValue)
-          ) {
-            element.className = propValue.filter((m) => m).join(" ");
-          } else {
-            console.error(
-              `Passed in a non Array/String value to ${key}. will be ignored.`
-            );
-          }
-        }
-      }
-    }
-  }
-  // Cleanup children.
-  children = children.filter((m) => m);
-
-  if (children.length > 0)
-    children.forEach((child) => {
-      if (child !== null) {
-        if (typeof child === "string") {
-          if (child !== "") {
-            element.appendChild(document.createTextNode(child));
-          }
-        } else {
-          element.appendChild(child);
-        }
-      }
-    });
-  return element;
-};
-
 const img_template = elNew("img", {
   crossorigin: "anonymous",
   loading: "lazy",
@@ -2643,6 +2557,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
     }
     let followUserText, unfollowUserText, blockUserText, unblockUserText;
     let mentionedUserText = ``;
+    let _newMentionedUserText = []
+    let _newQuoteMentionedUserText = [];
     let quoteMentionedUserText = ``;
     if (
       LOC.follow_user.message.includes("$SCREEN_NAME$") &&
@@ -2675,9 +2591,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
     if (t.in_reply_to_screen_name && t.display_text_range) {
       t.entities.user_mentions.forEach((user_mention) => {
         if (user_mention.indices[0] < t.display_text_range[0]) {
+          _newMentionedUserText.push(elNew("a",{href:`/${user_mention.screen_name}`},[`@${user_mention.screen_name}`]))
           mentionedUserText += `<a href="/${user_mention.screen_name}">@${user_mention.screen_name}</a> `;
         }
-        //else this is not reply but mention
       });
     }
     if (
@@ -2687,9 +2603,9 @@ async function appendTweet(t, timelineContainer, options = {}) {
     ) {
       t.quoted_status.entities.user_mentions.forEach((user_mention) => {
         if (user_mention.indices[0] < t.display_text_range[0]) {
-          quoteMentionedUserText += `@${user_mention.screen_name} `;
+          _newQuoteMentionedUserText.push(`@${user_mention.screen_name}`)
+          quoteMentionedUserText += `@${user_mention.screen_name}`;
         }
-        //else this is not reply but mention
       });
     }
     // construct the markup for the tweet.
@@ -2698,9 +2614,11 @@ async function appendTweet(t, timelineContainer, options = {}) {
       {
         videos: videos,
         isMatchingLanguage: isMatchingLanguage,
+        newMentionedUserText: _newMentionedUserText,
         mentionedUserText: mentionedUserText,
         full_text: full_text,
         isQuoteMatchingLanguage: isQuoteMatchingLanguage,
+        newQuoteMentionedUserText: _newQuoteMentionedUserText,
         quoteMentionedUserText: quoteMentionedUserText,
         followUserText: followUserText,
         unfollowUserText: unfollowUserText,
