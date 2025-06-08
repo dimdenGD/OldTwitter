@@ -1334,19 +1334,19 @@ span.tweet-body-text {
     height: 16px;
     margin-left: 2px;
     margin-right: 2px;
-    vertical-align: baseline;
+    vertical-align: middle;
 }
 
 .tweet-body-text-short .emoji,
 .tweet-body-text-short .hashflag {
     width: 26px !important;
     height: 26px !important;
-    vertical-align: baseline !important;
+    vertical-align: middle !important;
 }
 
 .tweet-body-text-long .emoji,
 .tweet-body-text-long .hashflag {
-    vertical-align: baseline !important;
+    vertical-align: middle !important;
 }
 
 #user-name .emoji,
