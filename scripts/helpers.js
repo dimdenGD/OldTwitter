@@ -2556,8 +2556,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
       }
     }
     let followUserText, unfollowUserText, blockUserText, unblockUserText;
-    let mentionedUserText = ``;
-    let _newMentionedUserText = []
+    let mentionedUserArray = []
     let _newQuoteMentionedUserText = [];
     let quoteMentionedUserText = ``;
     if (
@@ -2591,8 +2590,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
     if (t.in_reply_to_screen_name && t.display_text_range) {
       t.entities.user_mentions.forEach((user_mention) => {
         if (user_mention.indices[0] < t.display_text_range[0]) {
-          _newMentionedUserText.push(elNew("a",{href:`/${user_mention.screen_name}`},[`@${user_mention.screen_name}`]))
-          mentionedUserText += `<a href="/${user_mention.screen_name}">@${user_mention.screen_name}</a> `;
+          mentionedUserArray.push(elNew("a",{href:`/${user_mention.screen_name}`},[`@${user_mention.screen_name}`]))
         }
       });
     }
@@ -2614,8 +2612,8 @@ async function appendTweet(t, timelineContainer, options = {}) {
       {
         videos: videos,
         isMatchingLanguage: isMatchingLanguage,
-        newMentionedUserText: _newMentionedUserText,
-        mentionedUserText: mentionedUserText,
+        mentionedUserTextArray: mentionedUserArray,
+        // mentionedUserText: mentionedUserText,
         full_text: full_text,
         isQuoteMatchingLanguage: isQuoteMatchingLanguage,
         newQuoteMentionedUserText: _newQuoteMentionedUserText,

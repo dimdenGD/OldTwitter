@@ -6,6 +6,28 @@ if (typeof Array.isArray === "undefined") {
   };
 }
 
+/**
+ * 
+ * @param {string} string html string to convert to a html content
+ * @returns template element.
+ * @note This code does not sanitize **any** html and is inheriently unsafe.
+ */
+function htmlToNodes(string) {
+  const tmp = document.createElement("template");
+  tmp.innerHTML = string;
+  return tmp;
+}
+
+/**
+ * 
+ * @param {any[]} arr An array support flatMap and slice.
+ * @param {any} x the item to interleave each item into.
+ * @returns 
+ */
+function interleave(arr, x) {
+  return arr.flatMap((e) => [e, x]).slice(0, -1);
+}
+
 // Tiny Dom Element builder. Adapted from stackoverflow.
 
 /**
@@ -13,7 +35,7 @@ if (typeof Array.isArray === "undefined") {
  * @param {tag} tag The dom tag to create. Can be anything.
  * @param {object} prop Any tag properties to set.
  * Some values such as `dataset`, `className`/`classList`/`class` goes through a custom transformation process.
- * @param {any[]|string} children a list of children to put in the element.
+ * @param {any[]|string} children a list of children to put in the element. Can be a single string.
  * Strings are appended as a text string, Nodes are inserted as... Well, nodes. Any falsy values are discarded.
  * @returns A Node.
  */

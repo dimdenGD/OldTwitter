@@ -1,9 +1,4 @@
-function htmlToNodes(string) {
-  const tmp = document.createElement("template");
-  tmp.innerHTML = string;
-  return tmp;
-}
-
+// svgPlayIcon.
 const svgPlayIcon = `<svg viewBox="0 0 24 24" class="tweet-media-video-overlay-play">
     <g>
         <path class="svg-play-path" d="M8 5v14l11-7z"></path>
@@ -13,10 +8,6 @@ const svgPlayIcon = `<svg viewBox="0 0 24 24" class="tweet-media-video-overlay-p
         ></path>
     </g>
 </svg>`;
-
-function interleave(arr, x) {
-  return arr.flatMap((e) => [e, x]).slice(0, -1);
-}
 
 /**
  *
@@ -167,11 +158,186 @@ function renderMultiMediaNodes(tweetObject) {
   return htmlNodes;
 }
 
+/**
+ *
+ * @param {object} t The base tweet object
+ * @param {boolean} isQuoteMatchingLanguage Does the quote match the user's prefered language selection?
+ * @param {string} quoteMentionedUserText html String containing a list of @ mentions
+ * @returns
+ */
 async function constructQuotedTweet(
   t,
   isQuoteMatchingLanguage,
   quoteMentionedUserText
 ) {
+  // === Profile Element ===
+  const profileElement = elNew("img", {
+    src:
+      t.quoted_status.user.default_profile_image &&
+      vars.useOldDefaultProfileImage
+        ? chrome.runtime.getURL(
+            `images/default_profile_images/default_profile_${
+              Number(t.quoted_status.user.id_str) % 7
+            }_normal.png`
+          )
+        : t.quoted_status.user.profile_image_url_https,
+    alt: escapeHTML(t.quoted_status.user.name),
+    className: "tweet-avatar-quote",
+    width: "24",
+    height: "24",
+  });
+
+  // === Name Element ===
+  var userNameClass = ["tweet-header-name-quote"];
+
+  if (t.quoted_status.user.verified) {
+    userNameClass.push("user-verified");
+  } else if (t.quoted_status.user.id_str === "1708130407663759360") {
+    // Special case for dimden.
+    userNameClass.push("user-verified", "user-verified-dimden"); // Push multiple classes
+  } else if (t.quoted_status.user.protected) {
+    userNameClass.push("user-protected");
+  } else if (t.quoted_status.user.verified_type === "Government") {
+    userNameClass.push("user-verified-gray");
+  } else if (t.quoted_status.user.verified_type === "Business") {
+    userNameClass.push("user-verified-yellow");
+  } else if (t.quoted_status.user.verified_type === "Blue") {
+    userNameClass.push("user-verified-blue");
+  }
+
+  // The name element + @ handle
+  const nameElement = elNew("div", { className: "tweet-header-quote" }, [
+    elNew("span", { className: "tweet-header-info-quote" }, [
+      // User name
+      elNew(
+        "b",
+        {
+          className: userNameClass,
+        },
+        [escapeHTML(t.quoted_status.user.name)]
+      ),
+      " ",
+      // At handle
+      elNew("span", { className: "tweet-header-handle-quote" }, [
+        "@" + escapeHTML(t.quoted_status.user.screen_name),
+      ]),
+    ]),
+  ]);
+  // Time span
+  const tweetTimeElement = elNew(
+    "span",
+    {
+      className: "tweet-time-quote",
+      dataset: {
+        timestamp: new Date(t.quoted_status.created_at).getTime(),
+      },
+      title: new Date(t.quoted_status.created_at).toLocaleString(),
+    },
+    [timeElapsed(new Date(t.quoted_status.created_at).getTime())]
+  );
+
+  var newStyleReplyTo = null;
+  if (quoteMentionedUserText !== `` && !vars.useOldStyleReply) {
+    newStyleReplyTo = elNew(
+      "span",
+      { className: "tweet-reply-to tweet-quote-reply-to" },
+      [
+        LOC.replying_to_user.message.replace(
+          "$SCREEN_NAME$",
+          quoteMentionedUserText
+            .trim()
+            .replaceAll(` `, LOC.replying_to_comma.message)
+            .replace(LOC.replying_to_comma.message, LOC.replying_to_and.message)
+        ),
+      ]
+    );
+  }
+
+  var textBodySpan = [vars.useOldStyleReply ? quoteMentionedUserText : ""];
+  if (t.quoted_status.full_text) {
+    // XXX: renderTweetBodyHTML returns html. To refactor later.
+    textBodySpan.push(htmlToNodes(await renderTweetBodyHTML(t, true)).content);
+  }
+  const bodyElement = elNew(
+    "span",
+    {
+      className: "tweet-body-text tweet-body-text-quote tweet-body-text-long",
+      style: "color:var(--default-text-color)!important",
+    },
+    textBodySpan
+  );
+
+  // Solve for media contents
+  var mediaElement = null;
+  if (
+    t.quoted_status.extended_entities &&
+    t.quoted_status.extended_entities.media
+  ) {
+    const mediaMap = t.quoted_status.extended_entities.media.map((m) => {
+      const [w, h] = quoteSizeFunctions[
+        t.quoted_status.extended_entities.media.length
+      ](m.original_info.width, m.original_info.height);
+      const mediaElement = elNew(m.type === "photo" ? "img" : "video", {
+        alt: escapeHTML(m.ext_alt_text, true),
+        title: escapeHTML(m.ext_alt_text, true),
+        crossorigin: "anonymous",
+        width: w,
+        height: h,
+        loading: "lazy",
+      });
+      if (m.type == "video") {
+        mediaElement.disableRemotePlayback = true;
+        mediaElement.controls = true;
+      }
+      if (m.type == "animated_gif") {
+        mediaElement.disableRemotePlayback = true;
+        mediaElement.loop = true;
+        mediaElement.defaultMuted = true;
+        mediaElement.muted = true;
+        // XXX: To check if this works.
+        mediaElement.onclick = "if(this.paused) this.play(); else this.pause()";
+        if (!vars.disableGifAutoplay) mediaElement.autoplay = true;
+      }
+      if (m.type === "photo") {
+        var base_url = m.media_url_https;
+        if (
+          vars.showOriginalImages &&
+          (m.media_url_https.endsWith(".jpg") ||
+            m.media_url_https.endsWith(".png"))
+        ) {
+          base_url += "?name=orig";
+        } else if (
+          window.navigator &&
+          navigator.connection &&
+          navigator.connection.type === "cellular" &&
+          !vars.disableDataSaver
+        ) {
+          base_url += "?name=small";
+        }
+        mediaElement.src = base_url;
+      } else {
+        mediaElement.src = m.video_info.variants.find(
+          (v) => v.content_type === "video/mp4"
+        ).url;
+      }
+      mediaElement.classList.add(
+        "tweet-media-element",
+        "tweet-media-element-quote"
+      );
+      if (m.type === "animated_gif") {
+        mediaElement.classList.add("tweet-media-element-quote-gif");
+      }
+      mediaElement.classList.add(
+        mediaClasses[t.quoted_status.extended_entities.media.length]
+      );
+      if (!vars.displaySensitiveContent && t.quoted_status.possibly_sensitive) {
+        mediaElement.classList.add("tweet-media-element-censor");
+      }
+      return mediaElement;
+    });
+    mediaElement = elNew("div", { className: "tweet-media-quote" }, mediaMap);
+  }
+
   const rootAHref = elNew(
     "a",
     {
@@ -180,163 +346,14 @@ async function constructQuotedTweet(
       href: `/${t.quoted_status.user.screen_name}/status/${t.quoted_status.id_str}`,
     },
     [
-      elNew("img", {
-        src:
-          t.quoted_status.user.default_profile_image &&
-          vars.useOldDefaultProfileImage
-            ? chrome.runtime.getURL(
-                `images/default_profile_images/default_profile_${
-                  Number(t.quoted_status.user.id_str) % 7
-                }_normal.png`
-              )
-            : t.quoted_status.user.profile_image_url_https,
-        alt: escapeHTML(t.quoted_status.user.name),
-        className: "tweet-avatar-quote",
-        width: "24",
-        height: "24",
-      }),
+      profileElement,
       // Header
-      elNew("div", { className: "tweet-header-quote" }, [
-        elNew("span", { className: "tweet-header-info-quote" }, [
-          // User name
-          elNew(
-            "b",
-            {
-              className:
-                "tweet-header-name-quote " + t.quoted_status.user.verified
-                  ? " user-verified"
-                  : t.quoted_status.user.id_str === "1708130407663759360"
-                  ? " user-verified user-verified-dimden"
-                  : "" + t.quoted_status.user.protected
-                  ? " user-protected"
-                  : "" + t.quoted_status.user.verified_type === "Government"
-                  ? "user-verified-gray"
-                  : t.quoted_status.user.verified_type === "Business"
-                  ? "user-verified-yellow"
-                  : t.quoted_status.user.verified_type === "Blue"
-                  ? "user-verified-blue"
-                  : "",
-            },
-            [escapeHTML(t.quoted_status.user.name)]
-          ),
-          " ",
-          // At handle
-          elNew("span", { className: "tweet-header-handle-quote" }, [
-            "@" + escapeHTML(t.quoted_status.user.screen_name),
-          ]),
-        ]),
-      ]),
+      nameElement,
       // Tweet Time Quote
-      elNew(
-        "span",
-        {
-          className: "tweet-time-quote",
-          dataset: {
-            timestamp: new Date(t.quoted_status.created_at).getTime(),
-          },
-          title: new Date(t.quoted_status.created_at).toLocaleString(),
-        },
-        [timeElapsed(new Date(t.quoted_status.created_at).getTime())]
-      ),
-      quoteMentionedUserText !== `` && !vars.useOldStyleReply
-        ? elNew("span", { className: "tweet-reply-to tweet-quote-reply-to" }, [
-            LOC.replying_to_user.message.replace(
-              "$SCREEN_NAME$",
-              quoteMentionedUserText
-                .trim()
-                .replaceAll(` `, LOC.replying_to_comma.message)
-                .replace(
-                  LOC.replying_to_comma.message,
-                  LOC.replying_to_and.message
-                )
-            ),
-          ])
-        : null,
-      elNew(
-        "span",
-        {
-          className:
-            "tweet-body-text tweet-body-text-quote tweet-body-text-long",
-          style: "color:var(--default-text-color)!important",
-        },
-        [vars.useOldStyleReply ? quoteMentionedUserText : ""] +
-          t.quoted_status.full_text
-          ? [htmlToNodes(await renderTweetBodyHTML(t, true)).content]
-          : []
-      ),
-      t.quoted_status.extended_entities &&
-      t.quoted_status.extended_entities.media
-        ? elNew(
-            "div",
-            { className: "tweet-media-quote" },
-            t.quoted_status.extended_entities.media.map((m) => {
-              const [w, h] = quoteSizeFunctions[
-                t.quoted_status.extended_entities.media.length
-              ](m.original_info.width, m.original_info.height);
-              const mediaElement = elNew(m.type === "photo" ? "img" : "video", {
-                alt: escapeHTML(m.ext_alt_text, true),
-                title: escapeHTML(m.ext_alt_text, true),
-                crossorigin: "anonymous",
-                width: w,
-                height: h,
-                loading: "lazy",
-              });
-              if (m.type == "video") {
-                mediaElement.disableRemotePlayback = true;
-                mediaElement.controls = true;
-              }
-              if (m.type == "animated_gif") {
-                mediaElement.disableRemotePlayback = true;
-                mediaElement.loop = true;
-                mediaElement.defaultMuted = true;
-                mediaElement.muted = true;
-                // XXX: To check if this works.
-                mediaElement.onclick =
-                  "if(this.paused) this.play(); else this.pause()";
-                if (!vars.disableGifAutoplay) mediaElement.autoplay = true;
-              }
-              if (m.type === "photo") {
-                var base_url = m.media_url_https;
-                if (
-                  vars.showOriginalImages &&
-                  (m.media_url_https.endsWith(".jpg") ||
-                    m.media_url_https.endsWith(".png"))
-                ) {
-                  base_url += "?name=orig";
-                } else if (
-                  window.navigator &&
-                  navigator.connection &&
-                  navigator.connection.type === "cellular" &&
-                  !vars.disableDataSaver
-                ) {
-                  base_url += "?name=small";
-                }
-                mediaElement.src = base_url;
-              } else {
-                mediaElement.src = m.video_info.variants.find(
-                  (v) => v.content_type === "video/mp4"
-                ).url;
-              }
-              mediaElement.classList.add(
-                "tweet-media-element",
-                "tweet-media-element-quote"
-              );
-              if (m.type === "animated_gif") {
-                mediaElement.classList.add("tweet-media-element-quote-gif");
-              }
-              mediaElement.classList.add(
-                mediaClasses[t.quoted_status.extended_entities.media.length]
-              );
-              if (
-                !vars.displaySensitiveContent &&
-                t.quoted_status.possibly_sensitive
-              ) {
-                mediaElement.classList.add("tweet-media-element-censor");
-              }
-              return mediaElement;
-            })
-          )
-        : ``,
+      tweetTimeElement,
+      newStyleReplyTo,
+      bodyElement,
+      mediaElement,
       !isQuoteMatchingLanguage
         ? elNew(
             "span",
@@ -350,7 +367,9 @@ async function constructQuotedTweet(
 }
 
 /**
- *
+ * Constructs a full tweet markup.
+ * NOTE: This function is very huge.
+ * It should be possible to chunk and split up more functions but I'd rather get *something* up for testing than to do that. - Ristellise
  * @param {object} t Base Tweet content
  * @param {object} tweetConstructorArgs Additional parsed constructor arguments
  * @param {object} options oldTwitter specific arguments.
@@ -507,8 +526,8 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
 
   // mentionText
   const doMentionText =
-    tweetConstructorArgs.mentionedUserText !== `` &&
-    !!tweetConstructorArgs.newMentionedUserText &&
+    // tweetConstructorArgs.mentionedUserText !== `` &&
+    !!tweetConstructorArgs.mentionedUserTextArray &&
     !options.threadContinuation &&
     !options.noTop &&
     !location.pathname.includes("/status/") &&
@@ -517,8 +536,8 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   if (doMentionText) {
     // Taken from StackOverflow once again.
 
-    tweetConstructorArgs.newMentionedUserText = interleave(
-      tweetConstructorArgs.newMentionedUserText,
+    tweetConstructorArgs.mentionedUserTextArray = interleave(
+      tweetConstructorArgs.mentionedUserTextArray,
       LOC.replying_to_comma.message
     );
 
@@ -526,14 +545,14 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     // Previously it was [` and ` | `, ` | `, ` | ...]
     // but it should be: [`, ` | `, ` ... ` and `]
     // But I cannot be 100% sure about this. - Ristellise.
-    if (tweetConstructorArgs.newMentionedUserText.length >= 5) {
-      const arrLength = tweetConstructorArgs.newMentionedUserText.length;
-      tweetConstructorArgs.newMentionedUserText[arrLength - 2] =
+    if (tweetConstructorArgs.mentionedUserTextArray.length >= 5) {
+      const arrLength = tweetConstructorArgs.mentionedUserTextArray.length;
+      tweetConstructorArgs.mentionedUserTextArray[arrLength - 2] =
         LOC.replying_to_and.message;
     }
 
     mentioned_node = elNew("div", { className: "tweet-reply-to" }, [
-      elNew("span", {}, tweetConstructorArgs.newMentionedUserText),
+      elNew("span", {}, tweetConstructorArgs.mentionedUserTextArray),
     ]);
   }
 
@@ -545,23 +564,50 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     (!options.mainTweet && location.pathname.includes("/status/"))
       ? "tweet-body-text-long"
       : "tweet-body-text-short";
-  const body_node = elNew(
+
+  var bodyTextChildren = [];
+  if (vars.useOldStyleReply) {
+    bodyTextChildren.push(
+      ...interleave(tweetConstructorArgs.mentionedUserTextArray, " ")
+    );
+  }
+  if (tweetConstructorArgs.full_text) {
+    if (bodyTextChildren.length > 0) {
+      bodyTextChildren.push(" ");
+    }
+    // XXX: renderTweetBodyHTML returns html. To refactor later.
+    bodyTextChildren.push(htmlToNodes(await renderTweetBodyHTML(t)).content);
+  }
+
+  // const body_node = elNew(
+  //   "div",
+  //   {
+  //     lang: t.lang,
+  //     classList: ["tweet-body-text", longShortClass],
+  //   },
+  //   [
+  //     elNew("span", { class: ["tweet-body-text-span"] }, [
+  //       vars.useOldStyleReply
+  //         ? htmlToNodes(tweetConstructorArgs.mentionedUserText).content
+  //         : null,
+  //       tweetConstructorArgs.full_text
+  //         ? htmlToNodes(await renderTweetBodyHTML(t)).content
+  //         : null,
+  //     ]),
+  //   ]
+  // );
+
+  const bodyNodeV2 = elNew(
     "div",
     {
       lang: t.lang,
       classList: ["tweet-body-text", longShortClass],
     },
-    [
-      elNew("span", { class: ["tweet-body-text-span"] }, [
-        vars.useOldStyleReply
-          ? htmlToNodes(tweetConstructorArgs.mentionedUserText).content
-          : null,
-        tweetConstructorArgs.full_text
-          ? htmlToNodes(await renderTweetBodyHTML(t)).content
-          : null,
-      ]),
-    ]
+    [elNew("span", { class: ["tweet-body-text-span"] }, bodyTextChildren)]
   );
+  // if (body_node.outerHTML != bodyNodeV2.outerHTML) {
+  //   console.log("nodeCompare", body_node, bodyNodeV2);
+  // }
 
   // translate icon
   var translate_node = null;
@@ -573,23 +619,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       ]),
     ]);
   }
-  const body_text = body_node.outerHTML;
-  // const body_text = `<div lang="${t.lang}" class="tweet-body-text ${
-  //   vars.noBigFont ||
-  //   t.full_text.length > 280 ||
-  //   !options.bigFont ||
-  //   (!options.mainTweet && location.pathname.includes("/status/"))
-  //     ? "tweet-body-text-long"
-  //     : "tweet-body-text-short"
-  // }">
-  //                   <span class="tweet-body-text-span">${
-  //                     vars.useOldStyleReply
-  //                       ? /*html*/ tweetConstructorArgs.mentionedUserText
-  //                       : ""
-  //                   }${
-  //   tweetConstructorArgs.full_text ? await renderTweetBodyHTML(t) : ""
-  // }</span>
-  //               </div>`;
+  const body_text = bodyNodeV2.outerHTML;
 
   const translate_text = translate_node ? translate_node.outerHTML : "";
 
