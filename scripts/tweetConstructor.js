@@ -169,7 +169,7 @@ async function constructQuotedTweet(
   t,
   isQuoteMatchingLanguage,
   quoteMentionedUserText,
-  newQuoteMentionedUserText,
+  newQuoteMentionedUserText
 ) {
   // === Profile Element ===
   const profileElement = elNew("img", {
@@ -239,30 +239,35 @@ async function constructQuotedTweet(
 
   var oldStyleReplyTo = null;
   if (!!newQuoteMentionedUserText && !vars.useOldStyleReply) {
-
     newQuoteMentionedUserText = interleave(
       newQuoteMentionedUserText,
       LOC.replying_to_comma.message
     );
 
-    if (newQuoteMentionedUserText.length >=5) {
+    if (newQuoteMentionedUserText.length >= 5) {
       const arrLength = newQuoteMentionedUserText.length;
-      newQuoteMentionedUserText[arrLength - 2] =
-        LOC.replying_to_and.message;
+      newQuoteMentionedUserText[arrLength - 2] = LOC.replying_to_and.message;
     }
+
+    var textFragments = LOC.replying_to_user.message.split("$SCREEN_NAME$");
+    textFragments = interleave(
+      textFragments,
+      newQuoteMentionedUserText
+    ).flat(Infinity);
 
     oldStyleReplyTo = elNew(
       "span",
       { className: "tweet-reply-to tweet-quote-reply-to" },
-      [
-        LOC.replying_to_user.message.replace(
-          "$SCREEN_NAME$",
-          quoteMentionedUserText
-            .trim()
-            .replaceAll(` `, LOC.replying_to_comma.message)
-            .replace(LOC.replying_to_comma.message, LOC.replying_to_and.message)
-        ),
-      ]
+      textFragments,
+      // [
+      //   LOC.replying_to_user.message.replace(
+      //     "$SCREEN_NAME$",
+      //     quoteMentionedUserText
+      //       .trim()
+      //       .replaceAll(` `, LOC.replying_to_comma.message)
+      //       .replace(LOC.replying_to_comma.message, LOC.replying_to_and.message)
+      //   ),
+      // ]
     );
   }
 
@@ -410,22 +415,127 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   const tweetDateObject = new Date(t.created_at);
   const tweetTimestamp = tweetDateObject.getTime();
 
-  const tweetTopConst = elNew("template", {}, [
-    _tweetTopConst,
+  const avatarImage = elNew(
+    "a",
+    { className: "tweet-avatar-link", href: `/${t.user.screen_name}` },
+    [
+      elNew("img", {
+        onerror: `this.src = '${defaultProfilePicture}'`,
+        src: profilePicture,
+        alt: t.user.name,
+        className: "tweet-avatar",
+        width: 48,
+        height: 48,
+      }),
+    ]
+  );
+
+  // tweetHeaderName
+  let tweetHeaderClass = ["tweet-header-name"];
+
+  if (options.mainTweet) {
+    tweetHeaderClass.push("tweet-header-name-main");
+  }
+
+  if (t.user.verified || t.user.verified_type) {
+    tweetHeaderClass.push("user-verified");
+  } else if (t.user.id_str === "1708130407663759360") {
+    tweetHeaderClass.push("user-verified", "user-verified-dimden"); // Add both classes
+  }
+
+  if (t.user.protected) {
+    tweetHeaderClass.push("user-protected");
+  }
+
+  if (t.user.verified_type === "Government") {
+    tweetHeaderClass.push("user-verified-gray");
+  } else if (t.user.verified_type === "Business") {
+    tweetHeaderClass.push("user-verified-yellow");
+  } else if (t.user.verified_type === "Blue") {
+    tweetHeaderClass.push("user-verified-blue");
+  }
+
+  const screenUsername = elNew(
+    "a",
+    {
+      className: [
+        "tweet-header-info",
+        options.mainTweet ? "tweet-header-info-main" : "",
+      ],
+      href: `/${t.user.screen_name}`,
+    },
+    // The Screen / Display name
+    [
+      elNew(
+        "b",
+        {
+          title:
+            t.user.id_str === "1708130407663759360"
+              ? "Old Twitter Layout extension developer"
+              : "",
+          className: tweetHeaderClass,
+        },
+        [escapeHTML(t.user.name)]
+      ),
+      " ",
+      // @Handle
+      elNew("span", { className: "tweet-header-handle" }, [
+        "@" + escapeHTML(t.user.screen_name),
+      ]),
+    ]
+  );
+
+  let tweetHeaderBlock = [
+    // The Screen & username block.
+    screenUsername,
+    " ",
+    // Tweet Time Element
     elNew(
       "a",
-      { className: "tweet-avatar-link", href: `/${t.user.screen_name}` },
-      [
-        elNew("img", {
-          onerror: `this.src = '${defaultProfilePicture}'`,
-          src: profilePicture,
-          alt: t.user.name,
-          className: "tweet-avatar",
-          width: 48,
-          height: 48,
-        }),
-      ]
+      {
+        className: "tweet-time",
+        hidden: options.mainTweet ? true : false,
+        dataset: {
+          timestamp: tweetTimestamp,
+        },
+        title: tweetDateObject.toLocaleString(),
+        href: `/${t.user.screen_name}/status/${t.id_str}`,
+      },
+      [timeElapsed(tweetTimestamp)]
     ),
+  ];
+  // If it's the main tweet, add a follow button.
+  if (options.mainTweet && t.user.id_str !== user.id_str) {
+    tweetHeaderBlock.push(
+      elNew(
+        "button",
+        {
+          className: [
+            "tweet-button",
+            "nice-button",
+            "tweet-header-follow",
+            t.user.following ? "following" : "follow",
+          ],
+        },
+        [t.user.following ? LOC.following_btn.message : LOC.follow.message]
+      )
+    );
+  }
+  // translate icon for timelines.
+  if (!options.mainTweet && !tweetConstructorArgs.isMatchingLanguage) {
+    tweetHeaderBlock.push(
+      elNew("span", { className: ["tweet-translate-after", "tweet-button"] }, [
+        `${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 &&
+        innerWidth > 650
+          ? LOC.view_translation.message
+          : null,
+      ])
+    );
+  }
+
+  const tweetTopConst = elNew("template", {}, [
+    _tweetTopConst,
+    avatarImage,
     elNew(
       "div",
       {
@@ -434,101 +544,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
           options.mainTweet ? "tweet-header-main" : "",
         ],
       },
-      [
-        // The Screen & username block.
-        elNew(
-          "a",
-          {
-            className: [
-              "tweet-header-info",
-              options.mainTweet ? "tweet-header-info-main" : "",
-            ],
-            href: `/${t.user.screen_name}`,
-          },
-          // The Screen / Display name
-          [
-            elNew(
-              "b",
-              {
-                title:
-                  t.user.id_str === "1708130407663759360"
-                    ? "Old Twitter Layout extension developer"
-                    : "",
-                className: [
-                  "tweet-header-name",
-                  options.mainTweet ? "tweet-header-name-main" : "",
-                  t.user.verified || t.user.verified_type
-                    ? "user-verified"
-                    : t.user.id_str === "1708130407663759360"
-                    ? "user-verified user-verified-dimden"
-                    : "",
-                  t.user.protected ? "user-protected" : "",
-                  t.user.verified_type === "Government"
-                    ? "user-verified-gray"
-                    : t.user.verified_type === "Business"
-                    ? "user-verified-yellow"
-                    : t.user.verified_type === "Blue"
-                    ? "user-verified-blue"
-                    : "",
-                ],
-              },
-              [escapeHTML(t.user.name)]
-            ),
-            " ",
-            // @Handle
-            elNew("span", { className: "tweet-header-handle" }, [
-              "@" + escapeHTML(t.user.screen_name),
-            ]),
-          ]
-        ),
-        " ",
-        // Tweet Time Element
-        elNew(
-          "a",
-          {
-            className: "tweet-time",
-            hidden: options.mainTweet ? true : false,
-            dataset: {
-              timestamp: tweetTimestamp,
-            },
-            title: tweetDateObject.toLocaleString(),
-            href: `/${t.user.screen_name}/status/${t.id_str}`,
-          },
-          [timeElapsed(tweetTimestamp)]
-        ),
-        // If it's the main tweet, add a follow button.
-        options.mainTweet && t.user.id_str !== user.id_str
-          ? elNew(
-              "button",
-              {
-                className: [
-                  "tweet-button",
-                  "nice-button",
-                  "tweet-header-follow",
-                  t.user.following ? "following" : "follow",
-                ],
-              },
-              [
-                t.user.following
-                  ? LOC.following_btn.message
-                  : LOC.follow.message,
-              ]
-            )
-          : null,
-        // Add a translate icon for timelines.
-        !options.mainTweet && !tweetConstructorArgs.isMatchingLanguage
-          ? elNew(
-              "span",
-              { className: ["tweet-translate-after", "tweet-button"] },
-              [
-                `${t.user.name} ${t.user.screen_name} 1 Sept`.length < 40 &&
-                innerWidth > 650
-                  ? LOC.view_translation.message
-                  : null,
-              ]
-            )
-          : null,
-      ]
+      tweetHeaderBlock
     ),
   ]);
 
@@ -549,7 +565,6 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   if (doMentionText) {
     // Taken from StackOverflow once again.
 
-    
     tweetConstructorArgs.mentionedUserTextArray = interleave(
       tweetConstructorArgs.mentionedUserTextArray,
       LOC.replying_to_comma.message
@@ -566,8 +581,15 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     }
     // XXX: This is actually missing a `LOC.replying_to_user.message`.
     // Will need to figure out how to replace it.
+
+    var textFragments = LOC.replying_to_user.message.split("$SCREEN_NAME$");
+    textFragments = interleave(
+      textFragments,
+      tweetConstructorArgs.mentionedUserTextArray
+    ).flat(Infinity);
+
     mentioned_node = elNew("div", { className: "tweet-reply-to" }, [
-      elNew("span", {}, tweetConstructorArgs.mentionedUserTextArray),
+      elNew("span", {}, textFragments),
     ]);
   }
 
@@ -698,9 +720,14 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       var resolutionNodes = tweetConstructorArgs.videos[0].video_info.variants
         .filter((v) => v.bitrate)
         .map((v) =>
-          elNew("span", { class: [], dataset: { url: v.url } }, [
-            v.url.match(/\/(\d+)x/)[1] + "p",
-          ])
+          elNew(
+            "span",
+            {
+              class: ["tweet-video-quality", "tweet-button"],
+              dataset: { url: v.url },
+            },
+            [v.url.match(/\/(\d+)x/)[1] + "p"]
+          )
         );
       videoControls = elNew("div", { class: "tweet-media-controls" }, [
         viewNode,

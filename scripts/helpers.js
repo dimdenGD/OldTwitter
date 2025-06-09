@@ -2613,7 +2613,6 @@ async function appendTweet(t, timelineContainer, options = {}) {
         videos: videos,
         isMatchingLanguage: isMatchingLanguage,
         mentionedUserTextArray: mentionedUserArray,
-        // mentionedUserText: mentionedUserText,
         full_text: full_text,
         isQuoteMatchingLanguage: isQuoteMatchingLanguage,
         newQuoteMentionedUserText: _newQuoteMentionedUserText,
@@ -2713,6 +2712,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         Array.from(tweet.getElementsByClassName("tweet-video-quality")).forEach(
           (el) =>
             el.addEventListener("click", () => {
+              console.log("Reshuffling", el)
               if (el.className.includes("tweet-video-quality-current")) return;
               localStorage.preferredQuality = parseInt(el.innerText);
               let vid = Array.from(
