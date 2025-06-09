@@ -1,4 +1,3 @@
-
 // Shim for isArray check. (cc. https://stackoverflow.com/a/20956445)
 if (typeof Array.isArray === "undefined") {
   Array.isArray = function (obj) {
@@ -7,7 +6,7 @@ if (typeof Array.isArray === "undefined") {
 }
 
 /**
- * 
+ *
  * @param {string} string html string to convert to a html content
  * @returns template element.
  * @note This code does not sanitize **any** html and is inheriently unsafe.
@@ -19,10 +18,10 @@ function htmlToNodes(string) {
 }
 
 /**
- * 
+ *
  * @param {any[]} arr An array support flatMap and slice.
  * @param {any} x the item to interleave each item into.
- * @returns 
+ * @returns
  */
 function interleave(arr, x) {
   return arr.flatMap((e) => [e, x]).slice(0, -1);
@@ -102,11 +101,9 @@ const elNew = (tag, prop, children = []) => {
           }
         }
       });
-  }
-  else {
-    element.appendChild(children)
+  } else {
+    element.appendChild(document.createTextNode(children));
   }
 
   return element;
 };
-

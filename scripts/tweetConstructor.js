@@ -9,6 +9,51 @@ const svgPlayIcon = `<svg viewBox="0 0 24 24" class="tweet-media-video-overlay-p
     </g>
 </svg>`;
 
+// === Static Nodes to be reused ===
+
+const translate_node = elNew("div", {}, [
+  elNew("br"),
+  elNew("span", { class: ["tweet-button", "tweet-translate"] }, [
+    LOC.view_translation.message,
+  ]),
+]);
+
+const country_restriction_node = elNew("div", { class: ["tweet-warning"] }, [
+  "This Tweet has been withheld in response to a report from the copyright holder.",
+  elNew(
+    "a",
+    {
+      href: "https://help.twitter.com/en/rules-and-policies/copyright-policy",
+      target: "_blank",
+    },
+    ["Learn more."]
+  ),
+]);
+
+// const developerModeDebugIteractions = [
+//   elNew(
+//     "span",
+//     {
+//       class: ["tweet-interact-more-menu-copy-user-id"],
+//     },
+//     LOC.copy_user_id.message
+//   ),
+//   elNew(
+//     "span",
+//     {
+//       class: ["tweet-interact-more-menu-copy-tweet-id"],
+//     },
+//     LOC.copy_tweet_id.message
+//   ),
+//   elNew(
+//     "span",
+//     {
+//       class: ["tweet-interact-more-menu-log"],
+//     },
+//     "Log tweet object"
+//   ),
+// ];
+
 /**
  *
  * @param {object} tweetObject The tweet object.
@@ -250,15 +295,14 @@ async function constructQuotedTweet(
     }
 
     var textFragments = LOC.replying_to_user.message.split("$SCREEN_NAME$");
-    textFragments = interleave(
-      textFragments,
-      newQuoteMentionedUserText
-    ).flat(Infinity);
+    textFragments = interleave(textFragments, newQuoteMentionedUserText).flat(
+      Infinity
+    );
 
     oldStyleReplyTo = elNew(
       "span",
       { className: "tweet-reply-to tweet-quote-reply-to" },
-      textFragments,
+      textFragments
       // [
       //   LOC.replying_to_user.message.replace(
       //     "$SCREEN_NAME$",
@@ -615,25 +659,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     bodyTextChildren.push(htmlToNodes(await renderTweetBodyHTML(t)).content);
   }
 
-  // const body_node = elNew(
-  //   "div",
-  //   {
-  //     lang: t.lang,
-  //     classList: ["tweet-body-text", longShortClass],
-  //   },
-  //   [
-  //     elNew("span", { class: ["tweet-body-text-span"] }, [
-  //       vars.useOldStyleReply
-  //         ? htmlToNodes(tweetConstructorArgs.mentionedUserText).content
-  //         : null,
-  //       tweetConstructorArgs.full_text
-  //         ? htmlToNodes(await renderTweetBodyHTML(t)).content
-  //         : null,
-  //     ]),
-  //   ]
-  // );
-
-  const bodyNodeV2 = elNew(
+  const body_node = elNew(
     "div",
     {
       lang: t.lang,
@@ -646,18 +672,12 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   // }
 
   // translate icon
-  var translate_node = null;
-  if (!tweetConstructorArgs.isMatchingLanguage && options.mainTweet) {
-    translate_node = elNew("div", {}, [
-      elNew("br"),
-      elNew("span", { class: ["tweet-button", "tweet-translate"] }, [
-        LOC.view_translation.message,
-      ]),
-    ]);
-  }
-  const body_text = bodyNodeV2.outerHTML;
+  const body_text = body_node.outerHTML;
 
-  const translate_text = translate_node ? translate_node.outerHTML : "";
+  const translate_text =
+    !tweetConstructorArgs.isMatchingLanguage && options.mainTweet
+      ? translate_node.outerHTML
+      : "";
 
   // render media content elements
   var extended_node = null;
@@ -679,9 +699,6 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     }
     // Render media nodes
     var mediaNodes = renderMultiMediaNodes(t);
-    if (mediaNodes.length == 0) {
-      console.log("Cannot render mediaNodes?",t)
-    }
 
     // <div class="tweet-media-controls">GIF</div>
     var gifControl =
@@ -819,17 +836,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
         t.withheld_in_countries.includes("XY"))) ||
     t.withheld_scope
   ) {
-    country_restrictions = elNew("div", { class: ["tweet-warning"] }, [
-      "This Tweet has been withheld in response to a report from the copyright holder.",
-      elNew(
-        "a",
-        {
-          href: "https://help.twitter.com/en/rules-and-policies/copyright-policy",
-          target: "_blank",
-        },
-        ["Learn more."]
-      ),
-    ]);
+    country_restrictions = country_restriction_node;
   }
   // const country_restrictions =
   //   (t.withheld_in_countries &&
@@ -1015,7 +1022,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     ]
   ).outerHTML;
 
-  // solve additional retweet actions
+  // solve additional classes
   var retweetClasses = ["tweet-button", "tweet-interact-retweet"];
   if (t.retweeted) {
     retweetClasses.push("tweet-interact-retweeted");
@@ -1030,6 +1037,11 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   var likeClasses = ["tweet-button", "tweet-interact-favorite"];
   if (t.favorited) {
     likeClasses.push("tweet-interact-favorited");
+  }
+
+  var bookmarkClasses = ["tweet-button", "tweet-interact-bookmark"];
+  if (t.favorited) {
+    bookmarkClasses.push("tweet-interact-bookmarked");
   }
   // dropdown for retweet actions
   var retweetDropdownArray = [
@@ -1052,6 +1064,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     ),
   ];
   if (options.mainTweet) {
+    // If it's the main tweet, add quotes and retweeters
     retweetDropdownArray.push(
       elNew(
         "span",
@@ -1072,8 +1085,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     );
   }
 
-  // Tweet Interactions buttons
-  elNew("div", { class: ["tweet-interact"] }, [
+  var interactionArray = [
     // reply
     elNew(
       "span",
@@ -1092,8 +1104,10 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     elNew(
       "span",
       {
-        class: ["tweet-button", "tweet-interact-favorite"],
-        title: `${LOC.reply_btn.message}${!vars.disableHotkeys ? " (L)" : ""}`,
+        class: retweetClasses,
+        title: `${LOC.retweet_btn.message}${
+          !vars.disableHotkeys ? " (L)" : ""
+        }`,
         dataset: { val: t.retweet_count },
       },
       [
@@ -1124,409 +1138,488 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       [
         options.mainTweet
           ? null
-          : formatLargeNumber(t.retweet_count).replace(/\s/g, ","),
+          : formatLargeNumber(t.favorite_count).replace(/\s/g, ","),
       ]
     ),
-  ]);
-
-  const tweet_interact = `<div class="tweet-interact">
-                    <span class="tweet-button tweet-interact-reply" title="${
-                      LOC.reply_btn.message
-                    }${!vars.disableHotkeys ? " (R)" : ""}" data-val="${
-    t.reply_count
-  }">${
-    options.mainTweet
-      ? ""
-      : formatLargeNumber(t.reply_count).replace(/\s/g, ",")
-  }</span>
-                    <span title="${
-                      LOC.retweet_btn.message
-                    }" class="tweet-button tweet-interact-retweet${
-    t.retweeted ? " tweet-interact-retweeted" : ""
-  }${
-    (t.user.protected || t.limited_actions === "limit_trusted_friends_tweet") &&
+  ];
+  if (
+    (vars.showBookmarkCount || options.mainTweet) &&
+    typeof t.bookmark_count !== "undefined"
+  ) {
+    interactionArray.push(
+      // bookmark actions
+      elNew(
+        "span",
+        {
+          class: bookmarkClasses,
+          title: `${LOC.bookmarks_count.message}${
+            !vars.disableHotkeys ? " (B)" : ""
+          }`,
+          dataset: { val: t.bookmark_count },
+        },
+        [formatLargeNumber(t.bookmark_count).replace(/\s/g, ",")]
+      )
+    );
+  }
+  if (
+    vars.seeTweetViews &&
+    t.ext &&
+    t.ext.views &&
+    t.ext.views.r &&
+    t.ext.views.r.ok &&
+    t.ext.views.r.ok.count
+  ) {
+    interactionArray.push(
+      // views
+      elNew(
+        "span",
+        {
+          class: bookmarkClasses,
+          title: LOC.views_count.message,
+          dataset: { val: t.ext.views.r.ok.count },
+        },
+        [formatLargeNumber(t.ext.views.r.ok.count).replace(/\s/g, ",")]
+      )
+    );
+  }
+  interactionArray.push(
+    elNew("span", { class: ["tweet-button", "tweet-interact-more"] })
+  );
+  // XXX: Figure out if we can/should use structuredClone
+  var dropDownMoreInteractionsArray = [
+    elNew(
+      "span",
+      { class: ["tweet-interact-more-menu-separate"] },
+      LOC.separate_text.message
+    ),
+    elNew(
+      "span",
+      { class: ["tweet-interact-more-menu-copy"] },
+      LOC.copy_link.message
+    ),
+    elNew(
+      "span",
+      { class: ["tweet-interact-more-menu-embed"] },
+      LOC.embed_tweet.message
+    ),
+    navigator.canShare
+      ? elNew(
+          "span",
+          { class: ["tweet-interact-more-menu-share"] },
+          LOC.share_tweet.message
+        )
+      : null,
+    elNew(
+      "span",
+      { class: ["tweet-interact-more-menu-share-dms"] },
+      LOC.share_tweet_in_dms.message
+    ),
+    elNew(
+      "span",
+      { class: ["tweet-interact-more-menu-newtwitter"] },
+      LOC.open_tweet_newtwitter.message
+    ),
+  ];
+  if (t.user.id_str === user.id_str) {
+    dropDownMoreInteractionsArray.push("hr");
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        { class: ["tweet-interact-more-menu-analytics"] },
+        LOC.tweet_analytics.message
+      )
+    );
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        { class: ["tweet-interact-more-menu-delete"] },
+        LOC.delete_tweet.message
+      )
+    );
+    if (typeof pageUser !== "undefined" && pageUser.id_str === user.id_str) {
+      dropDownMoreInteractionsArray.push(
+        elNew(
+          "span",
+          { class: ["tweet-interact-more-menu-pin"] },
+          pinnedTweet && pinnedTweet.id_str === t.id_str
+            ? LOC.unpin_tweet.message
+            : LOC.pin_tweet.message
+        )
+      );
+    }
+  }
+  if (
+    t.conversation_id_str &&
+    tweetStorage[t.conversation_id_str] &&
+    tweetStorage[t.conversation_id_str].user.id_str === user.id_str &&
     t.user.id_str !== user.id_str
-      ? " tweet-interact-retweet-disabled"
-      : ""
-  }" data-val="${t.retweet_count}">${
-    options.mainTweet
-      ? ""
-      : formatLargeNumber(t.retweet_count).replace(/\s/g, ",")
-  }</span>
-                    <div class="tweet-interact-retweet-menu dropdown-menu" hidden>
-                        <span class="tweet-interact-retweet-menu-retweet">${
-                          t.retweeted
-                            ? LOC.unretweet.message
-                            : LOC.retweet.message
-                        }${!vars.disableHotkeys ? " (T)" : ""}</span>
-                        <span class="tweet-interact-retweet-menu-quote">${
-                          LOC.quote_tweet.message
-                        }${!vars.disableHotkeys ? " (Q)" : ""}</span>
-                        ${
-                          options.mainTweet
-                            ? html`
-                                <span class="tweet-interact-retweet-menu-quotes"
-                                  >${LOC.see_quotes_big.message}</span
-                                >
-                                <span
-                                  class="tweet-interact-retweet-menu-retweeters"
-                                  >${LOC.see_retweeters.message}</span
-                                >
-                              `
-                            : ""
-                        }
-                    </div>
-                    <span title="${
-                      vars.heartsNotStars
-                        ? LOC.like_btn.message
-                        : LOC.favorite_btn.message
-                    }${
-    !vars.disableHotkeys ? " (L)" : ""
-  }" class="tweet-button tweet-interact-favorite ${
-    t.favorited ? "tweet-interact-favorited" : ""
-  }" data-val="${t.favorite_count}">${
-    options.mainTweet
-      ? ""
-      : formatLargeNumber(t.favorite_count).replace(/\s/g, ",")
-  }</span>
-                    ${
-                      (vars.showBookmarkCount || options.mainTweet) &&
-                      typeof t.bookmark_count !== "undefined"
-                        ? html`<span
-                            title="${LOC.bookmarks_count
-                              .message}${!vars.disableHotkeys ? " (B)" : ""}"
-                            class="tweet-button tweet-interact-bookmark${t.bookmarked
-                              ? " tweet-interact-bookmarked"
-                              : ""}"
-                            data-val="${t.bookmark_count}"
-                            >${formatLargeNumber(t.bookmark_count).replace(
-                              /\s/g,
-                              ","
-                            )}</span
-                          >`
-                        : ""
-                    }
-                    ${
-                      vars.seeTweetViews &&
-                      t.ext &&
-                      t.ext.views &&
-                      t.ext.views.r &&
-                      t.ext.views.r.ok &&
-                      t.ext.views.r.ok.count
-                        ? html`<span
-                            title="${LOC.views_count.message}"
-                            class="tweet-interact-views tweet-button"
-                            data-val="${t.ext.views.r.ok.count}"
-                            >${formatLargeNumber(
-                              t.ext.views.r.ok.count
-                            ).replace(/\s/g, ",")}</span
-                          >`
-                        : ""
-                    }
-                    <span class="tweet-button tweet-interact-more"></span>
-                    <div class="tweet-interact-more-menu dropdown-menu" hidden>
-                        ${
-                          innerWidth < 590
-                            ? html`
-                                <span class="tweet-interact-more-menu-separate"
-                                  >${LOC.separate_text.message}</span
-                                >
-                              `
-                            : ""
-                        }
-                        <span class="tweet-interact-more-menu-copy">${
-                          LOC.copy_link.message
-                        }</span>
-                        <span class="tweet-interact-more-menu-embed">${
-                          LOC.embed_tweet.message
-                        }</span>
-                        ${
-                          navigator.canShare
-                            ? `<span class="tweet-interact-more-menu-share">${LOC.share_tweet.message}</span>`
-                            : ""
-                        }
-                        <span class="tweet-interact-more-menu-share-dms">${
-                          LOC.share_tweet_in_dms.message
-                        }</span>
-                        <span class="tweet-interact-more-menu-newtwitter">${
-                          LOC.open_tweet_newtwitter.message
-                        }</span>
-                        ${
-                          t.user.id_str === user.id_str
-                            ? `
-                                      <hr />
-                                      <span
-                                          class="tweet-interact-more-menu-analytics"
-                                          >${LOC.tweet_analytics.message}</span
-                                      >
-                                      <span
-                                          class="tweet-interact-more-menu-delete"
-                                          >${LOC.delete_tweet.message}</span
-                                      >
-                                      ${
-                                        typeof pageUser !== "undefined" &&
-                                        pageUser.id_str === user.id_str
-                                          ? `<span
-                                                class="tweet-interact-more-menu-pin"
-                                                >${
-                                                  pinnedTweet &&
-                                                  pinnedTweet.id_str ===
-                                                    t.id_str
-                                                    ? LOC.unpin_tweet.message
-                                                    : LOC.pin_tweet.message
-                                                }</span
-                                            >`
-                                          : ""
-                                      }
-                                  `
-                            : ""
-                        }
-                        ${
-                          t.conversation_id_str &&
-                          tweetStorage[t.conversation_id_str] &&
-                          tweetStorage[t.conversation_id_str].user.id_str ===
-                            user.id_str &&
-                          t.user.id_str !== user.id_str
-                            ? `
-                                      <span
-                                          class="tweet-interact-more-menu-hide"
-                                          >${
-                                            t.moderated
-                                              ? LOC.unhide_tweet.message
-                                              : LOC.hide_tweet.message
-                                          }</span
-                                      >
-                                  `
-                            : ""
-                        }
-                        ${
-                          t.hasModeratedReplies
-                            ? html`
-                                <span class="tweet-interact-more-menu-hidden"
-                                  ><a
-                                    target="_blank"
-                                    href="/${t.user
-                                      .screen_name}/status/${t.id_str}/hidden?newtwitter=true"
-                                    >${LOC.see_hidden_replies.message}</a
-                                  ></span
-                                >
-                              `
-                            : ""
-                        }
-                        <hr>
-                        ${
-                          t.user.id_str !== user.id_str && !options.mainTweet
-                            ? `
-                                      <span
-                                          class="tweet-interact-more-menu-follow"
-                                          ${t.user.blocking ? " hidden" : ""}
-                                          >${
-                                            t.user.following
-                                              ? tweetConstructorArgs.unfollowUserText
-                                              : tweetConstructorArgs.followUserText
-                                          }</span
-                                      >
-                                  `
-                            : ""
-                        }
-                        ${
-                          t.user.id_str !== user.id_str
-                            ? html`
-                                <span class="tweet-interact-more-menu-block"
-                                  >${t.user.blocking
-                                    ? tweetConstructorArgs.unblockUserText
-                                    : tweetConstructorArgs.blockUserText}</span
-                                >
-                                <span class="tweet-interact-more-menu-mute-user"
-                                  >${t.user.muting
-                                    ? LOC.unmute_user.message.replace(
-                                        "$SCREEN_NAME$",
-                                        t.user.screen_name
-                                      )
-                                    : LOC.mute_user.message.replace(
-                                        "$SCREEN_NAME$",
-                                        t.user.screen_name
-                                      )}</span
-                                >
-                                <span
-                                  class="tweet-interact-more-menu-lists-action"
-                                  >${LOC.from_list.message}</span
-                                >
-                              `
-                            : ""
-                        }
-                        ${
-                          !location.pathname.startsWith("/i/bookmarks")
-                            ? html`<span
-                                class="tweet-interact-more-menu-bookmark"
-                                >${t.bookmarked
-                                  ? LOC.remove_bookmark.message
-                                  : LOC.bookmark_tweet.message}</span
-                              >`
-                            : ""
-                        }
-                        <span class="tweet-interact-more-menu-mute">${
-                          t.conversation_muted
-                            ? LOC.unmute_convo.message
-                            : LOC.mute_convo.message
-                        }</span>
-                        <hr>
-                        ${
-                          t.feedback
-                            ? t.feedback
-                                .map(
-                                  (f, i) =>
-                                    html`<span
-                                      class="tweet-interact-more-menu-feedback"
-                                      data-index="${i}"
-                                      >${f.prompt
-                                        ? f.prompt
-                                        : LOC.topic_not_interested
-                                            .message}</span
-                                    >`
-                                )
-                                .join("\n")
-                            : ""
-                        }
-                        <span class="tweet-interact-more-menu-refresh">${
-                          LOC.refresh_tweet.message
-                        }</span>
-                        ${
-                          t.extended_entities &&
-                          t.extended_entities.media.length === 1 &&
-                          t.extended_entities.media[0].type === "animated_gif"
-                            ? html`<span
-                                class="tweet-interact-more-menu-download-gif"
-                                data-gifno="1"
-                                >${LOC.download_gif.message}</span
-                              >`
-                            : ``
-                        }
-                        ${
-                          t.extended_entities &&
-                          t.extended_entities.media.length > 1
-                            ? t.extended_entities.media
-                                .filter((m) => m.type === "animated_gif")
-                                .map(
-                                  (m, i) =>
-                                    `<span
-                                                  class="tweet-interact-more-menu-download-gif"
-                                                  data-gifno="${i + 1}"
-                                                  >${LOC.download_gif.message}
-                                                  (#${i + 1})</span
-                                              >`
-                                )
-                                .join("\n")
-                            : ""
-                        }
-                        ${
-                          t.extended_entities &&
-                          t.extended_entities.media.length > 0
-                            ? `<span
-                                      class="tweet-interact-more-menu-download"
-                                      >${LOC.download_media.message}</span
-                                  >`
-                            : ``
-                        }
-                        ${
-                          vars.developerMode
-                            ? `
-                                      <hr />
-                                      <span
-                                          class="tweet-interact-more-menu-copy-user-id"
-                                          >${LOC.copy_user_id.message}</span
-                                      >
-                                      <span
-                                          class="tweet-interact-more-menu-copy-tweet-id"
-                                          >${LOC.copy_tweet_id.message}</span
-                                      >
-                                      <span class="tweet-interact-more-menu-log"
-                                          >Log tweet object</span
-                                      >
-                                  `
-                            : ""
-                        }
-                    </div>
-                    ${
-                      options.selfThreadButton &&
-                      t.self_thread &&
-                      t.self_thread.id_str &&
-                      !options.threadContinuation &&
-                      !location.pathname.includes("/status/")
-                        ? `<a
-                                  class="tweet-self-thread-button tweet-thread-right"
-                                  target="_blank"
-                                  href="/${t.user.screen_name}/status/${t.self_thread.id_str}"
-                                  >${LOC.show_this_thread.message}</a
-                              >`
-                        : ``
-                    }
-                    ${
-                      !options.noTop &&
-                      !options.selfThreadButton &&
-                      t.in_reply_to_status_id_str &&
-                      !(
-                        options.threadContinuation ||
-                        (options.selfThreadContinuation &&
-                          t.self_thread &&
-                          t.self_thread.id_str)
-                      ) &&
-                      !location.pathname.includes("/status/")
-                        ? `<a class="tweet-self-thread-button tweet-thread-right" target="_blank" href="/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}">${LOC.show_this_thread.message}</a>`
-                        : ``
-                    }
-                </div>`;
+  ) {
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        { class: ["tweet-interact-more-menu-hide"] },
+        t.moderated ? LOC.unhide_tweet.message : LOC.hide_tweet.message
+      )
+    );
+  }
+  if (t.hasModeratedReplies) {
+    dropDownMoreInteractionsArray.push(
+      elNew("span", { class: ["tweet-interact-more-menu-hidden"] }, [
+        elNew(
+          "a",
+          {
+            target: "_blank",
+            href: `/${t.user.screen_name}/status/${t.id_str}/hidden?newtwitter=true`,
+          },
+          LOC.see_hidden_replies.message
+        ),
+      ])
+    );
+  }
+  dropDownMoreInteractionsArray.push(elNew("hr"));
+  if (t.user.id_str !== user.id_str) {
+    if (!options.mainTweet) {
+      dropDownMoreInteractionsArray.push(
+        elNew(
+          "span",
+          {
+            class: ["tweet-interact-more-menu-follow"],
+            hidden: t.user.blocking ? true : false,
+          },
+          [
+            t.user.following
+              ? tweetConstructorArgs.unfollowUserText
+              : tweetConstructorArgs.followUserText,
+          ]
+        )
+      );
+    }
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        {
+          class: ["tweet-interact-more-menu-block"],
+        },
+        [
+          t.user.blocking
+            ? tweetConstructorArgs.unblockUserText
+            : tweetConstructorArgs.blockUserText,
+        ]
+      )
+    );
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        {
+          class: ["tweet-interact-more-menu-mute-user"],
+        },
+        [
+          t.user.muting
+            ? LOC.unmute_user.message.replace(
+                "$SCREEN_NAME$",
+                t.user.screen_name
+              )
+            : LOC.mute_user.message.replace(
+                "$SCREEN_NAME$",
+                t.user.screen_name
+              ),
+        ]
+      )
+    );
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        {
+          class: ["tweet-interact-more-menu-lists-action"],
+        },
+        LOC.from_list.message
+      )
+    );
+  }
+  if (!location.pathname.startsWith("/i/bookmarks")) {
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        {
+          class: ["tweet-interact-more-menu-bookmark"],
+        },
+        t.bookmarked ? LOC.remove_bookmark.message : LOC.bookmark_tweet.message
+      )
+    );
+  }
+  dropDownMoreInteractionsArray.push(
+    elNew(
+      "span",
+      {
+        class: ["tweet-interact-more-menu-mute"],
+      },
+      t.conversation_muted ? LOC.unmute_convo.message : LOC.mute_convo.message
+    )
+  );
+  dropDownMoreInteractionsArray.push(elNew("hr"));
+  if (t.feedback) {
+    dropDownMoreInteractionsArray.push(
+      ...t.feedback.map((f, i) => {
+        elNew(
+          "span",
+          {
+            class: ["tweet-interact-more-menu-feedback"],
+            dataset: { index: i },
+          },
+          [f.prompt ? f.prompt : LOC.topic_not_interested.message]
+        );
+      })
+    );
+  }
+  dropDownMoreInteractionsArray.push(
+    elNew(
+      "span",
+      {
+        class: ["tweet-interact-more-menu-refresh"],
+      },
+      LOC.refresh_tweet.message
+    )
+  );
+  if (
+    t.extended_entities &&
+    t.extended_entities.media.length === 1 &&
+    t.extended_entities.media[0].type === "animated_gif"
+  ) {
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        {
+          class: ["tweet-interact-more-menu-download-gif"],
+          dataset: { gifno: "1" },
+        },
+        LOC.download_gif.message
+      )
+    );
+  }
+  if (t.extended_entities && t.extended_entities.media.length > 1) {
+    dropDownMoreInteractionsArray.push(
+      ...t.extended_entities.media
+        .filter((m) => m.type === "animated_gif")
+        .map((m, i) => {
+          elNew(
+            "span",
+            {
+              class: ["tweet-interact-more-menu-download-gif"],
+              dataset: { gifno: i + 1 },
+            },
+            `${LOC.download_gif.message} (#${i + 1})`
+          );
+        })
+    );
+  }
+  if (t.extended_entities && t.extended_entities.media.length > 0) {
+    dropDownMoreInteractionsArray.push(
+      elNew(
+        "span",
+        {
+          class: ["tweet-interact-more-menu-download"],
+        },
+        `${LOC.download_media.message}`
+      )
+    );
+  }
+  if (vars.developerMode) {
+    dropDownMoreInteractionsArray.push(
+      ...[
+        elNew(
+          "span",
+          {
+            class: ["tweet-interact-more-menu-copy-user-id"],
+          },
+          LOC.copy_user_id.message
+        ),
+        elNew(
+          "span",
+          {
+            class: ["tweet-interact-more-menu-copy-tweet-id"],
+          },
+          LOC.copy_tweet_id.message
+        ),
+        elNew(
+          "span",
+          {
+            class: ["tweet-interact-more-menu-log"],
+          },
+          "Log tweet object"
+        ),
+      ]
+    );
+  }
 
-  const tweet_edit = `<div class="tweet-edit-section tweet-reply" hidden>
-                    <br>
-                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${
-                      LOC.replying_to_tweet.message
-                    } <span ${
-    !vars.disableHotkeys ? 'title="ALT+M"' : ""
-  } class="tweet-reply-upload">${
-    LOC.upload_media_btn.message
-  }</span> <span class="tweet-reply-add-emoji">${
-    LOC.emoji_btn.message
-  }</span> <span ${
-    !vars.disableHotkeys ? 'title="ALT+R"' : ""
-  } class="tweet-reply-cancel">${LOC.cancel_btn.message}</span></b>
-                    <span class="tweet-reply-error" style="color:red"></span>
-                    <textarea maxlength="25000" class="tweet-reply-text" placeholder="${
-                      LOC.reply_example.message
-                    }"></textarea>
-                    <button title="CTRL+ENTER" class="tweet-reply-button nice-button">${
-                      LOC.reply.message
-                    }</button><br>
-                    <span class="tweet-reply-char">${
-                      localStorage.OTisBlueVerified ? "0/25000" : "0/280"
-                    }</span><br>
-                    <div class="tweet-reply-media" style="padding-bottom: 10px;"></div>
-                </div>
-                <div class="tweet-edit-section tweet-quote" hidden>
-                    <br>
-                    <b style="font-size: 12px;display: block;margin-bottom: 5px;">${
-                      LOC.quote_tweet.message
-                    } <span ${
-    !vars.disableHotkeys ? 'title="ALT+M"' : ""
-  } class="tweet-quote-upload">${
-    LOC.upload_media_btn.message
-  }</span> <span class="tweet-quote-add-emoji">${
-    LOC.emoji_btn.message
-  }</span> <span ${
-    !vars.disableHotkeys ? 'title="ALT+Q"' : ""
-  } class="tweet-quote-cancel">${LOC.cancel_btn.message}</span></b>
-                    <span class="tweet-quote-error" style="color:red"></span>
-                    <textarea maxlength="25000" class="tweet-quote-text" placeholder="${
-                      LOC.quote_example.message
-                    }"></textarea>
-                    <button title="CTRL+ENTER" class="tweet-quote-button nice-button">${
-                      LOC.quote.message
-                    }</button><br>
-                    <span class="tweet-quote-char">${
-                      localStorage.OTisBlueVerified ? "0/25000" : "0/280"
-                    }</span><br>
-                    <div class="tweet-quote-media" style="padding-bottom: 10px;"></div>
-                </div>`;
+  interactionArray.push(
+    elNew(
+      "div",
+      { class: ["tweet-interact-more-menu", "dropdown-menu"], hidden: true },
+      dropDownMoreInteractionsArray
+    )
+  );
+  if (
+    options.selfThreadButton &&
+    t.self_thread &&
+    t.self_thread.id_str &&
+    !options.threadContinuation &&
+    !location.pathname.includes("/status/")
+  ) {
+    interactionArray.push(
+      elNew(
+        "a",
+        {
+          class: ["tweet-self-thread-button", "tweet-thread-right"],
+          target: "_blank",
+          href: `/${t.user.screen_name}/status/${t.self_thread.id_str}`,
+        },
+        LOC.show_this_thread.message
+      )
+    );
+  }
+  if (
+    !options.noTop &&
+    !options.selfThreadButton &&
+    t.in_reply_to_status_id_str &&
+    !(
+      options.threadContinuation ||
+      (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)
+    ) &&
+    !location.pathname.includes("/status/")
+  ) {
+    elNew(
+      "a",
+      {
+        class: ["tweet-self-thread-button", "tweet-thread-right"],
+        target: "_blank",
+        href: `/${t.in_reply_to_screen_name}/status/${t.in_reply_to_status_id_str}`,
+      },
+      LOC.show_this_thread.message
+    );
+  }
+
+  // Tweet Interactions buttons
+  const interactionSection = elNew(
+    "div",
+    { class: ["tweet-interact"] },
+    interactionArray
+  );
+
+  tweet_interact = interactionSection.outerHTML;
+
+  const tweet_reply_node = elNew(
+    "div",
+    { class: ["tweet-edit-section", "tweet-reply"], hidden: true },
+    [
+      elNew("br"),
+      elNew(
+        "b",
+        { style: "font-size: 12px;display: block;margin-bottom: 5px;" },
+        [
+          `${LOC.replying_to_tweet.message} `,
+          elNew(
+            "span",
+            {
+              title: !vars.disableHotkeys ? "ALT+M" : "",
+              class: ["tweet-reply-upload"],
+            },
+            [LOC.upload_media_btn.message]
+          ),
+          " ",
+          elNew("span", { class: ["tweet-reply-add-emoji"] }, [
+            LOC.emoji_btn.message,
+          ]),
+          " ",
+          elNew(
+            "span",
+            {
+              title: !vars.disableHotkeys ? "ALT+R" : "",
+              class: ["tweet-reply-cancel"],
+            },
+            [LOC.cancel_btn.message]
+          ),
+        ]
+      ),
+      elNew("span", { style: "color:red", class: ["tweet-reply-error"] }, []),
+      elNew("textarea", {
+        maxlength: 25000,
+        class: ["tweet-reply-text"],
+        placeholder: LOC.reply_example.message,
+      }),
+      elNew(
+        "button",
+        { title: "CTRL+ENTER", class: ["tweet-reply-button", "nice-button"] },
+        [LOC.reply.message]
+      ),
+      elNew("br"),
+      elNew("span", { class: ["tweet-reply-char"] }, [
+        localStorage.OTisBlueVerified ? "0/25000" : "0/280",
+      ]),
+      elNew("br"),
+      elNew("div", {
+        style: "padding-bottom: 10px;",
+        class: ["tweet-reply-media"],
+      }),
+    ]
+  );
+
+  const tweet_quote_node = elNew(
+    "div",
+    { class: ["tweet-edit-section", "tweet-quote"], hidden: true },
+    [
+      elNew("br"),
+      elNew(
+        "b",
+        { style: "font-size: 12px;display: block;margin-bottom: 5px;" },
+        [
+          `${LOC.quote_tweet.message} `,
+          elNew(
+            "span",
+            {
+              title: !vars.disableHotkeys ? "ALT+M" : "",
+              class: ["tweet-quote-upload"],
+            },
+            [LOC.upload_media_btn.message]
+          ),
+          " ",
+          elNew("span", { class: ["tweet-quote-add-emoji"] }, [
+            LOC.emoji_btn.message,
+          ]),
+          " ",
+          elNew(
+            "span",
+            {
+              title: !vars.disableHotkeys ? "ALT+Q" : "",
+              class: ["tweet-quote-cancel"],
+            },
+            [LOC.cancel_btn.message]
+          ),
+        ]
+      ),
+      elNew("span", { style: "color:red", class: ["tweet-quote-error"] }, []),
+      elNew("textarea", {
+        maxlength: 25000,
+        class: ["tweet-quote-text"],
+        placeholder: LOC.quote_example.message,
+      }),
+      elNew(
+        "button",
+        { title: "CTRL+ENTER", class: ["tweet-quote-button", "nice-button"] },
+        [LOC.quote.message]
+      ),
+      elNew("br"),
+      elNew("span", { class: ["tweet-quote-char"] }, [
+        localStorage.OTisBlueVerified ? "0/25000" : "0/280",
+      ]),
+      elNew("br"),
+      elNew("div", {
+        style: "padding-bottom: 10px;",
+        class: ["tweet-quote-media"],
+      }),
+    ]
+  );
+
+  const tweet_edit = tweet_reply_node.outerHTML + tweet_quote_node.outerHTML;
 
   const replies = `<div class="tweet-self-thread-div" ${
     options.threadContinuation ||
