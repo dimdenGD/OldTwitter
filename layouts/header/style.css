@@ -1689,6 +1689,12 @@ span.tweet-body-text {
     content: "\f183"
 }
 
+@media only screen and (min-width: 600px) {
+  .tweet-interact-more-menu-separate {
+    display: none;
+  }
+}
+
 .tweet-interact-more-menu-share:before {
     content: "\f185"
 }

@@ -1675,27 +1675,6 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       tweet_reply_node,
       tweet_quote_node,
       reply_nodes,
-    ].flat(1),
+    ].flat(1), // flat required due to `extended_media_nodes` being an array.
   ];
-
-  // return [
-  //   tweet_top,
-  //   mentioned_node
-  //     ? mentioned_node.outerHTML
-  //     : `` +
-  //       body_text +
-  //       translate_text +
-  //       extended_media +
-  //       card +
-  //       quoted_tweet +
-  //       limited +
-  //       tomb_stone +
-  //       country_restrictions +
-  //       conversation_control +
-  //       tweet_footer +
-  //       tweet_date +
-  //       interactionSection.outerHTML +
-  //       tweet_edit +
-  //       reply_nodes.outerHTML,
-  // ];
 }
