@@ -41,7 +41,7 @@
     "open_newtwitter": { "message": "Ouvrir cette page avec la nouvelle apparence de Twitter" },
     "last_version": { "message": "dernière version" },
     "thank_you": {
-        "message": "Merci d'avoir installé OldTwitter !! J’espère que vous l'aimerez. Allez jeter un coup d’œil aux <a target=\"_blank\" href=\"/old/settings\">paramètres de l'extension</a> !",
+        "message": "Merci d'avoir installé OldTwitter !! J'espère que vous l'aimerez. Allez jeter un coup d'œil aux <a target=\"_blank\" href=\"/old/settings\">paramètres de l'extension</a> !",
         "placeholders": {
             "at1": { "content": "<a target=\"_blank\" href=\"/old/settings\">" },
             "at2": { "content": "</a>" }
@@ -196,7 +196,7 @@
     "font": { "message": "Police" },
     "color_sync": { "message": "Synchronisation de la couleur de lien" },
     "by_pressing_sync": { "message": "En appuyant sur Synchronisation, votre couleur de lien de profil sera enregistrée dans la base de donnée et pourra être visible aux autres utilisateurs de l'extension." },
-    "color_years_ago": { "message": "Si vous avez déjà défini la couleur des liens de Twitter lorsque cette option existait encore, elle remplacera votre ancienne couleur." },
+    "color_years_ago": { "message": "Si vous avez déjà dé la couleur des liens de Twitter lorsque cette option existait encore, elle remplacera votre ancienne couleur." },
     "sync": { "message": "Synchronisation" },
     "profile_link_color": { "message": "Couleur des lien de profil" },
     "light_mode_link": { "message": "Lien en mode clair" },
@@ -207,7 +207,7 @@
     "save_vars": { "message": "Sauvegarder les variables." },
     "custom_css_text": { "message": "CSS personnalisée à ajouter à toutes les pages" },
     "save_css": { "message": "Sauvegarder le CSS" },
-    "error_setting_color": { "message": "Erreur lors de la définition de la couleur des liens" },
+    "error_setting_color": { "message": "Erreur lors de la détion de la couleur des liens" },
     "link_color_set": { "message": "Couleur des liens définie !" },
     "retweeted_by": { "message": "Retweeté par" },
     "see_quotes": { "message": "Voir les citations" },
@@ -231,7 +231,7 @@
     "alt_text": { "message": "Entrer le texte alternatif pour l'image" },
     "vote": { "message": "vote", "example": "1 ->vote<-" },
     "votes": { "message": "votes", "example": "10 ->votes<-" },
-    "ends_at": { "message": "Fini le", "example": "->Ends at<- 16th November" },
+    "ends_at": { "message": "Se fini le", "example": "->Ends at<- 16th November" },
     "view_translation": { "message": "Voir la traduction" },
     "unsupported_video": { "message": "Votre navigateur ne supporte pas cette vidéo" },
     "views": { "message": "vues", "example": "10 ->views<-" },
@@ -647,5 +647,6 @@
     "suspended_user_desc": { "message": "Le profil que vous essayez de voir est suspendu." },
     "show_boring_indicators": { "message": "Afficher un indicateur sur la page des abonnés/abonnements si le dernier tweet de la personne est un retweet, une citation, inexistant ou ancien" },
     "hide_original_languages":{"message": "Cacher le message original lorsqu'il est traduit" },
-	"blocked": { "message": "bloqué.e" }
+	"blocked": { "message": "bloqué.e" },
+    "open_oldtwitter": { "message": "Ouvrir cette page dans OldTwitter" }
 }

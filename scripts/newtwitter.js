@@ -41,7 +41,7 @@ setInterval(() => {
         history.replaceState(null, null, url.href);
     }
 }, 500);
-r.textContent = 'Open this page in OldTwitter';
+r.textContent = chrome.i18n.getMessage("open_oldtwitter");
 r.style.cssText = 'position: fixed; top: 0; right: 10px; padding: 0.5em; background: #fff; color: #000; font-family: Arial, sans-serif;border-radius:3px;';
 document.body.appendChild(r);
 
