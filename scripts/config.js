@@ -64,7 +64,7 @@ async function loadVars() {
         "linkColor",
         "font",
         "heartsNotStars",
-        "linkColorsInTL",
+        "slowLinkColorsInTL",
         "alwaysShowLinkColor",
         "enableTwemoji",
         "chronologicalTL",
@@ -144,11 +144,11 @@ async function loadVars() {
       ],
       (data) => {
         // default variables
-        if (typeof data.linkColorsInTL !== "boolean") {
-          data.linkColorsInTL = true;
+        if (typeof data.slowLinkColorsInTL !== "boolean") {
+          data.slowLinkColorsInTL = false;
           chrome.storage.sync.set(
             {
-              linkColorsInTL: true,
+              slowLinkColorsInTL: false,
             },
             () => {}
           );

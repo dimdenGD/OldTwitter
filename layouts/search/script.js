@@ -137,7 +137,7 @@ async function renderSearch(c, force = false) {
         window.scrollTo(0, 0);
         searchDiv.innerHTML = '';
     }
-    if(vars.linkColorsInTL) {
+    if(vars.slowLinkColorsInTL) {
         let tlUsers = [];
         for(let i in search) {
             let t = search[i];

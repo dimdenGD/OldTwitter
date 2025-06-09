@@ -1328,7 +1328,7 @@ function makeSeeableColor(color, bg_color = getBackgroundColor()) {
   return rgb2hex(...hslToRgb(...hsl));
 }
 
-const getLinkColors = async (ids) => {
+async function getLinkColors(ids) {
   if (typeof ids === "string") ids = ids.split(",");
   ids = [...new Set(ids)];
   const colours = await Promise.all([
@@ -1348,13 +1348,11 @@ const getLinkColors = async (ids) => {
             if (linkColors[id]) fetched.push({ id, color: linkColors[id] });
           }
         }
-        if (
-          toFetch.length === 0 ||
+        if (toFetch.length === 0 ||
           (window.navigator &&
             navigator.connection &&
             navigator.connection.type === "cellular" &&
-            !vars.disableDataSaver)
-        ) {
+            !vars.disableDataSaver)) {
           return resolve(fetched);
         }
 
@@ -1364,7 +1362,7 @@ const getLinkColors = async (ids) => {
           let t = setTimeout(() => controller.abort(), 1000);
           let res = await fetch(
             "https://dimden.dev/services/twitter_link_colors/v2/get_multiple/" +
-              toFetch.join(","),
+            toFetch.join(","),
             {
               signal: controller.signal,
             }
@@ -1385,9 +1383,9 @@ const getLinkColors = async (ids) => {
           }
           let keys = Object.keys(linkColors);
           if (keys.length > 20000) {
-            chrome.storage.local.set({ linkColors: {} }, () => {});
+            chrome.storage.local.set({ linkColors: {} }, () => { });
           } else {
-            chrome.storage.local.set({ linkColors }, () => {});
+            chrome.storage.local.set({ linkColors }, () => { });
           }
           return resolve(fetched);
         } catch (e) {
@@ -1430,7 +1428,7 @@ const getLinkColors = async (ids) => {
         for (let id of hasColourIds) {
           fetched.push({ id, color: legacyLinkColors[id] });
         }
-        chrome.storage.local.set({ legacyLinkColors }, () => {});
+        chrome.storage.local.set({ legacyLinkColors }, () => { });
         resolve(fetched);
       });
     }),
@@ -1447,7 +1445,7 @@ const getLinkColors = async (ids) => {
     }
   }
   return linkColors;
-};
+}
 
 function getOtAuthToken(cache = true) {
   return new Promise((resolve, reject) => {
@@ -2430,7 +2428,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
       tweet.classList.add("tweet-self-thread-continuation");
 
     if (options.noTop) tweet.classList.add("tweet-no-top");
-    if (vars.linkColorsInTL && typeof linkColors !== "undefined") {
+    if (vars.slowLinkColorsInTL && typeof linkColors !== "undefined") {
       if (linkColors[t.user.id_str]) {
         let sc = makeSeeableColor(linkColors[t.user.id_str]);
         tweet.style.setProperty("--link-color", sc);

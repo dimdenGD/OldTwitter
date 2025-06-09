@@ -239,7 +239,7 @@ class TweetViewer {
       return (this.cursor = undefined);
     }
 
-    if (vars.linkColorsInTL) {
+    if (vars.slowLinkColorsInTL) {
       let tlUsers = [];
       for (let i in tl.list) {
         let t = tl.list[i];
@@ -1198,7 +1198,7 @@ class TweetViewer {
     if (options.threadContinuation)
       tweet.classList.add("tweet-self-thread-continuation");
     if (options.noTop) tweet.classList.add("tweet-no-top");
-    if (vars.linkColorsInTL) {
+    if (vars.slowLinkColorsInTL) {
       if (this.linkColors[t.user.id_str]) {
         let sc = makeSeeableColor(this.linkColors[t.user.id_str]);
         tweet.style.setProperty("--link-color", sc);

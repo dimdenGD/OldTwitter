@@ -147,7 +147,7 @@ async function updateReplies(id, c) {
         users[u] = tl.users[u];
     };
 
-    if(vars.linkColorsInTL) {
+    if(vars.slowLinkColorsInTL) {
         let tlUsers = [];
         for(let i in tl.list) {
             let t = tl.list[i];
