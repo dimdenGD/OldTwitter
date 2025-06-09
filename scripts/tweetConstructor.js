@@ -1,4 +1,21 @@
 // svgPlayIcon.
+
+if (Intl && Intl.DateTimeFormat) {
+  var tweetTimeFormatter = new Intl.DateTimeFormat(undefined, {
+    hour: "numeric",
+    minute: "numeric",
+  });
+  var tweetDateFormatter = new Intl.DateTimeFormat(undefined, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+  var tweetShortishTimeformatter = new Intl.DateTimeFormat(undefined, {
+    dateStyle: "short",
+    timeStyle: "medium",
+  });
+}
+
 const svgPlayIcon = `<svg viewBox="0 0 24 24" class="tweet-media-video-overlay-play">
     <g>
         <path class="svg-play-path" d="M8 5v14l11-7z"></path>
@@ -10,25 +27,6 @@ const svgPlayIcon = `<svg viewBox="0 0 24 24" class="tweet-media-video-overlay-p
 </svg>`;
 
 // === Static Nodes to be reused ===
-
-const translate_node = elNew("div", {}, [
-  elNew("br"),
-  elNew("span", { class: ["tweet-button", "tweet-translate"] }, [
-    LOC.view_translation.message,
-  ]),
-]);
-
-const country_restriction_node = elNew("div", { class: ["tweet-warning"] }, [
-  "This Tweet has been withheld in response to a report from the copyright holder.",
-  elNew(
-    "a",
-    {
-      href: "https://help.twitter.com/en/rules-and-policies/copyright-policy",
-      target: "_blank",
-    },
-    ["Learn more."]
-  ),
-]);
 
 /**
  *
@@ -248,16 +246,23 @@ async function constructQuotedTweet(
     ]),
   ]);
   // Time span
+  const quotedDateObject = new Date(t.quoted_status.created_at);
+  var titleTime = null;
+  if (tweetShortishTimeformatter) {
+    titleTime = tweetShortishTimeformatter.format(quotedDateObject);
+  } else {
+    titleTime = quotedDateObject.toLocaleString();
+  }
   const tweetTimeElement = elNew(
     "span",
     {
       className: "tweet-time-quote",
       dataset: {
-        timestamp: new Date(t.quoted_status.created_at).getTime(),
+        timestamp: quotedDateObject.getTime(),
       },
-      title: new Date(t.quoted_status.created_at).toLocaleString(),
+      title: titleTime,
     },
-    [timeElapsed(new Date(t.quoted_status.created_at).getTime())]
+    [timeElapsed(quotedDateObject)]
   );
 
   var oldStyleReplyTo = null;
@@ -501,6 +506,13 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     ]
   );
 
+  var titleTime = null;
+  if (tweetShortishTimeformatter) {
+    titleTime = tweetShortishTimeformatter.format(tweetDateObject);
+  } else {
+    titleTime = tweetDateObject.toLocaleString();
+  }
+
   let tweetHeaderBlock = [
     // The Screen & username block.
     screenUsername,
@@ -514,7 +526,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
         dataset: {
           timestamp: tweetTimestamp,
         },
-        title: tweetDateObject.toLocaleString(),
+        title: titleTime,
         href: `/${t.user.screen_name}/status/${t.id_str}`,
       },
       [timeElapsed(tweetTimestamp)]
@@ -563,11 +575,6 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       tweetHeaderBlock
     ),
   ]);
-
-  var tweet_top = "";
-  [].forEach.call(tweetTopConst.children, function (el) {
-    tweet_top += el.outerHTML;
-  });
 
   // mentionText
   const doMentionText =
@@ -962,25 +969,38 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       elNew("div", { class: ["tweet-footer-stats"] }, statsArray),
     ]);
   }
+  var dt = [];
+  if (tweetTimeFormatter && tweetDateFormatter) {
+    dt = [
+      tweetTimeFormatter.format(tweetDateObject),
+      " - ",
+      tweetDateFormatter.format(tweetDateObject),
+    ];
+  } else {
+    dt = [
+      tweetDateObject
+        .toLocaleTimeString(undefined, { hour: "numeric", minute: "numeric" })
+        .toLowerCase(),
+      " - ",
+      tweetDateObject.toLocaleDateString(undefined, {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+      }),
+    ];
+  }
+
   const tweet_date_node = elNew(
     "a",
     {
       hidden: !options.mainTweet ? true : false,
       class: ["tweet-date"],
-      title: new Date(t.created_at).toLocaleString(),
+      title: tweetDateObject.toLocaleString(),
       href: `/${t.user.screen_name}/status/${t.id_str}`,
     },
     [
       elNew("br"),
-      new Date(t.created_at)
-        .toLocaleTimeString(undefined, { hour: "numeric", minute: "numeric" })
-        .toLowerCase(),
-      " - ",
-      new Date(t.created_at).toLocaleDateString(undefined, {
-        day: "numeric",
-        month: "short",
-        year: "numeric",
-      }),
+      ...dt,
       "  ・ ",
       t.source ? t.source.split(">")[1].split("<")[0] : "Unknown",
     ]
@@ -1583,7 +1603,6 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     ]
   );
 
-  const tweet_edit = tweet_reply_node.outerHTML + tweet_quote_node.outerHTML;
   const hideThreadContinuation =
     options.threadContinuation ||
     (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)
@@ -1647,6 +1666,25 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     },
     replyChildren
   );
+
+  const translate_node = elNew("div", {}, [
+    elNew("br"),
+    elNew("span", { class: ["tweet-button", "tweet-translate"] }, [
+      LOC.view_translation.message,
+    ]),
+  ]);
+
+  const country_restriction_node = elNew("div", { class: ["tweet-warning"] }, [
+    "This Tweet has been withheld in response to a report from the copyright holder.",
+    elNew(
+      "a",
+      {
+        href: "https://help.twitter.com/en/rules-and-policies/copyright-policy",
+        target: "_blank",
+      },
+      ["Learn more."]
+    ),
+  ]);
 
   return [
     tweetTopConst.children,
