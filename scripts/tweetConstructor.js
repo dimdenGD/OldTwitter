@@ -30,30 +30,6 @@ const country_restriction_node = elNew("div", { class: ["tweet-warning"] }, [
   ),
 ]);
 
-// const developerModeDebugIteractions = [
-//   elNew(
-//     "span",
-//     {
-//       class: ["tweet-interact-more-menu-copy-user-id"],
-//     },
-//     LOC.copy_user_id.message
-//   ),
-//   elNew(
-//     "span",
-//     {
-//       class: ["tweet-interact-more-menu-copy-tweet-id"],
-//     },
-//     LOC.copy_tweet_id.message
-//   ),
-//   elNew(
-//     "span",
-//     {
-//       class: ["tweet-interact-more-menu-log"],
-//     },
-//     "Log tweet object"
-//   ),
-// ];
-
 /**
  *
  * @param {object} tweetObject The tweet object.
@@ -214,8 +190,10 @@ async function constructQuotedTweet(
   t,
   isQuoteMatchingLanguage,
   quoteMentionedUserText,
-  newQuoteMentionedUserText
+  newQuoteMentionedUserText,
+  asNode
 ) {
+  asNode = asNode ? asNode : false;
   // === Profile Element ===
   const profileElement = elNew("img", {
     src:
@@ -283,7 +261,7 @@ async function constructQuotedTweet(
   );
 
   var oldStyleReplyTo = null;
-  if (!!newQuoteMentionedUserText && !vars.useOldStyleReply) {
+  if (newQuoteMentionedUserText.length > 0 && !vars.useOldStyleReply) {
     newQuoteMentionedUserText = interleave(
       newQuoteMentionedUserText,
       LOC.replying_to_comma.message
@@ -303,19 +281,10 @@ async function constructQuotedTweet(
       "span",
       { className: "tweet-reply-to tweet-quote-reply-to" },
       textFragments
-      // [
-      //   LOC.replying_to_user.message.replace(
-      //     "$SCREEN_NAME$",
-      //     quoteMentionedUserText
-      //       .trim()
-      //       .replaceAll(` `, LOC.replying_to_comma.message)
-      //       .replace(LOC.replying_to_comma.message, LOC.replying_to_and.message)
-      //   ),
-      // ]
     );
   }
 
-  var textBodySpan = [vars.useOldStyleReply ? quoteMentionedUserText : ""];
+  var textBodySpan = [vars.useOldStyleReply ? oldStyleReplyTo : ""];
   if (t.quoted_status.full_text) {
     // XXX: renderTweetBodyHTML returns html. To refactor later.
     textBodySpan.push(htmlToNodes(await renderTweetBodyHTML(t, true)).content);
@@ -425,7 +394,10 @@ async function constructQuotedTweet(
         : ``,
     ]
   );
-  return rootAHref.outerHTML;
+  if (!asNode) return rootAHref.outerHTML;
+  else {
+    return rootAHref;
+  }
 }
 
 /**
@@ -667,20 +639,9 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     },
     [elNew("span", { class: ["tweet-body-text-span"] }, bodyTextChildren)]
   );
-  // if (body_node.outerHTML != bodyNodeV2.outerHTML) {
-  //   console.log("nodeCompare", body_node, bodyNodeV2);
-  // }
-
-  // translate icon
-  const body_text = body_node.outerHTML;
-
-  const translate_text =
-    !tweetConstructorArgs.isMatchingLanguage && options.mainTweet
-      ? translate_node.outerHTML
-      : "";
 
   // render media content elements
-  var extended_node = null;
+  var extended_media_nodes = null;
   if (t.extended_entities && t.extended_entities.media) {
     // videoOverlay if it's only a single video.
     const isSingleVideo =
@@ -755,35 +716,38 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       ]);
     }
     // console.log([videoOverlay, ...mediaNodes]);
-    extended_node = elNew("template", {}, [
+    extended_media_nodes = [
       elNew("div", { class: ["tweet-media"] }, [videoOverlay, ...mediaNodes]),
       gifControl,
       videoControls,
       elNew("span", { class: "tweet-media-data" }),
-    ]);
+    ];
   }
 
-  var extended_media = "";
-  if (extended_node) {
-    [].forEach.call(extended_node.children, function (el) {
-      extended_media += el.outerHTML;
-    });
-  }
+  // var extended_media = "";
+  // if (extended_node) {
+  //   [].forEach.call(extended_node.children, function (el) {
+  //     extended_media += el.outerHTML;
+  //   });
+  // }
 
   // card placeholder if there is a card to placeholder.
-  const card = t.card ? `<div class="tweet-card"></div>` : "";
+  // const card = t.card ? `<div class="tweet-card"></div>` : "";
+  const card_node = t.card ? elNew("div", { class: ["tweet-card"] }) : null;
   // quoted tweet status.
-  let quoted_tweet = "";
+  let quoted_node = "";
   if (t.quoted_status) {
-    quoted_tweet = await constructQuotedTweet(
+    quoted_node = await constructQuotedTweet(
       t,
       tweetConstructorArgs.isQuoteMatchingLanguage,
-      tweetConstructorArgs.quoteMentionedUserText
+      tweetConstructorArgs.quoteMentionedUserText,
+      tweetConstructorArgs.newQuoteMentionedUserText,
+      true
     );
   }
 
   // limited text
-  var limited = "";
+  var limited_node = null;
   if (
     t.limited_actions === "limit_trusted_friends_tweet" &&
     (options.mainTweet || !location.pathname.includes("/status/"))
@@ -798,7 +762,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     } else {
       screen_name = t.user.screen_name;
     }
-    limited = elNew("div", { class: ["tweet-limited"] }, [
+    limited_node = elNew("div", { class: ["tweet-limited"] }, [
       LOC.circle_limited_tweet.message.replace("$SCREEN_NAME$", screen_name),
       elNew(
         "a",
@@ -808,7 +772,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
         },
         [LOC.learn_more.message]
       ),
-    ]).outerHTML;
+    ]);
 
     // limited = `
     //         <div class="tweet-limited">
@@ -825,11 +789,11 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     // );
   }
   // tombstoned
-  const tomb_stone = t.tombstone
-    ? elNew("div", { class: ["tweet-warning"] }, [t.tombstone]).outerHTML
-    : "";
+  const tombstone_node = t.tombstone
+    ? elNew("div", { class: ["tweet-warning"] }, [t.tombstone])
+    : null;
   // country restricted text.
-  var country_restrictions = "";
+  var country_restrictions = null;
   if (
     (t.withheld_in_countries &&
       (t.withheld_in_countries.includes("XX") ||
@@ -847,7 +811,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   //       This Tweet has been withheld in response to a report from the copyright holder. <a href="https://help.twitter.com/en/rules-and-policies/copyright-policy" target="_blank">Learn more.</a></div>`
   //     : "";
 
-  var conversation_control = "";
+  var conversation_control_node = null;
   if (t.conversation_control) {
     const limitedActions = t.limited_actions_text
       ? t.limited_actions_text
@@ -869,10 +833,10 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     } else {
       replyText = "";
     }
-    conversation_control = elNew("div", { class: "tweet-warning" }, [
+    conversation_control_node = elNew("div", { class: "tweet-warning" }, [
       limitedActions,
       replyText,
-    ]).outerHTML;
+    ]);
   }
 
   // const conversation_control = t.conversation_control
@@ -897,7 +861,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   //     }</div>`
   //   : "";
 
-  var tweet_footer = "";
+  var tweet_footer_node = "";
   if (options.mainTweet) {
     var statsArray = [];
     // Replies
@@ -994,11 +958,11 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       )
     );
 
-    tweet_footer = elNew("div", { class: ["tweet-footer"] }, [
+    tweet_footer_node = elNew("div", { class: ["tweet-footer"] }, [
       elNew("div", { class: ["tweet-footer-stats"] }, statsArray),
-    ]).outerHTML;
+    ]);
   }
-  const tweet_date = elNew(
+  const tweet_date_node = elNew(
     "a",
     {
       hidden: !options.mainTweet ? true : false,
@@ -1020,7 +984,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       "  ・ ",
       t.source ? t.source.split(">")[1].split("<")[0] : "Unknown",
     ]
-  ).outerHTML;
+  );
 
   // solve additional classes
   var retweetClasses = ["tweet-button", "tweet-interact-retweet"];
@@ -1499,13 +1463,13 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   }
 
   // Tweet Interactions buttons
-  const interactionSection = elNew(
+  const interactions_node = elNew(
     "div",
     { class: ["tweet-interact"] },
     interactionArray
   );
 
-  tweet_interact = interactionSection.outerHTML;
+  // tweet_interact = ;
 
   const tweet_reply_node = elNew(
     "div",
@@ -1620,76 +1584,118 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   );
 
   const tweet_edit = tweet_reply_node.outerHTML + tweet_quote_node.outerHTML;
-
-  const replies = `<div class="tweet-self-thread-div" ${
+  const hideThreadContinuation =
     options.threadContinuation ||
     (options.selfThreadContinuation && t.self_thread && t.self_thread.id_str)
-      ? ""
-      : "hidden"
-  }>
-                    ${
-                      options.selfThreadContinuation &&
-                      t.self_thread &&
-                      t.self_thread.id_str &&
-                      !location.pathname.includes("/status/")
-                        ? `<br />
-                                  <a
-                                      class="tweet-self-thread-button"
-                                      target="_blank"
-                                      href="/${t.user.screen_name}/status/${t.self_thread.id_str}"
-                                  >
-                                      ${LOC.show_this_thread.message}
-                                  </a>
-                                  <span
-                                      class="tweet-self-thread-line"
-                                      style="margin-left: -108px;margin-top: -5px;"
-                                  ></span>
-                                  <div
-                                      class="tweet-self-thread-line-dots"
-                                      style="margin-left: -120px;margin-top: -3px;"
-                                  ></div> `
-                        : `
-                                  ${
-                                    location.pathname.includes("/status/")
-                                      ? `<br><br>`
-                                      : ""
-                                  }
-                                  <span
-                                      ${
-                                        location.pathname.includes("/status/")
-                                          ? `style="margin-top:-10px;" `
-                                          : ""
-                                      }class="tweet-self-thread-line"
-                                  ></span>
-                                  <div
-                                      ${
-                                        location.pathname.includes("/status/")
-                                          ? `style="margin-top:-8px;" `
-                                          : ""
-                                      }class="tweet-self-thread-line-dots"
-                                  ></div>
-                              `
-                    }
-                </div>`;
+      ? false
+      : true;
+  const uriHasStatus = location.pathname.includes("/status/");
+  const isStandaloneTweet =
+    options.selfThreadContinuation &&
+    t.self_thread &&
+    t.self_thread.id_str &&
+    !uriHasStatus;
+  var replyChildren = [];
+  if (isStandaloneTweet) {
+    replyChildren.push(elNew("br"));
+    replyChildren.push(
+      elNew(
+        "a",
+        {
+          class: ["tweet-self-thread-button"],
+          target: "_blank",
+          href: `/${t.user.screen_name}/status/${t.self_thread.id_str}`,
+        },
+        LOC.show_this_thread.message
+      )
+    );
+    replyChildren.push(
+      elNew("span", {
+        class: ["tweet-self-thread-line"],
+        style: `margin-left: -108px;margin-top: -5px;`,
+      })
+    );
+    replyChildren.push(
+      elNew("div", {
+        class: ["tweet-self-thread-line-dots"],
+        style: `margin-left: -120px;margin-top: -3px;`,
+      })
+    );
+  } else {
+    if (uriHasStatus) {
+      replyChildren.push(elNew("br"));
+      replyChildren.push(elNew("br"));
+    }
+    replyChildren.push(
+      elNew("span", {
+        class: ["tweet-self-thread-line"],
+        style: uriHasStatus ? "margin-top:-10px;" : "",
+      })
+    );
+    replyChildren.push(
+      elNew("div", {
+        style: uriHasStatus ? "margin-top:-8px;" : "",
+        class: ["tweet-self-thread-line-dots"],
+      })
+    );
+  }
+  const reply_nodes = elNew(
+    "div",
+    {
+      class: ["tweet-self-thread-div"],
+      hidden: hideThreadContinuation,
+    },
+    replyChildren
+  );
 
   return [
-    tweet_top,
-    mentioned_node
-      ? mentioned_node.outerHTML
-      : `` +
-        body_text +
-        translate_text +
-        extended_media +
-        card +
-        quoted_tweet +
-        limited +
-        tomb_stone +
-        country_restrictions +
-        conversation_control +
-        tweet_footer +
-        tweet_date +
-        tweet_interact +
-        tweet_edit +
-        replies,
+    tweetTopConst.children,
+    [
+      mentioned_node,
+      body_node,
+      !tweetConstructorArgs.isMatchingLanguage && options.mainTweet
+        ? translate_node
+        : null,
+      extended_media_nodes,
+      card_node,
+      quoted_node,
+      limited_node,
+      tombstone_node,
+      (t.withheld_in_countries &&
+        (t.withheld_in_countries.includes("XX") ||
+          t.withheld_in_countries.includes("XY"))) ||
+      t.withheld_scope
+        ? country_restriction_node
+        : null,
+      conversation_control_node,
+      tweet_footer_node,
+      tweet_date_node,
+      interactions_node,
+      // tweet_edit
+      tweet_reply_node,
+      tweet_quote_node,
+      reply_nodes,
+    ].flat(1),
   ];
+
+  // return [
+  //   tweet_top,
+  //   mentioned_node
+  //     ? mentioned_node.outerHTML
+  //     : `` +
+  //       body_text +
+  //       translate_text +
+  //       extended_media +
+  //       card +
+  //       quoted_tweet +
+  //       limited +
+  //       tomb_stone +
+  //       country_restrictions +
+  //       conversation_control +
+  //       tweet_footer +
+  //       tweet_date +
+  //       interactionSection.outerHTML +
+  //       tweet_edit +
+  //       reply_nodes.outerHTML,
+  // ];
 }

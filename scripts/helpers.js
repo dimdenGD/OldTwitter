@@ -2602,12 +2602,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
       t.quoted_status.entities.user_mentions.forEach((user_mention) => {
         if (user_mention.indices[0] < t.display_text_range[0]) {
           _newQuoteMentionedUserText.push(`@${user_mention.screen_name}`)
-          quoteMentionedUserText += `@${user_mention.screen_name}`;
+          // quoteMentionedUserText += `@${user_mention.screen_name}`;
         }
       });
     }
     // construct the markup for the tweet.
-    const [topContent, actualContent] = await constructTweet(
+    const [topNodes, actualContent] = await constructTweet(
       t,
       {
         videos: videos,
@@ -2616,7 +2616,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
         full_text: full_text,
         isQuoteMatchingLanguage: isQuoteMatchingLanguage,
         newQuoteMentionedUserText: _newQuoteMentionedUserText,
-        quoteMentionedUserText: quoteMentionedUserText,
+        // quoteMentionedUserText: quoteMentionedUserText,
         followUserText: followUserText,
         unfollowUserText: unfollowUserText,
         blockUserText: blockUserText,
@@ -2624,16 +2624,23 @@ async function appendTweet(t, timelineContainer, options = {}) {
       },
       options
     );
-    // tweet.appendChild()
+    // XXX: Seems ugly!
+    Array(...topNodes).forEach(m=>{
+      tweet.appendChild(m)
+    })
+    var tweetClasses = ["tweet-body",]
+    if (options.mainTweet) tweetClasses.push("tweet-body-main")
+    tweet.appendChild(elNew("article",{class:tweetClasses},actualContent))
+    
 
-    tweet.innerHTML = `
-            ${topContent}
-            <article class="tweet-body ${
-              options.mainTweet ? "tweet-body-main" : ""
-            }">
-                ${actualContent}
-            </article>
-        `;
+    // tweet.innerHTML = `
+    //         ${topNodes}
+    //         <article class="tweet-body ${
+    //           options.mainTweet ? "tweet-body-main" : ""
+    //         }">
+    //             ${actualContent}
+    //         </article>
+    //     `;
     // gifs
     let gifs = Array.from(
       tweet.querySelectorAll(".tweet-media-gif, .tweet-media-element-quote-gif")
