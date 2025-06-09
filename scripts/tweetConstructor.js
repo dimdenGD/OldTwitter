@@ -556,7 +556,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   // mentionText
   const doMentionText =
     // tweetConstructorArgs.mentionedUserText !== `` &&
-    !!tweetConstructorArgs.mentionedUserTextArray &&
+    tweetConstructorArgs.mentionedUserTextArray.length > 0 &&
     !options.threadContinuation &&
     !options.noTop &&
     !location.pathname.includes("/status/") &&
@@ -564,7 +564,6 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   var mentioned_node = null;
   if (doMentionText) {
     // Taken from StackOverflow once again.
-
     tweetConstructorArgs.mentionedUserTextArray = interleave(
       tweetConstructorArgs.mentionedUserTextArray,
       LOC.replying_to_comma.message
@@ -677,10 +676,12 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
         // XXX: htmlToNodes needs to always be called, else .content will be null/undefined.
         [htmlToNodes(svgPlayIcon).content]
       );
-      console.log(videoOverlay, videoOverlay.outerHTML);
     }
     // Render media nodes
     var mediaNodes = renderMultiMediaNodes(t);
+    if (mediaNodes.length == 0) {
+      console.log("Cannot render mediaNodes?",t)
+    }
 
     // <div class="tweet-media-controls">GIF</div>
     var gifControl =
@@ -1581,7 +1582,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   return [
     tweet_top,
     mentioned_node
-      ? mentioned_node.innerHTML
+      ? mentioned_node.outerHTML
       : `` +
         body_text +
         translate_text +
