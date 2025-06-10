@@ -568,7 +568,6 @@ a:not(.tweet-header-info):not(.tweet-body-quote):hover,
 }
 
 #new-tweet-text {
-    transition: height 1s cubic-bezier(0.76, 0, 0.24, 1);
     border: 1px solid var(--border);
     border-radius: 3px;
     display: inline-block;
@@ -813,7 +812,6 @@ a:not(.tweet-header-info):not(.tweet-body-quote):hover,
     text-decoration: none !important;
 }
 #new-tweet-audience {
-    transition: max-height 1s cubic-bezier(0.76, 0, 0.24, 1);
     position: relative;
     margin-left: 39px;
     margin-bottom: 5px;
@@ -827,16 +825,6 @@ a:not(.tweet-header-info):not(.tweet-body-quote):hover,
     color: var(--default-text-color);
 }
 
-#new-tweet-audience > select {
-    transition: max-height 1s cubic-bezier(0.76, 0, 0.24, 1);
-    max-height: 10rem;
-}
-
-#new-tweet-audience.hidden, #new-tweet-audience.hidden > select {
-    opacity: 0;
-    max-height: 0px;
-    overflow: hidden;
-}
 
 #add-search-input {
     padding: 5px 10px;
