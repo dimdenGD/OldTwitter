@@ -40,10 +40,9 @@ Repo: https://github.com/catdad/tiny.toast/tree/4ec659d3444cd33cc1b0a8b6acb82a5d
 Direct URL: https://www.kirilv.com/tiny.cdn/lib/toast/1.0.0/toast.min.js  
 
 ### Twemoji
-File: `libraries/twemoji.js`  
-Repo: https://github.com/twitter/twemoji/tree/d94f4cf793e6d5ca592aa00f58a88f6a4229ad43  
-Direct URL: *No official build provided, need to build it yourself*  
-Build notes: Build using `npm run build`  
+File: `libraries/twemoji.min.js`  
+Repo: https://github.com/jdecked/twemoji/releases/tag/v16.0.1
+Direct URL: https://cdn.jsdelivr.net/npm/@twemoji/api@16.0.1/dist/twemoji.min.js
 
 ### twitter-text-js
 File: `libraries/twitter-text.js`  

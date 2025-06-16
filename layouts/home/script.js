@@ -81,8 +81,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Fixed pages not loading without refresh sometimes</li>
-                            <li>Added a setting to show if last tweet of person is a retweet/quote/non-existent/old in followers/following pages</li>
+                            <li></li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
@@ -193,13 +192,13 @@ async function updateTimeline(mode = 'rewrite') {
         tl = tl.filter(t => !t.socialContext || !t.socialContext.description);
     }
 
-    // if(vars.linkColorsInTL) {
-    //     let tlUsers = tl.map(t => t.user.id_str).filter(u => !linkColors[u]);
-    //     let linkData = await getLinkColors(tlUsers);
-    //     if(linkData) for(let i in linkData) {
-    //         linkColors[linkData[i].id] = linkData[i].color;
-    //     }
-    // }
+    if(vars.slowLinkColorsInTL) {
+        let tlUsers = tl.map(t => t.user.id_str).filter(u => !linkColors[u]);
+        let linkData = await getLinkColors(tlUsers);
+        if(linkData) for(let i in linkData) {
+            linkColors[linkData[i].id] = linkData[i].color;
+        }
+    }
 
     // first update
     if (timeline.data.length === 0) {
@@ -294,13 +293,13 @@ async function renderTimeline(options = {}) {
     }
     let data = options.data;
     
-    // if(vars.linkColorsInTL) {
-    //     let tlUsers = data.map(t => t.user.id_str).filter(u => !linkColors[u]);
-    //     let linkData = await getLinkColors(tlUsers);
-    //     if(linkData) for(let i in linkData) {
-    //         linkColors[linkData[i].id] = linkData[i].color;
-    //     }
-    // }
+    if(vars.slowLinkColorsInTL) {
+        let tlUsers = data.map(t => t.user.id_str).filter(u => !linkColors[u]);
+        let linkData = await getLinkColors(tlUsers);
+        if(linkData) for(let i in linkData) {
+            linkColors[linkData[i].id] = linkData[i].color;
+        }
+    }
     let toRender = [];
     for(let i in data) {
         let t = data[i];
@@ -1267,7 +1266,7 @@ setTimeout(async () => {
                     ta.style.marginRight = '-20px';
                 }
             }
-            document.getElementById('new-tweet-audience').hidden = true;
+            document.getElementById('new-tweet-audience').classList.add("hidden");
             document.getElementById('new-tweet-char').hidden = true;
             document.getElementById('new-tweet-text').classList.remove('new-tweet-text-focused');
             document.getElementById('new-tweet-media-div').classList.remove('new-tweet-media-div-focused');
