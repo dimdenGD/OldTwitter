@@ -1847,19 +1847,19 @@ async function renderDiscovery(cache = true) {
 }
 
 const img_template = elNew("img", {
-  crossorigin: "anonymous",
+  crossOrigin: "anonymous",
   loading: "lazy",
   className: "tweet-media-element",
 });
 
 const animated_gif_template = elNew("video", {
-  crossorigin: "anonymous",
+  crossOrigin: "anonymous",
   loading: "lazy",
   className: "tweet-media-element tweet-media-gif",
 });
 
 const video_template = elNew("video", {
-  crossorigin: "anonymous",
+  crossOrigin: "anonymous",
   preload: "none",
   className: "tweet-media-element",
 });
