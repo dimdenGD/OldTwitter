@@ -1028,6 +1028,8 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
   if (t.favorited) {
     bookmarkClasses.push("tweet-interact-bookmarked");
   }
+
+  const viewsClasses = ["tweet-button","tweet-interact-views"]
   // dropdown for retweet actions
   var retweetDropdownArray = [
     elNew(
@@ -1159,7 +1161,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
       elNew(
         "span",
         {
-          class: bookmarkClasses,
+          class: viewsClasses,
           title: LOC.views_count.message,
           dataset: { val: t.ext.views.r.ok.count },
         },
