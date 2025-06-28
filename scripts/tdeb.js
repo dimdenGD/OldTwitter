@@ -1,8 +1,8 @@
 // Shim for isArray check. (cc. https://stackoverflow.com/a/20956445)
 if (typeof Array.isArray === "undefined") {
-  Array.isArray = function (obj) {
-    return Object.prototype.toString.call(obj) === "[object Array]";
-  };
+    Array.isArray = function (obj) {
+        return Object.prototype.toString.call(obj) === "[object Array]";
+    };
 }
 
 /**
@@ -12,9 +12,9 @@ if (typeof Array.isArray === "undefined") {
  * @note This code does not sanitize **any** html and is inheriently unsafe.
  */
 function htmlToNodes(string) {
-  const tmp = document.createElement("template");
-  tmp.innerHTML = string;
-  return tmp;
+    const tmp = document.createElement("template");
+    tmp.innerHTML = string;
+    return tmp;
 }
 
 /**
@@ -24,7 +24,7 @@ function htmlToNodes(string) {
  * @returns
  */
 function interleave(arr, x) {
-  return arr.flatMap((e) => [e, x]).slice(0, -1);
+    return arr.flatMap((e) => [e, x]).slice(0, -1);
 }
 
 // Tiny Dom Element builder. Adapted from stackoverflow.
@@ -39,71 +39,77 @@ function interleave(arr, x) {
  * @returns A Node.
  */
 const elNew = (tag, prop, children = []) => {
-  const _elCustomValue = ["dataset", "className", "classList", "class"];
-  const element = document.createElement(tag);
-  if (prop) {
-    const filteredObject = Object.keys(prop).reduce(function (returnObj, key) {
-      if (!_elCustomValue.includes(key) && prop[key])
-        returnObj[key] = prop[key];
-      return returnObj;
-    }, {});
-    const customProps = Object.keys(prop).reduce(function (
-      returnObj,
-      elementKey
-    ) {
-      if (_elCustomValue.includes(elementKey) && prop[elementKey])
-        returnObj[elementKey] = prop[elementKey];
-      return returnObj;
-    },
-    {});
-    Object.assign(element, filteredObject);
-    if (Object.keys(customProps).length > 0) {
-      for (const key in customProps) {
-        const propValue = customProps[key];
-        if (key === "dataset") {
-          for (const datasetKey in propValue) {
-            element.dataset[datasetKey] = propValue[datasetKey];
-          }
-        } else if (
-          key === "className" ||
-          key === "classList" ||
-          key === "class"
+    const _elCustomValue = ["dataset", "className", "classList", "class"];
+    const element = document.createElement(tag);
+    if (prop) {
+        const filteredObject = Object.keys(prop).reduce(function (
+            returnObj,
+            key
         ) {
-          if (typeof propValue === "string") {
-            element.className = propValue;
-          } else if (
-            typeof propValue === "object" &&
-            Array.isArray(propValue)
-          ) {
-            element.className = propValue.filter((m) => m).join(" ");
-          } else {
-            console.error(
-              `Passed in a non Array/String value to ${key}. will be ignored.`
-            );
-          }
-        }
-      }
-    }
-  }
-  if (typeof children !== "string") {
-    // Cleanup children.
-    children = children.filter((m) => m);
-
-    if (children.length > 0)
-      children.forEach((child) => {
-        if (child !== null) {
-          if (typeof child === "string") {
-            if (child !== "") {
-              element.appendChild(document.createTextNode(child));
+            if (!_elCustomValue.includes(key) && prop[key])
+                returnObj[key] = prop[key];
+            return returnObj;
+        },
+        {});
+        const customProps = Object.keys(prop).reduce(function (
+            returnObj,
+            elementKey
+        ) {
+            if (_elCustomValue.includes(elementKey) && prop[elementKey])
+                returnObj[elementKey] = prop[elementKey];
+            return returnObj;
+        },
+        {});
+        Object.assign(element, filteredObject);
+        if (Object.keys(customProps).length > 0) {
+            for (const key in customProps) {
+                const propValue = customProps[key];
+                if (key === "dataset") {
+                    for (const datasetKey in propValue) {
+                        element.dataset[datasetKey] = propValue[datasetKey];
+                    }
+                } else if (
+                    key === "className" ||
+                    key === "classList" ||
+                    key === "class"
+                ) {
+                    if (typeof propValue === "string") {
+                        element.className = propValue;
+                    } else if (
+                        typeof propValue === "object" &&
+                        Array.isArray(propValue)
+                    ) {
+                        element.className = propValue
+                            .filter((m) => m)
+                            .join(" ");
+                    } else {
+                        console.error(
+                            `Passed in a non Array/String value to ${key}. will be ignored.`
+                        );
+                    }
+                }
             }
-          } else {
-            element.appendChild(child);
-          }
         }
-      });
-  } else {
-    element.appendChild(document.createTextNode(children));
-  }
+    }
+    if (typeof children !== "string") {
+        // Cleanup children.
+        children = children.filter((m) => m);
 
-  return element;
+        if (children.length > 0)
+            children.forEach((child) => {
+                if (child !== null) {
+                    if (typeof child === "string") {
+                        if (child !== "") {
+                            element.appendChild(document.createTextNode(child));
+                        }
+                    } else {
+                        element.appendChild(child);
+                    }
+                }
+            });
+    } else {
+        element.appendChild(document.createTextNode(children));
+    }
+
+    return element;
 };
