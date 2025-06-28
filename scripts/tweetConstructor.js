@@ -1040,6 +1040,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
 
         tweet_footer_node = elNew("div", { class: ["tweet-footer"] }, [
             elNew("div", { class: ["tweet-footer-stats"] }, statsArray),
+            elNew("div", { class: ["tweet-footer-favorites"] }),
         ]);
     }
     var dt = [];
