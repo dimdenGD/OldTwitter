@@ -177,7 +177,7 @@
     "algo": { "message": "Algorithmical" },
     "timeline_type": { "message": "Uri ng timeline" },
     "show_topic_tweets": { "message": "Ipakita ang mga tweet ng paksa (algo lang)" },
-    "show_colors_in_timeline": { "message": "Ipakita ang mga custom na kulay ng link ng mga user sa home timeline" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "enable_twemoji": { "message": "Paganahin ang Twemoji" },
     "hearts_instead_stars": { "message": "Ipakita ang puso (mga kagustuhan) kaysa sa bituin (mga paborito)" },
     "dark_mode": { "message": "Dark mode" },

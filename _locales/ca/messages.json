@@ -183,7 +183,7 @@
     "algo": { "message": "Algorítmic V1 (sense límit de velocitat)" },
     "timeline_type": { "message": "Tipus de cronologia" },
     "show_topic_tweets": { "message": "Mostra els tuits relacionats (només algo)" },
-    "show_colors_in_timeline": { "message": "Mostra enllaços amb colors personalitzats dels usuaris a Inici" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "enable_twemoji": { "message": "Activar Twemoji" },
     "hearts_instead_stars": { "message": "Mostra cors (M'agrades) en lloc d'estrelles (Preferits)" },
     "dark_mode": { "message": "Mode fosc" },

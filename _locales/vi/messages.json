@@ -183,7 +183,7 @@
     "algo": { "message": "Theo thuật toán (\"For You\"/\"Dành cho bạn\")" },
     "timeline_type": { "message": "Kiểu dòng thời gian" },
     "show_topic_tweets": { "message": "Hiện các tweet chủ đề (theo thuật toán)" },
-    "show_colors_in_timeline": { "message": "Hiện màu link tùy chỉnh của người dùng trên dòng thời gian trang chủ" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "enable_twemoji": { "message": "Sử dụng Twemoji" },
     "hearts_instead_stars": { "message": "Hiện trái tim (likes) thay vì sao (favorites)" },
     "dark_mode": { "message": "Giao diện ban đêm" },

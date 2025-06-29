@@ -177,7 +177,7 @@
     "algo": { "message": "Алгоритмічна V1 (без ліміту)" },
     "timeline_type": { "message": "Тип стрічки" },
     "show_topic_tweets": { "message": "Показувати твіти тем (тільки алгорітмічна)" },
-    "show_colors_in_timeline": { "message": "Показувати кольори посилань користувачів в стрічці" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "enable_twemoji": { "message": "Включити Twemoji" },
     "hearts_instead_stars": { "message": "Показувати сердця (лайки) замість зірок (улюблене)" },
     "dark_mode": { "message": "Темна тема" },

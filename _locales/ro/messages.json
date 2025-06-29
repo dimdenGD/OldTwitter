@@ -183,7 +183,7 @@
     "algo": { "message": "Algoritmic V1 (fără rate limiting)" },
     "timeline_type": { "message": "Tip timeline" },
     "show_topic_tweets": { "message": "Afișați tweet-uri din subiecte (doar algoritmic)" },
-    "show_colors_in_timeline": { "message": "Afișați culorile personalizate ale legăturilor utilizatorilor în cronologia de acasă" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "enable_twemoji": { "message": "Activare Twemoji" },
     "hearts_instead_stars": { "message": "Afișați inimioare (aprecieri) în loc de stele (favorite)" },
     "dark_mode": { "message": "Mod întunecat" },

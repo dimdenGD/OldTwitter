@@ -183,7 +183,7 @@
     "algo": { "message": "맞춤 트윗 (추천 V1) (리밋 없음)" },
     "timeline_type": { "message": "타임라인의 종류" },
     "show_topic_tweets": { "message": "토픽 트윗을 표시합니다 (나를 위한 추천 전용)" },
-    "show_colors_in_timeline": { "message": "홈 타임라인에 커스텀 링크 색상을 적용합니다" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "always_show_link_color": { "message": "마우스를 올리지 않아도 항상 사용자 지정 링크 색상을 사용합니다" },
     "enable_twemoji": { "message": "트위터 이모티콘을 사용합니다" },
     "hearts_instead_stars": { "message": "별(관심글) 대신 하트(마음에 들어요)를 표시합니다" },

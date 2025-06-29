@@ -183,7 +183,7 @@
     "algo": { "message": "Algoritmik" },
     "timeline_type": { "message": "Zaman akışı tipi" },
     "show_topic_tweets": { "message": "Konu tweet'lerini göster (yalnızca algo)" },
-    "show_colors_in_timeline": { "message": "Ana sayfa akışında kullanıcıların özel bağlantı renklerini göster" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "always_show_link_color": { "message": "Fareyle üzerinde gelinmesi harici her zaman özel bağlantı renklerini göster." },
     "enable_twemoji": { "message": "Twemoji'yi etkinleştir" },
     "hearts_instead_stars": { "message": "ıldızlar yerine (favoriler) kalpler (beğeniler) göster" },
