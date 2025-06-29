@@ -1102,7 +1102,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     }
 
     var bookmarkClasses = ["tweet-button", "tweet-interact-bookmark"];
-    if (t.favorited) {
+    if (t.bookmarked) {
         bookmarkClasses.push("tweet-interact-bookmarked");
     }
 
