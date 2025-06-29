@@ -191,7 +191,7 @@
     "algo": { "message": "Алгоритмическая" },
     "timeline_type": { "message": "Тип ленты" },
     "show_topic_tweets": { "message": "Показывать твиты тем (только алгоритмическая)" },
-    "show_colors_in_timeline": { "message": "Показывать пользовательские цвета в ленте" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "enable_twemoji": { "message": "Включить Twemoji" },
     "hearts_instead_stars": { "message": "Показывать сердца (лайки) вместо звёзд (любимое)" },
     "dark_mode": { "message": "Тёмная тема" },

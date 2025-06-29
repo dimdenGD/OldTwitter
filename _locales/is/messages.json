@@ -183,7 +183,7 @@
     "algo": { "message": "Reikniritlegur" },
     "timeline_type": { "message": "Tegund tímalínu" },
     "show_topic_tweets": { "message": "Sýna tíst um efni (aðeins reiknirit)" },
-    "show_colors_in_timeline": { "message": "Sýndu sérsniðna tenglaliti notenda á tímalínunni heima" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "enable_twemoji": { "message": "Virkja Twemoji" },
     "hearts_instead_stars": { "message": "Sýna hjörtu (líkar) í stað stjarna (uppáhalds)" },
     "dark_mode": { "message": "Dökkstilling" },

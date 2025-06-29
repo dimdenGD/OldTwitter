@@ -176,7 +176,7 @@
     "algo": { "message": "ด้วยอัลกอริทึม" },
     "timeline_type": { "message": "ชนิดของไทม์ไลน์" },
     "show_topic_tweets": { "message": "เเสดงหัวข้อทวิต (อัลกอริทึ่มเท่านั้น)" },
-    "show_colors_in_timeline": { "message": "เเสดงสีลิ้งค์ที่กำหนดเอง ในไทม์ไลน์หน้าหลัก" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "enable_twemoji": { "message": "เปิดใช้งาน Twemoji" },
     "hearts_instead_stars": { "message": "เเสดงหัวใจ(ไลค์) เเทนดาว(ชื่นชอบ)" },
     "dark_mode": { "message": "โหมดทมิฬ" },

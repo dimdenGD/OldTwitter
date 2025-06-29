@@ -183,7 +183,7 @@
     "algo": { "message": "舊版推薦演算法" },
     "timeline_type": { "message": "時間軸類型" },
     "show_topic_tweets": { "message": "顯示話題推文（僅限推薦演算法）" },
-    "show_colors_in_timeline": { "message": "在首頁時間軸中顯示使用者的自訂連結顏色" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "always_show_link_color": { "message": "總是顯示自訂連結顏色，而非僅在懸停時顯示" },
     "enable_twemoji": { "message": "啟用 Twemoji" },
     "hearts_instead_stars": { "message": "顯示心型（喜歡），而非星型（收藏）" },

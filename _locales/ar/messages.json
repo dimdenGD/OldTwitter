@@ -175,7 +175,7 @@
     "algo": { "message": "حسابي" },
     "timeline_type": { "message": "الجدول الزمني نوع" },
     "show_topic_tweets": { "message": "عرض الموضوع تغريدات (algo فقط)" },
-    "show_colors_in_timeline": { "message": "عرض ألوان الارتباط المخصصة للمستخدمين في المخطط الزمني الرئيسي" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "enable_twemoji": { "message": "تمكين Twemoji" },
     "hearts_instead_stars": { "message": "إظهار القلوب (أعجبني) بدلاً من النجوم (المفضلة)" },
     "dark_mode": { "message": "النسق الداكن" },

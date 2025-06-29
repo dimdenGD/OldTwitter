@@ -176,7 +176,7 @@
     "algo": { "message": "एल्गोरिदमिकल" },
     "timeline_type": { "message": "कस्तो खालको कलक्रम" },
     "show_topic_tweets": { "message": "विषयको ट्वीट देखाउन (एल्गोरिदमिकल मात्रै)" },
-    "show_colors_in_timeline": { "message": "मान्छेहरूको अनुकूल रँग कलक्रममा देखाउन" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "enable_twemoji": { "message": "Twemoji लगाउन" },
     "hearts_instead_stars": { "message": "ताराहरू होइन मुटुहरू मात्रै देखाउन" },
     "dark_mode": { "message": "अँधेरो मोड" },

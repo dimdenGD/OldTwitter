@@ -183,7 +183,7 @@
     "algo": { "message": "Algoritmico" },
     "timeline_type": { "message": "Tipo di timeline" },
     "show_topic_tweets": { "message": "Mostra tweet topici (solo per timeline algoritmica)" },
-    "show_colors_in_timeline": { "message": "Mostra i colori personalizzati dei link degli utenti nella timeline della home" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "enable_twemoji": { "message": "Attiva Twemoji" },
     "hearts_instead_stars": { "message": "Mostra cuori (like) invece di stelle (preferiti)" },
     "dark_mode": { "message": "Modalità scura" },

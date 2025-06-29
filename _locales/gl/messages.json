@@ -183,7 +183,7 @@
     "algo": { "message": "Algorítmico" },
     "timeline_type": { "message": "Tipo de cronoloxía" },
     "show_topic_tweets": { "message": "Amosar chíos de temas (só algorítmico)" },
-    "show_colors_in_timeline": { "message": "Amosar cores de ligazóns personalizadas dos usuarios na cronoloxía principal" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "always_show_link_color": { "message": "Amosar sempre cores de ligazóns personalizadas en lugar de só ao pasar o rato" },
     "enable_twemoji": { "message": "Activar Twemoji" },
     "hearts_instead_stars": { "message": "Amosar corazóns (gústame) en lugar de estrelas (favoritos)" },

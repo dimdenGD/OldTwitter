@@ -183,7 +183,7 @@
     "algo": { "message": "Algorytmisk" },
     "timeline_type": { "message": "Tidslinjetype" },
     "show_topic_tweets": { "message": "Vis emne-tweets (kun algorytmisk)" },
-    "show_colors_in_timeline": { "message": "Vis brukerdefinerte profilfarger i hjemmetidslinjen" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "enable_twemoji": { "message": "Bruk Twemoji" },
     "hearts_instead_stars": { "message": "Vis hjerter (likes) instedenfor stjerner (favoritter)" },
     "dark_mode": { "message": "Mørk modus" },

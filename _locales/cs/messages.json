@@ -183,7 +183,7 @@
     "algo": { "message": "Algoritmicky" },
     "timeline_type": { "message": "Typ časové osy" },
     "show_topic_tweets": { "message": "Zobrazovat tematické tweety (pouze algoritmicky)" },
-    "show_colors_in_timeline": { "message": "Zobrazovat vlastní barvy odkazů na domovské stránce" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "enable_twemoji": { "message": "Povolit Twemoji" },
     "hearts_instead_stars": { "message": "Zobrazit srdíčka (lajky) namísto hvězd (oblíbené)" },
     "dark_mode": { "message": "Tmavý režim" },

@@ -566,8 +566,8 @@
     "show_topic_tweets": {
         "message": "Rādīt tēmu tvītus (tikai algo)"
     },
-    "show_colors_in_timeline": {
-        "message": "Rādīt pielāgotas lietotāju saišu krāsas sākuma feeda"
+    "slow_show_colors_in_timeline": {
+        "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" 
     },
     "enable_twemoji": {
         "message": "Iezlēgt Twemoji"

@@ -183,7 +183,7 @@
     "algo": { "message": "Algoritminen" },
     "timeline_type": { "message": "Aikajanatyyppi" },
     "show_topic_tweets": { "message": "Näytä aiheen twiitit (vain algo)" },
-    "show_colors_in_timeline": { "message": "Näytä käyttäjien mukautetut linkkien värit aikajanalla" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "enable_twemoji": { "message": "Käytä Twemojia" },
     "hearts_instead_stars": { "message": "Näytä sydämet (tykkäykset) tähtien (suosikit) sijasta" },
     "dark_mode": { "message": "Tumma tila" },

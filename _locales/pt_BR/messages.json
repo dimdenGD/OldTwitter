@@ -601,8 +601,8 @@
 	"show_topic_tweets": {
 		"message": "Mostrar tweets de tópicos (somente algoritmo)"
 	},
-	"show_colors_in_timeline": {
-		"message": "Mostrar links em cores de outros usuários"
+	"slow_show_colors_in_timeline": {
+		"message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" 
 	},
 	"enable_twemoji": {
 		"message": "Usar Twemoji"

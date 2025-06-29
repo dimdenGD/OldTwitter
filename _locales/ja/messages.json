@@ -183,7 +183,7 @@
     "algo": { "message": "あなたへのおすすめ" },
     "timeline_type": { "message": "タイムラインの種類" },
     "show_topic_tweets": { "message": "トピックツイートの表示（あなたへのおすすめのみ）" },
-    "show_colors_in_timeline": { "message": "ユーザーがカスタマイズしたプロフィールのリンクカラーを適用する" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "enable_twemoji": { "message": "Twitter絵文字ライブラリの有効化" },
     "hearts_instead_stars": { "message": "お気に入りをいいねに変更する" },
     "dark_mode": { "message": "ダークモード" },

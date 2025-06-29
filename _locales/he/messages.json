@@ -539,8 +539,8 @@
     "show_topic_tweets": {
         "message": "הצג ציוצי נושא (אלגוריתמי בלבד) "
     },
-    "show_colors_in_timeline": {
-        "message": "הצג קישור צבע מותאם אישית של משתמשים בציר זמן דף הבית "
+    "slow_show_colors_in_timeline": {
+        "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"
     },
     "enable_twemoji": {
         "message": "הפעל Twemoji"
