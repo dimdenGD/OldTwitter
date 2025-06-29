@@ -1848,7 +1848,6 @@ async function renderProfile() {
 };
 
 async function renderTimeline(append = false, sliceAmount = 0) {
-    const timer = Date.now();
     let timelineContainer = document.getElementById('timeline');
     if(!append) timelineContainer.innerHTML = '';
     let data = timeline.data.slice(sliceAmount, timeline.data.length);;
@@ -1903,7 +1902,6 @@ async function renderTimeline(append = false, sliceAmount = 0) {
     };
     document.getElementById('loading-box').hidden = true;
     loadingNewTweets = false;
-    console.log(`[renderTimeline@profile] Took ${(Date.now() - timer) / 1000}s to complete`)
     return true;
 }
 function renderNewTweetsButton() {
