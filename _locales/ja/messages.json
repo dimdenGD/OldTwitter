@@ -579,5 +579,22 @@
     "uploaded": { "message": "アップロード済み" },
     "hide_unfollowers_page": { "message": "Unfollowersページを非表示にする" },
 	"custom_font": { "message": "<カスタム>" },
-	"current_font": { "message": "使用中のフォント: $FONT$", "placeholders": { "font": { "content": "Arial" } } }
+	"current_font": { "message": "使用中のフォント: $FONT$", "placeholders": { "font": { "content": "Arial" } } },
+   "show_boring_indicators": { "message": "しばらくリツイート(引用リツイートも含む)がない(又は更新が古い)ユーザーページでフォロワー/フォローページにリダイレクトする" },
+   "transition_profile_banner": { "message": "プロフィールバナーに自動翻訳を使用する" },
+   "hide_original_languages": { "message": "自動翻訳時に翻訳前の言語を非表示にする" },
+   "nonexistent_user": { "message": "このアカウントは存在しません" },
+	"nonexistent_user_desc": { "message": "アカウントが削除されてるか、ユーザー名が間違えてる可能性がございます。キーワードを変えて再度検索してみてください。" },
+   "suspended_user": { "message": "アカウントは凍結されています" },
+	"suspended_user_desc": { "message": "残念ながら、このアカウントはTwitterの利用規約に違反したため、アカウントが凍結されました。" },
+    "custom_downloadtemplate": { "message": "ファイル名テンプレートのカスタマイズ" },
+	"custom_downloadtemplate_text": { "message": "メディア付きのツイートをダウンロードする際のファイル名テンプレートをカスタマイズ出来ます。" },
+	"save_downloadtemplate": { "message": "ファイル名テンプレートを保存する" },
+	"custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code>: ユーザーの名前" },
+	"custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: ユーザー名 (例： @okomae)" },
+	"custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: ツイート作成時の日付と時間" },
+	"custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: ダウンロード時のファイル拡張子" },
+	"custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: ツイートID" },
+	"custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: 複数ファイルでのダウンロード時のインデックス (複数メディア用)" },
+	"custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: pbs.twimg.comからアップロードしてある元ファイル名" }
 }
