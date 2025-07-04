@@ -183,7 +183,7 @@
     "algo": { "message": "Algoritmik" },
     "timeline_type": { "message": "Tipe linimasa" },
     "show_topic_tweets": { "message": "Tampilkan tweet bertopik (algo saja)" },
-    "show_colors_in_timeline": { "message": "Perlihatkan warna tautan khusus pengguna di linimasa beranda" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "always_show_link_color": { "message": "Selalu tampilkan warna tautan khusus, bukan saat diarahkan pointer tetikus" },
     "enable_twemoji": { "message": "Gunakan Twemoji" },
     "hearts_instead_stars": { "message": "Tampilkan hati (likes) instead of stars (favorites)" },

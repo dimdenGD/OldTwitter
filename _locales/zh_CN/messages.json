@@ -183,7 +183,7 @@
     "algo": { "message": "算法（为您推荐）" },
     "timeline_type": { "message": "时间线类型" },
     "show_topic_tweets": { "message": "显示话题推文（仅限算法）" },
-    "show_colors_in_timeline": { "message": "在主页时间线中显示用户的自定义链接颜色" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "always_show_link_color": { "message": "始终显示自定义链接颜色，而不是仅在悬停时显示" },
     "enable_twemoji": { "message": "启用 Twemoji" },
     "hearts_instead_stars": { "message": "显示心形（喜欢）而不是星形（收藏）" },

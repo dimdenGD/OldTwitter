@@ -183,7 +183,7 @@
     "algo": { "message": "Algoritmisk ordning" },
     "timeline_type": { "message": "Typ av tidslinje" },
     "show_topic_tweets": { "message": "Visa ämnesrelaterade Tweets (endast för algoritmisk ordning)" },
-    "show_colors_in_timeline": { "message": "Visa anpassade länkfärger i tidslinjen" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
     "enable_twemoji": { "message": "Använd Twitters emojis" },
     "hearts_instead_stars": { "message": "Visa hjärtan (gilla-markeringar) istället för stjärnor (favoritmarkeringar)" },
     "dark_mode": { "message": "Mörkt läge" },

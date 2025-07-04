@@ -815,6 +815,8 @@ a:not(.tweet-header-info):not(.tweet-body-quote):hover,
     position: relative;
     margin-left: 39px;
     margin-bottom: 5px;
+    opacity: 1;
+    max-height: 10rem;
 }
 #new-tweet-audience-input, #new-tweet-wcr-input, #new-tweet-schedule-input {
     border: 1px solid var(--border);
@@ -822,6 +824,8 @@ a:not(.tweet-header-info):not(.tweet-body-quote):hover,
     background-color: var(--input-background);
     color: var(--default-text-color);
 }
+
+
 #add-search-input {
     padding: 5px 10px;
     border-radius: 3px;

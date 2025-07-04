@@ -183,7 +183,7 @@
     "algo": { "message": "Algorithmical" },
     "timeline_type": { "message": "Timeline type" },
     "show_topic_tweets": { "message": "Show topic tweets (algo only)" },
-    "show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline" },
+    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
     "always_show_link_color": { "message": "Always show custom link colors instead of on hover" },
     "enable_twemoji": { "message": "Enable Twemoji" },
     "hearts_instead_stars": { "message": "Show hearts (likes) instead of stars (favorites)" },

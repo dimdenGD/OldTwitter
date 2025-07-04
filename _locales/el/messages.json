@@ -559,8 +559,8 @@
     "show_topic_tweets": {
       "message": "Εμφάνιση θεματικών tweets (μόνο algo)"
     },
-    "show_colors_in_timeline": {
-      "message": "Εμφάνιση προσαρμοσμένων χρωμάτων συνδέσμων χρηστών στο αρχικό χρονολογικό"
+    "slow_show_colors_in_timeline": {
+      "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"
     },
     "enable_twemoji": {
       "message": "Ενεργοποιήστε Twemoji"
