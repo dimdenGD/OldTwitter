@@ -815,7 +815,7 @@ function generatePoll(tweet, tweetElement, user) {
     }
 }
 function generateCard(tweet, tweetElement, user) {
-    if (!tweet.card) return;
+    if (!tweet || !tweet.card) return;
     if (
         tweet.card.name === "promo_image_convo" ||
         tweet.card.name === "promo_video_convo"
