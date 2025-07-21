@@ -2404,6 +2404,8 @@ rt.furigana {
     position: relative;
     width: 475px;
     font-family: var(--tweet-font);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .notification-avatars {
