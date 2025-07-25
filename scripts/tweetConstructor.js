@@ -245,7 +245,7 @@ async function constructQuotedTweet(
                 {
                     className: userNameClass,
                 },
-                [escapeHTML(t.quoted_status.user.name)]
+                [t.quoted_status.user.name]
             ),
             " ",
             // At handle
@@ -524,7 +524,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
                             : "",
                     className: tweetHeaderClass,
                 },
-                [escapeHTML(t.user.name)]
+                [t.user.name]
             ),
             " ",
             // @Handle
