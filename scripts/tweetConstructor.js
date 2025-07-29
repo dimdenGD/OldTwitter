@@ -145,7 +145,6 @@ function renderMultiMediaNodes(tweetObject) {
             }
             newClone.width = w;
             newClone.height = h;
-            newClone.loop = true;
             newClone.controls = true;
 
             newClone.disableRemotePlayback = true;
