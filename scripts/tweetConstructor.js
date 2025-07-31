@@ -1793,12 +1793,12 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
         replyChildren
     );
 
-    const translate_node = elNew("div", {}, [
+    const translate_node = [
         elNew("br"),
         elNew("span", { class: ["tweet-button", "tweet-translate"] }, [
             LOC.view_translation.message,
         ]),
-    ]);
+    ];
 
     const country_restriction_node = elNew(
         "div",
