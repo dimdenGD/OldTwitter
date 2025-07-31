@@ -559,6 +559,21 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             },
             [timeElapsed(tweetTimestamp)]
         ),
+        location.pathname.split("?")[0].split("#")[0] === "/i/bookmarks"
+            ? elNew(
+                  "span",
+                  {
+                      className: [
+                          "tweet-button",
+                          "tweet-delete-bookmark",
+                          !tweetConstructorArgs.isMatchingLanguage
+                              ? " tweet-delete-bookmark-lower"
+                              : "",
+                      ],
+                  },
+                  ["×"]
+              )
+            : null,
     ];
     // If it's the main tweet, add a follow button.
     if (options.mainTweet && t.user.id_str !== user.id_str) {
