@@ -1435,7 +1435,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     if (t.feedback) {
         dropDownMoreInteractionsArray.push(
             ...t.feedback.map((f, i) => {
-                elNew(
+                return elNew(
                     "span",
                     {
                         class: ["tweet-interact-more-menu-feedback"],
