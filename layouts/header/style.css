@@ -1689,10 +1689,8 @@ span.tweet-body-text {
     content: "\f183"
 }
 
-@media only screen and (min-width: 600px) {
-  .tweet-interact-more-menu-separate {
-    display: none;
-  }
+.tweet-interact-more-menu-separate {
+    display: none !important;
 }
 
 .tweet-interact-more-menu-share:before {
@@ -3170,6 +3168,11 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-body-main > .tweet-interact > .tweet-interact-more {
         margin-right: 12px !important;
     }
+
+    .tweet-interact-more-menu-separate {
+        display: block !important;
+    }
+
     .navbar-new-tweet-modal {
         top: 33%;
     }

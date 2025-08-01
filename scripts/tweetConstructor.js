@@ -558,6 +558,21 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             },
             [timeElapsed(tweetTimestamp)]
         ),
+        location.pathname.split("?")[0].split("#")[0] === "/i/bookmarks"
+            ? elNew(
+                  "span",
+                  {
+                      className: [
+                          "tweet-button",
+                          "tweet-delete-bookmark",
+                          !tweetConstructorArgs.isMatchingLanguage
+                              ? " tweet-delete-bookmark-lower"
+                              : "",
+                      ],
+                  },
+                  ["×"]
+              )
+            : null,
     ];
     // If it's the main tweet, add a follow button.
     if (options.mainTweet && t.user.id_str !== user.id_str) {
@@ -1434,7 +1449,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     if (t.feedback) {
         dropDownMoreInteractionsArray.push(
             ...t.feedback.map((f, i) => {
-                elNew(
+                return elNew(
                     "span",
                     {
                         class: ["tweet-interact-more-menu-feedback"],
@@ -1778,12 +1793,12 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
         replyChildren
     );
 
-    const translate_node = elNew("div", {}, [
+    const translate_node = [
         elNew("br"),
         elNew("span", { class: ["tweet-button", "tweet-translate"] }, [
             LOC.view_translation.message,
         ]),
-    ]);
+    ];
 
     const country_restriction_node = elNew(
         "div",
