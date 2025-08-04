@@ -916,6 +916,9 @@ async function renderFollowers(clear = true, cursor) {
                                     }
                                 }) : ''
                             ])));
+                            if(i >= userIds.length) {
+                                break;
+                            }
                             let seconds = 60;
                             loadingSortedFollowers.innerText = loadingSortedFollowers.innerText + ` (${seconds}s)`;
                             let interval = setInterval(() => {
