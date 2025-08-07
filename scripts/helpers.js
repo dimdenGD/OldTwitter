@@ -5716,7 +5716,7 @@ function renderNotification(n, options = {}) {
                         },
                         method: "post",
                         credentials: "include",
-                        body: `feedback_type=${n.feedback.feedbackType}&feedback_metadata=${n.feedback.metadata}&undo=false`,
+                        body: `feedback_type=${n.feedback.feedbackType}${n.feedback.metadata ? `&feedback_metadata=${n.feedback.metadata}` : ""}&undo=false`,
                     }
                 )
                     .then((i) => i.text())
