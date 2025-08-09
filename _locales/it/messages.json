@@ -184,6 +184,7 @@
     "timeline_type": { "message": "Tipo di timeline" },
     "show_topic_tweets": { "message": "Mostra tweet topici (solo per timeline algoritmica)" },
     "slow_show_colors_in_timeline": { "message": "Mostra i colori personalizzati nei link degli utenti nella timeline home (Potrebbe rallentare alcuni dispositivi!)"  },
+	"always_show_link_color": { "message": "Mostra sempre i colori personalizzati nei link invece che al passaggio del mouse" },
     "enable_twemoji": { "message": "Attiva Twemoji" },
     "hearts_instead_stars": { "message": "Mostra cuori (like) invece di stelle (preferiti)" },
     "dark_mode": { "message": "Modalità scura" },
