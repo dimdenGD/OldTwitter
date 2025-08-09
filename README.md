@@ -184,7 +184,7 @@ Polish - lele, [nomi](https://twitter.com/youmaynomi)
 Vietnamese - [btmxh](https://github.com/btmxh)  
 Traditional Chinese - [Oliver Tzeng（曾嘉禾）](https://github.com/olivertzeng), [cirx1e](https://github.com/cirx1e)  
 Simplified Chinese - [am1006](https://github.com/am1006), [CarimoWuling](https://twitter.com/carimowuling)  
-Czech - Menal  
+Czech - [Menal](https://github.com/Menal226)  
 German - [basti564](https://twitter.com/basti564)  
 Catalan - [elmees21](https://twitter.com/elmees21), [Luna](https://twitter.com/chica_botella)  
 Swedish - [actuallyaridan](https://twitter.com/actuallyaridan)  
