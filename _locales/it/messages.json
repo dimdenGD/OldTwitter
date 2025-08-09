@@ -647,3 +647,4 @@
     "show_boring_indicators": { "message": "Mostra indicatore nella pagina dei followers/following se l'ultimo tweet della persona è un retweet/citazione/inesistente/vecchio" },
     "hide_original_languages":{"message": "Nascondi le lingue originali quando tradotte" },
 	"blocked": { "message": "Bloccato" }
+}
