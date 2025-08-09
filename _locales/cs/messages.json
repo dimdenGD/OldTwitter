@@ -639,13 +639,13 @@
     "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: Datum a čas tweetu" },
     "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: Stáhnout koncovku souboru tweetu." },
     "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: ID tweetu" },
-    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: Index pro kazdý soubor ke stažení. (pro příspěvky s několika médii)" },
+    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: Index pro každý soubor ke stažení. (pro příspěvky s několika médii)" },
     "custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: Originální soubor z pbs.twimg.com." },
     "nonexistent_user": { "message": "Tento uživatel neexistuje" },
     "nonexistent_user_desc": { "message": "Zkuste hledat další" },
     "suspended_user": { "message": "Účet je pozastaven" },
     "suspended_user_desc": { "message": "Účet který se snažíte zobrazit je pozastaven." },
-    "show_boring_indicators": { "message": "Zobrazit upozornění na stránce sledujících/sledovaných, pokud je jejich poslední příspěvek retweet/citace/neexistující/starý" },
+    "show_boring_indicators": { "message": "Zobrazit upozornění na stránce sledujících/sledovaných, pokud je poslední příspěvek uživatele retweet/citace/neexistující/starý" },
     "hide_original_languages":{ "message": "Skrýt původní jazyk po přeložení" },
 	"blocked": { "message": "Zablokován(a)" }
 }
