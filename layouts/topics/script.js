@@ -104,7 +104,7 @@ setTimeout(async () => {
     }
     document.addEventListener('scroll', async () => {
         // loading new tweets
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
+        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 500 && !end) {
             if (loadingNewTweets) return;
             loadingNewTweets = true;
             await renderTopic(cursor);

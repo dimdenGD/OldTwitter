@@ -375,7 +375,7 @@ setTimeout(async () => {
     });
     document.addEventListener('scroll', async () => {
         // loading new tweets
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
+        if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 500 && !end) {
             if (loadingNewTweets) return;
             loadingNewTweets = true;
             await renderList();
@@ -397,7 +397,7 @@ setTimeout(async () => {
             activeTweet.classList.remove('tweet-active');
         }
         let scrollPoint = scrollY + innerHeight/2;
-        activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
+        activeTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.scrollHeight);
         if(activeTweet) {
             activeTweet.classList.add('tweet-active');
         }
