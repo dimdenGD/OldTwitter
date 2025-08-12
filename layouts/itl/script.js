@@ -165,7 +165,7 @@ setTimeout(async () => {
     }
     document.addEventListener('scroll', async () => {
         // loading new tweets
-        if (subpage === 'device_follow' && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 500 && !end) {
+        if (subpage === 'device_follow' && (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 500 && !end) {
             if (loadingNewTweets) return;
             loadingNewTweets = true;
             await renderDeviceNotificationTimeline(tlCursor);

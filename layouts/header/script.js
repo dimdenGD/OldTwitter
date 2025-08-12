@@ -2756,7 +2756,7 @@ let userDataFunction = async user => {
 
         let tweets = Array.from(document.getElementsByClassName('tweet'));
         let scrollPoint = scrollY + innerHeight/2;
-        let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.offsetHeight);
+        let newActiveTweet = tweets.find(t => scrollPoint > t.offsetTop && scrollPoint < t.offsetTop + t.scrollHeight);
         if(!activeTweet || (newActiveTweet && activeTweet.dataset.tweetId !== newActiveTweet.dataset.tweetId)) {
             if(activeTweet) {
                 activeTweet.classList.remove('tweet-active');
