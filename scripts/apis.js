@@ -5382,6 +5382,11 @@ const API = {
                                     e.entryId.startsWith("cursor-bottom-")
                                 ).content.value;
                             } catch (e) {}
+                            
+                            let terminator = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === 'TimelineTerminateTimeline');
+                            if(terminator && terminator.direction === 'Bottom') {
+                                newCursor = null;
+                            }
 
                             for (let i = 0; i < entries.length; i++) {
                                 let e = entries[i];
