@@ -5377,6 +5377,11 @@ const API = {
                                     e.entryId.startsWith("cursor-bottom-")
                                 ).content.itemContent.value;
                             } catch (e) {}
+                            try {
+                                newCursor = entries.find((e) =>
+                                    e.entryId.startsWith("cursor-bottom-")
+                                ).content.value;
+                            } catch (e) {}
 
                             for (let i = 0; i < entries.length; i++) {
                                 let e = entries[i];
