@@ -1075,6 +1075,7 @@ setTimeout(async () => {
     hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
     transitionProfileBanner.checked = !!vars.transitionProfileBanner;
     showBoringIndicators.checked = !!vars.showBoringIndicators;
+    disableProfileCustomizations.checked = !!vars.disableProfileCustomizations;
     if(vars.customCSS) {
         writeCSSToDB(vars.customCSS)
     }
