@@ -5383,8 +5383,8 @@ const API = {
                                 ).content.value;
                             } catch (e) {}
                             
-                            let terminator = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === 'TimelineTerminateTimeline');
-                            if(terminator && terminator.direction === 'Bottom') {
+                            let terminator = data.data.threaded_conversation_with_injections_v2.instructions.find(i => i.type === 'TimelineTerminateTimeline' && i.direction === 'Bottom');
+                            if(terminator) {
                                 newCursor = null;
                             }
 
