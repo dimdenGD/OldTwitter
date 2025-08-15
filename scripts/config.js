@@ -295,10 +295,10 @@ async function loadVars() {
                     );
                 }
                 if (typeof data.enableIframeNavigation !== "boolean") {
-                    data.enableIframeNavigation = window.innerWidth < 590;
+                    data.enableIframeNavigation = true;
                     chrome.storage.sync.set(
                         {
-                            enableIframeNavigation: window.innerWidth < 590,
+                            enableIframeNavigation: true,
                         },
                         () => {}
                     );
