@@ -646,6 +646,7 @@
     "suspended_user": { "message": "Account suspended" },
     "suspended_user_desc": { "message": "The profile you are trying to view has been suspended." },
     "show_boring_indicators": { "message": "Show indicator in followers/following page if last tweet of person is a retweet/quote/non-existent/old" },
+    "use_retweeted_id": { "message": "When liking or retweeting a retweet, notify the user who retweeted." },
     "hide_original_languages":{"message": "Hide original languages when translated" },
 	"blocked": { "message": "Blocked" }
 }

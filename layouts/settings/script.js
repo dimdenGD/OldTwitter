@@ -335,6 +335,7 @@ setTimeout(async () => {
     let hideUnfollowersPage = document.getElementById('hide-unfollowers-page');
     let transitionProfileBanner = document.getElementById('transition-profile-banner');
     let showBoringIndicators = document.getElementById('show-boring-indicators');
+    let useRetweetedId = document.getElementById('use-retweeted-id');
 
     let root = document.querySelector(":root");
     {
@@ -741,6 +742,12 @@ setTimeout(async () => {
             showBoringIndicators: showBoringIndicators.checked
         }, () => { });
     });
+    useRetweetedId.addEventListener('change', () => {
+        vars.useRetweetedId = useRetweetedId.checked;
+        chrome.storage.sync.set({
+            useRetweetedId: useRetweetedId.checked
+        }, () => { });
+    });
     hideTrends.addEventListener('change', () => {
         vars.hideTrends = hideTrends.checked;
         hideStuff();
@@ -1075,6 +1082,7 @@ setTimeout(async () => {
     hideUnfollowersPage.checked = !!vars.hideUnfollowersPage;
     transitionProfileBanner.checked = !!vars.transitionProfileBanner;
     showBoringIndicators.checked = !!vars.showBoringIndicators;
+    useRetweetedId.checked = !!vars.useRetweetedId;
     disableProfileCustomizations.checked = !!vars.disableProfileCustomizations;
     if(vars.customCSS) {
         writeCSSToDB(vars.customCSS)
