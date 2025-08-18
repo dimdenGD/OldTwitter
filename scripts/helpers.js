@@ -4269,7 +4269,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             if (!t.retweeted) {
                 let tweetData;
                 try {
-                    tweetData = await API.tweet.retweet(t.id_str);
+                    tweetData = await API.tweet.retweet(t.retweeted_id_str || t.id_str);
                 } catch (e) {
                     console.error(e);
                     alert(e);
@@ -4673,7 +4673,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 });
             } else {
                 t.renderFavoritesUp();
-                API.tweet.favorite(t.id_str).catch((e) => {
+                API.tweet.favorite(t.retweeted_id_str || t.id_str).catch((e) => {
                     console.error(e);
                     if (
                         e &&

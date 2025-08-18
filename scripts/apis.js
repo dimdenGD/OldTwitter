@@ -274,6 +274,7 @@ function parseTweet(res) {
             }
         }
         tweet.retweeted_status = result.legacy;
+        tweet.retweeted_status.retweeted_id_str = tweet.id_str;
         if (tweet.retweeted_status && result.core.user_results.result.legacy) {
             tweet.retweeted_status.user =
                 result.core.user_results.result.legacy;
