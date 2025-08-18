@@ -3694,7 +3694,7 @@ class TweetViewer {
             if (!t.retweeted) {
                 let tweetData;
                 try {
-                    tweetData = await API.tweet.retweet(t.id_str);
+                    tweetData = await API.tweet.retweet(t.retweeted_id_str && vars.useRetweetedId ? t.retweeted_id_str : t.id_str);
                 } catch (e) {
                     console.error(e);
                     alert(e);
@@ -4055,7 +4055,7 @@ class TweetViewer {
                 });
                 document.dispatchEvent(event);
             } else {
-                API.tweet.favorite(t.id_str);
+                API.tweet.favorite(t.retweeted_id_str && vars.useRetweetedId ? t.retweeted_id_str : t.id_str);
                 t.favorited = true;
                 t.favorite_count++;
                 if (!options.mainTweet) {

@@ -141,6 +141,7 @@ async function loadVars() {
                 "transitionProfileBanner",
                 "customDownloadTemplate",
                 "showBoringIndicators",
+                "useRetweetedId",
             ],
             (data) => {
                 // default variables
