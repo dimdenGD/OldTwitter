@@ -183,7 +183,8 @@
     "algo": { "message": "Por algoritmo" },
     "timeline_type": { "message": "Tipo de cronología" },
     "show_topic_tweets": { "message": "Mostrar tweets relacionados (solo por algoritmo)" },
-    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
+    "slow_show_colors_in_timeline": { "message": "Mostrar colores de enlaces personalizados de los usuarios en la cronología de Inicio (¡Esto puede causar ralentizaciones en algunos dispositivos!)" },
+    "always_show_link_color": { "message": "Mostrar siempre colores de enlaces personalizados en lugar de al pasar el mouse (hover)" },
     "enable_twemoji": { "message": "Activar Twemoji" },
     "hearts_instead_stars": { "message": "Mostrar corazones (Me gusta) en lugar de estrellas (Favorito)" },
     "dark_mode": { "message": "Modo oscuro" },
@@ -646,5 +647,6 @@
     "suspended_user_desc": { "message": "El perfil que estás intentando ver ha sido suspendido." },
     "show_boring_indicators": { "message": "En la página de seguidores/siguiendo, se indicará si el último tweet de cada perfil es un retweet, un tweet citado, no existe o es un tweet viejo" },
     "hide_original_languages":{"message": "Ocultar el idioma original al traducir" },
-	"blocked": { "message": "Bloqueado" }
+	"blocked": { "message": "Bloqueado" },
+	"use_retweeted_id": { "message": "Al dar \"Me gusta\" o retweetear un retweet, notificar al usuario que lo retweeteó." }
 }
