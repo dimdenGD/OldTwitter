@@ -142,6 +142,7 @@ Active tweet hotkeys. On bottom-right of tweet element there's blue dot showing 
 `L` - (un)favorite/like tweet.  
 `B` - (un)bookmark tweet.  
 `T` - (un)retweet tweet.  
+`K` - (un)block tweet author
 `R` - open reply box.  
 `Q` - open quote box.  
 `C` - copy tweet image.  
