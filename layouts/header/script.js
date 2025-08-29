@@ -3282,7 +3282,12 @@ setInterval(() => {
                 if(!activeTweet) return;
                 let tweetFavoriteButton = activeTweet.querySelector('.tweet-interact-more-menu-bookmark');
                 tweetFavoriteButton.click();
-            } else if(e.keyCode === 84) { // T
+            } else if(e.keyCode === 75) { // K
+                // block tweet's author
+                if (!activeTweet) return
+                let tweetAuthorBlockButton = activeTweet.querySelector('.tweet-interact-more-menu-block')
+                tweetAuthorBlockButton.click();
+            } else if (e.keyCode === 84) { // T
                 // retweet
                 if(!activeTweet) return;
                 if(vars.disableRetweetHotkey) return;
