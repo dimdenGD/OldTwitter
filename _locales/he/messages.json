@@ -509,9 +509,6 @@
     "edit_twitter_settings": {
         "message": "ערוך הגדרות טוויטר "
     },
-    "display_sensitive_content": {
-        "message": "הסר באופן אוטומטי צנזורה ממדיה שסומנה כתוכן רגיש"
-    },
     "uncensor_graphic_violence_automatically": {
         "message": "הסר באופן אוטומטי צנזורה ממדיה עם אזהרת אלימות גרפית"
     },
