@@ -43,9 +43,36 @@ setInterval(() => {
         history.replaceState(null, null, url.href);
     }
 }, 500);
-r.textContent = "Open this page in OldTwitter";
-r.style.cssText =
-    "position: fixed; top: 5px; right: 5px; padding: 0.7em; background: rgb(29, 155, 240); color: rgb(231, 233, 234); font-family: Arial, sans-serif; border-radius: 25px; font-weight: 600;";
+
+r.textContent = "Open in OldTwitter";
+document.body.appendChild(r);
+
+function updateButtonStyle() {
+    const w = window.innerWidth;
+
+    r.style.position = 'fixed';
+    r.style.top = '5px';
+    r.style.padding = '0.7em 1em';
+    r.style.background = 'rgb(29, 155, 240)';
+    r.style.color = 'rgb(231, 233, 234)';
+    r.style.fontFamily = 'Arial, sans-serif';
+    r.style.borderRadius = '25px';
+    r.style.fontWeight = '600';
+    r.style.zIndex = '9999';
+
+    if (w <= 600) {
+        r.style.right = '5%'; 
+    } else if (w >= 1200) {
+        r.style.right = '90px';
+    } else if (w >= 1920) {
+        r.style.right = '340px';
+    } else {
+        r.style.right = `${w * 0.05}px`;
+    }
+}
+
+updateButtonStyle();
+window.addEventListener('resize', updateButtonStyle);
 document.body.appendChild(r);
 
 setTimeout(() => {
