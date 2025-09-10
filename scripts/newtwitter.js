@@ -52,6 +52,7 @@ function updateButtonStyle() {
 
     r.style.position = 'fixed';
     r.style.top = '5px';
+    r.style.right = '5px';
     r.style.padding = '0.7em 1em';
     r.style.background = 'rgb(29, 155, 240)';
     r.style.color = 'rgb(231, 233, 234)';
@@ -59,16 +60,6 @@ function updateButtonStyle() {
     r.style.borderRadius = '25px';
     r.style.fontWeight = '600';
     r.style.zIndex = '9999';
-
-    if (w <= 600) {
-        r.style.right = '5%'; 
-    } else if (w >= 1200) {
-        r.style.right = '90px';
-    } else if (w >= 1920) {
-        r.style.right = '340px';
-    } else {
-        r.style.right = `${w * 0.05}px`;
-    }
 }
 
 updateButtonStyle();
