@@ -45,7 +45,7 @@ setInterval(() => {
 }, 500);
 r.textContent = "Open this page in OldTwitter";
 r.style.cssText =
-    "position: fixed; top: 0; right: 10px; padding: 0.5em; background: #fff; color: #000; font-family: Arial, sans-serif;border-radius:3px;";
+    "position: fixed; top: 5px; right: 5px; padding: 0.7em; background: rgb(29, 155, 240); color: rgb(231, 233, 234); font-family: Arial, sans-serif; border-radius: 25px; font-weight: 600;";
 document.body.appendChild(r);
 
 setTimeout(() => {
