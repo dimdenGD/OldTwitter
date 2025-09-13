@@ -186,7 +186,7 @@ function parseTweet(res) {
         tweet.user.verified = true;
         tweet.user.verified_type = "Blue";
     }
-    if (tweet.retweeted_status_result) {
+    if (tweet.retweeted_status_result?.result) {
         let result = tweet.retweeted_status_result.result;
         if (
             result.limitedActionResults &&
