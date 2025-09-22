@@ -267,7 +267,7 @@ function updateUserData() {
             API.user.get(user_handle, false),
             API.account.verifyCredentials()
         ]).catch(e => {
-            if(String(e).includes("reading 'result'")) {
+            if(String(e).includes("reading 'result'") || String(e).includes('property "result"')) {
                 document.getElementById('loading-box').hidden = true;
                 document.getElementById('profile-name').innerText = `@${user_handle}`;
                 document.getElementById('timeline').innerHTML = html`<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.nonexistent_user.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.nonexistent_user_desc.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
@@ -311,7 +311,7 @@ function updateUserData() {
         }
         if(pageUserData.reason) {
             let e = pageUserData.reason;
-            if(String(e).includes("reading 'result'")) {
+            if(String(e).includes("reading 'result'") || String(e).includes('property "result"')) {
                 document.getElementById('loading-box').hidden = true;
                 document.getElementById('profile-name').innerText = `@${user_handle}`;
                 document.getElementById('timeline').innerHTML = html`<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.nonexistent_user.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.nonexistent_user_desc.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
