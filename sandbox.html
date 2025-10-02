@@ -11,675 +11,6 @@
 <body>
     <div id="anims"></div>
     <script>
-        console.log('Sandbox hook')
-        const unsafeWindow = window;
-        let t_chunks = {
-            86522: (e, t, r) => {
-                "use strict";
-                function n(e) {
-                    return n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (e) {
-                        return typeof e
-                    }
-                        : function (e) {
-                            return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e
-                        }
-                        ,
-                        n(e)
-                }
-                r.d(t, {
-                    Z: () => n
-                })
-            },
-            634795: (e, t, r) => {
-                "use strict";
-                function n(e, t, r, n, i, a, o) {
-                    try {
-                        var s = e[a](o)
-                            , u = s.value
-                    } catch (e) {
-                        return void r(e)
-                    }
-                    s.done ? t(u) : Promise.resolve(u).then(n, i)
-                }
-                function i(e) {
-                    return function () {
-                        var t = this
-                            , r = arguments;
-                        return new Promise((function (i, a) {
-                            var o = e.apply(t, r);
-                            function s(e) {
-                                n(o, i, a, s, u, "next", e)
-                            }
-                            function u(e) {
-                                n(o, i, a, s, u, "throw", e)
-                            }
-                            s(void 0)
-                        }
-                        ))
-                    }
-                }
-                r.d(t, {
-                    Z: () => i
-                })
-            },
-            196234: (e, t, r) => {
-                "use strict";
-                r.d(t, {
-                    Z: () => o
-                });
-                var n = r(939868);
-                var i = r(759147)
-                    , a = r(634434);
-                function o(e, t) {
-                    return (0,
-                        n.Z)(e) || function (e, t) {
-                            var r = null == e ? null : "undefined" != typeof Symbol && e[Symbol.iterator] || e["@@iterator"];
-                            if (null != r) {
-                                var n, i, a, o, s = [], u = !0, l = !1;
-                                try {
-                                    if (a = (r = r.call(e)).next,
-                                        0 === t) {
-                                        if (Object(r) !== r)
-                                            return;
-                                        u = !1
-                                    } else
-                                        for (; !(u = (n = a.call(r)).done) && (s.push(n.value),
-                                            s.length !== t); u = !0)
-                                            ;
-                                } catch (e) {
-                                    l = !0,
-                                        i = e
-                                } finally {
-                                    try {
-                                        if (!u && null != r.return && (o = r.return(),
-                                            Object(o) !== o))
-                                            return
-                                    } finally {
-                                        if (l)
-                                            throw i
-                                    }
-                                }
-                                return s
-                            }
-                        }(e, t) || (0,
-                            i.Z)(e, t) || (0,
-                                a.Z)()
-                }
-            },
-            132723: (e, t, r) => {
-                "use strict";
-                r.d(t, {
-                    Z: () => i
-                });
-                var n = r(86522);
-                function i() {
-                    /*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
-                    i = function () {
-                        return t
-                    }
-                        ;
-                    var e, t = {}, r = Object.prototype, a = r.hasOwnProperty, o = Object.defineProperty || function (e, t, r) {
-                        e[t] = r.value
-                    }
-                        , s = "function" == typeof Symbol ? Symbol : {}, u = s.iterator || "@@iterator", l = s.asyncIterator || "@@asyncIterator", c = s.toStringTag || "@@toStringTag";
-                    function d(e, t, r) {
-                        return Object.defineProperty(e, t, {
-                            value: r,
-                            enumerable: !0,
-                            configurable: !0,
-                            writable: !0
-                        }),
-                            e[t]
-                    }
-                    try {
-                        d({}, "")
-                    } catch (e) {
-                        d = function (e, t, r) {
-                            return e[t] = r
-                        }
-                    }
-                    function f(e, t, r, n) {
-                        var i = t && t.prototype instanceof b ? t : b
-                            , a = Object.create(i.prototype)
-                            , s = new A(n || []);
-                        return o(a, "_invoke", {
-                            value: T(e, r, s)
-                        }),
-                            a
-                    }
-                    function p(e, t, r) {
-                        try {
-                            return {
-                                type: "normal",
-                                arg: e.call(t, r)
-                            }
-                        } catch (e) {
-                            return {
-                                type: "throw",
-                                arg: e
-                            }
-                        }
-                    }
-                    t.wrap = f;
-                    var h = "suspendedStart"
-                        , v = "suspendedYield"
-                        , g = "executing"
-                        , m = "completed"
-                        , y = {};
-                    function b() { }
-                    function _() { }
-                    function S() { }
-                    var w = {};
-                    d(w, u, (function () {
-                        return this
-                    }
-                    ));
-                    var E = Object.getPrototypeOf
-                        , R = E && E(E(D([])));
-                    R && R !== r && a.call(R, u) && (w = R);
-                    var k = S.prototype = b.prototype = Object.create(w);
-                    function x(e) {
-                        ["next", "throw", "return"].forEach((function (t) {
-                            d(e, t, (function (e) {
-                                return this._invoke(t, e)
-                            }
-                            ))
-                        }
-                        ))
-                    }
-                    function C(e, t) {
-                        function r(i, o, s, u) {
-                            var l = p(e[i], e, o);
-                            if ("throw" !== l.type) {
-                                var c = l.arg
-                                    , d = c.value;
-                                return d && "object" == (0,
-                                    n.Z)(d) && a.call(d, "__await") ? t.resolve(d.__await).then((function (e) {
-                                        r("next", e, s, u)
-                                    }
-                                    ), (function (e) {
-                                        r("throw", e, s, u)
-                                    }
-                                    )) : t.resolve(d).then((function (e) {
-                                        c.value = e,
-                                            s(c)
-                                    }
-                                    ), (function (e) {
-                                        return r("throw", e, s, u)
-                                    }
-                                    ))
-                            }
-                            u(l.arg)
-                        }
-                        var i;
-                        o(this, "_invoke", {
-                            value: function (e, n) {
-                                function a() {
-                                    return new t((function (t, i) {
-                                        r(e, n, t, i)
-                                    }
-                                    ))
-                                }
-                                return i = i ? i.then(a, a) : a()
-                            }
-                        })
-                    }
-                    function T(t, r, n) {
-                        var i = h;
-                        return function (a, o) {
-                            if (i === g)
-                                throw Error("Generator is already running");
-                            if (i === m) {
-                                if ("throw" === a)
-                                    throw o;
-                                return {
-                                    value: e,
-                                    done: !0
-                                }
-                            }
-                            for (n.method = a,
-                                n.arg = o; ;) {
-                                var s = n.delegate;
-                                if (s) {
-                                    var u = I(s, n);
-                                    if (u) {
-                                        if (u === y)
-                                            continue;
-                                        return u
-                                    }
-                                }
-                                if ("next" === n.method)
-                                    n.sent = n._sent = n.arg;
-                                else if ("throw" === n.method) {
-                                    if (i === h)
-                                        throw i = m,
-                                        n.arg;
-                                    n.dispatchException(n.arg)
-                                } else
-                                    "return" === n.method && n.abrupt("return", n.arg);
-                                i = g;
-                                var l = p(t, r, n);
-                                if ("normal" === l.type) {
-                                    if (i = n.done ? m : v,
-                                        l.arg === y)
-                                        continue;
-                                    return {
-                                        value: l.arg,
-                                        done: n.done
-                                    }
-                                }
-                                "throw" === l.type && (i = m,
-                                    n.method = "throw",
-                                    n.arg = l.arg)
-                            }
-                        }
-                    }
-                    function I(t, r) {
-                        var n = r.method
-                            , i = t.iterator[n];
-                        if (i === e)
-                            return r.delegate = null,
-                                "throw" === n && t.iterator.return && (r.method = "return",
-                                    r.arg = e,
-                                    I(t, r),
-                                    "throw" === r.method) || "return" !== n && (r.method = "throw",
-                                        r.arg = new TypeError("The iterator does not provide a '" + n + "' method")),
-                                y;
-                        var a = p(i, t.iterator, r.arg);
-                        if ("throw" === a.type)
-                            return r.method = "throw",
-                                r.arg = a.arg,
-                                r.delegate = null,
-                                y;
-                        var o = a.arg;
-                        return o ? o.done ? (r[t.resultName] = o.value,
-                            r.next = t.nextLoc,
-                            "return" !== r.method && (r.method = "next",
-                                r.arg = e),
-                            r.delegate = null,
-                            y) : o : (r.method = "throw",
-                                r.arg = new TypeError("iterator result is not an object"),
-                                r.delegate = null,
-                                y)
-                    }
-                    function P(e) {
-                        var t = {
-                            tryLoc: e[0]
-                        };
-                        1 in e && (t.catchLoc = e[1]),
-                            2 in e && (t.finallyLoc = e[2],
-                                t.afterLoc = e[3]),
-                            this.tryEntries.push(t)
-                    }
-                    function O(e) {
-                        var t = e.completion || {};
-                        t.type = "normal",
-                            delete t.arg,
-                            e.completion = t
-                    }
-                    function A(e) {
-                        this.tryEntries = [{
-                            tryLoc: "root"
-                        }],
-                            e.forEach(P, this),
-                            this.reset(!0)
-                    }
-                    function D(t) {
-                        if (t || "" === t) {
-                            var r = t[u];
-                            if (r)
-                                return r.call(t);
-                            if ("function" == typeof t.next)
-                                return t;
-                            if (!isNaN(t.length)) {
-                                var i = -1
-                                    , o = function r() {
-                                        for (; ++i < t.length;)
-                                            if (a.call(t, i))
-                                                return r.value = t[i],
-                                                    r.done = !1,
-                                                    r;
-                                        return r.value = e,
-                                            r.done = !0,
-                                            r
-                                    };
-                                return o.next = o
-                            }
-                        }
-                        throw new TypeError((0,
-                            n.Z)(t) + " is not iterable")
-                    }
-                    return _.prototype = S,
-                        o(k, "constructor", {
-                            value: S,
-                            configurable: !0
-                        }),
-                        o(S, "constructor", {
-                            value: _,
-                            configurable: !0
-                        }),
-                        _.displayName = d(S, c, "GeneratorFunction"),
-                        t.isGeneratorFunction = function (e) {
-                            var t = "function" == typeof e && e.constructor;
-                            return !!t && (t === _ || "GeneratorFunction" === (t.displayName || t.name))
-                        }
-                        ,
-                        t.mark = function (e) {
-                            return Object.setPrototypeOf ? Object.setPrototypeOf(e, S) : (e.__proto__ = S,
-                                d(e, c, "GeneratorFunction")),
-                                e.prototype = Object.create(k),
-                                e
-                        }
-                        ,
-                        t.awrap = function (e) {
-                            return {
-                                __await: e
-                            }
-                        }
-                        ,
-                        x(C.prototype),
-                        d(C.prototype, l, (function () {
-                            return this
-                        }
-                        )),
-                        t.AsyncIterator = C,
-                        t.async = function (e, r, n, i, a) {
-                            void 0 === a && (a = Promise);
-                            var o = new C(f(e, r, n, i), a);
-                            return t.isGeneratorFunction(r) ? o : o.next().then((function (e) {
-                                return e.done ? e.value : o.next()
-                            }
-                            ))
-                        }
-                        ,
-                        x(k),
-                        d(k, c, "Generator"),
-                        d(k, u, (function () {
-                            return this
-                        }
-                        )),
-                        d(k, "toString", (function () {
-                            return "[object Generator]"
-                        }
-                        )),
-                        t.keys = function (e) {
-                            var t = Object(e)
-                                , r = [];
-                            for (var n in t)
-                                r.push(n);
-                            return r.reverse(),
-                                function e() {
-                                    for (; r.length;) {
-                                        var n = r.pop();
-                                        if (n in t)
-                                            return e.value = n,
-                                                e.done = !1,
-                                                e
-                                    }
-                                    return e.done = !0,
-                                        e
-                                }
-                        }
-                        ,
-                        t.values = D,
-                        A.prototype = {
-                            constructor: A,
-                            reset: function (t) {
-                                if (this.prev = 0,
-                                    this.next = 0,
-                                    this.sent = this._sent = e,
-                                    this.done = !1,
-                                    this.delegate = null,
-                                    this.method = "next",
-                                    this.arg = e,
-                                    this.tryEntries.forEach(O),
-                                    !t)
-                                    for (var r in this)
-                                        "t" === r.charAt(0) && a.call(this, r) && !isNaN(+r.slice(1)) && (this[r] = e)
-                            },
-                            stop: function () {
-                                this.done = !0;
-                                var e = this.tryEntries[0].completion;
-                                if ("throw" === e.type)
-                                    throw e.arg;
-                                return this.rval
-                            },
-                            dispatchException: function (t) {
-                                if (this.done)
-                                    throw t;
-                                var r = this;
-                                function n(n, i) {
-                                    return s.type = "throw",
-                                        s.arg = t,
-                                        r.next = n,
-                                        i && (r.method = "next",
-                                            r.arg = e),
-                                        !!i
-                                }
-                                for (var i = this.tryEntries.length - 1; i >= 0; --i) {
-                                    var o = this.tryEntries[i]
-                                        , s = o.completion;
-                                    if ("root" === o.tryLoc)
-                                        return n("end");
-                                    if (o.tryLoc <= this.prev) {
-                                        var u = a.call(o, "catchLoc")
-                                            , l = a.call(o, "finallyLoc");
-                                        if (u && l) {
-                                            if (this.prev < o.catchLoc)
-                                                return n(o.catchLoc, !0);
-                                            if (this.prev < o.finallyLoc)
-                                                return n(o.finallyLoc)
-                                        } else if (u) {
-                                            if (this.prev < o.catchLoc)
-                                                return n(o.catchLoc, !0)
-                                        } else {
-                                            if (!l)
-                                                throw Error("try statement without catch or finally");
-                                            if (this.prev < o.finallyLoc)
-                                                return n(o.finallyLoc)
-                                        }
-                                    }
-                                }
-                            },
-                            abrupt: function (e, t) {
-                                for (var r = this.tryEntries.length - 1; r >= 0; --r) {
-                                    var n = this.tryEntries[r];
-                                    if (n.tryLoc <= this.prev && a.call(n, "finallyLoc") && this.prev < n.finallyLoc) {
-                                        var i = n;
-                                        break
-                                    }
-                                }
-                                i && ("break" === e || "continue" === e) && i.tryLoc <= t && t <= i.finallyLoc && (i = null);
-                                var o = i ? i.completion : {};
-                                return o.type = e,
-                                    o.arg = t,
-                                    i ? (this.method = "next",
-                                        this.next = i.finallyLoc,
-                                        y) : this.complete(o)
-                            },
-                            complete: function (e, t) {
-                                if ("throw" === e.type)
-                                    throw e.arg;
-                                return "break" === e.type || "continue" === e.type ? this.next = e.arg : "return" === e.type ? (this.rval = this.arg = e.arg,
-                                    this.method = "return",
-                                    this.next = "end") : "normal" === e.type && t && (this.next = t),
-                                    y
-                            },
-                            finish: function (e) {
-                                for (var t = this.tryEntries.length - 1; t >= 0; --t) {
-                                    var r = this.tryEntries[t];
-                                    if (r.finallyLoc === e)
-                                        return this.complete(r.completion, r.afterLoc),
-                                            O(r),
-                                            y
-                                }
-                            },
-                            catch: function (e) {
-                                for (var t = this.tryEntries.length - 1; t >= 0; --t) {
-                                    var r = this.tryEntries[t];
-                                    if (r.tryLoc === e) {
-                                        var n = r.completion;
-                                        if ("throw" === n.type) {
-                                            var i = n.arg;
-                                            O(r)
-                                        }
-                                        return i
-                                    }
-                                }
-                                throw Error("illegal catch attempt")
-                            },
-                            delegateYield: function (t, r, n) {
-                                return this.delegate = {
-                                    iterator: D(t),
-                                    resultName: r,
-                                    nextLoc: n
-                                },
-                                    "next" === this.method && (this.arg = e),
-                                    y
-                            }
-                        },
-                        t
-                }
-            },
-        }
-
-        var r_chunks = {
-            634434: (e, t, r) => {
-                "use strict";
-                function n() {
-                    throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.")
-                }
-                r.d(t, {
-                    Z: () => n
-                })
-            },
-            759147: (e, t, r) => {
-                "use strict";
-                r.d(t, {
-                    Z: () => i
-                });
-                var n = r(200926);
-                function i(e, t) {
-                    if (e) {
-                        if ("string" == typeof e)
-                            return (0,
-                                n.Z)(e, t);
-                        var r = Object.prototype.toString.call(e).slice(8, -1);
-                        return "Object" === r && e.constructor && (r = e.constructor.name),
-                            "Map" === r || "Set" === r ? Array.from(e) : "Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r) ? (0,
-                                n.Z)(e, t) : void 0
-                    }
-                }
-            },
-            939868: (e, t, r) => {
-                "use strict";
-                function n(e) {
-                    if (Array.isArray(e))
-                        return e
-                }
-                r.d(t, {
-                    Z: () => n
-                })
-            },
-            86522: (e, t, r) => {
-                "use strict";
-                function n(e) {
-                    return n = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (e) {
-                        return typeof e
-                    }
-                        : function (e) {
-                            return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e
-                        }
-                        ,
-                        n(e)
-                }
-                r.d(t, {
-                    Z: () => n
-                })
-            },
-            200926: (e, t, r) => {
-                "use strict";
-                function n(e, t) {
-                    (null == t || t > e.length) && (t = e.length);
-                    for (var r = 0, n = new Array(t); r < t; r++)
-                        n[r] = e[r];
-                    return n
-                }
-                r.d(t, {
-                    Z: () => n
-                })
-            },
-        }
-
-        unsafeWindow.t = function (e) {
-            var a = t_chunks[e];
-
-            if (!a) {
-                console.error("t-chunk " + e + " not found");
-                return {
-                    Z: () => undefined,
-                }
-            }
-
-            // Special handling for regenerator runtime chunk
-            if (e === 132723) {
-                const mockExports = {};
-                a(null, mockExports, unsafeWindow.r);
-                // Return the actual regenerator runtime object by calling the function
-                return {
-                    Z: () => mockExports.Z()
-                };
-            }
-
-            // For other chunks, properly set up the exports object
-            const mockExports = {};
-            a(null, mockExports, unsafeWindow.r);
-            return mockExports;
-        }
-
-        var r = function (e) {
-            var a = r_chunks[e];
-
-            if (!a) {
-                console.error("chunk " + e + " not found");
-                return {
-                    Z: () => undefined,
-                }
-            }
-            const res = a({}, {}, r);
-            if (res !== undefined) Object.defineProperty(res, "Z", {
-                value: () => res,
-            });
-            return {
-                Z: () => res
-            };
-        }
-
-        unsafeWindow.r = r;
-
-        r.o = (e, a) => Object.prototype.hasOwnProperty.call(e, a);
-        r.d = (e, a) => {
-            for (var rr in a)
-                r.o(a, rr) && !r.o(e, rr) && Object.defineProperty(e, rr, {
-                    enumerable: !0,
-                    get: a[rr]
-                })
-        }
-
-        var u = t(132723)
-            , W = t(634795)
-            , o = t(196234)
-            , e = t(86522);
-
-        // Expose the asyncToGenerator helper for injected code
-        // W.Z is the Babel asyncToGenerator helper from chunk 634795
-        window.n = W.Z;
-
-        // Also expose it as global n for injected code
-        var n = window.n;
-    </script>
-
-    <script>
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
@@ -692,6 +23,10 @@
             let data = event.data;
             if (data.action === 'init') {
                 try {
+                    window.__SCRIPTS_LOADED__ = {
+                        runtime: true
+                    };
+                    eval(await fetch(`https://abs.twimg.com/responsive-web/client-web/vendor.${data.vendorCode}.js`).then(res => res.text()));
                     let url = `https://abs.twimg.com/responsive-web/client-web/ondemand.s.${data.challengeCode}a.js`
                     let challengeData;
                     try {
@@ -716,7 +51,7 @@
                     }
                     let verif = document.querySelector('meta[name="twitter-site-verification"]');
                     verif.content = data.verificationCode;
-                    let headerRegex = /(\d+):(.+)=>.+default:\(\)=>(\w).+,\w\(\d+\)\;/;
+                    let headerRegex = /(\d+):(.+)=>.+default:\(\)=>(\w)}\);/;
                     let headerMatch = challengeData.match(headerRegex);
                     if (!headerMatch) {
                         console.error('Uh oh, header not found!! Report to https://github.com/dimdenGD/OldTwitter/issues');
@@ -731,15 +66,55 @@
                     // you can see where script is loaded in scripts/twchallenge.js
                     // it also can't use any extension APIs, since it's contained in object url iframe
                     const patchedChallengeData = challengeData
-                        .replace(headerRegex, '$1:$2=>{window._CHALLENGE=()=>$3;')
-                        .replace(/((\w+)\s*=\s*\w+\(\d+\)),(\w+)\s*=\s*\w+\(\d+\)/g, (match, varName) => {
-                            return `$1,${varName} = {default: window.n}`;
-                        });
-                    console.log(patchedChallengeData);
+                        .replace(headerRegex, '$1:$2=>{window._CHALLENGE=()=>$3;');
                     eval(patchedChallengeData);
 
                     let id = headerMatch[1];
-                    webpackChunk_twitter_responsive_web[0][1][id]();
+                    // 1) Collect all module factories that have already been pushed
+                    const chunks = self.webpackChunk_twitter_responsive_web || [];
+                    const registry = {};
+                    for (const payload of chunks) {
+                        // Each payload looks like: [chunkIds, moreModules, runtime]
+                        // where moreModules is an object: { [moduleId]: factory }
+                        if (payload && payload[1]) Object.assign(registry, payload[1]);
+                    }
+
+                    // 2) A minimal __webpack_require__ with a cache and a few helpers
+                    const cache = {};
+                    function wreq(id) {
+                        if (cache[id]) return cache[id].exports;
+                        const factory = registry[id];
+                        if (!factory) throw new Error("No module with id " + id);
+
+                        const module = { id, loaded: false, exports: {} };
+                        cache[id] = module;
+
+                        // Minimal helpers used by many bundles
+                        wreq.d = (exports, definition) => {
+                            for (const key in definition) {
+                                Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+                            }
+                        };
+                        wreq.r = (exports) => {
+                            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+                                Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+                            }
+                                Object.defineProperty(exports, "__esModule", { value: true });
+                        };
+                        wreq.n = (mod) => {
+                            const getter = mod && mod.__esModule ? () => mod.default : () => mod;
+                            wreq.d(getter, { a: getter });
+                            return getter;
+                        };
+                        wreq.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
+
+                        // 3) Execute the module factory: (module, exports, __webpack_require__)
+                        factory(module, module.exports, wreq);
+
+                        module.loaded = true;
+                        return module.exports;
+                    }
+                    webpackChunk_twitter_responsive_web[1][1][id](chunks, cache, wreq);
                     solver = window._CHALLENGE()();
                     event.source.postMessage({ action: 'ready' }, event.origin);
                 } catch (e) {

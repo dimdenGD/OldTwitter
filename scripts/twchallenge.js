@@ -200,6 +200,7 @@ async function initChallenge() {
             dom.querySelectorAll('svg[id^="loading-x"]')
         ).map((svg) => svg.outerHTML);
 
+        let vendorCode = homepageData.match(/vendor.(\w+).js"/)[1];
         let challengeCode = homepageData.match(/"ondemand.s":"(\w+)"/)[1];
 
         OLDTWITTER_CONFIG.verificationKey = verificationKey;
@@ -212,6 +213,7 @@ async function initChallenge() {
                 {
                     action: "init",
                     challengeCode,
+                    vendorCode,
                     anims,
                     verificationCode: OLDTWITTER_CONFIG.verificationKey,
                 },
