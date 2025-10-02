@@ -26,24 +26,11 @@
                     window.__SCRIPTS_LOADED__ = {
                         runtime: true
                     };
-                    eval(await fetch(`https://abs.twimg.com/responsive-web/client-web/vendor.${data.vendorCode}.js`).then(res => res.text()));
-                    let url = `https://abs.twimg.com/responsive-web/client-web/ondemand.s.${data.challengeCode}a.js`
-                    let challengeData;
-                    try {
-                        challengeData = await fetch(url).then(res => res.text());
-                    } catch (e) {
-                        await sleep(500);
-                        try {
-                            challengeData = await fetch(url).then(res => res.text());
-                        } catch (e) {
-                            await sleep(1000);
-                            try {
-                                challengeData = await fetch(url).then(res => res.text());
-                            } catch (e) {
-                                throw new Error('Failed to fetch challenge data: ' + e);
-                            }
-                        }
-                    }
+                    const [vendorData, challengeData] = await Promise.all([
+                        fetch(`https://abs.twimg.com/responsive-web/client-web/vendor.${data.vendorCode}.js`).then(res => res.text()),
+                        fetch(`https://abs.twimg.com/responsive-web/client-web/ondemand.s.${data.challengeCode}a.js`).then(res => res.text())
+                    ]);
+                    eval(vendorData);
 
                     let animsDiv = document.getElementById('anims');
                     for (let anim of data.anims) {
