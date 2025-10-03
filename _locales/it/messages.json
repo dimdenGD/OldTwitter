@@ -647,5 +647,6 @@
     "suspended_user_desc": { "message": "Il profilo che stai cercando di visualizzare è stato sospeso." },
     "show_boring_indicators": { "message": "Mostra indicatore nella pagina dei followers/following se l'ultimo tweet della persona è un retweet/citazione/inesistente/vecchio" },
     "hide_original_languages":{"message": "Nascondi le lingue originali quando tradotte" },
-	"blocked": { "message": "Bloccato" }
+	"blocked": { "message": "Bloccato" },
+	"use_retweeted_id": { "message": "Quando metti 'Mi piace' o ritwitti un retweet, notifica l'utente che ha ritwittato." }
 }
