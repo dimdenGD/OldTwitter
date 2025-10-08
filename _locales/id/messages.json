@@ -183,10 +183,10 @@
     "algo": { "message": "Algoritmik" },
     "timeline_type": { "message": "Tipe linimasa" },
     "show_topic_tweets": { "message": "Tampilkan tweet bertopik (algo saja)" },
-    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
+    "slow_show_colors_in_timeline": { "message": "Perlihatkan warna tautan khusus pengguna di linimasa beranda (Ini dapat melambatkan situs di beberapa perangkat!)" },
     "always_show_link_color": { "message": "Selalu tampilkan warna tautan khusus, bukan saat diarahkan pointer tetikus" },
     "enable_twemoji": { "message": "Gunakan Twemoji" },
-    "hearts_instead_stars": { "message": "Tampilkan hati (likes) instead of stars (favorites)" },
+    "hearts_instead_stars": { "message": "Tampilkan hati (likes), bukan bintang (favorites)" },
     "dark_mode": { "message": "Mode gelap" },
     "disable_hotkeys": { "message": "Matikan tombol pintas" },
     "hotkeys_list": { "message": "Lihat daftar tombol pintas disini" },
@@ -196,7 +196,7 @@
     "font": { "message": "Fon" },
     "color_sync": { "message": "Sinkronisasi warna tautan" },
     "by_pressing_sync": { "message": "Dengan menekan tombol Sinkron warna tautan profil Anda akan dikirim ke basis data warna dan ditampilkan ke pengguna ekstensi lainnya." },
-    "color_years_ago": { "message": "Jika sudah pernah memasang warna tautan Twitter sebelumnya (pada tahun ketika fitur tersebut masih ada), ini akan menimpah warna yang lama." },
+    "color_years_ago": { "message": "Jika sudah pernah memasang warna tautan Twitter sebelumnya (saat fitur tersebut masih ada), ini akan menimpa warna yang lama." },
     "sync": { "message": "Sinkron", "note": "Try to keep this short" },
     "profile_link_color": { "message": "Warna tautan profil" },
     "light_mode_link": { "message": "Tautan mode terang" },
@@ -632,7 +632,7 @@
     "user_shared_tweet": { "message": "$NAME$ membagikan sebuah tweet", "placeholders": { "name": { "content": "Display Name" } } },
     "transition_profile_banner": { "message": "Gunakan transisi pada banner profil" },
     "custom_downloadtemplate": { "message": "Templat unduhan kustom" },
-    "custom_downloadtemplate_text": { "message": "Memungkinkan Anda mengubah nama berkas ketika mengunduh media tweet." },
+    "custom_downloadtemplate_text": { "message": "Memungkinkan Anda mengubah nama berkas saat mengunduh media tweet." },
     "save_downloadtemplate": { "message": "Simpan templat unduhan" },
     "custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code>: Nama pengguna." },
     "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: Nama akun pengguna. (Contoh: @dril)" },
@@ -647,5 +647,6 @@
     "suspended_user_desc": { "message": "Profil yang Anda tujui telah ditangguhkan. Untuk kembali ke linimasa beranda Anda, <a href=\"/home\">klik di sini</a>." },
     "show_boring_indicators": { "message": "Tampilkan indikator pada laman pengikut/mengikuti jika tweet terakhir pengguna merupakan retweet/kutipan/hilang/lama" },
     "hide_original_languages":{"message": "Sembunyikan bahasa asli saat diterjemahkan" },
-	"blocked": { "message": "Diblokir" }
+	"blocked": { "message": "Diblokir" },
+    "use_retweeted_id": { "message": "Saat menyukai atau meretweet sebuah retweet, kabarkan pengguna yang meretweet." }
 }
