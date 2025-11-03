@@ -1288,14 +1288,9 @@ const API = {
                             count,
                             data,
                         });
-                        if (data.errors && data.errors[0]) {
-                            return reject(data.errors[0].message);
-                        }
                         let instructions =
                             data.data.home.home_timeline_urt.instructions;
-                        let entries = instructions.find(
-                            (i) => i.type === "TimelineAddEntries"
-                        );
+                        let entries = instructions.find(i => i.type === "TimelineAddEntries");
                         if (!entries) {
                             debugLog("timeline.getAlgorithmicalV2", "end", {
                                 list: [],
