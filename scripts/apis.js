@@ -2607,6 +2607,11 @@ const API = {
                                 data.data.user.result.unavailable_message.text
                             );
                         }
+                        if (data.data.user.result.message) {
+                            return reject(
+                                data.data.user.result.message
+                            );
+                        }
 
                         let result = data.data.user.result;
                         result.legacy.id_str = result.rest_id;
@@ -2629,6 +2634,9 @@ const API = {
                             !result.legacy.verified_type
                         ) {
                             result.legacy.verified_type = "Blue";
+                        }
+                        if (!result.legacy.protected) { //can be undefined
+                            result.legacy.protected = false;
                         }
 
                         debugLog("user.getV2", "end", result.legacy);
