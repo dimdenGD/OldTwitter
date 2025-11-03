@@ -555,7 +555,7 @@ const API = {
                         `https://api.${location.hostname}/1.1/account/verify_credentials.json`,
                         {
                             headers: {
-                                authorization: OLDTWITTER_CONFIG.oauth_key,
+                                authorization: OLDTWITTER_CONFIG.public_token,
                                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                                 "x-twitter-auth-type": "OAuth2Session",
                             },
