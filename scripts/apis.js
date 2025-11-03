@@ -2635,6 +2635,9 @@ const API = {
                         ) {
                             result.legacy.verified_type = "Blue";
                         }
+                        if (!result.legacy.protected) { //can be undefined
+                            result.legacy.protected = false;
+                        }
 
                         debugLog("user.getV2", "end", result.legacy);
                         resolve(result.legacy);
