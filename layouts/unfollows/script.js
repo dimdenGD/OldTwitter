@@ -94,7 +94,7 @@ function renderUnfollows(page = 0) {
 
         let userData;
         try {
-            userData = await API.user.lookup(unfollows.map(u => u[0]));
+            userData = await API.user.lookupV2(unfollows.map(u => u[0]));
         } catch(e) {
             console.error(e);
             if(String(e).includes('No user matches for specified terms.')) {
