@@ -4546,7 +4546,7 @@ const API = {
                     method: "POST",
                     headers: {
                         authorization:
-                            "Bearer AAAAAAAAAAAAAAAAAAAAAFQODgEAAAAAVHTp76lzh3rFzcHbmHVvQxYYpTw%3DckAlMINMjmCwxUcaXbAN4XqJVdgMJaHqNOFgPMK0zN1qLqLQCF",
+                            OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -7579,7 +7579,7 @@ const API = {
                                     .then(resolve)
                                     .catch(reject);
                             }
-                            return reject(data.errors[0].message);
+                            // return reject(data.errors[0].message);
                         }
                         let list =
                             data.data.list.tweets_timeline.timeline.instructions.find(

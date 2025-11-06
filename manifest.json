@@ -1,7 +1,7 @@
 {
   "name": "Old Twitter Layout (2025)",
   "description": "__MSG_ext_description__",
-  "version": "1.9.2.2",
+  "version": "1.9.2.3",
   "manifest_version": 3,
   "homepage_url": "https://github.com/dimdenGD/OldTwitter",
   "background": {
