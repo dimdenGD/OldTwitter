@@ -261,9 +261,10 @@ function updateSelection() {
 function updateUserData() {
     return new Promise(async (resolve, reject) => {
         document.getElementsByTagName('title')[0].innerText = `${user_handle} - ` + LOC.twitter.message;
-        let [pageUserData, followersYouFollowData, u] = await Promise.allSettled([
+        let [pageUserData, followersYouFollowData, oldUser, u] = await Promise.allSettled([
             API.user.getV2(user_handle),
             API.user.friendsFollowing(user_handle, false),
+            API.user.get(user_handle, false),
             API.account.verifyCredentials()
         ]).catch(e => {
             if(String(e).includes("reading 'result'") || String(e).includes('property "result"')) {
@@ -278,7 +279,7 @@ function updateUserData() {
                 document.getElementById('profile-avatar').src = chrome.runtime.getURL(`images/default_profile_images/default_profile_0_normal.png`);
                 return;
             }
-            if (String(e).includes('User is suspended')) {
+            if(String(e).includes('User has been suspended') || String(e).includes('User is suspended')) {
                 document.getElementById('loading-box').hidden = true;
                 document.getElementById('profile-name').innerText = `@${user_handle}`;
                 document.getElementById('timeline').innerHTML = html`<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.suspended_user.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.suspended_user_desc.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
@@ -293,6 +294,21 @@ function updateUserData() {
             document.getElementById('loading-box').hidden = false;
             return document.getElementById('loading-box-error').innerHTML = html`${String(e)}.<br><a href="/home">${LOC.go_homepage.message}</a>`;
         });
+        if(oldUser.reason) {
+            let e = oldUser.reason;
+            if(String(e).includes('User has been suspended.')) {
+                document.getElementById('loading-box').hidden = true;
+                document.getElementById('profile-name').innerText = `@${user_handle}`;
+                document.getElementById('timeline').innerHTML = html`<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.suspended_user.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.suspended_user_desc.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
+                document.getElementById('trends').hidden = true;
+                document.getElementById('profile-nav-center-cell').style.display = 'none'; // ???
+                document.getElementById('profile-banner-sticky').style.backgroundColor = 'var(--background-color)';
+                document.getElementById('wtf').hidden = true;
+                document.getElementById('profile-nav').style.boxShadow = 'none';
+                document.getElementById('profile-avatar').src = chrome.runtime.getURL(`images/default_profile_images/default_profile_0_normal.png`);
+                return;
+            }
+        }
         if(pageUserData.reason) {
             let e = pageUserData.reason;
             if(String(e).includes("reading 'result'") || String(e).includes('property "result"')) {
@@ -307,7 +323,7 @@ function updateUserData() {
                 document.getElementById('profile-avatar').src = chrome.runtime.getURL(`images/default_profile_images/default_profile_0_normal.png`);
                 return;
             }
-            if (String(e).includes('User is suspended')) {
+            if(String(e).includes('User is suspended')) {
                 document.getElementById('loading-box').hidden = true;
                 document.getElementById('profile-name').innerText = `@${user_handle}`;
                 document.getElementById('timeline').innerHTML = html`<div class="unable_load_timeline" dir="auto" style="padding: 50px;color: var(--darker-gray); font-size: 20px;"><h2>${LOC.suspended_user.message}</h2><p style="font-size: 15px;" href="/${pageUser.screen_name}">${LOC.suspended_user_desc.message.replaceAll("$SCREEN_NAME$",pageUser.screen_name)}</p></div>`;
@@ -323,6 +339,7 @@ function updateUserData() {
             return document.getElementById('loading-box-error').innerHTML = html`${String(e)}.<br><a href="/home">${LOC.go_homepage.message}</a>`;
         }
         followersYouFollowData = followersYouFollowData.value;
+        oldUser = oldUser.value; //can make it undefined, which is fine because it's subsequently always checked for
         u = u.value;
         user = u;
         pageUserData = pageUserData.value;
@@ -340,13 +357,25 @@ function updateUserData() {
             user_protected = true;
         }
         userDataFunction(u);
-        const event2 = new CustomEvent('updatePageUserData', { detail: pageUserData });
+        const event2 = new CustomEvent('updatePageUserData', { detail: oldUser || pageUserData });
         document.dispatchEvent(event2);
         pageUser = pageUserData;
         let r = document.querySelector(':root');
         let usedProfileColor = vars && vars.linkColor ? vars.linkColor : '#4595B5';
         r.style.setProperty('--link-color', usedProfileColor);
-        document.getElementById('color-years-ago').hidden = true;
+        if (oldUser) {
+            let sc = makeSeeableColor(oldUser.profile_link_color);
+            if(oldUser.profile_link_color && oldUser.profile_link_color !== '1DA1F2') {
+                customSet = true;
+                r.style.setProperty('--link-color', sc);
+                usedProfileColor = oldUser.profile_link_color;
+                document.getElementById('color-years-ago').hidden = false;
+            } else {
+                document.getElementById('color-years-ago').hidden = true;
+            }
+        } else {
+            document.getElementById('color-years-ago').hidden = true;
+        }
 
         const profileLinkColor = document.getElementById('profile-link-color');
         const colorPreviewLight = document.getElementById('color-preview-light');
@@ -853,11 +882,11 @@ async function renderFollowers(clear = true, cursor) {
                                     users4,
                                     users5
                                 ] = await Promise.all([
-                                    API.user.lookup(userIds.slice(i, i+100)),
-                                    i + 100 < userIds.length ? API.user.lookup(userIds.slice(i+100, i+200)) : [],
-                                    i + 200 < userIds.length ? API.user.lookup(userIds.slice(i+200, i+300)) : [],
-                                    i + 300 < userIds.length ? API.user.lookup(userIds.slice(i+300, i+400)) : [],
-                                    i + 400 < userIds.length ? API.user.lookup(userIds.slice(i+400, i+500)) : []
+                                    API.user.lookupV2(userIds.slice(i, i+100)),
+                                    i + 100 < userIds.length ? API.user.lookupV2(userIds.slice(i+100, i+200)) : [],
+                                    i + 200 < userIds.length ? API.user.lookupV2(userIds.slice(i+200, i+300)) : [],
+                                    i + 300 < userIds.length ? API.user.lookupV2(userIds.slice(i+300, i+400)) : [],
+                                    i + 400 < userIds.length ? API.user.lookupV2(userIds.slice(i+400, i+500)) : []
                                 ]);
                             } catch(e) {
                                 console.error(e);

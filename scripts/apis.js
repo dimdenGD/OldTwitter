@@ -834,7 +834,7 @@ const API = {
                         `https://api.${location.hostname}/1.1/account/settings.json`,
                         {
                             headers: {
-                                authorization: OLDTWITTER_CONFIG.oauth_key,
+                                authorization: OLDTWITTER_CONFIG.public_token,
                                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                                 "x-twitter-auth-type": "OAuth2Session",
                             },
@@ -2532,7 +2532,7 @@ const API = {
                     }`,
                     {
                         headers: {
-                            authorization: OLDTWITTER_CONFIG.oauth_key,
+                            authorization: OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "x-twitter-client-language": window.LANGUAGE
@@ -3938,7 +3938,7 @@ const API = {
                     }/1.1/users/lookup.json?user_id=${ids.join(",")}`,
                     {
                         headers: {
-                            authorization: OLDTWITTER_CONFIG.oauth_key,
+                            authorization: OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "content-type":
@@ -3953,6 +3953,75 @@ const API = {
                             return reject(data.errors[0].message);
                         }
                         resolve(data);
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            });
+        },
+        lookupV2: (ids) => {
+            return new Promise((resolve, reject) => {
+                fetch(
+                    `/i/api/graphql/_8egOzcbgeLIhP0TbTStGw/UsersByRestIds?variables=${encodeURIComponent(
+                        JSON.stringify({ userIds: ids })
+                    )}&features=${encodeURIComponent(
+                        JSON.stringify({
+                            rweb_tipjar_consumption_enabled: false,
+                            verified_phone_label_enabled: false,
+                            responsive_web_graphql_timeline_navigation_enabled: false,
+                            responsive_web_graphql_skip_user_profile_image_extensions_enabled: true,
+                            profile_label_improvements_pcf_label_in_post_enabled: false,
+                            payments_enabled: false,
+                            responsive_web_profile_redirect_enabled: false
+                        })
+                    )}`,
+                    {
+                        headers: {
+                            authorization: OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/json",
+                        },
+                        credentials: "include",
+                    }
+                )
+                    .then((i) => i.json())
+                    .then((data) => {
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+                        let users = data.data.users
+                        .map((user) => {
+                            user = user?.result;
+                            if (!user?.legacy) return null; //suspended or something
+
+                            user.legacy = {
+                                id_str: user.rest_id,
+                                ...user.legacy,
+                                ...user.core,
+                                following: user.relationship_perspectives.following,
+                                profile_image_url_https: user.avatar?.image_url,
+                                protected: user.privacy.protected,
+                                verified: user.verification.verified
+                            }
+
+                            if (
+                                user.is_blue_verified &&
+                                !user.legacy.verified_type
+                            ) {
+                                user.legacy.verified = true;
+                                user.legacy.verified_type = "Blue";
+                            }
+
+                            return user.legacy;
+                        })
+                        .filter(u => u)
+
+                        if (users.length === 0) {
+                            return reject('No user matches for specified terms.'); //compat
+                        }
+
+                        resolve(users);
                     })
                     .catch((e) => {
                         reject(e);

@@ -2275,7 +2275,7 @@ let userDataFunction = async user => {
             if(ids.length === 0) return;
             let users = [];
             for(let i = 0; i < ids.length; i += 100) {
-                let usersChunk = await API.user.lookup(ids.slice(i, i + 100));
+                let usersChunk = await API.user.lookupV2(ids.slice(i, i + 100));
                 users = users.concat(usersChunk);
             }
             search = {
