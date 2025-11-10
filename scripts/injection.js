@@ -229,6 +229,7 @@ const TRANSLATORS = {
     tr: [
         ["KayrabCebll", "https://steamcommunity.com/id/KayrabCebll"],
         ["YordemEren", "/YordemEren"],
+        ["dursunator", "/dursunator"],
     ],
     it: [
         ["krek", "/CactusInc420"],
