@@ -147,6 +147,7 @@ if (
         realPath.startsWith("/i/premium_sign_up/") ||
         realPath.startsWith("/i/events/") ||
         realPath.startsWith("/i/spaces/") ||
+        realPath.startsWith("/i/chat") ||
         realPath.startsWith("/i/oauth2") ||
         realPath.startsWith("/account") ||
         realPath.startsWith("/settings") ||
