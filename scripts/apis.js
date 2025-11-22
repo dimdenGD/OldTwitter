@@ -4824,7 +4824,7 @@ const API = {
                         .then((i) => i.json())
                         .then((data) => {
                             debugLog("tweet.getV2", "start", id, data);
-                            if (data.errors && data.errors[0]) {
+                            if (data.errors && data.errors[0] && !data.data) {
                                 if (data.errors[0].code === 88 && !useDiffKey) {
                                     localStorage.hitRateLimit =
                                         Date.now() + 600000;
@@ -5377,7 +5377,7 @@ const API = {
                                 cursor,
                                 data,
                             });
-                            if (data.errors && data.errors[0]) {
+                            if (data.errors && data.errors[0] && !data.data) {
                                 if (data.errors[0].code === 88 && !useDiffKey) {
                                     localStorage.hitRateLimit =
                                         Date.now() + 600000;
@@ -5936,7 +5936,7 @@ const API = {
                                 return reject(data.errors[0].message);
                             }
                             let list =
-                                data.data.favoriters_timeline.timeline.instructions.find(
+                                data.data.favoriters_timeline?.timeline?.instructions.find(
                                     (i) => i.type === "TimelineAddEntries"
                                 );
                             if (!list) {
