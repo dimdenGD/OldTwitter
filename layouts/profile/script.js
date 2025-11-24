@@ -261,10 +261,11 @@ function updateSelection() {
 function updateUserData() {
     return new Promise(async (resolve, reject) => {
         document.getElementsByTagName('title')[0].innerText = `${user_handle} - ` + LOC.twitter.message;
-        let [pageUserData, followersYouFollowData, oldUser, u] = await Promise.allSettled([
+        let [pageUserData, followersYouFollowData, oldUser, about, u] = await Promise.allSettled([
             API.user.getV2(user_handle),
             API.user.friendsFollowing(user_handle, false),
             API.user.get(user_handle, false),
+            vars.showBasedIn ? API.user.getAbout(user_handle) : Promise.resolve(null),
             API.account.verifyCredentials()
         ]).catch(e => {
             if(String(e).includes("reading 'result'") || String(e).includes('property "result"')) {
@@ -360,6 +361,7 @@ function updateUserData() {
         const event2 = new CustomEvent('updatePageUserData', { detail: oldUser || pageUserData });
         document.dispatchEvent(event2);
         pageUser = pageUserData;
+        pageUser.about = about.value || null;
         let r = document.querySelector(':root');
         let usedProfileColor = vars && vars.linkColor ? vars.linkColor : '#4595B5';
         r.style.setProperty('--link-color', usedProfileColor);
@@ -1840,6 +1842,12 @@ async function renderProfile() {
         prof.innerText = pageUser.professional.category[0].name;
         additionalInfo.appendChild(prof);
         if(vars.enableTwemoji) twemoji.parse(prof);
+    }
+    if(pageUser.about?.account_based_in) {
+        let basedIn = document.createElement('span');
+        basedIn.classList.add('profile-additional-thing', 'profile-additional-based-in');
+        basedIn.innerText = `${LOC.based_in.message} ${pageUser.about.account_based_in}`;
+        additionalInfo.appendChild(basedIn);
     }
     let joined = document.createElement('span');
     joined.classList.add('profile-additional-thing', 'profile-additional-joined');

@@ -939,6 +939,9 @@ body.body-old-ui .user-item-btn.follow:before {
 .profile-additional-professional:before {
     content: "\f204";
 }
+.profile-additional-based-in:before {
+    content: "\f205"
+}
 .profile-additional-birth-today {
     animation: rainbow 5s infinite
 }
