@@ -648,5 +648,8 @@
     "show_boring_indicators": { "message": "Show indicator in followers/following page if last tweet of person is a retweet/quote/non-existent/old" },
     "hide_original_languages":{"message": "Hide original languages when translated" },
 	"blocked": { "message": "Blocked" },
-    "use_retweeted_id": { "message": "When liking or retweeting a retweet, notify the user who retweeted." }
+    "use_retweeted_id": { "message": "When liking or retweeting a retweet, notify the user who retweeted." },
+    "show_based_in": { "message": "Show where account is based" },
+    "based_in": { "message": "Based in:" },
+    "based_in_vpn": { "message": "(VPN)" }
 }

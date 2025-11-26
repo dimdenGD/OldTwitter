@@ -4327,6 +4327,42 @@ const API = {
                     });
             });
         },
+        getAbout: (name) => {
+            return new Promise((resolve, reject) => {
+                fetch(
+                    `/i/api/graphql/XRqGa7EeokUU5kppkh13EA/AboutAccountQuery?variables=${encodeURIComponent(JSON.stringify({ screenName: name }))}`,
+                    {
+                        headers: {
+                            authorization: OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/json",
+                            "x-twitter-client-language": LANGUAGE
+                                ? LANGUAGE
+                                : navigator.language
+                                ? navigator.language
+                                : "en",
+                        },
+                        credentials: "include",
+                    }
+                )
+                    .then((i) => i.json())
+                    .then((data) => {
+                        debugLog("user.getAbout", "start", { name, data });
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+
+                        let result = data.data.user_result_by_screen_name.result;
+
+                        debugLog("user.getAbout", "end", result.about_profile);
+                        resolve(result.about_profile);
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            });
+        },
     },
     tweet: {
         post: (data) => {

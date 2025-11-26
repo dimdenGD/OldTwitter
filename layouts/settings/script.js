@@ -289,6 +289,7 @@ setTimeout(async () => {
     let displaySensitiveContent = document.getElementById('display-sensitive-content');
     let seeTweetViews = document.getElementById('see-tweet-views');
     let twitterBlueCheckmarks = document.getElementById('twitter-blue-checkmarks');
+    let showBasedIn = document.getElementById('show-based-in');
     let developerMode = document.getElementById('developer-mode');
     let copyLinksAs = document.getElementById('copy-links-as');
     let useNewIcon = document.getElementById('use-new-icon');
@@ -703,6 +704,11 @@ setTimeout(async () => {
             twitterBlueCheckmarks: twitterBlueCheckmarks.checked
         }, () => { });
     });
+    showBasedIn.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showBasedIn: showBasedIn.checked
+        }, () => { });
+    });
     developerMode.addEventListener('change', () => {
         chrome.storage.sync.set({
             developerMode: developerMode.checked
@@ -1047,6 +1053,7 @@ setTimeout(async () => {
     displaySensitiveContent.checked = !!vars.displaySensitiveContent;
     seeTweetViews.checked = !!vars.seeTweetViews;
     twitterBlueCheckmarks.checked = !!vars.twitterBlueCheckmarks;
+    showBasedIn.checked = !!vars.showBasedIn;
     developerMode.checked = !!vars.developerMode;
     useNewIcon.checked = !!vars.useNewIcon;
     updateTimelineAutomatically.checked = !!vars.updateTimelineAutomatically;

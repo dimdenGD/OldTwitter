@@ -88,6 +88,7 @@ async function loadVars() {
                 "autotranslateProfiles",
                 "roundAvatars",
                 "twitterBlueCheckmarks",
+                "showBasedIn",
                 "developerMode",
                 "copyLinksAs",
                 "useNewIcon",
