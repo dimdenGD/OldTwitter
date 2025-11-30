@@ -939,7 +939,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             elNew(
                 "a",
                 {
-                    href: `${t.user.screen_name}/status/${t.id_str}`,
+                    href: `/${t.user.screen_name}/status/${t.id_str}`,
                     class: ["tweet-footer-stat", "tweet-footer-stat-o"],
                 },
                 [
@@ -964,7 +964,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             elNew(
                 "a",
                 {
-                    href: `${t.user.screen_name}/status/${t.id_str}/retweets`,
+                    href: `/${t.user.screen_name}/status/${t.id_str}/retweets`,
                     class: ["tweet-footer-stat", "tweet-footer-stat-o"],
                 },
                 [
@@ -993,7 +993,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
                 elNew(
                     "a",
                     {
-                        href: `${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`,
+                        href: `/${t.user.screen_name}/status/${t.id_str}/retweets/with_comments`,
                         class: ["tweet-footer-stat", "tweet-footer-stat-q"],
                     },
                     [
@@ -1024,7 +1024,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             elNew(
                 "a",
                 {
-                    href: `${t.user.screen_name}/status/${t.id_str}/likes`,
+                    href: `/${t.user.screen_name}/status/${t.id_str}/likes`,
                     class: ["tweet-footer-stat", "tweet-footer-stat-f"],
                 },
                 [
