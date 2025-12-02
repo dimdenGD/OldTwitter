@@ -2091,7 +2091,7 @@ function getCountryFlag(country) {
             emoji: '🇧🇲'
         },
         {
-            name: 'Brunei',
+            name: 'Brunei Darussalam',
             code: 'BN',
             emoji: '🇧🇳'
         },
@@ -2141,7 +2141,7 @@ function getCountryFlag(country) {
             emoji: '🇨🇨'
         },
         {
-            name: 'Congo - Kinshasa',
+            name: 'Congo',
             code: 'CD',
             emoji: '🇨🇩'
         },
@@ -2151,7 +2151,7 @@ function getCountryFlag(country) {
             emoji: '🇨🇫'
         },
         {
-            name: 'Congo - Brazzaville',
+            name: 'Republic of the Congo',
             code: 'CG',
             emoji: '🇨🇬'
         },
@@ -2161,7 +2161,7 @@ function getCountryFlag(country) {
             emoji: '🇨🇭'
         },
         {
-            name: 'Côte d’Ivoire',
+            name: 'Côte d\'Ivoire',
             code: 'CI',
             emoji: '🇨🇮'
         },
@@ -2199,6 +2199,11 @@ function getCountryFlag(country) {
             name: 'Cuba',
             code: 'CU',
             emoji: '🇨🇺'
+        },
+        {
+            name: 'Curaçao',
+            code: 'CW',
+            emoji: '🇨🇼'
         },
         {
             name: 'Cape Verde',
@@ -2406,7 +2411,7 @@ function getCountryFlag(country) {
             emoji: '🇬🇾'
         },
         {
-            name: 'Hong Kong SAR China',
+            name: 'Hong Kong',
             code: 'HK',
             emoji: '🇭🇰'
         },
@@ -2506,6 +2511,11 @@ function getCountryFlag(country) {
             emoji: '🇰🇪'
         },
         {
+            name: 'Kosovo',
+            code: 'XK',
+            emoji: '🇽🇰'
+        },
+        {
             name: 'Kyrgyzstan',
             code: 'KG',
             emoji: '🇰🇬'
@@ -2536,7 +2546,7 @@ function getCountryFlag(country) {
             emoji: '🇰🇵'
         },
         {
-            name: 'Korea',
+            name: 'South Korea',
             code: 'KR',
             emoji: '🇰🇷'
         },
@@ -2646,7 +2656,7 @@ function getCountryFlag(country) {
             emoji: '🇲🇭'
         },
         {
-            name: 'North Macedonia',
+            name: 'Macedonia',
             code: 'MK',
             emoji: '🇲🇰'
         },
@@ -2656,7 +2666,7 @@ function getCountryFlag(country) {
             emoji: '🇲🇱'
         },
         {
-            name: 'Myanmar (Burma)',
+            name: 'Myanmar',
             code: 'MM',
             emoji: '🇲🇲'
         },
@@ -2666,7 +2676,7 @@ function getCountryFlag(country) {
             emoji: '🇲🇳'
         },
         {
-            name: 'Macao SAR China',
+            name: 'Macao',
             code: 'MO',
             emoji: '🇲🇴'
         },
@@ -2986,7 +2996,7 @@ function getCountryFlag(country) {
             emoji: '🇸🇾'
         },
         {
-            name: 'Eswatini',
+            name: 'Swaziland',
             code: 'SZ',
             emoji: '🇸🇿'
         },
