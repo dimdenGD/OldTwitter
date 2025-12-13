@@ -140,11 +140,13 @@ function updateSelection() {
         timeline.style.backgroundColor = 'var(--background-color)';
         timeline.style.borderLeft = '1px solid var(--border)';
         timeline.style.borderRight = '1px solid var(--border)';
+        timeline.style.borderBottom = '1px solid var(--border)';
         timeline.style.textAlign = 'center';
     } else {
         timeline.style.backgroundColor = '';
         timeline.style.borderLeft = '';
         timeline.style.borderRight = '';
+        timeline.style.borderBottom = '';
         timeline.style.textAlign = '';
     }
 
