@@ -1,648 +1,2235 @@
 {
-    "ext_description": { "message": "옛 트위터의 모습으로 되돌리는 확장 기능" },
-    "timeline": { "message": "타임라인" },
-    "loading": { "message": "로딩 중" },
-    "tweets": { "message": "트윗" },
-    "following_btn": { "message": "팔로잉", "description": "유저가 누군가를 팔로잉 할떄 보이는 버튼" },
-    "following": { "message": "팔로잉", "description": "유저가 누구를 팔로우 하고 있는지 보여주는 버튼" },
-    "followers": { "message": "팔로워", "description": "유저가 누구에게 팔로우 되고 있는지 하고 있는지 보여주는 버튼" },
-    "trends": { "message": "실시간 트렌드" },
-    "tweet": { "message": "트윗" },
-    "load_more": { "message": "더 보기" },
-    "who_to_follow": { "message": "팔로우 추천", "description": "Max 19 characters, you can use word 'People' if no space" },
-    "refresh": { "message": "새로고침" },
-    "view_all": { "message": "모두 보기" },
-    "running": { "message": "", "note": "Korean Remove Running message because of grammer differance" },
-    "created_by": { "message": "제작자", "example": "->Created by<- dimden" },
-    "website": { "message": "웹사이트" },
-    "help": { "message": "고객지원", "description": "noun" },
-    "terms": { "message": "이용약관", "description": "Shortest word that you can find for Terms of service" },
-    "privacy": { "message": "개인정보취급방침", "description": "Shortest word that you can find for Privacy policy" },
-    "about": { "message": "회사소개" },
-    "donate": { "message": "기부" },
-    "home": { "message": "홈", "description": "맨위에 있는 홍버튼" },
-    "notifications": { "message": "알림" },
-    "messages": { "message": "쪽지" },
-    "search_twitter": { "message": "트위터 검색하기" },
-    "profile": { "message": "프로필" },
-    "settings": { "message": "설정" },
-    "lists": { "message": "리스트" },
-    "list": { "message": "리스트" },
-    "bookmarks": { "message": "북마크" },
-    "manage_accounts": { "message": "계정 관리" },
-    "logout": { "message": "로그아웃" },
-    "whats_happening": { "message": "무슨 일이 일어나고 있나요?" },
-    "variant": { "message": "선택" },
-    "optional": { "message": "(선택사항)" },
-    "days": { "message": "일" },
-    "hours": { "message": "시간" },
-    "minutes": { "message": "분" },
-    "remove_poll": { "message": "투표 삭제하기" },
-    "open_newtwitter": { "message": "이 페이지를 새 트위터 버전에서 열기" },
-    "last_version": { "message": "최신 버전" },
+    "ext_description": {
+      "message": "옛 트위터의 모습으로 되돌리는 확장 기능"
+    },
+    "timeline": {
+      "message": "타임라인"
+    },
+    "loading": {
+      "message": "로딩 중"
+    },
+    "tweets": {
+      "message": "트윗"
+    },
+    "following_btn": {
+      "message": "팔로잉",
+      "description": "유저가 누군가를 팔로잉 할떄 보이는 버튼"
+    },
+    "following": {
+      "message": "팔로잉",
+      "description": "유저가 누구를 팔로우 하고 있는지 보여주는 버튼"
+    },
+    "followers": {
+      "message": "팔로워",
+      "description": "유저가 누구에게 팔로우 되고 있는지 하고 있는지 보여주는 버튼"
+    },
+    "trends": {
+      "message": "실시간 트렌드"
+    },
+    "tweet": {
+      "message": "트윗"
+    },
+    "load_more": {
+      "message": "더 보기"
+    },
+    "who_to_follow": {
+      "message": "팔로우 추천",
+      "description": "Max 19 characters, you can use word 'People' if no space"
+    },
+    "refresh": {
+      "message": "새로고침"
+    },
+    "view_all": {
+      "message": "모두 보기"
+    },
+    "running": {
+      "message": "",
+      "note": "Korean Remove Running message because of grammer differance"
+    },
+    "created_by": {
+      "message": "제작자",
+      "example": "->Created by<- dimden"
+    },
+    "website": {
+      "message": "웹사이트"
+    },
+    "help": {
+      "message": "고객지원",
+      "description": "noun"
+    },
+    "terms": {
+      "message": "이용약관",
+      "description": "Shortest word that you can find for Terms of service"
+    },
+    "privacy": {
+      "message": "개인정보취급방침",
+      "description": "Shortest word that you can find for Privacy policy"
+    },
+    "about": {
+      "message": "회사소개"
+    },
+    "donate": {
+      "message": "기부"
+    },
+    "home": {
+      "message": "홈",
+      "description": "맨위에 있는 홍버튼"
+    },
+    "notifications": {
+      "message": "알림"
+    },
+    "messages": {
+      "message": "쪽지"
+    },
+    "search_twitter": {
+      "message": "트위터 검색하기"
+    },
+    "profile": {
+      "message": "프로필"
+    },
+    "settings": {
+      "message": "설정"
+    },
+    "lists": {
+      "message": "리스트"
+    },
+    "list": {
+      "message": "리스트"
+    },
+    "bookmarks": {
+      "message": "북마크"
+    },
+    "manage_accounts": {
+      "message": "계정 관리"
+    },
+    "logout": {
+      "message": "로그아웃"
+    },
+    "whats_happening": {
+      "message": "무슨 일이 일어나고 있나요?"
+    },
+    "variant": {
+      "message": "선택"
+    },
+    "optional": {
+      "message": "(선택사항)"
+    },
+    "days": {
+      "message": "일"
+    },
+    "hours": {
+      "message": "시간"
+    },
+    "minutes": {
+      "message": "분"
+    },
+    "remove_poll": {
+      "message": "투표 삭제하기"
+    },
+    "open_newtwitter": {
+      "message": "이 페이지를 새 트위터 버전에서 열기"
+    },
+    "last_version": {
+      "message": "최신 버전"
+    },
     "thank_you": {
-        "message": "OldTwitter를 설치해 주셔서 감사합니다! 마음에 드셨으면 좋겠어요. $AT1$확장 프로그램 설정$AT2$을 확인해 보세요!",
-        "placeholders": {
-                 "at1": { "content": "<a target='_blank' href='/old/settings'>" },
-            "at2": { "content": "</a>" }
+      "message": "OldTwitter를 설치해 주셔서 감사합니다! 마음에 드셨으면 좋겠어요. $AT1$확장 프로그램 설정$AT2$을 확인해 보세요!",
+      "placeholders": {
+        "at1": {
+          "content": "<a target='_blank' href='/old/settings'>"
+        },
+        "at2": {
+          "content": "</a>"
         }
+      }
     },
-    "follow_mb": { "message": "절 팔로우 해주시겠나요?" },
-	"follow_user": { "message": "@$SCREEN_NAME$ 님 팔로우하기", "example": "->Follow<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "$SCREEN_NAME$" } } },
-    "unfollow_user": { "message": "@$SCREEN_NAME$ 님 언팔로우하기", "example": "->Unfollow<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "$SCREEN_NAME$" } } },
-    "follow": { "message": "팔로우" },
-    "unfollow": { "message": "언팔로우" },
-    "thank_you_follow": { "message": "팔로우 해주셔서 감사합니다!" },
-    "loading_tweets": { "message": "트윗을 로드하는 중..." },
-    "retweeted": { "message": "님이 리트윗했습니다", "example": "CoolPerson2000 ->retweeted<-" },
-    "see_new_tweets": { "message": "새로운 트윗을 보기", "description":"Original: 새로운 트윗을 n개 보기"},
-    "must2variants": { "message": "적어도 두 개의 투표 선택지를 설정해 주세요" },
-    "delete_all": { "message": "모두 삭제하기" },
-    "empty": { "message": "아무것도 못찾겠어요", "description": "Funky message about nothing found" },
-    "delete_bookmarks": { "message": "정말 모든 북마크를 삭제하시겠습니까? 이 동작은 원래대로 되돌릴 수 없습니다" },
-    "members": { "message": "멤버" },
-    "subscribers": { "message": "구독자" },
-    "list_members": { "message": "리스트 멤버" },
-    "list_subscribers": { "message": "리스트 구독자" },
-    "edit": { "message": "수정" },
-    "delete": { "message": "지우기" },
-    "remove": { "message": "삭제" },
-    "edit_list": { "message": "리스트를 편집하기" },
-    "edit_members": { "message": "멤버를 편집하기" },
-    "save": { "message": "저장" },
-    "back": { "message": "돌아가기" },
-    "delete_list": { "message": "리스트 삭제" },
-    "delete_list_sure": { "message": "정말 이 리스트를 삭제하시겠습니까?" },
-    "unsubscribe": { "message": "구독 해제" },
-    "subscribe": { "message": "구독" },
-    "list_not_found": { "message": "리스트가 존재하지 않습니다" },
-    "go_homepage": { "message": "홈페이지로 돌아가기" },
-    "mentions": { "message": "멘션" },
-    "tweeted_like": { "message": "당신에게 추천하는 트윗", "example": "CoolPerson2000 ->tweeted something you might like<-" },
-    "favorites": { "message": "관심글" },
-    "follows_you": { "message": "나를 팔로우 중 입니다" },
-    "tweet_to_user": { "message": "사용자에게 보내는 트윗" },
-    "followers_you_know": { "message": "당신이 알고 있는 팔로워 · $NUMBER$명", "example": "123 ->followers you know<-", "placeholders": { "number": { "content": "123" } } },
-    "photos_and_videos": { "message": "사진 및 동영상" },
-    "photos_and_videos2": { "message": "사진 및 동영상" },
-    "tweets_and_replies": { "message": "트윗과 답글" },
-    "you_may_also_like": { "message": "당신과 비슷한 사용자", "description": "Max 26 characters, you can use word 'People' if no space" },
-    "user_was_not_found": { "message": "계정이 존재하지 않습니다" },
-    "timeline_not_authorized": { "message": "이 계정의 타임라인은 볼 수 없습니다" },
-    "create_btn": { "message": "[리스트 만들기]" },
-    "create_list": { "message": "리스트 만들기" },
-    "create": { "message": "리스트 저장" },
-    "name": { "message": "리스트 이름" },
-    "description": { "message": "설명" },
-    "no_description": { "message": "설명 없음" },
-    "born": { "message": "생일:" },
-    "january": { "message": "1", "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that." },
-    "february": { "message": "2" },
-    "march": { "message": "3" },
-    "april": { "message": "4" },
-    "may": { "message": "5" },
-    "june": { "message": "6" },
-    "july": { "message": "7" },
-    "august": { "message": "8" },
-    "september": { "message": "9" },
-    "october": { "message": "10" },
-    "november": { "message": "11" },
-    "december": { "message": "12" },
-    "tweet_to": { "message": "@$SCREEN_NAME$ 님에게 맨션", "example": "->Tweet to<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "@CoolPerson2000" } } },
-    "translated_from": { "message": "$LANGUAGE$ 원문의 번역", "example": "->Translated from<- Japanese", "placeholders": { "language": { "content": "Japanese" } } },
-    "translate_bio": { "message": "자기소개를 번역하기" },
-    "edit_profile": { "message": "프로필 수정" },
-    "follow_request_sent": { "message": "팔로우 요청 보냄" },
-    "block_user": { "message": "@$SCREEN_NAME$ 님 차단하기", "example": "->Block<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "@CoolPerson2000" } } },
-    "unblock_user": { "message": "@$SCREEN_NAME$ 님 차단 해제하기", "example": "->Unblock<- @CoolPerson2000", "placeholders": { "screen_name": { "content": "@CoolPerson2000" } } },
-    "block": { "message": "차단하기", "description": "Just for block button" },
-    "unblock": { "message": "차단 해제", "description": "Just for unblock button" },
-    "mute": { "message": "뮤트하기" },
-    "unmute": { "message": "언뮤트하기" },
-    "see_lists": { "message": "리스트 보기" },
-    "stop_notifications": { "message": "알림 끄기" },
-    "receive_notifications": { "message": "알림 받기" },
-    "from_list": { "message": "리스트에 추가 또는 삭제" },
-    "share_user": { "message": "프로필 담아가기" },
-    "copy_profile_link": { "message": "프로필 링크 복사하기" },
-    "remove_from_followers": { "message": "이 팔로워 삭제하기", "description": "This button unfollows person from you, not unfollows you from them" },
-    "remove_from_followers_sure": { "message": "@$SCREEN_NAME$ 님을 팔로워에서 삭제할까요?", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "able_in_future": { "message": "향후 다시 나를 팔로우 할 수 있습니다." },
-    "remove_from_followers_warn": { "message": "트위터에서는 해당 사용자에게 이에 대한 알림을 전송하지 않습니다" },
-    "remove_from_followers_button": { "message": "팔로워에서 삭제" },
-    "block_sure": { "message": "@$SCREEN_NAME$ 님을 차단할까요?", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "add": { "message": "추가" },
-    "joined": { "message": "가입일: ", "example": "->Joined<- April 30, 2019" },
-    "birthday_today": { "message": "(오늘!)" },
-    "pinned_tweet": { "message": "메인 트윗" },
-    "search": { "message": "검색" },
-    "popular": { "message": "인기" },
-    "live": { "message": "라이브" },
-    "people": { "message": "계정" },
-    "photos": { "message": "사진" },
-    "videos": { "message": "동영상" },
-    "all_people": { "message": "모든 사람" },
-    "people_yk": { "message": "내가 팔로우하는 사람들" },
-    "everywhere": { "message": "모든 지역" },
-    "near_you": { "message": "현 위치 주변" },
-    "advanced_search": { "message": "고급 검색" },
-    "save_search": { "message": "검색어 저장" },
-    "remove_search": { "message": "저장된 검색어 삭제하기" },
-    "try_again": { "message": "다시 시도하기" },
-    "no_results": { "message": "결과가 없었어요. 단어를 바꿔서 재검색 해보세요." },
-    "words": { "message": "단어" },
-    "all_these_words": { "message": "다음 단어 모두 포함" },
-    "all_these_words_example": { "message": "예: 무슨 일 · \"무슨\"과 \"일\" 모두 포함" },
-    "exact_phrase": { "message": "다음 문구 그대로 포함" },
-    "exact_phrase_example": { "message": "예: 깜짝 할인 · \"깜짝 할인\"이라는 문구를 그대로 포함" },
-    "any_words": { "message": "다음 단어 적어도 하나 포함" },
-    "any_words_example": { "message": "예: 고양이 개 · \"고양이\" 또는 \"개\" 또는 둘 다 포함" },
-    "not_these_words": { "message": "다음 단어 제외" },
-    "not_these_words_example": { "message": "예: 고양이 개 - \"고양이\"를 포함하지 않고 \"개\"를 포함하지 않음" },
-    "user": { "message": "사용자" },
-    "from_this_user": { "message": "다음 계정에서 작성" },
-    "from_this_user_example": { "message": "예: @dimden · @dimden에서 보냄" },
-    "mentions_this_user": { "message": "다음 계정 맨션" },
-    "mentions_this_user_example": { "message": "예: @dimden · @dimden 님을 맨션함" },
-    "interactions": { "message": "참여" },
-    "min_replies": { "message": "최소 답글 수" },
-    "min_replies_example": { "message": "예: 10 · 답글이 10개 이상인 트윗" },
-    "min_retweets": { "message": "최소 리트윗 수" },
-    "min_retweets_example": { "message": "예: 10 · 리트윗이 최소 10회 이상인 트윗" },
-    "min_favorites": { "message": "최소 마음에 들어요 수" },
-    "min_favorites_example": { "message": "예: 10 · 마음에 들어요 수가 최소 10회 이상인 트윗" },
-    "dates": { "message": "날짜" },
-    "since": { "message": "시작" },
-    "until": { "message": "끝" },
-    "twitter_settings": { "message": "트위터 설정" },
-    "oldtwitter_settings": { "message": "OldTwitter의 설정" },
-    "edit_twitter_settings": { "message": "트위터 설정 편집" },
-    "refresh_tabs": { "message": "변경사항을 적용하려면 페이지를 새로고침하세요" },
-    "chrono": { "message": "최신순 타임라인" },
-    "chrono_social": { "message": "친구의 마음에 들어요의 최신순" },
-    "algo": { "message": "맞춤 트윗 (추천 V1) (리밋 없음)" },
-    "timeline_type": { "message": "타임라인의 종류" },
-    "show_topic_tweets": { "message": "토픽 트윗을 표시합니다 (나를 위한 추천 전용)" },
-    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)"  },
-    "always_show_link_color": { "message": "마우스를 올리지 않아도 항상 사용자 지정 링크 색상을 사용합니다" },
-    "enable_twemoji": { "message": "트위터 이모티콘을 사용합니다" },
-    "hearts_instead_stars": { "message": "별(관심글) 대신 하트(마음에 들어요)를 표시합니다" },
-    "dark_mode": { "message": "어두운 모드" },
-    "disable_hotkeys": { "message": "모든 단축키를 비활성화 합니다" },
-    "hotkeys_list": { "message": "단축키 목록 보기" },
-    "save_preferred_quality": { "message": "영상의 화질을 선택하여 저장합니다.<br>활성화할 경우, 원하는 화질(또는 그에 가까운 화질)을 이용할 수 있게 됩니다. <br>비활성화할 경우, 최고 화질로 표시되게 됩니다." },
-    "preferred_quality": { "message": "화질 우선" },
-    "default_link_color": { "message": "기본 링크 색상" },
-    "font": { "message": "글꼴" },
-    "color_sync": { "message": "링크 색상 동기화" },
-    "by_pressing_sync": { "message": "동기화 버튼을 누르면 당신의 프로필 링크 색상이 색상 데이터베이스 서버로 보내져 다른 사용자에게 표시됩니다." },
-    "color_years_ago": { "message": "이전에 (수년전에) 트위터 링크 색상을 설정한 적이 있는 경우 이전 색상이 덮어써집니다." },
-    "sync": { "message": "동기화" },
-    "profile_link_color": { "message": "프로필 링크 색상" },
-    "light_mode_link": { "message": "밝은 모드 링크" },
-    "dark_mode_link": { "message": "어두운 모드 링크" },
-    "custom_css": { "message": "커스텀 CSS" },
-    "css_var_override": { "message": "기본 CSS변수를 무시합니다. <code>--some-variable:property</code> 라고 입력해 주세요. 개행으로 분할합니다" },
-    "css_var_list": { "message": "표준 CSS 변수 목록은 여기를 참조하십시오." },
-    "save_vars": { "message": "변수 저장" },
-    "custom_css_text": { "message": "각 페이지에 추가할 커스텀 CSS" },
-    "save_css": { "message": "CSS 저장" },
-    "error_setting_color": { "message": "링크 색상 설정 오류" },
-    "link_color_set": { "message": "링크 색상을 설정했습니다!" },
-    "retweeted_by": { "message": "다음 유저가 리트윗함" },
-    "see_quotes": { "message": "인용을 보기" },
-    "see_quotes_big": { "message": "인용을 보기" },
-    "quote_tweets": { "message": "인용 리트윗" },
-    "see_retweets": { "message": "리트윗을 보기" },
-    "reply_to": { "message": "@$SCREEN_NAME$ 님에게 답글", "example": "->Reply to<- @CoolGuy2000", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "error_loading_tweet": { "message": "트윗 로드 오류" },
-    "direct_messages": { "message": "쪽지" },
-    "mark_all_read": { "message": "모든 쪽지를 읽음 처리하기" },
-    "send": { "message": "보내기", "description": "Max 5 characters, if no word keep it in English" },
-    "new_message": { "message": "새 쪽지" },
-    "create_new_group": { "message": "새 그룹 생성" },
-    "search_people": { "message": "사용자 검색" },
-    "type_message": { "message": "새 쪽지 작성" },
-    "cant_send": { "message": "당신은 이 사용자에게 쪽지를 보낼 수 없습니다" },
-    "gifs_max": { "message": "GIF는 15MB까지  가능합니다" },
-    "videos_max": { "message": "동영상은 500MB까지 가능합니다" },
-    "images_max": { "message": "이미지는 5MB까지 가능합니다" },
-    "max_count": { "message": "이미지는 4장, 동영상은 1개, GIF는 1장까지만 업로드 가능합니다" },
-    "alt_text": { "message": "이미지에 설명 추가" },
-    "vote": { "message": "득표", "example": "1 ->vote<-" },
-    "votes": { "message": "득표", "example": "10 ->votes<-" },
-	"ends_at": { "message": "$DATE$ 에 종료", "example": "->Ends at<- 16th November", "placeholders": { "date": { "content": "16th November" } } },
-    "view_translation": { "message": "트윗 번역하기" },
-    "unsupported_video": { "message": "사용하시는 브라우저는 이 동영상을 지원하지 않습니다." },
-    "views": { "message": "회 조회", "example": "10 ->views<-" },
-    "reload": { "message": "새로고침" },
-    "circle_limited_tweet": { "message": "@$SCREEN_NAME$ 님의 Twitter 서클에 포함된 사람만이 이 트윗을 볼 수 있습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "learn_more": { "message": "자세히 알아보기" },
-    "limited_tweet": { "message": "이 트윗은 답글을 달 수 있는 사람이 제한되어 있습니다" },
-    "replies": { "message": "답글" },
-    "retweets": { "message": "리트윗" },
-    "likes": { "message": "마음에 들어요" },
-    "show_this_thread": { "message": "대화 보기" },
-    "quote_tweet": { "message": "트윗 인용하기" },
-    "see_retweeters": { "message": "리트윗한 사람 보기" },
-    "copy_link": { "message": "트윗 링크 복사하기" },
-    "embed_tweet": { "message": "트윗 담아가기" },
-    "share_tweet": { "message": "트윗 공유하기" },
-    "tweet_analytics": { "message": "트윗 분석" },
-    "delete_tweet": { "message": "트윗 지우기" },
-    "unpin_tweet": { "message": "내 프로필 메인에서 내리기" },
-    "pin_tweet": { "message": "내 프로필 메인에 올리기" },
-    "bookmark_tweet": { "message": "트윗을 북마크하기" },
-    "topic_not_interested": { "message": "이 주제에 관심이 없습니다" },
-    "refresh_tweet": { "message": "트윗 데이터 새로고침" },
-    "download_media": { "message": "미디어 다운로드" },
-    "download_gif": { "message": "GIF 다운로드" },
-    "replying_to_tweet": { "message": "트윗에 대한 답글" },
-    "upload_media_btn": { "message": "[미디어 업로드]" },
-    "cancel_btn": { "message": "[취소]" },
-    "quote": { "message": "인용", "note":"원래 인용하기가 맞을지도" },
-    "reply_example": { "message": "답글로 초멘나사이는 적지 마세요" },
-    "quote_example": { "message": "추가 내용" },
-    "error_sending_tweet": { "message": "트윗 전송 오류" },
-    "retweet_sure": { "message": "정말 리트윗 하시겠어요?" },
-    "unretweet": { "message": "리트윗 취소" },
-    "retweet": { "message": "리트윗" },
-    "delete_sure": { "message": "정말 이 트윗을 지우시겠습니까?" },
-    "long_vid": { "message": "이 동영상은 길이가 10초 이상이라 변환하는데 오래 걸릴 수 있습니다! 변환하시겠습니까?" },
-    "feedback_thanks": { "message": "피드백 감사합니다!" },
-    "liked_by": { "message": "다음 유저가 마음에 들어함" },
-    "reply": { "message": "답글" },
-    "language": { "message": "언어 (Language)", "description": "Please add English 'Language' word in parentheses in addition to translation", "example": "Lingua (Language)" },
-    "translated_by": { "message": "번역가 $TRANSLATOR$.", "placeholders": { "translator": { "content": "CoolPerson2000" } } },
-    "last_searches": { "message": "최근 검색" },
-    "saved_searches": { "message": "저장된 검색" },
-    "everyone": { "message": "공개", "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better" },
-    "topic": { "message": "주제" },
-    "not_interested": { "message": "흥미 없음" },
-    "cancel": { "message": "취소" },
-    "youre_not_interested": { "message": "당신은 이 주제에 관심이 없습니다" },
-    "autoplay_videos": { "message": "동영상을 자동 재생합니다" },
-    "turn_on_retweets": { "message": "리트윗 켜기" },
-    "turn_off_retweets": { "message": "리트윗 끄기" },
-    "you_can_reply": { "message": "(당신은 답장할 수 있습니다)" },
-    "audience": { "message": "오디언스" },
-    "who_can_reply": { "message": "누가 답글을 달 수 있습니까?" },
-    "people_you_follow": { "message": "내가 팔로우 하는 사람들" },
-    "people_you_mention": { "message": "내가 맨션하는 사람들만" },
-    "new_version": { "message": "새로운 버전으로 업데이트 되었습니다" },
-    "display_sensitive_content": { "message": "미디어가 민감한 내용이더라도 보여주기 전에 경고하지 않습니다" },
-    "is_private": { "message": "이 리스트는 나만 볼수 있습니다"},
-    "s": { "message": "$NUMBER$초", "description": "Short for 'second', like '1s' means 1 second", "placeholders": { "number": { "content": "1" } } },
-    "m": { "message": "$NUMBER$분", "description": "Short for 'minute', like '1m' means 1 minute", "placeholders": { "number": { "content": "1" } } },
-    "h": { "message": "$NUMBER$시간", "description": "Short for 'hour', like '1h' means 1 hour", "placeholders": { "number": { "content": "1" } } },
-    "d": { "message": "$NUMBER$일", "description": "Short for 'day', like '1d' means 1 day", "placeholders": { "number": { "content": "1" } } },
-    "follow_requests": { "message": "팔로우 요청" },
-    "accept": { "message": "승인" },
-    "decline": { "message": "거부" },
-    "mute_convo": { "message": "이 대화를 뮤트하기" },
-    "unmute_convo": { "message": "이 대화를 언뮤트하기" },
-    "no_big_font": { "message": "짧은 트윗이나 인기 트윗에 큰 글꼴을 적용하지 않습니다" },
-    "emoji": { "message": "이모티콘" },
-    "emoji_btn": { "message": "[이모티콘]" },
-    "add_emoji": { "message": "이모티콘 추가" },
-    "custom": { "message": "커스텀" },
-    "smileys_emotion": { "message": "스마일리 및 표정" },
-    "people_body": { "message": "사람 및 신체" },
-    "animals_nature": { "message": "동물 및 자연" },
-    "food_drink": { "message": "음식 및 음료" },
-    "travel_places": { "message": "여행 및 장소" },
-    "activities": { "message": "활동" },
-    "objects": { "message": "사물" },
-    "symbols": { "message": "기호" },
-    "flags": { "message": "깃발" },
-    "categories": { "message": "카테고리" },
-    "unsupported_emoji": { "message": "사용하시는 브라우저는 색이 들어간 이모티콘을 지원하지 않습니다" },
-    "cant_load_emoji": { "message": "이모티콘을 읽지 못했습니다" },
-    "emoji_picker": { "message": "이모티콘 픽커" },
-    "emoji_search_description": { "message": "검색 결과가 나타나면 위 또는 아래를 눌러 선택하고 엔터키를 눌러 선택합니다" },
-    "search_results": { "message": "검색 결과" },
-    "skin_tone_description": { "message": "펼친 상태에서 위 또는 아래를 엔터키를 눌러 선택합니다." },
-    "skin_tone_label": { "message": "피부색 선택 (현재 $SKIN_TONE$)", "placeholders": { "skin_tone": { "content": "default" } } },
-    "skin_tones_label": { "message": "살색" },
-    "add_media": { "message": "미디어 추가" },
-    "add_poll": { "message": "투표 추가" },
-    "add_location": { "message": "위치 정보 추가" },
-    "schedule_tweet": { "message": "예약 추가" },
-    "scheduled": { "message": "예약됨" },
-    "drafts": { "message": "초안" },
-    "location": { "message": "위치 정보" },
-    "unsent_tweets": { "message": "전송하지 않은 트윗" },
-    "unsent": { "message": "전송하지 않은 트윗" },
-    "will_send": { "message": "에 전송예정" },
-    "schedule": { "message": "예약" },
-    "scheduled_success": { "message": "트윗 예약에 성공했습니다!" },
-    "see_scheduled": { "message": "예약 상세" },
-    "hasnt_tweeted": { "message": "@$SCREEN_NAME$ 님은 트윗하지 않았습니다", "placeholders": { "screen_name": { "content": "loading" } } },
-    "when_theyll_tweet": { "message": "전송된 경우 트윗은 여기에 표시됩니다" },
+    "follow_mb": {
+      "message": "절 팔로우 해주시겠나요?"
+    },
+    "follow_user": {
+      "message": "@$SCREEN_NAME$ 님 팔로우하기",
+      "example": "->Follow<- @CoolPerson2000",
+      "placeholders": {
+        "screen_name": {
+          "content": "$SCREEN_NAME$"
+        }
+      }
+    },
+    "unfollow_user": {
+      "message": "@$SCREEN_NAME$ 님 언팔로우하기",
+      "example": "->Unfollow<- @CoolPerson2000",
+      "placeholders": {
+        "screen_name": {
+          "content": "$SCREEN_NAME$"
+        }
+      }
+    },
+    "follow": {
+      "message": "팔로우"
+    },
+    "unfollow": {
+      "message": "언팔로우"
+    },
+    "thank_you_follow": {
+      "message": "팔로우 해주셔서 감사합니다!"
+    },
+    "loading_tweets": {
+      "message": "트윗을 로드하는 중..."
+    },
+    "retweeted": {
+      "message": "님이 리트윗했습니다",
+      "example": "CoolPerson2000 ->retweeted<-"
+    },
+    "see_new_tweets": {
+      "message": "새로운 트윗을 보기",
+      "description": "Original: 새로운 트윗을 n개 보기"
+    },
+    "must2variants": {
+      "message": "적어도 두 개의 투표 선택지를 설정해 주세요"
+    },
+    "delete_all": {
+      "message": "모두 삭제하기"
+    },
+    "empty": {
+      "message": "아무것도 못찾겠어요",
+      "description": "Funky message about nothing found"
+    },
+    "delete_bookmarks": {
+      "message": "정말 모든 북마크를 삭제하시겠습니까? 이 동작은 원래대로 되돌릴 수 없습니다"
+    },
+    "members": {
+      "message": "멤버"
+    },
+    "subscribers": {
+      "message": "구독자"
+    },
+    "list_members": {
+      "message": "리스트 멤버"
+    },
+    "list_subscribers": {
+      "message": "리스트 구독자"
+    },
+    "edit": {
+      "message": "수정"
+    },
+    "delete": {
+      "message": "지우기"
+    },
+    "remove": {
+      "message": "삭제"
+    },
+    "edit_list": {
+      "message": "리스트를 편집하기"
+    },
+    "edit_members": {
+      "message": "멤버를 편집하기"
+    },
+    "save": {
+      "message": "저장"
+    },
+    "back": {
+      "message": "돌아가기"
+    },
+    "delete_list": {
+      "message": "리스트 삭제"
+    },
+    "delete_list_sure": {
+      "message": "정말 이 리스트를 삭제하시겠습니까?"
+    },
+    "unsubscribe": {
+      "message": "구독 해제"
+    },
+    "subscribe": {
+      "message": "구독"
+    },
+    "list_not_found": {
+      "message": "리스트가 존재하지 않습니다"
+    },
+    "go_homepage": {
+      "message": "홈페이지로 돌아가기"
+    },
+    "mentions": {
+      "message": "멘션"
+    },
+    "tweeted_like": {
+      "message": "당신에게 추천하는 트윗",
+      "example": "CoolPerson2000 ->tweeted something you might like<-"
+    },
+    "favorites": {
+      "message": "관심글"
+    },
+    "follows_you": {
+      "message": "나를 팔로우 중 입니다"
+    },
+    "tweet_to_user": {
+      "message": "사용자에게 보내는 트윗"
+    },
+    "followers_you_know": {
+      "message": "당신이 알고 있는 팔로워 · $NUMBER$명",
+      "example": "123 ->followers you know<-",
+      "placeholders": {
+        "number": {
+          "content": "123"
+        }
+      }
+    },
+    "photos_and_videos": {
+      "message": "사진 및 동영상"
+    },
+    "photos_and_videos2": {
+      "message": "사진 및 동영상"
+    },
+    "tweets_and_replies": {
+      "message": "트윗과 답글"
+    },
+    "you_may_also_like": {
+      "message": "당신과 비슷한 사용자",
+      "description": "Max 26 characters, you can use word 'People' if no space"
+    },
+    "user_was_not_found": {
+      "message": "계정이 존재하지 않습니다"
+    },
+    "timeline_not_authorized": {
+      "message": "이 계정의 타임라인은 볼 수 없습니다"
+    },
+    "create_btn": {
+      "message": "[리스트 만들기]"
+    },
+    "create_list": {
+      "message": "리스트 만들기"
+    },
+    "create": {
+      "message": "리스트 저장"
+    },
+    "name": {
+      "message": "리스트 이름"
+    },
+    "description": {
+      "message": "설명"
+    },
+    "no_description": {
+      "message": "설명 없음"
+    },
+    "born": {
+      "message": "생일:"
+    },
+    "january": {
+      "message": "1",
+      "description": "Used in 'Born January 1'. You can move $NUMBER$ on left if it sounds better in your language like that."
+    },
+    "february": {
+      "message": "2"
+    },
+    "march": {
+      "message": "3"
+    },
+    "april": {
+      "message": "4"
+    },
+    "may": {
+      "message": "5"
+    },
+    "june": {
+      "message": "6"
+    },
+    "july": {
+      "message": "7"
+    },
+    "august": {
+      "message": "8"
+    },
+    "september": {
+      "message": "9"
+    },
+    "october": {
+      "message": "10"
+    },
+    "november": {
+      "message": "11"
+    },
+    "december": {
+      "message": "12"
+    },
+    "tweet_to": {
+      "message": "@$SCREEN_NAME$ 님에게 맨션",
+      "example": "->Tweet to<- @CoolPerson2000",
+      "placeholders": {
+        "screen_name": {
+          "content": "@CoolPerson2000"
+        }
+      }
+    },
+    "translated_from": {
+      "message": "$LANGUAGE$ 원문의 번역",
+      "example": "->Translated from<- Japanese",
+      "placeholders": {
+        "language": {
+          "content": "Japanese"
+        }
+      }
+    },
+    "translate_bio": {
+      "message": "자기소개를 번역하기"
+    },
+    "edit_profile": {
+      "message": "프로필 수정"
+    },
+    "follow_request_sent": {
+      "message": "팔로우 요청 보냄"
+    },
+    "block_user": {
+      "message": "@$SCREEN_NAME$ 님 차단하기",
+      "example": "->Block<- @CoolPerson2000",
+      "placeholders": {
+        "screen_name": {
+          "content": "@CoolPerson2000"
+        }
+      }
+    },
+    "unblock_user": {
+      "message": "@$SCREEN_NAME$ 님 차단 해제하기",
+      "example": "->Unblock<- @CoolPerson2000",
+      "placeholders": {
+        "screen_name": {
+          "content": "@CoolPerson2000"
+        }
+      }
+    },
+    "block": {
+      "message": "차단하기",
+      "description": "Just for block button"
+    },
+    "unblock": {
+      "message": "차단 해제",
+      "description": "Just for unblock button"
+    },
+    "mute": {
+      "message": "뮤트하기"
+    },
+    "unmute": {
+      "message": "언뮤트하기"
+    },
+    "see_lists": {
+      "message": "리스트 보기"
+    },
+    "stop_notifications": {
+      "message": "알림 끄기"
+    },
+    "receive_notifications": {
+      "message": "알림 받기"
+    },
+    "from_list": {
+      "message": "리스트에 추가 또는 삭제"
+    },
+    "share_user": {
+      "message": "프로필 담아가기"
+    },
+    "copy_profile_link": {
+      "message": "프로필 링크 복사하기"
+    },
+    "remove_from_followers": {
+      "message": "이 팔로워 삭제하기",
+      "description": "This button unfollows person from you, not unfollows you from them"
+    },
+    "remove_from_followers_sure": {
+      "message": "@$SCREEN_NAME$ 님을 팔로워에서 삭제할까요?",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "able_in_future": {
+      "message": "향후 다시 나를 팔로우 할 수 있습니다."
+    },
+    "remove_from_followers_warn": {
+      "message": "트위터에서는 해당 사용자에게 이에 대한 알림을 전송하지 않습니다"
+    },
+    "remove_from_followers_button": {
+      "message": "팔로워에서 삭제"
+    },
+    "block_sure": {
+      "message": "@$SCREEN_NAME$ 님을 차단할까요?",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "add": {
+      "message": "추가"
+    },
+    "joined": {
+      "message": "가입일: ",
+      "example": "->Joined<- April 30, 2019"
+    },
+    "birthday_today": {
+      "message": "(오늘!)"
+    },
+    "pinned_tweet": {
+      "message": "메인 트윗"
+    },
+    "search": {
+      "message": "검색"
+    },
+    "popular": {
+      "message": "인기"
+    },
+    "live": {
+      "message": "라이브"
+    },
+    "people": {
+      "message": "계정"
+    },
+    "photos": {
+      "message": "사진"
+    },
+    "videos": {
+      "message": "동영상"
+    },
+    "all_people": {
+      "message": "모든 사람"
+    },
+    "people_yk": {
+      "message": "내가 팔로우하는 사람들"
+    },
+    "everywhere": {
+      "message": "모든 지역"
+    },
+    "near_you": {
+      "message": "현 위치 주변"
+    },
+    "advanced_search": {
+      "message": "고급 검색"
+    },
+    "save_search": {
+      "message": "검색어 저장"
+    },
+    "remove_search": {
+      "message": "저장된 검색어 삭제하기"
+    },
+    "try_again": {
+      "message": "다시 시도하기"
+    },
+    "no_results": {
+      "message": "결과가 없었어요. 단어를 바꿔서 재검색 해보세요."
+    },
+    "words": {
+      "message": "단어"
+    },
+    "all_these_words": {
+      "message": "다음 단어 모두 포함"
+    },
+    "all_these_words_example": {
+      "message": "예: 무슨 일 · \"무슨\"과 \"일\" 모두 포함"
+    },
+    "exact_phrase": {
+      "message": "다음 문구 그대로 포함"
+    },
+    "exact_phrase_example": {
+      "message": "예: 깜짝 할인 · \"깜짝 할인\"이라는 문구를 그대로 포함"
+    },
+    "any_words": {
+      "message": "다음 단어 적어도 하나 포함"
+    },
+    "any_words_example": {
+      "message": "예: 고양이 개 · \"고양이\" 또는 \"개\" 또는 둘 다 포함"
+    },
+    "not_these_words": {
+      "message": "다음 단어 제외"
+    },
+    "not_these_words_example": {
+      "message": "예: 고양이 개 - \"고양이\"를 포함하지 않고 \"개\"를 포함하지 않음"
+    },
+    "user": {
+      "message": "사용자"
+    },
+    "from_this_user": {
+      "message": "다음 계정에서 작성"
+    },
+    "from_this_user_example": {
+      "message": "예: @dimden · @dimden에서 보냄"
+    },
+    "mentions_this_user": {
+      "message": "다음 계정 맨션"
+    },
+    "mentions_this_user_example": {
+      "message": "예: @dimden · @dimden 님을 맨션함"
+    },
+    "interactions": {
+      "message": "참여"
+    },
+    "min_replies": {
+      "message": "최소 답글 수"
+    },
+    "min_replies_example": {
+      "message": "예: 10 · 답글이 10개 이상인 트윗"
+    },
+    "min_retweets": {
+      "message": "최소 리트윗 수"
+    },
+    "min_retweets_example": {
+      "message": "예: 10 · 리트윗이 최소 10회 이상인 트윗"
+    },
+    "min_favorites": {
+      "message": "최소 마음에 들어요 수"
+    },
+    "min_favorites_example": {
+      "message": "예: 10 · 마음에 들어요 수가 최소 10회 이상인 트윗"
+    },
+    "dates": {
+      "message": "날짜"
+    },
+    "since": {
+      "message": "시작"
+    },
+    "until": {
+      "message": "끝"
+    },
+    "twitter_settings": {
+      "message": "트위터 설정"
+    },
+    "oldtwitter_settings": {
+      "message": "OldTwitter의 설정"
+    },
+    "edit_twitter_settings": {
+      "message": "트위터 설정 편집"
+    },
+    "refresh_tabs": {
+      "message": "변경사항을 적용하려면 페이지를 새로고침하세요"
+    },
+    "chrono": {
+      "message": "최신순 타임라인"
+    },
+    "chrono_social": {
+      "message": "친구의 마음에 들어요의 최신순"
+    },
+    "algo": {
+      "message": "맞춤 트윗 (추천 V1) (리밋 없음)"
+    },
+    "timeline_type": {
+      "message": "타임라인의 종류"
+    },
+    "show_topic_tweets": {
+      "message": "토픽 트윗을 표시합니다 (나를 위한 추천 전용)"
+    },
+    "slow_show_colors_in_timeline": {
+      "message": "홈 타임라인에 커스텀 링크 색상을 적용합니다 (일부 기기에서 속도가 느려질 수 있습니다)"
+    },
+    "always_show_link_color": {
+      "message": "마우스를 올리지 않아도 항상 사용자 지정 링크 색상을 사용합니다"
+    },
+    "enable_twemoji": {
+      "message": "트위터 이모티콘을 사용합니다"
+    },
+    "hearts_instead_stars": {
+      "message": "별(관심글) 대신 하트(마음에 들어요)를 표시합니다"
+    },
+    "dark_mode": {
+      "message": "어두운 모드"
+    },
+    "disable_hotkeys": {
+      "message": "모든 단축키를 비활성화 합니다"
+    },
+    "hotkeys_list": {
+      "message": "단축키 목록 보기"
+    },
+    "save_preferred_quality": {
+      "message": "영상의 화질을 선택하여 저장합니다.<br>활성화할 경우, 원하는 화질(또는 그에 가까운 화질)을 이용할 수 있게 됩니다. <br>비활성화할 경우, 최고 화질로 표시되게 됩니다."
+    },
+    "preferred_quality": {
+      "message": "화질 우선"
+    },
+    "default_link_color": {
+      "message": "기본 링크 색상"
+    },
+    "font": {
+      "message": "글꼴"
+    },
+    "color_sync": {
+      "message": "링크 색상 동기화"
+    },
+    "by_pressing_sync": {
+      "message": "동기화 버튼을 누르면 당신의 프로필 링크 색상이 색상 데이터베이스 서버로 보내져 다른 사용자에게 표시됩니다."
+    },
+    "color_years_ago": {
+      "message": "이전에 (수년전에) 트위터 링크 색상을 설정한 적이 있는 경우 이전 색상이 덮어써집니다."
+    },
+    "sync": {
+      "message": "동기화"
+    },
+    "profile_link_color": {
+      "message": "프로필 링크 색상"
+    },
+    "light_mode_link": {
+      "message": "밝은 모드 링크"
+    },
+    "dark_mode_link": {
+      "message": "어두운 모드 링크"
+    },
+    "custom_css": {
+      "message": "커스텀 CSS"
+    },
+    "css_var_override": {
+      "message": "기본 CSS변수를 무시합니다. <code>--some-variable:property</code> 라고 입력해 주세요. 개행으로 분할합니다"
+    },
+    "css_var_list": {
+      "message": "표준 CSS 변수 목록은 여기를 참조하십시오."
+    },
+    "save_vars": {
+      "message": "변수 저장"
+    },
+    "custom_css_text": {
+      "message": "각 페이지에 추가할 커스텀 CSS"
+    },
+    "save_css": {
+      "message": "CSS 저장"
+    },
+    "error_setting_color": {
+      "message": "링크 색상 설정 오류"
+    },
+    "link_color_set": {
+      "message": "링크 색상을 설정했습니다!"
+    },
+    "retweeted_by": {
+      "message": "다음 유저가 리트윗함"
+    },
+    "see_quotes": {
+      "message": "인용을 보기"
+    },
+    "see_quotes_big": {
+      "message": "인용을 보기"
+    },
+    "quote_tweets": {
+      "message": "인용 리트윗"
+    },
+    "see_retweets": {
+      "message": "리트윗을 보기"
+    },
+    "reply_to": {
+      "message": "@$SCREEN_NAME$ 님에게 답글",
+      "example": "->Reply to<- @CoolGuy2000",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "error_loading_tweet": {
+      "message": "트윗 로드 오류"
+    },
+    "direct_messages": {
+      "message": "쪽지"
+    },
+    "mark_all_read": {
+      "message": "모든 쪽지를 읽음 처리하기"
+    },
+    "send": {
+      "message": "보내기",
+      "description": "Max 5 characters, if no word keep it in English"
+    },
+    "new_message": {
+      "message": "새 쪽지"
+    },
+    "create_new_group": {
+      "message": "새 그룹 생성"
+    },
+    "search_people": {
+      "message": "사용자 검색"
+    },
+    "type_message": {
+      "message": "새 쪽지 작성"
+    },
+    "cant_send": {
+      "message": "당신은 이 사용자에게 쪽지를 보낼 수 없습니다"
+    },
+    "gifs_max": {
+      "message": "GIF는 15MB까지  가능합니다"
+    },
+    "videos_max": {
+      "message": "동영상은 500MB까지 가능합니다"
+    },
+    "images_max": {
+      "message": "이미지는 5MB까지 가능합니다"
+    },
+    "max_count": {
+      "message": "이미지는 4장, 동영상은 1개, GIF는 1장까지만 업로드 가능합니다"
+    },
+    "alt_text": {
+      "message": "이미지에 설명 추가"
+    },
+    "vote": {
+      "message": "득표",
+      "example": "1 ->vote<-"
+    },
+    "votes": {
+      "message": "득표",
+      "example": "10 ->votes<-"
+    },
+    "ends_at": {
+      "message": "$DATE$ 에 종료",
+      "example": "->Ends at<- 16th November",
+      "placeholders": {
+        "date": {
+          "content": "16th November"
+        }
+      }
+    },
+    "view_translation": {
+      "message": "트윗 번역하기"
+    },
+    "unsupported_video": {
+      "message": "사용하시는 브라우저는 이 동영상을 지원하지 않습니다."
+    },
+    "views": {
+      "message": "회 조회",
+      "example": "10 ->views<-"
+    },
+    "reload": {
+      "message": "새로고침"
+    },
+    "circle_limited_tweet": {
+      "message": "@$SCREEN_NAME$ 님의 Twitter 서클에 포함된 사람만이 이 트윗을 볼 수 있습니다.",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "learn_more": {
+      "message": "자세히 알아보기"
+    },
+    "limited_tweet": {
+      "message": "이 트윗은 답글을 달 수 있는 사람이 제한되어 있습니다"
+    },
+    "replies": {
+      "message": "답글"
+    },
+    "retweets": {
+      "message": "리트윗"
+    },
+    "likes": {
+      "message": "마음에 들어요"
+    },
+    "show_this_thread": {
+      "message": "대화 보기"
+    },
+    "quote_tweet": {
+      "message": "트윗 인용하기"
+    },
+    "see_retweeters": {
+      "message": "리트윗한 사람 보기"
+    },
+    "copy_link": {
+      "message": "트윗 링크 복사하기"
+    },
+    "embed_tweet": {
+      "message": "트윗 담아가기"
+    },
+    "share_tweet": {
+      "message": "트윗 공유하기"
+    },
+    "tweet_analytics": {
+      "message": "트윗 분석"
+    },
+    "delete_tweet": {
+      "message": "트윗 지우기"
+    },
+    "unpin_tweet": {
+      "message": "내 프로필 메인에서 내리기"
+    },
+    "pin_tweet": {
+      "message": "내 프로필 메인에 올리기"
+    },
+    "bookmark_tweet": {
+      "message": "트윗을 북마크하기"
+    },
+    "topic_not_interested": {
+      "message": "이 주제에 관심이 없습니다"
+    },
+    "refresh_tweet": {
+      "message": "트윗 데이터 새로고침"
+    },
+    "download_media": {
+      "message": "미디어 다운로드"
+    },
+    "download_gif": {
+      "message": "GIF 다운로드"
+    },
+    "replying_to_tweet": {
+      "message": "트윗에 대한 답글"
+    },
+    "upload_media_btn": {
+      "message": "[미디어 업로드]"
+    },
+    "cancel_btn": {
+      "message": "[취소]"
+    },
+    "quote": {
+      "message": "인용",
+      "note": "원래 인용하기가 맞을지도"
+    },
+    "reply_example": {
+      "message": "답글로 초멘나사이는 적지 마세요"
+    },
+    "quote_example": {
+      "message": "추가 내용"
+    },
+    "error_sending_tweet": {
+      "message": "트윗 전송 오류"
+    },
+    "retweet_sure": {
+      "message": "정말 리트윗 하시겠어요?"
+    },
+    "unretweet": {
+      "message": "리트윗 취소"
+    },
+    "retweet": {
+      "message": "리트윗"
+    },
+    "delete_sure": {
+      "message": "정말 이 트윗을 지우시겠습니까?"
+    },
+    "long_vid": {
+      "message": "이 동영상은 길이가 10초 이상이라 변환하는데 오래 걸릴 수 있습니다! 변환하시겠습니까?"
+    },
+    "feedback_thanks": {
+      "message": "피드백 감사합니다!"
+    },
+    "liked_by": {
+      "message": "다음 유저가 마음에 들어함"
+    },
+    "reply": {
+      "message": "답글"
+    },
+    "language": {
+      "message": "언어 (Language)",
+      "description": "Please add English 'Language' word in parentheses in addition to translation",
+      "example": "Lingua (Language)"
+    },
+    "translated_by": {
+      "message": "번역가 $TRANSLATOR$.",
+      "placeholders": {
+        "translator": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "last_searches": {
+      "message": "최근 검색"
+    },
+    "saved_searches": {
+      "message": "저장된 검색"
+    },
+    "everyone": {
+      "message": "공개",
+      "description": "Used to say that tweet will be shown to public (shown to Everyone), can use word Public if it fits better"
+    },
+    "topic": {
+      "message": "주제"
+    },
+    "not_interested": {
+      "message": "흥미 없음"
+    },
+    "cancel": {
+      "message": "취소"
+    },
+    "youre_not_interested": {
+      "message": "당신은 이 주제에 관심이 없습니다"
+    },
+    "autoplay_videos": {
+      "message": "동영상을 자동 재생합니다"
+    },
+    "turn_on_retweets": {
+      "message": "리트윗 켜기"
+    },
+    "turn_off_retweets": {
+      "message": "리트윗 끄기"
+    },
+    "you_can_reply": {
+      "message": "(당신은 답장할 수 있습니다)"
+    },
+    "audience": {
+      "message": "오디언스"
+    },
+    "who_can_reply": {
+      "message": "누가 답글을 달 수 있습니까?"
+    },
+    "people_you_follow": {
+      "message": "내가 팔로우 하는 사람들"
+    },
+    "people_you_mention": {
+      "message": "내가 맨션하는 사람들만"
+    },
+    "new_version": {
+      "message": "새로운 버전으로 업데이트 되었습니다"
+    },
+    "display_sensitive_content": {
+      "message": "미디어가 민감한 내용이더라도 보여주기 전에 경고하지 않습니다"
+    },
+    "is_private": {
+      "message": "이 리스트는 나만 볼수 있습니다"
+    },
+    "s": {
+      "message": "$NUMBER$초",
+      "description": "Short for 'second', like '1s' means 1 second",
+      "placeholders": {
+        "number": {
+          "content": "1"
+        }
+      }
+    },
+    "m": {
+      "message": "$NUMBER$분",
+      "description": "Short for 'minute', like '1m' means 1 minute",
+      "placeholders": {
+        "number": {
+          "content": "1"
+        }
+      }
+    },
+    "h": {
+      "message": "$NUMBER$시간",
+      "description": "Short for 'hour', like '1h' means 1 hour",
+      "placeholders": {
+        "number": {
+          "content": "1"
+        }
+      }
+    },
+    "d": {
+      "message": "$NUMBER$일",
+      "description": "Short for 'day', like '1d' means 1 day",
+      "placeholders": {
+        "number": {
+          "content": "1"
+        }
+      }
+    },
+    "follow_requests": {
+      "message": "팔로우 요청"
+    },
+    "accept": {
+      "message": "승인"
+    },
+    "decline": {
+      "message": "거부"
+    },
+    "mute_convo": {
+      "message": "이 대화를 뮤트하기"
+    },
+    "unmute_convo": {
+      "message": "이 대화를 언뮤트하기"
+    },
+    "no_big_font": {
+      "message": "짧은 트윗이나 인기 트윗에 큰 글꼴을 적용하지 않습니다"
+    },
+    "emoji": {
+      "message": "이모티콘"
+    },
+    "emoji_btn": {
+      "message": "[이모티콘]"
+    },
+    "add_emoji": {
+      "message": "이모티콘 추가"
+    },
+    "custom": {
+      "message": "커스텀"
+    },
+    "smileys_emotion": {
+      "message": "스마일리 및 표정"
+    },
+    "people_body": {
+      "message": "사람 및 신체"
+    },
+    "animals_nature": {
+      "message": "동물 및 자연"
+    },
+    "food_drink": {
+      "message": "음식 및 음료"
+    },
+    "travel_places": {
+      "message": "여행 및 장소"
+    },
+    "activities": {
+      "message": "활동"
+    },
+    "objects": {
+      "message": "사물"
+    },
+    "symbols": {
+      "message": "기호"
+    },
+    "flags": {
+      "message": "깃발"
+    },
+    "categories": {
+      "message": "카테고리"
+    },
+    "unsupported_emoji": {
+      "message": "사용하시는 브라우저는 색이 들어간 이모티콘을 지원하지 않습니다"
+    },
+    "cant_load_emoji": {
+      "message": "이모티콘을 읽지 못했습니다"
+    },
+    "emoji_picker": {
+      "message": "이모티콘 픽커"
+    },
+    "emoji_search_description": {
+      "message": "검색 결과가 나타나면 위 또는 아래를 눌러 선택하고 엔터키를 눌러 선택합니다"
+    },
+    "search_results": {
+      "message": "검색 결과"
+    },
+    "skin_tone_description": {
+      "message": "펼친 상태에서 위 또는 아래를 엔터키를 눌러 선택합니다."
+    },
+    "skin_tone_label": {
+      "message": "피부색 선택 (현재 $SKIN_TONE$)",
+      "placeholders": {
+        "skin_tone": {
+          "content": "default"
+        }
+      }
+    },
+    "skin_tones_label": {
+      "message": "살색"
+    },
+    "add_media": {
+      "message": "미디어 추가"
+    },
+    "add_poll": {
+      "message": "투표 추가"
+    },
+    "add_location": {
+      "message": "위치 정보 추가"
+    },
+    "schedule_tweet": {
+      "message": "예약 추가"
+    },
+    "scheduled": {
+      "message": "예약됨"
+    },
+    "drafts": {
+      "message": "초안"
+    },
+    "location": {
+      "message": "위치 정보"
+    },
+    "unsent_tweets": {
+      "message": "전송하지 않은 트윗"
+    },
+    "unsent": {
+      "message": "전송하지 않은 트윗"
+    },
+    "will_send": {
+      "message": "에 전송예정"
+    },
+    "schedule": {
+      "message": "예약"
+    },
+    "scheduled_success": {
+      "message": "트윗 예약에 성공했습니다!"
+    },
+    "see_scheduled": {
+      "message": "예약 상세"
+    },
+    "hasnt_tweeted": {
+      "message": "@$SCREEN_NAME$ 님은 트윗하지 않았습니다",
+      "placeholders": {
+        "screen_name": {
+          "content": "loading"
+        }
+      }
+    },
+    "when_theyll_tweet": {
+      "message": "전송된 경우 트윗은 여기에 표시됩니다"
+    },
     "thank_you2": {
-        "message": "Old Twitter를 사용해 주셔서 감사합니다! 코딩에 많은 노력과 시간이 들었으므로, 팔로우나 $AT1$기부로$AT2$ 응원해주시면 감사하겠습니다!",
-        "placeholders": { "at1": { "content": "<a target='_blank' href='https://dimden.dev/donate/'>" }, "at2": { "content": "</a>" } }
+      "message": "Old Twitter를 사용해 주셔서 감사합니다! 코딩에 많은 노력과 시간이 들었으므로, 팔로우나 $AT1$기부로$AT2$ 응원해주시면 감사하겠습니다!",
+      "placeholders": {
+        "at1": {
+          "content": "<a target='_blank' href='https://dimden.dev/donate/'>"
+        },
+        "at2": {
+          "content": "</a>"
+        }
+      }
     },
-    "something_went_wrong": { "message": "오류가 발생했습니다 다시 해주세요" },
-    "notifications_error": { "message": "오류가 발생하여 일부 알림을 읽을 수 없었습니다" },
-    "tweet_error": { "message": "오류가 발생했기 때문에 일부 트윗을 가져올 수 없었습니다" },
+    "something_went_wrong": {
+      "message": "오류가 발생했습니다 다시 해주세요"
+    },
+    "notifications_error": {
+      "message": "오류가 발생하여 일부 알림을 읽을 수 없었습니다"
+    },
+    "tweet_error": {
+      "message": "오류가 발생했기 때문에 일부 트윗을 가져올 수 없었습니다"
+    },
     "error_instructions": {
-        "message": "$AT1$깃허브 이슈 트래커$AT2$나 $AT3$저의 메일$AT2$로 아래 텍스트를 복사해서 보내주세요. 잘 부탁드립니다!",
-        "placeholders": {
-            "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
-            "at2": { "content": "</a>" },
-            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+      "message": "$AT1$깃허브 이슈 트래커$AT2$나 $AT3$저의 메일$AT2$로 아래 텍스트를 복사해서 보내주세요. 잘 부탁드립니다!",
+      "placeholders": {
+        "at1": {
+          "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
+        },
+        "at2": {
+          "content": "</a>"
+        },
+        "at3": {
+          "content": "<a target='_blank' href='mailto:admin@dimden.dev'>"
         }
+      }
     },
-    "initialization": { "message": "초기화" },
-    "converting": { "message": "변환 중" },
-    "time_mode": { "message": " 19시-09시 사이에 어두운 모드를 활성화 합니다" },
-    "show_original_images": { "message": "항상 원래 화질의 이미지를 표시합니다" },
-    "pitch_black_mode": { "message": "조명 끄기(어두운 모드가 설정 되어있을때 작동합니다)" },
-    "hide_retweets": { "message": "리트윗을 숨기기" },
-    "see_tweet_views": { "message": "트윗의 조회수를 표시합니다" },
-    "history": { "message": "이력" },
-    "autotranslate_tweets": { "message": "트윗을 자동으로 번역하기" },
-    "dont_autotranslate": { "message": "트윗을 자동으로 번역하지 않기" },
-    "round_avatars": { "message": "둥근 프로필 사진을 사용합니다" },
-    "search_user_tweets": { "message": "사용자의 트윗을 검색하기" },
-    "no_tl_tweets": { "message": "당신은 아무도 팔로우하고 있지 않기 때문에 타임라인 트윗을 볼 수 없습니다. <a href='/old/settings'>OldTwitter 설정</a>에서 타임라인 유형을 '추천'으로 변경해주세요!" },
-    "replying_to": { "message": "답글을 받는 사람", "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.", "example": "Replying to: - user1, - user2", "placeholders": { "screen_name": { "content": "CoolPerson2000" } }  },
-    "display": { "message": "디스플레이", "description": "Used for display settings (fonts, colors, style, etc)" },
-    "twitter_blue_checkmarks": { "message": "Twitter Blue 인증마크를 표시합니다" },
-    "retweet_hotkey_warn": { "message": "당신은 리트윗 버튼를 눌렀습니다. 이 트윗을 정말 리트윗하시겠습니까? 확인을 누르면 이 경고는 더 이상 표시되지 않습니다" },
-    "reply_btn": { "message": "답글", "description": "Used for reply button." },
-    "retweet_btn": { "message": "리트윗 / 트윗 인용하기", "description": "Used for retweet menu button." },
-    "like_btn": { "message": "마음에 들어요 / 마음에 들어요 취소하기", "description": "Used for like button." },
-    "favorite_btn": { "message": "관심글 / 관심글 취소하기", "description": "Used for favorite button." },
-    "views_count": { "message": "조회수", "description": "Used for views count." },
-    "developer_mode": { "message": "개발자 모드" },
-    "copy_user_id": { "message": "유저 ID 복사하기" },
-    "copy_tweet_id": { "message": "트윗 ID 복사하기" },
-    "unfollowers": { "message": "언팔로워" },
-    "unfollowings": { "message": "언팔로우 함" },
-    "no_unfollowers": { "message": "아직 언팔로워가 없습니다!" },
-    "no_unfollowings": { "message": "아무도 언팔로우 하지 않았습니다!" },
-    "recent_unfollow_update": { "message": "언팔로우가 최소 15분 전에 업데이트 되었습니다" },
-    "deleted_accounts": { "message": "이 리스트에 있던 모두가 계정을 비활성화 한것으로 보입니다" },
-    "open_tweet_newtwitter": { "message": "새 트위터에서 이 트윗을 열기" },
-    "black_mode_link": { "message": "조명 끄기 모드 링크" },
-    "custom_mode_link": { "message": "커스텀 모드 링크" },
-    "tweet_verb": { "message": "트윗", "description": "Used for tweet verb.", "example": "->Tweet<- #itsokay" },
-    "do_you_want_to_tweet": { "message": "\"$TWEET_TEXT$\"을 트윗하겠습니까?", "placeholders": { "tweet_text": { "content": "예 괜찮습니다" } } },
-    "user_protected" : { "message": "이 트윗은 비공개 설정되어 있습니다" },
-    "follow_to_see": { "message": "승인된 팔로워만 @$SCREEN_NAME$ 님의 트윗과 전체 프로필을 볼 수 있습니다. '팔로우' 버튼을 눌러 팔로우 요청을 보내세요", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "copy_tweet_links_as": { "message": "트윗 링크를 다음 형식으로 복사", "example": "->Copy links as<- vxtwitter.com"},
-    "use_new_icon": { "message": "탭 아이콘을 새 로고로 바꿉니다" },
-    "update_timeline_automatically": { "message": "타임라인의 새 트윗을 자동으로 갱신합니다." },
-    "chrono_no_retweets": { "message": "최신순 타임라인 (리트윗 없음)" },
-    "chrono_retweets": { "message": "최신순 타임라인 (리트윗만 있음)" },
-    "hide_trends": { "message": "실시간 트렌드를 숨깁니다" },
-    "hide_wtf": { "message": "\"팔로우 추천\"을 숨깁니다" },
-    "hide_likes": { "message": "트윗의 마음에 들어요, 리트윗, 답글 수를 숨깁니다" },
-    "hide_followers": { "message": "팔로워 수를 숨깁니다" },
-    "block_sure_desc": { "message": "이제 @$SCREEN_NAME$ 님은 더이상 나를 팔로우 하거나 쪽지를 보낼 수 없습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "blocked_by_user" : { "message": "@$SCREEN_NAME$ 님이 나를 차단했습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "why_you_cant_see_block_user": { "message": "@$SCREEN_NAME$ 님을 팔로우 하거나 @$SCREEN_NAME$ 님의 트윗을 볼 수 없습니다", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "you_blocked_user": { "message": "@$SCREEN_NAME$ 님은 차단되어 있습니다.", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "do_you_want_see_blocked_user": { "message": "정말로 이 트윗을 보시겠어요? 트윗을 봐도 @$SCREEN_NAME$ 님이 차단 해제되지 않습니다", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "I_want_see_blocked_user": { "message": "네, 프로필을 봅니다" },
-    "logout_title": { "message": "트위터에서 로그아웃할까요?" },
-    "logout_desc_1": { "message": "OldTwitter는 로그인 중에만 작동합니다." },
-    "logout_desc_2": { "message": "다른 로그인 된 계정이 없을경우 로그인 화면으로 넘겨주기 됩니다. 로그아웃 하겠습니까?" },
-    "logout_button": { "message": "로그아웃하기" },
-    "disable_personalized_trends": { "message": "개인화된 트렌드를 비활성화 합니다" },
-    "show_bookmark_count": { "message": "트윗의 북마크된 횟수를 표시합니다" },
-    "bookmarks_count": { "message": "북마크", "description": "Used for bookmarks count." },
-    "remove_bookmark": { "message": "트윗을 북마크에서 지우기" },
-    "hide_community_notes": { "message": "트윗의 커뮤니티 노트를 숨깁니다" },
-    "disable_gif_autoplay": { "message": "GIF 자동재생을 비활성화 합니다" },
-    "hide_tweet": { "message": "트윗을 숨기기" },
-    "unhide_tweet": { "message": "트윗을 보이기" },
-    "hide_tweet_sure": { "message": "이 트윗을 숨기겠습니까?" },
-    "see_hidden_replies": { "message": "숨겨진 답글을 보기" },
-    "bookmarked_tweet": { "message": "트윗을 북마크했습니다" },
-    "unbookmarked_tweet": { "message": "트윗을 북마크 해제했습니다" },
-    "muted_convo": { "message": "뮤트된 대화" },
-    "unmuted_convo": { "message": "언뮤트된 대화" },
-    "show_media_count": { "message": "프로필에 미디어의 수를 표시합니다" },
-    "media": { "message": "미디어", "note": "Keep this short" },
-    "pin_profile_on_navbar": { "message": "프로필을 상단바에 고정합니다" },
-    "pin_bookmarks_on_navbar": { "message": "북마크를 상단바에 고정합니다" },
-    "pin_lists_on_navbar": { "message": "리스트를 상단바에 고정합니다" },
-    "me": { "message": "나", "description": "You should probably use word 'Profile' in your language" },
-    "tweet_text_font": { "message": "트윗 본문 글꼴" },
-    "use_old_default_profile": { "message": "기본 인장으로 알계 인장을 이용합니다" },
-    "colors": { "message": "색상" },
-    "enable_hashflags": { "message": "해시태그 아이콘을 활성화 합니다 (페이지 로딩이 약간 느려질 수 있습니다)" },
-    "content_warning": { "message": "콘텐츠 경고: $WARNINGS$", "placeholders": { "warnings": { "content": "Graphic violence" } } },
-    "graphic_violence": { "message": "폭력" },
-    "adult_content": { "message": "나체 노출" },
-    "sensitive_content": { "message": "민감한 내용" },
-    "uncensor_graphic_violence_automatically": { "message": "폭력이 포함된 미디어를 보여주기 전에 경고하지 않습니다", "description" : "의역임" },
-    "uncensor_adult_content_automatically": { "message": "나체 노출이 포함된 미디어를 보여주기 전에 경고하지 않습니다" },
-    "uncensor_sensitive_content_automatically": { "message": "민감한 내용이 포함된 미디어를 보여주기 전에 경고하지 않습니다" },
-    "replying_to_user": { "message": "$SCREEN_NAME$ 님에게 보내는 답글", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "content_warnings": { "message": "콘텐츠 경고" },
-    "transparency": { "message": "Transparency" },
-    "reset": { "message": "초기화" },
-    "reset_all": { "message": "전부 초기화" },
-    "import": { "message": "불러오기", "note": "Verb" },
-    "export": { "message": "내보내기", "note": "Verb" },
-    "reset_colors_sure": { "message": "모든 색상을 초기화하겠습니까?" },
-    "navbar": { "message":"상단바", "description":"Setting Text"},
-    "sidebar": { "message":"사이드바", "description":"Setting Text"},
-    "advanced_options": { "message":"고급 설정", "description":"Setting Text"},
-    "advanced_colors": { "message":"고급 색상", "description":"Setting Text"},
-    "accessibility": { "message":"접근성", "description":"Setting Text"},
-    "tweets_and_timeline": { "message":"트윗과 타임라인", "description":"Setting Text"},
-    "dark_mode_setting": { "message": "다크 모드", "description":"Setting Text"},
-    "old_twitter_look": {"message": "옛날 트위터처럼 설정하기", "description":"Setting Text"},
-    "content_you_see": {"message": "표시되는 콘텐츠", "description":"Setting Text"},
-    "use_old_style_reply": {"message": "구답장 스타일을 사용합니다"},
-    "algov2": { "message": "나를 위한 추천" },
-    "chrono_help": { "message": "고전적인 최신순 타임라인 (\"팔로우 중\"), 다른 콘텐츠를 추가하지 않고 가장 최신의 트윗과 리트윗만을 표시합니다." },
-    "chrono_no_retweets_help": { "message": "처음 것과 같지만 리트윗을 표시하지 않습니다." },
-    "chrono_retweets_help": { "message": "처음 것과 같지만 리트윗을 표시합니다 않습니다." },
-    "chrono_social_help": { "message": "최신순과 추천 타임라인을 같이 표시, 최신순 트윗 사이에 가끔씩 '누군가가 마음에 들어합니다' 와 '누군가 팔로우 합니다' 가 추가됩니다." },
-    "algo_help": { "message": "옛날 추천 타임라인, 트위터가 당신이 좋아할 것 같은 트윗을 표시합니다. V1은 이 타임라인의 옛날 버전이며, 리밋을 가지고 있지 않는 것으로 보입니다(아니면 매우 크거나) 하지만 왜 트윗이 타임라인에 추가되었는지에 대한 표시가 없습니다." },
-    "algov2_help": { "message": "트위터가 (\"당신을 위해\") 현재 사용하고 있는 추천 타임라인, 트위터가 당신이 좋아할 것 같은 트윗을 표시합니다.." },
-    "import_settings": { "message": "설정 불러오기" },
-    "export_settings": { "message": "설정 내보내기" },
-    "import_style_settings": { "message": "스타일 불러오기" },
-    "export_style_settings": { "message": "스타일 내보내기" },
-    "reset_settings": { "message": "설정 초기화" },
-    "reset_settings_sure": { "message": "모든 설정을 초기화하시겠습니까?" },
-    "clear_caches": { "message": "캐시 비우기" },
-    "hide_non_replies": { "message": "답글만 보이기" },
-    "profile_custom_css": { "message": "프로필 커스텀 CSS" },
-    "pccss_not_eligible": { "message": "당신은 프로필 CSS 커스텀 권한이 없습니다.<br><br>모두가 볼 수 있는 사용자 지정 폰트, 색상, 배경 그리고 기타등등으로 이루어진 멋진 프로필을 원한다면, 확장 프로그램의 서포터가 되면 됩니다.(단순히 기부만을 의미하는 것이 아닙니다)<br><br><a target='_blank' href='https://dimden.dev/ot/custom-css/'>여기</a>를 클릭하여 더 알아보세요" },
-    "pccss_eligible": { "message": "당신에게 프로필 CSS 커스텀 권한이 부여되었습니다!" },
-    "pccss_congrats": { "message": "축하합니다! 당신은 CSS 프로필 커스텀 권한을 얻었습니다!<br>매우 적은 비율의 OldTwitter 유저만이 이 권한을 갖습니다. 재밌게 즐기고, 멋지게 꾸미세요!" },
-    "yay": { "message": "예이!" },
-    "light_mode_vars": { "message": "밝은 모드 변수" },
-    "dark_mode_vars": { "message": "어두운 모드 변수" },
-    "css_theme_hint": { "message": "부디 '눈이 썩거나' 남을 속이는 디자인 (예를 들어 팔로우 버튼을 엄청 크게 만드는 것 같은 것)을 설정하지 말아주세요. 만약 그러면 권한을 잃을 것입니다.<br><br>당신의 CSS은 사용자가 설정한 지역적 스타일보다 우선시 됩니다.<br><br>이미지 용으로 i.imgur.com 과 폰트 용으로 fonts.googleapis.com (및 <a target='_blank' href='https://dimden.dev/fonts/'>이곳</a>) 만을 이용할 수 있습니다.<br><br><a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>이곳</a>에서 CSS 변수의 리스트를 확인할 수 있습니다.<br><br>특정 테마를 대상으로 하기 위해, <code>.body-dark</code>(어두운 모드용), <code>.body-pitch-black</code>(조명 끄기 모드용, <code>.body-dark</code>을 포함 할 수 있습니다) 그리고 <code>.body-light</code>(밝은 모드용) 클래스를 사용할 수 있습니다." },
-    "profile_colors_moved": { "message": "링크 색상 동기화는 당신의 프로필로 이동했습니다. (프로필 수정 버튼 왼쪽의 연필 모양 버튼)" },
-    "click_here_more_info": { "message": "여기를 눌러 자세한 정보를 살펴보세요" },
-    "profile_must_be_public_to_auth": { "message": "처음 동기화를 하기 위해 당신의 프로필을 공개로 설정해야 하며, 그 다음부턴 비공개로 설정하여도 됩니다." },
-    "save_draft": { "message": "초안 저장", "note": "Try to keep this short" },
-    "load_draft": { "message": "초안 불어오기", "note": "Try to keep this short" },
-    "draft_saved": { "message": "초안을 저장했습니다!" },
-    "draft_loaded": { "message": "초안을 불어왔습니다!" },
-    "no_draft": { "message": "저장된 초안이 없습니다!!" },
-    "invalid_auth_token": { "message": "당신의 인증 토큰이 무효하거나 만료되었습니다. 다시 시도해 보거나, 문제가 지속될 경우, @dimden에게 연락주세요." },
-    "css_set": { "message": "CSS 가 성공적으로 설정됬습니다!" },
-    "error_setting_css": { "message": "CSS 설정 에러" },
-    "load": { "message": "불러오기"},
-    "disable_profile_customizations": { "message": "프로필 커스텀화를 비활성화합니다" },
-    "replying_to_and":  { "message": " 님과 ", "description":"For some language which using address terms", "example": "Replying to @A-> and <-@B , @C" },
-    "replying_to_comma":  { "message": " 님, ", "description":"For some language which using address terms", "example": "Replying to @A and @B-> , <-@C" },
-    "twitter": {"message": "트위터"},
-    "move_navbar_to_bottom": {"message": "상단바를 아래로 이동"},
-    "styled_profile": {"message": "꾸며진 프로필"},
-    "open_notifs_as_modal": {"message": "알림을 모달 창으로 엽니다"},
-    "clear_ot_token": {"message": "OldTwitter 토큰 초기화"},
-    "enable_iframe_navigation": {"message": "실험적인 페이지 유지 탐색을 활성화 합니다. 링크를 클릭후 새로고침 없이 이전 페이지로 돌아갈 수 있게 됩니다. 이 기능은 실험적이고, 불안정할 수 있습니다."},
-    "style_your_profile": {"message": "여기서 당신의 프로필을 꾸미세요!"},
-    "modern_ui": { "message": "2018년 트위터 디자인을 사용합니다 둥근 버튼과 새로운 심벌을 포함합니다" },
-    "show_exact_values": { "message": "마음에 들어요, 리트윗, 팔로워 등의 정확한 값을 표시합니다." },
-    "hide_timeline_types": { "message": "홈페이지에서 타임라인 타입을 숨깁니다." },
-    "autotranslation": { "message": "자동 번역" },
-    "autotranslation_mode": { "message": "다음의 트윗을 자동번역" },
-    "translate_in_list": { "message": "목록에 있는 언어만" },
-    "translate_not_in_list": { "message": "목록에 없는 언어만" },
-    "language_list": { "message": "언어 목록" },
-    "select_language": { "message": "언어를 선택하세요" },
-    "mute_videos": { "message": "비디오를 기본적으로 음소거합니다" },
-    "dont_pause_videos": { "message": "스크롤 할 때 비디오를 일시정지 하지 않습니다" },
-    "delete_for_you":{ "message": "나에게서 삭제",  "description":"DM Message Delete menu"},
-    "show_user_previews_on_mobile": { "message": "계속 누를 시 유저 프로필을 표시합니다 (이용에 방해될 수 있습니다)" },
-    "separate_text": { "message": "텍스트를 분리하기", "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap" },
-    "leave_conversation": {"message":"대화를 삭제하시거나 나가실건가요?"},
-	"autotranslation_help1": {"message": "이 기능은 버튼을 직접 누를 필요 없이 자동으로 트윗을 찾아 번역을 하는 기능입니다."},
-	"autotranslation_help2": {"message": "사용하시려면, 자동번역을 선택하고, 언어 목록을 지정하세요. 조건에 맞는 트윗이 자동으로 번역될 것 입니다."},
-	"autotranslation_help3": {"message": "특히:"},
-	"autotranslation_help4": {"message": "언어 목록이 없는 상태에서 \"목록에 있는 언어만\"을 선택 시, 해당 기능은 비활성화 됩니다. (기본값)"},
-	"autotranslation_help5": {"message": "언어 목록이 없는 상태에서 \"목록에 없는 언어만\"을 선택 시, 모든 트윗이 번역됩니다. 필요없는 번역을 막기 위해 당신이 아는 언어를 추가하는 것이 좋습니다."},
-    "go_back_to_top": { "message": "맨 위로 돌아가기" },
-    "follow_system_settings_dark_mode": { "message": "시스템 설정을 사용합니다" },
-    "replacer_post_to_tweet": { "message": "게시물->트윗|게시->트윗", "description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
-    "replacer_repost_to_retweet": { "message": "재게시물->리트윗|재게시->리트윗", "description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)." },
-    "mute_user": { "message": "@$SCREEN_NAME$ 님 뮤트하기", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "unmute_user": { "message": "@$SCREEN_NAME$ 님 언뮤트하기", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "muted_user": { "message": "@$SCREEN_NAME$ 님을 뮤트했습니다", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "unmuted_user": { "message": "@$SCREEN_NAME$ 님을 언뮤트했습니다", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "mmdd":{ "message": "$MONTH$월 $DATE$일",  "description":"July 1st", "placeholders": { "month": { "content": "July" },  "date": { "content": "1st" } }},
-    "mmddyy":{ "message": "$YEAR$년 $MONTH$월 $DATE$일",  "description":"July 1st, 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "July" },  "date": { "content": "1st" } }},
-    "yyyy":{ "message": "$YEAR$년",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
-    "localize_digit":{ "message" : "아시아식 4자리수 표기법을 사용합니다. (한중일 전용)", "description":"Non-CJK dont need to translate this message, just copy and paste"},
-    "replacer_liked_to_favorited": { "message": " 마음에 들어 합니다->관심글로 지정했습니다", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
-    "favorited_by": { "message": "다음 유저가 관심글로 지정함" },
-    "disable_retweet_hotkey": { "message": "리트윗 단축키(T)를 비활성화 합니다" },
-    "disable_like_hotkey": { "message": "마음에 들어요 단축키(L)를 비활성화 합니다" },
-    "enable_extension_compatibility": { "message": "호환성 모드를 활성화합니다. (Oldtwitter에서 타 확장프로그램을 사용하고 싶을 때만 활성화 하세요. 만약에 해당 옵션을 활성화 해도 작동하지 않으면 반드시 다시 비활성화 하세요. 페이지를 매우 버벅거게 하고 문제를 유발할 수 있습니다.)" },
-	"enter_custom_font_name": {"message": "사용자 지정 글꼴 이름을 입력하세요"},
-    "disable_data_saver": { "message": "모바일 데이터 사용 중에 데이터 세이버를 비활성화 합니다" },
-    "mobile": { "message": "모바일" },
-    "disable_accept_type": { "message": "미디어를 업로드 할 때 사용자 지정 확장자를 비활성화 합니다. 특정 안드로이드 버전에서 모든 이미지에 접근할 수 없는 문제를 해결합니다." },
-    "manage_searches": { "message": "검색 관리하기" },
-    "add_search": { "message": "검색 추가하기" },
-    "pinned_searches": { "message": "고정된 검색" },
-    "show_follower_counts_in_lists": { "message": "팔로우/팔로잉 페이지에서 팔로워의 수를 표시합니다" },
-    "not_possible_to_see_unfollowers": { "message": "아쉽게도, 50,000 명 이상의 팔로워를 가진 계정에 대해 언팔로우를 볼 수 없습니다." },
-    "sort_by_follow_date": { "message": "팔로우 한 날짜 순 정렬 (부정확)" },
-    "sort_by_followers": { "message": "팔로워 수 순 정렬" },
-    "sort_by_following": { "message": "팔로잉 수 순 정렬" },
-    "sort_by_name": { "message": "이름 순 정렬" },
-    "sort_by_username": { "message": "사용자 아이디 순 정렬" },
-    "sort_by_tweets": { "message": "트윗 수 순 정렬" },
-    "sort_by_created": { "message": "가입일 순 정렬" },
-    "sort_by_random": { "message": "무작위로 정렬" },
-    "loading_all_followers": { "message": "모든 팔로워를 로딩하는 중 (24시간에 한번만 발생합니다)..." },
-    "apply": { "message": "적용" },
-    "filter": { "message": "필터" },
-    "ascending": { "message": "오름차순" },
-    "descending": { "message": "내림차순" },
-    "search_by_name": { "message": "이름으로 검색" },
-    "search_by_description": { "message": "자기소개로 검색" },
-    "only_show_people_you_follow": { "message": "나를 팔로우 하는 사람만 표시합니다" },
-    "only_show_people_with_followers": { "message": "최소 $NUMBER$ 팔로워를 가진 사람만 표시합니다", "placeholders": { "number": { "content": "-1" } } },
-    "only_show_people_with_age": { "message": "$NUMBER$ 일 된 계정을 가진 사람만 표시합니다", "placeholders": { "number": { "content": "-1" } } },
-    "page": { "message": "페이지" },
-	"update": {"message": "업데이트" },
-    "show_quote_count": { "message": "트윗의 인용 수를 표시합니다" },
-    "uploading": { "message": "업로드 중" },
-    "finalization": { "message": "마무리 하는 중" },
-    "processing": { "message": "처리 중" },
-    "quotes": { "message": "인용" },
-    "share_tweet_in_dms": { "message": "쪽지로 공유하기" },
-    "share_tweet_to": { "message": "공유하기..." },
-    "disable_find_hotkey": { "message": "검색 단축키(F)를 비활성화 합니다" },
-    "uploaded": { "message": "업로드됨" },
-    "hide_unfollowers_page": { "message": "언팔로워 페이지를 숨깁니다" },
-	"custom_font": { "message": "<사용자 지정>" },
-	"current_font": { "message": "현재 글꼴: $FONT$", "placeholders": { "font": { "content": "Arial" } } },
-    "user_sent_photo": { "message": "$NAME$ 님이 사진을 보냈습니다", "placeholders": { "name": { "content": "Display Name" } } },
-    "user_sent_video": { "message": "$NAME$ 님이 동영상을 보냈습니다", "placeholders": { "name": { "content": "Display Name" } } },
-    "user_reacted_message": { "message": "$NAME$ 님이 반응을 보냈습니다", "placeholders": { "name": { "content": "Display Name" } } },
-    "you_sent_photo": { "message": "사진을 보냈습니다" },
-    "you_sent_video": { "message": "동영상을 보냈습니다" },
-    "you_reacted_message": { "message": "반응을 보냈습니다" },
-    "user_added": { "message": "$A1$$USER_WHO_ADDED$$A_END$  님이 $A2$$USER_WHO_JOINED$$A_END$ 님을 추가했습니다", "description": "This is used when a group admin adds a user to the group chat (display names)", "placeholders": {
-        "user_who_added": { "content": "Group Admin" },
-        "user_who_joined": { "content": "Group Admin's Friend" },
-        "a1": { "content": "<a href=\"/GroupAdmin\">" },
-        "a2": { "content": "<a href=\"/GroupAdminsFriend\">" },
-        "a_end": { "content": "</a>" }
-    } },
-    "user_left": { "message": "$A_START$$NAME$$A_END$ 님이 퇴장했습니다", "description": "This is used when a user in a group leaves (display name)", "placeholders": {
-        "name": { "content": "Group Admin's Friend" },
-        "a_start": { "content": "<a href=\"/@GroupAdminsFriend\">" },
-        "a_end": { "content": "</a>" }
-    } },
-    "user_changed_group_photo": { "message": "$A_START$$NAME$$A_END$ 님이 그룹 사진을 업데이트했습니다", "description": "This is used when a user in a group changes the group photo (display name)", "placeholders": {
-        "name": { "content": "Group Admin" },
-        "a_start": { "content": "<a href=\"/GroupAdmin\">" },
-        "a_end": { "content": "</a>" }
-    } },
-    "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ 님이 그룹 이름을 $GROUP_NAME$(으)로 변경했습니다", "description": "This is used when a user in a group changes the group name (display name)", "placeholders": {
-        "name": { "content": "Group Admin" },
-        "group_name": { "content": "Example Group" },
-        "a_start": { "content": "<a href=\"/GroupAdmin\">" },
-        "a_end": { "content": "</a>" }
-    } },
-    "user_added_you_inbox": { "message": "$NAME$ 님이 나를 추가했습니다", "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)", "placeholders": {
-        "name": { "content": "Group Admin" }
-    } },
+    "initialization": {
+      "message": "초기화"
+    },
+    "converting": {
+      "message": "변환 중"
+    },
+    "time_mode": {
+      "message": " 19시-09시 사이에 어두운 모드를 활성화 합니다"
+    },
+    "show_original_images": {
+      "message": "항상 원래 화질의 이미지를 표시합니다"
+    },
+    "pitch_black_mode": {
+      "message": "조명 끄기(어두운 모드가 설정 되어있을때 작동합니다)"
+    },
+    "hide_retweets": {
+      "message": "리트윗을 숨기기"
+    },
+    "see_tweet_views": {
+      "message": "트윗의 조회수를 표시합니다"
+    },
+    "history": {
+      "message": "이력"
+    },
+    "autotranslate_tweets": {
+      "message": "트윗을 자동으로 번역하기"
+    },
+    "dont_autotranslate": {
+      "message": "트윗을 자동으로 번역하지 않기"
+    },
+    "round_avatars": {
+      "message": "둥근 프로필 사진을 사용합니다"
+    },
+    "search_user_tweets": {
+      "message": "사용자의 트윗을 검색하기"
+    },
+    "no_tl_tweets": {
+      "message": "당신은 아무도 팔로우하고 있지 않기 때문에 타임라인 트윗을 볼 수 없습니다. <a href='/old/settings'>OldTwitter 설정</a>에서 타임라인 유형을 '추천'으로 변경해주세요!"
+    },
+    "replying_to": {
+      "message": "답글을 받는 사람",
+      "description": "Used for mention list. Use 'Mentions' if translation sounds bad in your language.",
+      "example": "Replying to: - user1, - user2",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "display": {
+      "message": "디스플레이",
+      "description": "Used for display settings (fonts, colors, style, etc)"
+    },
+    "twitter_blue_checkmarks": {
+      "message": "Twitter Blue 인증마크를 표시합니다"
+    },
+    "retweet_hotkey_warn": {
+      "message": "당신은 리트윗 버튼를 눌렀습니다. 이 트윗을 정말 리트윗하시겠습니까? 확인을 누르면 이 경고는 더 이상 표시되지 않습니다"
+    },
+    "reply_btn": {
+      "message": "답글",
+      "description": "Used for reply button."
+    },
+    "retweet_btn": {
+      "message": "리트윗 / 트윗 인용하기",
+      "description": "Used for retweet menu button."
+    },
+    "like_btn": {
+      "message": "마음에 들어요 / 마음에 들어요 취소하기",
+      "description": "Used for like button."
+    },
+    "favorite_btn": {
+      "message": "관심글 / 관심글 취소하기",
+      "description": "Used for favorite button."
+    },
+    "views_count": {
+      "message": "조회수",
+      "description": "Used for views count."
+    },
+    "developer_mode": {
+      "message": "개발자 모드"
+    },
+    "copy_user_id": {
+      "message": "유저 ID 복사하기"
+    },
+    "copy_tweet_id": {
+      "message": "트윗 ID 복사하기"
+    },
+    "unfollowers": {
+      "message": "언팔로워"
+    },
+    "unfollowings": {
+      "message": "언팔로우 함"
+    },
+    "no_unfollowers": {
+      "message": "아직 언팔로워가 없습니다!"
+    },
+    "no_unfollowings": {
+      "message": "아무도 언팔로우 하지 않았습니다!"
+    },
+    "recent_unfollow_update": {
+      "message": "언팔로우가 최소 15분 전에 업데이트 되었습니다"
+    },
+    "deleted_accounts": {
+      "message": "이 리스트에 있던 모두가 계정을 비활성화 한것으로 보입니다"
+    },
+    "open_tweet_newtwitter": {
+      "message": "새 트위터에서 이 트윗을 열기"
+    },
+    "black_mode_link": {
+      "message": "조명 끄기 모드 링크"
+    },
+    "custom_mode_link": {
+      "message": "커스텀 모드 링크"
+    },
+    "tweet_verb": {
+      "message": "트윗",
+      "description": "Used for tweet verb.",
+      "example": "->Tweet<- #itsokay"
+    },
+    "do_you_want_to_tweet": {
+      "message": "\"$TWEET_TEXT$\"을 트윗하겠습니까?",
+      "placeholders": {
+        "tweet_text": {
+          "content": "예 괜찮습니다"
+        }
+      }
+    },
+    "user_protected": {
+      "message": "이 트윗은 비공개 설정되어 있습니다"
+    },
+    "follow_to_see": {
+      "message": "승인된 팔로워만 @$SCREEN_NAME$ 님의 트윗과 전체 프로필을 볼 수 있습니다. '팔로우' 버튼을 눌러 팔로우 요청을 보내세요",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "copy_tweet_links_as": {
+      "message": "트윗 링크를 다음 형식으로 복사",
+      "example": "->Copy links as<- vxtwitter.com"
+    },
+    "use_new_icon": {
+      "message": "탭 아이콘을 새 로고로 바꿉니다"
+    },
+    "update_timeline_automatically": {
+      "message": "타임라인의 새 트윗을 자동으로 갱신합니다."
+    },
+    "chrono_no_retweets": {
+      "message": "최신순 타임라인 (리트윗 없음)"
+    },
+    "chrono_retweets": {
+      "message": "최신순 타임라인 (리트윗만 있음)"
+    },
+    "hide_trends": {
+      "message": "실시간 트렌드를 숨깁니다"
+    },
+    "hide_wtf": {
+      "message": "\"팔로우 추천\"을 숨깁니다"
+    },
+    "hide_likes": {
+      "message": "트윗의 마음에 들어요, 리트윗, 답글 수를 숨깁니다"
+    },
+    "hide_followers": {
+      "message": "팔로워 수를 숨깁니다"
+    },
+    "block_sure_desc": {
+      "message": "이제 @$SCREEN_NAME$ 님은 더이상 나를 팔로우 하거나 쪽지를 보낼 수 없습니다.",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "blocked_by_user": {
+      "message": "@$SCREEN_NAME$ 님이 나를 차단했습니다.",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "why_you_cant_see_block_user": {
+      "message": "@$SCREEN_NAME$ 님을 팔로우 하거나 @$SCREEN_NAME$ 님의 트윗을 볼 수 없습니다",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "you_blocked_user": {
+      "message": "@$SCREEN_NAME$ 님은 차단되어 있습니다.",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "do_you_want_see_blocked_user": {
+      "message": "정말로 이 트윗을 보시겠어요? 트윗을 봐도 @$SCREEN_NAME$ 님이 차단 해제되지 않습니다",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "I_want_see_blocked_user": {
+      "message": "네, 프로필을 봅니다"
+    },
+    "logout_title": {
+      "message": "트위터에서 로그아웃할까요?"
+    },
+    "logout_desc_1": {
+      "message": "OldTwitter는 로그인 중에만 작동합니다."
+    },
+    "logout_desc_2": {
+      "message": "다른 로그인 된 계정이 없을경우 로그인 화면으로 넘겨주기 됩니다. 로그아웃 하겠습니까?"
+    },
+    "logout_button": {
+      "message": "로그아웃하기"
+    },
+    "disable_personalized_trends": {
+      "message": "개인화된 트렌드를 비활성화 합니다"
+    },
+    "show_bookmark_count": {
+      "message": "트윗의 북마크된 횟수를 표시합니다"
+    },
+    "bookmarks_count": {
+      "message": "북마크",
+      "description": "Used for bookmarks count."
+    },
+    "remove_bookmark": {
+      "message": "트윗을 북마크에서 지우기"
+    },
+    "hide_community_notes": {
+      "message": "트윗의 커뮤니티 노트를 숨깁니다"
+    },
+    "disable_gif_autoplay": {
+      "message": "GIF 자동재생을 비활성화 합니다"
+    },
+    "hide_tweet": {
+      "message": "트윗을 숨기기"
+    },
+    "unhide_tweet": {
+      "message": "트윗을 보이기"
+    },
+    "hide_tweet_sure": {
+      "message": "이 트윗을 숨기겠습니까?"
+    },
+    "see_hidden_replies": {
+      "message": "숨겨진 답글을 보기"
+    },
+    "bookmarked_tweet": {
+      "message": "트윗을 북마크했습니다"
+    },
+    "unbookmarked_tweet": {
+      "message": "트윗을 북마크 해제했습니다"
+    },
+    "muted_convo": {
+      "message": "뮤트된 대화"
+    },
+    "unmuted_convo": {
+      "message": "언뮤트된 대화"
+    },
+    "show_media_count": {
+      "message": "프로필에 미디어의 수를 표시합니다"
+    },
+    "media": {
+      "message": "미디어",
+      "note": "Keep this short"
+    },
+    "pin_profile_on_navbar": {
+      "message": "프로필을 상단바에 고정합니다"
+    },
+    "pin_bookmarks_on_navbar": {
+      "message": "북마크를 상단바에 고정합니다"
+    },
+    "pin_lists_on_navbar": {
+      "message": "리스트를 상단바에 고정합니다"
+    },
+    "me": {
+      "message": "나",
+      "description": "You should probably use word 'Profile' in your language"
+    },
+    "tweet_text_font": {
+      "message": "트윗 본문 글꼴"
+    },
+    "use_old_default_profile": {
+      "message": "기본 인장으로 알계 인장을 이용합니다"
+    },
+    "colors": {
+      "message": "색상"
+    },
+    "enable_hashflags": {
+      "message": "해시태그 아이콘을 활성화 합니다 (페이지 로딩이 약간 느려질 수 있습니다)"
+    },
+    "content_warning": {
+      "message": "콘텐츠 경고: $WARNINGS$",
+      "placeholders": {
+        "warnings": {
+          "content": "Graphic violence"
+        }
+      }
+    },
+    "graphic_violence": {
+      "message": "폭력"
+    },
+    "adult_content": {
+      "message": "나체 노출"
+    },
+    "sensitive_content": {
+      "message": "민감한 내용"
+    },
+    "uncensor_graphic_violence_automatically": {
+      "message": "폭력이 포함된 미디어를 보여주기 전에 경고하지 않습니다",
+      "description": "의역임"
+    },
+    "uncensor_adult_content_automatically": {
+      "message": "나체 노출이 포함된 미디어를 보여주기 전에 경고하지 않습니다"
+    },
+    "uncensor_sensitive_content_automatically": {
+      "message": "민감한 내용이 포함된 미디어를 보여주기 전에 경고하지 않습니다"
+    },
+    "replying_to_user": {
+      "message": "$SCREEN_NAME$ 님에게 보내는 답글",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "content_warnings": {
+      "message": "콘텐츠 경고"
+    },
+    "transparency": {
+      "message": "Transparency"
+    },
+    "reset": {
+      "message": "초기화"
+    },
+    "reset_all": {
+      "message": "전부 초기화"
+    },
+    "import": {
+      "message": "불러오기",
+      "note": "Verb"
+    },
+    "export": {
+      "message": "내보내기",
+      "note": "Verb"
+    },
+    "reset_colors_sure": {
+      "message": "모든 색상을 초기화하겠습니까?"
+    },
+    "navbar": {
+      "message": "상단바",
+      "description": "Setting Text"
+    },
+    "sidebar": {
+      "message": "사이드바",
+      "description": "Setting Text"
+    },
+    "advanced_options": {
+      "message": "고급 설정",
+      "description": "Setting Text"
+    },
+    "advanced_colors": {
+      "message": "고급 색상",
+      "description": "Setting Text"
+    },
+    "accessibility": {
+      "message": "접근성",
+      "description": "Setting Text"
+    },
+    "tweets_and_timeline": {
+      "message": "트윗과 타임라인",
+      "description": "Setting Text"
+    },
+    "dark_mode_setting": {
+      "message": "다크 모드",
+      "description": "Setting Text"
+    },
+    "old_twitter_look": {
+      "message": "옛날 트위터처럼 설정하기",
+      "description": "Setting Text"
+    },
+    "content_you_see": {
+      "message": "표시되는 콘텐츠",
+      "description": "Setting Text"
+    },
+    "use_old_style_reply": {
+      "message": "구답장 스타일을 사용합니다"
+    },
+    "algov2": {
+      "message": "나를 위한 추천"
+    },
+    "chrono_help": {
+      "message": "고전적인 최신순 타임라인 (\"팔로우 중\"), 다른 콘텐츠를 추가하지 않고 가장 최신의 트윗과 리트윗만을 표시합니다."
+    },
+    "chrono_no_retweets_help": {
+      "message": "처음 것과 같지만 리트윗을 표시하지 않습니다."
+    },
+    "chrono_retweets_help": {
+      "message": "처음 것과 같지만 리트윗을 표시합니다 않습니다."
+    },
+    "chrono_social_help": {
+      "message": "최신순과 추천 타임라인을 같이 표시, 최신순 트윗 사이에 가끔씩 '누군가가 마음에 들어합니다' 와 '누군가 팔로우 합니다' 가 추가됩니다."
+    },
+    "algo_help": {
+      "message": "옛날 추천 타임라인, 트위터가 당신이 좋아할 것 같은 트윗을 표시합니다. V1은 이 타임라인의 옛날 버전이며, 리밋을 가지고 있지 않는 것으로 보입니다(아니면 매우 크거나) 하지만 왜 트윗이 타임라인에 추가되었는지에 대한 표시가 없습니다."
+    },
+    "algov2_help": {
+      "message": "트위터가 (\"당신을 위해\") 현재 사용하고 있는 추천 타임라인, 트위터가 당신이 좋아할 것 같은 트윗을 표시합니다.."
+    },
+    "import_settings": {
+      "message": "설정 불러오기"
+    },
+    "export_settings": {
+      "message": "설정 내보내기"
+    },
+    "import_style_settings": {
+      "message": "스타일 불러오기"
+    },
+    "export_style_settings": {
+      "message": "스타일 내보내기"
+    },
+    "reset_settings": {
+      "message": "설정 초기화"
+    },
+    "reset_settings_sure": {
+      "message": "모든 설정을 초기화하시겠습니까?"
+    },
+    "clear_caches": {
+      "message": "캐시 비우기"
+    },
+    "hide_non_replies": {
+      "message": "답글만 보이기"
+    },
+    "profile_custom_css": {
+      "message": "프로필 커스텀 CSS"
+    },
+    "pccss_not_eligible": {
+      "message": "당신은 프로필 CSS 커스텀 권한이 없습니다.<br><br>모두가 볼 수 있는 사용자 지정 폰트, 색상, 배경 그리고 기타등등으로 이루어진 멋진 프로필을 원한다면, 확장 프로그램의 서포터가 되면 됩니다.(단순히 기부만을 의미하는 것이 아닙니다)<br><br><a target='_blank' href='https://dimden.dev/ot/custom-css/'>여기</a>를 클릭하여 더 알아보세요"
+    },
+    "pccss_eligible": {
+      "message": "당신에게 프로필 CSS 커스텀 권한이 부여되었습니다!"
+    },
+    "pccss_congrats": {
+      "message": "축하합니다! 당신은 CSS 프로필 커스텀 권한을 얻었습니다!<br>매우 적은 비율의 OldTwitter 유저만이 이 권한을 갖습니다. 재밌게 즐기고, 멋지게 꾸미세요!"
+    },
+    "yay": {
+      "message": "예이!"
+    },
+    "light_mode_vars": {
+      "message": "밝은 모드 변수"
+    },
+    "dark_mode_vars": {
+      "message": "어두운 모드 변수"
+    },
+    "css_theme_hint": {
+      "message": "부디 '눈이 썩거나' 남을 속이는 디자인 (예를 들어 팔로우 버튼을 엄청 크게 만드는 것 같은 것)을 설정하지 말아주세요. 만약 그러면 권한을 잃을 것입니다.<br><br>당신의 CSS은 사용자가 설정한 지역적 스타일보다 우선시 됩니다.<br><br>이미지 용으로 i.imgur.com 과 폰트 용으로 fonts.googleapis.com (및 <a target='_blank' href='https://dimden.dev/fonts/'>이곳</a>) 만을 이용할 수 있습니다.<br><br><a href='https://github.com/dimdenGD/OldTwitter/blob/5e235a0a7435083428bddd7d43123e2afa344cba/scripts/injection.js#L252' target='_blank'>이곳</a>에서 CSS 변수의 리스트를 확인할 수 있습니다.<br><br>특정 테마를 대상으로 하기 위해, <code>.body-dark</code>(어두운 모드용), <code>.body-pitch-black</code>(조명 끄기 모드용, <code>.body-dark</code>을 포함 할 수 있습니다) 그리고 <code>.body-light</code>(밝은 모드용) 클래스를 사용할 수 있습니다."
+    },
+    "profile_colors_moved": {
+      "message": "링크 색상 동기화는 당신의 프로필로 이동했습니다. (프로필 수정 버튼 왼쪽의 연필 모양 버튼)"
+    },
+    "click_here_more_info": {
+      "message": "여기를 눌러 자세한 정보를 살펴보세요"
+    },
+    "profile_must_be_public_to_auth": {
+      "message": "처음 동기화를 하기 위해 당신의 프로필을 공개로 설정해야 하며, 그 다음부턴 비공개로 설정하여도 됩니다."
+    },
+    "save_draft": {
+      "message": "초안 저장",
+      "note": "Try to keep this short"
+    },
+    "load_draft": {
+      "message": "초안 불어오기",
+      "note": "Try to keep this short"
+    },
+    "draft_saved": {
+      "message": "초안을 저장했습니다!"
+    },
+    "draft_loaded": {
+      "message": "초안을 불어왔습니다!"
+    },
+    "no_draft": {
+      "message": "저장된 초안이 없습니다!!"
+    },
+    "invalid_auth_token": {
+      "message": "당신의 인증 토큰이 무효하거나 만료되었습니다. 다시 시도해 보거나, 문제가 지속될 경우, @dimden에게 연락주세요."
+    },
+    "css_set": {
+      "message": "CSS 가 성공적으로 설정됬습니다!"
+    },
+    "error_setting_css": {
+      "message": "CSS 설정 에러"
+    },
+    "load": {
+      "message": "불러오기"
+    },
+    "disable_profile_customizations": {
+      "message": "프로필 커스텀화를 비활성화합니다"
+    },
+    "replying_to_and": {
+      "message": " 님과 ",
+      "description": "For some language which using address terms",
+      "example": "Replying to @A-> and <-@B , @C"
+    },
+    "replying_to_comma": {
+      "message": " 님, ",
+      "description": "For some language which using address terms",
+      "example": "Replying to @A and @B-> , <-@C"
+    },
+    "twitter": {
+      "message": "트위터"
+    },
+    "move_navbar_to_bottom": {
+      "message": "상단바를 아래로 이동"
+    },
+    "styled_profile": {
+      "message": "꾸며진 프로필"
+    },
+    "open_notifs_as_modal": {
+      "message": "알림을 모달 창으로 엽니다"
+    },
+    "clear_ot_token": {
+      "message": "OldTwitter 토큰 초기화"
+    },
+    "enable_iframe_navigation": {
+      "message": "실험적인 페이지 유지 탐색을 활성화 합니다. 링크를 클릭후 새로고침 없이 이전 페이지로 돌아갈 수 있게 됩니다. 이 기능은 실험적이고, 불안정할 수 있습니다."
+    },
+    "style_your_profile": {
+      "message": "여기서 당신의 프로필을 꾸미세요!"
+    },
+    "modern_ui": {
+      "message": "2018년 트위터 디자인을 사용합니다 둥근 버튼과 새로운 심벌을 포함합니다"
+    },
+    "show_exact_values": {
+      "message": "마음에 들어요, 리트윗, 팔로워 등의 정확한 값을 표시합니다."
+    },
+    "hide_timeline_types": {
+      "message": "홈페이지에서 타임라인 타입을 숨깁니다."
+    },
+    "autotranslation": {
+      "message": "자동 번역"
+    },
+    "autotranslation_mode": {
+      "message": "다음의 트윗을 자동번역"
+    },
+    "translate_in_list": {
+      "message": "목록에 있는 언어만"
+    },
+    "translate_not_in_list": {
+      "message": "목록에 없는 언어만"
+    },
+    "language_list": {
+      "message": "언어 목록"
+    },
+    "select_language": {
+      "message": "언어를 선택하세요"
+    },
+    "mute_videos": {
+      "message": "비디오를 기본적으로 음소거합니다"
+    },
+    "dont_pause_videos": {
+      "message": "스크롤 할 때 비디오를 일시정지 하지 않습니다"
+    },
+    "delete_for_you": {
+      "message": "나에게서 삭제",
+      "description": "DM Message Delete menu"
+    },
+    "show_user_previews_on_mobile": {
+      "message": "계속 누를 시 유저 프로필을 표시합니다 (이용에 방해될 수 있습니다)"
+    },
+    "separate_text": {
+      "message": "텍스트를 분리하기",
+      "description": "This option appears in three-dot menu of tweets only on mobile and makes text bigger and adds padding on top and bottom on tap"
+    },
+    "leave_conversation": {
+      "message": "대화를 삭제하시거나 나가실건가요?"
+    },
+    "autotranslation_help1": {
+      "message": "이 기능은 버튼을 직접 누를 필요 없이 자동으로 트윗을 찾아 번역을 하는 기능입니다."
+    },
+    "autotranslation_help2": {
+      "message": "사용하시려면, 자동번역을 선택하고, 언어 목록을 지정하세요. 조건에 맞는 트윗이 자동으로 번역될 것 입니다."
+    },
+    "autotranslation_help3": {
+      "message": "특히:"
+    },
+    "autotranslation_help4": {
+      "message": "언어 목록이 없는 상태에서 \"목록에 있는 언어만\"을 선택 시, 해당 기능은 비활성화 됩니다. (기본값)"
+    },
+    "autotranslation_help5": {
+      "message": "언어 목록이 없는 상태에서 \"목록에 없는 언어만\"을 선택 시, 모든 트윗이 번역됩니다. 필요없는 번역을 막기 위해 당신이 아는 언어를 추가하는 것이 좋습니다."
+    },
+    "go_back_to_top": {
+      "message": "맨 위로 돌아가기"
+    },
+    "follow_system_settings_dark_mode": {
+      "message": "시스템 설정을 사용합니다"
+    },
+    "replacer_post_to_tweet": {
+      "message": "게시물->트윗|게시->트윗",
+      "description": "This string will be used to replace word 'post' with 'tweet' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: posts->tweet|post->tweet). On the left side of a substitution, use the word for 'post' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your post' in your language, find that word (in this case 'post') and place it on the left side, before the '->', and then on the right side insert the translated 'tweet' word, so when replaced it'll look like 'someone liked your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
+    },
+    "replacer_repost_to_retweet": {
+      "message": "재게시물->리트윗|재게시->리트윗",
+      "description": "If 'retweet', either the noun or the verb, is different than 'tweet' in your language, you should change this. If this replacement is very context-based in your language, you can also add multiple substitutions and separate them with a | (example: repost->retweet|ripostato->ritwittato). The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex)."
+    },
+    "mute_user": {
+      "message": "@$SCREEN_NAME$ 님 뮤트하기",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "unmute_user": {
+      "message": "@$SCREEN_NAME$ 님 언뮤트하기",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "muted_user": {
+      "message": "@$SCREEN_NAME$ 님을 뮤트했습니다",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "unmuted_user": {
+      "message": "@$SCREEN_NAME$ 님을 언뮤트했습니다",
+      "placeholders": {
+        "screen_name": {
+          "content": "CoolPerson2000"
+        }
+      }
+    },
+    "mmdd": {
+      "message": "$MONTH$월 $DATE$일",
+      "description": "July 1st",
+      "placeholders": {
+        "month": {
+          "content": "July"
+        },
+        "date": {
+          "content": "1st"
+        }
+      }
+    },
+    "mmddyy": {
+      "message": "$YEAR$년 $MONTH$월 $DATE$일",
+      "description": "July 1st, 2015",
+      "placeholders": {
+        "year": {
+          "content": "2015"
+        },
+        "month": {
+          "content": "July"
+        },
+        "date": {
+          "content": "1st"
+        }
+      }
+    },
+    "yyyy": {
+      "message": "$YEAR$년",
+      "description": "2015",
+      "placeholders": {
+        "year": {
+          "content": "2015"
+        }
+      }
+    },
+    "localize_digit": {
+      "message": "아시아식 4자리수 표기법을 사용합니다. (한중일 전용)",
+      "description": "Non-CJK dont need to translate this message, just copy and paste"
+    },
+    "replacer_liked_to_favorited": {
+      "message": " 마음에 들어 합니다->관심글로 지정했습니다",
+      "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this."
+    },
+    "favorited_by": {
+      "message": "다음 유저가 관심글로 지정함"
+    },
+    "disable_retweet_hotkey": {
+      "message": "리트윗 단축키(T)를 비활성화 합니다"
+    },
+    "disable_like_hotkey": {
+      "message": "마음에 들어요 단축키(L)를 비활성화 합니다"
+    },
+    "enable_extension_compatibility": {
+      "message": "호환성 모드를 활성화합니다. (Oldtwitter에서 타 확장프로그램을 사용하고 싶을 때만 활성화 하세요. 만약에 해당 옵션을 활성화 해도 작동하지 않으면 반드시 다시 비활성화 하세요. 페이지를 매우 버벅거게 하고 문제를 유발할 수 있습니다.)"
+    },
+    "enter_custom_font_name": {
+      "message": "사용자 지정 글꼴 이름을 입력하세요"
+    },
+    "disable_data_saver": {
+      "message": "모바일 데이터 사용 중에 데이터 세이버를 비활성화 합니다"
+    },
+    "mobile": {
+      "message": "모바일"
+    },
+    "disable_accept_type": {
+      "message": "미디어를 업로드 할 때 사용자 지정 확장자를 비활성화 합니다. 특정 안드로이드 버전에서 모든 이미지에 접근할 수 없는 문제를 해결합니다."
+    },
+    "manage_searches": {
+      "message": "검색 관리하기"
+    },
+    "add_search": {
+      "message": "검색 추가하기"
+    },
+    "pinned_searches": {
+      "message": "고정된 검색"
+    },
+    "show_follower_counts_in_lists": {
+      "message": "팔로우/팔로잉 페이지에서 팔로워의 수를 표시합니다"
+    },
+    "not_possible_to_see_unfollowers": {
+      "message": "아쉽게도, 50,000 명 이상의 팔로워를 가진 계정에 대해 언팔로우를 볼 수 없습니다."
+    },
+    "sort_by_follow_date": {
+      "message": "팔로우 한 날짜 순 정렬 (부정확)"
+    },
+    "sort_by_followers": {
+      "message": "팔로워 수 순 정렬"
+    },
+    "sort_by_following": {
+      "message": "팔로잉 수 순 정렬"
+    },
+    "sort_by_name": {
+      "message": "이름 순 정렬"
+    },
+    "sort_by_username": {
+      "message": "사용자 아이디 순 정렬"
+    },
+    "sort_by_tweets": {
+      "message": "트윗 수 순 정렬"
+    },
+    "sort_by_created": {
+      "message": "가입일 순 정렬"
+    },
+    "sort_by_random": {
+      "message": "무작위로 정렬"
+    },
+    "loading_all_followers": {
+      "message": "모든 팔로워를 로딩하는 중 (24시간에 한번만 발생합니다)..."
+    },
+    "apply": {
+      "message": "적용"
+    },
+    "filter": {
+      "message": "필터"
+    },
+    "ascending": {
+      "message": "오름차순"
+    },
+    "descending": {
+      "message": "내림차순"
+    },
+    "search_by_name": {
+      "message": "이름으로 검색"
+    },
+    "search_by_description": {
+      "message": "자기소개로 검색"
+    },
+    "only_show_people_you_follow": {
+      "message": "나를 팔로우 하는 사람만 표시합니다"
+    },
+    "only_show_people_with_followers": {
+      "message": "최소 $NUMBER$ 팔로워를 가진 사람만 표시합니다",
+      "placeholders": {
+        "number": {
+          "content": "-1"
+        }
+      }
+    },
+    "only_show_people_with_age": {
+      "message": "$NUMBER$ 일 된 계정을 가진 사람만 표시합니다",
+      "placeholders": {
+        "number": {
+          "content": "-1"
+        }
+      }
+    },
+    "page": {
+      "message": "페이지"
+    },
+    "update": {
+      "message": "업데이트"
+    },
+    "show_quote_count": {
+      "message": "트윗의 인용 수를 표시합니다"
+    },
+    "uploading": {
+      "message": "업로드 중"
+    },
+    "finalization": {
+      "message": "마무리 하는 중"
+    },
+    "processing": {
+      "message": "처리 중"
+    },
+    "quotes": {
+      "message": "인용"
+    },
+    "share_tweet_in_dms": {
+      "message": "쪽지로 공유하기"
+    },
+    "share_tweet_to": {
+      "message": "공유하기..."
+    },
+    "disable_find_hotkey": {
+      "message": "검색 단축키(F)를 비활성화 합니다"
+    },
+    "uploaded": {
+      "message": "업로드됨"
+    },
+    "hide_unfollowers_page": {
+      "message": "언팔로워 페이지를 숨깁니다"
+    },
+    "custom_font": {
+      "message": "<사용자 지정>"
+    },
+    "current_font": {
+      "message": "현재 글꼴: $FONT$",
+      "placeholders": {
+        "font": {
+          "content": "Arial"
+        }
+      }
+    },
+    "user_sent_photo": {
+      "message": "$NAME$ 님이 사진을 보냈습니다",
+      "placeholders": {
+        "name": {
+          "content": "Display Name"
+        }
+      }
+    },
+    "user_sent_video": {
+      "message": "$NAME$ 님이 동영상을 보냈습니다",
+      "placeholders": {
+        "name": {
+          "content": "Display Name"
+        }
+      }
+    },
+    "user_reacted_message": {
+      "message": "$NAME$ 님이 반응을 보냈습니다",
+      "placeholders": {
+        "name": {
+          "content": "Display Name"
+        }
+      }
+    },
+    "you_sent_photo": {
+      "message": "사진을 보냈습니다"
+    },
+    "you_sent_video": {
+      "message": "동영상을 보냈습니다"
+    },
+    "you_reacted_message": {
+      "message": "반응을 보냈습니다"
+    },
+    "user_added": {
+      "message": "$A1$$USER_WHO_ADDED$$A_END$  님이 $A2$$USER_WHO_JOINED$$A_END$ 님을 추가했습니다",
+      "description": "This is used when a group admin adds a user to the group chat (display names)",
+      "placeholders": {
+        "user_who_added": {
+          "content": "Group Admin"
+        },
+        "user_who_joined": {
+          "content": "Group Admin's Friend"
+        },
+        "a1": {
+          "content": "<a href=\"/GroupAdmin\">"
+        },
+        "a2": {
+          "content": "<a href=\"/GroupAdminsFriend\">"
+        },
+        "a_end": {
+          "content": "</a>"
+        }
+      }
+    },
+    "user_left": {
+      "message": "$A_START$$NAME$$A_END$ 님이 퇴장했습니다",
+      "description": "This is used when a user in a group leaves (display name)",
+      "placeholders": {
+        "name": {
+          "content": "Group Admin's Friend"
+        },
+        "a_start": {
+          "content": "<a href=\"/@GroupAdminsFriend\">"
+        },
+        "a_end": {
+          "content": "</a>"
+        }
+      }
+    },
+    "user_changed_group_photo": {
+      "message": "$A_START$$NAME$$A_END$ 님이 그룹 사진을 업데이트했습니다",
+      "description": "This is used when a user in a group changes the group photo (display name)",
+      "placeholders": {
+        "name": {
+          "content": "Group Admin"
+        },
+        "a_start": {
+          "content": "<a href=\"/GroupAdmin\">"
+        },
+        "a_end": {
+          "content": "</a>"
+        }
+      }
+    },
+    "user_changed_group_name": {
+      "message": "$A_START$$NAME$$A_END$ 님이 그룹 이름을 $GROUP_NAME$(으)로 변경했습니다",
+      "description": "This is used when a user in a group changes the group name (display name)",
+      "placeholders": {
+        "name": {
+          "content": "Group Admin"
+        },
+        "group_name": {
+          "content": "Example Group"
+        },
+        "a_start": {
+          "content": "<a href=\"/GroupAdmin\">"
+        },
+        "a_end": {
+          "content": "</a>"
+        }
+      }
+    },
+    "user_added_you_inbox": {
+      "message": "$NAME$ 님이 나를 추가했습니다",
+      "description": "This is used when a group admin adds you to the group chat (display names, inbox list only)",
+      "placeholders": {
+        "name": {
+          "content": "Group Admin"
+        }
+      }
+    },
     "user_added_you_msg": {
-        "message": "$A_START$$NAME$$A_END$ 님이 나를 추가했습니다<br>이 그룹에 기타 $NUMBER$명이 있습니다",
-        "description": "This is used when a group admin adds you to the group chat (display names, messages only)",
-        "example": "<a href=\"/GroupAdmin\">Group Admin</a> added you<br>There are 6 other people in this group",
-        "placeholders": {
-            "name": { "content": "Group Admin" },
-            "number": { "content": "6" },
-            "a_start": { "content": "<a href=\"/GroupAdmin\">" },
-            "a_end": { "content": "</a>" }
+      "message": "$A_START$$NAME$$A_END$ 님이 나를 추가했습니다<br>이 그룹에 기타 $NUMBER$명이 있습니다",
+      "description": "This is used when a group admin adds you to the group chat (display names, messages only)",
+      "example": "<a href=\"/GroupAdmin\">Group Admin</a> added you<br>There are 6 other people in this group",
+      "placeholders": {
+        "name": {
+          "content": "Group Admin"
+        },
+        "number": {
+          "content": "6"
+        },
+        "a_start": {
+          "content": "<a href=\"/GroupAdmin\">"
+        },
+        "a_end": {
+          "content": "</a>"
         }
+      }
     },
-    "accepted_conversation": { "message": "승인된 대화" },
-    "anniversary_tweet": { "message": "트위터에 가입한 날이 언제인지 기억하시나요? 트위터는 기억한답니다!\n#MyTwitterAnniversary" },
-    "you_shared_tweet": { "message": "트윗을 전송했습니다" },
-    "user_shared_tweet": { "message": "$NAME$ 님이 트윗을 전송했습니다", "placeholders": { "name": { "content": "Display Name" } } },
-    "transition_profile_banner": { "message": "프로필 배너에 전환을 사용합니다" },
-    "custom_downloadtemplate": { "message": "사용자 정의 다운로드 템플릿" },
-    "custom_downloadtemplate_text": { "message": "트위터 미디어를 내려받을 때, 파일의 이름을 사용자 정의 할 수 있습니다." },
-    "save_downloadtemplate": { "message": "다운로드 템플릿 저장" },
-    "custom_downloadtemplate_hintName1": { "message": "<code>{user_name}</code>: 사용자 이름" },
-    "custom_downloadtemplate_hintName2": { "message": "<code>{user_screen_name}</code>: 사용자의 계정명 (예시: @dril)" },
-    "custom_downloadtemplate_hintTime": { "message": "<code>{timestamp}</code>: 트윗의 게시 날짜 및 시간" },
-    "custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: 다운로드 하는 파일의 확장자" },
-    "custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: 트윗의 아이디" },
-    "custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: 각 파일의 번호 (여러 미디어가 잇는 파일을 받는 경우)" },
-    "custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: pbs.twimg.com에서의 원본 파일 이름" },
-    "nonexistent_user": { "message": "계정이 존재하지 않음" },
-    "nonexistent_user_desc": { "message": "다른 검색어를 시도해보세요." },
-    "suspended_user": { "message": "일시 정지된 계정" },
-    "suspended_user_desc": { "message": "트위터에서는 <a href='https://help.x.com/ko/rules-and-policies/twitter-rules'>트위터 운영원칙</a>을 위반한 계정을 일시정지 시킵니다." }
-}
+    "accepted_conversation": {
+      "message": "승인된 대화"
+    },
+    "anniversary_tweet": {
+      "message": "트위터에 가입한 날이 언제인지 기억하시나요? 트위터는 기억한답니다!\n#MyTwitterAnniversary"
+    },
+    "you_shared_tweet": {
+      "message": "트윗을 전송했습니다"
+    },
+    "user_shared_tweet": {
+      "message": "$NAME$ 님이 트윗을 전송했습니다",
+      "placeholders": {
+        "name": {
+          "content": "Display Name"
+        }
+      }
+    },
+    "transition_profile_banner": {
+      "message": "프로필 배너에 전환을 사용합니다"
+    },
+    "custom_downloadtemplate": {
+      "message": "사용자 정의 다운로드 템플릿"
+    },
+    "custom_downloadtemplate_text": {
+      "message": "트위터 미디어를 내려받을 때, 파일의 이름을 사용자 정의 할 수 있습니다."
+    },
+    "save_downloadtemplate": {
+      "message": "다운로드 템플릿 저장"
+    },
+    "custom_downloadtemplate_hintName1": {
+      "message": "<code>{user_name}</code>: 사용자 이름"
+    },
+    "custom_downloadtemplate_hintName2": {
+      "message": "<code>{user_screen_name}</code>: 사용자의 계정명 (예시: @dril)"
+    },
+    "custom_downloadtemplate_hintTime": {
+      "message": "<code>{timestamp}</code>: 트윗의 게시 날짜 및 시간"
+    },
+    "custom_downloadtemplate_hintExtension": {
+      "message": "<code>{extension}</code>: 다운로드 하는 파일의 확장자"
+    },
+    "custom_downloadtemplate_hintID": {
+      "message": "<code>{id}</code>: 트윗의 아이디"
+    },
+    "custom_downloadtemplate_hintIndex": {
+      "message": "<code>{index}</code>: 각 파일의 번호 (여러 미디어가 있는 파일을 받는 경우)"
+    },
+    "custom_downloadtemplate_hintFilename": {
+      "message": "<code>{filename}</code>: pbs.twimg.com에서의 원본 파일 이름"
+    },
+    "nonexistent_user": {
+      "message": "계정이 존재하지 않음"
+    },
+    "nonexistent_user_desc": {
+      "message": "다른 검색어를 시도해보세요."
+    },
+    "suspended_user": {
+      "message": "일시 정지된 계정"
+    },
+    "suspended_user_desc": {
+      "message": "트위터에서는 <a href='https://help.x.com/ko/rules-and-policies/twitter-rules'>트위터 운영원칙</a>을 위반한 계정을 일시정지 시킵니다."
+    },
+    "show_boring_indicators": {
+      "message": "팔로워/팔로우 페이지에서 사용자의 마지막 트윗이 리트윗/인용/없음/오래된 트윗인지에 대한 정보를 표시합니다"
+    },
+    "hide_original_languages": {
+      "message": "번역한 후에 원본 언어의 내용을 숨깁니다"
+    },
+    "blocked": {
+      "message": "차단됨"
+    },
+    "use_retweeted_id": {
+      "message": "리트윗을 마음에 들어요 하거나 리트윗 할 경우, 리트윗을 한 유저에게 알림을 보냅니다."
+    },
+    "show_based_in": {
+      "message": "계정 사용자의 거주국가를 표시합니다"
+    },
+    "based_in": {
+      "message": "계정 사용자 거주 국가:"
+    },
+    "based_in_vpn": {
+      "message": "(VPN)"
+    },
+    "new_gallery": {
+      "message": "프로필 미디어 페이지에 새 갤러리를 사용합니다"
+    }
+  }
