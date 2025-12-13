@@ -143,6 +143,7 @@ async function loadVars() {
                 "customDownloadTemplate",
                 "showBoringIndicators",
                 "useRetweetedId",
+                "newGallery"
             ],
             (data) => {
                 // default variables

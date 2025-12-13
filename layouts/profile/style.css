@@ -1575,6 +1575,20 @@ body.body-old-ui .user-item-btn.follow:before {
     display: none;
 }
 
+.profile-media-item {
+    display: inline-block;
+}
+
+.profile-media-item img {
+    width: 141px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin: 3px;
+    margin-bottom: 0;
+    margin-top: 2px;
+}
+
 /* A little smaller UI */
 @media screen and (max-width: 1195px) {
     #wtf {
@@ -1866,11 +1880,20 @@ body.body-old-ui .user-item-btn.follow:before {
     #profile-friends-div{
         display:none;
     }
+
+    .profile-media-item img {
+        width: 150px;
+        height: 150px;
+    }
 }
 @media screen and (max-width: 470px) {
     .profile-stat {
         padding-left: 7px;
         padding-right: 7px;
+    }
+    .profile-media-item img {
+        width: 120px;
+        height: 120px;
     }
 }
 @media screen and (max-width: 430px){
@@ -1906,6 +1929,10 @@ body.body-old-ui .user-item-btn.follow:before {
     }
     #profile-name {
         font-size: 20px;
+    }
+    .profile-media-item img {
+        width: 100px;
+        height: 100px;
     }
 }
 @media screen and (max-width: 320px) {

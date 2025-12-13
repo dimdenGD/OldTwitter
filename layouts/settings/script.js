@@ -271,6 +271,7 @@ setTimeout(async () => {
     let darkModeText = document.getElementById('dark-mode-text');
     let timeMode = document.getElementById('time-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
+    let newGallery = document.getElementById('new-gallery');
     let disableHotkeys = document.getElementById('disable-hotkeys');
     let disableRetweetHotkey = document.getElementById('disable-retweet-hotkey');
     let disableLikeHotkey = document.getElementById('disable-like-hotkey');
@@ -594,6 +595,11 @@ setTimeout(async () => {
     showTopicTweets.addEventListener('change', () => {
         chrome.storage.sync.set({
             showTopicTweets: showTopicTweets.checked
+        }, () => { });
+    });
+    newGallery.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            newGallery: newGallery.checked
         }, () => { });
     });
     useNewIcon.addEventListener('change', () => {
@@ -1040,6 +1046,7 @@ setTimeout(async () => {
     hideTimelineTypes.checked = !!vars.hideTimelineTypes;
     timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
+    newGallery.checked = !!vars.newGallery;
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
     timeMode.checked = !!vars.timeMode && !vars.systemDarkMode;

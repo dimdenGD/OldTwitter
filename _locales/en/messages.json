@@ -651,5 +651,6 @@
     "use_retweeted_id": { "message": "When liking or retweeting a retweet, notify the user who retweeted." },
     "show_based_in": { "message": "Show where account is based" },
     "based_in": { "message": "Based in:" },
-    "based_in_vpn": { "message": "(VPN)" }
+    "based_in_vpn": { "message": "(VPN)" },
+    "new_gallery": { "message": "Use new gallery for profile media page" }
 }
