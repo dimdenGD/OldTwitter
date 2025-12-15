@@ -183,7 +183,7 @@
     "algo": { "message": "算法（为您推荐）" },
     "timeline_type": { "message": "时间线类型" },
     "show_topic_tweets": { "message": "显示话题推文（仅限算法）" },
-    "slow_show_colors_in_timeline": { "message": "Show custom link colors of users in home timeline (This can cause slow downs on some devices!)" },
+    "slow_show_colors_in_timeline": { "message": "在首页时间线显示用户的自定义链接颜色（这在某些设备上可能减缓加载速度！）" },
     "always_show_link_color": { "message": "始终显示自定义链接颜色，而不是仅在悬停时显示" },
     "enable_twemoji": { "message": "启用 Twemoji" },
     "hearts_instead_stars": { "message": "显示心形（喜欢）而不是星形（收藏）" },
@@ -647,5 +647,10 @@
     "suspended_user_desc": { "message": "您正在查看的个人资料页已被冻结。" },
     "show_boring_indicators": { "message": "在关注中/粉丝页面的用户昵称后方添加一个表示其最近推文的图标<br>图标示意：<span class=\"user-indicator-retweeted\"></span> 转推的 / <span class=\"user-indicator-quoted\"></span> 引用的 / <span class=\"user-indicator-no-status\"></span> 不存在的 / <span class=\"user-indicator-old\"></span> 有段时间（一周以上）的"},
     "hide_original_languages":{"message": "翻译推文后隐藏原文" },
-    "blocked": { "message": "已屏蔽" }
+    "blocked": { "message": "已屏蔽" },
+    "use_retweeted_id": { "message": "当喜欢或转推某条推文时，同时通知转推这条推文的用户" },
+    "show_based_in": { "message": "显示账号所在地" },
+    "based_in": { "message": "位于" },
+    "based_in_vpn": { "message": "(VPN)" }, 
+    "new_gallery": { "message": "个人资料页媒体页面使用新画廊（宫格）样式" }
 }
