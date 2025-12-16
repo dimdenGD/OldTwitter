@@ -4860,9 +4860,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                 }
             );
         tweetInteractMoreMenuCopy.addEventListener("click", () => {
-            navigator.clipboard.writeText(
-                `https://${vars.copyLinksAs}/${t.user.screen_name}/status/${t.id_str}`
-            );
+            chrome.storage.sync.get(['copyLinksAs'], (data) => {
+                const copyLinksAs = data.copyLinksAs || vars.copyLinksAs || 'twitter.com';
+                navigator.clipboard.writeText(
+                    `https://${copyLinksAs}/${t.user.screen_name}/status/${t.id_str}`
+                );
+            });
         });
         if (tweetInteractMoreMenuCopyTweetId)
             tweetInteractMoreMenuCopyTweetId.addEventListener("click", () => {
