@@ -911,16 +911,40 @@ setTimeout(async () => {
     });
     copyLinksAs.addEventListener('change', () => {
         let val = copyLinksAs.value;
+        let previousVal = vars.copyLinksAs || 'twitter.com';
+        
         if(val === 'custom') {
             val = prompt(LOC.copy_tweet_links_as.message);
             if(!val) {
+                // User cancelled, reset to previous value
+                copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net', 'fixupx.com', 'x.com'].includes(previousVal) ? previousVal : 'custom';
                 return;
             }
         }
-            
+        
+        // Update vars immediately so copy functionality works right away
+        vars.copyLinksAs = val;
+        
         chrome.storage.sync.set({
             copyLinksAs: val
-        }, () => { });
+        }, () => {
+            // Update select to show 'custom' if value is not in predefined list
+            if(!['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net', 'fixupx.com', 'x.com'].includes(val)) {
+                copyLinksAs.value = 'custom';
+                // Update custom value display if it exists
+                let customValueDisplay = document.getElementById('copy-links-as-custom-value');
+                if(customValueDisplay) {
+                    customValueDisplay.textContent = val;
+                    customValueDisplay.hidden = false;
+                }
+            } else {
+                // Hide custom value display for predefined options
+                let customValueDisplay = document.getElementById('copy-links-as-custom-value');
+                if(customValueDisplay) {
+                    customValueDisplay.hidden = true;
+                }
+            }
+        });
     });
     customCSS.addEventListener('keydown', e => {
         if(e.key === "Tab") {
@@ -1112,6 +1136,12 @@ setTimeout(async () => {
     document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
     autotranslationMode.value = vars.autotranslationMode;
     copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net', 'fixupx.com', 'x.com'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
+    // Show custom value if it's not a predefined option
+    let customValueDisplay = document.getElementById('copy-links-as-custom-value');
+    if(customValueDisplay && !['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net', 'fixupx.com', 'x.com'].includes(vars.copyLinksAs)) {
+        customValueDisplay.textContent = vars.copyLinksAs;
+        customValueDisplay.hidden = false;
+    }
     if(vars.timeMode) {
         darkMode.disabled = true;
         darkMode.checked = isDark();
