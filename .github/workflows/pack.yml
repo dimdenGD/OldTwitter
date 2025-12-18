@@ -28,7 +28,7 @@ jobs:
         run: npm run build-action
 
       - name: Unzip extension
-        run: unzip -qq ./build/OldTwitterChrome.zip -d OldTwitterChrome; unzip -qq ./build/OldTwitterFirefox.zip -d OldTwitterFirefox
+        run: unzip -qq ./build/OldTwitterChrome.zip -d ./build/OldTwitterChrome; unzip -qq ./build/OldTwitterFirefox.zip -d ./build/OldTwitterFirefox
         working-directory: ${{ github.workspace }}
         
       - name: Upload for Firefox
