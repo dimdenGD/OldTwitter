@@ -1916,7 +1916,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
             el.classList.add('profile-media-item');
             el.innerHTML = html`
                 <a href="/${pageUser.screen_name}/status/${t.id_str}" target="_blank">
-                    <img src="${mediaUrl}" alt="${firstMedia.ext_alt_text}">
+                    <img src="${mediaUrl}" alt="${escapeHTML(firstMedia.ext_alt_text)}">
                 </a>
             `;
             let a = el.getElementsByTagName('a')[0];
