@@ -555,7 +555,7 @@ const API = {
                         `https://api.${location.hostname}/1.1/account/verify_credentials.json`,
                         {
                             headers: {
-                                authorization: OLDTWITTER_CONFIG.oauth_key,
+                                authorization: OLDTWITTER_CONFIG.public_token,
                                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                                 "x-twitter-auth-type": "OAuth2Session",
                             },
@@ -834,7 +834,7 @@ const API = {
                         `https://api.${location.hostname}/1.1/account/settings.json`,
                         {
                             headers: {
-                                authorization: OLDTWITTER_CONFIG.oauth_key,
+                                authorization: OLDTWITTER_CONFIG.public_token,
                                 "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                                 "x-twitter-auth-type": "OAuth2Session",
                             },
@@ -1288,14 +1288,9 @@ const API = {
                             count,
                             data,
                         });
-                        if (data.errors && data.errors[0]) {
-                            return reject(data.errors[0].message);
-                        }
                         let instructions =
                             data.data.home.home_timeline_urt.instructions;
-                        let entries = instructions.find(
-                            (i) => i.type === "TimelineAddEntries"
-                        );
+                        let entries = instructions.find(i => i.type === "TimelineAddEntries");
                         if (!entries) {
                             debugLog("timeline.getAlgorithmicalV2", "end", {
                                 list: [],
@@ -2537,7 +2532,7 @@ const API = {
                     }`,
                     {
                         headers: {
-                            authorization: OLDTWITTER_CONFIG.oauth_key,
+                            authorization: OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "x-twitter-client-language": window.LANGUAGE
@@ -2607,6 +2602,11 @@ const API = {
                                 data.data.user.result.unavailable_message.text
                             );
                         }
+                        if (data.data.user.result.message) {
+                            return reject(
+                                data.data.user.result.message
+                            );
+                        }
 
                         let result = data.data.user.result;
                         result.legacy.id_str = result.rest_id;
@@ -2629,6 +2629,9 @@ const API = {
                             !result.legacy.verified_type
                         ) {
                             result.legacy.verified_type = "Blue";
+                        }
+                        if (!result.legacy.protected) { //can be undefined
+                            result.legacy.protected = false;
                         }
 
                         debugLog("user.getV2", "end", result.legacy);
@@ -3935,7 +3938,7 @@ const API = {
                     }/1.1/users/lookup.json?user_id=${ids.join(",")}`,
                     {
                         headers: {
-                            authorization: OLDTWITTER_CONFIG.oauth_key,
+                            authorization: OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
                             "content-type":
@@ -3950,6 +3953,75 @@ const API = {
                             return reject(data.errors[0].message);
                         }
                         resolve(data);
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            });
+        },
+        lookupV2: (ids) => {
+            return new Promise((resolve, reject) => {
+                fetch(
+                    `/i/api/graphql/_8egOzcbgeLIhP0TbTStGw/UsersByRestIds?variables=${encodeURIComponent(
+                        JSON.stringify({ userIds: ids })
+                    )}&features=${encodeURIComponent(
+                        JSON.stringify({
+                            rweb_tipjar_consumption_enabled: false,
+                            verified_phone_label_enabled: false,
+                            responsive_web_graphql_timeline_navigation_enabled: false,
+                            responsive_web_graphql_skip_user_profile_image_extensions_enabled: true,
+                            profile_label_improvements_pcf_label_in_post_enabled: false,
+                            payments_enabled: false,
+                            responsive_web_profile_redirect_enabled: false
+                        })
+                    )}`,
+                    {
+                        headers: {
+                            authorization: OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/json",
+                        },
+                        credentials: "include",
+                    }
+                )
+                    .then((i) => i.json())
+                    .then((data) => {
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+                        let users = data.data.users
+                        .map((user) => {
+                            user = user?.result;
+                            if (!user?.legacy) return null; //suspended or something
+
+                            user.legacy = {
+                                id_str: user.rest_id,
+                                ...user.legacy,
+                                ...user.core,
+                                following: user.relationship_perspectives.following,
+                                profile_image_url_https: user.avatar?.image_url,
+                                protected: user.privacy.protected,
+                                verified: user.verification.verified
+                            }
+
+                            if (
+                                user.is_blue_verified &&
+                                !user.legacy.verified_type
+                            ) {
+                                user.legacy.verified = true;
+                                user.legacy.verified_type = "Blue";
+                            }
+
+                            return user.legacy;
+                        })
+                        .filter(u => u)
+
+                        if (users.length === 0) {
+                            return reject('No user matches for specified terms.'); //compat
+                        }
+
+                        resolve(users);
                     })
                     .catch((e) => {
                         reject(e);
@@ -4255,6 +4327,42 @@ const API = {
                     });
             });
         },
+        getAbout: (name) => {
+            return new Promise((resolve, reject) => {
+                fetch(
+                    `/i/api/graphql/XRqGa7EeokUU5kppkh13EA/AboutAccountQuery?variables=${encodeURIComponent(JSON.stringify({ screenName: name }))}`,
+                    {
+                        headers: {
+                            authorization: OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/json",
+                            "x-twitter-client-language": LANGUAGE
+                                ? LANGUAGE
+                                : navigator.language
+                                ? navigator.language
+                                : "en",
+                        },
+                        credentials: "include",
+                    }
+                )
+                    .then((i) => i.json())
+                    .then((data) => {
+                        debugLog("user.getAbout", "start", { name, data });
+                        if (data.errors && data.errors[0]) {
+                            return reject(data.errors[0].message);
+                        }
+
+                        let result = data.data.user_result_by_screen_name.result;
+
+                        debugLog("user.getAbout", "end", result.about_profile);
+                        resolve(result.about_profile);
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            });
+        },
     },
     tweet: {
         post: (data) => {
@@ -4543,7 +4651,7 @@ const API = {
                     method: "POST",
                     headers: {
                         authorization:
-                            "Bearer AAAAAAAAAAAAAAAAAAAAAFQODgEAAAAAVHTp76lzh3rFzcHbmHVvQxYYpTw%3DckAlMINMjmCwxUcaXbAN4XqJVdgMJaHqNOFgPMK0zN1qLqLQCF",
+                            OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
                         "content-type": "application/json",
@@ -4752,7 +4860,7 @@ const API = {
                         .then((i) => i.json())
                         .then((data) => {
                             debugLog("tweet.getV2", "start", id, data);
-                            if (data.errors && data.errors[0]) {
+                            if (data.errors && data.errors[0] && !data.data) {
                                 if (data.errors[0].code === 88 && !useDiffKey) {
                                     localStorage.hitRateLimit =
                                         Date.now() + 600000;
@@ -5305,7 +5413,7 @@ const API = {
                                 cursor,
                                 data,
                             });
-                            if (data.errors && data.errors[0]) {
+                            if (data.errors && data.errors[0] && !data.data) {
                                 if (data.errors[0].code === 88 && !useDiffKey) {
                                     localStorage.hitRateLimit =
                                         Date.now() + 600000;
@@ -5864,7 +5972,7 @@ const API = {
                                 return reject(data.errors[0].message);
                             }
                             let list =
-                                data.data.favoriters_timeline.timeline.instructions.find(
+                                data.data.favoriters_timeline?.timeline?.instructions.find(
                                     (i) => i.type === "TimelineAddEntries"
                                 );
                             if (!list) {
@@ -7576,7 +7684,7 @@ const API = {
                                     .then(resolve)
                                     .catch(reject);
                             }
-                            return reject(data.errors[0].message);
+                            // return reject(data.errors[0].message);
                         }
                         let list =
                             data.data.list.tweets_timeline.timeline.instructions.find(

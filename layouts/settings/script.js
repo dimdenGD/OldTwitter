@@ -271,6 +271,7 @@ setTimeout(async () => {
     let darkModeText = document.getElementById('dark-mode-text');
     let timeMode = document.getElementById('time-mode');
     let showTopicTweets = document.getElementById('show-topic-tweets');
+    let newGallery = document.getElementById('new-gallery');
     let disableHotkeys = document.getElementById('disable-hotkeys');
     let disableRetweetHotkey = document.getElementById('disable-retweet-hotkey');
     let disableLikeHotkey = document.getElementById('disable-like-hotkey');
@@ -289,6 +290,7 @@ setTimeout(async () => {
     let displaySensitiveContent = document.getElementById('display-sensitive-content');
     let seeTweetViews = document.getElementById('see-tweet-views');
     let twitterBlueCheckmarks = document.getElementById('twitter-blue-checkmarks');
+    let showBasedIn = document.getElementById('show-based-in');
     let developerMode = document.getElementById('developer-mode');
     let copyLinksAs = document.getElementById('copy-links-as');
     let useNewIcon = document.getElementById('use-new-icon');
@@ -595,6 +597,11 @@ setTimeout(async () => {
             showTopicTweets: showTopicTweets.checked
         }, () => { });
     });
+    newGallery.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            newGallery: newGallery.checked
+        }, () => { });
+    });
     useNewIcon.addEventListener('change', () => {
         vars.useNewIcon = useNewIcon.checked;
         chrome.storage.sync.set({
@@ -701,6 +708,11 @@ setTimeout(async () => {
     twitterBlueCheckmarks.addEventListener('change', () => {
         chrome.storage.sync.set({
             twitterBlueCheckmarks: twitterBlueCheckmarks.checked
+        }, () => { });
+    });
+    showBasedIn.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showBasedIn: showBasedIn.checked
         }, () => { });
     });
     developerMode.addEventListener('change', () => {
@@ -1034,6 +1046,7 @@ setTimeout(async () => {
     hideTimelineTypes.checked = !!vars.hideTimelineTypes;
     timelineType.value = vars.timelineType ? vars.timelineType : 'chrono';
     showTopicTweets.checked = !!vars.showTopicTweets;
+    newGallery.checked = !!vars.newGallery;
     darkMode.checked = !!vars.darkMode;
     pitchBlackMode.checked = !!vars.pitchBlack;
     timeMode.checked = !!vars.timeMode && !vars.systemDarkMode;
@@ -1047,6 +1060,7 @@ setTimeout(async () => {
     displaySensitiveContent.checked = !!vars.displaySensitiveContent;
     seeTweetViews.checked = !!vars.seeTweetViews;
     twitterBlueCheckmarks.checked = !!vars.twitterBlueCheckmarks;
+    showBasedIn.checked = !!vars.showBasedIn;
     developerMode.checked = !!vars.developerMode;
     useNewIcon.checked = !!vars.useNewIcon;
     updateTimelineAutomatically.checked = !!vars.updateTimelineAutomatically;
@@ -1097,7 +1111,7 @@ setTimeout(async () => {
     language.value = vars.language ? vars.language : 'en';
     document.getElementById('loc-dig').hidden = language.value !== 'zh_TW' && language.value !== 'zh_CN' && language.value !== 'ja' && language.value !== 'ko';
     autotranslationMode.value = vars.autotranslationMode;
-    copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
+    copyLinksAs.value = ['twitter.com', 'fxtwitter.com', 'vxtwitter.com', 'nitter.net', 'fixupx.com', 'x.com'].includes(vars.copyLinksAs) ? vars.copyLinksAs : 'custom';
     if(vars.timeMode) {
         darkMode.disabled = true;
         darkMode.checked = isDark();

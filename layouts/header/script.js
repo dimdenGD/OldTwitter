@@ -2275,7 +2275,7 @@ let userDataFunction = async user => {
             if(ids.length === 0) return;
             let users = [];
             for(let i = 0; i < ids.length; i += 100) {
-                let usersChunk = await API.user.lookup(ids.slice(i, i + 100));
+                let usersChunk = await API.user.lookupV2(ids.slice(i, i + 100));
                 users = users.concat(usersChunk);
             }
             search = {
@@ -2460,6 +2460,7 @@ let userDataFunction = async user => {
                     .profile-additional-joined::before{content:var(--joined-icon)}
                     .profile-additional-birth::before{content:var(--birthday-icon)}
                     .profile-additional-professional::before{content:"\\f204"}
+                    .profile-additional-based-in::before{content:"\\f205"}
                     .profile-additional-url::before{content:"\\f098"}
                     .preview-user-additional-info{margin-top:10px}
                     ${roundAvatarsEnabled ? '.preview-user-avatar {border-radius: 50%!important;}' : ''}

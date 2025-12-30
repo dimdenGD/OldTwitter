@@ -10,7 +10,7 @@ async function copyDir(src, dest) {
     const entries = await fsp.readdir(src, { withFileTypes: true });
     await fsp.mkdir(dest);
     for (let entry of entries) {
-        if(entry.name === '.git' || entry.name === '.github' || entry.name === '_metadata' || entry.name === 'node_modules') continue;
+        if(entry.name === '.git' || entry.name === '.github' || entry.name === '_metadata' || entry.name === 'node_modules' || entry.name === 'build') continue;
         const srcPath = path.join(src, entry.name);
         const destPath = path.join(dest, entry.name);
         if (entry.isDirectory()) {
@@ -21,19 +21,23 @@ async function copyDir(src, dest) {
     }
 }
 
-if(fs.existsSync('../OldTwitterTempChrome')) {
-  fs.rmSync('../OldTwitterTempChrome', { recursive: true });
+if(!fs.existsSync("build")) {
+  fs.mkdirSync("build");
 }
-if(fs.existsSync('../OldTwitterFirefox')) {
-  fs.rmSync('../OldTwitterFirefox', { recursive: true });
+
+if(fs.existsSync('./build/OldTwitterTempChrome')) {
+  fs.rmSync('./build/OldTwitterTempChrome', { recursive: true });
+}
+if(fs.existsSync('./build/OldTwitterFirefox')) {
+  fs.rmSync('./build/OldTwitterFirefox', { recursive: true });
 }
 
 console.log("Copying...");
-copyDir('./', '../OldTwitterFirefox').then(async () => {
-    await copyDir('./', '../OldTwitterTempChrome');
+copyDir('./', './build/OldTwitterFirefox').then(async () => {
+    await copyDir('./', './build/OldTwitterTempChrome');
     console.log("Copied!");
     console.log("Patching...");
-    let manifest = JSON.parse(fs.readFileSync('../OldTwitterFirefox/manifest.json', 'utf8'));
+    let manifest = JSON.parse(fs.readFileSync('./build/OldTwitterFirefox/manifest.json', 'utf8'));
     manifest.manifest_version = 2;
     manifest.background.scripts = ['scripts/background.js'];
     manifest.web_accessible_resources = manifest.web_accessible_resources[0].resources;
@@ -64,16 +68,16 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
     delete manifest.declarative_net_request;
     delete manifest.background.service_worker;
     delete manifest.action;
-    let config = fs.readFileSync('../OldTwitterFirefox/scripts/config.js', 'utf8');
+    let config = fs.readFileSync('./build/OldTwitterFirefox/scripts/config.js', 'utf8');
     config = config.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
-    let helpers = fs.readFileSync('../OldTwitterFirefox/scripts/helpers.js', 'utf8');
+    let helpers = fs.readFileSync('./build/OldTwitterFirefox/scripts/helpers.js', 'utf8');
     helpers = helpers.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
-    let tweetviewer = fs.readFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', 'utf8');
+    let tweetviewer = fs.readFileSync('./build/OldTwitterFirefox/scripts/tweetviewer.js', 'utf8');
     tweetviewer = tweetviewer.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
-    let content = fs.readFileSync('../OldTwitterFirefox/scripts/injection.js', 'utf8');
+    let content = fs.readFileSync('./build/OldTwitterFirefox/scripts/injection.js', 'utf8');
     content = content.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
 
-    let apis = fs.readFileSync('../OldTwitterFirefox/scripts/apis.js', 'utf8');
+    let apis = fs.readFileSync('./build/OldTwitterFirefox/scripts/apis.js', 'utf8');
     apis = apis.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
     if(apis.includes("&& true") || apis.includes("&& false") || apis.includes("|| true") || apis.includes("|| false") || apis.includes("&&true") || apis.includes("&&false") || apis.includes("||true") || apis.includes("||false")) {
       if(args[0] === '-a') {
@@ -97,83 +101,83 @@ copyDir('./', '../OldTwitterFirefox').then(async () => {
       } catch(e) {}
     }
 
-    let background = fs.readFileSync('../OldTwitterFirefox/scripts/background_v2.js', 'utf8');
+    let background = fs.readFileSync('./build/OldTwitterFirefox/scripts/background_v2.js', 'utf8');
     
-    fs.writeFileSync('../OldTwitterFirefox/manifest.json', JSON.stringify(manifest, null, 2));
-    fs.writeFileSync('../OldTwitterFirefox/scripts/injection.js', content);
-    fs.writeFileSync('../OldTwitterFirefox/scripts/helpers.js', helpers);
-    fs.writeFileSync('../OldTwitterFirefox/scripts/tweetviewer.js', tweetviewer);
-    fs.writeFileSync('../OldTwitterFirefox/scripts/config.js', config);
-    fs.writeFileSync('../OldTwitterFirefox/scripts/background.js', background);
-    fs.writeFileSync('../OldTwitterFirefox/scripts/apis.js', apis);
-    fs.unlinkSync('../OldTwitterFirefox/ruleset.json');
-    fs.unlinkSync('../OldTwitterFirefox/pack.js');
-    fs.unlinkSync('../OldTwitterTempChrome/pack.js');
-    fs.unlinkSync('../OldTwitterTempChrome/scripts/background_v2.js');
-    fs.unlinkSync('../OldTwitterFirefox/scripts/background_v2.js');
-    fs.unlinkSync('../OldTwitterFirefox/.gitignore');
-    fs.unlinkSync('../OldTwitterTempChrome/.gitignore');
-    fs.unlinkSync('../OldTwitterFirefox/test.js');
-    fs.unlinkSync('../OldTwitterTempChrome/test.js');
-    fs.unlinkSync('../OldTwitterFirefox/package.json');
-    fs.unlinkSync('../OldTwitterTempChrome/package.json');
-    fs.unlinkSync('../OldTwitterFirefox/_locales/locales-support.html');
-    fs.unlinkSync('../OldTwitterTempChrome/_locales/locales-support.html');
+    fs.writeFileSync('./build/OldTwitterFirefox/manifest.json', JSON.stringify(manifest, null, 2));
+    fs.writeFileSync('./build/OldTwitterFirefox/scripts/injection.js', content);
+    fs.writeFileSync('./build/OldTwitterFirefox/scripts/helpers.js', helpers);
+    fs.writeFileSync('./build/OldTwitterFirefox/scripts/tweetviewer.js', tweetviewer);
+    fs.writeFileSync('./build/OldTwitterFirefox/scripts/config.js', config);
+    fs.writeFileSync('./build/OldTwitterFirefox/scripts/background.js', background);
+    fs.writeFileSync('./build/OldTwitterFirefox/scripts/apis.js', apis);
+    fs.unlinkSync('./build/OldTwitterFirefox/ruleset.json');
+    fs.unlinkSync('./build/OldTwitterFirefox/pack.js');
+    fs.unlinkSync('./build/OldTwitterTempChrome/pack.js');
+    fs.unlinkSync('./build/OldTwitterTempChrome/scripts/background_v2.js');
+    fs.unlinkSync('./build/OldTwitterFirefox/scripts/background_v2.js');
+    fs.unlinkSync('./build/OldTwitterFirefox/.gitignore');
+    fs.unlinkSync('./build/OldTwitterTempChrome/.gitignore');
+    fs.unlinkSync('./build/OldTwitterFirefox/test.js');
+    fs.unlinkSync('./build/OldTwitterTempChrome/test.js');
+    fs.unlinkSync('./build/OldTwitterFirefox/package.json');
+    fs.unlinkSync('./build/OldTwitterTempChrome/package.json');
+    fs.unlinkSync('./build/OldTwitterFirefox/_locales/locales-support.html');
+    fs.unlinkSync('./build/OldTwitterTempChrome/_locales/locales-support.html');
   
-    if (fs.existsSync('../OldTwitterFirefox/package-lock.json')) // Delete NPM package-lock (if exists)
-      fs.unlinkSync('../OldTwitterFirefox/package-lock.json');
-    if (fs.existsSync('../OldTwitterTempChrome/package-lock.json'))
-      fs.unlinkSync('../OldTwitterTempChrome/package-lock.json');
+    if (fs.existsSync('./build/OldTwitterFirefox/package-lock.json')) // Delete NPM package-lock (if exists)
+      fs.unlinkSync('./build/OldTwitterFirefox/package-lock.json');
+    if (fs.existsSync('./build/OldTwitterTempChrome/package-lock.json'))
+      fs.unlinkSync('./build/OldTwitterTempChrome/package-lock.json');
   
-    if (fs.existsSync('../OldTwitterFirefox/yarn.lock')) // Delete yarn package-lock (if exists)
-      fs.unlinkSync('../OldTwitterFirefox/yarn.lock');
-    if (fs.existsSync('../OldTwitterTempChrome/yarn.lock'))
-      fs.unlinkSync('../OldTwitterTempChrome/yarn.lock');
+    if (fs.existsSync('./build/OldTwitterFirefox/yarn.lock')) // Delete yarn package-lock (if exists)
+      fs.unlinkSync('./build/OldTwitterFirefox/yarn.lock');
+    if (fs.existsSync('./build/OldTwitterTempChrome/yarn.lock'))
+      fs.unlinkSync('./build/OldTwitterTempChrome/yarn.lock');
 
-    let layouts = fs.readdirSync('../OldTwitterFirefox/layouts');
+    let layouts = fs.readdirSync('./build/OldTwitterFirefox/layouts');
     for (let layout of layouts) {
-        let script = fs.readFileSync(`../OldTwitterFirefox/layouts/${layout}/script.js`, 'utf8');
+        let script = fs.readFileSync(`./build/OldTwitterFirefox/layouts/${layout}/script.js`, 'utf8');
         script = script.replace(/chrome\.storage\.sync\./g, "chrome.storage.local.");
         script = script.replace("https://chrome.google.com/webstore/detail/old-twitter-layout-2022/jgejdcdoeeabklepnkdbglgccjpdgpmf", "https://addons.mozilla.org/en-US/firefox/addon/old-twitter-layout-2022/");
-        fs.writeFileSync(`../OldTwitterFirefox/layouts/${layout}/script.js`, script);
+        fs.writeFileSync(`./build/OldTwitterFirefox/layouts/${layout}/script.js`, script);
 
-        let style = fs.readFileSync(`../OldTwitterFirefox/layouts/${layout}/style.css`, 'utf8');
+        let style = fs.readFileSync(`./build/OldTwitterFirefox/layouts/${layout}/style.css`, 'utf8');
         style = style.replaceAll("chrome-extension://", "moz-extension://");
-        fs.writeFileSync(`../OldTwitterFirefox/layouts/${layout}/style.css`, style);
+        fs.writeFileSync(`./build/OldTwitterFirefox/layouts/${layout}/style.css`, style);
 
-        let html = fs.readFileSync(`../OldTwitterFirefox/layouts/${layout}/index.html`, 'utf8');
+        let html = fs.readFileSync(`./build/OldTwitterFirefox/layouts/${layout}/index.html`, 'utf8');
         html = html.replaceAll("chrome-extension://", "moz-extension://");
-        fs.writeFileSync(`../OldTwitterFirefox/layouts/${layout}/index.html`, html);
+        fs.writeFileSync(`./build/OldTwitterFirefox/layouts/${layout}/index.html`, html);
     }
 
     console.log("Patched!");
-    if (fs.existsSync('../OldTwitterFirefox.zip')) {
+    if (fs.existsSync('./build/OldTwitterFirefox.zip')) {
         console.log("Deleting old zip...");
-        fs.unlinkSync('../OldTwitterFirefox.zip');
+        fs.unlinkSync('./build/OldTwitterFirefox.zip');
         console.log("Deleted old zip!");
     }
     console.log("Zipping Firefox version...");
     try {
         const zip = new AdmZip();
-        const outputDir = "../OldTwitterFirefox.zip";
-        zip.addLocalFolder("../OldTwitterFirefox");
+        const outputDir = "./build/OldTwitterFirefox.zip";
+        zip.addLocalFolder("./build/OldTwitterFirefox");
         zip.writeZip(outputDir);
     } catch (e) {
         console.log(`Something went wrong ${e}`);
     }
-    console.log(`Zipped Firefox version into ${path.resolve('../OldTwitterFirefox.zip')}!`);
+    console.log(`Zipped Firefox version into ${path.resolve('./build/OldTwitterFirefox.zip')}!`);
     console.log("Zipping Chrome version...");
     try {
         const zip = new AdmZip();
-        const outputDir = "../OldTwitterChrome.zip";
-        zip.addLocalFolder("../OldTwitterTempChrome");
+        const outputDir = "./build/OldTwitterChrome.zip";
+        zip.addLocalFolder("./build/OldTwitterTempChrome");
         zip.writeZip(outputDir);
     } catch (e) {
         console.log(`Something went wrong ${e}`);
     }
-    console.log(`Zipped Chrome version into ${path.resolve('../OldTwitterChrome.zip')}!`);
+    console.log(`Zipped Chrome version into ${path.resolve('./build/OldTwitterChrome.zip')}!`);
     console.log("Deleting temporary folders...");
-    fs.rmSync('../OldTwitterTempChrome', { recursive: true });
-    fs.rmSync('../OldTwitterFirefox', { recursive: true });
+    fs.rmSync('./build/OldTwitterTempChrome', { recursive: true });
+    fs.rmSync('./build/OldTwitterFirefox', { recursive: true });
     console.log("Deleted!");
 });

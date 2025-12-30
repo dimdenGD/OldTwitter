@@ -88,6 +88,7 @@ async function loadVars() {
                 "autotranslateProfiles",
                 "roundAvatars",
                 "twitterBlueCheckmarks",
+                "showBasedIn",
                 "developerMode",
                 "copyLinksAs",
                 "useNewIcon",
@@ -142,6 +143,7 @@ async function loadVars() {
                 "customDownloadTemplate",
                 "showBoringIndicators",
                 "useRetweetedId",
+                "newGallery"
             ],
             (data) => {
                 // default variables

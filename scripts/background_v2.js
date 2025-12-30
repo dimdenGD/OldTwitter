@@ -54,6 +54,7 @@ chrome.webRequest.onBeforeRequest.addListener(
                 !details.originUrl.includes("tweetdeck.twitter.com") &&
                 !details.url.includes("ondemand.s.") && 
                 !details.url.includes("vendor.") && 
+                !details.url.includes("shared~~") &&
                 // includes
                 details.url.includes("abs.twimg.com/responsive-web/client-web"),
         };
