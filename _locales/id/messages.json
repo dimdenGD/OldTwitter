@@ -648,5 +648,9 @@
     "show_boring_indicators": { "message": "Tampilkan indikator pada laman pengikut/mengikuti jika tweet terakhir pengguna merupakan retweet/kutipan/hilang/lama" },
     "hide_original_languages":{"message": "Sembunyikan bahasa asli saat diterjemahkan" },
 	"blocked": { "message": "Diblokir" },
-    "use_retweeted_id": { "message": "Saat menyukai atau meretweet sebuah retweet, kabarkan pengguna yang meretweet." }
+    "use_retweeted_id": { "message": "Saat menyukai atau meretweet sebuah retweet, kabarkan pengguna yang meretweet." },
+    "show_based_in": { "message": "Tampilkan dari mana sebuah akun berbasis" },
+    "based_in": { "message": "Berbasis in:" },
+    "based_in_vpn": { "message": "(VPN)" },
+    "new_gallery": { "message": "Gunakan galeri baru untuk halaman media profil" }
 }
