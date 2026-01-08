@@ -1303,7 +1303,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
         ),
     ];
     if (t.user.id_str === user.id_str) {
-        dropDownMoreInteractionsArray.push("hr");
+        dropDownMoreInteractionsArray.push(elNew("hr"));
         dropDownMoreInteractionsArray.push(
             elNew(
                 "span",
