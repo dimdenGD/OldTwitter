@@ -3,7 +3,7 @@
       "message": "Μια νέα επέκταση που επιστρέφει την παλιά εμφάνιση του Twitter."
     },
     "timeline": {
-      "message": "Χρονοδιάγραμμα"
+      "message": "Χρονολόγιο"
     },
     "loading": {
       "message": "Φόρτωση"
@@ -37,7 +37,7 @@
       "message": "Προβολή όλων"
     },
     "running": {
-      "message": "Τρέχετε",
+      "message": "Ενεργό",
       "example": "->Running<- OldTwitter v0.0.0"
     },
     "created_by": {
@@ -52,21 +52,21 @@
       "description": "noun"
     },
     "terms": {
-      "message": "Οροι",
+      "message": "Όροι",
       "description": "Shortest word that you can find for Terms of service"
     },
     "privacy": {
-      "message": "Aπορρήτου",
+      "message": "Aπόρρητο",
       "description": "Shortest word that you can find for Privacy policy"
     },
     "about": {
       "message": "Σχετικά"
     },
     "donate": {
-      "message": "Δωρεά"
+      "message": "Δωρέες"
     },
     "home": {
-      "message": "Σπίτι",
+      "message": "Ροή",
       "description": "This is for navbar menu. If no appropriate word, you can use something like Feed or Timeline"
     },
     "notifications": {
@@ -112,13 +112,13 @@
       "message": "Ημέρες"
     },
     "hours": {
-      "message": "Ωρες"
+      "message": "Ώρες"
     },
     "minutes": {
       "message": "Λεπτά"
     },
     "remove_poll": {
-      "message": "Κατάργηση ψηφοφορίας"
+      "message": "Κατάργηση ψήφου"
     },
     "open_newtwitter": {
       "message": "Ανοίξτε αυτήν τη σελίδα στο νέο Twitter"
@@ -136,31 +136,31 @@
       "message": "Ακολουθήστε"
     },
     "unfollow": {
-      "message": "Κατάργηση παρακολούθησης"
+      "message": "Κατάργηση ακολούθησης"
     },
     "follow_user": {
-      "message": "Ακολουθήστε τόν",
+      "message": "Ακολουθήστε τον",
       "example": "->Follow<- @CoolPerson2000"
     },
     "unfollow_user": {
-      "message": "Κατάργηση παρακολούθησης τόν",
+      "message": "Κατάργηση ακολούθησης του",
       "example": "->Unfollow<- @CoolPerson2000"
     },
     "thank_you_follow": {
-      "message": "Ευχαριστώ που με παρακολουθήσατε!!"
+      "message": "Ευχαριστώ που με ακολουθήσατε!!"
     },
     "loading_tweets": {
-      "message": "Φόρτωση tweets..."
+      "message": "Φόρτωση των tweet..."
     },
     "retweeted": {
-      "message": "έκανε retweet",
+      "message": "αναδημοσίευσε",
       "example": "CoolPerson2000 ->retweeted<-"
     },
     "see_new_tweets": {
       "message": "Δείτε νέα tweets"
     },
     "must2variants": {
-      "message": "Πρέπει να έχετε τουλάχιστον 2 παραλλαγές ψηφοφορίες."
+      "message": "Πρέπει να έχετε τουλάχιστον 2 διαφορετικές ψηφοφορίες."
     },
     "delete_all": {
       "message": "Διαγραφή όλων"
@@ -170,7 +170,7 @@
       "description": "Funky message about nothing found"
     },
     "delete_bookmarks": {
-      "message": "Είστε βέβαιοι ότι θέλετε να διαγράψετε όλους τους σελιδοδείκτες σας; Αυτή η πράξη δε μπορεί να αναιρεθεί."
+      "message": "Είστε σίγουροι ότι θέλετε να διαγράψετε όλους τους σελιδοδείκτες σας; Αυτήν η πράξη δεν μπορεί να αναιρεθεί."
     },
     "members": {
       "message": "Μέλη"
