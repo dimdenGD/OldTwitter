@@ -648,5 +648,9 @@
     "show_boring_indicators": { "message": "Mostra indicatore nella pagina dei followers/following se l'ultimo tweet della persona è un retweet/citazione/inesistente/vecchio" },
     "hide_original_languages":{"message": "Nascondi le lingue originali quando tradotte" },
 	"blocked": { "message": "Bloccato" },
-	"use_retweeted_id": { "message": "Quando metti 'Mi piace' o ritwitti un retweet, notifica l'utente che ha ritwittato." }
+	"use_retweeted_id": { "message": "Quando metti 'Mi piace' o ritwitti un retweet, notifica l'utente che ha ritwittato." },
+	"show_based_in": { "message": "Mostra dove si trova l'account" },
+    "based_in": { "message": "Posizione account:" },
+    "based_in_vpn": { "message": "(VPN)" },
+    "new_gallery": { "message": "Utilizza la nuova galleria per la pagina contenuti del profilo" }
 }
