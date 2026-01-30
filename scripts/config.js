@@ -237,12 +237,21 @@ async function loadVars() {
                         () => {}
                     );
                 }
+                if(data.timelineType === "chrono-social") {
+                    data.timelineType = "chrono";
+                    chrome.storage.sync.set(
+                        {
+                            timelineType: "chrono",
+                        },
+                        () => {}
+                    );
+                }
                 if (typeof data.timelineType !== "string") {
                     let type;
                     if (typeof data.chronologicalTL === "boolean") {
                         type = data.chronologicalTL ? "chrono" : "algo";
                     } else {
-                        type = "chrono-social";
+                        type = "chrono";
                     }
                     data.timelineType = type;
                     chrome.storage.sync.set(

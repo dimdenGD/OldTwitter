@@ -1409,51 +1409,6 @@ const API = {
                 });
             });
         },
-        getMixed: async (seenTweetIds = []) => {
-            let [chrono, algo] = await Promise.allSettled([
-                API.timeline.getChronologicalV2(),
-                API.timeline.getAlgorithmicalV2WithCache(seenTweetIds),
-            ]);
-            debugLog("timeline.getMixed", "start", { chrono, algo });
-            if (chrono.reason) {
-                throw chrono.reason;
-            }
-            chrono = chrono.value;
-            if (algo.reason) {
-                algo = [];
-            } else {
-                algo = algo.value.list;
-            }
-            let social = algo.filter(
-                (t) =>
-                    t.socialContext &&
-                    (t.socialContext.contextType === "Like" ||
-                        t.socialContext.contextType === "Follow")
-            );
-            for (let i = chrono.list.length - 1; i >= 0; i--) {
-                if (social.length === 0) break;
-                if (i % 7 === 0) {
-                    if (
-                        chrono.list
-                            .map((t) => t.id_str)
-                            .includes(social[social.length - 1].id_str)
-                    ) {
-                        social.pop();
-                        continue;
-                    }
-                    if (
-                        chrono.list[chrono.list.length - i - 1] &&
-                        chrono.list[chrono.list.length - i - 1]
-                            .threadContinuation
-                    ) {
-                        continue;
-                    }
-                    chrono.list.splice(chrono.list.length - i, 0, social.pop());
-                }
-            }
-            debugLog("timeline.getMixed", "end", chrono);
-            return chrono;
-        },
     },
     discover: {
         getPeople: (cache = true) => {
