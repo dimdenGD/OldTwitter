@@ -7334,6 +7334,25 @@ const API = {
                     });
             });
         },
+        gifs: (query, cursor) => {
+            return new Promise((resolve, reject) => {
+                fetch(`https://x.com/i/api/1.1/foundmedia/search.json?q=${query}${cursor ? `&cursor=${cursor}` : ""}`, {
+                    headers: {
+                        authorization: OLDTWITTER_CONFIG.public_token,
+                        "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                        "x-twitter-auth-type": "OAuth2Session",
+                    },
+                    credentials: "include",
+                })
+                    .then((i) => i.json())
+                    .then((data) => {
+                        resolve(data);
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            });
+        }
     },
     inbox: {
         get: (max_id) => {

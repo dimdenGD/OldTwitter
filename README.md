@@ -27,7 +27,6 @@ If you like this extension please consider donating:
 ## Features
 
 - Almost all of Twitter functionality is implemented
-- Both reverse chronological and algorithmical timelines support. And exclusive: Reverse chronological timeline with friends likes and follows (basically mix of both chrono and algo timelines)
 - Custom profile link colors supported
 - You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
 - Removes all analytics and tracking from Twitter
