@@ -179,6 +179,26 @@ function parseTweet(res) {
     if (!res.core) return;
     tweet.user = res.core.user_results.result.legacy;
     tweet.user.id_str = tweet.user_id_str;
+    const ur = res.core.user_results.result;
+    if(ur?.location?.location) tweet.user.location = ur.location.location;
+    if(ur?.avatar?.image_url) tweet.user.profile_image_url_https = ur.avatar.image_url;
+    if(ur?.is_blue_verified) {
+        tweet.user.verified = true;
+        tweet.user.verified_type = "Blue";
+    }
+    if(ur?.privacy?.protected) tweet.user.protected = true;
+    if(ur?.profile_bio?.description) tweet.user.description = ur.profile_bio.description;
+    if(ur?.relationship_perspectives?.following) tweet.user.following = ur.relationship_perspectives.following;
+    if(ur?.relationship_perspectives?.followed_by) tweet.user.followed_by = ur.relationship_perspectives.followed_by;
+    if(ur?.verification?.verified) tweet.user.verified = true;
+    if(ur?.core) {
+        for(let k in ur.core) {
+            if(ur.core[k]) {
+                tweet.user[k] = ur.core[k];
+            }
+        }
+    }
+
     if (
         res.core.user_results.result.is_blue_verified &&
         !res.core.user_results.result.legacy.verified_type
@@ -213,19 +233,29 @@ function parseTweet(res) {
             result.legacy.quoted_status =
                 result.quoted_status_result.result.legacy;
             if (result.legacy.quoted_status) {
-                result.legacy.quoted_status.user =
-                    result.quoted_status_result.result.core.user_results.result.legacy;
-                result.legacy.quoted_status.user.id_str =
-                    result.legacy.quoted_status.user_id_str;
-                if (
-                    result.quoted_status_result.result.core.user_results.result
-                        .is_blue_verified &&
-                    !result.quoted_status_result.result.core.user_results.result
-                        .legacy.verified_type
-                ) {
-                    result.legacy.quoted_status.user.verified = true;
-                    result.legacy.quoted_status.user.verified_type = "Blue";
+
+                const qur = result.quoted_status_result.result.core.user_results.result;
+                const qu = qur.legacy;
+                if(qur?.location?.location) qu.location = qur.location.location;
+                if(qur?.avatar?.image_url) qu.profile_image_url_https = qur.avatar.image_url;
+                if(qur?.is_blue_verified) {
+                    qu.verified = true;
+                    qu.verified_type = "Blue";
                 }
+                if(qur?.privacy?.protected) qu.protected = true;
+                if(qur?.profile_bio?.description) qu.description = qur.profile_bio.description;
+                if(qur?.relationship_perspectives?.following) qu.following = qur.relationship_perspectives.following;
+                if(qur?.relationship_perspectives?.followed_by) qu.followed_by = qur.relationship_perspectives.followed_by;
+                if(qur?.verification?.verified) qu.verified = true;
+                if(qur?.core) {
+                    for(let k in qur.core) {
+                        if(qur.core[k]) {
+                            qu[k] = qur.core[k];
+                        }
+                    }
+                }
+                result.legacy.quoted_status.user = qu;
+                result.legacy.quoted_status.user.id_str = qu.id_str;
                 tweetStorage[result.legacy.quoted_status.id_str] =
                     result.legacy.quoted_status;
                 tweetStorage[result.legacy.quoted_status.id_str].cacheDate =
@@ -249,18 +279,28 @@ function parseTweet(res) {
             result.legacy.quoted_status =
                 result.quoted_status_result.result.tweet.legacy;
             if (result.legacy.quoted_status) {
-                result.legacy.quoted_status.user =
-                    result.quoted_status_result.result.tweet.core.user_results.result.legacy;
-                result.legacy.quoted_status.user.id_str =
-                    result.legacy.quoted_status.user_id_str;
-                if (
-                    result.quoted_status_result.result.tweet.core.user_results
-                        .result.is_blue_verified &&
-                    !result.core.user_results.result.verified_type
-                ) {
-                    result.legacy.quoted_status.user.verified = true;
-                    result.legacy.quoted_status.user.verified_type = "Blue";
+                const qur = result.quoted_status_result.result.tweet.core.user_results.result;
+                const qu = qur.legacy;
+                if(qur?.location?.location) qu.location = qur.location.location;
+                if(qur?.avatar?.image_url) qu.profile_image_url_https = qur.avatar.image_url;
+                if(qur?.is_blue_verified) {
+                    qu.verified = true;
+                    qu.verified_type = "Blue";
                 }
+                if(qur?.privacy?.protected) qu.protected = true;
+                if(qur?.profile_bio?.description) qu.description = qur.profile_bio.description;
+                if(qur?.relationship_perspectives?.following) qu.following = qur.relationship_perspectives.following;
+                if(qur?.relationship_perspectives?.followed_by) qu.followed_by = qur.relationship_perspectives.followed_by;
+                if(qur?.verification?.verified) qu.verified = true;
+                if(qur?.core) {
+                    for(let k in qur.core) {
+                        if(qur.core[k]) {
+                            qu[k] = qur.core[k];
+                        }
+                    }
+                }
+                result.legacy.quoted_status.user = qu;
+                result.legacy.quoted_status.user.id_str = qu.id_str;
                 tweetStorage[result.legacy.quoted_status.id_str] =
                     result.legacy.quoted_status;
                 tweetStorage[result.legacy.quoted_status.id_str].cacheDate =
@@ -276,17 +316,28 @@ function parseTweet(res) {
         tweet.retweeted_status = result.legacy;
         tweet.retweeted_status.retweeted_id_str = tweet.id_str;
         if (tweet.retweeted_status && result.core.user_results.result.legacy) {
-            tweet.retweeted_status.user =
-                result.core.user_results.result.legacy;
-            tweet.retweeted_status.user.id_str =
-                tweet.retweeted_status.user_id_str;
-            if (
-                result.core.user_results.result.is_blue_verified &&
-                !result.core.user_results.result.legacy.verified_type
-            ) {
-                tweet.retweeted_status.user.verified = true;
-                tweet.retweeted_status.user.verified_type = "Blue";
+            const ur = result.core.user_results.result;
+            const u = ur.legacy;
+            if(ur?.location?.location) u.location = ur.location.location;
+            if(ur?.avatar?.image_url) u.profile_image_url_https = ur.avatar.image_url;
+            if(ur?.is_blue_verified) {
+                u.verified = true;
+                u.verified_type = "Blue";
             }
+            if(ur?.privacy?.protected) u.protected = true;
+            if(ur?.profile_bio?.description) u.description = ur.profile_bio.description;
+            if(ur?.relationship_perspectives?.following) u.following = ur.relationship_perspectives.following;
+            if(ur?.relationship_perspectives?.followed_by) u.followed_by = ur.relationship_perspectives.followed_by;
+            if(ur?.verification?.verified) u.verified = true;
+            if(ur?.core) {
+                for(let k in ur.core) {
+                    if(ur.core[k]) {
+                        u[k] = ur.core[k];
+                    }
+                }
+            }
+            tweet.retweeted_status.user = u;
+            tweet.retweeted_status.user.id_str = u.id_str;
             tweet.retweeted_status.ext = {};
             if (result.views) {
                 tweet.retweeted_status.ext.views = {
@@ -344,15 +395,28 @@ function parseTweet(res) {
             if (!tweet.quoted_status.user) {
                 delete tweet.quoted_status;
             } else {
-                tweet.quoted_status.user.id_str =
-                    tweet.quoted_status.user_id_str;
-                if (
-                    result.core.user_results.result.is_blue_verified &&
-                    !result.core.user_results.result.legacy.verified_type
-                ) {
-                    tweet.quoted_status.user.verified = true;
-                    tweet.quoted_status.user.verified_type = "Blue";
+                const ur = result.core.user_results.result;
+                const u = ur.legacy;
+                if(ur?.location?.location) u.location = ur.location.location;
+                if(ur?.avatar?.image_url) u.profile_image_url_https = ur.avatar.image_url;
+                if(ur?.is_blue_verified) {
+                    u.verified = true;
+                    u.verified_type = "Blue";
                 }
+                if(ur?.privacy?.protected) u.protected = true;
+                if(ur?.profile_bio?.description) u.description = ur.profile_bio.description;
+                if(ur?.relationship_perspectives?.following) u.following = ur.relationship_perspectives.following;
+                if(ur?.relationship_perspectives?.followed_by) u.followed_by = ur.relationship_perspectives.followed_by;
+                if(ur?.verification?.verified) u.verified = true;
+                if(ur?.core) {
+                    for(let k in ur.core) {
+                        if(ur.core[k]) {
+                            u[k] = ur.core[k];
+                        }
+                    }
+                }
+                tweet.quoted_status.user = u;
+                tweet.quoted_status.user.id_str = u.id_str;
                 tweet.quoted_status.ext = {};
                 if (result.views) {
                     tweet.quoted_status.ext.views = {
@@ -907,7 +971,7 @@ const API = {
                     });
             });
         },
-        getChronologicalV2: (cursor, count = 40, useDiffKey) => {
+        getChronologicalV2: (cursor, count = 40, enableRanking = false, useDiffKey) => {
             return new Promise((resolve, reject) => {
                 if (
                     typeof useDiffKey === "undefined" &&
@@ -919,14 +983,15 @@ const API = {
                 let variables = {
                     count,
                     includePromotedContent: true,
-                    latestControlAvailable: true,
+                    enableRanking,
                     requestContext: "launch",
                 };
                 if (cursor) {
                     variables.cursor = cursor;
                 }
+                const features = {"rweb_video_screen_enabled":false,"profile_label_improvements_pcf_label_in_post_enabled":true,"responsive_web_profile_redirect_enabled":false,"rweb_tipjar_consumption_enabled":false,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"premium_content_api_read_enabled":false,"communities_web_enable_tweet_community_results_fetch":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"responsive_web_grok_analyze_button_fetch_trends_enabled":false,"responsive_web_grok_analyze_post_followups_enabled":true,"responsive_web_jetfuel_frame":true,"responsive_web_grok_share_attachment_enabled":true,"responsive_web_grok_annotations_enabled":false,"articles_preview_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"responsive_web_grok_show_grok_translated_post":false,"responsive_web_grok_analysis_button_from_backend":true,"post_ctas_fetch_enabled":true,"creator_subscriptions_quote_tweet_preview_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_grok_image_annotation_enabled":true,"responsive_web_grok_imagine_annotation_enabled":true,"responsive_web_grok_community_note_auto_translation_is_enabled":false,"responsive_web_enhance_cards_enabled":false};
                 fetch(
-                    `/i/api/graphql/U0cdisy7QFIoTfu3-Okw0A/HomeLatestTimeline`,
+                    `/i/api/graphql/ZibLTUqUvOqCmyVWrey-GA/HomeLatestTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`,
                     {
                         headers: {
                             authorization: useDiffKey
@@ -942,33 +1007,6 @@ const API = {
                             "content-type": "application/json",
                         },
                         credentials: "include",
-                        method: "post",
-                        body: JSON.stringify({
-                            variables,
-                            features: {
-                                responsive_web_graphql_exclude_directive_enabled: true,
-                                verified_phone_label_enabled: false,
-                                creator_subscriptions_tweet_preview_api_enabled: true,
-                                responsive_web_graphql_timeline_navigation_enabled: true,
-                                responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
-                                c9s_tweet_anatomy_moderator_badge_enabled: true,
-                                tweetypie_unmention_optimization_enabled: true,
-                                responsive_web_edit_tweet_api_enabled: true,
-                                graphql_is_translatable_rweb_tweet_is_translatable_enabled: true,
-                                view_counts_everywhere_api_enabled: true,
-                                longform_notetweets_consumption_enabled: true,
-                                responsive_web_twitter_article_tweet_consumption_enabled: true,
-                                tweet_awards_web_tipping_enabled: false,
-                                freedom_of_speech_not_reach_fetch_enabled: true,
-                                standardized_nudges_misinfo: true,
-                                tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
-                                rweb_video_timestamps_enabled: true,
-                                longform_notetweets_rich_text_read_enabled: true,
-                                longform_notetweets_inline_media_enabled: true,
-                                responsive_web_enhance_cards_enabled: false,
-                            },
-                            queryId: "U0cdisy7QFIoTfu3-Okw0A",
-                        }),
                     }
                 )
                     .then((response) => response.json())
@@ -1029,7 +1067,7 @@ const API = {
                                 localStorage.hitRateLimit =
                                     Date.now() + 1000 * 60 * 10;
                                 return API.timeline
-                                    .getChronologicalV2(cursor, count, true)
+                                    .getChronologicalV2(cursor, count, enableRanking, true)
                                     .then(resolve)
                                     .catch(reject);
                             }
