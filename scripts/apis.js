@@ -3063,7 +3063,7 @@ const API = {
                                             "sq-cursor-bottom-"
                                         ) ||
                                         e.entryId.startsWith("cursor-bottom-")
-                                ).content.value,
+                                )?.content?.value,
                             };
                             debugLog("user.getTweetsV2", "end", out);
                             resolve(out);
