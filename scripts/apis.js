@@ -971,7 +971,7 @@ const API = {
                     });
             });
         },
-        getChronologicalV2: (cursor, count = 40, enableRanking = false, useDiffKey) => {
+        getChronologicalV2: (cursor, count = 40, useDiffKey) => {
             return new Promise((resolve, reject) => {
                 if (
                     typeof useDiffKey === "undefined" &&
@@ -983,7 +983,7 @@ const API = {
                 let variables = {
                     count,
                     includePromotedContent: true,
-                    enableRanking,
+                    enableRanking: false,
                     requestContext: "launch",
                 };
                 if (cursor) {
@@ -1067,7 +1067,7 @@ const API = {
                                 localStorage.hitRateLimit =
                                     Date.now() + 1000 * 60 * 10;
                                 return API.timeline
-                                    .getChronologicalV2(cursor, count, enableRanking, true)
+                                    .getChronologicalV2(cursor, count, true)
                                     .then(resolve)
                                     .catch(reject);
                             }
@@ -1083,6 +1083,129 @@ const API = {
                             ),
                         };
                         debugLog("timeline.getChronologicalV2", "end", {
+                            cursor,
+                            count,
+                            out,
+                        });
+                        return resolve(out);
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            });
+        },
+        getPopularFromFollows: (cursor, count = 40, useDiffKey) => {
+            return new Promise((resolve, reject) => {
+                if (
+                    typeof useDiffKey === "undefined" &&
+                    isFinite(+localStorage.hitRateLimit) &&
+                    +localStorage.hitRateLimit > Date.now()
+                ) {
+                    useDiffKey = true;
+                }
+                let variables = {
+                    count,
+                    includePromotedContent: true,
+                    enableRanking: true,
+                    requestContext: "launch",
+                };
+                if (cursor) {
+                    variables.cursor = cursor;
+                }
+                const features = {"rweb_video_screen_enabled":false,"profile_label_improvements_pcf_label_in_post_enabled":true,"responsive_web_profile_redirect_enabled":false,"rweb_tipjar_consumption_enabled":false,"verified_phone_label_enabled":false,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"premium_content_api_read_enabled":false,"communities_web_enable_tweet_community_results_fetch":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"responsive_web_grok_analyze_button_fetch_trends_enabled":false,"responsive_web_grok_analyze_post_followups_enabled":true,"responsive_web_jetfuel_frame":true,"responsive_web_grok_share_attachment_enabled":true,"responsive_web_grok_annotations_enabled":false,"articles_preview_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"responsive_web_grok_show_grok_translated_post":false,"responsive_web_grok_analysis_button_from_backend":true,"post_ctas_fetch_enabled":true,"creator_subscriptions_quote_tweet_preview_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":true,"responsive_web_grok_image_annotation_enabled":true,"responsive_web_grok_imagine_annotation_enabled":true,"responsive_web_grok_community_note_auto_translation_is_enabled":false,"responsive_web_enhance_cards_enabled":false};
+                fetch(
+                    `/i/api/graphql/ZibLTUqUvOqCmyVWrey-GA/HomeLatestTimeline?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`,
+                    {
+                        headers: {
+                            authorization: useDiffKey
+                                ? OLDTWITTER_CONFIG.oauth_key
+                                : OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "x-twitter-client-language": LANGUAGE
+                                ? LANGUAGE
+                                : navigator.language
+                                ? navigator.language
+                                : "en",
+                            "content-type": "application/json",
+                        },
+                        credentials: "include",
+                    }
+                )
+                    .then((response) => response.json())
+                    .then(async (data) => {
+                        debugLog("timeline.getPopularFromFollows", "start", {
+                            cursor,
+                            count,
+                            data,
+                        });
+                        let instructions =
+                            data.data.home.home_timeline_urt.instructions;
+                        let entries = instructions.find(
+                            (i) => i.type === "TimelineAddEntries"
+                        );
+                        if (!entries) {
+                            debugLog("timeline.getPopularFromFollows", "end", {
+                                list: [],
+                                cursor: undefined,
+                            });
+                            return resolve({
+                                list: [],
+                                cursor: undefined,
+                            });
+                        }
+                        entries = entries.entries;
+
+                        sendRequestToEventListeners("HomeLatestTimeline", data);
+
+                        let tweets = parseHomeTimeline(entries, data);
+                        if (data.errors && data.errors[0]) {
+                            if (tweets.length === 0)
+                                return reject(data.errors[0].message);
+                            console.log(`Server errors`, data.errors);
+                        }
+                        let cb = entries.find((e) =>
+                            e.entryId.startsWith("cursor-bottom-")
+                        );
+                        let ct = entries.find((e) =>
+                            e.entryId.startsWith("cursor-top-")
+                        );
+                        let messagePromptIndex = entries.findIndex((e) =>
+                            e.entryId.startsWith("messageprompt-")
+                        );
+                        if (
+                            tweets.length === 0 &&
+                            messagePromptIndex === 0 &&
+                            !cursor
+                        ) {
+                            let messagePrompt =
+                                entries[messagePromptIndex].content.itemContent
+                                    .content;
+                            if (
+                                messagePrompt.primaryButtonAction &&
+                                messagePrompt.primaryButtonAction.action &&
+                                messagePrompt.primaryButtonAction.action.url ===
+                                    "/i/twitter_blue_sign_up"
+                            ) {
+                                localStorage.hitRateLimit =
+                                    Date.now() + 1000 * 60 * 10;
+                                return API.timeline
+                                    .getPopularFromFollows(cursor, count, true)
+                                    .then(resolve)
+                                    .catch(reject);
+                            }
+                        }
+                        let out = {
+                            list: tweets,
+                            cursorBottom: cb ? cb.content.value : undefined,
+                            cursorTop: ct ? ct.content.value : undefined,
+                            suspended: entries.find(
+                                (e) =>
+                                    e.entryId ===
+                                    "messageprompt-suspended-prompt"
+                            ),
+                        };
+                        debugLog("timeline.getPopularFromFollows", "end", {
                             cursor,
                             count,
                             out,

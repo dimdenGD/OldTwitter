@@ -147,6 +147,7 @@ async function updateTimeline(mode = 'rewrite') {
             case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
             case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
             case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
+            case 'popular-from-follows': fn = API.timeline.getPopularFromFollows; break;
             default: fn = API.timeline.getChronologicalV2; break;
         }
     }
@@ -461,6 +462,7 @@ setTimeout(async () => {
             });
             else switch(vars.timelineType) {
                 case 'algo': tl = await API.timeline.getAlgorithmicalV2(cursorBottom, 50); break;
+                case 'popular-from-follows': tl = await API.timeline.getPopularFromFollows(cursorBottom, 50); break;
                 default: tl = await API.timeline.getChronologicalV2(cursorBottom); break;
             }
             cursorBottom = tl.cursorBottom;

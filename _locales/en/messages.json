@@ -652,5 +652,7 @@
     "show_based_in": { "message": "Show where account is based" },
     "based_in": { "message": "Based in:" },
     "based_in_vpn": { "message": "(VPN)" },
-    "new_gallery": { "message": "Use new gallery for profile media page" }
+    "new_gallery": { "message": "Use new gallery for profile media page" },
+    "popular_from_follows": { "message": "Popular from follows" },
+    "popular_from_follows_help": { "message": "This will show the most popular recent tweets only from the people you follow." }
 }
