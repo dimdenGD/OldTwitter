@@ -83,6 +83,7 @@ setTimeout(() => {
                         <ul>
                             <li>Added "Popular from follows" timeline.</li>
                             <li>Removed "Reverse chronological with friends likes" timeline due to it being not working properly anymore.</li>
+                            <li>Fixed /i/web/status/ and /i/user/ URLs.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
