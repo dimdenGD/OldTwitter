@@ -49,6 +49,7 @@ let pages = [
         name: "profile",
         paths: [
             /^\/[A-z-0-9-_]{1,15}(\/with_replies|\/media|\/likes|\/following|\/followers|\/followers_you_follow|\/lists|)$/g,
+            /^\/i\/user\/\d{2,32}(|\/with_replies|\/media|\/likes|\/following|\/followers|\/followers_you_follow|\/lists|)$/g,
         ],
         exclude: [
             "/home",
@@ -81,16 +82,6 @@ if (realPath === "/") {
     location.replace("/home");
 }
 
-if (realPath.startsWith("/i/user/")) {
-    let id = realPath.split("/i/user/")[1];
-    if (id.endsWith("/")) id = id.slice(0, -1);
-    API.user.get(id, true).then((user) => {
-        if (user.error) {
-            return;
-        }
-        location.replace("/" + user.screen_name);
-    });
-}
 if (realPath === "/intent/user") {
     let id = location.search.split("user_id=")[1];
     API.user.get(id, true).then((user) => {

@@ -2758,6 +2758,56 @@ const API = {
                     });
             });
         },
+        getById: (id) => {
+            return new Promise((resolve, reject) => {
+                const variables = {
+                    userId: id,
+                };
+                const features = {"hidden_profile_subscriptions_enabled":true,"profile_label_improvements_pcf_label_in_post_enabled":true,"responsive_web_profile_redirect_enabled":false,"rweb_tipjar_consumption_enabled":false,"verified_phone_label_enabled":false,"highlights_tweets_tab_ui_enabled":true,"responsive_web_twitter_article_notes_tab_enabled":true,"subscriptions_feature_can_gift_premium":true,"creator_subscriptions_tweet_preview_api_enabled":true,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"responsive_web_graphql_timeline_navigation_enabled":true};
+                fetch(
+                    `/i/api/graphql/Bbaot8ySMtJD7K2t01gW7A/UserByRestId?variables=${encodeURIComponent(JSON.stringify(variables))}&features=${encodeURIComponent(JSON.stringify(features))}`,
+                    {
+                        headers: {
+                            authorization: OLDTWITTER_CONFIG.public_token,
+                            "x-csrf-token": OLDTWITTER_CONFIG.csrf,
+                            "x-twitter-auth-type": "OAuth2Session",
+                            "content-type": "application/json",
+                            "x-twitter-client-language": LANGUAGE
+                                ? LANGUAGE
+                                : navigator.language
+                                ? navigator.language
+                                : "en",
+                        },
+                        credentials: "include",
+                    }
+                )
+                .then((i) => i.json())
+                .then((data) => {
+                    debugLog("user.getByid", "start", { id, data });
+                    if (data.errors && data.errors[0]) {
+                        return reject(data.errors[0].message);
+                    }
+                    const result = data.data.user.result;
+                    const user = result.legacy;
+                    user.id_str = user.rest_id;
+                    user.profile_image_url_https = result.avatar.image_url;
+                    user.location = result.location.location;
+                    user.protected = result.privacy.protected;
+                    user.description = result.profile_bio.description;
+                    user.following = result.relationship_perspectives.following;
+                    user.followed_by = result.relationship_perspectives.followed_by;
+                    user.verified = result.verification.verified;
+                    for(let k in result.core) {
+                        user[k] = result.core[k];
+                    }
+                    debugLog("user.getByid", "end", user);
+                    resolve(user);
+                })
+                .catch((e) => {
+                    reject(e);
+                });
+            });
+        },
         follow: (screen_name) => {
             return new Promise((resolve, reject) => {
                 fetch(

@@ -3272,6 +3272,12 @@ setTimeout(async () => {
         return;
     }
 
+    if(location.pathname.startsWith("/i/user/")) {
+        let id = location.pathname.match(/\/i\/user\/(\d{2,32})/)[1];
+        let user = await API.user.getById(id);
+        location.replace(`/${user.screen_name}`);
+    }
+
     // mouse
     let banner = document.getElementById('profile-banner');
     let navProfileInfo = document.getElementById('nav-profile-info');
