@@ -1909,7 +1909,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
     if(subpage === 'media' && vars.newGallery) {
         for(let i in data) {
             let t = data[i];
-            let firstMedia = t.extended_entities.media[0];
+            let firstMedia = t?.extended_entities?.media?.[0];
             if(!firstMedia) continue;
             let mediaUrl = firstMedia.media_url_https;
             let el = document.createElement('div');
