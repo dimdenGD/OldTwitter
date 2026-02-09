@@ -533,8 +533,8 @@
     "unmute_user": { "message": "Riattiva @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "muted_user": { "message": "Silenziato @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
     "unmuted_user": { "message": "Riattivato @$SCREEN_NAME$", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } },
-    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"22 agosto", "placeholders": { "month": { "content": "agosto" },  "date": { "content": "22" } }},
-    "mmddyy":{ "message": "$DATE$ $MONTH$ $YEAR$",  "description":"22 agosto 2026", "placeholders": { "year": { "content": "2026" },"month": { "content": "agosto" },  "date": { "content": "22" } }},
+    "mmdd":{ "message": "$DATE$ $MONTH$",  "description":"1 luglio", "placeholders": { "month": { "content": "luglio" },  "date": { "content": "1" } }},
+    "mmddyy":{ "message": "$DATE$ $MONTH$ $YEAR$",  "description":"1 luglio 2015", "placeholders": { "year": { "content": "2015" },"month": { "content": "luglio" },  "date": { "content": "1" } }},
     "yyyy":{ "message": "$YEAR$",  "description":"2015", "placeholders": { "year": { "content": "2015" } } },
     "localize_digit":{ "message" : "Use Asian four-digit notation. (CJK only)", "description":"Non-CJK dont need to translate this message, just copy and paste"},
     "replacer_liked_to_favorited": { "message": "messo Mi piace$->aggiunto ai preferiti|messo Mi piace alla->aggiunto ai preferiti la|messo Mi piace al ->aggiunto ai preferiti il |messo Mi piace a ->aggiunto ai preferiti ", "description": "This string will be used to replace word 'liked' with 'favorited' in various places. If, in your language, this replacement is very context-based, you can add multiple substitutions and separate them with a | (example: liked->favorited|likeeeeeeeeed->favoriteeeeeeeeed). On the left side of a substitution, use the word for 'liked' that Twitter officially uses in your language (open notifications and you'll probably see 'someone liked your tweet' in your language, find that word (in this case 'liked') and place it on the left side, before the '->', and then on the right side insert the translated 'favorited' word, so when replaced it'll look like 'someone favorited your tweet'. The substitution terms on the left can also be regex expressions (don't insert them as '/expression/g' though, just 'expression'). For example, 'epic$' will only replace the word 'epic' if it's at the end of a sentence (because the $ character indicates the end of a string in regex). However, if, even after all these substitutions, it sounds bad in your language, you can ignore this." },
@@ -652,5 +652,7 @@
 	"show_based_in": { "message": "Mostra dove si trova l'account" },
     "based_in": { "message": "Posizione account:" },
     "based_in_vpn": { "message": "(VPN)" },
-    "new_gallery": { "message": "Utilizza la nuova galleria per la pagina contenuti del profilo" }
+    "new_gallery": { "message": "Utilizza la nuova galleria per la pagina contenuti del profilo" },
+	"popular_from_follows": { "message": "Popolari dai seguiti" },
+    "popular_from_follows_help": { "message": "Questo mostrerà i tweet recenti più popolari solo delle persone che segui." }
 }
