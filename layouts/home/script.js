@@ -81,9 +81,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added "Popular from follows" timeline.</li>
-                            <li>Removed "Reverse chronological with friends likes" timeline due to it being not working properly anymore.</li>
-                            <li>Fixed /i/web/status/ and /i/user/ URLs.</li>
+                            <li>Added an unefficient support for X Chat. Unfortunately, reimplementing their cryptography is too difficult, so it's just an embed of new X Chat page. You can disable this in settings if you want old DMs back.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);

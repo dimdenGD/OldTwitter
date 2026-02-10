@@ -338,6 +338,7 @@ setTimeout(async () => {
     let transitionProfileBanner = document.getElementById('transition-profile-banner');
     let showBoringIndicators = document.getElementById('show-boring-indicators');
     let useRetweetedId = document.getElementById('use-retweeted-id');
+    let useXChat = document.getElementById('use-x-chat');
 
     let root = document.querySelector(":root");
     {
@@ -398,6 +399,13 @@ setTimeout(async () => {
         else{
             root.style.setProperty('--icon-font', `"RosettaIcons"`)
         }
+    });
+    useXChat.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            useXChat: useXChat.checked
+        }, () => {
+            vars.useXChat = useXChat.checked;
+        });
     });
     linkColor.addEventListener('click', e => {
         Coloris({
@@ -1098,6 +1106,7 @@ setTimeout(async () => {
     showBoringIndicators.checked = !!vars.showBoringIndicators;
     useRetweetedId.checked = !!vars.useRetweetedId;
     disableProfileCustomizations.checked = !!vars.disableProfileCustomizations;
+    useXChat.checked = !!vars.useXChat;
     if(vars.customCSS) {
         writeCSSToDB(vars.customCSS)
     }

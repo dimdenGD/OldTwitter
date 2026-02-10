@@ -143,7 +143,8 @@ async function loadVars() {
                 "customDownloadTemplate",
                 "showBoringIndicators",
                 "useRetweetedId",
-                "newGallery"
+                "newGallery",
+                "useXChat"
             ],
             (data) => {
                 // default variables
@@ -463,7 +464,15 @@ async function loadVars() {
                         () => {}
                     );
                 }
-
+                if (typeof data.useXChat !== "boolean") {
+                    data.useXChat = true;
+                    chrome.storage.sync.set(
+                        {
+                            useXChat: true,
+                        },
+                        () => {}
+                    );
+                }
                 resolve(data);
                 varsResolve(data);
 

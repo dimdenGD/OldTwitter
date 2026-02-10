@@ -654,5 +654,6 @@
     "based_in_vpn": { "message": "(VPN)" },
     "new_gallery": { "message": "Use new gallery for profile media page" },
     "popular_from_follows": { "message": "Popular from follows" },
-    "popular_from_follows_help": { "message": "This will show the most popular recent tweets only from the people you follow." }
+    "popular_from_follows_help": { "message": "This will show the most popular recent tweets only from the people you follow." },
+    "use_x_chat": { "message": "Use X Chat instead of OldTwitter DMs." }
 }
