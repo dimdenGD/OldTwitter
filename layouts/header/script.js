@@ -418,6 +418,7 @@ function hideStuff() {
         hideStyle.innerHTML += html`
             #timeline-type-center { display: none !important; }
             #timeline-type-right { display: none !important; }
+            #new-tweet-container { margin-top: 0 !important; }
         `;
     }
     if(vars.hideFollowers) {
