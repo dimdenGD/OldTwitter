@@ -111,7 +111,7 @@
     "tweet_to": { "message": "Tweeter à", "example": "->Tweet to<- @CoolPerson2000" },
     "translated_from": { "message": "Message original en", "example": "->Translated from<- Japanese" },
     "translate_bio": { "message": "Traduction de la biographie" },
-    "edit_profile": { "message": "Editer le profil" },
+    "edit_profile": { "message": "Éditer le profil" },
     "follow_request_sent": { "message": "Requête " },
     "unblock_user": { "message": "Débloquer", "example": "->Unblock<- @CoolPerson2000" },
     "unblock": { "message": "Débloquer", "description": "Just for unblock button" },
@@ -647,5 +647,9 @@
     "suspended_user_desc": { "message": "Le profil que vous essayez de voir est suspendu." },
     "show_boring_indicators": { "message": "Afficher un indicateur sur la page des abonnés/abonnements si le dernier tweet de la personne est un retweet, une citation, inexistant ou ancien" },
     "hide_original_languages":{"message": "Cacher le message original lorsqu'il est traduit" },
-	"blocked": { "message": "bloqué.e" }
+	"blocked": { "message": "bloqué.e" },
+    "show_based_in": { "message": "Montrer où est basé le compte" },
+    "based_in": { "message": "Basé en :" },
+    "based_in_vpn": { "message": "(VPN)" },
+    "new_gallery": { "message": "Utiliser la nouvelle gallerie pour la page des médias d'un profil" }
 }
