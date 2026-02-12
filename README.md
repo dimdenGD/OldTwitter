@@ -1,4 +1,4 @@
-# OldTwitter (2025)
+# OldTwitter (2026)
 Browser extension to return old Twitter layout from 2015 (and option to use 2018 design).  
 This extension doesn't add any CSS on top of original Twitter. It's fully original client that replaces Twitter, making it much faster than alternatives.
 
@@ -27,7 +27,6 @@ If you like this extension please consider donating:
 ## Features
 
 - Almost all of Twitter functionality is implemented
-- Both reverse chronological and algorithmical timelines support. And exclusive: Reverse chronological timeline with friends likes and follows (basically mix of both chrono and algo timelines)
 - Custom profile link colors supported
 - You can change custom profile link color and it'll appear for other extension users (priority: oldtwitter color db -> twitter color db -> default color)
 - Removes all analytics and tracking from Twitter

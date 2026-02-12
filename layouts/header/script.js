@@ -418,6 +418,7 @@ function hideStuff() {
         hideStyle.innerHTML += html`
             #timeline-type-center { display: none !important; }
             #timeline-type-right { display: none !important; }
+            #new-tweet-container { margin-top: 0 !important; }
         `;
     }
     if(vars.hideFollowers) {
@@ -1393,6 +1394,23 @@ let userDataFunction = async user => {
         inboxOpened = true;
         location.hash = '#dm';
 
+        if(vars.useXChat) {
+            modal = createModal(html`
+                <div class="inbox" style="height: 100%;">
+                    <div class="xchat" style="height: 100%;">
+                        <iframe src="https://x.com/i/chat?newtwitter=true&if=1" style="width: 100%; height: 100%; border: none;"></iframe>
+                    </div>
+                </div>
+            `, "inbox-modal", () => {
+                if(location.hash === '#dm') {
+                    history.replaceState({}, '', location.pathname);
+                }
+                tweetUrlToShareInDMs = null;
+                setTimeout(() => inboxOpened = false, 100);
+            });
+            return;
+        }
+
         let inbox = inboxData;
 
         modal = createModal(html`
@@ -1454,7 +1472,7 @@ let userDataFunction = async user => {
             </div>
         `, "inbox-modal", () => {
             if(location.hash === '#dm') {
-                location.hash = "##";
+                history.replaceState({}, '', location.pathname);
             }
             tweetUrlToShareInDMs = null;
             setTimeout(() => inboxOpened = false, 100);

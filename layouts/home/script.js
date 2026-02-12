@@ -81,8 +81,7 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added option to use new gallery layout on profile pages.</li>
-                            <li>Added option to see where the account is based.</li>
+                            <li>Added an unefficient support for X Chat. Unfortunately, reimplementing their cryptography is too difficult, so it's just an embed of new X Chat page. You can disable this in settings if you want old DMs back.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
@@ -147,14 +146,7 @@ async function updateTimeline(mode = 'rewrite') {
             case 'algo': fn = API.timeline.getAlgorithmicalV2; break;
             case 'chrono-retweets': fn = API.timeline.getChronologicalV2; break;
             case 'chrono-no-retweets': fn = API.timeline.getChronologicalV2; break;
-            case 'chrono-social':
-                if(mode === 'prepend') {
-                    fn = API.timeline.getChronologicalV2;
-                } else {
-                    fn = API.timeline.getMixed;
-                    args.push(seenAlgoTweets);
-                }
-                break;
+            case 'popular-from-follows': fn = API.timeline.getPopularFromFollows; break;
             default: fn = API.timeline.getChronologicalV2; break;
         }
     }
@@ -469,6 +461,7 @@ setTimeout(async () => {
             });
             else switch(vars.timelineType) {
                 case 'algo': tl = await API.timeline.getAlgorithmicalV2(cursorBottom, 50); break;
+                case 'popular-from-follows': tl = await API.timeline.getPopularFromFollows(cursorBottom, 50); break;
                 default: tl = await API.timeline.getChronologicalV2(cursorBottom); break;
             }
             cursorBottom = tl.cursorBottom;

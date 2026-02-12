@@ -42,12 +42,14 @@ let pages = [
         name: "tweet",
         paths: [
             /^\/[A-z-0-9-_]{1,15}\/status\/\d{2,32}(|\/likes|\/retweets|\/retweets\/with_comments|)$/,
+            /^\/i\/web\/status\/\d{2,32}(|\/likes|\/retweets|\/retweets\/with_comments|)$/,
         ],
     },
     {
         name: "profile",
         paths: [
             /^\/[A-z-0-9-_]{1,15}(\/with_replies|\/media|\/likes|\/following|\/followers|\/followers_you_follow|\/lists|)$/g,
+            /^\/i\/user\/\d{2,32}(|\/with_replies|\/media|\/likes|\/following|\/followers|\/followers_you_follow|\/lists|)$/g,
         ],
         exclude: [
             "/home",
@@ -80,16 +82,6 @@ if (realPath === "/") {
     location.replace("/home");
 }
 
-if (realPath.startsWith("/i/user/")) {
-    let id = realPath.split("/i/user/")[1];
-    if (id.endsWith("/")) id = id.slice(0, -1);
-    API.user.get(id, true).then((user) => {
-        if (user.error) {
-            return;
-        }
-        location.replace("/" + user.screen_name);
-    });
-}
 if (realPath === "/intent/user") {
     let id = location.search.split("user_id=")[1];
     API.user.get(id, true).then((user) => {
@@ -97,17 +89,6 @@ if (realPath === "/intent/user") {
             return;
         }
         location.replace("/" + user.screen_name);
-    });
-}
-if (realPath.startsWith("/i/web/status/")) {
-    let id = location.pathname.split("/i/web/status/")[1];
-    API.tweet.getV2(id).then((tweet) => {
-        if (tweet.error) {
-            return;
-        }
-        location.replace(
-            "/" + tweet.user.screen_name + "/status/" + tweet.id_str
-        );
     });
 }
 if (realPath.startsWith("/i/redirect")) {

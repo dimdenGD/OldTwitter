@@ -67,6 +67,18 @@ setTimeout(() => {
             }
         }, 500);
     }
+
+    if(realPath === '/i/chat') {
+        let style = document.createElement('style');
+        style.innerHTML = `
+            @media (max-width: 700px) {
+                header[role="banner"] {
+                    display: none !important;
+                }
+            }
+        `;
+        document.body.appendChild(style);
+    }
 }, 1000);
 
 (() => {

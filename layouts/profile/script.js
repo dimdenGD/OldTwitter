@@ -1909,7 +1909,7 @@ async function renderTimeline(append = false, sliceAmount = 0) {
     if(subpage === 'media' && vars.newGallery) {
         for(let i in data) {
             let t = data[i];
-            let firstMedia = t.extended_entities.media[0];
+            let firstMedia = t?.extended_entities?.media?.[0];
             if(!firstMedia) continue;
             let mediaUrl = firstMedia.media_url_https;
             let el = document.createElement('div');
@@ -3270,6 +3270,12 @@ setTimeout(async () => {
         setTimeout(() => location.reload(), 2500);
         console.error(e);
         return;
+    }
+
+    if(location.pathname.startsWith("/i/user/")) {
+        let id = location.pathname.match(/\/i\/user\/(\d{2,32})/)[1];
+        let user = await API.user.getById(id);
+        location.replace(`/${user.screen_name}`);
     }
 
     // mouse
