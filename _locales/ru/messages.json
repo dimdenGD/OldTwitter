@@ -408,6 +408,7 @@
     "copy_tweet_links_as": { "message": "Копировать ссылки на твиты как", "example": "->Копировать ссылки как<- vxtwitter.com" },
     "use_new_icon": { "message": "Использовать новый логотип для иконки вкладок" },
     "update_timeline_automatically": { "message": "Обновлять ленту автоматически при новых твитах." },
+    "keep_timeline_position": { "message": "Сохранять позицию ленты при новых твитах." },
     "chrono_no_retweets": { "message": "Хронологическая (без ретвитов)" },
     "chrono_retweets": { "message": "Хронологическая (только ретвиты)" },
     "hide_trends": { "message": "Не показывать тренды" },

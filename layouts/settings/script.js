@@ -295,6 +295,7 @@ setTimeout(async () => {
     let copyLinksAs = document.getElementById('copy-links-as');
     let useNewIcon = document.getElementById('use-new-icon');
     let updateTimelineAutomatically = document.getElementById('update-timeline-automatically');
+    let keepTimelinePosition = document.getElementById('keep-timeline-position');
     let hideTrends = document.getElementById('hide-trends');
     let hideWtf = document.getElementById('hide-wtf');
     let hideLikes = document.getElementById('hide-likes');
@@ -685,6 +686,11 @@ setTimeout(async () => {
             updateTimelineAutomatically: updateTimelineAutomatically.checked
         }, () => { });
     });
+    keepTimelinePosition.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            keepTimelinePosition: keepTimelinePosition.checked
+        }, () => { });
+    });
     roundAvatars.addEventListener('change', () => {
         chrome.storage.sync.set({
             roundAvatars: roundAvatars.checked
@@ -1072,6 +1078,7 @@ setTimeout(async () => {
     developerMode.checked = !!vars.developerMode;
     useNewIcon.checked = !!vars.useNewIcon;
     updateTimelineAutomatically.checked = !!vars.updateTimelineAutomatically;
+    keepTimelinePosition.checked = !!vars.keepTimelinePosition;
     hideTrends.checked = !!vars.hideTrends;
     hideWtf.checked = !!vars.hideWtf;
     hideLikes.checked = !!vars.hideLikes;
