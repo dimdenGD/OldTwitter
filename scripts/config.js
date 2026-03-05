@@ -93,6 +93,7 @@ async function loadVars() {
                 "copyLinksAs",
                 "useNewIcon",
                 "updateTimelineAutomatically",
+                "keepTimelinePosition",
                 "hideTrends",
                 "hideWtf",
                 "hideLikes",

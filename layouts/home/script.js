@@ -340,7 +340,16 @@ async function renderTimeline(options = {}) {
         }
     };
     if(options.mode === 'prepend' && toRender.length > 0) {
+        let root = document.documentElement;
+        let lastScrollHeight = root.scrollHeight;
+        let lastScrollTop = root.scrollTop;
+
         timelineContainer.prepend(...toRender);
+
+        if (vars.keepTimelinePosition) {
+            root.scrollTop = lastScrollTop + (root.scrollHeight - lastScrollHeight);
+        }
+
         if(vars.enableTwemoji) {
             for(let t in toRender) {
                 twemoji.parse(toRender[t]);

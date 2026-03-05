@@ -395,6 +395,7 @@
     "copy_tweet_links_as": { "message": "Copy tweet links as", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Use new logo as tab icon" },
     "update_timeline_automatically": { "message": "Update timeline automatically on new tweets." },
+    "keep_timeline_position": { "message": "Keep timeline position on update." },
     "chrono_no_retweets": { "message": "Reverse chronological (no retweets)" },
     "chrono_retweets": { "message": "Reverse chronological (only retweets)" },
     "hide_trends": { "message": "Hide trends" },
