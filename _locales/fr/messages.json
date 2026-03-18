@@ -395,6 +395,7 @@
     "copy_tweet_links_as": { "message": "Copier les liens de tweets en", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "Utiliser le nouveau logo comme icône d'onglet" },
     "update_timeline_automatically": { "message": "Mise à jour automatique de la chronologie en cas de nouveaux tweets. Cette option est expérimentale, ne l'utilisez que si vous voulez constamment être en haut de la chronologie, elle ne sera pas mise à jour automatiquement lorsque vous aurez fait défiler environ plus de 15 tweets vers le bas." },
+    "keep_timeline_position": { "message": "Conserver la position de la chronologie lors de la mise à jour." },
     "chrono_no_retweets": { "message": "Chronologique inversé (sans retweets)" },
     "chrono_retweets": { "message": "Chronologique inversé (seulement retweets)" },
     "hide_trends": { "message": "Masquer les tendances" },
@@ -647,5 +648,14 @@
     "suspended_user_desc": { "message": "Le profil que vous essayez de voir est suspendu." },
     "show_boring_indicators": { "message": "Afficher un indicateur sur la page des abonnés/abonnements si le dernier tweet de la personne est un retweet, une citation, inexistant ou ancien" },
     "hide_original_languages":{"message": "Cacher le message original lorsqu'il est traduit" },
-	"blocked": { "message": "bloqué.e" }
+	"blocked": { "message": "bloqué.e" },
+    "use_retweeted_id": { "message": "Lorsqu'on aime ou retweete un retweet, notifier l'utilisateur qui a retweeté." },
+    "show_based_in": { "message": "Afficher là où le compte est basé" },
+    "based_in": { "message": "Basé à :" },
+    "based_in_vpn": { "message": "(VPN)" },
+    "new_gallery": { "message": "Utiliser la nouvelle galerie pour la page média du profil" },
+    "popular_from_follows": { "message": "Populaire parmi vos abonnements" },
+    "popular_from_follows_help": { "message": "Cela affichera uniquement les tweets récents les plus populaires venant des personnes que vous suivez." },
+    "use_x_chat": { "message": "Utiliser X Chat au lieu des messages privés d'OldTwitter." }
 }
+
