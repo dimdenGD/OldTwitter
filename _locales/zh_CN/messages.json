@@ -395,6 +395,7 @@
     "copy_tweet_links_as": { "message": "将推特链接以此域名复制：", "example": "->Copy links as<- vxtwitter.com" },
     "use_new_icon": { "message": "标签页图标使用新版 Logo（当然，不是X）" },
     "update_timeline_automatically": { "message": "在有新推文时自动更新时间线" },
+    "keep_timeline_position": { "message": "更新时间线时保持当前位置" },
     "chrono_no_retweets": { "message": "时间线（不含转推）" },
     "chrono_retweets": { "message": "时间线（仅有转推）" },
     "hide_trends": { "message": "隐藏趋势" },
@@ -461,7 +462,7 @@
     "content_you_see": {"message": "您看到的内容", "description":"Setting Text"},
     "use_old_style_reply": {"message": "使用旧版回复提及样式"},
     "algov2": { "message": "算法时间线（“为你推荐”）" },
-    "chrono_help": { "message": "经典的时间线（“正在关注”），将会在顶部显示最近的转推与推文，没有其它多余的内容。" },
+    "chrono_help": { "message": "经典的时间线（“正在关注 - 最近排序”），将会在顶部显示最近的转推与推文，没有其它多余的内容。" },
     "chrono_no_retweets_help": { "message": "和第一个类似，但去除了转推。" },
     "chrono_retweets_help": { "message": "和第一个类似，但只保留转推。" },
     "chrono_social_help": { "message": "经典时间线内偶尔插入算法时间线中的“某人喜欢”与“某人关注”。" },
@@ -652,5 +653,8 @@
     "show_based_in": { "message": "显示账号所在地" },
     "based_in": { "message": "位于" },
     "based_in_vpn": { "message": "(VPN)" }, 
-    "new_gallery": { "message": "个人资料页媒体页面使用新画廊（宫格）样式" }
+    "new_gallery": { "message": "个人资料页媒体页面使用新画廊（宫格）样式" }, 
+    "popular_from_follows": { "message": "来自关注的热门" },
+    "popular_from_follows_help": { "message": "将只会显示你所关注的人的热门推文（“正在关注 - 热门排序”）。" }, 
+    "use_x_chat": { "message": "使用 X Chat 替代 OldTwitter 的消息界面" }
 }
