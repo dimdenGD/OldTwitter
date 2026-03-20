@@ -3402,7 +3402,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
             `);
                     let lists = await API.list.getOwnerships(
                         user.id_str,
-                        t.user.id_str
+                        t.user_id_str
                     );
                     let container = document.getElementById("modal-lists");
                     for (let i in lists) {
@@ -3465,7 +3465,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                 if (l.is_member) {
                                     await API.list.removeMember(
                                         l.id_str,
-                                        t.user.id_str
+                                        t.user_id_str
                                     );
                                     l.is_member = false;
                                     listElement.getElementsByClassName(
@@ -3474,7 +3474,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                 } else {
                                     await API.list.addMember(
                                         l.id_str,
-                                        t.user.id_str
+                                        t.user_id_str
                                     );
                                     l.is_member = true;
                                     listElement.getElementsByClassName(

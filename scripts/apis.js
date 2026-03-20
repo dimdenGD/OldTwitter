@@ -8578,11 +8578,14 @@ const API = {
                 )
                     .then((i) => i.json())
                     .then((data) => {
-                        if (data.errors && data.errors[0].code === 32) {
-                            return reject("Not logged in");
-                        }
-                        if (data.errors && data.errors[0]) {
-                            return reject(data.errors[0].message);
+                        if (data.errors) {
+                            if (data.errors[0].code === 32) {
+                                return reject("Not logged in");
+                            } else if (data.errors[0].code === 214) {
+                                console.warn("Validation Failed: " + data.errors[0].message);
+                            } else {
+                                return reject(data.errors[0].message);
+                            }
                         }
                         chrome.storage.local.set({ listData: {} }, () => {});
                         resolve(
