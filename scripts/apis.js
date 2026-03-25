@@ -4591,7 +4591,6 @@ const API = {
                         possibly_sensitive: false,
                     },
                     semantic_annotation_ids: [],
-                    dark_request: false,
                 };
                 if (tweet.card_uri) {
                     variables.card_uri = tweet.card_uri;
@@ -4649,7 +4648,7 @@ const API = {
                     `/i/api/graphql/${
                         parsedTweet.weightedLength > 280
                             ? "cuvrhmg0s4pGaLWV68NNnQ/CreateNoteTweet"
-                            : "I_J3_LvnnihD0Gjbq5pD2g/CreateTweet"
+                            : "zkcFc6F-RKRgWN8HUkJfZg/CreateTweet"
                     }`,
                     {
                         method: "POST",
@@ -4657,7 +4656,7 @@ const API = {
                             authorization: OLDTWITTER_CONFIG.public_token,
                             "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                             "x-twitter-auth-type": "OAuth2Session",
-                            "content-type": "application/json; charset=utf-8",
+                            "content-type": "application/json",
                             "x-twitter-client-language": LANGUAGE
                                 ? LANGUAGE
                                 : navigator.language
@@ -4667,32 +4666,11 @@ const API = {
                         credentials: "include",
                         body: JSON.stringify({
                             variables,
-                            features: {
-                                c9s_tweet_anatomy_moderator_badge_enabled: true,
-                                tweetypie_unmention_optimization_enabled: true,
-                                responsive_web_edit_tweet_api_enabled: true,
-                                graphql_is_translatable_rweb_tweet_is_translatable_enabled: true,
-                                view_counts_everywhere_api_enabled: true,
-                                longform_notetweets_consumption_enabled: true,
-                                responsive_web_twitter_article_tweet_consumption_enabled: false,
-                                tweet_awards_web_tipping_enabled: false,
-                                responsive_web_home_pinned_timelines_enabled: true,
-                                longform_notetweets_rich_text_read_enabled: true,
-                                longform_notetweets_inline_media_enabled: true,
-                                responsive_web_graphql_exclude_directive_enabled: true,
-                                verified_phone_label_enabled: false,
-                                freedom_of_speech_not_reach_fetch_enabled: true,
-                                standardized_nudges_misinfo: true,
-                                tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled: true,
-                                responsive_web_media_download_video_enabled: false,
-                                responsive_web_graphql_skip_user_profile_image_extensions_enabled: false,
-                                responsive_web_graphql_timeline_navigation_enabled: true,
-                                responsive_web_enhance_cards_enabled: false,
-                            },
+                            features: {"premium_content_api_read_enabled":false,"communities_web_enable_tweet_community_results_fetch":true,"c9s_tweet_anatomy_moderator_badge_enabled":true,"responsive_web_grok_analyze_button_fetch_trends_enabled":false,"responsive_web_grok_analyze_post_followups_enabled":true,"responsive_web_jetfuel_frame":true,"responsive_web_grok_share_attachment_enabled":true,"responsive_web_grok_annotations_enabled":true,"responsive_web_edit_tweet_api_enabled":true,"graphql_is_translatable_rweb_tweet_is_translatable_enabled":true,"view_counts_everywhere_api_enabled":true,"longform_notetweets_consumption_enabled":true,"responsive_web_twitter_article_tweet_consumption_enabled":true,"tweet_awards_web_tipping_enabled":false,"content_disclosure_indicator_enabled":true,"content_disclosure_ai_generated_indicator_enabled":true,"responsive_web_grok_show_grok_translated_post":false,"responsive_web_grok_analysis_button_from_backend":true,"post_ctas_fetch_enabled":true,"longform_notetweets_rich_text_read_enabled":true,"longform_notetweets_inline_media_enabled":false,"profile_label_improvements_pcf_label_in_post_enabled":true,"responsive_web_profile_redirect_enabled":false,"rweb_tipjar_consumption_enabled":false,"verified_phone_label_enabled":false,"articles_preview_enabled":true,"responsive_web_grok_community_note_auto_translation_is_enabled":false,"responsive_web_graphql_skip_user_profile_image_extensions_enabled":false,"freedom_of_speech_not_reach_fetch_enabled":true,"standardized_nudges_misinfo":true,"tweet_with_visibility_results_prefer_gql_limited_actions_policy_enabled":true,"responsive_web_grok_image_annotation_enabled":true,"responsive_web_grok_imagine_annotation_enabled":true,"responsive_web_graphql_timeline_navigation_enabled":true,"responsive_web_enhance_cards_enabled":false},
                             queryId:
                                 parsedTweet.weightedLength > 280
                                     ? "cuvrhmg0s4pGaLWV68NNnQ"
-                                    : "I_J3_LvnnihD0Gjbq5pD2g",
+                                    : "zkcFc6F-RKRgWN8HUkJfZg",
                         }),
                     }
                 )
@@ -4763,7 +4741,12 @@ const API = {
                         authorization: OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json; charset=utf-8",
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE
+                                ? LANGUAGE
+                                : navigator.language
+                                ? navigator.language
+                                : "en",
                     },
                     credentials: "include",
                     body: JSON.stringify({
@@ -4791,7 +4774,12 @@ const API = {
                         authorization: OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json; charset=utf-8",
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE
+                            ? LANGUAGE
+                            : navigator.language
+                            ? navigator.language
+                            : "en",
                     },
                     credentials: "include",
                     body: JSON.stringify({
@@ -4813,7 +4801,7 @@ const API = {
         },
         retweet: (id) => {
             return new Promise((resolve, reject) => {
-                fetch(`/i/api/graphql/ojPdsZsimiJrUGLR1sjUtA/CreateRetweet`, {
+                fetch(`/i/api/graphql/mbRO74GrOvSfRcJnlMapnQ/CreateRetweet`, {
                     method: "POST",
                     headers: {
                         authorization:
@@ -4829,8 +4817,8 @@ const API = {
                     },
                     credentials: "include",
                     body: JSON.stringify({
-                        variables: { tweet_id: id, dark_request: false },
-                        queryId: "ojPdsZsimiJrUGLR1sjUtA",
+                        variables: { tweet_id: id },
+                        queryId: "mbRO74GrOvSfRcJnlMapnQ",
                     }),
                 })
                     .then((i) => i.json())
@@ -4848,18 +4836,23 @@ const API = {
         },
         unretweet: (id) => {
             return new Promise((resolve, reject) => {
-                fetch(`/i/api/graphql/iQtK4dl5hBmXewYZuEOKVw/DeleteRetweet`, {
+                fetch(`/i/api/graphql/ZyZigVsNiFO6v1dEks1eWg/DeleteRetweet`, {
                     method: "POST",
                     headers: {
                         authorization: OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json; charset=utf-8",
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE
+                            ? LANGUAGE
+                            : navigator.language
+                            ? navigator.language
+                            : "en",
                     },
                     credentials: "include",
                     body: JSON.stringify({
-                        variables: { source_tweet_id: id, dark_request: false },
-                        queryId: "iQtK4dl5hBmXewYZuEOKVw",
+                        variables: { source_tweet_id: id },
+                        queryId: "ZyZigVsNiFO6v1dEks1eWg",
                     }),
                 })
                     .then((i) => i.json())
@@ -4877,18 +4870,23 @@ const API = {
         },
         delete: (id) => {
             return new Promise((resolve, reject) => {
-                fetch(`/i/api/graphql/VaenaVgh5q5ih7kvyVjgtg/DeleteTweet`, {
+                fetch(`/i/api/graphql/nxpZCY2K-I6QoFHAHeojFQ/DeleteTweet`, {
                     method: "POST",
                     headers: {
                         authorization: OLDTWITTER_CONFIG.public_token,
                         "x-csrf-token": OLDTWITTER_CONFIG.csrf,
                         "x-twitter-auth-type": "OAuth2Session",
-                        "content-type": "application/json; charset=utf-8",
+                        "content-type": "application/json",
+                        "x-twitter-client-language": LANGUAGE
+                            ? LANGUAGE
+                            : navigator.language
+                            ? navigator.language
+                            : "en",
                     },
                     credentials: "include",
                     body: JSON.stringify({
-                        variables: { tweet_id: id, dark_request: false },
-                        queryId: "VaenaVgh5q5ih7kvyVjgtg",
+                        variables: { tweet_id: id },
+                        queryId: "nxpZCY2K-I6QoFHAHeojFQ",
                     }),
                 })
                     .then((i) => i.json())

@@ -705,27 +705,6 @@ let page =
     LOC_EN = LOC_EN_DATA;
     LOC_EN.extension_id = { message: chrome.runtime.id };
 
-    try {
-        let cryptoKey = await readCryptoKey();
-        console.log("Crypto key", cryptoKey);
-        if (cryptoKey) {
-            OLDTWITTER_CONFIG.deviceId = cryptoKey.deviceId;
-        } else {
-            OLDTWITTER_CONFIG.deviceId = localStorage.getItem("device_id");
-            if (!OLDTWITTER_CONFIG.deviceId) {
-                OLDTWITTER_CONFIG.deviceId = uuidV4();
-                localStorage.setItem("device_id", OLDTWITTER_CONFIG.deviceId);
-            }
-        }
-    } catch (e) {
-        console.error("Error reading crypto key", e);
-        OLDTWITTER_CONFIG.deviceId = localStorage.getItem("device_id");
-        if (!OLDTWITTER_CONFIG.deviceId) {
-            OLDTWITTER_CONFIG.deviceId = uuidV4();
-            localStorage.setItem("device_id", OLDTWITTER_CONFIG.deviceId);
-        }
-    }
-
     LOC_EN.twitter_site_verification = {
         message: OLDTWITTER_CONFIG.verificationKey,
     };
