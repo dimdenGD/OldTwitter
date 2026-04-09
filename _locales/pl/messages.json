@@ -628,5 +628,89 @@
     "accepted_conversation": { "message": "Zaakceptowano konwersację" },
     "anniversary_tweet": { "message": "Pamiętasz, od kiedy korzystasz z Twittera? Ja tak!\n#MojeTwitteroweUrodziny" },
     "you_shared_tweet": { "message": "Udostępniłeś(-aś) tweet" },
-    "user_shared_tweet": { "message": "$NAME$ udostępnił(-a) tweet", "placeholders": { "name": { "content": "Display Name" } } }
+    "user_shared_tweet": { "message": "$NAME$ udostępnił(-a) tweet", "placeholders": { "name": { "content": "Display Name" } } },
+        "always_show_link_color": {
+        "message": "Zawsze pokazuj własny kolor linków zamiast po najechaniu kursorem."
+    },
+    "keep_timeline_position": {
+        "message": "Utrzymaj pozycje osi czasu po aktualizacji."
+    },
+    "transition_profile_banner": {
+        "message": "Użyj przejścia na banerze profilu."
+    },
+    "custom_downloadtemplate": {
+        "message": "Własny szablon pobrania"
+    },
+    "custom_downloadtemplate_text": {
+        "message": "Pozwala na dostosowanie nazw plików podczas pobierania media tweeta."
+    },
+    "save_downloadtemplate": {
+        "message": "Zapisz szablon pobrania"
+    },
+    "custom_downloadtemplate_hintName1": {
+        "message": "{user_name}: Nazwa użytkownika."
+    },
+    "custom_downloadtemplate_hintName2": {
+        "message": "{user_screen_name}: Nazwa konta użytkownika. (Przykład: @dril)"
+    },
+    "custom_downloadtemplate_hintTime": {
+        "message": "{timestamp}: Data i czas publikacji tweeta."
+    },
+    "custom_downloadtemplate_hintExtension": {
+        "message": "{extension}: Rozszerzenie pobranego pliku z tweeta."
+    },
+    "custom_downloadtemplate_hintID": {
+        "message": "{id}: ID tweeta."
+    },
+    "custom_downloadtemplate_hintIndex": {
+        "message": "{index}: Indeks dla każdego pliku do pobrania. (dla postów z wieloma media)"
+    },
+    "custom_downloadtemplate_hintFilename": {
+        "message": "{filename}: Oryginalna nazwa pliku z pbs.twimg.com."
+    },
+    "nonexistent_user": {
+        "message": "To konto nie istnieje"
+    },
+    "nonexistent_user_desc": {
+        "message": "Spróbuj poszukać innego."
+    },
+    "suspended_user": {
+        "message": "Konto zawieszone"
+    },
+    "suspended_user_desc": {
+        "message": "Profil który próbujesz zobaczyć został zawieszony."
+    },
+    "show_boring_indicators": {
+        "message": "Pokaż wskaźnik na stronie obserwujących/obserwowanych jak ostatni tweet osoby jest retweetem/cytatem/nie isnitejący/stary"
+    },
+    "hide_original_languages": {
+        "message": "Ukryj oryginalne języki gdy przetłumaczone"
+    },
+    "blocked": {
+        "message": "Zablokowano"
+    },
+    "use_retweeted_id": {
+        "message": "Gdy lubisz lub retweetujesz retweet, powiadom osobę retweetowaną."
+    },
+    "show_based_in": {
+        "message": "Pokaż gdzie znajduje się konto"
+    },
+    "based_in": {
+        "message": "Znajduje się w:"
+    },
+    "based_in_vpn": {
+        "message": "(VPN)"
+    },
+    "new_gallery": {
+        "message": "Używaj nowej galerii dla strony media na profilu"
+    },
+    "popular_from_follows": {
+        "message": "Popularne od obserwowanych"
+    },
+    "popular_from_follows_help": {
+        "message": "To pokaże najpopularniejsze ostatnie tweety tylko od osób które obserwujesz."
+    },
+    "use_x_chat": {
+        "message": "Użyj Czatu X zamiast DM-ów OldTwitter."
+    }
 }
