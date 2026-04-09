@@ -44,15 +44,15 @@
 
 @font-face {
     font-family: 'RosettaIcons';
-    src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff);
+    src: url(chrome-extension://__MSG_@@extension_id__/fonts/rosetta.woff), url(https://dimden.dev/fonts/rosetta.woff);
 }
 @font-face {
     font-family: "edgeicons";
-    src: url(chrome-extension://__MSG_@@extension_id__/fonts/edge-icons-Regular.woff);
+    src: url(chrome-extension://__MSG_@@extension_id__/fonts/edge-icons-Regular.woff), url(https://dimden.dev/fonts/edge-icons-Regular.woff);
 }
 @font-face {
     font-family: 'JustBird';
-    src: url(chrome-extension://__MSG_@@extension_id__/fonts/JustBird.woff2);
+    src: url(chrome-extension://__MSG_@@extension_id__/fonts/JustBird.woff2), url(https://dimden.dev/fonts/JustBird.woff2);
     unicode-range: U+EA00;
 }
 h1, h2, h3, h4, h5, h6 {
