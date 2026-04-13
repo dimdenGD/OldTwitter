@@ -351,7 +351,7 @@
       "message": "12"
     },
     "tweet_to": {
-      "message": "@$SCREEN_NAME$ 님에게 맨션",
+      "message": "@$SCREEN_NAME$ 님에게 멘션",
       "example": "->Tweet to<- @CoolPerson2000",
       "placeholders": {
         "screen_name": {
@@ -551,10 +551,10 @@
       "message": "예: @dimden · @dimden에서 보냄"
     },
     "mentions_this_user": {
-      "message": "다음 계정 맨션"
+      "message": "다음 계정 멘션"
     },
     "mentions_this_user_example": {
-      "message": "예: @dimden · @dimden 님을 맨션함"
+      "message": "예: @dimden · @dimden 님을 멘션함"
     },
     "interactions": {
       "message": "참여"
@@ -959,7 +959,7 @@
       "message": "내가 팔로우 하는 사람들"
     },
     "people_you_mention": {
-      "message": "내가 맨션하는 사람들만"
+      "message": "내가 멘션하는 사람들만"
     },
     "new_version": {
       "message": "새로운 버전으로 업데이트 되었습니다"
