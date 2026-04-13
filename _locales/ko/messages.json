@@ -1328,6 +1328,9 @@
     "update_timeline_automatically": {
       "message": "타임라인의 새 트윗을 자동으로 갱신합니다."
     },
+    "keep_timeline_position": {
+      "message": "업데이트 시 타임라인 위치를 유지합니다."
+    },
     "chrono_no_retweets": {
       "message": "최신순 타임라인 (리트윗 없음)"
     },
@@ -2231,5 +2234,14 @@
     },
     "new_gallery": {
       "message": "프로필 미디어 페이지에 새 갤러리를 사용합니다"
+    },
+    "popular_from_follows": {
+      "message": "팔로우 중인 계정의 인기 트윗"
+    },
+    "popular_from_follows_help": {
+      "message": "팔로우 중인 계정의 최근 인기 트윗만 보여줍니다."
+    },
+    "use_x_chat": {
+      "message": "OldTwitter DM 대신 X Chat를 사용합니다."
     }
   }
