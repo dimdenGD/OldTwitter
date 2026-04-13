@@ -554,13 +554,13 @@
 		"message": "Quantidade mínima de retweets"
 	},
 	"min_retweets_example": {
-		"message": "Example: 10 - somente tweets retweetados 10 vezes"
+		"message": "Exemplo: 10 - somente tweets retweetados 10 vezes"
 	},
 	"min_favorites": {
 		"message": "Quantidade mínima de favoritos"
 	},
 	"min_favorites_example": {
-		"message": "Example: 10 - somente tweets com 10 curtidas"
+		"message": "Exemplo: 10 - somente tweets com 10 curtidas"
 	},
 	"dates": {
 		"message": "Datas"
@@ -635,7 +635,7 @@
 		"message": "Ao apertar o botão sincronizar a cor escolhida irá ser enviada para nossa base de dados e será mostrada para outros usuários do OldTwitter."
 	},
 	"color_years_ago": {
-		"message": "Se você já configurou alguma cor no Twitter (anos atrás, quando isso ainda existia), essa opção substituíra a cor antiga."
+		"message": "Se você já configurou alguma cor no Twitter (anos atrás, quando isso ainda existia), essa opção substituirá a cor antiga."
 	},
 	"sync": {
 		"message": "Sincronizar"
