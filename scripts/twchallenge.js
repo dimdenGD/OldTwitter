@@ -109,6 +109,7 @@ window.addEventListener("message", (e) => {
         );
         console.error("Error initializing solver:");
         console.error(data.error);
+        location.href = `${location.pathname}?newtwitter=true`;
     } else if (data.action === "ready") {
         solverReady = true;
         for (let task of solveQueue) {
