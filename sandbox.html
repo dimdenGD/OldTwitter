@@ -38,25 +38,34 @@
                     }
                     let verif = document.querySelector('meta[name="twitter-site-verification"]');
                     verif.content = data.verificationCode;
-                    let headerRegex = /(\d+):(.+)=>.+default:\(\)=>(\w)}\);/;
-                    let headerMatch = challengeData.match(headerRegex);
-                    if (!headerMatch) {
-                        console.error('Uh oh, header not found!! Report to https://github.com/dimdenGD/OldTwitter/issues');
-                        event.source.postMessage({ action: 'initError', error: `Header not found at ${data.challengeCode} (${String(challengeData).slice(0, 500)}...)` }, event.origin);
+                    const idMatch = challengeData.match(/\.push\(\[\[\d+\],\{(\d+):/);
+                    if (!idMatch) {
+                        console.error('Module ID not found');
+                        event.source.postMessage({ action: 'initError', error: 'Module ID not found' }, event.origin);
                         initError = true;
                         return;
                     }
+                    const id = idMatch[1];
+                    const defaultMatch = challengeData.match(/default:\(\)=>(\w+)\}\)/);
+                    if (!defaultMatch) {
+                        console.error('Default export not found');
+                        event.source.postMessage({ action: 'initError', error: 'Default export not found' }, event.origin);
+                        initError = true;
+                        return;
+                    }
+                    const defaultVar = defaultMatch[1];
                     // TO EXTENSION REVIEWERS (mostly Mozilla):
                     // This script is part of Twitter's security challenge, before mindlessly rejecting extension actually review what code does please! It's in sandbox for a reason.
                     // It only ever executes code from trusted Twitter domain, abs.twimg.com (specifically their script that generates security headers)
                     // It's impossible to have it contained in extension itself, since it's generated dynamically
                     // you can see where script is loaded in scripts/twchallenge.js
                     // it also can't use any extension APIs, since it's contained in object url iframe
-                    const patchedChallengeData = challengeData
-                        .replace(headerRegex, '$1:$2=>{window._CHALLENGE=()=>$3;');
+                    const patchedChallengeData = challengeData.replace(
+                        `default:()=>${defaultVar}`,
+                        `default:(window._CHALLENGE=()=>${defaultVar})`
+                    );
                     eval(patchedChallengeData);
 
-                    let id = headerMatch[1];
                     // 1) Collect all module factories that have already been pushed
                     const chunks = self.webpackChunk_twitter_responsive_web || [];
                     const registry = {};
@@ -76,31 +85,29 @@
                         const module = { id, loaded: false, exports: {} };
                         cache[id] = module;
 
-                        // Minimal helpers used by many bundles
-                        wreq.d = (exports, definition) => {
-                            for (const key in definition) {
-                                Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-                            }
-                        };
-                        wreq.r = (exports) => {
-                            if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
-                                Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
-                            }
-                                Object.defineProperty(exports, "__esModule", { value: true });
-                        };
-                        wreq.n = (mod) => {
-                            const getter = mod && mod.__esModule ? () => mod.default : () => mod;
-                            wreq.d(getter, { a: getter });
-                            return getter;
-                        };
-                        wreq.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
-
-                        // 3) Execute the module factory: (module, exports, __webpack_require__)
                         factory(module, module.exports, wreq);
 
                         module.loaded = true;
                         return module.exports;
                     }
+
+                    wreq.d = (exports, definition) => {
+                        for (const key in definition) {
+                            Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+                        }
+                    };
+                    wreq.r = (exports) => {
+                        if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+                            Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });
+                        }
+                        Object.defineProperty(exports, "__esModule", { value: true });
+                    };
+                    wreq.n = (mod) => {
+                        const getter = mod && mod.__esModule ? () => mod.default : () => mod;
+                        wreq.d(getter, { a: getter });
+                        return getter;
+                    };
+                    wreq.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop);
                     webpackChunk_twitter_responsive_web[1][1][id](chunks, cache, wreq);
                     solver = window._CHALLENGE()();
                     event.source.postMessage({ action: 'ready' }, event.origin);
