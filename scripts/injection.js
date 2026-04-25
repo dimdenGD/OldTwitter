@@ -181,7 +181,9 @@ const TRANSLATORS = {
         ["zdimension", "/zdimension_"],
         ["Pikatchoum", "/applitom45"],
         ["adriend", "/_adriend_"],
-        ["celestial04_", "/celestial04_"],
+        ["clst04_", "/clst04_"],
+        ["_maxokie", "/_maxokie"]
+
     ],
     pt_BR: [
         ["kigi", "/kigidere"],
