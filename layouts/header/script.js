@@ -2576,12 +2576,27 @@ let userDataFunction = async user => {
             });
             shadow.appendChild(div);
 
-            if(isSticky(el)) {
+            if(isSticky(el) && !el.closest('#search-results')) {
                 el.after(userPreview);
             } else {
                 let rects = el.getBoundingClientRect();
-                userPreview.style.top = `${rects.top + window.scrollY+ 20}px`;
-                userPreview.style.left = `${rects.left + window.scrollX}px`;
+                let topValue;
+                
+                if (el.closest('#search-results')) {
+                    let searchInput = document.getElementById('search-input');
+                    let searchRect = searchInput.getBoundingClientRect();
+
+                    topValue = searchRect.top + window.scrollY + 40;
+
+                    userPreview.style.left = `${rects.left + window.scrollX - 320}px`;
+                    userPreview.style.zIndex = "10000";
+                } else {
+                    topValue = rects.top + window.screenY + 60;
+                    userPreview.style.left = `${rects.left + window.scrollX}px`;
+                }
+                
+                userPreview.style.top = `${topValue}px`;
+
                 let closestTweet = el.closest('.tweet');
                 if(closestTweet) {
                     let linkColor = closestTweet.style.getPropertyValue('--link-color');
