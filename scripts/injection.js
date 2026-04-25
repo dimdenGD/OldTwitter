@@ -183,7 +183,6 @@ const TRANSLATORS = {
         ["adriend", "/_adriend_"],
         ["clst04_", "/clst04_"],
         ["_maxokie", "/_maxokie"]
-
     ],
     pt_BR: [
         ["kigi", "/kigidere"],
