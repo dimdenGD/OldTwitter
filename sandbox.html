@@ -38,7 +38,7 @@
                     }
                     let verif = document.querySelector('meta[name="twitter-site-verification"]');
                     verif.content = data.verificationCode;
-                    const idMatch = challengeData.match(/\.push\(\[\[\d+\],\{(\d+):/);
+                    const idMatch = challengeData.match(/\.push\(\[\[\d+\],\{(\d+)[:(]/);
                     if (!idMatch) {
                         console.error('Module ID not found');
                         event.source.postMessage({ action: 'initError', error: 'Module ID not found' }, event.origin);
