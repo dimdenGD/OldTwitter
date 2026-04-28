@@ -1,4 +1,4 @@
-{
+ƒ{
 	"ext_description": {
 		"message": "Uma nova extensão que retorna você ao antigo Twitter."
 	},
@@ -24,7 +24,7 @@
 		"description": "Try to keep this word equal or less than 9 characters"
 	},
 	"trends": {
-		"message": "Trends"
+		"message": "Tendências"
 	},
 	"tweet": {
 		"message": "Tweet"
