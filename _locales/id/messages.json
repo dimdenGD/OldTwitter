@@ -304,6 +304,9 @@
     "no_big_font": { "message": "Matikan fon besar untuk tweet pendek/populer" },
     "emoji": { "message": "Emoji" },
     "emoji_btn": { "message": "[emoji]" },
+    "gif": { "message": "GIF" },
+    "gif_btn": { "message": "[GIF]" },
+    "gif_no_results": { "message": "GIF tidak ditemukan. Coba cari yang lain." },
     "add_emoji": { "message": "Tambah emoji" },
     "custom": { "message": "Khusus" },
     "smileys_emotion": { "message": "Smiley dan emotikon" },
@@ -347,11 +350,10 @@
     "notifications_error": { "message": "Beberapa notifikasi tidak dapat dimuat karena galat." },
     "tweet_error": { "message": "Beberapa tweet tidak dapat dimuat karena galat." },
     "error_instructions": {
-        "message": "Salin teks di bawah ini dan kirimkan ke $AT1$pelacak masalah$AT2$ atau $AT3$surel saya$AT2$. Terima kasih!",
+        "message": "Salin teks di bawah ini dan kirimkan ke $AT1$pelacak masalah$AT2$. Terima kasih!",
         "placeholders": {
             "at1": { "content": "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>" },
-            "at2": { "content": "</a>" },
-            "at3": { "content": "<a target='_blank' href='mailto:admin@dimden.dev'>" }
+            "at2": { "content": "</a>" }
         }
     },
     "initialization": { "message": "Inisialisasi" },
@@ -656,5 +658,6 @@
     "new_gallery": { "message": "Gunakan galeri baru untuk halaman media profil" },
     "popular_from_follows": { "message": "Populer dari yang diikuti" },
     "popular_from_follows_help": { "message": "Ini akan menampilkan tweet populer terkini hanya dari pengguna yang Anda ikuti." },
-    "use_x_chat": { "message": "Gunakan Obrolan X, bukan DM OldTwitter." }
+    "use_x_chat": { "message": "Gunakan Obrolan X, bukan DM OldTwitter." },
+    "tweet_doesnt_exist": { "message": "Tweet ini tidak tersedia." }
 }
