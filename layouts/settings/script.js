@@ -311,6 +311,7 @@ setTimeout(async () => {
     let pinProfileOnNavbar = document.getElementById('pin-profile-on-navbar');
     let pinBookmarksOnNavbar = document.getElementById('pin-bookmarks-on-navbar');
     let pinListsOnNavbar = document.getElementById('pin-lists-on-navbar');
+    let pinLikesOnNavbar = document.getElementById('pin-likes-on-navbar');
     let useOldDefaultProfileImage = document.getElementById('use-old-default-profile-navbar');
     let uncensorGraphicViolenceAutomatically = document.getElementById('uncensor-graphic-violence-automatically');
     let uncensorAdultContentAutomatically = document.getElementById('uncensor-adult-content-automatically');
@@ -469,6 +470,13 @@ setTimeout(async () => {
             pinListsOnNavbar: pinListsOnNavbar.checked
         }, () => {
             document.getElementById('pin-lists').hidden = !pinListsOnNavbar.checked;
+        });
+    });
+    pinLikesOnNavbar.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            pinLikesOnNavbar: pinLikesOnNavbar.checked
+        }, () => {
+            document.getElementById('pin-likes').hidden = !pinLikesOnNavbar.checked;
         });
     });
     openNotifsAsModal.addEventListener('change', () => {
@@ -1106,6 +1114,7 @@ setTimeout(async () => {
     pinProfileOnNavbar.checked = !!vars.pinProfileOnNavbar;
     pinBookmarksOnNavbar.checked = !!vars.pinBookmarksOnNavbar;
     pinListsOnNavbar.checked = !!vars.pinListsOnNavbar;
+    pinLikesOnNavbar.checked = !!vars.pinLikesOnNavbar;
     useOldDefaultProfileImage.checked = !!vars.useOldDefaultProfileImage;
     hideOriginalLanguages.checked = !!vars.hideOriginalLanguages;
     uncensorAdultContentAutomatically.checked = !!vars.uncensorAdultContentAutomatically;

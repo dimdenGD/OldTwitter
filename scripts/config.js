@@ -108,6 +108,7 @@ async function loadVars() {
                 "pinProfileOnNavbar",
                 "pinBookmarksOnNavbar",
                 "pinListsOnNavbar",
+                "pinLikesOnNavbar",
                 "tweetFont",
                 "useOldDefaultProfileImage",
                 "enableHashflags",

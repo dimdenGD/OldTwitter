@@ -1387,8 +1387,9 @@ async function renderProfile() {
     }
 
     let buttonsElement = document.getElementById('profile-nav-buttons');
-    document.getElementById('pin-profile').classList.toggle('menu-active', pageUser.id_str === user.id_str && !location.pathname.includes('/lists'));
+    document.getElementById('pin-profile').classList.toggle('menu-active', pageUser.id_str === user.id_str && !location.pathname.includes('/lists') && !location.pathname.includes('/likes'));
     document.getElementById('pin-lists').classList.toggle('menu-active', location.pathname.startsWith(`/${pageUser.screen_name}/lists`));
+    document.getElementById('pin-likes').classList.toggle('menu-active', location.pathname.startsWith(`/${pageUser.screen_name}/likes`));
     let styling = document.getElementById('styling');
     if(pageUser.id_str === user.id_str) {
         if((pageUser.verified_type === "Blue" || pageUser.verified) && !localStorage.alwaysThinkUreNotBlueVerified) {

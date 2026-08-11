@@ -161,7 +161,7 @@ input, textarea {
 .menu-active#messages:before {
     content: var(--messages-icon-active);
 }
-#pin-lists, #pin-bookmarks, #pin-profile {
+#pin-lists, #pin-bookmarks, #pin-profile, #pin-likes {
     background-color: var(--background-color);
 }
 #pin-profile:before {
@@ -181,6 +181,12 @@ input, textarea {
 }
 .menu-active#pin-lists:before {
     content: var(--lists-icon-active);
+}
+#pin-likes:before {
+    content: var(--favorite-icon-content);
+}
+.menu-active#pin-likes:before {
+    content: var(--favorite-icon-content-click);
 }
 
 #navbar a:before {
@@ -3393,6 +3399,11 @@ video::-internal-media-controls-overlay-cast-button {
     }
     #navbar-user-menu-links>#navbar-user-menu-newtwitter{
         order: 11;
+    }
+}
+@media screen and (max-width: 500px) {
+    #pin-likes {
+        display: none;
     }
 }
 @media screen and (max-width: 460px) {

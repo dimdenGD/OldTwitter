@@ -457,8 +457,11 @@ let userDataFunction = async user => {
     document.getElementById('pin-profile').hidden = !vars.pinProfileOnNavbar;
     document.getElementById('pin-bookmarks').hidden = !vars.pinBookmarksOnNavbar;
     document.getElementById('pin-lists').hidden = !vars.pinListsOnNavbar;
+    document.getElementById('pin-likes').hidden = !vars.pinLikesOnNavbar;
     document.getElementById('pin-profile').href = `/${user.screen_name}`;
     document.getElementById('pin-lists').href = `/${user.screen_name}/lists`;
+    document.getElementById('pin-likes').href = `/${user.screen_name}/likes`;
+    document.querySelector('#pin-likes .nav-text').innerText = vars.heartsNotStars ? LOC.likes.message : LOC.favorites.message;
 
     if(vars.enableTwemoji) twemoji.parse(menuUserName);
 

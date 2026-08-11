@@ -661,5 +661,6 @@
     "use_x_chat": { "message": "Use X Chat instead of OldTwitter DMs." },
     "tweet_doesnt_exist": { "message": "This tweet doesn't exist." },
     "block_grok_edit": { "message": "Block Grok from editing your uploaded images" },
-    "show_download_button": { "message": "Show download button on tweets with media" }
+    "show_download_button": { "message": "Show download button on tweets with media" },
+    "pin_likes_on_navbar": { "message": "Pin Likes link on navbar" }
 }
