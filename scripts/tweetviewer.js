@@ -2130,7 +2130,7 @@ class TweetViewer {
                     typeof t.bookmark_count !== "undefined"
                         ? html`<span
                               title="${LOC.bookmarks_count.message}"
-                              class="tweet-interact-bookmark${t.bookmarked
+                              class="tweet-button tweet-interact-bookmark${t.bookmarked
                                   ? " tweet-interact-bookmarked"
                                   : ""}"
                               data-val="${t.bookmark_count}"
