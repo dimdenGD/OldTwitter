@@ -81,15 +81,10 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added GIF picker.</li>
-                            <li>Fixed DMs not loading again.</li>
-                            <li>Fixed users not appearing in search results.</li>
-                            <li>Fixed tweet page often giving "Solver timed out" error.</li>
-                            <li>Fixed clicking on quote tweet and then back sending you to the quote instead of the quoted tweet.</li>
-                            <li>Added "Based in" to user previews.</li>
-                            <li>Fixed adding/removing users from lists.</li>
-                            <li>Made new gallery show all media of tweets instead of just the first one.</li>
-                            <li>A couple of style fixes.</li>
+                            <li>Added a setting to block Grok from editing your images (enabled by default).</li>
+                            <li>Added a setting to show download button on tweets with media.</li>
+                            <li>Added a setting to pin the Likes link on the navbar.</li>
+                            <li>Fixed quotes page being broken on mobile and added auto-loading.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
