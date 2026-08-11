@@ -345,6 +345,7 @@ async function updateRetweetsWithComments(id, c) {
         tweetRetweeters = tweetRetweeters.list;
     } catch(e) {
         console.error(e);
+        loadingNewTweets = false;
         return retweetCommentsCursor = undefined;
     }
     let retweetDiv = document.getElementById('retweets_with_comments');
@@ -358,6 +359,7 @@ async function updateRetweetsWithComments(id, c) {
         retweetDiv.appendChild(h1);
     }
     if(!retweetCommentsCursor || tweetRetweeters.length === 0) {
+        retweetCommentsCursor = undefined;
         document.getElementById('retweets_with_comments-more').hidden = true;
     } else {
         document.getElementById('retweets_with_comments-more').hidden = false;
@@ -368,6 +370,7 @@ async function updateRetweetsWithComments(id, c) {
         await appendTweet(tweetRetweeters[i], retweetDiv);
     }
     document.getElementById('loading-box').hidden = true;
+    loadingNewTweets = false;
 }
 
 // Render
@@ -838,15 +841,21 @@ async function loadPage() {
         // loading new tweets
         if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight - 700) {
             if (loadingNewTweets) return;
-            if(cursor) {
+            if(subpage === 'tweet' && cursor) {
                 loadingNewTweets = true;
                 let path = location.pathname;
                 if(path.endsWith('/')) path = path.slice(0, -1);
                 updateReplies(path.split('/').slice(-1)[0], cursor);
-            } else if(likeCursor) {
+            } else if(subpage === 'likes' && likeCursor) {
                 loadingNewTweets = true;
                 let likesMoreButton = document.getElementById('likes-more');
                 if(likesMoreButton && !likesMoreButton.hidden) likesMoreButton.click();
+                else loadingNewTweets = false;
+            } else if(subpage === 'retweets_with_comments' && retweetCommentsCursor) {
+                loadingNewTweets = true;
+                let quotesMoreButton = document.getElementById('retweets_with_comments-more');
+                if(quotesMoreButton && !quotesMoreButton.hidden) quotesMoreButton.click();
+                else loadingNewTweets = false;
             }
         }
     }, { passive: true });    

@@ -143,6 +143,7 @@ body {
 #retweets,
 #retweets_with_comments,
 #likes {
+    box-sizing: border-box;
     margin-bottom: 10px;
     width: 570px;
     padding: 9px
@@ -1026,6 +1027,32 @@ a:hover,
 }
 /* Mobile UI */
 @media screen and (max-width: 590px) {
+    #timeline,
+    #retweets,
+    #retweets_with_comments,
+    #likes {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: clip;
+    }
+    #retweets,
+    #retweets_with_comments,
+    #likes {
+        padding: 9px 0;
+    }
+    .cool-header {
+        display: block;
+        box-sizing: border-box;
+        max-width: 100%;
+        padding: 0 10px;
+        overflow-wrap: anywhere;
+    }
+    .center-text {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+        box-sizing: border-box;
+        width: 100%;
+    }
     #new-tweet {
         width: unset;
         overflow-x: clip;

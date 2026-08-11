@@ -529,6 +529,7 @@ class TweetViewer {
         } catch (e) {
             console.error(e);
             tvl.hidden = true;
+            this.loadingNewTweets = false;
             this.container.getElementsByClassName(
                 "retweets_with_comments-more"
             )[0].innerText = LOC.load_more.message;
@@ -571,6 +572,7 @@ class TweetViewer {
             );
         }
         if (!this.retweetCommentsCursor || tweetRetweeters.length === 0) {
+            this.retweetCommentsCursor = undefined;
             this.container.getElementsByClassName(
                 "retweets_with_comments-more"
             )[0].hidden = true;
@@ -588,6 +590,7 @@ class TweetViewer {
         }
 
         tvl.hidden = true;
+        this.loadingNewTweets = false;
     }
     async appendComposeComponent(container, replyTweet) {
         if (!replyTweet) return;
@@ -4803,6 +4806,18 @@ class TweetViewer {
                 !this.moreBtn.hidden
             ) {
                 this.moreBtn.click();
+            } else if (that.subpage === "retweets_with_comments") {
+                let quotesMore = this.container.getElementsByClassName(
+                    "retweets_with_comments-more"
+                )[0];
+                if (
+                    quotesMore &&
+                    !quotesMore.hidden &&
+                    that.retweetCommentsCursor
+                ) {
+                    that.loadingNewTweets = true;
+                    quotesMore.click();
+                }
             }
         }
     }

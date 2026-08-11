@@ -2598,9 +2598,23 @@ video::-internal-media-controls-overlay-cast-button {
     .tweet-body {
         min-width: unset;
     }
-    #timeline {
+    #timeline,
+    #retweets,
+    #retweets_with_comments,
+    #likes,
+    .retweets,
+    .retweets_with_comments,
+    .likes {
         width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
         overflow-x: clip;
+    }
+    .cool-header {
+        display: block;
+        max-width: 100%;
+        padding: 0 10px;
+        overflow-wrap: anywhere;
     }
     #new-tweet-text {
         width: calc(100% - 88px);
@@ -2647,11 +2661,16 @@ video::-internal-media-controls-overlay-cast-button {
         max-width: 64px;
         max-height: 64px;
     }
+    .tweet-media {
+        max-width: 100%;
+    }
     .tweet-media-element {
         max-width: calc(100% - 15px);
     }
     .tweet-body-quote {
         width: calc(100% - 20px);
+        max-width: 100%;
+        box-sizing: border-box;
     }
     #right-cell {
         display: none;
