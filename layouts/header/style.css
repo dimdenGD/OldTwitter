@@ -2105,6 +2105,17 @@ emoji-picker {
 .tweet-interact-bookmark:before {
     content: "\f093";
 }
+.tweet-interact-download {
+    top: -4px !important;
+}
+.tweet-interact-download:before {
+    content: "\f186";
+    font-size: 14px !important;
+}
+.tweet-interact-download:hover:before,
+.tweet-interact-download:hover {
+    color: var(--link-color) !important;
+}
 .user-verified::after {
     content: "\f099";
     color: #ee55a1;

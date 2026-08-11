@@ -1264,6 +1264,19 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             )
         );
     }
+    if (
+        vars.showDownloadButton &&
+        t.extended_entities &&
+        t.extended_entities.media &&
+        t.extended_entities.media.length > 0
+    ) {
+        interactionArray.push(
+            elNew("span", {
+                class: ["tweet-button", "tweet-interact-download"],
+                title: LOC.download_media.message,
+            })
+        );
+    }
     interactionArray.push(
         elNew("span", { class: ["tweet-button", "tweet-interact-more"] })
     );

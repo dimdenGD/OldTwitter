@@ -101,6 +101,7 @@ async function loadVars() {
                 "extensiveLogging",
                 "disablePersonalizedTrends",
                 "showBookmarkCount",
+                "showDownloadButton",
                 "hideCommunityNotes",
                 "disableGifAutoplay",
                 "showMediaCount",

@@ -303,6 +303,7 @@ setTimeout(async () => {
     let hideFollowers = document.getElementById('hide-followers');
     let disablePersonalizedTrends = document.getElementById('disable-personalized-trends');
     let showBookmarkCount = document.getElementById('show-bookmark-count');
+    let showDownloadButton = document.getElementById('show-download-button');
     let showQuoteCount = document.getElementById('show-quote-count');
     let hideCommunityNotes = document.getElementById('hide-community-notes');
     let disableGifAutoplay = document.getElementById('disable-gif-autoplay');
@@ -747,6 +748,11 @@ setTimeout(async () => {
             showBookmarkCount: showBookmarkCount.checked
         }, () => { });
     });
+    showDownloadButton.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            showDownloadButton: showDownloadButton.checked
+        }, () => { });
+    });
     showQuoteCount.addEventListener('change', () => {
         chrome.storage.sync.set({
             showQuoteCount: showQuoteCount.checked
@@ -1093,6 +1099,7 @@ setTimeout(async () => {
     hideFollowers.checked = !!vars.hideFollowers;
     disablePersonalizedTrends.checked = !!vars.disablePersonalizedTrends;
     showBookmarkCount.checked = !!vars.showBookmarkCount;
+    showDownloadButton.checked = !!vars.showDownloadButton;
     hideCommunityNotes.checked = !!vars.hideCommunityNotes;
     disableGifAutoplay.checked = !!vars.disableGifAutoplay;
     showMediaCount.checked = !!vars.showMediaCount;

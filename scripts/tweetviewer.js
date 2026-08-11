@@ -2155,6 +2155,15 @@ class TweetViewer {
                               ).replace(/\s/g, ",")}</span
                           >`
                         : ""}
+                    ${vars.showDownloadButton &&
+                    t.extended_entities &&
+                    t.extended_entities.media &&
+                    t.extended_entities.media.length > 0
+                        ? html`<span
+                              title="${LOC.download_media.message}"
+                              class="tweet-button tweet-interact-download"
+                          ></span>`
+                        : ""}
                     <span class="tweet-button tweet-interact-more"></span>
                     <div class="tweet-interact-more-menu dropdown-menu" hidden>
                         ${innerWidth < 590
@@ -2291,7 +2300,7 @@ class TweetViewer {
                                   .join("\n")
                             : ""}
                         ${t.extended_entities &&
-                        t.extended_entities.media.length === 1
+                        t.extended_entities.media.length > 0
                             ? `<span class="tweet-interact-more-menu-download">${LOC.download_media.message}</span>`
                             : ``}
                         ${vars.developerMode
@@ -2884,6 +2893,9 @@ class TweetViewer {
         )[0];
         const tweetInteractBookmark = tweet.getElementsByClassName(
             "tweet-interact-bookmark"
+        )[0];
+        const tweetInteractDownload = tweet.getElementsByClassName(
+            "tweet-interact-download"
         )[0];
         const tweetInteractMore = tweet.getElementsByClassName(
             "tweet-interact-more"
@@ -4574,15 +4586,24 @@ class TweetViewer {
             );
         });
         let downloading = false;
-        if (t.extended_entities && t.extended_entities.media.length === 1) {
-            tweetInteractMoreMenuDownload.addEventListener("click", () => {
-                if (downloading) return;
-                downloading = true;
-                let media = t.extended_entities.media[0];
+        const downloadMedia = () => {
+            if (downloading) return;
+            if (
+                !t.extended_entities ||
+                !t.extended_entities.media ||
+                t.extended_entities.media.length === 0
+            )
+                return;
+            downloading = true;
+            t.extended_entities.media.forEach((item, index) => {
                 let url =
-                    media.type === "photo"
-                        ? media.media_url_https
-                        : media.video_info.variants[0].url;
+                    item.type === "photo"
+                        ? item.media_url_https
+                        : item.video_info.variants[0].url;
+                url = new URL(url);
+                if (item.type === "photo") {
+                    url.searchParams.set("name", "orig");
+                }
                 _fetch(url)
                     .then((res) => res.blob())
                     .then((blob) => {
@@ -4593,9 +4614,11 @@ class TweetViewer {
                         let ts = new Date(t.created_at)
                             .toISOString()
                             .split("T")[0];
-                        let extension = url.split(".").pop();
-                        //let _index = t.extended_entities.media.length > 1 ? "_"+(index+1) : "";
-                        let _index = "";
+                        let extension = url.pathname.split(".").pop();
+                        let _index =
+                            t.extended_entities.media.length > 1
+                                ? "_" + (index + 1)
+                                : "";
                         let filename = `${t.user.screen_name}_${ts}_${t.id_str}${_index}.${extension}`;
                         let filename_template = vars.customDownloadTemplate;
 
@@ -4608,6 +4631,10 @@ class TweetViewer {
                                 timestamp: ts,
                                 id: t.id_str,
                                 index: _index,
+                                filename: url.pathname.substring(
+                                    url.pathname.lastIndexOf("/") + 1,
+                                    url.pathname.lastIndexOf(".")
+                                ),
                             };
                             filename = filename_template.replace(
                                 /\{([\w]+)\}/g,
@@ -4624,6 +4651,15 @@ class TweetViewer {
                         console.error(e);
                     });
             });
+        };
+        if (t.extended_entities && t.extended_entities.media.length > 0) {
+            if (tweetInteractMoreMenuDownload)
+                tweetInteractMoreMenuDownload.addEventListener(
+                    "click",
+                    downloadMedia
+                );
+            if (tweetInteractDownload)
+                tweetInteractDownload.addEventListener("click", downloadMedia);
         }
         if (
             t.extended_entities &&
