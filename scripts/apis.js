@@ -9238,7 +9238,8 @@ const API = {
             }
             if (
                 (typeof data.alt === "string" && data.alt.length > 0) ||
-                data.cw.length > 0
+                data.cw.length > 0 ||
+                vars.blockGrokEdit
             ) {
                 try {
                     let obj = {
@@ -9251,6 +9252,11 @@ const API = {
                     }
                     if (data.cw.length > 0) {
                         obj.sensitive_media_warning = data.cw;
+                    }
+                    if (vars.blockGrokEdit) {
+                        obj.grok_actions = {
+                            block_grok_edit: "true",
+                        };
                     }
                     await fetch(
                         `https://upload.${location.hostname}/1.1/media/metadata/create.json`,

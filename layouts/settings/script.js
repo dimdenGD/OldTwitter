@@ -284,6 +284,7 @@ setTimeout(async () => {
     let roundAvatars = document.getElementById('round-avatars-switch');
     let modernUI = document.getElementById('modern-ui-switch');
     let showOriginalImages = document.getElementById('show-original-images');
+    let blockGrokEdit = document.getElementById('block-grok-edit');
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
     let autoplayVideos = document.getElementById('autoplay-videos');
@@ -680,6 +681,13 @@ setTimeout(async () => {
         chrome.storage.sync.set({
             showOriginalImages: showOriginalImages.checked
         }, () => { });
+    });
+    blockGrokEdit.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            blockGrokEdit: blockGrokEdit.checked
+        }, () => {
+            vars.blockGrokEdit = blockGrokEdit.checked;
+        });
     });
     updateTimelineAutomatically.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -1122,6 +1130,7 @@ setTimeout(async () => {
     document.getElementById('stt-div').hidden = vars.timelineType !== 'algo' && vars.timelineType !== 'algov2';
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
+    blockGrokEdit.checked = !!vars.blockGrokEdit;
     roundAvatars.checked = !!vars.roundAvatars;
     modernUI.checked = !!vars.modernUI;
     language.value = vars.language ? vars.language : 'en';

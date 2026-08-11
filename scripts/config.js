@@ -145,7 +145,8 @@ async function loadVars() {
                 "showBoringIndicators",
                 "useRetweetedId",
                 "newGallery",
-                "useXChat"
+                "useXChat",
+                "blockGrokEdit"
             ],
             (data) => {
                 // default variables
@@ -470,6 +471,15 @@ async function loadVars() {
                     chrome.storage.sync.set(
                         {
                             useXChat: true,
+                        },
+                        () => {}
+                    );
+                }
+                if (typeof data.blockGrokEdit !== "boolean") {
+                    data.blockGrokEdit = true;
+                    chrome.storage.sync.set(
+                        {
+                            blockGrokEdit: true,
                         },
                         () => {}
                     );
