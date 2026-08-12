@@ -241,7 +241,7 @@
     "limited_tweet": { "message": "Ce tweet restreint qui peut y répondre" },
     "replies": { "message": "Réponses" },
     "retweets": { "message": "Retweets" },
-    "likes": { "message": "Aimes" },
+    "likes": { "message": "Likes" },
     "show_this_thread": { "message": "Voir ce fil" },
     "quote_tweet": { "message": "Citer le tweet" },
     "see_retweeters": { "message": "Voir les retweeteurs" },
@@ -304,6 +304,9 @@
     "no_big_font": { "message": "Désactiver la police large pour les tweets courts ou populaires." },
     "emoji": { "message": "Émoji" },
     "emoji_btn": { "message": "[émoji]" },
+	"gif": { "message": "GIF"},
+ 	"gif_btn": {"message": "[GIF]" },
+ 	"gif_no_results": { "message": "aucun GIF trouvé. Essayer une autre recherche."
     "add_emoji": { "message": "Ajouter un émoji" },
     "custom": { "message": "Personnalisé" },
     "smileys_emotion": { "message": "Smileys et émoticônes" },
@@ -656,5 +659,9 @@
     "popular_from_follows": { "message": "Populaire parmi vos abonnements" },
     "popular_from_follows_help": { "message": "Cela affichera uniquement les tweets récents les plus populaires venant des personnes que vous suivez." },
     "use_x_chat": { "message": "Utiliser X Chat au lieu des messages privés d'OldTwitter." }
+	"tweet_doesnt_exist": {"message": "Ce tweet n'existe pas."},
+    "block_grok_edit": {"message": "Empêcher Grok d'éditer vos images uploadées" },
+    "show_download_button": {  "message": "Afficher un bouton de téléchargement sur les tweets avec média" },
+    "pin_likes_on_navbar": { "message": "Épingler un raccourci Likes sur la barre de navigation" }
 }
 
