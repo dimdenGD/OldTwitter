@@ -304,6 +304,9 @@
     "no_big_font": { "message": "Desactivar tipografías grandes para tweets cortos o populares." },
     "emoji": { "message": "Emoji" },
     "emoji_btn": { "message": "[emoji]" },
+    "gif": { "message": "GIF" },
+    "gif_btn": { "message": "[GIF]" },
+    "gif_no_results": { "message": "No se encontraron GIFs. Prueba con otra búsqueda." },
     "add_emoji": { "message": "Añadir emoji" },
     "custom": { "message": "Personalizado" },
     "smileys_emotion": { "message": "Smileys y Emoticones" },
@@ -394,6 +397,7 @@
     "copy_tweet_links_as": { "message": "Copiar enlaces de tweets como", "example": "->Copiar links como<- vxtwitter.com" },
     "use_new_icon": { "message": "Usar el nuevo logo como icono de pestaña" },
     "update_timeline_automatically": { "message": "Actualizar la cronología con nuevos tweets." },
+    "keep_timeline_position": { "message": "Mantener la posición en la cronología al actualizar." },
     "chrono_no_retweets": { "message": "Cronológicamente inverso (sin retweets)" },
     "chrono_retweets": { "message": "Cronológicamente inverso (solo retweets)" },
     "hide_trends": { "message": "Ocultar tendencias" },
@@ -606,7 +610,7 @@
         "a_end": { "content": "</a>" }
     } },
     "user_changed_group_name": { "message": "$A_START$$NAME$$A_END$ cambió el nombre del grupo a $GROUP_NAME$", "description": "Esto se usa cuando un usuario cambia el nombre del grupo (nombre en pantalla)", "placeholders": {
-        "name": { "content": "Group Admin" },
+        "name": { "content": "Administrador de Grupo" },
         "group_name": { "content": "Amigo del Administrador de Grupo" },
         "a_start": { "content": "<a href=\"/GroupAdmin\">" },
         "a_end": { "content": "</a>" }
@@ -647,5 +651,16 @@
     "show_boring_indicators": { "message": "En la página de seguidores/siguiendo, se indicará si el último tweet de cada perfil es un retweet, un tweet citado, no existe o es un tweet viejo" },
     "hide_original_languages":{"message": "Ocultar el idioma original al traducir" },
 	"blocked": { "message": "Bloqueado" },
-	"use_retweeted_id": { "message": "Al dar \"Me gusta\" o retweetear un retweet, notificar al usuario que lo retweeteó." }
+	"use_retweeted_id": { "message": "Al dar \"Me gusta\" o retweetear un retweet, notificar al usuario que lo retweeteó." },
+    "show_based_in": { "message": "Mostrar la ubicación de la cuenta" },
+    "based_in": { "message": "Ubicado en:" },
+    "based_in_vpn": { "message": "(VPN)" },
+    "new_gallery": { "message": "Utilizar la nueva galería para la página multimedia del perfil" },
+    "popular_from_follows": { "message": "Lo más popular según los seguidores" },
+    "popular_from_follows_help": { "message": "Se mostrarán los tweets recientes más populares sólo de las personas a las que sigues." },
+    "use_x_chat": { "message": "Utilizar X Chat en lugar de los MD de OldTwitter." },
+    "tweet_doesnt_exist": { "message": "Este tweet no existe." },
+    "block_grok_edit": { "message": "Impedir que Grok edite las imágenes que hayas subido" },
+    "show_download_button": { "message": "Mostrar el botón de descarga en los tweets con archivos multimedia" },
+    "pin_likes_on_navbar": { "message": "Fijar el link \"Me gusta\" en la barra de navegación" }
 }
