@@ -464,7 +464,7 @@
     "chrono_help": { "message": "Chronologie chronologique inversée classique (\"suivis\"), les tweets et retweets les plus récents seront affichés en premier, et rien d'autre." },
     "chrono_no_retweets_help": { "message": "Identique à la première option, mais sans retweets." },
     "chrono_retweets_help": { "message": "Identique à la première option, mais avec seulement les retweets." },
-    "chrono_social_help": { "message": "Un mélange de chronologie algorithmique et chronologique, c'est-à-dire que des notifications (aimes et suivis) seront ajoutés entre les tweets en ordre chronologique." },
+    "chrono_social_help": { "message": "Un mélange de chronologie algorithmique et chronologique, c'est-à-dire que des notifications (les j'aimes et suivis) seront ajoutés entre les tweets en ordre chronologique." },
     "algo_help": { "message": "Ancienne chronologie algorithmique, des tweets que Twitter pense que vous aimerez seront affichés. Cette option est une ancienne version de la chronologie algorithmique, elle ne semble pas avoir de limite de taux (ou elle est très grande), et elle n'affiche pas les labels justifiant l'apparition des tweets dans la chronologie." },
     "algov2_help": { "message": "Chronologie algorithmique (\"pour vous\"), des tweets que Twitter pense que vous aimerez seront affichés." },
     "import_settings": { "message": "Paramètres d'importation" },
