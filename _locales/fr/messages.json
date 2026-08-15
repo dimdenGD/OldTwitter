@@ -109,7 +109,7 @@
     "november": { "message": "novembre" },
     "december": { "message": "décembre" },
     "tweet_to": { "message": "Tweeter à", "example": "->Tweet to<- @CoolPerson2000" },
-    "translated_from": { "message": "Message original en ", "example": "->Translated from<- Japanese" },
+    "translated_from": { "message": "Message original en", "example": "->Translated from<- Japanese" },
     "translate_bio": { "message": "Traduction de la biographie" },
     "edit_profile": { "message": "Éditer le profil" },
     "follow_request_sent": { "message": "Requête " },
