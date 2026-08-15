@@ -199,6 +199,7 @@ input, textarea {
 #navbar a {
     color: var(--darker-gray);
     text-decoration: none;
+    text-wrap: auto;
     z-index: 98;
 }
 
@@ -378,6 +379,7 @@ input, textarea {
     min-width: 420px;
     max-width: 520px;
     max-height: 70%;
+    margin: auto !important;
     overflow-y: auto;
     top: 10%;
 }
@@ -401,7 +403,6 @@ input, textarea {
     height: 100%;
     object-fit: cover;
     display: block;
-    vertical-align: top;
 }
 .gif-picker-item:hover {
     outline: 2px solid var(--link-color);
@@ -1418,6 +1419,7 @@ span.tweet-body-text {
 #profile-name .emoji {
     width: 26px !important;
     height: 26px !important;
+    
 }
 
 .tweet-footer-favorites-img {
@@ -3108,6 +3110,7 @@ video::-internal-media-controls-overlay-cast-button {
     #profile-name {
         width: 100%;
         margin-bottom: 5px;
+        overflow-wrap: anywhere;
     }
     #profile-nav-buttons {
         position: absolute;
@@ -3198,7 +3201,6 @@ video::-internal-media-controls-overlay-cast-button {
         width: 1000px;
         height: 1000px;
         left: 269px;
-        top: 51px;
         backdrop-filter: blur(5px);
         transition: 0.2s;
     }

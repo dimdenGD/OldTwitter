@@ -1457,7 +1457,7 @@ body.body-old-ui .user-item-btn.follow:before {
     color: var(--almost-black);
     cursor: pointer;
     padding: 0;
-    padding-left: 12px;
+    padding-left: 9px;
     display: inline;
 }
 #tweet-nav-more-menu-hr {
