@@ -1418,8 +1418,7 @@ span.tweet-body-text {
 #user-name .emoji,
 #profile-name .emoji {
     width: 26px !important;
-    height: 26px !important;
-    
+    height: 26px !important;  
 }
 
 .tweet-footer-favorites-img {
