@@ -70,6 +70,7 @@ body {
 }
 
 #user-name {
+    text-overflow: ellipsis;
     bottom: 47px;
     color: var(--almost-black);
     font-size: 22px;
@@ -963,6 +964,10 @@ a:not(.tweet-header-info):not(.tweet-body-quote):hover,
     }
     .user-stat-div>h1 {
         font-size: 18px;
+    }
+    #user-name {
+        font-size: 20px;
+        width: 152px;
     }
     #trends {
         width: 238px
