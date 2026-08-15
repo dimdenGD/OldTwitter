@@ -241,7 +241,7 @@
     "limited_tweet": { "message": "Ce tweet restreint qui peut y répondre" },
     "replies": { "message": "Réponses" },
     "retweets": { "message": "Retweets" },
-    "likes": { "message": "Aimes" },
+    "likes": { "message": "J'aimes" },
     "show_this_thread": { "message": "Voir ce fil" },
     "quote_tweet": { "message": "Citer le tweet" },
     "see_retweeters": { "message": "Voir les retweeteurs" },
