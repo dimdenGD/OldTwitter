@@ -653,11 +653,15 @@
 	"blocked": { "message": "Diblokir" },
     "use_retweeted_id": { "message": "Saat menyukai atau meretweet sebuah retweet, kabarkan pengguna yang meretweet." },
     "show_based_in": { "message": "Tampilkan dari mana sebuah akun berbasis" },
-    "based_in": { "message": "Berbasis in:" },
+    "based_in": { "message": "Berbasis di:" },
     "based_in_vpn": { "message": "(VPN)" },
     "new_gallery": { "message": "Gunakan galeri baru untuk halaman media profil" },
     "popular_from_follows": { "message": "Populer dari yang diikuti" },
     "popular_from_follows_help": { "message": "Ini akan menampilkan tweet populer terkini hanya dari pengguna yang Anda ikuti." },
     "use_x_chat": { "message": "Gunakan Obrolan X, bukan DM OldTwitter." },
-    "tweet_doesnt_exist": { "message": "Tweet ini tidak tersedia." }
+    "tweet_doesnt_exist": { "message": "Tweet ini tidak tersedia." },
+    "block_grok_edit": { "message": "Blokir Grok dari menyunting gambar yang Anda unggah" },
+    "show_download_button": { "message": "Tampilkan tombol mengunduh pada tweet dengan media" },
+    "pin_likes_on_navbar": { "message": "Sematkan tautan Suka pada bar navigasi" },
+    "open_oldtwitter": { "message": "Buka laman ini di OldTwitter" }
 }
