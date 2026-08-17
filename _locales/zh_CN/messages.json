@@ -655,5 +655,10 @@
     "new_gallery": { "message": "个人资料页媒体页面使用新画廊（宫格）样式" }, 
     "popular_from_follows": { "message": "来自关注的热门" },
     "popular_from_follows_help": { "message": "将只会显示你所关注的人的热门推文（“正在关注 - 热门排序”）。" }, 
-    "use_x_chat": { "message": "使用 X Chat 替代 OldTwitter 的消息界面" }
+    "use_x_chat": { "message": "使用 X Chat 替代 OldTwitter 的消息界面" }, 
+    "tweet_doesnt_exist": { "message": "这条推文不存在。" },
+    "block_grok_edit": { "message": "禁止 Grok 编辑您上传的图像" },
+    "show_download_button": { "message": "在带有媒体的推文下显示下载媒体按钮" },
+    "pin_likes_on_navbar": { "message": "将【喜欢】链接添加到导航栏" },
+    "open_oldtwitter": { "message": "在 OldTwitter 中打开此页面" }
 }
