@@ -979,12 +979,10 @@ let userDataFunction = async user => {
                         photoElement.width = w;
                         photoElement.height = h;
                         photoElement.addEventListener('click', e => {
-                            if(e.target.src.includes(':small')) {
-                                e.target.src = e.target.src.replace(':small', '');
-                            };
                             new Viewer(photoElement, {
                                 transition: false,
-                        zoomRatio: 0.3
+                                zoomRatio: 0.3,
+                                url: getOriginalImageUrl,
                             });
                             e.target.click();
                         })

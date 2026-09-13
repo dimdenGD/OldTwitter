@@ -3485,21 +3485,10 @@ class TweetViewer {
                     );
                 }
                 if (e.target.tagName === "IMG") {
-                    if (
-                        !e.target.src.includes("?name=") &&
-                        !e.target.src.endsWith(":orig") &&
-                        !e.target.src.startsWith("data:")
-                    ) {
-                        e.target.src += "?name=orig";
-                    } else if (e.target.src.includes("?name=small")) {
-                        e.target.src = e.target.src.replace(
-                            "?name=small",
-                            "?name=large"
-                        );
-                    }
                     new Viewer(tweetMedia, {
                         transition: false,
                         zoomRatio: 0.3,
+                        url: getOriginalImageUrl,
                     });
                     e.target.click();
                 }

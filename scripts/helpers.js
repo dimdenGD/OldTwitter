@@ -319,6 +319,7 @@ async function handleFiles(files, mediaArray, mediaContainer, is_dm = false) {
                 new Viewer(mediaContainer, {
                     transition: false,
                     zoomRatio: 0.3,
+                    url: getOriginalImageUrl,
                 });
             });
             div.append(alt);
@@ -1032,6 +1033,7 @@ function generateCard(tweet, tweetElement, user) {
                         new Viewer(img, {
                             transition: false,
                             zoomRatio: 0.3,
+                            url: getOriginalImageUrl,
                         });
                     });
                     tweetElement
@@ -2430,6 +2432,18 @@ const mediaClasses = [
     "tweet-media-element-two",
 ];
 
+function getOriginalImageUrl(image) {
+    let src = image.src;
+    if (!src || src.startsWith("data:")) return src;
+    if (src.endsWith(":orig")) return src;
+    if (/[?&]name=/.test(src)) {
+        return src.replace(/([?&])name=[^&]*/, "$1name=orig");
+    }
+    if (/:(?:small|medium|large|thumb)$/.test(src)) {
+        return src.replace(/:(?:small|medium|large|thumb)$/, "");
+    }
+    return src + "?name=orig";
+}
 function calculateSize(x, y, max_x, max_y) {
     let ratio = x / y;
     let iw = innerWidth;
@@ -3840,21 +3854,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         e.target.className &&
                         e.target.className.includes("tweet-media-element")
                     ) {
-                        if (
-                            !e.target.src.includes("?name=") &&
-                            !e.target.src.endsWith(":orig") &&
-                            !e.target.src.startsWith("data:")
-                        ) {
-                            e.target.src += "?name=orig";
-                        } else if (e.target.src.includes("?name=small")) {
-                            e.target.src = e.target.src.replace(
-                                "?name=small",
-                                "?name=large"
-                            );
-                        }
                         new Viewer(e.target.parentElement, {
                             transition: false,
                             zoomRatio: 0.3,
+                            url: getOriginalImageUrl,
                         });
                         e.target.click();
                         return;
@@ -4140,21 +4143,10 @@ async function appendTweet(t, timelineContainer, options = {}) {
                     );
                 }
                 if (e.target.tagName === "IMG") {
-                    if (
-                        !e.target.src.includes("?name=") &&
-                        !e.target.src.endsWith(":orig") &&
-                        !e.target.src.startsWith("data:")
-                    ) {
-                        e.target.src += "?name=orig";
-                    } else if (e.target.src.includes("?name=small")) {
-                        e.target.src = e.target.src.replace(
-                            "?name=small",
-                            "?name=large"
-                        );
-                    }
                     new Viewer(tweetMedia, {
                         transition: false,
                         zoomRatio: 0.3,
+                        url: getOriginalImageUrl,
                     });
                     e.target.click();
                 }
