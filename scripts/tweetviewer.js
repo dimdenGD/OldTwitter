@@ -1062,15 +1062,13 @@ class TweetViewer {
             document.getElementsByClassName(
                 "new-tweet-button"
             )[0].disabled = true;
-            let uploadedMedia = [];
-            for (let i in this.mediaToUpload) {
-                let media = this.mediaToUpload[i];
-                try {
+            let uploadResults = await Promise.allSettled(
+                this.mediaToUpload.map(async (media) => {
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].hidden = false;
-                    let mediaId;
-                    if (!media.div.dataset.mediaId) {
+                    let mediaId = media.div.dataset.mediaId;
+                    if (!mediaId) {
                         mediaId = await API.uploadMedia({
                             media_type: media.type,
                             media_category: media.category,
@@ -1083,32 +1081,34 @@ class TweetViewer {
                                 )[0].innerText = `${data.text} (${data.progress}%)`;
                             },
                         });
-                    } else {
-                        mediaId = media.div.dataset.mediaId;
                     }
-                    uploadedMedia.push(mediaId);
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].innerText = LOC.uploaded.message;
                     media.div.dataset.mediaId = mediaId;
-                } catch (e) {
-                    console.error(e);
-                    alert(e);
-                    for (let j in this.mediaToUpload) {
-                        let media = this.mediaToUpload[j];
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].hidden = true;
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].innerText = "";
-                    }
-                    document.getElementsByClassName(
-                        "new-tweet-button"
-                    )[0].disabled = false;
-                    return; // cancel tweeting
+                    return mediaId;
+                })
+            );
+            let failedUpload = uploadResults.find(
+                (r) => r.status === "rejected"
+            );
+            if (failedUpload) {
+                console.error(failedUpload.reason);
+                alert(failedUpload.reason);
+                for (let media of this.mediaToUpload) {
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].hidden = true;
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].innerText = "";
                 }
+                document.getElementsByClassName(
+                    "new-tweet-button"
+                )[0].disabled = false;
+                return;
             }
+            let uploadedMedia = uploadResults.map((r) => r.value);
             let tweetObject = {
                 status: tweet,
                 in_reply_to_status_id: replyTweet.id_str,
@@ -3583,15 +3583,13 @@ class TweetViewer {
             let text = tweetReplyText.value;
             if (text.length === 0 && replyMedia.length === 0) return;
             tweetReplyButton.disabled = true;
-            let uploadedMedia = [];
-            for (let i in replyMedia) {
-                let media = replyMedia[i];
-                try {
+            let uploadResults = await Promise.allSettled(
+                replyMedia.map(async (media) => {
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].hidden = false;
-                    let mediaId;
-                    if (!media.div.dataset.mediaId) {
+                    let mediaId = media.div.dataset.mediaId;
+                    if (!mediaId) {
                         mediaId = await API.uploadMedia({
                             media_type: media.type,
                             media_category: media.category,
@@ -3604,30 +3602,32 @@ class TweetViewer {
                                 )[0].innerText = `${data.text} (${data.progress}%)`;
                             },
                         });
-                    } else {
-                        mediaId = media.div.dataset.mediaId;
                     }
-                    uploadedMedia.push(mediaId);
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].innerText = LOC.uploaded.message;
                     media.div.dataset.mediaId = mediaId;
-                } catch (e) {
-                    console.error(e);
-                    alert(e);
-                    for (let j in replyMedia) {
-                        let media = replyMedia[j];
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].hidden = true;
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].innerText = "";
-                    }
-                    tweetReplyButton.disabled = false;
-                    return; // cancel tweeting
+                    return mediaId;
+                })
+            );
+            let failedUpload = uploadResults.find(
+                (r) => r.status === "rejected"
+            );
+            if (failedUpload) {
+                console.error(failedUpload.reason);
+                alert(failedUpload.reason);
+                for (let media of replyMedia) {
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].hidden = true;
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].innerText = "";
                 }
+                tweetReplyButton.disabled = false;
+                return;
             }
+            let uploadedMedia = uploadResults.map((r) => r.value);
             let tweetObject = {
                 status: text,
                 in_reply_to_status_id: t.id_str,
@@ -3972,15 +3972,13 @@ class TweetViewer {
             tweetQuoteError.innerHTML = "";
             if (text.length === 0 && quoteMedia.length === 0) return;
             tweetQuoteButton.disabled = true;
-            let uploadedMedia = [];
-            for (let i in quoteMedia) {
-                let media = quoteMedia[i];
-                try {
+            let uploadResults = await Promise.allSettled(
+                quoteMedia.map(async (media) => {
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].hidden = false;
-                    let mediaId;
-                    if (!media.div.dataset.mediaId) {
+                    let mediaId = media.div.dataset.mediaId;
+                    if (!mediaId) {
                         mediaId = await API.uploadMedia({
                             media_type: media.type,
                             media_category: media.category,
@@ -3993,30 +3991,32 @@ class TweetViewer {
                                 )[0].innerText = `${data.text} (${data.progress}%)`;
                             },
                         });
-                    } else {
-                        mediaId = media.div.dataset.mediaId;
                     }
-                    uploadedMedia.push(mediaId);
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].innerText = LOC.uploaded.message;
                     media.div.dataset.mediaId = mediaId;
-                } catch (e) {
-                    console.error(e);
-                    alert(e);
-                    for (let j in quoteMedia) {
-                        let media = quoteMedia[j];
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].hidden = true;
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].innerText = "";
-                    }
-                    tweetQuoteButton.disabled = false;
-                    return; // cancel tweeting
+                    return mediaId;
+                })
+            );
+            let failedUpload = uploadResults.find(
+                (r) => r.status === "rejected"
+            );
+            if (failedUpload) {
+                console.error(failedUpload.reason);
+                alert(failedUpload.reason);
+                for (let media of quoteMedia) {
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].hidden = true;
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].innerText = "";
                 }
+                tweetQuoteButton.disabled = false;
+                return;
             }
+            let uploadedMedia = uploadResults.map((r) => r.value);
             let tweetObject = {
                 status: text,
                 attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`,

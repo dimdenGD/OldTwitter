@@ -97,57 +97,43 @@ async function handleFiles(files, mediaArray, mediaContainer, is_dm = false) {
             }
             videos.push(file);
         } else if (file.type.includes("image")) {
-            // max 5 mb
-            if (
-                file.size > 5000000 ||
-                (window.navigator &&
-                    navigator.connection &&
-                    navigator.connection.type === "cellular" &&
-                    !vars.disableDataSaver)
-            ) {
-                // convert png to jpeg
-                let toBreak = false,
-                    i = 0;
-                while (file.size > 5000000) {
-                    await new Promise((resolve) => {
-                        let canvas = document.createElement("canvas");
-                        let ctx = canvas.getContext("2d");
-                        let img = new Image();
-                        img.onload = function () {
-                            canvas.width = img.width;
-                            canvas.height = img.height;
-                            ctx.drawImage(img, 0, 0);
-                            let dataURL = canvas.toDataURL(
-                                "image/jpeg",
-                                window.navigator &&
-                                    navigator.connection &&
-                                    navigator.connection.type === "cellular" &&
-                                    !vars.disableDataSaver
-                                    ? 0.5 - i * 0.1
-                                    : 0.9 - i * 0.1
-                            );
-                            let blobBin = atob(dataURL.split(",")[1]);
-                            let array = [];
-                            for (let i = 0; i < blobBin.length; i++) {
-                                array.push(blobBin.charCodeAt(i));
-                            }
-                            let newFile = new Blob([new Uint8Array(array)], {
-                                type: "image/jpeg",
-                            });
-                            if (newFile.size > file.size) {
-                                toBreak = true;
-                            } else {
-                                file = newFile;
-                            }
-                            resolve();
-                        };
-                        img.src = URL.createObjectURL(file);
-                    });
-                    if (toBreak || i++ > 5) break;
+            let srcUrl = URL.createObjectURL(file);
+            let srcImg = new Image();
+            srcImg.src = srcUrl;
+            try {
+                await srcImg.decode();
+            } catch (e) {}
+            let scale = Math.min(
+                1,
+                4096 / Math.max(srcImg.naturalWidth, srcImg.naturalHeight)
+            );
+            if (scale < 1 || file.size > 5000000) {
+                let canvas = document.createElement("canvas");
+                canvas.width = Math.round(srcImg.naturalWidth * scale);
+                canvas.height = Math.round(srcImg.naturalHeight * scale);
+                let ctx = canvas.getContext("2d");
+                ctx.imageSmoothingQuality = "high";
+                ctx.drawImage(srcImg, 0, 0, canvas.width, canvas.height);
+                let formats = [
+                    ["image/jpeg", 0.92],
+                    ["image/jpeg", 0.85],
+                ];
+                if (scale < 1 && file.type !== "image/jpeg")
+                    formats.unshift(["image/png"]);
+                let mustEncode = scale < 1;
+                for (let [type, quality] of formats) {
+                    if (!mustEncode && file.size <= 5000000) break;
+                    mustEncode = false;
+                    let blob = await new Promise((resolve) =>
+                        canvas.toBlob(resolve, type, quality)
+                    );
+                    if (blob)
+                        file = new File([blob], file.name, { type: blob.type });
                 }
-                if (file.size > 5000000) {
-                    return alert(LOC.images_max.message);
-                }
+            }
+            URL.revokeObjectURL(srcUrl);
+            if (file.size > 5000000) {
+                return alert(LOC.images_max.message);
             }
             images.push(file);
         }
@@ -4274,15 +4260,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
             let text = tweetReplyText.value;
             if (text.length === 0 && replyMedia.length === 0) return;
             tweetReplyButton.disabled = true;
-            let uploadedMedia = [];
-            for (let i in replyMedia) {
-                let media = replyMedia[i];
-                try {
+            let uploadResults = await Promise.allSettled(
+                replyMedia.map(async (media) => {
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].hidden = false;
-                    let mediaId;
-                    if (!media.div.dataset.mediaId) {
+                    let mediaId = media.div.dataset.mediaId;
+                    if (!mediaId) {
                         mediaId = await API.uploadMedia({
                             media_type: media.type,
                             media_category: media.category,
@@ -4295,30 +4279,32 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                 )[0].innerText = `${data.text} (${data.progress}%)`;
                             },
                         });
-                    } else {
-                        mediaId = media.div.dataset.mediaId;
                     }
-                    uploadedMedia.push(mediaId);
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].innerText = LOC.uploaded.message;
                     media.div.dataset.mediaId = mediaId;
-                } catch (e) {
-                    console.error(e);
-                    alert(e);
-                    for (let j in replyMedia) {
-                        let media = replyMedia[j];
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].hidden = true;
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].innerText = "";
-                    }
-                    tweetReplyButton.disabled = false;
-                    return; // cancel tweeting
+                    return mediaId;
+                })
+            );
+            let failedUpload = uploadResults.find(
+                (r) => r.status === "rejected"
+            );
+            if (failedUpload) {
+                console.error(failedUpload.reason);
+                alert(failedUpload.reason);
+                for (let media of replyMedia) {
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].hidden = true;
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].innerText = "";
                 }
+                tweetReplyButton.disabled = false;
+                return;
             }
+            let uploadedMedia = uploadResults.map((r) => r.value);
             let tweetObject = {
                 status: text,
                 in_reply_to_status_id: t.id_str,
@@ -4702,15 +4688,13 @@ async function appendTweet(t, timelineContainer, options = {}) {
             tweetQuoteError.innerHTML = "";
             if (text.length === 0 && quoteMedia.length === 0) return;
             tweetQuoteButton.disabled = true;
-            let uploadedMedia = [];
-            for (let i in quoteMedia) {
-                let media = quoteMedia[i];
-                try {
+            let uploadResults = await Promise.allSettled(
+                quoteMedia.map(async (media) => {
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].hidden = false;
-                    let mediaId;
-                    if (!media.div.dataset.mediaId) {
+                    let mediaId = media.div.dataset.mediaId;
+                    if (!mediaId) {
                         mediaId = await API.uploadMedia({
                             media_type: media.type,
                             media_category: media.category,
@@ -4723,30 +4707,32 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                 )[0].innerText = `${data.text} (${data.progress}%)`;
                             },
                         });
-                    } else {
-                        mediaId = media.div.dataset.mediaId;
                     }
-                    uploadedMedia.push(mediaId);
                     media.div.getElementsByClassName(
                         "new-tweet-media-img-progress"
                     )[0].innerText = LOC.uploaded.message;
                     media.div.dataset.mediaId = mediaId;
-                } catch (e) {
-                    console.error(e);
-                    alert(e);
-                    for (let j in quoteMedia) {
-                        let media = quoteMedia[j];
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].hidden = true;
-                        media.div.getElementsByClassName(
-                            "new-tweet-media-img-progress"
-                        )[0].innerText = "";
-                    }
-                    tweetQuoteButton.disabled = false;
-                    return; // cancel tweeting
+                    return mediaId;
+                })
+            );
+            let failedUpload = uploadResults.find(
+                (r) => r.status === "rejected"
+            );
+            if (failedUpload) {
+                console.error(failedUpload.reason);
+                alert(failedUpload.reason);
+                for (let media of quoteMedia) {
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].hidden = true;
+                    media.div.getElementsByClassName(
+                        "new-tweet-media-img-progress"
+                    )[0].innerText = "";
                 }
+                tweetQuoteButton.disabled = false;
+                return;
             }
+            let uploadedMedia = uploadResults.map((r) => r.value);
             let tweetObject = {
                 status: text,
                 attachment_url: `https://twitter.com/${t.user.screen_name}/status/${t.id_str}`,

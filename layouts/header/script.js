@@ -2033,41 +2033,37 @@ let userDataFunction = async user => {
             if (tweet.length === 0 && mediaToUpload.length === 0) return;
             newTweetButton.disabled = true;
             if(!pollToUpload) {
-                let uploadedMedia = [];
-                for (let i in mediaToUpload) {
-                    let media = mediaToUpload[i];
-                    try {
-                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                        let mediaId;
-                        if(!media.div.dataset.mediaId) {
-                            mediaId = await API.uploadMedia({
-                                media_type: media.type,
-                                media_category: media.category,
-                                media: media.data,
-                                alt: media.alt,
-                                cw: media.cw,
-                                loadCallback: data => {
-                                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                                }
-                            });
-                        } else {
-                            mediaId = media.div.dataset.mediaId;
-                        }
-                        uploadedMedia.push(mediaId);
-                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = LOC.uploaded.message;
-                        media.div.dataset.mediaId = mediaId;
-                    } catch (e) {
-                        console.error(e);
-                        alert(e);
-                        for(let j in mediaToUpload) {
-                            let media = mediaToUpload[j];
-                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
-                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = '';
-                        }
-                        newTweetButton.disabled = false;
-                        return; // cancel tweeting
+                let uploadResults = await Promise.allSettled(mediaToUpload.map(async media => {
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+                    let mediaId = media.div.dataset.mediaId;
+                    if(!mediaId) {
+                        mediaId = await API.uploadMedia({
+                            media_type: media.type,
+                            media_category: media.category,
+                            media: media.data,
+                            alt: media.alt,
+                            cw: media.cw,
+                            loadCallback: data => {
+                                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                            }
+                        });
                     }
+                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = LOC.uploaded.message;
+                    media.div.dataset.mediaId = mediaId;
+                    return mediaId;
+                }));
+                let failedUpload = uploadResults.find(r => r.status === 'rejected');
+                if(failedUpload) {
+                    console.error(failedUpload.reason);
+                    alert(failedUpload.reason);
+                    for(let media of mediaToUpload) {
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = '';
+                    }
+                    newTweetButton.disabled = false;
+                    return;
                 }
+                let uploadedMedia = uploadResults.map(r => r.value);
                 try {
                     let tweetObject = await API.tweet.postV2({
                         text: tweet,

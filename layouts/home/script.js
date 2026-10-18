@@ -81,10 +81,9 @@ setTimeout(() => {
                     <h2 style="margin:0;margin-bottom:10px;color:var(--darker-gray);font-weight:300">(OldTwitter) ${LOC.new_version.message} - ${chrome.runtime.getManifest().version}</h2>
                     <span id="changelog" style="font-size:14px;color:var(--default-text-color)">
                         <ul>
-                            <li>Added a setting to block Grok from editing your images (enabled by default).</li>
-                            <li>Added a setting to show download button on tweets with media.</li>
-                            <li>Added a setting to pin the Likes link on the navbar.</li>
-                            <li>Fixed quotes page being broken on mobile and added auto-loading.</li>
+                            <li>Fixed unread messages not giving notification in navbar.</li>
+                            <li>Made media upload parallel instead of sequential.</li>
+                            <li>Fixed large images being impossible to upload.</li>
                         </ul>
                     </span>
                 `, 'changelog-modal', () => {}, () => Date.now() - opened > 1250);
@@ -918,41 +917,37 @@ setTimeout(async () => {
         let tweet = document.getElementById('new-tweet-text').value;
         if (tweet.length === 0 && mediaToUpload.length === 0) return;
         newTweetButton.disabled = true;
-        let uploadedMedia = [];
-        for (let i in mediaToUpload) {
-            let media = mediaToUpload[i];
-            try {
-                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
-                let mediaId;
-                if(!media.div.dataset.mediaId) {
-                    mediaId = await API.uploadMedia({
-                        media_type: media.type,
-                        media_category: media.category,
-                        media: media.data,
-                        alt: media.alt,
-                        cw: media.cw,
-                        loadCallback: data => {
-                            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
-                        }
-                    });
-                } else {
-                    mediaId = media.div.dataset.mediaId;
-                }
-                uploadedMedia.push(mediaId);
-                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = LOC.uploaded.message;
-                media.div.dataset.mediaId = mediaId;
-            } catch (e) {
-                console.error(e);
-                alert(e);
-                for(let j in mediaToUpload) {
-                    let media = mediaToUpload[j];
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
-                    media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = '';
-                }
-                newTweetButton.disabled = false;
-                return; // cancel tweeting
+        let uploadResults = await Promise.allSettled(mediaToUpload.map(async media => {
+            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = false;
+            let mediaId = media.div.dataset.mediaId;
+            if(!mediaId) {
+                mediaId = await API.uploadMedia({
+                    media_type: media.type,
+                    media_category: media.category,
+                    media: media.data,
+                    alt: media.alt,
+                    cw: media.cw,
+                    loadCallback: data => {
+                        media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = `${data.text} (${data.progress}%)`;
+                    }
+                });
             }
+            media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = LOC.uploaded.message;
+            media.div.dataset.mediaId = mediaId;
+            return mediaId;
+        }));
+        let failedUpload = uploadResults.find(r => r.status === 'rejected');
+        if(failedUpload) {
+            console.error(failedUpload.reason);
+            alert(failedUpload.reason);
+            for(let media of mediaToUpload) {
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].hidden = true;
+                media.div.getElementsByClassName('new-tweet-media-img-progress')[0].innerText = '';
+            }
+            newTweetButton.disabled = false;
+            return;
         }
+        let uploadedMedia = uploadResults.map(r => r.value);
         let card;
         if(pollToUpload) {
             let pollVariants = pollToUpload.variants.filter(i => i);
