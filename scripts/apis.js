@@ -2072,7 +2072,7 @@ const API = {
                         ? { "x-web-auth-multi-user-id": userId }
                         : {};
                     fetch(
-                        `/i/api/2/badge_count/badge_count.json?supports_ntab_urt=1`,
+                        `/i/api/graphql/q4Npr1-FYRWyXsRzPckwEA/ViewerBadgeCounts?variables=%7B%7D`,
                         {
                             headers: {
                                 authorization: OLDTWITTER_CONFIG.public_token,
@@ -2092,6 +2092,13 @@ const API = {
                             if (data.errors && data.errors[0]) {
                                 return reject(data.errors[0].message);
                             }
+                            let counts = data?.data?.viewer_v2?.user_results?.result?.badge_counts;
+                            if (!counts) return reject("No badge counts");
+                            data = {
+                                dm_unread_count: (counts.dm_unread_count || 0) + (counts.xchat_unread_count || 0),
+                                ntab_unread_count: counts.ntab_unread_count || 0,
+                                total_unread_count: counts.total_unread_count || 0,
+                            };
                             resolve(data);
                             chrome.storage.local.set(
                                 {
