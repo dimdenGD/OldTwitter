@@ -1112,8 +1112,7 @@ function generateCard(tweet, tweetElement, user) {
                 appElement.classList.add("tweet-app-info");
                 appElement.innerHTML = html`
                     <h3>${escapeHTML(app.title.content)}</h3>
-                    <span>${escapeHTML(app.category.content)}</span>
-                    <br />
+                    ${app.category?.content && `<span>${escapeHTML(app.category.content)}</span><br />`}
                 `;
                 tweetElement
                     .getElementsByClassName("tweet-card")[0]
