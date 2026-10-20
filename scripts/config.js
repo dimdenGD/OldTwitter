@@ -148,7 +148,8 @@ async function loadVars() {
                 "useRetweetedId",
                 "newGallery",
                 "useXChat",
-                "blockGrokEdit"
+                "blockGrokEdit",
+                "mediaCarousel"
             ],
             (data) => {
                 // default variables

@@ -2129,6 +2129,45 @@ const video_template = elNew("video", {
     className: "tweet-media-element",
 });
 
+document.addEventListener("click", (e) => {
+    const arrow = e.target.closest && e.target.closest(".tweet-media-carousel-arrow");
+    if (!arrow) return;
+    const scroller = arrow.parentElement.querySelector(".tweet-media");
+    const left = scroller.getBoundingClientRect().left + 5;
+    let offsets = Array.from(
+        scroller.querySelectorAll(".tweet-media-element"),
+        (el) => el.getBoundingClientRect().left - left
+    );
+    const offset = arrow.classList.contains("tweet-media-carousel-next")
+        ? offsets.find((o) => o > 5)
+        : offsets.reverse().find((o) => o < -5);
+    if (offset !== undefined) scroller.scrollBy({ left: offset, behavior: "smooth" });
+});
+document.addEventListener(
+    "scroll",
+    (e) => {
+        if (!(e.target instanceof Element) || !e.target.matches(".tweet-media-carousel > .tweet-media")) return;
+        const scroller = e.target;
+        const carousel = scroller.parentElement;
+        const left = scroller.getBoundingClientRect().left + 5;
+        const atEnd = scroller.scrollLeft + scroller.clientWidth >= scroller.scrollWidth - 5;
+        const offsets = Array.from(scroller.querySelectorAll(".tweet-media-element"), (el) =>
+            Math.abs(el.getBoundingClientRect().left - left)
+        );
+        const active = atEnd && scroller.scrollLeft > 0 ? offsets.length - 1 : offsets.indexOf(Math.min(...offsets));
+        carousel.querySelector(".tweet-media-carousel-prev").hidden = scroller.scrollLeft < 5;
+        carousel.querySelector(".tweet-media-carousel-next").hidden = atEnd;
+        Array.from(carousel.querySelector(".tweet-media-carousel-dots").children).forEach((dot, i) =>
+            dot.classList.toggle("tweet-media-carousel-dot-active", i === active)
+        );
+    },
+    true
+);
+document.addEventListener("mouseover", (e) => {
+    const carousel = e.target.closest && e.target.closest(".tweet-media-carousel");
+    if (carousel) carousel.querySelector(".tweet-media").dispatchEvent(new Event("scroll"));
+});
+
 function renderMedia(t) {
     let _html = "";
     if (!t.extended_entities || !t.extended_entities.media) return "";

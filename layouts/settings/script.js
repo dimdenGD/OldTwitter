@@ -285,6 +285,7 @@ setTimeout(async () => {
     let modernUI = document.getElementById('modern-ui-switch');
     let showOriginalImages = document.getElementById('show-original-images');
     let blockGrokEdit = document.getElementById('block-grok-edit');
+    let mediaCarousel = document.getElementById('media-carousel');
     let noBigFont = document.getElementById('no-big-font');
     let language = document.getElementById('language');
     let autoplayVideos = document.getElementById('autoplay-videos');
@@ -697,6 +698,11 @@ setTimeout(async () => {
         }, () => {
             vars.blockGrokEdit = blockGrokEdit.checked;
         });
+    });
+    mediaCarousel.addEventListener('change', () => {
+        chrome.storage.sync.set({
+            mediaCarousel: mediaCarousel.checked
+        }, () => { });
     });
     updateTimelineAutomatically.addEventListener('change', () => {
         chrome.storage.sync.set({
@@ -1147,6 +1153,7 @@ setTimeout(async () => {
     savePreferredQuality.checked = !!vars.savePreferredQuality;
     showOriginalImages.checked = !!vars.showOriginalImages;
     blockGrokEdit.checked = !!vars.blockGrokEdit;
+    mediaCarousel.checked = !!vars.mediaCarousel;
     roundAvatars.checked = !!vars.roundAvatars;
     modernUI.checked = !!vars.modernUI;
     language.value = vars.language ? vars.language : 'en';

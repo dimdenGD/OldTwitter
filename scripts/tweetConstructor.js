@@ -775,11 +775,34 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             ]);
         }
         // console.log([videoOverlay, ...mediaNodes]);
+        const tweetMediaNode = elNew("div", { class: ["tweet-media"] }, [
+            videoOverlay,
+            ...mediaNodes,
+        ]);
         extended_media_nodes = [
-            elNew("div", { class: ["tweet-media"] }, [
-                videoOverlay,
-                ...mediaNodes,
-            ]),
+            vars.mediaCarousel && t.extended_entities.media.length > 1
+                ? elNew("div", { class: "tweet-media-carousel" }, [
+                      tweetMediaNode,
+                      elNew("button", {
+                          class: "tweet-media-carousel-arrow tweet-media-carousel-prev",
+                          type: "button",
+                          hidden: true,
+                      }),
+                      elNew("button", {
+                          class: "tweet-media-carousel-arrow tweet-media-carousel-next",
+                          type: "button",
+                      }),
+                      elNew(
+                          "div",
+                          { class: "tweet-media-carousel-dots" },
+                          t.extended_entities.media.map((m, i) =>
+                              elNew("span", {
+                                  class: i === 0 ? "tweet-media-carousel-dot-active" : "",
+                              })
+                          )
+                      ),
+                  ])
+                : tweetMediaNode,
             gifControl,
             videoControls,
             elNew("span", { class: "tweet-media-data" }),

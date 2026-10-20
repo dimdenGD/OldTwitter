@@ -2298,6 +2298,118 @@ emoji-picker {
     max-width: 450px
 }
 
+.tweet-media-carousel {
+    --carousel-height: 350px;
+    position: relative;
+    right: 5px;
+    width: fit-content;
+    max-width: min(500px, 100%);
+    direction: ltr;
+}
+.tweet-media-carousel > .tweet-media {
+    position: static;
+    right: auto;
+    display: flex;
+    width: auto;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 5px;
+    scrollbar-width: none;
+}
+.tweet-media-carousel > .tweet-media::-webkit-scrollbar {
+    display: none;
+}
+.tweet-media-carousel > .tweet-media > br {
+    display: none;
+}
+.tweet-media-carousel .tweet-media-element {
+    flex: none;
+    width: auto;
+    height: var(--carousel-height);
+    max-width: 85%;
+    max-height: none;
+    scroll-snap-align: start;
+}
+.tweet-media-carousel .tweet-media-cws {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    margin: 0;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    pointer-events: none;
+    z-index: 1;
+}
+.tweet-media-carousel-arrow {
+    position: absolute;
+    top: calc(var(--carousel-height) / 2 + 5px);
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 1;
+}
+.tweet-media-carousel:hover .tweet-media-carousel-arrow {
+    opacity: 1;
+}
+.tweet-media-carousel-arrow[hidden] {
+    display: none;
+}
+.tweet-media-carousel-arrow::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+}
+.tweet-media-carousel-prev {
+    left: 15px;
+}
+.tweet-media-carousel-prev::before {
+    transform: translateX(2px) rotate(135deg);
+}
+.tweet-media-carousel-next {
+    right: 15px;
+}
+.tweet-media-carousel-next::before {
+    transform: translateX(-2px) rotate(-45deg);
+}
+.tweet-media-carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin: 2px 0 5px;
+}
+.tweet-media-carousel-dots > span {
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--border);
+    transition: background 0.2s;
+}
+.tweet-media-carousel-dots > .tweet-media-carousel-dot-active {
+    background: var(--link-color);
+}
+@media screen and (max-width: 590px) {
+    .tweet-media-carousel {
+        --carousel-height: 250px;
+    }
+}
+
 .tweet-card {
     direction: ltr;
 }

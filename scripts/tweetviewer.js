@@ -1604,33 +1604,67 @@ class TweetViewer {
                     : ``}
                 ${t.extended_entities && t.extended_entities.media
                     ? html`
-                          <div class="tweet-media">
-                              ${t.extended_entities.media.length === 1 &&
-                              t.extended_entities.media[0].type === "video"
-                                  ? html`
-                                        <div
-                                            class="tweet-media-video-overlay tweet-button"
-                                        >
-                                            <svg
-                                                viewBox="0 0 24 24"
-                                                class="tweet-media-video-overlay-play"
-                                            >
-                                                <g>
-                                                    <path
-                                                        class="svg-play-path"
-                                                        d="M8 5v14l11-7z"
-                                                    ></path>
-                                                    <path
-                                                        d="M0 0h24v24H0z"
-                                                        fill="none"
-                                                    ></path>
-                                                </g>
-                                            </svg>
+                          ${vars.mediaCarousel &&
+                          t.extended_entities.media.length > 1
+                              ? html`
+                                    <div class="tweet-media-carousel">
+                                        <div class="tweet-media">
+                                            ${renderMedia(t)}
                                         </div>
-                                    `
-                                  : ""}
-                              ${renderMedia(t)}
-                          </div>
+                                        <button
+                                            type="button"
+                                            class="tweet-media-carousel-arrow tweet-media-carousel-prev"
+                                            hidden
+                                        ></button>
+                                        <button
+                                            type="button"
+                                            class="tweet-media-carousel-arrow tweet-media-carousel-next"
+                                        ></button>
+                                        <div class="tweet-media-carousel-dots">
+                                            ${t.extended_entities.media
+                                                .map(
+                                                    (m, i) =>
+                                                        `<span${
+                                                            i === 0
+                                                                ? ' class="tweet-media-carousel-dot-active"'
+                                                                : ""
+                                                        }></span>`
+                                                )
+                                                .join("")}
+                                        </div>
+                                    </div>
+                                `
+                              : html`
+                                    <div class="tweet-media">
+                                        ${t.extended_entities.media.length ===
+                                            1 &&
+                                        t.extended_entities.media[0].type ===
+                                            "video"
+                                            ? html`
+                                                  <div
+                                                      class="tweet-media-video-overlay tweet-button"
+                                                  >
+                                                      <svg
+                                                          viewBox="0 0 24 24"
+                                                          class="tweet-media-video-overlay-play"
+                                                      >
+                                                          <g>
+                                                              <path
+                                                                  class="svg-play-path"
+                                                                  d="M8 5v14l11-7z"
+                                                              ></path>
+                                                              <path
+                                                                  d="M0 0h24v24H0z"
+                                                                  fill="none"
+                                                              ></path>
+                                                          </g>
+                                                      </svg>
+                                                  </div>
+                                              `
+                                            : ""}
+                                        ${renderMedia(t)}
+                                    </div>
+                                `}
                           ${t.extended_entities &&
                           t.extended_entities.media &&
                           t.extended_entities.media.some(
