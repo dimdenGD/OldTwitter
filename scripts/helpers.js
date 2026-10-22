@@ -2468,6 +2468,19 @@ function getOriginalImageUrl(image) {
     }
     return src + "?name=orig";
 }
+function preloadAdjacentImages(e) {
+    const viewer = this.viewer;
+    if (!viewer || viewer.length < 2) return;
+    [1, -1].forEach((step) => {
+        const image = viewer.images[(e.detail.index + step + viewer.length) % viewer.length];
+        const preload = new Image();
+        ["crossorigin", "referrerpolicy"].forEach((attr) => {
+            const value = image.getAttribute(attr);
+            if (value !== null) preload.setAttribute(attr, value);
+        });
+        preload.src = viewer.getImageURL(image);
+    });
+}
 function calculateSize(x, y, max_x, max_y) {
     let ratio = x / y;
     let iw = innerWidth;
@@ -3882,6 +3895,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                             transition: false,
                             zoomRatio: 0.3,
                             url: getOriginalImageUrl,
+                            viewed: preloadAdjacentImages,
                         });
                         e.target.click();
                         return;
@@ -4171,6 +4185,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         transition: false,
                         zoomRatio: 0.3,
                         url: getOriginalImageUrl,
+                        viewed: preloadAdjacentImages,
                     });
                     e.target.click();
                 }

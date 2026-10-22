@@ -3523,6 +3523,7 @@ class TweetViewer {
                         transition: false,
                         zoomRatio: 0.3,
                         url: getOriginalImageUrl,
+                        viewed: preloadAdjacentImages,
                     });
                     e.target.click();
                 }
