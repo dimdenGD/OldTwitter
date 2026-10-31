@@ -369,6 +369,7 @@ function renderNewTweetsButton() {
         `;
         document.getElementById('new-tweets').hidden = false;
         document.getElementById('new-tweets').innerText = `${LOC.see_new_tweets.message}`;
+        document.getElementById('new-tweets').setAttribute('aria-label', `${LOC.see_new_tweets.message} (${timeline.toBeUpdated})`);
         if(vars.updateTimelineAutomatically) {
             setTimeout(() => {
                 document.getElementById('new-tweets').click();
@@ -426,7 +427,9 @@ setTimeout(async () => {
     }
     try {
         let lastNewTweetPress = Date.now();
-        document.getElementById('new-tweets').addEventListener('click', () => {
+        document.getElementById('new-tweets').addEventListener('click', e => {
+            // only move focus when a person pressed it, not on automatic updates
+            let userPressed = e.isTrusted || document.activeElement === e.currentTarget;
             if(Date.now() - lastNewTweetPress > 60000 * 60 * 4) { // 4 hours
                 lastNewTweetPress = Date.now();
                 timeline.toBeUpdated = 0;
@@ -441,10 +444,16 @@ setTimeout(async () => {
                 return;
             }
             lastNewTweetPress = Date.now();
+            let newCount = timeline.toBeUpdated;
             timeline.toBeUpdated = 0;
             timeline.data = [...timeline.dataToUpdate, ...timeline.data];
             renderNewTweetsButton();
-            renderTimeline({mode: 'prepend', data: timeline.dataToUpdate });
+            renderTimeline({mode: 'prepend', data: timeline.dataToUpdate }).then(() => {
+                if(!userPressed) return;
+                let firstTweet = document.querySelector('#timeline .tweet');
+                if(firstTweet) firstTweet.focus();
+                if(typeof a11yAnnounce === 'function') a11yAnnounce(LOC.new_tweets_shown.message.replace('$COUNT$', newCount));
+            });
             timeline.dataToUpdate = [];
         });
     } catch(e) {
