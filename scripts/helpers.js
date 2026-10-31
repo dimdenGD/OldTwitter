@@ -35,15 +35,31 @@ function createModal(html, className, onclose, canclose) {
     let modal_content = document.createElement("div");
     modal_content.classList.add("modal-content");
     if (className) modal_content.classList.add(className);
+    modal_content.setAttribute("role", "dialog");
+    modal_content.setAttribute("aria-modal", "true");
+    modal_content.tabIndex = -1;
+    modal_content.style.outline = "none";
     modal_content.innerHTML = html;
     modal.appendChild(modal_content);
     let close = document.createElement("span");
     close.classList.add("modal-close");
     close.title = "ESC";
     close.innerHTML = "&times;";
+    close.setAttribute("role", "button");
+    close.setAttribute("aria-label", LOC.close ? LOC.close.message : "Close");
+    close.tabIndex = 0;
+    // focus goes back here when the modal closes
+    let previousFocus = document.activeElement;
     document.body.style.overflowY = "hidden";
     function removeModal() {
         modal.remove();
+        if (
+            previousFocus &&
+            previousFocus !== document.body &&
+            document.contains(previousFocus)
+        ) {
+            previousFocus.focus({ preventScroll: true });
+        }
         let event = new Event("findActiveTweet");
         document.dispatchEvent(event);
         document.removeEventListener("keydown", escapeEvent);
@@ -76,6 +92,8 @@ function createModal(html, className, onclose, canclose) {
     document.addEventListener("keydown", escapeEvent);
     modal_content.appendChild(close);
     document.body.appendChild(modal);
+    // move focus into the modal (callers that focus an input afterwards still win)
+    modal_content.focus({ preventScroll: true });
     return modal;
 }
 async function handleFiles(files, mediaArray, mediaContainer, is_dm = false) {
