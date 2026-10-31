@@ -852,6 +852,7 @@ let page =
             "libraries/emojipicker.js",
             "libraries/tinytoast.js",
             "scripts/iframeNavigation.js",
+            "scripts/accessibility.js",
         ].filter((i) => i),
     });
 })();
