@@ -391,6 +391,26 @@ body {
     cursor: zoom-in
 }
 
+.tweet-media-gif-icon {
+    display: block;
+}
+
+.tweet-media-gif-overlay-play {
+    width: 50px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: relative;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid var(--border);
+    transition: 0.2s;
+}
+
+.tweet:hover .tweet-media-gif-overlay-play {
+    display: none;
+}
+
 .tweet-media-element,
 .new-tweet-media-img {
     block-size: auto;
