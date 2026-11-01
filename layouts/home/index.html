@@ -25,29 +25,29 @@
                     <div id="user-div" class="box">
                         <img id="user-banner" height="100" width="300">
                         <div id="user-data">
-                            <a id="user-avatar-link"><img id="user-avatar" width="70" height="70"></a>
+                            <a id="user-avatar-link"><img id="user-avatar" width="70" height="70" alt="__MSG_profile__"></a>
                             <a id="user-info">
-                                <h1 id="user-name">__MSG_loading__</h1>
-                                <h2 id="user-handle">@loading</h2>
+                                <h1 id="user-name" aria-level="2">__MSG_loading__</h1>
+                                <h2 id="user-handle" role="none">@loading</h2>
                             </a>
                             <div id="user-stats">
                                 <a class="user-stat-div" id="user-tweets-div">
-                                    <h2>__MSG_tweets__</h2>
-                                    <h1 id="user-tweets">0</h1>
+                                    <h2 role="none">__MSG_tweets__</h2>
+                                    <h1 id="user-tweets" role="none">0</h1>
                                 </a>
                                 <a class="user-stat-div" id="user-following-div">
-                                    <h2>__MSG_following__</h2>
-                                    <h1 id="user-following">0</h1>
+                                    <h2 role="none">__MSG_following__</h2>
+                                    <h1 id="user-following" role="none">0</h1>
                                 </a>
                                 <a class="user-stat-div" id="user-followers-div">
-                                    <h2>__MSG_followers__</h2>
-                                    <h1 id="user-followers">0</h1>
+                                    <h2 role="none">__MSG_followers__</h2>
+                                    <h1 id="user-followers" role="none">0</h1>
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div id="trends" class="box">
-                        <h1>__MSG_trends__</h1><br>
+                        <h1 aria-level="2">__MSG_trends__</h1><br>
                         <span id="trends-refresh">__MSG_refresh__</span> <span id="bulletpoint">·</span> <a id="trends-viewall" target="_blank" href="/i/trends?newtwitter=true">__MSG_view_all__</a>
                         <div id="trends-list">
                         </div>
@@ -75,6 +75,7 @@
                     </div>
                 </div>
                 <div class="cell" id="center-cell">
+                    <h1 class="a11y-hidden">__MSG_home__</h1>
                     <select id="timeline-type-center" hidden>
                         <optgroup label="__MSG_timeline__">
                             <option value="chrono">__MSG_chrono__</option>
@@ -124,7 +125,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="new-tweets" class="center-text" hidden></div>
+                    <div id="new-tweets" class="center-text" role="button" tabindex="0" hidden></div>
                     <style id="new-tweets-bug-fix"></style>
                     <div id="tweets-loading">
                         <img src="chrome-extension://__MSG_extension_id__/images/loading.svg" width="64" height="64">
@@ -149,7 +150,7 @@
                         </optgroup>
                     </select>
                     <div id="wtf" class="box">
-                        <h1>__MSG_who_to_follow__</h1><br>
+                        <h1 aria-level="2">__MSG_who_to_follow__</h1><br>
                         <span id="wtf-refresh">__MSG_refresh__</span> <span id="bulletpoint">·</span> <a id="wtf-viewall" target="_blank" href="/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>
                         <br><br>
                         <div id="wtf-list"></div>

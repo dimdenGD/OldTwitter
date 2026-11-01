@@ -28,7 +28,7 @@
                         <span class="notification-switch" id="ns-m">__MSG_mentions__</span>
                     </div>
                     <div id="trends" class="box">
-                        <h1>__MSG_trends__</h1>
+                        <h1 aria-level="2">__MSG_trends__</h1>
                         <div id="trends-list">
                         </div>
                     </div>
@@ -55,6 +55,7 @@
                     </div>
                 </div>
                 <div class="cell" id="center-cell">
+                    <h1 class="a11y-hidden">__MSG_notifications__</h1>
                     <div id="notifs-loading">
                         <img src="chrome-extension://__MSG_extension_id__/images/loading.svg" width="64" height="64">
                     </div>
@@ -69,7 +70,7 @@
                 </div>
                 <div class="cell" id="right-cell">
                     <div id="wtf" class="box">
-                        <h1>__MSG_who_to_follow__</h1><br>
+                        <h1 aria-level="2">__MSG_who_to_follow__</h1><br>
                         <span id="wtf-refresh">__MSG_refresh__</span> <span id="bulletpoint">·</span> <a id="wtf-viewall" target="_blank" href="/i/connect_people?newtwitter=true&user_id=">__MSG_view_all__</a>
                         <br><br>
                         <div id="wtf-list"></div>

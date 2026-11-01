@@ -1207,7 +1207,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             {
                 class: retweetClasses,
                 title: `${LOC.retweet_btn.message}${
-                    !vars.disableHotkeys ? " (L)" : ""
+                    !vars.disableHotkeys ? " (T)" : ""
                 }`,
                 dataset: { val: t.retweet_count },
             },
