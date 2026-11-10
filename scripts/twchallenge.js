@@ -165,7 +165,42 @@ setInterval(() => {
     }
 }, 2000);
 
-window.addEventListener("message", (e) => {
+async function showInitError(error) {
+    let lastVersion = await _fetch(
+        `https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`
+    )
+        .then((res) => res.json())
+        .then((res) => res.version)
+        .catch(() => null);
+    let version = chrome.runtime.getManifest().version;
+    let outdated = false;
+    if (lastVersion) {
+        let a = version.split(".").map(Number);
+        let b = lastVersion.split(".").map(Number);
+        for (let i = 0; i < Math.max(a.length, b.length); i++) {
+            if ((a[i] || 0) !== (b[i] || 0)) {
+                outdated = (a[i] || 0) < (b[i] || 0);
+                break;
+            }
+        }
+    }
+    let reason = !lastVersion
+        ? `Most likely: they just broke it again and you may have to wait for an update. Your OldTwitter version is: ${version}`
+        : outdated
+          ? `Most likely: your OldTwitter is outdated, update it! Your version: ${version}, last version: ${lastVersion}`
+          : `Most likely: they just broke it again and you have to wait for an update. You're up to date right now (version ${version})`;
+    alert(
+        `There was an error in initializing security header generator: ${error}\n` +
+            `User Agent: ${navigator.userAgent}\n` +
+            `This could be happening because:\n` +
+            `- ${reason}\n` +
+            `- You're not logged in\n` +
+            `- You're using twitter.com instead of x.com\n` +
+            `- Social network tracker protection or some privacy extension is blocking the script`
+    );
+}
+
+window.addEventListener("message", async (e) => {
     if (!solverIframe || e.source !== solverIframe.contentWindow) return;
     let data = e.data;
     if (data.action === "solved" && typeof data.id === "number") {
@@ -186,11 +221,9 @@ window.addEventListener("message", (e) => {
             solveCallbacks[id].reject("Solver errored during initialization");
             delete solveCallbacks[id];
         }
-        alert(
-            `There was an error in initializing security header generator:\n${data.error}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security.`
-        );
         console.error("Error initializing solver:");
         console.error(data.error);
+        await showInitError(data.error);
         location.href = `${location.pathname}?newtwitter=true`;
     } else if (data.action === "ready") {
         solverReady = true;
@@ -262,6 +295,39 @@ fetch = async function (url, options) {
     return _fetch(url, options);
 };
 
+function findChallengeModuleInHtml(html) {
+    let m = html.match(
+        /\[((?:"[\w-]+",?)+)\]\.forEach\(function\(\w+\)\{var href="(https:\/\/abs\.twimg\.com\/[^"]+\/)"\+\w+\+"\.js";[^}]*?createElement\(['"]script['"]\)/
+    );
+    if (!m) return null;
+    let names = m[1].match(/[\w-]+/g);
+    if (names.length !== 1) return null;
+    return `${m[2]}${names[0]}.js`;
+}
+
+async function findChallengeModule(entryUrl) {
+    let queue = [entryUrl];
+    let seen = new Set();
+    while (queue.length && seen.size < 30) {
+        let url = queue.shift();
+        if (seen.has(url)) continue;
+        seen.add(url);
+        let code = await _fetch(url).then((res) => res.text());
+        if (code.includes("x-client-transaction-id")) {
+            let m = code.match(
+                /import\(["'`](\.{1,2}\/[\w\/-]+\.js)["'`]\)\.then\(\(?(\w+)\)?=>\2\.default\(\)\)/
+            );
+            if (m) return new URL(m[1], url).href;
+        }
+        for (let imp of code.matchAll(
+            /from\s*["'`](\.{1,2}\/[\w\/-]+\.js)["'`]/g
+        )) {
+            queue.push(new URL(imp[1], url).href);
+        }
+    }
+    return null;
+}
+
 async function initChallenge() {
     let generation = solverGeneration;
     if (initGeneration === generation) return false;
@@ -295,11 +361,29 @@ async function initChallenge() {
             dom.querySelectorAll('svg[id^="loading-x"]')
         ).map((svg) => svg.outerHTML);
 
-        let vendorCode = homepageData.match(/vendor.(\w+).js"/)[1];
-        let challengePos = homepageData.match(/(\d+):"ondemand.s"/)[1];
-        let challengeCode = homepageData.match(
-            new RegExp(`${challengePos}:"(\\w+)"`)
-        )[1];
+        let initData;
+        let vendorMatch = homepageData.match(/vendor.(\w+).js"/);
+        let entryMatch = homepageData.match(
+            /https:\/\/abs\.twimg\.com\/[\w\/.-]+\/entry-client-[\w-]+\.js/
+        );
+        if (vendorMatch) {
+            // old webpack client
+            let challengePos = homepageData.match(/(\d+):"ondemand.s"/)[1];
+            let challengeCode = homepageData.match(
+                new RegExp(`${challengePos}:"(\\w+)"`)
+            )[1];
+            initData = { challengeCode, vendorCode: vendorMatch[1] };
+        } else if (entryMatch) {
+            // new vite client
+            let challengeUrl =
+                findChallengeModuleInHtml(homepageData) ||
+                (await findChallengeModule(entryMatch[0]));
+            if (!challengeUrl) throw new Error("Challenge module not found");
+            initData = { challengeUrl };
+        } else {
+            throw new Error("Unknown client");
+        }
+        if (generation !== solverGeneration) return false;
 
         OLDTWITTER_CONFIG.verificationKey = verificationKey;
 
@@ -316,8 +400,7 @@ async function initChallenge() {
             solverIframe.contentWindow.postMessage(
                 {
                     action: "init",
-                    challengeCode,
-                    vendorCode,
+                    ...initData,
                     anims,
                     verificationCode: OLDTWITTER_CONFIG.verificationKey,
                 },
@@ -329,15 +412,7 @@ async function initChallenge() {
     } catch (e) {
         console.error(`Error during challenge init:`);
         console.error(e);
-        if (location.hostname === "twitter.com") {
-            alert(
-                `There was an error in initializing security header generator: ${e}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page. This also might be because you're either not logged in or using twitter.com instead of x.com.`
-            );
-        } else {
-            alert(
-                `There was an error in initializing security header generator: ${e}\nUser Agent: ${navigator.userAgent}\nOldTwitter doesn't allow unsigned requests anymore for your account security. Currently the main reason for this happening is social network tracker protection blocking the script. Try disabling such settings in your browser and extensions that do that and refresh the page. This can also happen if you're not logged in.`
-            );
-        }
+        await showInitError(e);
         return false;
     }
 }

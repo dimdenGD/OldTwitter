@@ -15,6 +15,16 @@
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
+        function setPageData(data) {
+            let animsDiv = document.getElementById('anims');
+            animsDiv.innerHTML = '';
+            for (let anim of data.anims) {
+                animsDiv.innerHTML += `\n${anim}`;
+            }
+            let verif = document.querySelector('meta[name="twitter-site-verification"]');
+            verif.content = data.verificationCode;
+        }
+
         let initError = false, solver;
         let solveChain = Promise.resolve();
 
@@ -57,6 +67,18 @@
             let data = event.data;
             if (data.action === 'init') {
                 try {
+                    if (data.challengeUrl) {
+                        // new vite client
+                        let url = new URL(data.challengeUrl);
+                        if (url.protocol !== 'https:' || url.hostname !== 'abs.twimg.com') {
+                            throw new Error('Bad challenge url');
+                        }
+                        setPageData(data);
+                        let mod = await import(url.href);
+                        solver = await mod.default();
+                        event.source.postMessage({ action: 'ready' }, event.origin);
+                        return;
+                    }
                     window.__SCRIPTS_LOADED__ = {
                         runtime: true
                     };
@@ -66,13 +88,7 @@
                     ]);
                     eval(vendorData);
 
-                    let animsDiv = document.getElementById('anims');
-                    animsDiv.innerHTML = '';
-                    for (let anim of data.anims) {
-                        animsDiv.innerHTML += `\n${anim}`;
-                    }
-                    let verif = document.querySelector('meta[name="twitter-site-verification"]');
-                    verif.content = data.verificationCode;
+                    setPageData(data);
                     const idMatch = challengeData.match(/\.push\(\[\[\d+\],\{(\d+)[:(]/);
                     if (!idMatch) {
                         console.error('Module ID not found');
