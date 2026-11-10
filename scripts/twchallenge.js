@@ -10,98 +10,103 @@ let initGeneration = -1;
 let recoverPromise = null;
 
 async function getBrowser() {
-    const ua = navigator.userAgent || '';
-    const uad = navigator.userAgentData;
-  
-    const generic = new Set(['Chrome', 'Chromium', 'Android WebView', 'Safari', 'Firefox']);
-  
-    const prettyNames = {
-      'Google Chrome': 'Chrome',
-      'Microsoft Edge': 'Edge',
-      'YaBrowser': 'Yandex Browser',
-    };
-  
-    const rules = [
-      ['Facebook', /FBAV\/([\d.]+)/],
-      ['Instagram', /Instagram ([\d.]+)/],
-      ['Line', /\bLine\/([\d.]+)/],
-      ['Electron', /Electron\/([\d.]+)/],
-      ['Opera Mini', /Opera Mini\/([\d.]+)/],
-      ['Opera', /(?:OPR|OPiOS|OPT)\/([\d.]+)/],
-      ['Opera', /Opera\/.+Version\/([\d.]+)/],
-      ['Opera', /Opera[\/ ]([\d.]+)/],
-      ['Edge', /Edg(?:e|A|iOS)?\/([\d.]+)/],
-      ['Samsung Internet', /SamsungBrowser\/([\d.]+)/],
-      ['Yandex Browser', /YaBrowser\/([\d.]+)/],
-      ['UC Browser', /UCBrowser\/([\d.]+)/],
-      ['QQ Browser', /QQBrowser\/([\d.]+)/],
-      ['Huawei Browser', /HuaweiBrowser\/([\d.]+)/],
-      ['Xiaomi Browser', /MiuiBrowser\/([\d.]+)/],
-      ['Whale', /Whale\/([\d.]+)/],
-      ['Coc Coc', /coc_coc_browser\/([\d.]+)/],
-      ['Silk', /Silk\/([\d.]+)/],
-      ['Vivaldi', /Vivaldi\/([\d.]+)/],
-      ['Falkon', /Falkon\/([\d.]+)/],
-      ['Konqueror', /Konqueror\/([\d.]+)/],
-      ['Ladybird', /Ladybird\/([\d.]+)/],
-      ['Servo', /Servo\/([\d.]+)/],
-      ['NetSurf', /NetSurf\/([\d.]+)/],
-      ['Pale Moon', /PaleMoon\/([\d.]+)/],
-      ['Basilisk', /Basilisk\/([\d.]+)/],
-      ['SeaMonkey', /SeaMonkey\/([\d.]+)/],
-      ['K-Meleon', /K-Meleon\/([\d.]+)/],
-      ['Waterfox', /Waterfox\/([\d.]+)/],
-      ['Floorp', /Floorp\/([\d.]+)/],
-      ['Zen', /Zen\/([\d.]+)/],
-      ['Firefox', /(?:Firefox|FxiOS)\/([\d.]+)/],
-      ['Internet Explorer', /MSIE ([\d.]+)/],
-      ['Internet Explorer', /Trident\/.+rv:([\d.]+)/],
-      ['Android WebView', /; wv\).+Chrome\/([\d.]+)/],
-      ['Chrome', /(?:Chrome|CriOS)\/([\d.]+)/],
-      ['Safari', /Version\/([\d.]+).*Safari/],
-    ];
-  
-    let fromUA = null;
-    for (const [name, re] of rules) {
-      const m = ua.match(re);
-      if (m) {
-        fromUA = { name, version: m[1] ?? null };
-        break;
-      }
-    }
-  
-    const pickBrand = (list) => {
-      const real = list.filter((b) => !/not.?a.?brand/i.test(b.brand));
-      return real.find((b) => b.brand !== 'Chromium') ?? real[0] ?? null;
-    };
-  
-    let name = fromUA?.name ?? 'Unknown';
-    let version = fromUA?.version ?? null;
-  
-    if (uad?.brands?.length) {
-      let pick = pickBrand(uad.brands);
-      try {
-        const hi = await uad.getHighEntropyValues(['fullVersionList']);
-        if (hi.fullVersionList?.length) pick = pickBrand(hi.fullVersionList) ?? pick;
-      } catch {}
-  
-      if (pick) {
-        const chName = prettyNames[pick.brand] ?? pick.brand;
-        if (!(generic.has(chName) && fromUA && !generic.has(fromUA.name))) {
-          name = chName;
-          version = pick.version;
+    try {
+
+        const ua = navigator.userAgent || '';
+        const uad = navigator.userAgentData;
+      
+        const generic = new Set(['Chrome', 'Chromium', 'Android WebView', 'Safari', 'Firefox']);
+      
+        const prettyNames = {
+          'Google Chrome': 'Chrome',
+          'Microsoft Edge': 'Edge',
+          'YaBrowser': 'Yandex Browser',
+        };
+      
+        const rules = [
+          ['Facebook', /FBAV\/([\d.]+)/],
+          ['Instagram', /Instagram ([\d.]+)/],
+          ['Line', /\bLine\/([\d.]+)/],
+          ['Electron', /Electron\/([\d.]+)/],
+          ['Opera Mini', /Opera Mini\/([\d.]+)/],
+          ['Opera', /(?:OPR|OPiOS|OPT)\/([\d.]+)/],
+          ['Opera', /Opera\/.+Version\/([\d.]+)/],
+          ['Opera', /Opera[\/ ]([\d.]+)/],
+          ['Edge', /Edg(?:e|A|iOS)?\/([\d.]+)/],
+          ['Samsung Internet', /SamsungBrowser\/([\d.]+)/],
+          ['Yandex Browser', /YaBrowser\/([\d.]+)/],
+          ['UC Browser', /UCBrowser\/([\d.]+)/],
+          ['QQ Browser', /QQBrowser\/([\d.]+)/],
+          ['Huawei Browser', /HuaweiBrowser\/([\d.]+)/],
+          ['Xiaomi Browser', /MiuiBrowser\/([\d.]+)/],
+          ['Whale', /Whale\/([\d.]+)/],
+          ['Coc Coc', /coc_coc_browser\/([\d.]+)/],
+          ['Silk', /Silk\/([\d.]+)/],
+          ['Vivaldi', /Vivaldi\/([\d.]+)/],
+          ['Falkon', /Falkon\/([\d.]+)/],
+          ['Konqueror', /Konqueror\/([\d.]+)/],
+          ['Ladybird', /Ladybird\/([\d.]+)/],
+          ['Servo', /Servo\/([\d.]+)/],
+          ['NetSurf', /NetSurf\/([\d.]+)/],
+          ['Pale Moon', /PaleMoon\/([\d.]+)/],
+          ['Basilisk', /Basilisk\/([\d.]+)/],
+          ['SeaMonkey', /SeaMonkey\/([\d.]+)/],
+          ['K-Meleon', /K-Meleon\/([\d.]+)/],
+          ['Waterfox', /Waterfox\/([\d.]+)/],
+          ['Floorp', /Floorp\/([\d.]+)/],
+          ['Zen', /Zen\/([\d.]+)/],
+          ['Firefox', /(?:Firefox|FxiOS)\/([\d.]+)/],
+          ['Internet Explorer', /MSIE ([\d.]+)/],
+          ['Internet Explorer', /Trident\/.+rv:([\d.]+)/],
+          ['Android WebView', /; wv\).+Chrome\/([\d.]+)/],
+          ['Chrome', /(?:Chrome|CriOS)\/([\d.]+)/],
+          ['Safari', /Version\/([\d.]+).*Safari/],
+        ];
+      
+        let fromUA = null;
+        for (const [name, re] of rules) {
+          const m = ua.match(re);
+          if (m) {
+            fromUA = { name, version: m[1] ?? null };
+            break;
+          }
         }
-      }
+      
+        const pickBrand = (list) => {
+          const real = list.filter((b) => !/not.?a.?brand/i.test(b.brand));
+          return real.find((b) => b.brand !== 'Chromium') ?? real[0] ?? null;
+        };
+      
+        let name = fromUA?.name ?? 'Unknown';
+        let version = fromUA?.version ?? null;
+      
+        if (uad?.brands?.length) {
+          let pick = pickBrand(uad.brands);
+          try {
+            const hi = await uad.getHighEntropyValues(['fullVersionList']);
+            if (hi.fullVersionList?.length) pick = pickBrand(hi.fullVersionList) ?? pick;
+          } catch {}
+      
+          if (pick) {
+            const chName = prettyNames[pick.brand] ?? pick.brand;
+            if (!(generic.has(chName) && fromUA && !generic.has(fromUA.name))) {
+              name = chName;
+              version = pick.version;
+            }
+          }
+        }
+      
+        if (navigator.brave && (name === 'Chrome' || name === 'Chromium')) {
+          try {
+            if (await navigator.brave.isBrave()) name = 'Brave';
+          } catch {}
+        }
+      
+        const major = version ? String(version).split('.')[0] : null;
+        return { name, version, major, pretty: major ? `${name} ${major}` : name };
+    } catch(e) {
+        return { name: navigator.userAgent, version: null, major: null, pretty: navigator.userAgent };
     }
-  
-    if (navigator.brave && (name === 'Chrome' || name === 'Chromium')) {
-      try {
-        if (await navigator.brave.isBrave()) name = 'Brave';
-      } catch {}
-    }
-  
-    const major = version ? String(version).split('.')[0] : null;
-    return { name, version, major, pretty: major ? `${name} ${major}` : name };
   }
 
 let sandboxUrl = fetch(chrome.runtime.getURL(`sandbox.html`))
