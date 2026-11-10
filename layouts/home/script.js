@@ -83,6 +83,7 @@ setTimeout(() => {
                         <ul>
                             <li>There's now an option to show media as a carousel.</li>
                             <li>Made media viewer load all images at once.</li>
+                            <li>Gallery now shows GIF and video labels.</li>
                             <li>Fixed challenge solver for new client.</li>
                         </ul>
                     </span>

@@ -1922,6 +1922,23 @@ async function renderTimeline(append = false, sliceAmount = 0) {
                     </a>
                 `;
                 let a = el.getElementsByTagName('a')[0];
+                let badgeText = null;
+                if(media.type === 'animated_gif') {
+                    badgeText = 'GIF';
+                } else if(media.type === 'video') {
+                    badgeText = '\u25B6\uFE0E';
+                    let ms = media.video_info?.duration_millis;
+                    if(ms) {
+                        let sec = Math.round(ms / 1000);
+                        badgeText += ` ${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, '0')}`;
+                    }
+                }
+                if(badgeText) {
+                    let badge = document.createElement('span');
+                    badge.classList.add('profile-media-badge');
+                    badge.innerText = badgeText;
+                    a.appendChild(badge);
+                }
                 a.addEventListener('click', e => {
                     e.preventDefault();
                     new TweetViewer(user, t);

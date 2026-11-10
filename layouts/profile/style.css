@@ -1578,8 +1578,26 @@ body.body-old-ui .user-item-btn.follow:before {
 .profile-media-item {
     display: inline-block;
 }
+.profile-media-item a {
+    display: block;
+    position: relative;
+}
+.profile-media-badge {
+    position: absolute;
+    left: 8px;
+    bottom: 5px;
+    padding: 1px 5px;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 16px;
+    pointer-events: none;
+}
 
 .profile-media-item img {
+    display: block;
     width: 141px;
     height: 140px;
     object-fit: cover;
