@@ -26,6 +26,10 @@ const svgPlayIcon = `<svg viewBox="0 0 24 24" class="tweet-media-video-overlay-p
     </g>
 </svg>`;
 
+const svgGifIcon = `<svg viewBox="0 0 24 24" class="tweet-media-gif-overlay-play tweet-media-gif-icon">
+    <text x="12" y="15" text-anchor="middle" font-size="5" font-weight="bold" fill="white">GIF</text>
+</svg>`;
+
 // === Static Nodes to be reused ===
 
 /**
@@ -701,19 +705,20 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
     // render media content elements
     var extended_media_nodes = null;
     if (t.extended_entities && t.extended_entities.media) {
+
+        const media = t.extended_entities.media;
         // videoOverlay if it's only a single video.
-        const isSingleVideo =
-            t.extended_entities.media.length === 1 &&
-            t.extended_entities.media[0].type === "video"
-                ? true
-                : false;
+        const isSingleVideo = media.length === 1 && media[0].type === "video";
+        const isSingleGif = media.length === 1 && media[0].type === "animated_gif";
+
         var videoOverlay = null;
-        if (isSingleVideo) {
+
+        if (isSingleVideo || isSingleGif) {
             videoOverlay = elNew(
                 "div",
                 { class: ["tweet-media-video-overlay", "tweet-button"] },
                 // XXX: htmlToNodes needs to always be called, else .content will be null/undefined.
-                [htmlToNodes(svgPlayIcon).content]
+                [htmlToNodes(isSingleGif ? svgGifIcon : svgPlayIcon).content]
             );
         }
         // Render media nodes
