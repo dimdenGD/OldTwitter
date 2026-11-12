@@ -780,7 +780,7 @@ async function constructTweet(t, tweetConstructorArgs, options = {}) {
             ...mediaNodes,
         ]);
         extended_media_nodes = [
-            vars.mediaCarousel && t.extended_entities.media.length > 1
+            useMediaCarousel(t)
                 ? elNew("div", { class: "tweet-media-carousel" }, [
                       tweetMediaNode,
                       elNew("button", {

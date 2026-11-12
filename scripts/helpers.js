@@ -2466,13 +2466,26 @@ async function appendUser(u, container, label, usernameClass = "") {
     if (vars.enableTwemoji) twemoji.parse(userElement);
 }
 let lastTweetErrorDate = 0;
-const mediaClasses = [
+function mediaCountArray(arr) {
+    return new Proxy(arr, {
+        get: (a, k) =>
+            typeof k === "string" && /^\d+$/.test(k) && +k >= a.length
+                ? a[a.length - 1]
+                : a[k],
+    });
+}
+function useMediaCarousel(t) {
+    let n = t.extended_entities.media.length;
+    return n >= 10 || (vars.mediaCarousel && n > 1);
+}
+
+const mediaClasses = mediaCountArray([
     undefined,
     "tweet-media-element-one",
     "tweet-media-element-two",
     "tweet-media-element-three",
     "tweet-media-element-two",
-];
+]);
 
 function getOriginalImageUrl(image) {
     let src = image.src;
@@ -2514,7 +2527,7 @@ function calculateSize(x, y, max_x, max_y) {
     return [parseInt(x), parseInt(y)];
 }
 
-const sizeFunctions = [
+const sizeFunctions = mediaCountArray([
     undefined,
     (w, h) => calculateSize(w, h, 450, 500),
     (w, h) => calculateSize(w, h, 225, 400),
@@ -2523,27 +2536,15 @@ const sizeFunctions = [
             ? calculateSize(w, h, 225, 400)
             : calculateSize(w, h, 150, 250),
     (w, h) => calculateSize(w, h, 225, 400),
-    (w, h) => calculateSize(w, h, 225, 400),
-    (w, h) => calculateSize(w, h, 225, 400),
-    (w, h) => calculateSize(w, h, 225, 400),
-    (w, h) => calculateSize(w, h, 225, 400),
-    (w, h) => calculateSize(w, h, 225, 400),
-    (w, h) => calculateSize(w, h, 225, 400),
-];
+]);
 
-const quoteSizeFunctions = [
+const quoteSizeFunctions = mediaCountArray([
     undefined,
     (w, h) => calculateSize(w, h, 400, 400),
     (w, h) => calculateSize(w, h, 200, 400),
     (w, h) => calculateSize(w, h, 125, 200),
     (w, h) => calculateSize(w, h, 100, 150),
-    (w, h) => calculateSize(w, h, 100, 150),
-    (w, h) => calculateSize(w, h, 100, 150),
-    (w, h) => calculateSize(w, h, 100, 150),
-    (w, h) => calculateSize(w, h, 100, 150),
-    (w, h) => calculateSize(w, h, 100, 150),
-    (w, h) => calculateSize(w, h, 100, 150),
-];
+]);
 async function appendTweet(t, timelineContainer, options = {}) {
     if (typeof t !== "object") {
         console.error("Tweet is undefined", t, timelineContainer, options);

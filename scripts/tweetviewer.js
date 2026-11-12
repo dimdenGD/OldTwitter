@@ -1604,8 +1604,7 @@ class TweetViewer {
                     : ``}
                 ${t.extended_entities && t.extended_entities.media
                     ? html`
-                          ${vars.mediaCarousel &&
-                          t.extended_entities.media.length > 1
+                          ${useMediaCarousel(t)
                               ? html`
                                     <div class="tweet-media-carousel">
                                         <div class="tweet-media">
