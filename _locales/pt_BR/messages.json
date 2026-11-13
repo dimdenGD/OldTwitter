@@ -730,7 +730,7 @@
 		"message": "Images tem que ter menos de 5 MB"
 	},
 	"max_count": {
-		"message": "Você só pode enviar até 4 imagens ou 1 vídeo/gif"
+		"message": "Você só pode enviar até 20 imagens ou 1 vídeo/gif"
 	},
 	"alt_text": {
 		"message": "Descreva esta imagem"

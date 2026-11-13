@@ -220,7 +220,7 @@
     "gifs_max": { "message": "Ang mga GIF ay dapat na mas mababa sa 15 MB" },
     "videos_max": { "message": "Ang mga bideo ay dapat na mas mababa sa 500 MB" },
     "images_max": { "message": "Ang mga larawan ay dapat na mas mababa sa 500 MB" },
-    "max_count": { "message": "Maaari ka lamang mag-upload ng hanggang 4 na larawan o 1 video o 1 gif" },
+    "max_count": { "message": "Maaari ka lamang mag-upload ng hanggang 20 na larawan o 1 video o 1 gif" },
     "alt_text": { "message": "Maglagay ng alt text para sa larawan" },
     "vote": { "message": "boto", "example": "1 ->vote<-" },
     "votes": { "message": "boto", "example": "10 ->votes<-" },

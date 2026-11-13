@@ -227,7 +227,7 @@
     "gifs_max": { "message": "GIF 必须小于15 MB" },
     "videos_max": { "message": "视频必须小于500 MB" },
     "images_max": { "message": "图片必须小于5 MB" },
-    "max_count": { "message": "您最多只能上传4张图片或1个视频或1个 GIF" },
+    "max_count": { "message": "您最多只能上传20张图片或1个视频或1个 GIF" },
     "alt_text": { "message": "为图片输入替代文本" },
     "vote": { "message": "票", "example": "1 ->票<-" },
     "votes": { "message": "票", "example": "10 ->票<-" },

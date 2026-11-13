@@ -219,7 +219,7 @@
     "gifs_max": { "message": "GIFहरू 15 MB भन्दा थोर हुनुपर्छ" },
     "videos_max": { "message": "विडिओहरू 500 MB भन्दा थोर हुनुपर्छ" },
     "images_max": { "message": "फोटोहरू 5 MB भन्दा थोर हुनुपर्छ" },
-    "max_count": { "message": "तपाईँले 4 फोटोहरू कि 1 विडिओ कि 1 GIF" },
+    "max_count": { "message": "तपाईँले 20 फोटोहरू कि 1 विडिओ कि 1 GIF" },
     "alt_text": { "message": "फोटोको कुरा याँ लेख्नु" },
     "vote": { "message": "भोट", "example": "1 ->vote<-" },
     "votes": { "message": "भोटहरू", "example": "10 ->votes<-" },

@@ -226,7 +226,7 @@
     "gifs_max": {"message": "GIFs dürfen nicht größer als 15 MB sein"},
     "videos_max": {"message": "Videos dürfen nicht größer als 500 MB sein"},
     "images_max": {"message": "Bilder dürfen nicht größer als 5 MB sein"},
-    "max_count": {"message": "Du kannst maximal 4 Bilder oder 1 Video oder 1 GIF hochladen"},
+    "max_count": {"message": "Du kannst maximal 20 Bilder oder 1 Video oder 1 GIF hochladen"},
     "alt_text": {"message": "Alternativen Text für das Bild eingeben"},
     "vote": {"message": "Stimme", "example": "1 ->Stimme<-"},
     "votes": {"message": "Stimmen", "example": "10 ->Stimmen<-"},

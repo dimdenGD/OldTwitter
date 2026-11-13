@@ -227,7 +227,7 @@
     "gifs_max": { "message": "Los GIFs deben pesar menos de 15 MB" },
     "videos_max": { "message": "Los vídeos deben pesar menos de 500 MB" },
     "images_max": { "message": "Las imágenes deben pesar menos de 5 MB" },
-    "max_count": { "message": "Solo puedes subir hasta 4 imágenes, o un 1 vídeo o GIF" },
+    "max_count": { "message": "Solo puedes subir hasta 20 imágenes, o un 1 vídeo o GIF" },
     "alt_text": { "message": "Escriba un texto alternativo para la imagen" },
     "vote": { "message": "voto", "example": "1 ->vote<-" },
     "votes": { "message": "votos", "example": "10 ->votes<-" },

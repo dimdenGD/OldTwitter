@@ -227,7 +227,7 @@
     "gifs_max": { "message": "GIF-ovi moraju biti manji od 15 MB" },
     "videos_max": { "message": "Video klipovi moraju biti manji od 500 MB" },
     "images_max": { "message": "Slike moraju biti manje od 5 MB" },
-    "max_count": { "message": "Možete otpremiti najviše 4 slike, 1 video ili 1 GIF." },
+    "max_count": { "message": "Možete otpremiti najviše 20 slika, 1 video ili 1 GIF." },
     "alt_text": { "message": "Stavi alternativni tekst slike." },
     "vote": { "message": "glas", "example": "1 ->vote<-" },
     "votes": { "message": "glasova", "example": "10 ->votes<-" },

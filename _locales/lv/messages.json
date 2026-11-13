@@ -701,7 +701,7 @@
         "message": "Attēliem jābūt mazākiem par 5 MB"
     },
     "max_count": {
-        "message": "Varat augšupielādēt ne vairāk kā 4 attēlus vai 1 video vai 1 gif failu"
+        "message": "Varat augšupielādēt ne vairāk kā 20 attēlus vai 1 video vai 1 gif failu"
     },
     "alt_text": {
         "message": "Ievadiet attēla alternatīvo tekstu"

@@ -227,7 +227,7 @@
     "gifs_max": { "message": "GIFs must be less than 15 MB" },
     "videos_max": { "message": "Videos must be less than 500 MB" },
     "images_max": { "message": "Images must be less than 5 MB" },
-    "max_count": { "message": "You can only upload up to 4 images or 1 video or 1 gif" },
+    "max_count": { "message": "You can only upload up to 20 images or 1 video or 1 gif" },
     "alt_text": { "message": "Enter alt text for image" },
     "vote": { "message": "vote", "example": "1 ->vote<-" },
     "votes": { "message": "votes", "example": "10 ->votes<-" },
@@ -674,5 +674,7 @@
     "chars_over_limit": { "message": "Over the character limit", "description": "Read out by screen readers while typing a tweet." },
     "new_tweets_shown": { "message": "$COUNT$ new tweets shown", "description": "Read out by screen readers after pressing \"See new tweets\".", "placeholders": {
         "count": { "content": "5" }
-    } }
+    } },
+    "outdated_version": { "message": "Your OldTwitter is outdated" },
+    "update_before_reporting": { "message": "Update to latest version before reporting this." }
 }

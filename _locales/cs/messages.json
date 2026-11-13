@@ -227,7 +227,7 @@
     "gifs_max": { "message": "GIFy musí mít méně než 15 MB" },
     "videos_max": { "message": "Videa musí mít méně než 500 MB" },
     "images_max": { "message": "Obrázky musí mít méně než 5 MB" },
-    "max_count": { "message": "Najednou můžete nahrát až 4 obrázky nebo 1 video nebo 1 GIF" },
+    "max_count": { "message": "Najednou můžete nahrát až 20 obrázků nebo 1 video nebo 1 GIF" },
     "alt_text": { "message": "Zadejte popis obrázku" },
     "vote": { "message": "hlas", "example": "1 ->vote<-" },
     "votes": { "message": "hlasy", "example": "10 ->votes<-" },

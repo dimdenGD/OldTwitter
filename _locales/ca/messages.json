@@ -226,7 +226,7 @@
     "gifs_max": { "message": "Els GIFs han de ser inferiors a 15 MB" },
     "videos_max": { "message": "Els vídeos han de tenir una mida inferior a 500 MB" },
     "images_max": { "message": "Les imatges han de ser inferiors a 5 MB" },
-    "max_count": { "message": "Només podeu penjar fins a 4 imatges, 1 vídeo o 1 GIF" },
+    "max_count": { "message": "Només podeu penjar fins a 20 imatges, 1 vídeo o 1 GIF" },
     "alt_text": { "message": "Escriu un text alternatiu per a la imatge" },
     "vote": { "message": "vot", "example": "1 ->vote<-" },
     "votes": { "message": "vots", "example": "10 ->votes<-" },

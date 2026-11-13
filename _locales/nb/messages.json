@@ -226,7 +226,7 @@
     "gifs_max": { "message": "GIFer må være mindre enn 15 MB" },
     "videos_max": { "message": "Videoer må være mindre enn 500 MB" },
     "images_max": { "message": "Bilder må være mindre enn 5 MB" },
-    "max_count": { "message": "Du kan bare laste opp 4 bilder eller 1 video eller 1 gif om gangen" },
+    "max_count": { "message": "Du kan bare laste opp 20 bilder eller 1 video eller 1 gif om gangen" },
     "alt_text": { "message": "Legg inn alttekst for bilde" },
     "vote": { "message": "stemme", "example": "1 ->stemme<-" },
     "votes": { "message": "stemmer", "example": "10 ->votes<-" },

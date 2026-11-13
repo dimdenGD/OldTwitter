@@ -218,7 +218,7 @@
     "gifs_max": { "message": "يجب أن يكون حجم ملفات GIF أقل من 15 ميغابايت" },
     "videos_max": { "message": "يجب أن تكون مقاطع الفيديو أقل من 500 MB" },
     "images_max": { "message": "يجب أن تكون الصور أقل من 5 MB" },
-    "max_count": { "message": "يمكنك فقط تحميل ما يصل إلى 4 صور أو مقطع فيديو واحد أو 1 gif" },
+    "max_count": { "message": "يمكنك فقط تحميل ما يصل إلى 20 صورة أو مقطع فيديو واحد أو 1 gif" },
     "alt_text": { "message": "أدخل نصًا بديلاً للصورة" },
     "vote": { "message": "صوت", "example": "1 ->vote<-" },
     "votes": { "message": "أصوات", "example": "10 ->votes<-" },

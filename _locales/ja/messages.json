@@ -226,7 +226,7 @@
     "gifs_max": { "message": "15MB以上のGIFはアップロードできません。" },
     "videos_max": { "message": "500MB以上の動画はアップロードできません。" },
     "images_max": { "message": "5MB以上の写真はアップロードできません。" },
-    "max_count": { "message": "画像は4枚、動画は1本、GIFは1枚までしかアップロードできません。" },
+    "max_count": { "message": "画像は20枚、動画は1本、GIFは1枚までしかアップロードできません。" },
     "alt_text": { "message": "画像に説明を追加" },
     "vote": { "message": "票", "example": "1 ->vote<-" },
     "votes": { "message": "票", "example": "10 ->votes<-" },

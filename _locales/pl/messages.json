@@ -226,7 +226,7 @@
     "gifs_max": { "message": "GIFy muszą być mniejsze niż 15 MB" },
     "videos_max": { "message": "Filmy muszą być mniejsze niż 500MB" },
     "images_max": { "message": "Obrazki muszą być mniejsze niż 5MB" },
-    "max_count": { "message": "Możesz wysyłać tylko 4 obrazki lub 1 film lub 1 gif" },
+    "max_count": { "message": "Możesz wysyłać tylko 20 obrazków lub 1 film lub 1 gif" },
     "alt_text": { "message": "Dodaj tekst alternatywny dla obrazu" },
     "vote": { "message": "głos", "example": "1 ->vote<-" },
     "votes": { "message": "głosów", "example": "10 ->votes<-" },

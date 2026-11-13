@@ -226,7 +226,7 @@
     "gifs_max": { "message": "GIF-tiedostojen on oltava pienempiä kuin 15 Mt" },
     "videos_max": { "message": "Videoiden on oltava vähemmän kuin 500 Mt" },
     "images_max": { "message": "Kuvien on oltava vähemmän kuin 5 Mt" },
-    "max_count": { "message": "Voit ladata vain 4 kuvaa tai 1 viden tai 1 GIFin." },
+    "max_count": { "message": "Voit ladata vain 20 kuvaa tai 1 viden tai 1 GIFin." },
     "alt_text": { "message": "Kirjoita kuvausteksti kuvalle" },
     "vote": { "message": "ääni", "example": "1 ->vote<-" },
     "votes": { "message": "ääntä", "example": "10 ->votes<-" },

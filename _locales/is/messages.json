@@ -226,7 +226,7 @@
     "gifs_max": { "message": "GIF-myndir verða að vera minni en 15 MB" },
     "videos_max": { "message": "Myndbönd verða að vera minni en 500 MB" },
     "images_max": { "message": "Myndir verða að vera minni en 5 MB" },
-    "max_count": { "message": "Þú getur aðeins hlaðið upp allt að 4 myndum eða 1 myndbandi eða 1 GIF-mynd" },
+    "max_count": { "message": "Þú getur aðeins hlaðið upp allt að 20 myndum eða 1 myndbandi eða 1 GIF-mynd" },
     "alt_text": { "message": "Sláðu inn lýsingartexta fyrir mynd" },
     "vote": { "message": "atkvæði", "example": "1 ->vote<-" },
     "votes": { "message": "atkvæði", "example": "10 ->votes<-" },

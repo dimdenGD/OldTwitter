@@ -227,7 +227,7 @@
     "gifs_max": { "message": "GIF'ler 15MB'dan az olmalı." },
     "videos_max": { "message": "Videolar 500MB'dan az olmalı." },
     "images_max": { "message": "Görseller 5MB'dan az olmalı." },
-    "max_count": { "message": "En fazla 4 görsel, 1 video ya da 1 GIF yükleyebilirsiniz" },
+    "max_count": { "message": "En fazla 20 görsel, 1 video ya da 1 GIF yükleyebilirsiniz" },
     "alt_text": { "message": "Görsel açıklaması ekle" },
     "vote": { "message": "oy", "example": "1 ->vote<-" },
     "votes": { "message": "oylar", "example": "10 ->votes<-" },

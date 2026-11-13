@@ -226,7 +226,7 @@
     "gifs_max": { "message": "GIFar får inte överskrida 15 MB" },
     "videos_max": { "message": "Videor får inte överskrida 500 MB" },
     "images_max": { "message": "Bilder får inte överskrida 5 MB" },
-    "max_count": { "message": "Du kan bara ladda upp 4 bilder eller 1 video/GIF" },
+    "max_count": { "message": "Du kan bara ladda upp 20 bilder eller 1 video/GIF" },
     "alt_text": { "message": "Skriv en bildbeskrivning" },
     "vote": { "message": "röst", "example": "1 ->vote<-" },
     "votes": { "message": "röster", "example": "10 ->votes<-" },

@@ -221,7 +221,7 @@
     "gifs_max": { "message": "GIFs moeten kleiner zijn dan 15 MB" },
     "videos_max": { "message": "Video's moeten kleiner zijn dan 500 MB" },
     "images_max": { "message": "Afbeeldingen moeten kleiner zijn dan 5 MB" },
-    "max_count": { "message": "U kunt maximaal 4 afbeeldingen of 1 video of 1 gif uploaden" },
+    "max_count": { "message": "U kunt maximaal 20 afbeeldingen of 1 video of 1 gif uploaden" },
     "alt_text": { "message": "Typ alt tekst voor afbeelding" },
     "vote": { "message": "stem", "example": "1 ->vote<-" },
     "votes": { "message": "stemmen", "example": "10 ->votes<-" },

@@ -227,7 +227,7 @@
     "gifs_max": { "message": "GIF harus kurang dari 15 MB" },
     "videos_max": { "message": "Video harus kurang dari 500 MB" },
     "images_max": { "message": "Gambar harus kurang dari 5 MB" },
-    "max_count": { "message": "Anda hanya dapat mengunggah maksimal 4 gambar, 1 video, atau 1 GIF" },
+    "max_count": { "message": "Anda hanya dapat mengunggah maksimal 20 gambar, 1 video, atau 1 GIF" },
     "alt_text": { "message": "Masukkan teks alternatif untuk gambar" },
     "vote": { "message": "suara", "example": "1 ->vote<-" },
     "votes": { "message": "suara", "example": "10 ->votes<-" },

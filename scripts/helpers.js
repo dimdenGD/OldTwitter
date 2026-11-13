@@ -156,10 +156,10 @@ async function handleFiles(files, mediaArray, mediaContainer, is_dm = false) {
             images.push(file);
         }
     }
-    // either up to 4 images or 1 video or 1 gif
+    // either up to 20 images or 1 video or 1 gif
     if (images.length > 0) {
-        if (images.length > 4) {
-            images = images.slice(0, 4);
+        if (images.length > 20) {
+            images = images.slice(0, 20);
         }
         if (videos.length > 0 || gifs.length > 0) {
             return alert(LOC.max_count.message);
@@ -188,7 +188,7 @@ async function handleFiles(files, mediaArray, mediaContainer, is_dm = false) {
                 })
         )
     );
-    while (mediaArray.length >= 4) {
+    while (mediaArray.length + media.length > 20) {
         mediaArray.pop();
         mediaContainer.lastChild.remove();
     }
@@ -2466,6 +2466,25 @@ async function appendUser(u, container, label, usernameClass = "") {
     if (vars.enableTwemoji) twemoji.parse(userElement);
 }
 let lastTweetErrorDate = 0;
+async function getOutdatedVersionNotice() {
+    let version = chrome.runtime.getManifest().version;
+    let lastVersion = await _fetch(
+        `https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`
+    )
+        .then((res) => res.json())
+        .then((res) => res.version)
+        .catch(() => null);
+    if (!lastVersion) return "";
+    let a = version.split(".").map(Number);
+    let b = lastVersion.split(".").map(Number);
+    for (let i = 0; i < Math.max(a.length, b.length); i++) {
+        if ((a[i] || 0) !== (b[i] || 0)) {
+            if ((a[i] || 0) >= (b[i] || 0)) return "";
+            return `<br><b style="color:#ff4545">${LOC.outdated_version.message} (v${version}, ${LOC.last_version.message}: ${lastVersion}). ${LOC.update_before_reporting.message}</b><br>`;
+        }
+    }
+    return "";
+}
 function mediaCountArray(arr) {
     return new Proxy(arr, {
         get: (a, k) =>
@@ -5662,31 +5681,34 @@ async function appendTweet(t, timelineContainer, options = {}) {
         console.error(e);
         if (Date.now() - lastTweetErrorDate > 1000) {
             lastTweetErrorDate = Date.now();
-            createModal(`
-                <div style="max-width:700px">
-                    <span style="font-size:14px;color:var(--default-text-color)">
-                        <h2 style="margin-top: 0">${
-                            LOC.something_went_wrong.message
-                        }</h2>
-                        ${LOC.tweet_error.message}<br>
-                        ${LOC.error_instructions.message
-                            .replace(
-                                "$AT1$",
-                                "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
-                            )
-                            .replace(/\$AT2\$/g, "</a>")
-                            .replace(
-                                "$AT3$",
-                                "<a target='_blank' href='mailto:admin@dimden.dev'>"
-                            )}
-                    </span>
-                    <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">
-                        ${escapeHTML(e.stack ? e.stack : String(e))} at ${
-                t.id_str
-            } (OldTwitter v${chrome.runtime.getManifest().version})
+            getOutdatedVersionNotice().then((outdated) => {
+                createModal(`
+                    <div style="max-width:700px">
+                        <span style="font-size:14px;color:var(--default-text-color)">
+                            <h2 style="margin-top: 0">${
+                                LOC.something_went_wrong.message
+                            }</h2>
+                            ${LOC.tweet_error.message}
+                            ${outdated}
+                            ${LOC.error_instructions.message
+                                .replace(
+                                    "$AT1$",
+                                    "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
+                                )
+                                .replace(/\$AT2\$/g, "</a>")
+                                .replace(
+                                    "$AT3$",
+                                    "<a target='_blank' href='mailto:admin@dimden.dev'>"
+                                )}
+                        </span>
+                        <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">
+                            ${escapeHTML(e.stack ? e.stack : String(e))} at ${
+                    t.id_str
+                } (OldTwitter v${chrome.runtime.getManifest().version})
+                        </div>
                     </div>
-                </div>
-            `);
+                `);
+            });
         }
         return null;
     }
@@ -6038,31 +6060,34 @@ function renderNotification(n, options = {}) {
         console.error(e);
         if (Date.now() - lastNotificationErrorDate > 1000) {
             lastNotificationErrorDate = Date.now();
-            createModal(`
-                <div style="max-width:700px">
-                    <span style="font-size:14px;color:var(--default-text-color)">
-                        <h2 style="margin-top: 0">${
-                            LOC.something_went_wrong.message
-                        }</h2>
-                        ${LOC.notifications_error.message}<br>
-                        ${LOC.error_instructions.message
-                            .replace(
-                                "$AT1$",
-                                "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
-                            )
-                            .replace(/\$AT2\$/g, "</a>")
-                            .replace(
-                                "$AT3$",
-                                "<a target='_blank' href='mailto:admin@dimden.dev'>"
-                            )}
-                    </span>
-                    <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">
-                        ${escapeHTML(
-                            e.stack ? e.stack : String(e)
-                        )} (OldTwitter v${chrome.runtime.getManifest().version})
+            getOutdatedVersionNotice().then((outdated) => {
+                createModal(`
+                    <div style="max-width:700px">
+                        <span style="font-size:14px;color:var(--default-text-color)">
+                            <h2 style="margin-top: 0">${
+                                LOC.something_went_wrong.message
+                            }</h2>
+                            ${LOC.notifications_error.message}
+                            ${outdated}
+                            ${LOC.error_instructions.message
+                                .replace(
+                                    "$AT1$",
+                                    "<a target='_blank' href='https://github.com/dimdenGD/OldTwitter/issues'>"
+                                )
+                                .replace(/\$AT2\$/g, "</a>")
+                                .replace(
+                                    "$AT3$",
+                                    "<a target='_blank' href='mailto:admin@dimden.dev'>"
+                                )}
+                        </span>
+                        <div class="box" style="font-family:monospace;line-break: anywhere;padding:5px;margin-top:5px;background:rgba(255, 0, 0, 0.1);color:#ff4545">
+                            ${escapeHTML(
+                                e.stack ? e.stack : String(e)
+                            )} (OldTwitter v${chrome.runtime.getManifest().version})
+                        </div>
                     </div>
-                </div>
-            `);
+                `);
+            });
         }
         return null;
     }

@@ -219,7 +219,7 @@
     "gifs_max": { "message": "ไฟล์ GIF ต้องมีขนาดน้อยกว่า 15 MB" },
     "videos_max": { "message": "วิดีโอต้องมีขนาดน้อยกว่า 500 MB" },
     "images_max": { "message": "ภาพต้องมีขนาดน้อยกว่า 5 MB" },
-    "max_count": { "message": "คุณสามารถอัพโหลดได้เพียง 4 รูปภาพหรือ 1 วิดีโอหรือ 1 GIF" },
+    "max_count": { "message": "คุณสามารถอัพโหลดได้เพียง 20 รูปภาพหรือ 1 วิดีโอหรือ 1 GIF" },
     "alt_text": { "message": "เพิ่มคำอธิบายสำหรับภาพนี้" },
     "vote": { "message": "โหวต", "example": "1 ->vote<-" },
     "votes": { "message": "จำนวนโหวต", "example": "10 ->votes<-" },

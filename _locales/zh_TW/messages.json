@@ -227,7 +227,7 @@
     "gifs_max": { "message": "GIF 檔案必須小於 15 MB" },
     "videos_max": { "message": "影片必須小於 500 MB" },
     "images_max": { "message": "相片必須小於 5 MB" },
-    "max_count": { "message": "你最多只能同時上傳 4 張相片/1 部影片/1 個 GIF 檔案" },
+    "max_count": { "message": "你最多只能同時上傳 20 張相片/1 部影片/1 個 GIF 檔案" },
     "alt_text": { "message": "開始撰寫相片的附註" },
     "vote": { "message": "票", "example": "1 ->vote<-" },
     "votes": { "message": "票", "example": "10 ->votes<-" },
