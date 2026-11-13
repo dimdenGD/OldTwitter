@@ -676,5 +676,6 @@
         "count": { "content": "5" }
     } },
     "outdated_version": { "message": "Your OldTwitter is outdated" },
-    "update_before_reporting": { "message": "Update to latest version before reporting this." }
+    "update_before_reporting": { "message": "Update to latest version before reporting this." },
+    "unfollow_sure": { "message": "Are you sure you want to unfollow @$SCREEN_NAME$?", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
 }

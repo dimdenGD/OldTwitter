@@ -4240,6 +4240,17 @@ class TweetViewer {
         if (tweetInteractMoreMenuFollow)
             tweetInteractMoreMenuFollow.addEventListener("click", async () => {
                 if (t.user.following) {
+                    let unfollowMessage;
+                    if (LOC.unfollow_sure.message.includes("$SCREEN_NAME$")) {
+                        unfollowMessage = LOC.unfollow_sure.message.replace(
+                            "$SCREEN_NAME$",
+                            t.user.screen_name
+                        );
+                    } else {
+                        unfollowMessage = `${LOC.unfollow_sure.message} @${t.user.screen_name}?`;
+                    }
+                    let c = confirm(unfollowMessage);
+                    if (!c) return;
                     await API.user.unfollow(t.user.screen_name);
                     t.user.following = false;
                     if (LOC.follow_user.message.includes("$SCREEN_NAME$")) {

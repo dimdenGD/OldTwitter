@@ -5023,6 +5023,17 @@ async function appendTweet(t, timelineContainer, options = {}) {
         if (tweetInteractMoreMenuFollow)
             tweetInteractMoreMenuFollow.addEventListener("click", async () => {
                 if (t.user.following) {
+                    let unfollowMessage;
+                    if (LOC.unfollow_sure.message.includes("$SCREEN_NAME$")) {
+                        unfollowMessage = LOC.unfollow_sure.message.replace(
+                            "$SCREEN_NAME$",
+                            t.user.screen_name
+                        );
+                    } else {
+                        unfollowMessage = `${LOC.unfollow_sure.message} @${t.user.screen_name}?`;
+                    }
+                    let c = confirm(unfollowMessage);
+                    if (!c) return;
                     try {
                         await API.user.unfollow(t.user.screen_name);
                     } catch (e) {
