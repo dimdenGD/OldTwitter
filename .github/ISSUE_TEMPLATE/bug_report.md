@@ -20,4 +20,4 @@ Include your browsers name and it's version.
 Link to profile/tweet or other page where bug happens.
 
 **OldTwitter version**
-Can be seen on bottom-right
+Can be seen on bottom-right. **IMPORTANT: Are you on the latest version? If not, update first before reporting this bug! Theres a high chance it was fixed already.**
