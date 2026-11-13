@@ -549,16 +549,49 @@ function getPreferredVideoUrl(variants) {
 
 function html(strings, ...values) {
     let str = "";
-    strings.forEach((string, i) => {
-        let value;
-        if (typeof values[i] === "undefined" || values[i] === null) {
+    let inTag = false;
+    let quote = "";
+    function scan(chunk) {
+        for (let i = 0; i < chunk.length; i++) {
+            let c = chunk[i];
+            if (quote) {
+                if (c === quote) quote = "";
+            } else if (!inTag) {
+                if (c === "<") inTag = true;
+            } else if (c === ">") {
+                inTag = false;
+            } else if (c === '"' || c === "'") {
+                quote = c;
+            }
+        }
+    }
+    for (let i = 0; i < strings.length; i++) {
+        scan(strings[i]);
+        str += strings[i];
+        if (i >= values.length) continue;
+        let value = values[i];
+        if (typeof value === "undefined" || value === null) {
             value = "";
         } else {
-            value = String(values[i]);
+            value = String(value);
         }
-
-        str += string + DOMPurify.sanitize(value, { ADD_ATTR: ["target"] });
-    });
+        if (quote) {
+            value = value
+                .replaceAll("&lt;", "<")
+                .replaceAll("&gt;", ">")
+                .replaceAll("&amp;", "&")
+                .replaceAll("&quot;", '"')
+                .replaceAll("&apos;", "'")
+                .replaceAll("&", "&amp;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&apos;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;");
+        } else {
+            value = DOMPurify.sanitize(value, { ADD_ATTR: ["target"] });
+        }
+        str += value;
+    }
     return str;
 }
 

@@ -675,14 +675,17 @@ a:hover,
 }
 
 #new-tweet-media-c {
-    display: contents;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
     margin: 0;
     width: auto
 }
 
 #new-tweet-media-cc {
-    display: inline;
-    left: 34px;
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 34px;
     position: relative
 }
 

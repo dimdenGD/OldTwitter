@@ -696,13 +696,16 @@ body.body-old-ui .user-item-btn.follow:before {
 #new-tweet-media-c {
     width: auto;
     margin: 0;
-    display: contents
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start
 }
 
 #new-tweet-media-cc {
-    left: 34px;
-    position: relative;
-    display: inline
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 34px;
+    position: relative
 }
 
 .new-tweet-media-img {

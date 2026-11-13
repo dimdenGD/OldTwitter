@@ -531,15 +531,46 @@ input, textarea {
     margin-right: 5px;
     vertical-align: bottom;
 }
-.navbar-new-tweet-media-c {
+.navbar-new-tweet-media-c,
+.new-tweet-media-c {
     width: auto;
     margin: 0;
-    display: contents;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
 }
-.navbar-new-tweet-media-cc {
-    left: 34px;
+.navbar-new-tweet-media-cc,
+.new-tweet-media-cc {
+    display: inline-block;
+    vertical-align: top;
+    margin-left: 34px;
     position: relative;
-    display: inline;
+}
+#new-tweet-focused:has(.new-tweet-media-img-div),
+.navbar-new-tweet-focused:has(.new-tweet-media-img-div),
+.new-tweet-focused:has(.new-tweet-media-img-div) {
+    position: relative;
+}
+#new-tweet-focused:has(.new-tweet-media-img-div) #new-tweet-media-cc,
+.navbar-new-tweet-focused:has(.new-tweet-media-img-div) .navbar-new-tweet-media-cc,
+.new-tweet-focused:has(.new-tweet-media-img-div) .new-tweet-media-cc {
+    display: block;
+    clear: both;
+    margin: 4px 8px 4px 42px;
+    max-width: none;
+    max-height: none;
+    overflow: visible;
+    left: auto;
+}
+#new-tweet-focused:has(.new-tweet-media-img-div) #new-tweet-button,
+.navbar-new-tweet-focused:has(.new-tweet-media-img-div) .navbar-new-tweet-button,
+.new-tweet-focused:has(.new-tweet-media-img-div) .new-tweet-button {
+    position: absolute;
+    right: 10px;
+    bottom: 6px;
+    left: auto;
+    float: none;
+    margin: 0;
 }
 .new-tweet-media-img {
     max-width: 75px;
@@ -599,6 +630,8 @@ input, textarea {
 .new-tweet-media-img-div {
     width: fit-content;
     display: inline-block;
+    position: relative;
+    vertical-align: top;
 }
 .nice-button {
     color: var(--almost-black);
@@ -2775,6 +2808,16 @@ video::-internal-media-controls-overlay-cast-button {
         margin-right: 0 !important;
         margin-left: 0 !important;
         position: relative;
+    }
+    #new-tweet-focused:has(.new-tweet-media-img-div) #new-tweet-button,
+    .navbar-new-tweet-focused:has(.new-tweet-media-img-div) .navbar-new-tweet-button,
+    .new-tweet-focused:has(.new-tweet-media-img-div) .new-tweet-button {
+        position: absolute;
+        right: 10px;
+        bottom: 6px;
+        left: auto !important;
+        float: none;
+        margin: 0 !important;
     }
     .new-tweet-media-img {
         max-width: 64px;
