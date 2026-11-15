@@ -3206,7 +3206,9 @@ class TweetViewer {
         ) {
             let div = document.createElement("div");
             div.classList.add("tweet-birdwatch", "box");
-            let text = Array.from(escapeHTML(t.birdwatch.subtitle.text));
+            let text = Array.from(t.birdwatch.subtitle.text).map((c) =>
+                escapeHTML(c)
+            );
             for (
                 let e = t.birdwatch.subtitle.entities.length - 1;
                 e >= 0;
