@@ -208,7 +208,8 @@ const TRANSLATORS = {
     ne: ["DimeDead", "https://dimedead.neocities.org/"],
     nl: ["Puka1611"],
     ja: [
-        ["Chazuru", "/AIWMD"],
+        ["Chazuru", "/Chazuru_C"],
+		["Hanayumi", "/72kyu__s"],
         ["Nyankodasu", "https://github.com/Nyankodasu"],
     ],
     tr: [
