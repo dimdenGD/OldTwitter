@@ -607,7 +607,7 @@
 	"pin_likes_on_navbar": { "message": "メニューバーに「いいね」を表示する" },
 	"show_based_in": { "message": "プロフィールにアカウントの所在地を表示する" },
 	"new_gallery": { "message": "プロフィールのメディアを複数列表示にする" },
-	"show_download_button": { "message": "メディアのダウンロードボタンを表示する" }
+	"show_download_button": { "message": "メディアのダウンロードボタンを表示する" },
 
 	
 	"gif": { "message": "GIF" },
