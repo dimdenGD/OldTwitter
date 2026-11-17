@@ -2247,9 +2247,7 @@ function renderMedia(t) {
                 m.original_info.height
             );
             const newClone = img_template.cloneNode(true);
-            const altText = m.ext_alt_text
-                ? escapeHTML(m.ext_alt_text, true)
-                : "";
+            const altText = m.ext_alt_text || "";
             if (altText) {
                 newClone.alt = newClone.title = altText;
             }
@@ -2279,9 +2277,7 @@ function renderMedia(t) {
             let rid = m.id_str + m.media_key;
 
             const newClone = animated_gif_template.cloneNode(true);
-            const altText = m.ext_alt_text
-                ? escapeHTML(m.ext_alt_text, true)
-                : "";
+            const altText = m.ext_alt_text || "";
             if (altText) {
                 newClone.alt = newClone.title = altText;
             }
@@ -2320,9 +2316,7 @@ function renderMedia(t) {
                 m.original_info.height
             );
             const newClone = video_template.cloneNode(true);
-            const altText = m.ext_alt_text
-                ? escapeHTML(m.ext_alt_text, true)
-                : "";
+            const altText = m.ext_alt_text || "";
             if (altText) {
                 newClone.alt = newClone.title = altText;
             }
