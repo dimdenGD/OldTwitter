@@ -595,7 +595,7 @@
 	"custom_downloadtemplate_hintExtension": { "message": "<code>{extension}</code>: ダウンロード時のファイル拡張子" },
 	"custom_downloadtemplate_hintID": { "message": "<code>{id}</code>: ツイートID" },
 	"custom_downloadtemplate_hintIndex": { "message": "<code>{index}</code>: 複数ファイルでのダウンロード時のインデックス (複数メディア用)" },
-	"custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: pbs.twimg.comからアップロードしてある元ファイル名" }
+	"custom_downloadtemplate_hintFilename": { "message": "<code>{filename}</code>: pbs.twimg.comからアップロードしてある元ファイル名" },
 	
 	"media_carousel": { "message": "複数の画像を含むツイートをスクロール可能なカルーセル表示にする" },
 	"block_grok_edit": { "message": "アップロードした画像をGrokが編集できないようにする" },
