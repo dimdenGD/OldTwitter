@@ -175,7 +175,7 @@ Serbian - [asvira](https://x.com/itkilledmetoo)
 Hebrew - "ugh", qqqq, [kriterin](https://twitter.com/kriterin)  
 Nepali - [DimeDead](https://dimedead.neocities.org/)  
 Dutch - Puka1611  
-Japanese - [Chazuru](https://twitter.com/AIWMD), [Nyankodasu](https://twitter.com/Nyankodasu1234), [kamokakesu](https://twitter.com/kamokakesu)  
+Japanese - [Chazuru](https://twitter.com/AIWMD), [Hanayumi](https://twitter.com/72kyu__s), [Kamokakesu](https://twitter.com/kamokakesu), [Nyankodasu](https://twitter.com/Nyankodasu1234)
 Korean - [Nyankodasu](https://twitter.com/Nyankodasu1234), HY, [Sch](https://me.shtelo.org)  
 Turkish - [KayrabCebll](https://steamcommunity.com/id/KayrabCebll), [YordemEren](https://twitter.com/YordemEren), [dursunator](https://x.com/dursunator)  
 Italian - [krek](https://twitter.com/CactusInc420), [Francesco](https://twitter.com/FrancescoRosi27)  
