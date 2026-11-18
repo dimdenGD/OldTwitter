@@ -64,9 +64,7 @@ function renderMultiMediaNodes(tweetObject) {
                 tweetObject.extended_entities.media.length
             ](m.original_info.width, m.original_info.height);
             const newClone = img_template.cloneNode(true);
-            const altText = m.ext_alt_text
-                ? escapeHTML(m.ext_alt_text, true)
-                : "";
+            const altText = m.ext_alt_text || "";
             if (altText) {
                 newClone.alt = newClone.title = altText;
             }
@@ -96,9 +94,7 @@ function renderMultiMediaNodes(tweetObject) {
             let rid = m.id_str + m.media_key;
 
             const newClone = animated_gif_template.cloneNode(true);
-            const altText = m.ext_alt_text
-                ? escapeHTML(m.ext_alt_text, true)
-                : "";
+            const altText = m.ext_alt_text || "";
             if (altText) {
                 newClone.alt = newClone.title = altText;
             }
@@ -137,9 +133,7 @@ function renderMultiMediaNodes(tweetObject) {
                 tweetObject.extended_entities.media.length
             ](m.original_info.width, m.original_info.height);
             const newClone = video_template.cloneNode(true);
-            const altText = m.ext_alt_text
-                ? escapeHTML(m.ext_alt_text, true)
-                : "";
+            const altText = m.ext_alt_text || "";
             if (altText) {
                 newClone.alt = newClone.title = altText;
             }
@@ -211,7 +205,7 @@ async function constructQuotedTweet(
                       }_normal.png`
                   )
                 : t.quoted_status.user.profile_image_url_https,
-        alt: escapeHTML(t.quoted_status.user.name),
+        alt: t.quoted_status.user.name,
         className: "tweet-avatar-quote",
         width: "24",
         height: "24",
@@ -327,8 +321,8 @@ async function constructQuotedTweet(
                 t.quoted_status.extended_entities.media.length
             ](m.original_info.width, m.original_info.height);
             const mediaElement = elNew(m.type === "photo" ? "img" : "video", {
-                alt: escapeHTML(m.ext_alt_text, true),
-                title: escapeHTML(m.ext_alt_text, true),
+                alt: m.ext_alt_text,
+                title: m.ext_alt_text,
                 crossorigin: "anonymous",
                 width: w,
                 height: h,
