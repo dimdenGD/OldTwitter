@@ -658,7 +658,21 @@
     "use_x_chat": { "message": "使用 X Chat 替代 OldTwitter 的消息界面" }, 
     "tweet_doesnt_exist": { "message": "这条推文不存在。" },
     "block_grok_edit": { "message": "禁止 Grok 编辑您上传的图像" },
+    "media_carousel": { "message": "将多图推文改为滚动阅览式" },
     "show_download_button": { "message": "在带有媒体的推文下显示下载媒体按钮" },
     "pin_likes_on_navbar": { "message": "将【喜欢】链接添加到导航栏" },
-    "open_oldtwitter": { "message": "在 OldTwitter 中打开此页面" }
+    "open_oldtwitter": { "message": "在 OldTwitter 中打开此页面" }, 
+    "close": { "message": "关闭" },
+    "more_actions": { "message": "更多操作", "description": "屏幕阅读器对推文的“...”按钮的读出文字。" },
+    "account_menu": { "message": "账户菜单", "description": "屏幕阅读器对顶栏头像按钮（点击后可打开菜单）的读出文字。" },
+    "chars_left": { "message": "剩余 $COUNT$ 字", "description": "在输入推文时，由屏幕阅读器读出的剩余字数提醒。", "placeholders": {
+        "count": { "content": "20" }
+    } },
+    "chars_over_limit": { "message": "已超出字符数限制", "description": "在输入推文时，由屏幕阅读器读出的字数超限提醒。" },
+    "new_tweets_shown": { "message": "已显示 $COUNT$ 条新推文", "description": "点击“显示新推文”后，由屏幕阅读器读出提示。", "placeholders": {
+        "count": { "content": "5" }
+    } }, 
+    "outdated_version": { "message": "你的 OldTwitter 已过旧。" },
+    "update_before_reporting": { "message": "请在报告前先升级到最新版本。" },
+    "unfollow_sure": { "message": "你确定要取消关注 @$SCREEN_NAME$ 吗？", "placeholders": { "screen_name": { "content": "CoolPerson2000" } } }
 }
