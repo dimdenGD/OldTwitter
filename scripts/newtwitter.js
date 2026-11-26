@@ -1,9 +1,9 @@
 let r = document.createElement("a");
-let hrefUrl = new URL(location.href);
-let searchParams = new URLSearchParams(hrefUrl.search);
+let cleanUrl = new URL(location.href);
+let searchParams = new URLSearchParams(cleanUrl.search);
 searchParams.delete("newtwitter");
-hrefUrl.search = searchParams.toString();
-r.href = hrefUrl.toString();
+cleanUrl.search = searchParams.toString();
+r.href = cleanUrl.toString();
 setInterval(() => {
     let hrefUrl = new URL(location.href);
     let searchParams = new URLSearchParams(hrefUrl.search);

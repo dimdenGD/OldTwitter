@@ -1496,17 +1496,15 @@ class TweetViewer {
             });
         }
         console.log(t);
+        let avatarFallback = vars.useOldDefaultProfileImage
+            ? chrome.runtime.getURL(
+                  `images/default_profile_images/default_profile_bigger.png`
+              )
+            : "https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png";
         tweet.innerHTML = html`
             <div class="tweet-top" hidden></div>
             <a class="tweet-avatar-link" href="/${t.user.screen_name}"
                 ><img
-                    onerror="this.src = '${`${
-                        vars.useOldDefaultProfileImage
-                            ? chrome.runtime.getURL(
-                                  `images/default_profile_images/default_profile_bigger.png`
-                              )
-                            : "https://abs.twimg.com/sticky/default_profile_images/default_profile_bigger.png"
-                    }`}'"
                     src="${`${
                         t.user.default_profile_image &&
                         vars.useOldDefaultProfileImage
@@ -2454,6 +2452,8 @@ class TweetViewer {
                 </div>
             </article>
         `;
+        let avatarImg = tweet.querySelector(".tweet-avatar-link > .tweet-avatar");
+        avatarImg.addEventListener("error", () => (avatarImg.src = avatarFallback), { once: true });
         let gifs = Array.from(
             tweet.querySelectorAll(
                 ".tweet-media-gif, .tweet-media-element-quote-gif"
@@ -3524,6 +3524,7 @@ class TweetViewer {
                         transition: false,
                         zoomRatio: 0.3,
                         url: getOriginalImageUrl,
+                        inheritedAttributes: viewerInheritedAttributes,
                         viewed: preloadAdjacentImages,
                     });
                     e.target.click();

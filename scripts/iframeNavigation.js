@@ -112,7 +112,11 @@ function useIframeNavigation(e) {
 
         let iframe = document.createElement("iframe");
         iframe.classList.add("iframe-navigation");
-        iframe.src = a.href;
+        if (pageHeadersKept) {
+            iframe.src = `${iframeHostPath}?ot_path=${encodeURIComponent(parsedURL.pathname + parsedURL.search + parsedURL.hash)}`;
+        } else {
+            iframe.src = a.href;
+        }
         iframe.style = `
             position: fixed;
             top: 0;

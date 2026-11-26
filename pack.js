@@ -1,9 +1,11 @@
-// This script generates Firefox version of the extension and packs Chrome and Firefox versions to zip files.
+// This script generates Firefox and Safari versions of the extension and packs them with Chrome version to zip files.
+// Safari version is built only on macOS with Xcode.
 
 const fsp = require('fs').promises;
 const fs = require('fs');
 const path = require('path');
 const AdmZip = require('adm-zip');
+const { execFileSync } = require('child_process');
 const args = process.argv.slice(2);
 
 async function copyDir(src, dest) {
@@ -19,6 +21,42 @@ async function copyDir(src, dest) {
             await fsp.copyFile(srcPath, destPath);
         }
     }
+}
+
+function buildSafari() {
+    let env = { ...process.env };
+    if(!env.DEVELOPER_DIR && fs.existsSync('/Applications/Xcode.app')) {
+        env.DEVELOPER_DIR = '/Applications/Xcode.app/Contents/Developer';
+    }
+    let run = (cmd, cmdArgs) => execFileSync(cmd, cmdArgs, { env, stdio: ['ignore', 'ignore', 'inherit'] });
+    if(fs.existsSync('./build/OldTwitterSafari')) {
+        fs.rmSync('./build/OldTwitterSafari', { recursive: true });
+    }
+    if(fs.existsSync('./build/OldTwitterSafari.zip')) {
+        fs.unlinkSync('./build/OldTwitterSafari.zip');
+    }
+    run('xcrun', [
+        'safari-web-extension-converter', './build/OldTwitterTempChrome',
+        '--project-location', './build/OldTwitterSafari',
+        '--app-name', 'OldTwitter',
+        '--bundle-identifier', 'dev.dimden.oldtwitter',
+        '--macos-only', '--copy-resources', '--no-open', '--no-prompt', '--force'
+    ]);
+    let projectPath = './build/OldTwitterSafari/OldTwitter/OldTwitter.xcodeproj/project.xcproj';
+    let project = fs.readFileSync(projectPath, 'utf8');
+    fs.writeFileSync(projectPath, project.replaceAll('"dev.dimden.OldTwitter"', '"dev.dimden.oldtwitter"'));
+    run('xcodebuild', [
+        '-project', './build/OldTwitterSafari/OldTwitter/OldTwitter.xcodeproj',
+        '-scheme', 'OldTwitter',
+        '-configuration', 'Release',
+        '-destination', 'generic/platform=macOS',
+        '-derivedDataPath', './build/OldTwitterSafari/DerivedData',
+        'CODE_SIGN_IDENTITY=-', 'CODE_SIGN_STYLE=Manual', 'DEVELOPMENT_TEAM=',
+        `MARKETING_VERSION=${JSON.parse(fs.readFileSync('./manifest.json', 'utf8')).version}`,
+        'build'
+    ]);
+    run('ditto', ['-c', '-k', '--keepParent', './build/OldTwitterSafari/DerivedData/Build/Products/Release/OldTwitter.app', './build/OldTwitterSafari.zip']);
+    fs.rmSync('./build/OldTwitterSafari', { recursive: true });
 }
 
 if(!fs.existsSync("build")) {
@@ -176,6 +214,18 @@ copyDir('./', './build/OldTwitterFirefox').then(async () => {
         console.log(`Something went wrong ${e}`);
     }
     console.log(`Zipped Chrome version into ${path.resolve('./build/OldTwitterChrome.zip')}!`);
+    if(process.platform === 'darwin') {
+        console.log("Building Safari version...");
+        try {
+            buildSafari();
+            console.log(`Built Safari version into ${path.resolve('./build/OldTwitterSafari.zip')}!`);
+        } catch (e) {
+            console.log(`Something went wrong building Safari version ${e}`);
+            if(args[0] === '-a') process.exitCode = 1;
+        }
+    } else {
+        console.log("Skipping Safari version since it can only be built on macOS.");
+    }
     console.log("Deleting temporary folders...");
     fs.rmSync('./build/OldTwitterTempChrome', { recursive: true });
     fs.rmSync('./build/OldTwitterFirefox', { recursive: true });

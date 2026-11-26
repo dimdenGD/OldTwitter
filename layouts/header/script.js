@@ -1,3 +1,17 @@
+let twemojiOnError = twemoji.onerror;
+let twemojiDataUrls = {};
+twemoji.onerror = function() {
+    let url = this.src;
+    if(!url.startsWith('http')) return twemojiOnError.call(this);
+    if(!twemojiDataUrls[url]) twemojiDataUrls[url] = new Promise((resolve, reject) => {
+        chrome.runtime.sendMessage({ action: 'fetchBlob', url }, res => {
+            if(chrome.runtime.lastError || !res || !res.ok) return reject();
+            resolve(`data:${res.type};base64,${res.data}`);
+        });
+    });
+    twemojiDataUrls[url].then(dataUrl => this.src = dataUrl, () => twemojiOnError.call(this));
+};
+
 let headerGotUser = false;
 let savedSearches = [], lastSearches = [];
 let inboxData = [];
@@ -983,6 +997,7 @@ let userDataFunction = async user => {
                                 transition: false,
                                 zoomRatio: 0.3,
                                 url: getOriginalImageUrl,
+                                inheritedAttributes: viewerInheritedAttributes,
                             });
                             e.target.click();
                         })
@@ -1392,6 +1407,10 @@ let userDataFunction = async user => {
     }
     document.getElementById('messages').addEventListener('click', async e => {
         e.preventDefault();
+        if(vars.useXChat && pageHeadersKept) {
+            window.open('https://chat.x.com', '_blank');
+            return;
+        }
         inboxOpened = true;
         location.hash = '#dm';
 
@@ -2641,6 +2660,10 @@ let userDataFunction = async user => {
     }, { passive: true });
 
     document.addEventListener('messageUser', e => {
+        if(vars.useXChat && pageHeadersKept) {
+            window.open(`https://x.com/i/chat/${e.detail.id}?newtwitter=true`, '_blank');
+            return;
+        }
         document.getElementById('messages').click();
         setTimeout(async () => {
             if(vars.useXChat) {

@@ -72,72 +72,75 @@ let pages = [
 
 let realPath = location.pathname;
 let hrefUrl = location.href;
-if (realPath.endsWith("/") && realPath !== "/") {
-    location.replace(realPath.slice(0, -1));
-}
-if (location.hash.startsWith("#!/")) {
-    location.replace(location.hash.slice(2));
-}
-if (realPath === "/") {
-    location.replace("/home");
+if (!isNewTwitterPage) {
+    if (realPath.endsWith("/") && realPath !== "/") {
+        location.replace(realPath.slice(0, -1));
+    }
+    if (location.hash.startsWith("#!/")) {
+        location.replace(location.hash.slice(2));
+    }
+    if (realPath === "/") {
+        location.replace("/home");
+    }
+
+    if (realPath === "/intent/user") {
+        let id = location.search.split("user_id=")[1];
+        API.user.get(id, true).then((user) => {
+            if (user.error) {
+                return;
+            }
+            location.replace("/" + user.screen_name);
+        });
+    }
+    if (realPath.startsWith("/i/redirect")) {
+        let search = new URLSearchParams(location.search);
+        let url = search.get("url");
+        location.replace(url);
+    }
+    if (/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
+        location.href = `/${realPath.split("/direct_messages/create/")[1]}#dm`;
+    }
+    if (/^\/hashtag\/(.*?)/.test(realPath)) {
+        let hashtag = realPath.split("/hashtag/").slice(1).join("/hashtag/");
+        location.replace(`/search?q=%23${hashtag}`);
+    }
+    if (
+        /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath)
+    ) {
+        let path = realPath.split("/photo/")[0].split("/video/")[0];
+        location.replace(path);
+    }
+    if (realPath === "/messages") {
+        location.replace("/home#dm");
+    }
+    if (realPath === "/compose/tweet") {
+        location.replace("/home");
+    }
+    if (realPath === "/intent/tweet" || realPath === "/share") {
+        location.replace("/home#" + location.search);
+    }
+    if (realPath === "/intent/follow") {
+        let screen_name = location.search.split("screen_name=")[1].split("&")[0];
+        location.replace(`/${screen_name}`);
+    }
+    if (
+        !hrefUrl.includes("newtwitter=true") &&
+        (realPath.startsWith("/i/flow/") ||
+            realPath.startsWith("/i/premium_sign_up/") ||
+            realPath.startsWith("/i/events/") ||
+            realPath.startsWith("/i/spaces/") ||
+            realPath.startsWith("/i/chat") ||
+            realPath.startsWith("/i/oauth2") ||
+            realPath.startsWith("/account") ||
+            realPath.startsWith("/settings") ||
+            /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath))
+    ) {
+        let url = new URL(hrefUrl);
+        url.searchParams.set("newtwitter", "true");
+        location.replace(url);
+    }
 }
 
-if (realPath === "/intent/user") {
-    let id = location.search.split("user_id=")[1];
-    API.user.get(id, true).then((user) => {
-        if (user.error) {
-            return;
-        }
-        location.replace("/" + user.screen_name);
-    });
-}
-if (realPath.startsWith("/i/redirect")) {
-    let search = new URLSearchParams(location.search);
-    let url = search.get("url");
-    location.replace(url);
-}
-if (/^\/direct_messages\/create\/[A-z-0-9-_]{1,15}$/.test(realPath)) {
-    location.href = `/${realPath.split("/direct_messages/create/")[1]}#dm`;
-}
-if (/^\/hashtag\/(.*?)/.test(realPath)) {
-    let hashtag = realPath.split("/hashtag/").slice(1).join("/hashtag/");
-    location.replace(`/search?q=%23${hashtag}`);
-}
-if (
-    /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/(photo|video)\/\d+$/.test(realPath)
-) {
-    let path = realPath.split("/photo/")[0].split("/video/")[0];
-    location.replace(path);
-}
-if (realPath === "/messages") {
-    location.replace("/home#dm");
-}
-if (realPath === "/compose/tweet") {
-    location.replace("/home");
-}
-if (realPath === "/intent/tweet" || realPath === "/share") {
-    location.replace("/home#" + location.search);
-}
-if (realPath === "/intent/follow") {
-    let screen_name = location.search.split("screen_name=")[1].split("&")[0];
-    location.replace(`/${screen_name}`);
-}
-if (
-    !hrefUrl.includes("newtwitter=true") &&
-    (realPath.startsWith("/i/flow/") ||
-        realPath.startsWith("/i/premium_sign_up/") ||
-        realPath.startsWith("/i/events/") ||
-        realPath.startsWith("/i/spaces/") ||
-        realPath.startsWith("/i/chat") ||
-        realPath.startsWith("/i/oauth2") ||
-        realPath.startsWith("/account") ||
-        realPath.startsWith("/settings") ||
-        /^\/[A-z-0-9-_]{1,15}\/status\/\d{5,32}\/analytics$/.test(realPath))
-) {
-    let url = new URL(hrefUrl);
-    url.searchParams.set("newtwitter", "true");
-    location.replace(url);
-}
 const LANGUAGES = [
     "en",
     "ru",
@@ -584,7 +587,7 @@ let page =
                       ))
           );
 (async () => {
-    if (!page) return;
+    if (!page || isNewTwitterPage) return;
 
     // wait for variables
     try {
@@ -705,6 +708,12 @@ let page =
                 (response) => response.text()
             ),
         ]);
+    let extensionUrlRegex = /(?:chrome|moz)-extension:\/\/[^/]+\//g;
+    let extensionBaseUrl = chrome.runtime.getURL("");
+    html = html.replace(extensionUrlRegex, extensionBaseUrl);
+    css = css.replace(extensionUrlRegex, extensionBaseUrl);
+    header_html = header_html.replace(extensionUrlRegex, extensionBaseUrl);
+    header_css = header_css.replace(extensionUrlRegex, extensionBaseUrl);
     LOC = LOC_DATA;
     LOC_EN = LOC_EN_DATA;
     LOC_EN.extension_id = { message: chrome.runtime.id };

@@ -125,11 +125,79 @@ function requeuePendingSolves() {
     }
 }
 
+let solverMode = "iframe";
+let pageSolverPromise = null;
+
+function startPageSolver() {
+    if (!pageSolverPromise) {
+        pageSolverPromise = chrome.runtime
+            .sendMessage({ action: "injectPageSolver" })
+            .then((res) => {
+                if (!res || !res.ok) throw new Error(res ? res.error : "No response");
+            })
+            .catch((e) => {
+                console.error("Can't start page solver:", e);
+                solverErrored = true;
+                for (let id in solveCallbacks) {
+                    solveCallbacks[id].reject("Solver errored during initialization");
+                    delete solveCallbacks[id];
+                }
+                showInitError(e);
+            });
+    }
+    return pageSolverPromise;
+}
+
+async function setPageSolverData(anims, verificationCode) {
+    let body;
+    while (!(body = document.getElementById("injected-body"))) await sleep(10);
+    let holder = document.getElementById("ot-solver-anims");
+    if (!holder) {
+        holder = document.createElement("div");
+        holder.id = "ot-solver-anims";
+        holder.style.cssText =
+            "position:fixed;left:-9999px;top:0;width:10px;height:10px;overflow:hidden;opacity:0;pointer-events:none";
+        body.appendChild(holder);
+    }
+    holder.innerHTML = anims.join("\n");
+    let metas = document.querySelectorAll('meta[name="twitter-site-verification"]');
+    if (!metas.length) {
+        let meta = document.createElement("meta");
+        meta.name = "twitter-site-verification";
+        document.head.appendChild(meta);
+        metas = [meta];
+    }
+    for (let meta of metas) meta.content = verificationCode;
+}
+
+function solverAvailable() {
+    return solverMode === "page" || !!(solverIframe && solverIframe.contentWindow);
+}
+
+function solverPost(msg) {
+    if (solverMode === "page") {
+        window.postMessage(Object.assign({ otSolver: "request" }, msg), location.origin);
+    } else {
+        solverIframe.contentWindow.postMessage(msg, "*");
+    }
+}
+
+document.addEventListener("securitypolicyviolation", (e) => {
+    if (solverMode !== "iframe" || e.effectiveDirective !== "frame-src" || !e.blockedURI.startsWith("blob")) return;
+    solverMode = "page";
+    (recoverPromise || Promise.resolve()).then(() => recoverSolver("CSP"));
+});
+
 function createSolverFrame() {
     if (solverIframe) solverIframe.remove();
     solverReady = false;
     requeuePendingSolves();
     solverGeneration++;
+    if (solverMode === "page") {
+        solverIframe = null;
+        startPageSolver();
+        return;
+    }
     let generation = solverGeneration;
     solverIframe = document.createElement("iframe");
     solverIframe.style.position = "fixed";
@@ -170,7 +238,7 @@ function createSolverFrame() {
         }, 10);
     }
 }
-createSolverFrame();
+if (!isNewTwitterPage) createSolverFrame();
 
 function solveChallenge(path, method) {
     return new Promise((resolve, reject) => {
@@ -204,14 +272,11 @@ function solveChallenge(path, method) {
             path,
             method,
         };
-        if (!solverReady || !solverIframe || !solverIframe.contentWindow) {
+        if (!solverReady || !solverAvailable()) {
             solveQueue.push({ id, path, method });
         } else {
             try {
-                solverIframe.contentWindow.postMessage(
-                    { action: "solve", id, path, method },
-                    "*"
-                );
+                solverPost({ action: "solve", id, path, method });
             } catch (e) {
                 console.error(`Error sending challenge to solver:`, e);
                 delete solveCallbacks[id];
@@ -266,7 +331,7 @@ setInterval(() => {
 }, 2000);
 
 async function showInitError(error) {
-    let lastVersion = await _fetch(
+    let lastVersion = await extFetch(
         `https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`
     )
         .then((res) => res.json())
@@ -302,8 +367,12 @@ async function showInitError(error) {
 }
 
 window.addEventListener("message", async (e) => {
-    if (!solverIframe || e.source !== solverIframe.contentWindow) return;
     let data = e.data;
+    if (solverMode === "page") {
+        if (e.origin !== location.origin || !data || data.otSolver !== "reply") return;
+    } else if (!solverIframe || e.source !== solverIframe.contentWindow) {
+        return;
+    }
     if (data.action === "solved" && typeof data.id === "number") {
         let { id, result } = data;
         if (solveCallbacks[id]) {
@@ -332,15 +401,12 @@ window.addEventListener("message", async (e) => {
         solveQueue = [];
         for (let task of queue) {
             if (!solveCallbacks[task.id]) continue;
-            solverIframe.contentWindow.postMessage(
-                {
-                    action: "solve",
-                    id: task.id,
-                    path: task.path,
-                    method: task.method,
-                },
-                "*"
-            );
+            solverPost({
+                action: "solve",
+                id: task.id,
+                path: task.path,
+                method: task.method,
+            });
         }
     }
 });
@@ -352,7 +418,7 @@ fetch = async function (url, options) {
         !url.startsWith("https://api.twitter.com") &&
         !url.startsWith("https://api.x.com")
     )
-        return _fetch(url, options);
+        return extFetch(url, options);
     if (!options) options = {};
     if (!options.headers) options.headers = {};
     if (!options.headers["x-twitter-auth-type"]) {
@@ -491,6 +557,13 @@ async function initChallenge() {
         async function sendInit() {
             if (generation !== solverGeneration) return;
             sentData = true;
+            if (solverMode === "page") {
+                await setPageSolverData(anims, OLDTWITTER_CONFIG.verificationKey);
+                await startPageSolver();
+                if (generation !== solverGeneration || solverErrored) return;
+                solverPost({ action: "init", nonce: pageScriptNonce, ...initData });
+                return;
+            }
             if (!solverIframe) return setTimeout(sendInit, 50);
             try {
                 await Promise.race([solverIframe._loaded, sleep(5000)]);
@@ -518,4 +591,4 @@ async function initChallenge() {
     }
 }
 
-initChallenge();
+if (!isNewTwitterPage) initChallenge();

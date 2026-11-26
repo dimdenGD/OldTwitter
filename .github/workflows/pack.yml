@@ -41,3 +41,26 @@ jobs:
         with:
           name: OldTwitterChrome
           path: ${{ github.workspace }}/build/OldTwitterChrome
+
+  build-safari:
+
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Source Tree
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v7
+
+      - name: Setup NPM packages
+        run: npm install
+
+      - name: Pack extension
+        run: npm run build-action
+
+      - name: Upload for Safari
+        uses: actions/upload-artifact@v7
+        with:
+          name: OldTwitterSafari
+          path: ${{ github.workspace }}/build/OldTwitterSafari.zip

@@ -26,6 +26,56 @@ function arrayBufferToBase64(buffer) {
     }
     return window.btoa(binary);
 }
+
+async function extFetch(url, options = {}) {
+    try {
+        return await _fetch(url, options);
+    } catch (e) {
+        if ((options.signal && options.signal.aborted) || !String(url).startsWith("http")) throw e;
+        let res = await chrome.runtime.sendMessage({
+            action: "fetchText",
+            url: String(url),
+            options: {
+                method: options.method,
+                headers: options.headers,
+                body: options.body,
+            },
+        });
+        if (!res || res.error) throw e;
+        return new Response(res.text || null, {
+            status: res.status,
+            headers: res.headers,
+        });
+    }
+}
+
+let pageHeadersKept = false;
+document.addEventListener("securitypolicyviolation", () => (pageHeadersKept = true));
+
+document.addEventListener("securitypolicyviolation", (e) => {
+    if (e.effectiveDirective !== "frame-src" || !e.blockedURI.startsWith("http")) return;
+    let origin = new URL(e.blockedURI).origin;
+    for (let iframe of document.querySelectorAll("iframe.tweet-player")) {
+        if (!iframe.src.startsWith(origin)) continue;
+        let a = document.createElement("a");
+        a.href = iframe.dataset.link;
+        a.target = "_blank";
+        a.className = "tweet-player-link";
+        if (iframe.dataset.image) {
+            let img = document.createElement("img");
+            img.src = iframe.dataset.image;
+            img.width = iframe.width;
+            img.height = iframe.height;
+            img.style.objectFit = "cover";
+            img.style.display = "block";
+            a.append(img);
+        } else {
+            a.innerText = iframe.dataset.link;
+        }
+        iframe.replaceWith(a);
+    }
+});
+
 function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -324,6 +374,7 @@ async function handleFiles(files, mediaArray, mediaContainer, is_dm = false) {
                     transition: false,
                     zoomRatio: 0.3,
                     url: getOriginalImageUrl,
+                    inheritedAttributes: viewerInheritedAttributes,
                 });
             });
             div.append(alt);
@@ -1036,6 +1087,14 @@ function generateCard(tweet, tweetElement, user) {
             .replace("autoplay=true", "autoplay=false")
             .replace("autoplay=1", "autoplay=0");
         iframe.classList.add("tweet-player");
+        let playerVals = tweet.card.binding_values;
+        iframe.dataset.link =
+            tweet.card.url || playerVals.player_url.string_value;
+        let playerImage =
+            playerVals.player_image_large || playerVals.player_image;
+        if (playerImage && playerImage.image_value) {
+            iframe.dataset.image = playerImage.image_value.url;
+        }
         let [w, h] = sizeFunctions[1](
             +tweet.card.binding_values.player_width.string_value,
             +tweet.card.binding_values.player_height.string_value
@@ -1071,6 +1130,7 @@ function generateCard(tweet, tweetElement, user) {
                             transition: false,
                             zoomRatio: 0.3,
                             url: getOriginalImageUrl,
+                            inheritedAttributes: viewerInheritedAttributes,
                         });
                     });
                     tweetElement
@@ -2495,7 +2555,7 @@ async function appendUser(u, container, label, usernameClass = "") {
 let lastTweetErrorDate = 0;
 async function getOutdatedVersionNotice() {
     let version = chrome.runtime.getManifest().version;
-    let lastVersion = await _fetch(
+    let lastVersion = await extFetch(
         `https://raw.githubusercontent.com/dimdenGD/OldTwitter/master/manifest.json?t=${Date.now()}`
     )
         .then((res) => res.json())
@@ -2532,6 +2592,8 @@ const mediaClasses = mediaCountArray([
     "tweet-media-element-three",
     "tweet-media-element-two",
 ]);
+
+const viewerInheritedAttributes = ["crossOrigin", "decoding", "isMap", "referrerPolicy", "sizes", "srcset", "useMap"];
 
 function getOriginalImageUrl(image) {
     let src = image.src;
@@ -3247,7 +3309,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                             m.type === "video" ? "controls" : ""
                                         } ${
                                             m.type === "animated_gif"
-                                                ? 'loop muted onclick="if(this.paused) this.play(); else this.pause()"'
+                                                ? "loop muted data-toggle-play"
                                                 : ""
                                         }${
                                             m.type === "animated_gif" &&
@@ -3284,6 +3346,12 @@ async function appendTweet(t, timelineContainer, options = {}) {
                                 )
                                 .join("\n")}
                         `;
+                        for (let gif of tweet.getElementsByClassName("tweet-media")[0].querySelectorAll("video[data-toggle-play]")) {
+                            gif.addEventListener("click", () => {
+                                if (gif.paused) gif.play();
+                                else gif.pause();
+                            });
+                        }
                         vid = Array.from(
                             tweet.getElementsByClassName("tweet-media")[0]
                                 .children
@@ -3962,6 +4030,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                             transition: false,
                             zoomRatio: 0.3,
                             url: getOriginalImageUrl,
+                            inheritedAttributes: viewerInheritedAttributes,
                             viewed: preloadAdjacentImages,
                         });
                         e.target.click();
@@ -4252,6 +4321,7 @@ async function appendTweet(t, timelineContainer, options = {}) {
                         transition: false,
                         zoomRatio: 0.3,
                         url: getOriginalImageUrl,
+                        inheritedAttributes: viewerInheritedAttributes,
                         viewed: preloadAdjacentImages,
                     });
                     e.target.click();
