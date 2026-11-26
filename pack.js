@@ -42,9 +42,10 @@ function buildSafari() {
         '--bundle-identifier', 'dev.dimden.oldtwitter',
         '--macos-only', '--copy-resources', '--no-open', '--no-prompt', '--force'
     ]);
-    let projectPath = './build/OldTwitterSafari/OldTwitter/OldTwitter.xcodeproj/project.xcproj';
+    let projectDir = './build/OldTwitterSafari/OldTwitter/OldTwitter.xcodeproj';
+    let projectPath = ['project.xcproj', 'project.pbxproj'].map(f => path.join(projectDir, f)).find(f => fs.existsSync(f));
     let project = fs.readFileSync(projectPath, 'utf8');
-    fs.writeFileSync(projectPath, project.replaceAll('"dev.dimden.OldTwitter"', '"dev.dimden.oldtwitter"'));
+    fs.writeFileSync(projectPath, project.replaceAll('dev.dimden.OldTwitter', 'dev.dimden.oldtwitter'));
     run('xcodebuild', [
         '-project', './build/OldTwitterSafari/OldTwitter/OldTwitter.xcodeproj',
         '-scheme', 'OldTwitter',
